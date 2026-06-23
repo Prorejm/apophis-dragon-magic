@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>七十二柱魔神 | Ars Goetia - 所罗门七十二柱魔神全鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg: #0a0a0a;
+  --bg2: #111111;
+  --bg3: #1a1a1a;
+  --bg4: #222222;
+  --gold: #d4a843;
+  --gold-dim: #a07830;
+  --gold-glow: rgba(212, 168, 67, 0.3);
+  --crimson: #c41e3a;
+  --crimson-glow: rgba(196, 30, 58, 0.3);
+  --text: #e8e0d0;
+  --text-dim: #8a7e6a;
+  --border: #2a2a1a;
+  --card-bg: rgba(17, 17, 17, 0.9);
+  --card-border: rgba(212, 168, 67, 0.15);
+  --font-title: 'Ma Shan Zheng', serif;
+  --font-body: 'Noto Serif SC', 'SimSun', serif;
+  --font-eng: 'Cinzel', serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(100, 60, 30, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(196, 30, 58, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%, rgba(212, 168, 67, 0.02) 0%, transparent 50%);
+  background-attachment: fixed;
+  line-height: 1.7;
+}
+
+/* ===== OCCULT BACKGROUND PATTERN ===== */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(212,168,67,0.015) 40px, rgba(212,168,67,0.015) 41px),
+    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(212,168,67,0.015) 40px, rgba(212,168,67,0.015) 41px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== HEXAGRAM OVERLAY ===== */
+.occult-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.03;
+}
+.occult-bg svg { position: absolute; }
+
+/* ===== HEADER ===== */
+header {
+  position: relative;
+  z-index: 1;
+  padding: 40px 20px 30px;
+  text-align: center;
+  border-bottom: 1px solid var(--card-border);
+  background: linear-gradient(180deg, rgba(10,10,10,0.95) 0%, transparent 100%);
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.header-sigil {
+  width: 80px; height: 80px;
+  margin: 0 auto 16px;
+  display: block;
+}
+.header-sigil canvas { width: 80px; height: 80px; }
+h1 {
+  font-family: var(--font-title);
+  font-size: 3.2em;
+  color: var(--gold);
+  text-shadow: 0 0 30px var(--gold-glow), 0 0 60px rgba(212,168,67,0.1);
+  letter-spacing: 8px;
+  margin-bottom: 4px;
+}
+h1 small {
+  display: block;
+  font-family: var(--font-eng);
+  font-size: 0.3em;
+  letter-spacing: 12px;
+  color: var(--text-dim);
+  text-shadow: none;
+  margin-top: 4px;
+}
+.subtitle {
+  font-size: 1em;
+  color: var(--text-dim);
+  margin-top: 8px;
+  letter-spacing: 4px;
+}
+.subtitle span {
+  color: var(--crimson);
+}
+
+/* ===== NAV ===== */
+nav {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,10,0.8);
+}
+nav a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.82em;
+  padding: 6px 16px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+}
+nav a:hover, nav a.active {
+  color: var(--gold);
+  border-color: var(--card-border);
+  background: rgba(212,168,67,0.05);
+}
+nav a.active {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+  background: rgba(212,168,67,0.1);
+}
+
+/* ===== CONTROLS ===== */
+.controls {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+.controls input, .controls select {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 16px;
+  font-size: 0.9em;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s;
+  font-family: var(--font-body);
+}
+.controls input:focus, .controls select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+.controls input { flex: 1; min-width: 200px; max-width: 400px; }
+.controls select { min-width: 120px; }
+.control-stats {
+  font-size: 0.85em;
+  color: var(--text-dim);
+  margin-left: auto;
+}
+
+/* ===== VIEW TOGGLE ===== */
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--bg2);
+  border-radius: 6px;
+  padding: 3px;
+  border: 1px solid var(--border);
+}
+.view-toggle button {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
+  font-size: 0.85em;
+}
+.view-toggle button.active {
+  background: var(--gold-dim);
+  color: #fff;
+}
+.view-toggle button:hover:not(.active) {
+  color: var(--gold);
+}
+
+/* ===== DEMON GRID ===== */
+.demon-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.demon-grid.list-view {
+  grid-template-columns: 1fr;
+  max-width: 1000px;
+}
+.demon-grid.list-view .demon-card {
+  flex-direction: row;
+}
+.demon-grid.list-view .demon-card .card-seal {
+  width: 100px; height: 100px;
+  min-width: 100px;
+}
+.demon-grid.list-view .demon-card .card-body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+.demon-grid.list-view .demon-card .card-desc {
+  display: none;
+}
+.demon-grid.list-view .demon-card .card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.demon-grid.list-view .demon-card .card-header h3 {
+  font-size: 1.1em;
+}
+.demon-grid.list-view .demon-card .card-header .rank-badge {
+  font-size: 0.75em;
+}
+
+/* ===== DEMON CARD ===== */
+.demon-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+.demon-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.demon-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 30px var(--gold-glow);
+}
+.demon-card:hover::before { opacity: 1; }
+.demon-card .card-inner {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.demon-card .card-seal {
+  width: 120px; height: 120px;
+  margin: 0 auto;
+  display: block;
+  border-radius: 50%;
+  background: rgba(10,10,10,0.5);
+  border: 1px solid rgba(212,168,67,0.2);
+  transition: all 0.4s;
+}
+.demon-card:hover .card-seal {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px var(--gold-glow);
+}
+.demon-card .card-seal canvas {
+  width: 120px; height: 120px;
+  border-radius: 50%;
+}
+.demon-card .card-header {
+  text-align: center;
+}
+.demon-card .card-header .demon-number {
+  font-family: var(--font-eng);
+  font-size: 0.8em;
+  color: var(--gold-dim);
+  letter-spacing: 2px;
+}
+.demon-card .card-header h3 {
+  font-family: var(--font-title);
+  font-size: 1.4em;
+  color: var(--gold);
+  margin: 4px 0;
+}
+.demon-card .card-header .name-en {
+  font-family: var(--font-eng);
+  font-size: 0.85em;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+.demon-card .card-header .rank-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  letter-spacing: 1px;
+  margin-top: 6px;
+  border: 1px solid;
+}
+.rank-king { border-color: var(--gold) !important; color: var(--gold); background: rgba(212,168,67,0.1); }
+.rank-duke { border-color: #8a6d3b !important; color: #c4a35a; background: rgba(138,109,59,0.1); }
+.rank-prince { border-color: #6b5b8a !important; color: #9b8fc4; background: rgba(107,91,138,0.1); }
+.rank-marquis { border-color: #5a7a5a !important; color: #8ab88a; background: rgba(90,122,90,0.1); }
+.rank-count { border-color: #7a5a5a !important; color: #b88a8a; background: rgba(122,90,90,0.1); }
+.rank-president { border-color: #5a6a8a !important; color: #8aa0c4; background: rgba(90,106,138,0.1); }
+.rank-knight { border-color: #8a7a5a !important; color: #c4b08a; background: rgba(138,122,90,0.1); }
+
+.demon-card .card-meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 0.78em;
+  color: var(--text-dim);
+}
+.demon-card .card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.demon-card .card-desc {
+  font-size: 0.88em;
+  color: var(--text-dim);
+  line-height: 1.6;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  max-height: 60px;
+  overflow: hidden;
+  transition: max-height 0.4s;
+}
+.demon-card .card-abilities {
+  display: none;
+  font-size: 0.85em;
+  color: var(--text-dim);
+  line-height: 1.6;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.demon-card .card-abilities strong {
+  color: var(--gold);
+}
+
+/* ===== EXPANDED CARD ===== */
+.demon-card.expanded {
+  border-color: var(--gold);
+  box-shadow: 0 12px 50px rgba(0,0,0,0.6), 0 0 40px var(--gold-glow);
+  grid-column: span 1;
+}
+.demon-grid.list-view .demon-card.expanded {
+  grid-column: 1 / -1;
+}
+.demon-card.expanded .card-desc {
+  max-height: none;
+}
+.demon-card.expanded .card-abilities {
+  display: block;
+}
+.demon-card.expanded .card-seal {
+  width: 160px; height: 160px;
+  border-color: var(--gold);
+  box-shadow: 0 0 30px var(--gold-glow);
+}
+.demon-card.expanded .card-seal canvas {
+  width: 160px; height: 160px;
+}
+.demon-card .expand-icon {
+  text-align: center;
+  color: var(--gold-dim);
+  font-size: 0.8em;
+  transition: transform 0.3s;
+}
+.demon-card.expanded .expand-icon {
+  transform: rotate(180deg);
+}
+
+/* ===== TABLE VIEW ===== */
+.table-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  display: none;
+  overflow-x: auto;
+}
+.table-container.active { display: block; }
+.demon-grid.active { display: none; }
+.demon-grid.active.grid-view { display: grid; }
+.demon-grid.active.list-view { display: grid; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0.85em;
+}
+thead {
+  background: linear-gradient(180deg, rgba(212,168,67,0.08), transparent);
+}
+th {
+  padding: 14px 12px;
+  text-align: left;
+  font-family: var(--font-eng);
+  color: var(--gold);
+  letter-spacing: 1px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--card-border);
+  white-space: nowrap;
+  position: relative;
+}
+th:hover { color: #fff; }
+th::after {
+  content: '⇅';
+  margin-left: 6px;
+  font-size: 0.7em;
+  opacity: 0.4;
+}
+th.sort-asc::after { content: '↑'; opacity: 1; }
+th.sort-desc::after { content: '↓'; opacity: 1; }
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  transition: background 0.2s;
+}
+tr:hover td {
+  background: rgba(212,168,67,0.03);
+}
+td.demon-name-cell {
+  color: var(--gold);
+  font-family: var(--font-title);
+  font-size: 1.1em;
+  cursor: pointer;
+}
+td.demon-name-cell:hover {
+  text-shadow: 0 0 10px var(--gold-glow);
+}
+.table-seal {
+  width: 40px; height: 40px;
+  vertical-align: middle;
+}
+.table-seal canvas {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,168,67,0.15);
+}
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-dim);
+  font-size: 1.1em;
+  grid-column: 1 / -1;
+}
+
+/* ===== PLANET ICONS ===== */
+.planet-icon { font-size: 0.9em; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  h1 { font-size: 2em; }
+  h1 small { font-size: 0.25em; letter-spacing: 6px; }
+  .demon-grid { grid-template-columns: 1fr; padding: 12px; }
+  .controls { flex-direction: column; align-items: stretch; }
+  .controls input { max-width: none; }
+  .control-stats { margin-left: 0; text-align: center; }
+  .demon-card.expanded .card-seal { width: 120px; height: 120px; }
+  .demon-card.expanded .card-seal canvas { width: 120px; height: 120px; }
+  nav a { font-size: 0.75em; padding: 5px 10px; }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.demon-card { animation: fadeIn 0.5s ease forwards; }
+.demon-card:nth-child(1) { animation-delay: 0s; }
+.demon-card:nth-child(2) { animation-delay: 0.03s; }
+.demon-card:nth-child(3) { animation-delay: 0.06s; }
+/* additional delays set by JS */
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 10px var(--gold-glow); }
+  50% { box-shadow: 0 0 25px var(--gold-glow); }
+}
+.demon-card:hover .card-seal {
+  animation: pulse-gold 2s infinite;
+}
+
+/* ===== DETAIL MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+}
+.modal-overlay.active { display: flex; }
+.modal-content {
+  background: var(--bg2);
+  border: 1px solid var(--gold-dim);
+  border-radius: 16px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 60px var(--gold-glow);
+}
+.modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: color 0.3s;
+  width: 40px; height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.modal-close:hover { color: var(--crimson); background: rgba(196,30,58,0.1); }
+.modal-header {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+.modal-seal {
+  width: 140px; height: 140px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 30px var(--gold-glow);
+}
+.modal-seal canvas { width: 140px; height: 140px; border-radius: 50%; }
+.modal-title h2 {
+  font-family: var(--font-title);
+  font-size: 2em;
+  color: var(--gold);
+}
+.modal-title .name-en {
+  font-family: var(--font-eng);
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  font-size: 0.9em;
+}
+.modal-title .rank-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 16px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  border: 1px solid;
+}
+.modal-body { color: var(--text-dim); line-height: 1.8; }
+.modal-body p { margin-bottom: 12px; }
+.modal-body strong { color: var(--gold); }
+.modal-body .info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+.modal-body .info-item {
+  background: rgba(212,168,67,0.04);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+.modal-body .info-item .label {
+  font-size: 0.75em;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.modal-body .info-item .value {
+  font-size: 1em;
+  color: var(--gold);
+  margin-top: 4px;
+}
+@media (max-width: 600px) {
+  .modal-header { flex-direction: column; align-items: center; text-align: center; }
+  .modal-body .info-grid { grid-template-columns: 1fr; }
+}
+
+/* Navigation bar */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0 1rem;
+  height: 48px;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #2a2a2a;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.nav-bar .nav-brand {
+  font-family: "Ma Shan Zheng", cursive;
+  font-size: 1.2rem;
+  color: #d4a843;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+.nav-bar .nav-link {
+  color: #8a7e6e;
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 3px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.nav-bar .nav-link:hover { color: #d4a843; background: rgba(212,168,67,0.1); }
+.nav-bar .nav-link.active { color: #d4a843; }
+html { padding-top: 48px; }
+
+</style>
+</head>
+<body>
+
+  <!-- Occult Background -->
+  <div class="occult-bg" id="occultBg"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-sigil" id="headerSigil"><canvas width="160" height="160"></canvas></div>
+    <h1>
+      七十二柱魔神
+      <small>ARS GOETIA · THE SEVENTY-TWO SPIRITS OF SOLOMON</small>
+    </h1>
+    <p class="subtitle">所罗门王封印 · <span>七十二柱魔神</span> 全鉴名录</p>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" id="navBar">
+    <span class="nav-brand">阿波菲斯</span>
+    <a href="index.html" class="nav-link">主书</a>
+    <a href="sigil-game.html" class="nav-link">符印工坊</a>
+    <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+    <a href="planetary-hours.html" class="nav-link">行星时</a>
+    <a href="goetia-demons.html" class="nav-link active">七十二魔神</a>
+    <a href="astrology-hub.html" class="nav-link">天文星象</a>
+    <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  </nav>
+
+  <!-- Controls -->
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="搜索魔神名称、位阶或编号..." autocomplete="off">
+    <select id="rankFilter">
+      <option value="">全部位阶</option>
+      <option value="King">君王 King</option>
+      <option value="Duke">公爵 Duke</option>
+      <option value="Prince">王子 Prince</option>
+      <option value="Marquis">侯爵 Marquis</option>
+      <option value="Count">伯爵 Count</option>
+      <option value="President">统领 President</option>
+      <option value="Knight">骑士 Knight</option>
+    </select>
+    <select id="planetFilter">
+      <option value="">全部星象</option>
+      <option value="Sun">太阳 Sun</option>
+      <option value="Moon">月亮 Moon</option>
+      <option value="Mercury">水星 Mercury</option>
+      <option value="Venus">金星 Venus</option>
+      <option value="Mars">火星 Mars</option>
+      <option value="Jupiter">木星 Jupiter</option>
+      <option value="Saturn">土星 Saturn</option>
+    </select>
+    <div class="view-toggle">
+      <button data-view="grid" class="active" title="卡片网格">⊞ 网格</button>
+      <button data-view="list" title="列表视图">☰ 列表</button>
+      <button data-view="table" title="表格视图">⊟ 表格</button>
+    </div>
+    <div class="control-stats" id="statsDisplay">显示 72 / 72 柱</div>
+  </div>
+
+  <!-- Demon Grid -->
+  <div class="demon-grid active grid-view" id="demonGrid"></div>
+
+  <!-- Table Container -->
+  <div class="table-container" id="tableContainer">
+    <table>
+      <thead><tr>
+        <th data-sort="number">编号</th>
+        <th data-sort="name">名称</th>
+        <th data-sort="rank">位阶</th>
+        <th data-sort="planet">星象</th>
+        <th data-sort="desc">描述</th>
+      </tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-header">
+        <div class="modal-seal" id="modalSeal"><canvas width="280" height="280"></canvas></div>
+        <div class="modal-title">
+          <h2 id="modalNameCn"></h2>
+          <div class="name-en" id="modalNameEn"></div>
+          <div class="rank-badge" id="modalRank"></div>
+        </div>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+<script>
+// ============================================================
+// 72 DEMONS DATA
+// ============================================================
+const DEMONS = [
+  { id:1, name:"巴尔", nameEn:"Bael", rank:"King",
+    desc:"以猫、蟾蜍、人形或三头并存的形态现身。说话声音嘶哑如豹吼。",
+    abilities:"赋予隐身能力与智慧，能使人获得超自然的知识与洞察力。统领66个军团。",
+    planet:"Sun", appearance:"三个头颅分别呈现猫、蟾蜍和人的形态",
+    seal:{ rings:3, points:7, inner:0.3, rotation:0, star:true, triangles:3, crosses:0, arcs:0, spiral:false } },
+  { id:2, name:"阿加雷斯", nameEn:"Agares", rank:"Duke",
+    desc:"以老年人的形象出现，手托猎鹰，骑乘鳄鱼。给人以温和的第一印象。",
+    abilities:"教授所有语言，使大地震动的力量，能摧毁世俗的尊严与地位。统领31个军团。",
+    planet:"Venus", appearance:"手持猎鹰的龙鳄骑士",
+    seal:{ rings:2, points:5, inner:0.35, rotation:15, star:true, triangles:1, crosses:1, arcs:0, spiral:false } },
+  { id:3, name:"瓦沙克", nameEn:"Vassago", rank:"Prince",
+    desc:"以温和英俊的男子形象出现，双目散发着先知的光芒。",
+    abilities:"宣告过去、现在与未来之事，能发现隐藏的宝物与秘密。统领26个军团。",
+    planet:"Moon", appearance:"手持光芒的先知",
+    seal:{ rings:3, points:6, inner:0.25, rotation:0, star:true, triangles:2, crosses:0, arcs:3, spiral:false } },
+  { id:4, name:"萨米基纳", nameEn:"Samigina", rank:"Marquis",
+    desc:"以骏马或骡马的形态出现，受命后化为人形。",
+    abilities:"教授人文科学，通报亡魂之事，能让人灵魂出窍游历灵界。统领30个军团。",
+    planet:"Mercury", appearance:"可化为人形的马形灵魂使者",
+    seal:{ rings:2, points:8, inner:0.3, rotation:22.5, star:false, triangles:0, crosses:2, arcs:4, spiral:false } },
+  { id:5, name:"马尔巴", nameEn:"Marbas", rank:"President",
+    desc:"以雄狮的形态现身，受命后化为人形。",
+    abilities:"揭示隐藏之物与秘密，能治愈疾病，传授机械工艺与工程知识。统领36个军团。",
+    planet:"Mars", appearance:"雄狮形态",
+    seal:{ rings:3, points:4, inner:0.4, rotation:45, star:true, triangles:1, crosses:2, arcs:0, spiral:false } },
+  { id:6, name:"华利弗", nameEn:"Valefor", rank:"Duke",
+    desc:"以狮首人身的形态出现，身后有秃鹫翅膀。",
+    abilities:"促使人们偷窃与获取财富，也守护忠实的追随者。统领10个军团。",
+    planet:"Mercury", appearance:"狮首人身的翼魔",
+    seal:{ rings:2, points:6, inner:0.35, rotation:0, star:true, triangles:2, crosses:0, arcs:0, spiral:false } },
+  { id:7, name:"阿蒙", nameEn:"Amon", rank:"Marquis",
+    desc:"以狼首蛇尾的形态出现，口吐火焰。受命后化为人形，犬齿如獠牙。",
+    abilities:"知晓过去与未来，调和纷争，赋予爱情。统领40个军团。",
+    planet:"Venus", appearance:"狼首蛇尾的火焰使者",
+    seal:{ rings:3, points:7, inner:0.25, rotation:12.8, star:true, triangles:1, crosses:1, arcs:2, spiral:false } },
+  { id:8, name:"巴尔巴托", nameEn:"Barbatos", rank:"Duke",
+    desc:"身披绿色猎装，头戴公爵冠冕，在森林中出现。",
+    abilities:"通晓鸟语兽语，揭示过去未来，能调和朋友间的矛盾。统领30个军团。",
+    planet:"Sun", appearance:"绿装公爵",
+    seal:{ rings:2, points:5, inner:0.3, rotation:36, star:true, triangles:2, crosses:0, arcs:3, spiral:false } },
+  { id:9, name:"派蒙", nameEn:"Paimon", rank:"King",
+    desc:"以头戴金冠的男子形象出现，骑乘单峰驼，前有乐队开道。声音洪亮。",
+    abilities:"教授科学、艺术与哲学，赋予名望与尊荣，应答所有问题。统领200个军团。",
+    planet:"Jupiter", appearance:"金冠骑驼者",
+    seal:{ rings:4, points:8, inner:0.2, rotation:0, star:true, triangles:4, crosses:0, arcs:0, spiral:false } },
+  { id:10, name:"布埃尔", nameEn:"Buer", rank:"President",
+    desc:"以车轮状的五芒星形态出现，中心有人面。",
+    abilities:"教授哲学、逻辑学与草药学，治愈所有疾病，尤其擅长精神疾病。统领50个军团。",
+    planet:"Mars", appearance:"五芒星车轮人面",
+    seal:{ rings:3, points:5, inner:0.2, rotation:0, star:true, triangles:0, crosses:3, arcs:5, spiral:false } },
+  { id:11, name:"古辛", nameEn:"Gusion", rank:"Duke",
+    desc:"以猴面人身的形态出现，或化为埃及智者。",
+    abilities:"知晓过去现在未来，调和仇恨，赋予荣誉与尊严。统领40个军团。",
+    planet:"Moon", appearance:"猴面的智者",
+    seal:{ rings:2, points:6, inner:0.4, rotation:30, star:false, triangles:2, crosses:1, arcs:0, spiral:false } },
+  { id:12, name:"西迪", nameEn:"Sitri", rank:"Prince",
+    desc:"以豹首人身的形态出现，有巨大的翅膀。",
+    abilities:"点燃男女之间的情欲之火，促使情感暴露。统领60个军团。",
+    planet:"Venus", appearance:"豹首翼魔",
+    seal:{ rings:3, points:5, inner:0.3, rotation:18, star:true, triangles:1, crosses:2, arcs:2, spiral:false } },
+  { id:13, name:"贝雷特", nameEn:"Beleth", rank:"King",
+    desc:"骑乘白马，身前号角齐鸣，形态威严可怖。",
+    abilities:"赋予爱情与魅力，但需以敬畏之心迎接。统领85个军团。",
+    planet:"Jupiter", appearance:"白马号角之王",
+    seal:{ rings:4, points:6, inner:0.25, rotation:0, star:true, triangles:3, crosses:0, arcs:0, spiral:false } },
+  { id:14, name:"莱拉耶", nameEn:"Leraje", rank:"Marquis",
+    desc:"身披绿甲的弓箭手形象，手持弓箭。",
+    abilities:"引发战争与争斗，以弓箭伤人伤口无法愈合。统领30个军团。",
+    planet:"Mars", appearance:"绿甲弓箭手",
+    seal:{ rings:2, points:8, inner:0.35, rotation:11.25, star:true, triangles:1, crosses:1, arcs:0, spiral:false } },
+  { id:15, name:"埃里戈", nameEn:"Eligos", rank:"Duke",
+    desc:"以持矛骑马的骑士形象出现，有蛇尾。",
+    abilities:"发现隐藏之物，预知战争胜负，赢得将领的喜爱。统领60个军团。",
+    planet:"Mars", appearance:"持矛蛇尾骑士",
+    seal:{ rings:3, points:7, inner:0.3, rotation:25.7, star:true, triangles:2, crosses:0, arcs:3, spiral:false } },
+  { id:16, name:"桀派", nameEn:"Zepar", rank:"Duke",
+    desc:"以红色盔甲的武士形象出现，手持利剑。",
+    abilities:"使女子爱上男子，改变人的外貌形态。统领26个军团。",
+    planet:"Venus", appearance:"赤甲剑士",
+    seal:{ rings:2, points:5, inner:0.3, rotation:0, star:true, triangles:1, crosses:3, arcs:0, spiral:false } },
+  { id:17, name:"布提斯", nameEn:"Botis", rank:"President",
+    desc:"以毒蛇形态出现，后化为人形，有巨齿与双角。手持利剑。",
+    abilities:"调和朋友与敌人，知晓过去未来。统领60个军团。",
+    planet:"Saturn", appearance:"蛇形双角剑士",
+    seal:{ rings:3, points:6, inner:0.3, rotation:15, star:true, triangles:0, crosses:2, arcs:4, spiral:false } },
+  { id:18, name:"巴钦", nameEn:"Bathin", rank:"Duke",
+    desc:"骑乘苍白战马，蛇尾拖地，以威猛的战士形象出现。",
+    abilities:"知晓矿物与药草的秘密，瞬间穿梭于各地。统领30个军团。",
+    planet:"Saturn", appearance:"骑苍白战马的蛇尾战士",
+    seal:{ rings:2, points:4, inner:0.35, rotation:45, star:true, triangles:2, crosses:1, arcs:0, spiral:false } },
+  { id:19, name:"塞罗司", nameEn:"Sallos", rank:"Duke",
+    desc:"以英俊公爵的形象出现，头戴冠冕，骑乘鳄鱼。",
+    abilities:"促使男女之爱和合，调和夫妻矛盾。统领30个军团。",
+    planet:"Venus", appearance:"骑鳄公爵",
+    seal:{ rings:3, points:6, inner:0.3, rotation:0, star:false, triangles:3, crosses:0, arcs:6, spiral:false } },
+  { id:20, name:"普尔森", nameEn:"Purson", rank:"King",
+    desc:"以狮首人身的形象出现，手持毒蛇，骑乘巨熊。前有号角开路。",
+    abilities:"知晓隐秘之事与宝藏所在，通晓过去现在未来。统领22个军团。",
+    planet:"Jupiter", appearance:"狮首蛇持的骑熊者",
+    seal:{ rings:4, points:7, inner:0.2, rotation:0, star:true, triangles:3, crosses:1, arcs:0, spiral:false } },
+  { id:21, name:"摩拉克斯", nameEn:"Marax", rank:"Count",
+    desc:"以公牛形态出现，受命后化为人形，双目如星。",
+    abilities:"教授天文学与数学，知晓草药与宝石的秘密。统领30个军团。",
+    planet:"Moon", appearance:"公牛智者",
+    seal:{ rings:2, points:8, inner:0.3, rotation:22.5, star:true, triangles:1, crosses:1, arcs:2, spiral:false } },
+  { id:22, name:"因波斯", nameEn:"Ipos", rank:"Prince",
+    desc:"以狮首鹅身兔尾的奇异混合形态出现。",
+    abilities:"知晓过去未来，赋予勇气与智慧。统领36个军团。",
+    planet:"Mercury", appearance:"狮首鹅身兔尾",
+    seal:{ rings:3, points:5, inner:0.35, rotation:0, star:true, triangles:2, crosses:0, arcs:3, spiral:false } },
+  { id:23, name:"艾姆", nameEn:"Aim", rank:"Duke",
+    desc:"以烈焰人形出现，有时化为人首蛇身、手持火炬。",
+    abilities:"点燃智慧之火，赋予敏锐判断力，可燃烧城市。统领26个军团。",
+    planet:"Mars", appearance:"烈焰使者",
+    seal:{ rings:3, points:6, inner:0.25, rotation:30, star:true, triangles:2, crosses:1, arcs:0, spiral:false } },
+  { id:24, name:"纳贝流士", nameEn:"Naberius", rank:"Marquis",
+    desc:"以黑鹤或乌鸦的形态出现，高昂头颅。",
+    abilities:"教授人文艺术与修辞学，恢复失去的荣誉。统领19个军团。",
+    planet:"Mercury", appearance:"黑鹤",
+    seal:{ rings:2, points:7, inner:0.3, rotation:12.8, star:true, triangles:0, crosses:2, arcs:5, spiral:false } },
+  { id:25, name:"格莱希亚·拉波拉斯", nameEn:"Glasya-Labolas", rank:"President",
+    desc:"以犬首鹰翼的怪物形态出现。",
+    abilities:"教授所有艺术与科学，预见未来，使人流血致死。统领36个军团。",
+    planet:"Saturn", appearance:"犬首鹰翼兽",
+    seal:{ rings:3, points:5, inner:0.3, rotation:0, star:true, triangles:1, crosses:3, arcs:2, spiral:false } },
+  { id:26, name:"布涅", nameEn:"Bime", rank:"Duke",
+    desc:"以龙形出现，有三个人头。",
+    abilities:"教授文法、逻辑与修辞学，使人灵魂升入高处。统领30个军团。",
+    planet:"Mercury", appearance:"三首龙",
+    seal:{ rings:2, points:6, inner:0.35, rotation:0, star:true, triangles:2, crosses:0, arcs:4, spiral:false } },
+  { id:27, name:"罗诺韦", nameEn:"Ronove", rank:"Marquis",
+    desc:"以怪物形态出现，手持铁杖。",
+    abilities:"教授修辞学与艺术，精通辩论，赐予忠实的仆从。统领19个军团。",
+    planet:"Moon", appearance:"持杖怪物",
+    seal:{ rings:3, points:7, inner:0.25, rotation:25.7, star:true, triangles:2, crosses:1, arcs:0, spiral:false } },
+  { id:28, name:"贝里斯", nameEn:"Berith", rank:"Duke",
+    desc:"以红色武士的形象出现，头戴金冠，骑乘红马。",
+    abilities:"炼金术大师，可转化金属。言辞具有说服力。统领26个军团。",
+    planet:"Mars", appearance:"赤甲金冠骑手",
+    seal:{ rings:2, points:5, inner:0.4, rotation:36, star:false, triangles:2, crosses:1, arcs:3, spiral:false } },
+  { id:29, name:"阿斯塔罗特", nameEn:"Astaroth", rank:"Duke",
+    desc:"以丑陋天使的形象出现，骑乘地狱之龙，右手持毒蛇。",
+    abilities:"知晓过去现在未来，教授自由科学，能揭示一切秘密。统领40个军团。",
+    planet:"Venus", appearance:"骑龙持蛇的天使",
+    seal:{ rings:3, points:6, inner:0.2, rotation:0, star:true, triangles:3, crosses:1, arcs:0, spiral:false } },
+  { id:30, name:"佛纽斯", nameEn:"Forneus", rank:"Marquis",
+    desc:"以海中巨兽的形态出现，受命后化为人形，嗓音如波涛。",
+    abilities:"教授修辞学与语言，赋予好名声，使敌人和解。统领29个军团。",
+    planet:"Moon", appearance:"海兽",
+    seal:{ rings:2, points:8, inner:0.3, rotation:0, star:true, triangles:1, crosses:0, arcs:6, spiral:false } },
+  { id:31, name:"佛拉斯", nameEn:"Foras", rank:"President",
+    desc:"以壮硕男子的形象出现，手持铁杖。",
+    abilities:"教授逻辑学、伦理学与草药学，发现隐藏宝物，延长寿命。统领29个军团。",
+    planet:"Mercury", appearance:"持杖壮士",
+    seal:{ rings:3, points:5, inner:0.35, rotation:0, star:true, triangles:2, crosses:2, arcs:0, spiral:false } },
+  { id:32, name:"阿斯莫德", nameEn:"Asmoday", rank:"King",
+    desc:"以三首形象出现（牛首、人面、羊首），蛇尾，口吐火焰，骑乘地狱龙。",
+    abilities:"教授数学、天文学与手工艺，赋予爱情戒指，解答所有问题。统领72个军团。",
+    planet:"Jupiter", appearance:"三首火吐骑龙者",
+    seal:{ rings:4, points:8, inner:0.2, rotation:11.25, star:true, triangles:4, crosses:0, arcs:0, spiral:false } },
+  { id:33, name:"盖普", nameEn:"Gaap", rank:"Prince",
+    desc:"以持刃火炬的人形出现，有鹰的翅膀。",
+    abilities:"教授哲学与科学，可使人昏睡或失智，统领66个军团。",
+    planet:"Mercury", appearance:"持火炬的翼人",
+    seal:{ rings:2, points:6, inner:0.3, rotation:15, star:true, triangles:1, crosses:2, arcs:2, spiral:false } },
+  { id:34, name:"佛尔佛尔", nameEn:"Furfur", rank:"Marquis",
+    desc:"以鹿首蛇尾的天使形态出现，手持火炬。",
+    abilities:"操控雷电与风暴，赋予男女之爱。统领26个军团。",
+    planet:"Saturn", appearance:"鹿首蛇尾持火炬",
+    seal:{ rings:3, points:7, inner:0.3, rotation:0, star:true, triangles:2, crosses:0, arcs:3, spiral:false } },
+  { id:35, name:"马可西亚斯", nameEn:"Marchosias", rank:"Marquis",
+    desc:"以狼首鹰翼蛇尾的战士形态出现，口吐火焰。",
+    abilities:"赋予战斗力与坚韧，统领30个军团。",
+    planet:"Mars", appearance:"狼首鹰翼战士",
+    seal:{ rings:3, points:5, inner:0.25, rotation:36, star:true, triangles:2, crosses:1, arcs:2, spiral:false } },
+  { id:36, name:"斯托拉斯", nameEn:"Stolas", rank:"Prince",
+    desc:"以夜枭或渡鸦的形态出现，有时戴冠。",
+    abilities:"教授天文学、草药学与宝石学，知晓星辰的秘密。统领26个军团。",
+    planet:"Sun", appearance:"戴冠夜枭",
+    seal:{ rings:2, points:8, inner:0.3, rotation:0, star:true, triangles:1, crosses:1, arcs:5, spiral:false } },
+  { id:37, name:"菲尼克斯", nameEn:"Phenex", rank:"Marquis",
+    desc:"以不死鸟的形态出现，歌声如竖琴。受命后化为人形。",
+    abilities:"教授诗歌与音乐，赋予美妙歌喉。统领20个军团。",
+    planet:"Sun", appearance:"不死鸟",
+    seal:{ rings:3, points:6, inner:0.2, rotation:0, star:true, triangles:2, crosses:2, arcs:4, spiral:false } },
+  { id:38, name:"哈尔法斯", nameEn:"Halphas", rank:"Count",
+    desc:"以鸽子的形态出现，声音嘶哑。",
+    abilities:"建造军械库与堡垒，装备军队，引发战争。统领26个军团。",
+    planet:"Mars", appearance:"鸽形军械师",
+    seal:{ rings:2, points:5, inner:0.35, rotation:0, star:true, triangles:1, crosses:2, arcs:2, spiral:false } },
+  { id:39, name:"玛尔法斯", nameEn:"Malphas", rank:"President",
+    desc:"以乌鸦的形态出现，受命后化为人形，声音沙哑。",
+    abilities:"建造堡垒与房屋，发现敌人计划，接受献祭。统领40个军团。",
+    planet:"Mercury", appearance:"乌鸦建筑师",
+    seal:{ rings:3, points:7, inner:0.3, rotation:12.8, star:true, triangles:1, crosses:2, arcs:0, spiral:false } },
+  { id:40, name:"劳姆", nameEn:"Raum", rank:"Count",
+    desc:"以乌鸦的形态出现，受命后化为人形。",
+    abilities:"摧毁城市与尊严，窃取宝藏，知晓过去未来，调和朋友。统领30个军团。",
+    planet:"Saturn", appearance:"乌鸦",
+    seal:{ rings:2, points:6, inner:0.3, rotation:0, star:true, triangles:2, crosses:0, arcs:4, spiral:false } },
+  { id:41, name:"佛卡洛", nameEn:"Focalor", rank:"Duke",
+    desc:"以翼人形象出现，骑乘河马或海兽，有巨大力量。",
+    abilities:"控制海洋与风浪，使人溺水，可推翻船只。统领30个军团。",
+    planet:"Moon", appearance:"骑海兽的翼人",
+    seal:{ rings:3, points:5, inner:0.3, rotation:0, star:true, triangles:2, crosses:1, arcs:3, spiral:false } },
+  { id:42, name:"威沛", nameEn:"Vepar", rank:"Duke",
+    desc:"以美人鱼或海中贵族的形象出现。",
+    abilities:"控制海洋与水域，引导航行，可使人伤口腐烂。统领29个军团。",
+    planet:"Moon", appearance:"人鱼贵族",
+    seal:{ rings:2, points:7, inner:0.35, rotation:0, star:false, triangles:2, crosses:1, arcs:4, spiral:false } },
+  { id:43, name:"赛伯诺克", nameEn:"Sabnock", rank:"Marquis",
+    desc:"以狮首持矛的战士形象出现，身披重甲。",
+    abilities:"建造高塔与堡垒，赋予战斗力，使人受伤。统领50个军团。",
+    planet:"Mars", appearance:"狮首持矛重甲战士",
+    seal:{ rings:3, points:6, inner:0.25, rotation:30, star:true, triangles:2, crosses:2, arcs:0, spiral:false } },
+  { id:44, name:"沙克斯", nameEn:"Shax", rank:"Marquis",
+    desc:"以鸽形出现，声音沙哑刺耳。受命后化为人形。",
+    abilities:"使人失明智障，窃取宝藏，知晓隐秘之事。统领30个军团。",
+    planet:"Mercury", appearance:"鸽形",
+    seal:{ rings:2, points:8, inner:0.3, rotation:11.25, star:true, triangles:1, crosses:1, arcs:4, spiral:false } },
+  { id:45, name:"维尼", nameEn:"Vine", rank:"King",
+    desc:"以骑乘黑马的狮形出现，手持毒蛇。",
+    abilities:"发现隐藏之物与女巫的秘密，制造风暴，破坏建筑。统领36个军团。",
+    planet:"Jupiter", appearance:"狮形持蛇骑黑马",
+    seal:{ rings:4, points:7, inner:0.2, rotation:0, star:true, triangles:3, crosses:1, arcs:0, spiral:false } },
+  { id:46, name:"比弗龙", nameEn:"Bifrons", rank:"Count",
+    desc:"以怪物形态出现，受命后化为人形。",
+    abilities:"教授占星术与几何学，知晓宝石与草木的秘密，可移动尸体。统领26个军团。",
+    planet:"Saturn", appearance:"怪物教师",
+    seal:{ rings:2, points:6, inner:0.35, rotation:0, star:true, triangles:1, crosses:2, arcs:3, spiral:false } },
+  { id:47, name:"乌威", nameEn:"Uvall", rank:"Duke",
+    desc:"以单峰驼的形态出现，受命后化为人形。",
+    abilities:"知晓过去现在未来，赋予人类友情与爱情。统领37个军团。",
+    planet:"Venus", appearance:"驼形",
+    seal:{ rings:3, points:5, inner:0.3, rotation:0, star:true, triangles:2, crosses:0, arcs:4, spiral:false } },
+  { id:48, name:"哈加提", nameEn:"Haagenti", rank:"President",
+    desc:"以公牛形态出现，有鹰的翅膀。受命后化为人形。",
+    abilities:"教授炼金术与化学，将金属转化为黄金，将水转化为美酒。统领33个军团。",
+    planet:"Jupiter", appearance:"鹰翼公牛",
+    seal:{ rings:2, points:8, inner:0.25, rotation:22.5, star:true, triangles:2, crosses:1, arcs:2, spiral:false } },
+  { id:49, name:"克罗塞尔", nameEn:"Crocell", rank:"Duke",
+    desc:"以天使形态出现，手持圣杯，有柔和的嗓音。",
+    abilities:"教授几何学与科学，控制水域，可温暖水浴。统领48个军团。",
+    planet:"Moon", appearance:"持杯天使",
+    seal:{ rings:3, points:6, inner:0.3, rotation:15, star:true, triangles:1, crosses:3, arcs:0, spiral:false } },
+  { id:50, name:"佛尔卡斯", nameEn:"Furcas", rank:"Knight",
+    desc:"以长须老者的形象出现，手持尖锐的矛或镰刀。",
+    abilities:"教授哲学、占星术、修辞学与逻辑学。统领20个军团。",
+    planet:"Saturn", appearance:"长须持矛老者",
+    seal:{ rings:2, points:5, inner:0.35, rotation:36, star:true, triangles:1, crosses:2, arcs:3, spiral:false } },
+  { id:51, name:"巴兰", nameEn:"Balam", rank:"King",
+    desc:"以三首出现（公牛首、人首、公羊首），蛇尾，骑乘巨熊。",
+    abilities:"知晓过去现在未来，赋予洞察力与智慧。统领40个军团。",
+    planet:"Jupiter", appearance:"三首骑熊者",
+    seal:{ rings:4, points:6, inner:0.2, rotation:0, star:true, triangles:3, crosses:2, arcs:0, spiral:false } },
+  { id:52, name:"阿洛塞斯", nameEn:"Alloces", rank:"Duke",
+    desc:"以红色雄狮的形态出现，有鹰翼，人面。",
+    abilities:"教授天文学与自由科学。统领36个军团。",
+    planet:"Mars", appearance:"鹰翼狮面",
+    seal:{ rings:3, points:7, inner:0.25, rotation:25.7, star:true, triangles:2, crosses:1, arcs:3, spiral:false } },
+  { id:53, name:"卡麦尔", nameEn:"Caim", rank:"President",
+    desc:"以黑鸟或鸫鸟的形态出现，持利剑。受命后化为人形。",
+    abilities:"教授鸟兽语言，知晓世事，赋予辩论能力。统领30个军团。",
+    planet:"Mercury", appearance:"持剑黑鸟",
+    seal:{ rings:2, points:6, inner:0.3, rotation:0, star:true, triangles:2, crosses:1, arcs:3, spiral:false } },
+  { id:54, name:"穆尔缪尔", nameEn:"Murmur", rank:"Duke",
+    desc:"以骑乘狮鹫的战士形象出现，头戴公爵冠冕，前有号角开路。",
+    abilities:"教授哲学，引导亡魂。统领30个军团。",
+    planet:"Saturn", appearance:"骑狮鹫的号角公爵",
+    seal:{ rings:3, points:8, inner:0.25, rotation:0, star:true, triangles:2, crosses:0, arcs:4, spiral:false } },
+  { id:55, name:"欧罗巴", nameEn:"Orobas", rank:"Prince",
+    desc:"以骏马的形态出现，受命后化为人形。",
+    abilities:"知晓过去现在未来，授予尊严与高位，防止被欺骗。统领20个军团。",
+    planet:"Jupiter", appearance:"马形真理者",
+    seal:{ rings:2, points:5, inner:0.4, rotation:0, star:true, triangles:1, crosses:2, arcs:2, spiral:false } },
+  { id:56, name:"格莫瑞", nameEn:"Gremory", rank:"Duke",
+    desc:"以乘驼美女的形象出现，头戴公爵夫人冠冕。",
+    abilities:"知晓过去现在未来，揭示宝藏所在，赋予爱情。统领26个军团。",
+    planet:"Venus", appearance:"乘驼美女",
+    seal:{ rings:3, points:6, inner:0.3, rotation:0, star:true, triangles:2, crosses:0, arcs:4, spiral:false } },
+  { id:57, name:"欧赛", nameEn:"Ose", rank:"President",
+    desc:"以豹形出现，受命后化为人形。",
+    abilities:"教授自由科学，揭示秘密，使人疯狂或智慧。统领30个军团。",
+    planet:"Mercury", appearance:"豹形",
+    seal:{ rings:2, points:7, inner:0.3, rotation:12.8, star:true, triangles:1, crosses:2, arcs:3, spiral:false } },
+  { id:58, name:"阿米", nameEn:"Amy", rank:"President",
+    desc:"以烈焰人形或火球形态出现。",
+    abilities:"教授占星术与自由科学，赐予占星的知识。统领36个军团。",
+    planet:"Mars", appearance:"烈焰人形",
+    seal:{ rings:3, points:5, inner:0.25, rotation:0, star:true, triangles:2, crosses:2, arcs:2, spiral:false } },
+  { id:59, name:"欧里亚斯", nameEn:"Orias", rank:"Marquis",
+    desc:"以狮形出现，蛇尾，骑乘巨马，手持双蛇。",
+    abilities:"教授占星术与变形术，授予尊严与地位。统领30个军团。",
+    planet:"Mars", appearance:"狮形蛇尾持双蛇",
+    seal:{ rings:2, points:8, inner:0.3, rotation:11.25, star:true, triangles:1, crosses:1, arcs:5, spiral:false } },
+  { id:60, name:"瓦普拉", nameEn:"Vapula", rank:"Duke",
+    desc:"以狮首鹰翼的形态出现。",
+    abilities:"教授手工艺、哲学与各门科学。统领36个军团。",
+    planet:"Mercury", appearance:"狮首鹰翼",
+    seal:{ rings:3, points:6, inner:0.35, rotation:0, star:true, triangles:2, crosses:1, arcs:2, spiral:false } },
+  { id:61, name:"扎甘", nameEn:"Zagan", rank:"King",
+    desc:"以公牛形态出现，有鹰翼。受命后化为人形。",
+    abilities:"教授炼金术，转化金属，使水变酒，使酒变水。统领33个军团。",
+    planet:"Jupiter", appearance:"鹰翼公牛炼金师",
+    seal:{ rings:4, points:7, inner:0.2, rotation:0, star:true, triangles:3, crosses:1, arcs:0, spiral:false } },
+  { id:62, name:"瓦拉克", nameEn:"Valac", rank:"President",
+    desc:"以骑乘双头龙的孩童形象出现。",
+    abilities:"发现隐藏的宝藏与蛇类，使蛇为人服务。统领30个军团。",
+    planet:"Mercury", appearance:"骑双头龙的孩童",
+    seal:{ rings:2, points:5, inner:0.35, rotation:36, star:true, triangles:2, crosses:1, arcs:3, spiral:false } },
+  { id:63, name:"安德拉斯", nameEn:"Andras", rank:"Marquis",
+    desc:"以天使形象出现，但通体漆黑，乌鸦首，手持利剑。",
+    abilities:"制造纷争与不睦，可使人自相残杀。统领30个军团。",
+    planet:"Mars", appearance:"黑天使鸦首持剑",
+    seal:{ rings:3, points:6, inner:0.25, rotation:30, star:true, triangles:2, crosses:2, arcs:0, spiral:false } },
+  { id:64, name:"豪瑞斯", nameEn:"Haures", rank:"Duke",
+    desc:"以黑豹形态出现，受命后化为人形，双目如火。",
+    abilities:"知晓过去现在未来，可摧毁敌人，具有强大的破坏力。统领36个军团。",
+    planet:"Saturn", appearance:"黑豹",
+    seal:{ rings:2, points:7, inner:0.3, rotation:0, star:true, triangles:1, crosses:2, arcs:4, spiral:false } },
+  { id:65, name:"安德雷·阿尔弗斯", nameEn:"Andrealphus", rank:"Marquis",
+    desc:"以孔雀的形态出现，发出悦耳声音。受命后化为人形。",
+    abilities:"教授几何学与测量学，善于变形与幻术。统领30个军团。",
+    planet:"Mercury", appearance:"孔雀幻术师",
+    seal:{ rings:3, points:8, inner:0.25, rotation:11.25, star:true, triangles:2, crosses:0, arcs:4, spiral:false } },
+  { id:66, name:"锡尔迈斯", nameEn:"Cimeies", rank:"Marquis",
+    desc:"以英勇战士的形象出现，骑乘黑马。",
+    abilities:"教授文法、逻辑与修辞学，发现隐藏宝藏。统领20个军团。",
+    planet:"Mercury", appearance:"黑马战士",
+    seal:{ rings:2, points:6, inner:0.3, rotation:0, star:true, triangles:1, crosses:2, arcs:3, spiral:false } },
+  { id:67, name:"安度西亚斯", nameEn:"Amdusias", rank:"Duke",
+    desc:"以独角兽的形态出现，受命后化为人形，手持竖琴。",
+    abilities:"教授音乐，使树弯曲，制造雷鸣般的音乐声。统领29个军团。",
+    planet:"Venus", appearance:"独角兽",
+    seal:{ rings:3, points:5, inner:0.35, rotation:0, star:true, triangles:2, crosses:1, arcs:3, spiral:false } },
+  { id:68, name:"贝利亚尔", nameEn:"Belial", rank:"King",
+    desc:"以两位美丽天使的形象出现，坐火焰战车。声音洪亮。",
+    abilities:"授予尊贵地位与政治才能，赐予朋友的恩宠。统领80个军团。",
+    planet:"Jupiter", appearance:"火焰战车上的天使",
+    seal:{ rings:4, points:6, inner:0.2, rotation:15, star:true, triangles:4, crosses:1, arcs:0, spiral:false } },
+  { id:69, name:"迪卡拉比亚", nameEn:"Decarabia", rank:"Marquis",
+    desc:"以五芒星的形态出现，受命后化为人形。",
+    abilities:"教授鸟类知识与宝石学，可召唤鸟类。统领30个军团。",
+    planet:"Mercury", appearance:"五芒星",
+    seal:{ rings:2, points:5, inner:0.2, rotation:0, star:true, triangles:0, crosses:3, arcs:5, spiral:false } },
+  { id:70, name:"赛尔", nameEn:"Seere", rank:"Prince",
+    desc:"以英俊男子的形象出现，骑乘飞马，身披光芒。",
+    abilities:"瞬间移动物体，发现宝藏，带来好运，行动敏捷。统领26个军团。",
+    planet:"Moon", appearance:"骑飞马的光之使者",
+    seal:{ rings:3, points:6, inner:0.3, rotation:0, star:true, triangles:1, crosses:2, arcs:4, spiral:false } },
+  { id:71, name:"丹塔利昂", nameEn:"Dantalion", rank:"Duke",
+    desc:"以千面之人的形象出现，手中持有书卷。",
+    abilities:"知晓所有人的思想与意图，教授知识，可改变人的思维。统领36个军团。",
+    planet:"Mercury", appearance:"千面持书者",
+    seal:{ rings:3, points:7, inner:0.25, rotation:25.7, star:true, triangles:2, crosses:2, arcs:0, spiral:false } },
+  { id:72, name:"安德罗马利乌斯", nameEn:"Andromalius", rank:"Count",
+    desc:"以持蛇持矛的男子形象出现。",
+    abilities:"发现隐藏珍宝，揭露盗窃行为，惩罚盗贼。统领36个军团。",
+    planet:"Saturn", appearance:"持蛇持矛者",
+    seal:{ rings:2, points:8, inner:0.3, rotation:0, star:true, triangles:1, crosses:1, arcs:5, spiral:false } }
+];
+
+// ============================================================
+// SEAL DRAWING ENGINE
+// ============================================================
+function drawSeal(canvas, params, size) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const cx = w / 2, cy = h / 2;
+  const r = (size || Math.min(w, h) / 2) - 8;
+  ctx.clearRect(0, 0, w, h);
+
+  // colors
+  const gold = '#d4a843';
+  const goldDim = '#a07830';
+  const cream = '#e8dcc0';
+
+  function drawRing(radius, width, color) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width || 1;
+    ctx.stroke();
+  }
+
+  function drawPolygon(n, radius, rotation, color) {
+    ctx.beginPath();
+    for (let i = 0; i <= n; i++) {
+      const a = (i / n) * Math.PI * 2 + (rotation || 0);
+      const x = cx + Math.cos(a) * radius;
+      const y = cy + Math.sin(a) * radius;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = color || gold;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  function drawStar(points, outerR, innerR, rotation, color) {
+    ctx.beginPath();
+    for (let i = 0; i <= points * 2; i++) {
+      const a = (i / (points * 2)) * Math.PI * 2 + (rotation || 0);
+      const rad = i % 2 === 0 ? outerR : innerR;
+      const x = cx + Math.cos(a) * rad;
+      const y = cy + Math.sin(a) * rad;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = color || gold;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  function drawLine(a1, a2, radius, color) {
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(a1) * radius, cy + Math.sin(a1) * radius);
+    ctx.lineTo(cx + Math.cos(a2) * radius, cy + Math.sin(a2) * radius);
+    ctx.strokeStyle = color || gold;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  function drawCross(size, color) {
+    const s = size || r * 0.3;
+    ctx.strokeStyle = color || gold;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(-s, 0); ctx.lineTo(s, 0);
+    ctx.moveTo(0, -s); ctx.lineTo(0, s);
+    ctx.stroke();
+  }
+
+  function drawArc(startAngle, endAngle, radius, color) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, startAngle, endAngle);
+    ctx.strokeStyle = color || goldDim;
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+  }
+
+  function drawTriangle(outerR, rotation, color) {
+    ctx.beginPath();
+    for (let i = 0; i < 3; i++) {
+      const a = (i / 3) * Math.PI * 2 + (rotation || 0);
+      const x = cx + Math.cos(a) * outerR;
+      const y = cy + Math.sin(a) * outerR;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = color || gold;
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+  }
+
+  function drawSpiral(color) {
+    ctx.beginPath();
+    let x0 = cx, y0 = cy;
+    for (let t = 0; t < Math.PI * 6; t += 0.1) {
+      const rad = r * 0.05 + (t / (Math.PI * 6)) * r * 0.5;
+      const x = cx + Math.cos(t) * rad;
+      const y = cy + Math.sin(t) * rad;
+      t === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = color || goldDim;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Draw outer ring
+  drawRing(r, 2, gold);
+  if (params.rings >= 2) drawRing(r * 0.78, 1.2, goldDim);
+  if (params.rings >= 3) drawRing(r * 0.55, 1, goldDim);
+  if (params.rings >= 4) drawRing(r * 0.35, 0.8, goldDim);
+
+  // Draw inner ring
+  const innerR = r * (params.inner || 0.3);
+  drawRing(innerR, 1, gold);
+
+  // Draw star polygon
+  if (params.star) {
+    const starOuter = r * 0.72;
+    const starInner = r * 0.3;
+    drawStar(params.points, starOuter, starInner, (params.rotation || 0) * Math.PI / 180);
+  }
+
+  // Draw polygon outline
+  const polyR = r * 0.75;
+  const rot = (params.rotation || 0) * Math.PI / 180;
+  drawPolygon(params.points, polyR, rot, goldDim);
+
+  // Draw triangles
+  if (params.triangles) {
+    for (let i = 0; i < params.triangles; i++) {
+      const triRot = rot + (i / params.triangles) * Math.PI * 2;
+      drawTriangle(r * 0.6, triRot, goldDim);
+    }
+  }
+
+  // Draw crosses
+  if (params.crosses) {
+    const cSize = r * 0.15;
+    for (let i = 0; i < params.crosses; i++) {
+      const a = (i / params.crosses) * Math.PI * 2 + rot;
+      ctx.save();
+      ctx.translate(cx + Math.cos(a) * r * 0.45, cy + Math.sin(a) * r * 0.45);
+      ctx.rotate(a);
+      drawCross(cSize, goldDim);
+      ctx.restore();
+    }
+  }
+
+  // Draw arcs
+  if (params.arcs) {
+    for (let i = 0; i < params.arcs; i++) {
+      const start = (i / params.arcs) * Math.PI * 2 + rot;
+      const end = start + Math.PI * 0.6;
+      drawArc(start, end, r * 0.85, goldDim);
+    }
+  }
+
+  // Draw spiral
+  if (params.spiral) {
+    drawSpiral(goldDim);
+  }
+
+  // Center dot
+  ctx.beginPath();
+  ctx.arc(cx, cy, 2, 0, Math.PI * 2);
+  ctx.fillStyle = gold;
+  ctx.fill();
+
+  // Outer decorative dots
+  const dotCount = params.points * (params.rings + 1);
+  for (let i = 0; i < dotCount; i++) {
+    const a = (i / dotCount) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = goldDim;
+    ctx.fill();
+  }
+}
+
+// ============================================================
+// RANK HELPER
+// ============================================================
+function getRankClass(rank) {
+  const map = { 'King':'rank-king','Duke':'rank-duke','Prince':'rank-prince',
+    'Marquis':'rank-marquis','Count':'rank-count','President':'rank-president','Knight':'rank-knight' };
+  return map[rank] || '';
+}
+
+function getPlanetIcon(planet) {
+  const icons = { 'Sun':'☉','Moon':'☽','Mercury':'☿','Venus':'♀','Mars':'♂','Jupiter':'♃','Saturn':'♄' };
+  return icons[planet] || '';
+}
+
+function getPlanetCn(planet) {
+  const names = { 'Sun':'太阳','Moon':'月亮','Mercury':'水星','Venus':'金星','Mars':'火星','Jupiter':'木星','Saturn':'土星' };
+  return names[planet] || planet;
+}
+
+function getRankCn(rank) {
+  const map = { 'King':'君王','Duke':'公爵','Prince':'王子','Marquis':'侯爵','Count':'伯爵','President':'统领','Knight':'骑士' };
+  return map[rank] || rank;
+}
+
+// ============================================================
+// RENDER CARDS
+// ============================================================
+let currentView = 'grid';
+let currentSort = { key: 'number', dir: 'asc' };
+
+function getFilteredDemons() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const rank = document.getElementById('rankFilter').value;
+  const planet = document.getElementById('planetFilter').value;
+  return DEMONS.filter(d => {
+    if (search && !d.name.includes(search) && !d.nameEn.toLowerCase().includes(search) &&
+        !String(d.id).includes(search) && !d.rank.toLowerCase().includes(search)) return false;
+    if (rank && d.rank !== rank) return false;
+    if (planet && d.planet !== planet) return false;
+    return true;
+  });
+}
+
+function render() {
+  const filtered = getFilteredDemons();
+  const grid = document.getElementById('demonGrid');
+  const tableBody = document.getElementById('tableBody');
+  const tableContainer = document.getElementById('tableContainer');
+  const stats = document.getElementById('statsDisplay');
+
+  stats.textContent = `显示 ${filtered.length} / ${DEMONS.length} 柱`;
+
+  // Sort
+  const sk = currentSort.key;
+  const sd = currentSort.dir;
+  filtered.sort((a, b) => {
+    let va = sk === 'number' ? a.id : sk === 'name' ? a.nameEn : sk === 'rank' ? a.rank : sk === 'planet' ? a.planet : a.desc;
+    let vb = sk === 'number' ? b.id : sk === 'name' ? b.nameEn : sk === 'rank' ? b.rank : sk === 'planet' ? b.planet : b.desc;
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    if (va < vb) return sd === 'asc' ? -1 : 1;
+    if (va > vb) return sd === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  // --- Grid/List view ---
+  grid.innerHTML = '';
+  if (currentView === 'table') {
+    grid.classList.remove('active');
+    tableContainer.classList.add('active');
+  } else {
+    grid.classList.add('active');
+    grid.classList.toggle('grid-view', currentView === 'grid');
+    grid.classList.toggle('list-view', currentView === 'list');
+    tableContainer.classList.remove('active');
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="no-results">没有找到匹配的魔神</div>';
+    } else {
+      filtered.forEach((d, idx) => {
+        const card = document.createElement('div');
+        card.className = 'demon-card';
+        card.style.animationDelay = `${(idx % 20) * 0.03}s`;
+        card.dataset.id = d.id;
+        card.innerHTML = `
+          <div class="card-inner">
+            <div class="card-seal"><canvas width="240" height="240"></canvas></div>
+            <div class="card-header">
+              <div class="demon-number">#${String(d.id).padStart(2,'0')}</div>
+              <h3>${d.name}</h3>
+              <div class="name-en">${d.nameEn}</div>
+              <div class="rank-badge ${getRankClass(d.rank)}">${getRankCn(d.rank)} ${d.rank}</div>
+            </div>
+            <div class="card-meta">
+              <span class="planet-icon">${getPlanetIcon(d.planet)} ${getPlanetCn(d.planet)}</span>
+              <span>${d.appearance}</span>
+            </div>
+            <div class="card-desc">${d.desc}</div>
+            <div class="card-abilities">
+              <strong>能力：</strong>${d.abilities}
+            </div>
+            <div class="expand-icon">&#9660;</div>
+          </div>
+        `;
+        card.addEventListener('click', () => toggleExpand(card, d));
+        grid.appendChild(card);
+
+        // Draw seal on the card canvas
+        const canvas = card.querySelector('canvas');
+        drawSeal(canvas, d.seal);
+      });
+    }
+  }
+
+  // --- Table view ---
+  tableBody.innerHTML = '';
+  if (currentView === 'table') {
+    if (filtered.length === 0) {
+      tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-dim);">没有找到匹配的魔神</td></tr>';
+    } else {
+      filtered.forEach(d => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-family:var(--font-eng);color:var(--gold-dim);">#${String(d.id).padStart(2,'0')}</td>
+          <td class="demon-name-cell" data-id="${d.id}">${d.name}<br><span style="font-family:var(--font-eng);font-size:0.8em;color:var(--text-dim);">${d.nameEn}</span></td>
+          <td><span class="rank-badge ${getRankClass(d.rank)}" style="font-size:0.75em;">${getRankCn(d.rank)}</span></td>
+          <td class="planet-icon">${getPlanetIcon(d.planet)} ${getPlanetCn(d.planet)}</td>
+          <td style="font-size:0.85em;">${d.desc}</td>
+        `;
+        tr.querySelector('.demon-name-cell').addEventListener('click', () => openModal(d));
+        tr.addEventListener('dblclick', () => openModal(d));
+        tableBody.appendChild(tr);
+      });
+    }
+  }
+}
+
+// ============================================================
+// EXPAND / COLLAPSE
+// ============================================================
+function toggleExpand(card, demon) {
+  const wasExpanded = card.classList.contains('expanded');
+  // Collapse all others
+  document.querySelectorAll('.demon-card.expanded').forEach(c => c.classList.remove('expanded'));
+  if (!wasExpanded) {
+    card.classList.add('expanded');
+    // Redraw seal at larger size
+    const canvas = card.querySelector('.card-seal canvas');
+    drawSeal(canvas, demon.seal);
+  }
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(demon) {
+  const modal = document.getElementById('detailModal');
+  document.getElementById('modalNameCn').textContent = `#${String(demon.id).padStart(2,'0')} ${demon.name}`;
+  document.getElementById('modalNameEn').textContent = demon.nameEn;
+  const rankEl = document.getElementById('modalRank');
+  rankEl.textContent = `${getRankCn(demon.rank)} (${demon.rank})`;
+  rankEl.className = `rank-badge ${getRankClass(demon.rank)}`;
+
+  const body = document.getElementById('modalBody');
+  body.innerHTML = `
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">编号</div>
+        <div class="value" style="font-family:var(--font-eng);">#${String(demon.id).padStart(2,'0')}</div>
+      </div>
+      <div class="info-item">
+        <div class="label">位阶</div>
+        <div class="value">${getRankCn(demon.rank)} (${demon.rank})</div>
+      </div>
+      <div class="info-item">
+        <div class="label">星象关联</div>
+        <div class="value planet-icon">${getPlanetIcon(demon.planet)} ${getPlanetCn(demon.planet)}</div>
+      </div>
+      <div class="info-item">
+        <div class="label">统领军团</div>
+        <div class="value">${demon.abilities.match(/\d+/)?.[0] || '—'} 个</div>
+      </div>
+    </div>
+    <p><strong>形态外貌</strong><br>${demon.appearance}</p>
+    <p><strong>外观描述</strong><br>${demon.desc}</p>
+    <p><strong>魔法能力</strong><br>${demon.abilities}</p>
+  `;
+
+  // Draw seal in modal
+  const modalCanvas = document.querySelector('#modalSeal canvas');
+  drawSeal(modalCanvas, demon.seal);
+
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('detailModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ============================================================
+// HEADER SIGIL
+// ============================================================
+function drawHeaderSigil() {
+  const canvas = document.querySelector('#headerSigil canvas');
+  drawSeal(canvas, DEMONS[0].seal);
+}
+
+// ============================================================
+// OCCULT BACKGROUND
+// ============================================================
+function drawOccultBg() {
+  const container = document.getElementById('occultBg');
+  // Add hexagram SVGs
+  for (let i = 0; i < 5; i++) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '200');
+    svg.setAttribute('height', '200');
+    svg.setAttribute('viewBox', '0 0 200 200');
+    svg.style.position = 'absolute';
+    svg.style.left = `${10 + Math.sin(i * 1.3) * 40}%`;
+    svg.style.top = `${10 + Math.cos(i * 1.7) * 40}%`;
+    svg.style.opacity = '0.15';
+    svg.style.transform = `rotate(${i * 37}deg)`;
+    svg.innerHTML = `
+      <polygon points="100,10 170,190 30,190" fill="none" stroke="#d4a843" stroke-width="1"/>
+      <polygon points="100,190 170,10 30,10" fill="none" stroke="#d4a843" stroke-width="1"/>
+      <circle cx="100" cy="100" r="60" fill="none" stroke="#d4a843" stroke-width="0.5"/>
+    `;
+    container.appendChild(svg);
+  }
+}
+
+// ============================================================
+// EVENT LISTENERS
+// ============================================================
+document.getElementById('searchInput').addEventListener('input', render);
+document.getElementById('rankFilter').addEventListener('change', render);
+document.getElementById('planetFilter').addEventListener('change', render);
+
+document.querySelectorAll('.view-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentView = btn.dataset.view;
+    render();
+  });
+});
+
+// Table sort
+document.querySelectorAll('th[data-sort]').forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.sort;
+    document.querySelectorAll('th[data-sort]').forEach(t => t.classList.remove('sort-asc', 'sort-desc'));
+    if (currentSort.key === key) {
+      currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+    } else {
+      currentSort.key = key;
+      currentSort.dir = 'asc';
+    }
+    th.classList.add(currentSort.dir === 'asc' ? 'sort-asc' : 'sort-desc');
+    render();
+  });
+});
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('detailModal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+drawHeaderSigil();
+drawOccultBg();
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行星时计算器 — Apophis Dragon Magic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #0a0a0a;
+    color: #d4d4d4;
+    font-family: 'Noto Serif SC', serif;
+    min-height: 100vh;
+    line-height: 1.8;
+}
+/* ── Navigation ── */
+nav {
+    background: #111;
+    border-bottom: 1px solid #d4a84333;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.2rem;
+    align-items: center;
+    justify-content: center;
+}
+nav a {
+    color: #d4a843;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
+}
+nav a:hover { background: #d4a84322; color: #f0c860; }
+nav .brand { font-family: 'Ma Shan Zheng', cursive; font-size: 1.3rem; color: #c41e3a; }
+
+/* ── Layout ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+h1, h2, h3, h4 { font-family: 'Ma Shan Zheng', cursive; color: #d4a843; font-weight: 400; }
+h1 { font-size: 2.6rem; text-align: center; margin-bottom: 0.3rem; }
+.subtitle { text-align: center; color: #999; font-size: 0.95rem; margin-bottom: 2.5rem; }
+.section-title {
+    font-size: 1.6rem;
+    border-bottom: 1px solid #d4a84344;
+    padding-bottom: 0.4rem;
+    margin: 2rem 0 1.2rem;
+}
+
+/* ── Intro / Explanation ── */
+.intro-box {
+    background: #111;
+    border: 1px solid #d4a84333;
+    border-radius: 10px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    color: #c8c8c8;
+}
+.intro-box p { margin-bottom: 0.6rem; }
+.intro-box strong { color: #d4a843; }
+.intro-box .highlight { color: #c41e3a; font-weight: 600; }
+
+/* ── Controls ── */
+.controls {
+    background: #111;
+    border: 1px solid #d4a84333;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    align-items: flex-end;
+}
+.control-group { display: flex; flex-direction: column; gap: 0.3rem; min-width: 140px; flex: 1; }
+.control-group label { font-size: 0.85rem; color: #aaa; font-weight: 600; }
+.control-group select, .control-group input {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #d4d4d4;
+    padding: 0.5rem 0.7rem;
+    border-radius: 6px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.control-group select:focus, .control-group input:focus { border-color: #d4a843; }
+.control-group select option { background: #1a1a1a; color: #d4d4d4; }
+.btn {
+    background: #d4a843;
+    color: #0a0a0a;
+    border: none;
+    padding: 0.5rem 1.4rem;
+    border-radius: 6px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+}
+.btn:hover { background: #f0c860; }
+.btn:active { transform: scale(0.97); }
+.btn-secondary {
+    background: transparent;
+    border: 1px solid #d4a84355;
+    color: #d4a843;
+}
+.btn-secondary:hover { background: #d4a84322; }
+.time-inputs { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
+.time-group { display: flex; flex-direction: column; gap: 0.3rem; }
+.time-group label { font-size: 0.85rem; color: #aaa; }
+
+/* ── Current Hour ── */
+.current-hour-panel {
+    background: linear-gradient(135deg, #111 0%, #1a1510 100%);
+    border: 2px solid #d4a843;
+    border-radius: 14px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.current-hour-panel::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at center, #d4a84308 0%, transparent 60%);
+    animation: pulseGlow 4s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+.current-hour-panel > * { position: relative; z-index: 1; }
+.cur-label { font-size: 0.85rem; color: #999; margin-bottom: 0.2rem; }
+.cur-planet {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 2.8rem;
+    color: #d4a843;
+    margin: 0.2rem 0;
+}
+.cur-name { font-size: 1.3rem; color: #eee; margin-bottom: 0.2rem; }
+.cur-range { font-size: 1rem; color: #aaa; }
+.cur-magic { font-size: 0.9rem; color: #c41e3a; margin-top: 0.5rem; font-style: italic; }
+.cur-refresh { font-size: 0.8rem; color: #666; margin-top: 0.6rem; }
+
+/* ── Table ── */
+.table-wrap { overflow-x: auto; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+thead th {
+    background: #151515;
+    color: #d4a843;
+    font-weight: 600;
+    padding: 0.7rem 0.6rem;
+    text-align: left;
+    border-bottom: 2px solid #d4a84355;
+    position: sticky; top: 0;
+}
+tbody td {
+    padding: 0.6rem;
+    border-bottom: 1px solid #222;
+    vertical-align: middle;
+}
+tbody tr:hover { background: #d4a8430a; }
+tbody tr.active {
+    background: #d4a84318;
+    border-left: 3px solid #d4a843;
+}
+tbody tr td:first-child { padding-left: 0.8rem; }
+.type-day { color: #f0c860; }
+.type-night { color: #6a8ab8; }
+.planet-icon { display: inline-block; width: 1.6em; text-align: center; font-size: 1.1rem; margin-right: 0.3rem; }
+
+/* ── Magic Significance Section ── */
+.magic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+.magic-card {
+    background: #111;
+    border: 1px solid #d4a84333;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    transition: border-color 0.2s;
+}
+.magic-card:hover { border-color: #d4a84388; }
+.magic-card h4 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+.magic-card p { font-size: 0.88rem; color: #bbb; }
+
+/* ── Footer ── */
+footer {
+    text-align: center;
+    padding: 2rem 0 0.5rem;
+    border-top: 1px solid #222;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+    h1 { font-size: 2rem; }
+    .container { padding: 1.2rem 0.8rem 3rem; }
+    .controls { flex-direction: column; }
+    .control-group { min-width: 100%; }
+    .time-inputs { width: 100%; }
+    .time-group { flex: 1; }
+    .current-hour-panel { padding: 1.2rem 1rem; }
+    .cur-planet { font-size: 2.2rem; }
+    table { font-size: 0.8rem; }
+    thead th, tbody td { padding: 0.4rem 0.3rem; }
+}
+
+/* ── Additional ── */
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.7);
+}
+
+/* Navigation bar */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0 1rem;
+  height: 48px;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #2a2a2a;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.nav-bar .nav-brand {
+  font-family: "Ma Shan Zheng", cursive;
+  font-size: 1.2rem;
+  color: #d4a843;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+.nav-bar .nav-link {
+  color: #8a7e6e;
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 3px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.nav-bar .nav-link:hover { color: #d4a843; background: rgba(212,168,67,0.1); }
+.nav-bar .nav-link.active { color: #d4a843; }
+html { padding-top: 48px; }
+
+</style>
+</head>
+<body>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+<a href="sigil-game.html" class="nav-link">符印工坊</a>
+<a href="liuren-simulator.html" class="nav-link">大六壬</a>
+<a href="planetary-hours.html" class="nav-link active">行星时</a>
+<a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+<a href="astrology-hub.html" class="nav-link">天文星象</a>
+<a href="lhp-test.html" class="nav-link">魔法测试</a>
+</nav>
+
+<div class="container">
+
+<h1>行星时 · 计算器</h1>
+<p class="subtitle">Planetary Hours Calculator — 行星时是西方魔法传统中重要的时间体系</p>
+
+<!-- Intro -->
+<div class="intro-box">
+    <p><strong>行星时</strong>（Planetary Hours）是西方魔法仪式中用于择时的重要体系，源于古希腊与迦勒底占星术。它不同于现代钟表的小时制，而是将白昼（日出至日落）与黑夜（日落至次日日出）各均分为12个时段，每个时段由特定行星掌管。</p>
+    <p>行星的排列遵循迦勒底顺序：<strong>土星 → 木星 → 火星 → 太阳 → 金星 → 水星 → 月亮</strong>。每日的第一个小时由当日守护星掌管（例如星期日的首小时为太阳时），之后按迦勒底顺序循环。行星时的应用主要源于《所罗门之钥》等魔法典籍，不同行星时的能量倾向各不相同，适用于不同类型的魔法仪式。</p>
+    <p><span class="highlight">在古代魔法传统中，选择正确的行星时进行仪式可以极大增强仪式的效力</span> — 太阳时适合祈福与成功，金星时适合爱情与艺术，月亮时适合占卜与冥想，土星时适合解除与封印。</p>
+</div>
+
+<!-- Controls -->
+<div class="controls" id="controls">
+    <div class="control-group">
+        <label for="citySelect">选择城市</label>
+        <select id="citySelect"></select>
+    </div>
+    <div class="control-group">
+        <label for="dateInput">日期</label>
+        <input type="date" id="dateInput">
+    </div>
+    <div class="control-group" style="min-width:240px;flex:1.5;">
+        <label>或手动输入日出/日落时间</label>
+        <div class="time-inputs">
+            <div class="time-group">
+                <label for="riseInput">日出</label>
+                <input type="time" id="riseInput">
+            </div>
+            <div class="time-group">
+                <label for="setInput">日落</label>
+                <input type="time" id="setInput">
+            </div>
+        </div>
+    </div>
+    <button class="btn" id="calcBtn">计算</button>
+    <button class="btn btn-secondary" id="nowBtn">当前时刻</button>
+</div>
+
+<!-- Current Hour -->
+<div class="current-hour-panel" id="currentPanel">
+    <div class="cur-label">当前行星时</div>
+    <div class="cur-planet" id="curPlanet">—</div>
+    <div class="cur-name" id="curName">—</div>
+    <div class="cur-range" id="curRange">—</div>
+    <div class="cur-magic" id="curMagic">—</div>
+    <div class="cur-refresh" id="curRefresh">实时更新中...</div>
+</div>
+
+<!-- Full Table -->
+<h2 class="section-title">今日二十四行星时</h2>
+<div class="table-wrap">
+<table id="hoursTable">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>时段</th>
+            <th>名称</th>
+            <th>掌管行星</th>
+            <th>时间范围</th>
+            <th>魔法意义</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+</div>
+
+<!-- Magic Significance -->
+<h2 class="section-title">七行星的魔法意义</h2>
+<div class="magic-grid" id="magicGrid"></div>
+
+<!-- Footer -->
+<footer>Apophis Dragon Magic &middot; 行星时计算器 &middot; 以知识与智慧指引仪式</footer>
+</div>
+
+<script>
+(function() {
+'use strict';
+
+/* ═══════════════════════════════
+   DATA
+   ═══════════════════════════════ */
+
+const PLANETS = [
+    { id: 'saturn',  cn: '土星', en: 'Saturn',  icon: '&#x29D7;', color: '#5a4a3a' },
+    { id: 'jupiter', cn: '木星', en: 'Jupiter', icon: '&#x29D6;', color: '#b8a040' },
+    { id: 'mars',    cn: '火星', en: 'Mars',    icon: '&#x2642;', color: '#c41e3a' },
+    { id: 'sun',     cn: '太阳', en: 'Sun',     icon: '&#x2609;', color: '#f0c860' },
+    { id: 'venus',   cn: '金星', en: 'Venus',   icon: '&#x2640;', color: '#e8a0b0' },
+    { id: 'mercury', cn: '水星', en: 'Mercury', icon: '&#x263F;', color: '#8ab8d0' },
+    { id: 'moon',    cn: '月亮', en: 'Moon',    icon: '&#x263E;', color: '#c0c0d0' }
+];
+
+// Day-of-week ruler index into PLANETS: Sun=3, Mon=6, Tue=2, Wed=5, Thu=1, Fri=4, Sat=0
+const DAY_RULER = [3, 6, 2, 5, 1, 4, 0];
+
+const DAY_NAMES = [
+    'Yayn', 'Ianor', 'Nasnia', 'Salla', 'Sadedali', 'Thamur',
+    'Ourer', 'Tamic', 'Neron', 'Iayon', 'Abai', 'Natalon'
+];
+const NIGHT_NAMES = [
+    'Beron', 'Barol', 'Thami', 'Athir', 'Mathon', 'Rana',
+    'Netos', 'Tafrac', 'Sassur', 'Aglo', 'Calerua', 'Salam'
+];
+
+const MAGIC = {
+    saturn:  '适合保护、结界、消除障碍、结束关系、深度冥想。土星代表限制、结构与业力。',
+    jupiter: '适合财富、成功、扩张、旅行、学习与智慧。木星代表机遇、繁荣与成长。',
+    mars:    '适合勇气、力量、竞争、胜利、冲突解决、性魅力。火星代表能量与行动力。',
+    sun:     '适合个人力量、领导力、成功、健康、自我实现。太阳代表生命力与荣耀。',
+    venus:   '适合爱情、美丽、友谊、艺术、和谐与愉悦。金星代表爱、魅力与审美。',
+    mercury: '适合沟通、商业、旅行、学习、写作、交易。水星代表智力与交流。',
+    moon:    '适合直觉、梦境、情绪、疗愈、占卜、通灵。月亮代表潜意识与神秘。'
+};
+
+const CITIES = [
+    { name: '北京', lat: 39.9, lng: 116.4 },
+    { name: '上海', lat: 31.2, lng: 121.5 },
+    { name: '广州', lat: 23.1, lng: 113.3 },
+    { name: '深圳', lat: 22.5, lng: 114.1 },
+    { name: '成都', lat: 30.6, lng: 104.1 },
+    { name: '杭州', lat: 30.3, lng: 120.2 },
+    { name: '武汉', lat: 30.6, lng: 114.3 },
+    { name: '南京', lat: 32.1, lng: 118.8 },
+    { name: '重庆', lat: 29.6, lng: 106.5 },
+    { name: '西安', lat: 34.3, lng: 108.9 },
+    { name: '苏州', lat: 31.3, lng: 120.6 },
+    { name: '天津', lat: 39.1, lng: 117.2 },
+    { name: '长沙', lat: 28.2, lng: 113.0 },
+    { name: '郑州', lat: 34.7, lng: 113.7 },
+    { name: '昆明', lat: 25.0, lng: 102.7 },
+    { name: '青岛', lat: 36.1, lng: 120.4 },
+    { name: '沈阳', lat: 41.8, lng: 123.4 },
+    { name: '哈尔滨', lat: 45.8, lng: 126.6 },
+    { name: '拉萨', lat: 29.7, lng: 91.1 },
+    { name: '乌鲁木齐', lat: 43.8, lng: 87.6 },
+    { name: '厦门', lat: 24.5, lng: 118.1 },
+    { name: '大连', lat: 38.9, lng: 121.6 },
+    { name: '济南', lat: 36.7, lng: 117.0 },
+    { name: '福州', lat: 26.1, lng: 119.3 },
+    { name: '南宁', lat: 22.8, lng: 108.4 },
+    { name: '贵阳', lat: 26.7, lng: 106.6 },
+    { name: '兰州', lat: 36.0, lng: 103.8 },
+    { name: '太原', lat: 37.9, lng: 112.5 },
+    { name: '合肥', lat: 31.8, lng: 117.3 },
+    { name: '南昌', lat: 28.7, lng: 115.9 }
+];
+
+/* ═══════════════════════════════
+   SOLAR CALCULATION (NOAA-based)
+   ═══════════════════════════════ */
+
+function toRad(d) { return d * Math.PI / 180; }
+function toDeg(r) { return r * 180 / Math.PI; }
+
+/**
+ * Compute sunrise and sunset in minutes from local midnight
+ * Uses NOAA solar calculation algorithm
+ * Returns { sunrise, sunset } in minutes or null for polar regions
+ */
+function calcSunTimes(lat, lng, date, tzOffsetMin) {
+    // Day of year
+    const start = new Date(date.getFullYear(), 0, 1);
+    const diff = date - start;
+    const N = Math.floor(diff / 86400000) + 1; // Jan 1 = 1
+
+    // Mean anomaly (degrees)
+    const g = (357.529 + 0.98560028 * N) % 360;
+    // Mean longitude (degrees)
+    const q = (280.459 + 0.98564736 * N) % 360;
+
+    // Ecliptic longitude
+    const L = q + 1.915 * Math.sin(toRad(g)) + 0.020 * Math.sin(toRad(2 * g));
+    const Lnorm = L % 360;
+
+    // Declination
+    const sinDec = Math.sin(toRad(23.439)) * Math.sin(toRad(Lnorm));
+    const decl = Math.asin(sinDec); // radians
+
+    // Equation of time (minutes)
+    // EOT = 4 * (q_deg - L_deg) ... careful with quadrant
+    let eot = 4 * (q - Lnorm);
+    // Normalize
+    if (eot > 20) eot -= 1440;
+    if (eot < -20) eot += 1440;
+
+    // Hour angle at sunrise (solar elevation = -0.833 deg for refraction)
+    const latRad = toRad(lat);
+    const cosHA = (Math.sin(toRad(-0.833)) - Math.sin(latRad) * Math.sin(decl))
+                / (Math.cos(latRad) * Math.cos(decl));
+
+    if (cosHA > 1 || cosHA < -1) return null; // Polar night or midnight sun
+
+    const HA = toDeg(Math.acos(cosHA));
+
+    // Sunrise and sunset in local mean time (minutes from midnight)
+    const sunriseLMT = 720 - 4 * HA - eot;
+    const sunsetLMT  = 720 + 4 * HA - eot;
+
+    // Convert from local mean time to zone time
+    // Timezone meridian = (tzOffsetMin / 60) * 15 degrees
+    const tzMeridian = tzOffsetMin / 4; // since 1 deg = 4 min
+    const corr = (tzMeridian - lng) * 4;  // minutes
+
+    let sunrise = sunriseLMT - corr;
+    let sunset  = sunsetLMT  - corr;
+
+    // Clamp to 0-1440
+    while (sunrise < 0)   sunrise += 1440;
+    while (sunrise >= 1440) sunrise -= 1440;
+    while (sunset < 0)    sunset += 1440;
+    while (sunset >= 1440)  sunset -= 1440;
+
+    return { sunrise, sunset };
+}
+
+function minsToStr(m) {
+    let mm = m % 1440;
+    if (mm < 0) mm += 1440;
+    const h = Math.floor(mm / 60);
+    const min = Math.floor(mm % 60);
+    return String(h).padStart(2, '0') + ':' + String(min).padStart(2, '0');
+}
+
+/* ═══════════════════════════════
+   PLANETARY HOURS ENGINE
+   ═══════════════════════════════ */
+
+/**
+ * Compute all 24 planetary hours for a given date
+ * @param {Date} date
+ * @param {number} sunriseMin - minutes from local midnight
+ * @param {number} sunsetMin  - minutes from local midnight
+ * @returns {Array} hours array
+ */
+function computePlanetaryHours(date, sunriseMin, sunsetMin) {
+    const sunsetNext = sunsetMin + 1440; // next day's sunrise (approximate)
+
+    // Day length = sunset - sunrise
+    const dayLen = sunsetMin - sunriseMin;
+    // Night length = (sunrise + 1440) - sunset
+    const nightLen = (sunriseMin + 1440) - sunsetMin;
+
+    const dayBlock = dayLen / 12;
+    const nightBlock = nightLen / 12;
+
+    const dow = date.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
+    const rulerIdx = DAY_RULER[dow]; // Index into PLANETS for first hour
+
+    const hours = [];
+    for (let i = 0; i < 24; i++) {
+        const isDay = i < 12;
+        const block = isDay ? dayBlock : nightBlock;
+        const start = isDay ? sunriseMin + i * block : sunsetMin + (i - 12) * block;
+        const end = start + block;
+
+        // Planet: start from day ruler, increment by i
+        const planetIdx = (rulerIdx + i) % 7;
+        const planet = PLANETS[planetIdx];
+        const name = isDay ? DAY_NAMES[i] : NIGHT_NAMES[i - 12];
+        const type = isDay ? 'day' : 'night';
+
+        hours.push({
+            index: i + 1,
+            isDay,
+            name,
+            planet,
+            start,
+            end,
+            type
+        });
+    }
+    return hours;
+}
+
+/**
+ * Find which hour contains the given time (minutes from local midnight)
+ */
+function findCurrentHour(hours, nowMin) {
+    for (const h of hours) {
+        let s = h.start;
+        let e = h.end;
+        // Handle wraparound: for the last night hour, end may be > 1440
+        if (e > 1440) {
+            // Night hour that wraps to next day
+            if (nowMin >= s || nowMin < e - 1440) return h;
+        } else {
+            if (nowMin >= s && nowMin < e) return h;
+        }
+    }
+    // Fallback: check last hour
+    const last = hours[hours.length - 1];
+    if (last.end > 1440) {
+        const wrappedEnd = last.end - 1440;
+        if (nowMin < wrappedEnd || nowMin >= last.start) return last;
+    }
+    return null;
+}
+
+/* ═══════════════════════════════
+   UI RENDERING
+   ═══════════════════════════════ */
+
+const $ = id => document.getElementById(id);
+
+function populateCities() {
+    const sel = $('citySelect');
+    sel.innerHTML = '<option value="">— 手动输入时间 —</option>';
+    CITIES.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.name;
+        opt.dataset.lat = c.lat;
+        opt.dataset.lng = c.lng;
+        opt.textContent = c.name;
+        sel.appendChild(opt);
+    });
+}
+
+function initDateInput() {
+    const d = new Date();
+    const dStr = d.getFullYear() + '-' +
+        String(d.getMonth()+1).padStart(2,'0') + '-' +
+        String(d.getDate()).padStart(2,'0');
+    $('dateInput').value = dStr;
+}
+
+function getCityData() {
+    const sel = $('citySelect');
+    const idx = sel.selectedIndex;
+    if (idx <= 0) return null;
+    const opt = sel.options[idx];
+    return {
+        name: opt.value,
+        lat: parseFloat(opt.dataset.lat),
+        lng: parseFloat(opt.dataset.lng)
+    };
+}
+
+function getTZOffset() {
+    // China uses UTC+8 (CST)
+    return 480; // minutes
+}
+
+function parseTimeInput(val) {
+    if (!val) return null;
+    const parts = val.split(':');
+    if (parts.length < 2) return null;
+    return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+}
+
+function render(hours, currentHour) {
+    const tbody = $('tableBody');
+    tbody.innerHTML = '';
+    hours.forEach(h => {
+        const tr = document.createElement('tr');
+        if (currentHour && Math.abs(h.start - currentHour.start) < 0.001) {
+            tr.className = 'active';
+        }
+
+        // #
+        const tdIdx = document.createElement('td');
+        tdIdx.textContent = h.index;
+
+        // Day/Night
+        const tdType = document.createElement('td');
+        tdType.className = h.isDay ? 'type-day' : 'type-night';
+        tdType.textContent = h.isDay ? '昼' : '夜';
+
+        // Name
+        const tdName = document.createElement('td');
+        tdName.style.fontFamily = "'Noto Serif SC', serif";
+        tdName.textContent = h.name;
+
+        // Planet
+        const tdPlanet = document.createElement('td');
+        tdPlanet.innerHTML = '<span class="planet-icon">' + h.planet.icon + '</span> ' + h.planet.cn;
+        tdPlanet.style.color = h.planet.color;
+
+        // Time range
+        const tdRange = document.createElement('td');
+        let sStr = minsToStr(h.start);
+        let eStr = minsToStr(h.end);
+        tdRange.textContent = sStr + ' - ' + eStr;
+
+        // Magic
+        const tdMagic = document.createElement('td');
+        tdMagic.textContent = MAGIC[h.planet.id];
+        tdMagic.style.fontSize = '0.85rem';
+        tdMagic.style.color = '#aaa';
+
+        tr.appendChild(tdIdx);
+        tr.appendChild(tdType);
+        tr.appendChild(tdName);
+        tr.appendChild(tdPlanet);
+        tr.appendChild(tdRange);
+        tr.appendChild(tdMagic);
+        tbody.appendChild(tr);
+    });
+}
+
+function renderMagicGrid() {
+    const grid = $('magicGrid');
+    grid.innerHTML = '';
+    PLANETS.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'magic-card';
+        card.innerHTML = '<h4>' + p.icon + ' ' + p.cn + '时</h4>' +
+            '<p>' + MAGIC[p.id] + '</p>';
+        grid.appendChild(card);
+    });
+}
+
+function updateCurrentPanel(hour) {
+    $('curPlanet').innerHTML = hour.planet.icon + ' ' + hour.planet.cn + '时';
+    $('curPlanet').style.color = hour.planet.color;
+    $('curName').textContent = '「' + hour.name + '」' + (hour.isDay ? '（白昼时）' : '（黑夜时）');
+    $('curRange').textContent = minsToStr(hour.start) + ' - ' + minsToStr(hour.end);
+    $('curMagic').textContent = '魔法提示：' + MAGIC[hour.planet.id];
+}
+
+function updateCurrentPanelEmpty() {
+    $('curPlanet').textContent = '—';
+    $('curPlanet').style.color = '#d4a843';
+    $('curName').textContent = '请先计算行星时';
+    $('curRange').textContent = '';
+    $('curMagic').textContent = '';
+}
+
+/* ═══════════════════════════════
+   MAIN CALC
+   ═══════════════════════════════ */
+
+let lastHours = null;
+let lastCurrent = null;
+let lastDateStr = '';
+let lastSunrise = -1;
+let lastSunset = -1;
+
+function runCalc() {
+    const dateStr = $('dateInput').value;
+    if (!dateStr) { alert('请选择日期'); return; }
+    const date = new Date(dateStr + 'T12:00:00+08:00');
+    const tzOffset = getTZOffset();
+
+    let sunrise, sunset;
+    const city = getCityData();
+
+    const manualRise = parseTimeInput($('riseInput').value);
+    const manualSet = parseTimeInput($('setInput').value);
+
+    if (manualRise !== null && manualSet !== null) {
+        sunrise = manualRise;
+        sunset = manualSet;
+    } else if (city) {
+        const times = calcSunTimes(city.lat, city.lng, date, tzOffset);
+        if (!times) {
+            alert('该地区今日为极昼/极夜，无法计算行星时。');
+            return;
+        }
+        sunrise = times.sunrise;
+        sunset = times.sunset;
+        // Fill time inputs for reference
+        $('riseInput').value = minsToStr(sunrise);
+        $('setInput').value = minsToStr(sunset);
+    } else {
+        alert('请选择城市或手动输入日出/日落时间。');
+        return;
+    }
+
+    if (sunrise === sunset) {
+        alert('日出日落时间相同，无法计算。');
+        return;
+    }
+
+    // Swap if user entered sunrise > sunset
+    if (sunrise > sunset) {
+        [sunrise, sunset] = [sunset, sunrise];
+    }
+
+    const hours = computePlanetaryHours(date, sunrise, sunset);
+    lastHours = hours;
+    lastDateStr = dateStr;
+    lastSunrise = sunrise;
+    lastSunset = sunset;
+
+    // Find current hour
+    const now = new Date();
+    const nowLocal = now.getHours() * 60 + now.getMinutes();
+    const current = findCurrentHour(hours, nowLocal);
+    lastCurrent = current;
+
+    render(hours, current);
+    if (current) {
+        updateCurrentPanel(current);
+    }
+}
+
+function refreshCurrent() {
+    if (!lastHours) return;
+    const now = new Date();
+    const nowLocal = now.getHours() * 60 + now.getMinutes();
+    const current = findCurrentHour(lastHours, nowLocal);
+    lastCurrent = current;
+    render(lastHours, current);
+    if (current) updateCurrentPanel(current);
+}
+
+/* ═══════════════════════════════
+   CITY SELECT HANDLER
+   ═══════════════════════════════ */
+
+$('citySelect').addEventListener('change', function() {
+    const city = getCityData();
+    if (city) {
+        const dateStr = $('dateInput').value;
+        if (!dateStr) return;
+        const date = new Date(dateStr + 'T12:00:00+08:00');
+        const times = calcSunTimes(city.lat, city.lng, date, 480);
+        if (times) {
+            $('riseInput').value = minsToStr(times.sunrise);
+            $('setInput').value = minsToStr(times.sunset);
+        }
+    }
+});
+
+/* ═══════════════════════════════
+   EVENT BINDINGS
+   ═══════════════════════════════ */
+
+$('calcBtn').addEventListener('click', runCalc);
+
+$('nowBtn').addEventListener('click', function() {
+    // Set date to today
+    const d = new Date();
+    const dStr = d.getFullYear() + '-' +
+        String(d.getMonth()+1).padStart(2,'0') + '-' +
+        String(d.getDate()).padStart(2,'0');
+    $('dateInput').value = dStr;
+    runCalc();
+});
+
+$('dateInput').addEventListener('change', function() {
+    // Auto-update time estimates when date changes and a city is selected
+    const city = getCityData();
+    if (city && this.value) {
+        const date = new Date(this.value + 'T12:00:00+08:00');
+        const times = calcSunTimes(city.lat, city.lng, date, 480);
+        if (times) {
+            $('riseInput').value = minsToStr(times.sunrise);
+            $('setInput').value = minsToStr(times.sunset);
+        }
+    }
+});
+
+/* ═══════════════════════════════
+   INIT
+   ═══════════════════════════════ */
+
+populateCities();
+initDateInput();
+renderMagicGrid();
+
+// Auto-calculate on load
+setTimeout(() => {
+    // Default to Beijing
+    $('citySelect').selectedIndex = 1; // Beijing
+    $('citySelect').dispatchEvent(new Event('change'));
+    runCalc();
+}, 100);
+
+// Real-time refresh every 10 seconds
+setInterval(refreshCurrent, 10000);
+
+// Also refresh the clock display
+setInterval(() => {
+    if (lastCurrent) {
+        const now = new Date();
+        $('curRefresh').textContent = '更新于 ' +
+            String(now.getHours()).padStart(2,'0') + ':' +
+            String(now.getMinutes()).padStart(2,'0') + ':' +
+            String(now.getSeconds()).padStart(2,'0');
+    }
+}, 1000);
+
+})();
+</script>
+</body>
+</html>

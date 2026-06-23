@@ -129,11 +129,6 @@ body {
   animation: heroShimmer 8s ease-in-out infinite alternate;
 }
 
-@keyframes heroShimmer {
-  0% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.02); }
-  100% { opacity: 0.7; transform: scale(1.01); }
-}
 
 /* 龙鳞 SVG 图案背景 */
 .hero::after {
@@ -146,11 +141,6 @@ body {
   animation: scalePattern 20s linear infinite;
 }
 
-@keyframes scalePattern {
-  0% { background-size: 60px 60px; }
-  50% { background-size: 65px 65px; }
-  100% { background-size: 60px 60px; }
-}
 
 .hero-content {
   position: relative;
@@ -169,10 +159,6 @@ body {
   margin-bottom: 1rem;
 }
 
-@keyframes titleGlow {
-  0% { text-shadow: 0 0 40px rgba(212, 168, 67, 0.3), 0 0 80px rgba(196, 30, 58, 0.15); }
-  100% { text-shadow: 0 0 60px rgba(212, 168, 67, 0.5), 0 0 120px rgba(196, 30, 58, 0.25); }
-}
 
 .hero-subtitle {
   font-size: clamp(1rem, 2.5vw, 1.4rem);
@@ -197,10 +183,6 @@ body {
   animation: dividerPulse 3s ease-in-out infinite;
 }
 
-@keyframes dividerPulse {
-  0%, 100% { width: 120px; opacity: 0.6; }
-  50% { width: 180px; opacity: 1; }
-}
 
 .hero-scroll-hint {
   position: absolute;
@@ -223,10 +205,6 @@ body {
   margin: 0.5rem auto 0;
 }
 
-@keyframes scrollBounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
 
 /* ====== 主内容区域 ====== */
 .main-content {
@@ -235,28 +213,18 @@ body {
   padding: 4rem 2rem 6rem;
 }
 
-/* ====== 章节样式 ====== */
+/* ====== 章节样式 - 内容始终可见 ====== */
 .intro-section,
-.chapter-section {
-  margin-bottom: 4rem;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-/* 仅在用户未关闭动画偏好时启用淡入效果 */
-@media (prefers-reduced-motion: no-preference) {
-  .intro-section,
-  .chapter-section {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  
-  .intro-section.visible,
-  .chapter-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.chapter-section,
+.intro-section p, .intro-section h2, .intro-section h3,
+.chapter-section p, .chapter-section h2, .chapter-section h3,
+.chapter-section .subheading, .chapter-section .section-title,
+.chapter-section .sigil-figure, .chapter-section .heads-table-wrapper {
+  margin-bottom: 1.4rem;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
 }
 
 .section-title {
@@ -268,6 +236,8 @@ body {
   letter-spacing: 0.1em;
   position: relative;
   padding-bottom: 1rem;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .section-title::after {
@@ -504,24 +474,6 @@ body::before {
   position: relative;
 }
 
-@keyframes titlePulse {
-  0% {
-    text-shadow:
-      0 0 20px rgba(212, 168, 67, 0.4),
-      0 0 40px rgba(212, 168, 67, 0.3),
-      0 0 80px rgba(196, 30, 58, 0.2),
-      0 0 120px rgba(196, 30, 58, 0.1);
-    transform: scale(1);
-  }
-  100% {
-    text-shadow:
-      0 0 30px rgba(212, 168, 67, 0.6),
-      0 0 60px rgba(212, 168, 67, 0.4),
-      0 0 120px rgba(196, 30, 58, 0.3),
-      0 0 180px rgba(196, 30, 58, 0.15);
-    transform: scale(1.02);
-  }
-}
 
 /* Scroll indicator */
 .scroll-indicator {
@@ -548,10 +500,6 @@ body::before {
   fill: none;
 }
 
-@keyframes scrollBounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
-  50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
-}
 
 /* Enhanced chapter title with gradient border */
 .section-title {
@@ -678,108 +626,16 @@ body::before {
   transform: translateY(0);
 }
 
-/* Unique chapter animations */
-.chapter-section[data-animate="scorpion"].visible {
-  animation: scorpionEnter 1s ease forwards;
-}
+/* Chapter animations removed */
 
-.chapter-section[data-animate="thunder"].visible {
-  animation: thunderEnter 0.8s ease forwards;
-}
-
-.chapter-section[data-animate="hyena"].visible {
-  animation: hyenaEnter 1s ease forwards;
-}
-
-.chapter-section[data-animate="snake"].visible {
-  animation: snakeEnter 1.2s ease forwards;
-}
-
-.chapter-section[data-animate="lion"].visible {
-  animation: lionEnter 1s ease forwards;
-}
-
-.chapter-section[data-animate="giant"].visible {
-  animation: giantEnter 1s ease forwards;
-}
-
-.chapter-section[data-animate="typhon"].visible {
-  animation: typhonEnter 1.2s ease forwards;
-}
-
-@keyframes scorpionEnter {
-  from { opacity: 0; transform: translateX(-60px) rotate(-2deg); }
-  to { opacity: 1; transform: translateX(0) rotate(0); }
-}
-
-@keyframes thunderEnter {
-  from { opacity: 0; transform: scale(0.85); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes hyenaEnter {
-  from { opacity: 0; transform: translateX(60px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes snakeEnter {
-  from { opacity: 0; transform: translateY(80px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes lionEnter {
-  from { opacity: 0; filter: blur(10px); text-shadow: 0 0 60px rgba(196, 30, 58, 0.8); }
-  to { opacity: 1; filter: blur(0); text-shadow: none; }
-}
-
-@keyframes giantEnter {
-  from { opacity: 0; transform: perspective(1000px) rotateY(-15deg) translateX(-40px); }
-  to { opacity: 1; transform: perspective(1000px) rotateY(0) translateX(0); }
-}
-
-@keyframes typhonEnter {
-  0% { opacity: 0; transform: translateX(-10px); }
-  20% { opacity: 0.5; transform: translateX(10px); }
-  40% { opacity: 0.7; transform: translateX(-5px); }
-  60% { opacity: 0.8; transform: translateX(5px); }
-  100% { opacity: 1; transform: translateX(0); }
-}
 
 /* Stagger children within sections */
-.chapter-section.visible h2 { animation: staggerIn 0.6s 0.1s ease both; }
-.chapter-section.visible h3:nth-of-type(1) { animation: staggerIn 0.6s 0.2s ease both; }
-.chapter-section.visible h3:nth-of-type(2) { animation: staggerIn 0.6s 0.3s ease both; }
-.chapter-section.visible h3:nth-of-type(3) { animation: staggerIn 0.6s 0.4s ease both; }
-.chapter-section.visible p:nth-of-type(1) { animation: staggerIn 0.6s 0.3s ease both; }
-.chapter-section.visible p:nth-of-type(2) { animation: staggerIn 0.6s 0.4s ease both; }
-.chapter-section.visible p:nth-of-type(3) { animation: staggerIn 0.6s 0.5s ease both; }
-.chapter-section.visible p:nth-of-type(4) { animation: staggerIn 0.6s 0.6s ease both; }
 
-@keyframes staggerIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Enhanced separator with draw animation */
-.dragon-separator {
-  opacity: 0;
-  transform: scaleX(0.8);
-  transition: opacity 1s ease, transform 1s ease;
-}
-
-.dragon-separator.visible {
-  opacity: 1;
-  transform: scaleX(1);
-}
 
 .dragon-separator.visible .separator-svg path {
   animation: drawPath 2s ease forwards;
 }
 
-@keyframes drawPath {
-  from { stroke-dashoffset: 800; }
-  to { stroke-dashoffset: 0; }
-}
 
 /* Floating TOC Sidebar */
 .toc-sidebar {
@@ -1138,10 +994,7 @@ html {
 }
 
 /* ====== 思维导图动画 ====== */
-@keyframes pulseNode {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
-}
+
 
 .mindmap-node.highlight circle {
   animation: pulseNode 2s ease-in-out infinite;
@@ -1172,12 +1025,6 @@ html {
   animation: particleFloat 15s infinite;
 }
 
-@keyframes particleFloat {
-  0% { opacity: 0; transform: translateY(100vh) scale(0); }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.6; }
-  100% { opacity: 0; transform: translateY(-100vh) scale(1); }
-}
 
 /* 龙鳞纹理背景 */
 .dragon-scale-bg {
@@ -1191,12 +1038,6 @@ html {
   animation: bgShift 20s ease-in-out infinite alternate;
 }
 
-@keyframes bgShift {
-  0% { transform: translateX(0) translateY(0); }
-  33% { transform: translateX(10px) translateY(-5px); }
-  66% { transform: translateX(-5px) translateY(10px); }
-  100% { transform: translateX(5px) translateY(-10px); }
-}
 
 /* 文字发光效果 */
 .glow-text {
@@ -1228,11 +1069,6 @@ html {
   opacity: 1;
 }
 
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
 
 /* 磁性悬停效果 */
 .magnetic-hover {
@@ -1251,10 +1087,6 @@ html {
   animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
 
 @keyframes blink-caret {
   from, to { border-color: transparent; }
@@ -1294,11 +1126,6 @@ html {
   animation: wave 2s ease-in-out infinite;
 }
 
-@keyframes wave {
-  0%, 100% { transform: translateY(0); }
-  25% { transform: translateY(-5px); }
-  75% { transform: translateY(5px); }
-}
 
 /* 旋转光环 */
 .aura-ring {
@@ -1316,106 +1143,58 @@ html {
   animation: auraSpin 4s linear infinite;
 }
 
-@keyframes auraSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
 /* 呼吸发光效果 */
 .breathing-glow {
   animation: breathe 4s ease-in-out infinite;
 }
 
-@keyframes breathe {
-  0%, 100% { 
-    box-shadow: 0 0 20px rgba(196, 30, 58, 0.2), 0 0 40px rgba(212, 168, 67, 0.1);
-  }
-  50% { 
-    box-shadow: 0 0 30px rgba(196, 30, 58, 0.4), 0 0 60px rgba(212, 168, 67, 0.2);
-  }
-}
 
 /* 抖动效果 */
 .shake {
   animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
 
-@keyframes shake {
-  10%, 90% { transform: translate3d(-1px, 0, 0); }
-  20%, 80% { transform: translate3d(2px, 0, 0); }
-  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-  40%, 60% { transform: translate3d(4px, 0, 0); }
-}
 
 /* 弹性进入效果 */
 .bounce-in {
   animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-@keyframes bounceIn {
-  0% { opacity: 0; transform: scale(0.3); }
-  50% { opacity: 1; transform: scale(1.05); }
-  70% { transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1); }
-}
 
 /* 滑动进入效果 */
 .slide-in-left {
   animation: slideInLeft 0.6s ease-out;
 }
 
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-100px); }
-  to { opacity: 1; transform: translateX(0); }
-}
 
 .slide-in-right {
   animation: slideInRight 0.6s ease-out;
 }
 
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(100px); }
-  to { opacity: 1; transform: translateX(0); }
-}
 
 .slide-in-up {
   animation: slideInUp 0.6s ease-out;
 }
 
-@keyframes slideInUp {
-  from { opacity: 0; transform: translateY(50px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 /* 模糊进入效果 */
 .blur-in {
   animation: blurIn 0.8s ease-out;
 }
 
-@keyframes blurIn {
-  from { opacity: 0; filter: blur(10px); }
-  to { opacity: 1; filter: blur(0); }
-}
 
 /* 旋转进入效果 */
 .rotate-in {
   animation: rotateIn 0.8s ease-out;
 }
 
-@keyframes rotateIn {
-  from { opacity: 0; transform: rotate(-180deg) scale(0.5); }
-  to { opacity: 1; transform: rotate(0) scale(1); }
-}
 
 /* 缩放进入效果 */
 .zoom-in {
   animation: zoomIn 0.5s ease-out;
 }
 
-@keyframes zoomIn {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 1; transform: scale(1); }
-}
 
 /* 渐变文字效果 */
 .gradient-text {
@@ -1427,11 +1206,6 @@ html {
   animation: gradientText 3s ease infinite;
 }
 
-@keyframes gradientText {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
 
 /* 霓虹灯效果 */
 .neon {
@@ -1512,41 +1286,24 @@ html {
   animation: float 6s ease-in-out infinite;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
-}
 
 /* 脉冲缩放 */
 .pulse-scale {
   animation: pulseScale 2s ease-in-out infinite;
 }
 
-@keyframes pulseScale {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
 
 /* 摇摆动画 */
 .swing {
   animation: swing 2s ease-in-out infinite;
 }
 
-@keyframes swing {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(5deg); }
-  75% { transform: rotate(-5deg); }
-}
 
 /* 闪烁效果 */
 .twinkle {
   animation: twinkle 2s ease-in-out infinite;
 }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
 
 /* 涟漪效果 */
 .ripple {
@@ -1593,48 +1350,18 @@ html {
 }
 
 /* 滚动触发动画 */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s ease;
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-50px);
-  transition: all 0.8s ease;
-}
-
-.reveal-left.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-right {
-  opacity: 0;
-  transform: translateX(50px);
-  transition: all 0.8s ease;
-}
-
-.reveal-right.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
+.reveal,
+.reveal-left,
+.reveal-right,
 .reveal-scale {
-  opacity: 0;
-  transform: scale(0.8);
   transition: all 0.8s ease;
 }
 
+.reveal.active,
+.reveal-left.active,
+.reveal-right.active,
 .reveal-scale.active {
-  opacity: 1;
-  transform: scale(1);
+  /* 由JS触发，但内容始终可见 */
 }
 
 /* 鼠标跟随效果 */
@@ -1701,10 +1428,6 @@ html {
   animation: borderGlow 2s ease infinite;
 }
 
-@keyframes borderGlow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
 
 /* 进度环 */
 .progress-ring {
@@ -1994,10 +1717,7 @@ html {
 }
 
 /* ====== 思维导图动画 ====== */
-@keyframes pulseNode {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
-}
+
 
 .mindmap-node.highlight circle {
   animation: pulseNode 2s ease-in-out infinite;
@@ -2056,6 +1776,18 @@ html {
   <a href="liuren-simulator.html" class="site-link-btn">
     <span class="icon">☯</span> 大六壬模拟器
   </a>
+  <a href="planetary-hours.html" class="site-link-btn">
+    <span class="icon">🪐</span> 行星时计算
+  </a>
+  <a href="goetia-demons.html" class="site-link-btn">
+    <span class="icon">👹</span> 七十二魔神
+  </a>
+  <a href="astrology-hub.html" class="site-link-btn">
+    <span class="icon">✦</span> 天文星象
+  </a>
+  <a href="lhp-test.html" class="site-link-btn">
+    <span class="icon">🔮</span> 魔法测试
+  </a>
 </div>
 
 <main class="main-content">
@@ -2089,7 +1821,7 @@ html {
   </svg>
 </div>
 
-<section class="chapter-section" id="ch1" data-animate="scorpion">
+<section class="chapter-section" id="ch1">
   <h2 class="section-title">第一章</h2>
   <h3 class="subheading">毒蛇的踪迹</h3>
   <h3 class="subheading">什么是龙之魔法？</h3>
@@ -2197,7 +1929,7 @@ html {
   </svg>
 </div>
 
-<section class="chapter-section" id="ch2" data-animate="thunder">
+<section class="chapter-section" id="ch2">
   <h2 class="section-title">第二章</h2>
   <h3 class="subheading">古龙之七首</h3>
   <h3 class="subheading">阿佩普工作</h3>
@@ -2607,7 +2339,7 @@ html {
   </svg>
 </div>
 
-<section class="chapter-section" id="ch3" data-animate="hyena">
+<section class="chapter-section" id="ch3">
   <h2 class="section-title">第三章</h2>
   <h3 class="subheading">第一首的工作</h3>
   <p>第一首，蝎子首的工作，侧重于入门者与物理世界、人类身体的交互界面。这项工作可以分为四个主要类别：(i) 姿势和呼吸；(ii) 运动；(iii) 磨砺感官；(iv) 定义并最终扩展身体极限。是我们的意识使我们成为能够施法的人，但我们所拥有的最强大的魔法工具是我们自己的血肉和骨骼。</p>
@@ -2724,7 +2456,7 @@ html {
   </svg>
 </div>
 
-<section class="chapter-section" id="ch4" data-animate="snake">
+<section class="chapter-section" id="ch4">
   <h2 class="section-title">第四章</h2>
   <h3 class="subheading">第二首的工作</h3>
   <p>在上一章中，我们将注意力集中在与龙之第一首相关的实践上，即对物理身体的控制和发展，以及对血肉和骨骼作为内在魔法的实现。事实上，肉体是左手路径的根基，所有其他一切都必须立足于它。就像罗伯特·霍尔德斯托克《梅林之木》中的梅林一样，我们的如尼文必须刻在我们的骨头上。</p>
@@ -2903,7 +2635,7 @@ html {
   </svg>
 </div>
 
-<section class="chapter-section" id="ch5" data-animate="lion">
+<section class="chapter-section" id="ch5">
   <h2 class="section-title">第五章</h2>
   <h3 class="subheading">第三首的工作</h3>
   <p>在本章中，我们探讨远古巨蛇第三首的工作，即鬣狗、豹或豺狼：血之兽。在这里，我们探索透视能力及其发展方法；它们的用途和局限性。我们探索星体旅行和灵视、清醒梦和个人梦境地图绘制等相关现象。我们探索同步性理论及其对透视、占卜实践和预兆解读的影响。</p>
@@ -3053,7 +2785,7 @@ html {
   </svg>
 </div>
 
-<section class="chapter-section" id="ch6" data-animate="giant">
+<section class="chapter-section" id="ch6">
   <h2 class="section-title">第六章</h2>
   <h3 class="subheading">第四首的工作</h3>
   <p>第四首的工作主要有三个部分。第一个是理解龙之眼及其开启的方式。第二个是理解守护神，即个人的守护神祇。第三个是看到居于第七首中的大步行走之神的幻象。</p>
@@ -3338,7 +3070,7 @@ html {
   </svg>
 </div>
 
-<section class="chapter-section" id="ch7" data-animate="typhon">
+<section class="chapter-section" id="ch7">
   <h2 class="section-title">第七章</h2>
   <h3 class="subheading">第五首的工作</h3>
   <p>在第四首的工作中，入门者学会通过利维坦之眼观看，从远处感知一切。他变得与他的守护神协调，并被唤醒到更大的模式，这些模式转动着世俗事件和他自己生活的轮子。他实现了伟大智慧的潜力，并获得了平衡和超然的视角，使他能够对他所看到的模式进行有效的调整。</p>
@@ -3495,7 +3227,7 @@ html {
   </svg>
 </div>
 
-<section class="chapter-section" id="ch8" data-animate="fade">
+<section class="chapter-section" id="ch8">
   <h2 class="section-title">第八章</h2>
   <h3 class="subheading">第六首的工作</h3>
   <p>通过第六首，我们达到了一个有趣且激动人心的里程碑，因为第五首是我个人还声称自己掌握的最后一个头颅。在撰写本文时，我仍在探索第六首的哲学和实践，以用于我自己的工作。当理解了那项工作的性质时，这不会令人惊讶。也不是写接下来两章的障碍。任何完成了第四首工作并成功地看到了蛇之眼的人，已经在他自己的灵魂中知道还有什么工作要做。他们也会意识到，无论他们活多久，他们永远无法在这一生中完成那项工作。从第四首开始，所有工作都涉及为未来的再显化建立矩阵，第六首的时间工作对这一理解有很大贡献。</p>
@@ -3611,7 +3343,7 @@ html {
   </svg>
 </div>
 
-<section class="chapter-section" id="ch9" data-animate="dramatic">
+<section class="chapter-section" id="ch9">
   <h2 class="section-title">第九章</h2>
   <h3 class="subheading">第七首的工作</h3>
   <p>阿佩普的第七首是提丰，致命之风天使。提丰是一个在希腊-埃及魔法中经常被召唤的怪物或魔鬼，并与塞特直接等同。在其他 words 中，第七首的工作是在塞特神殿内被称为&quot;塞特蜕变&quot;的过程，将自我转变为一个与黑暗领主本人不相上下的实体。</p>
@@ -3758,19 +3490,22 @@ html {
   updateProgress();
 })();
 
-// ====== 滚动触发淡入动画 ======
+// ====== 滚动触发动画 ======
 (function() {
+  // 立即让所有内容可见
   var sections = document.querySelectorAll('.intro-section, .chapter-section, .dragon-separator');
+  sections.forEach(function(sec) {
+    sec.classList.add('visible');
+  });
+  
+  // 用IntersectionObserver做渐进动画（不影响可见性）
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+        entry.target.classList.add('in-view');
       }
     });
-  }, {
-    threshold: 0.05,
-    rootMargin: '0px 0px -50px 0px'
-  });
+  }, { threshold: 0.05 });
 
   sections.forEach(function(sec) {
     observer.observe(sec);
@@ -3895,25 +3630,6 @@ document.addEventListener('mousemove', function(e) {
   document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
 });
 
-// 滚动触发动画
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-    }
-  });
-}, observerOptions);
-
-// 观察所有需要动画的元素
-document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
-  revealObserver.observe(el);
-});
-
 // 导航栏滚动效果
 let lastScroll = 0;
 const navBar = document.getElementById('navBar');
@@ -4026,23 +3742,7 @@ document.querySelectorAll('.ripple').forEach(el => {
 // 添加涟漪动画样式
 const rippleStyle = document.createElement('style');
 rippleStyle.textContent = `
-  @keyframes rippleEffect {
-    to {
-      width: 200px;
-      height: 200px;
-      opacity: 0;
-    }
-  }
-`;
-document.head.appendChild(rippleStyle);
-
-// 页面加载完成后的初始化
-document.addEventListener('DOMContentLoaded', function() {
-  // 添加页面加载动画
-  document.body.classList.add('loaded');
-  
-  // 章节已通过 IntersectionObserver 做渐入动画，此处不再重复添加
-});
+  );
 
 // 性能优化：使用 requestAnimationFrame
 let ticking = false;
