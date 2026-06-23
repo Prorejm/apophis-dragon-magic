@@ -4,22 +4,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>中国星象天文知识枢轴 | 阿波菲斯之龙</title>
-<meta name="description" content="中国古典星象与天文知识交互中心 — 二十八宿、五星聚、步天歌、历法计算">
+<title>中国古代天文星占 | 阿波菲斯之龙</title>
+<meta name="description" content="中国古代天文星占交互知识枢纽 — 二十八宿、五星占、三垣星官、史志天文、乙巳占、岁差历法、灵台秘苑、典籍原文">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a1a;
-  --bg2: #111128;
-  --bg3: #1a1a3a;
+  --bg: #0a0a0a;
+  --bg2: #111116;
+  --bg3: #1a1a22;
   --ink: #e8e0d4;
-  --muted: #8a7e9e;
+  --muted: #8a7e8e;
   --gold: #d4a843;
   --gold-dim: #a07830;
   --gold-bright: #f0d060;
   --star: #c8c8e8;
+  --crimson: #c41e3a;
+  --crimson-dim: #8a1528;
   --cyan: #5bc0de;
   --red: #c0392b;
   --green: #27ae60;
@@ -28,691 +30,259 @@
   --font: 'Noto Serif SC', 'Songti SC', serif;
   --font-display: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
 }
-
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-html { scroll-behavior: smooth; font-size: 16px; }
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.8;
-  overflow-x: hidden;
-  min-height: 100vh;
-}
-
-/* Star Particles Canvas */
-#stars-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Background nebula */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background:
-    radial-gradient(ellipse at 15% 30%, rgba(60, 20, 80, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 20%, rgba(20, 40, 100, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(80, 40, 20, 0.06) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Global container */
-.page-wrap {
-  position: relative;
-  z-index: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* ===== Navigation ===== */
-.nav-bar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px;
-  margin-bottom: 30px;
-  background: linear-gradient(135deg, rgba(10,10,26,0.95), rgba(17,17,40,0.9));
-  border: 1px solid rgba(212,168,67,0.2);
-  border-radius: 8px;
-  position: relative;
-}
-
-.nav-bar::after {
-  content: '';
-  position: absolute;
-  bottom: -1px; left: 10%;
-  width: 80%; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
-.nav-title {
-  font-family: var(--font-display);
-  font-size: 22px;
-  color: var(--gold);
-  text-shadow: 0 0 20px rgba(212,168,67,0.3);
-  white-space: nowrap;
-}
-
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 13px;
-  padding: 4px 10px;
-  border-radius: 4px;
-  transition: all 0.3s;
-  border: 1px solid transparent;
-}
-
-.nav-links a:hover {
-  color: var(--gold);
-  border-color: rgba(212,168,67,0.3);
-  background: rgba(212,168,67,0.08);
-}
-
-.nav-links a.active {
-  color: var(--gold);
-  border-color: rgba(212,168,67,0.4);
-  background: rgba(212,168,67,0.12);
-}
-
-/* ===== Hero Section ===== */
-.hero {
-  text-align: center;
-  padding: 60px 20px 40px;
-  margin-bottom: 40px;
-  position: relative;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 15%;
-  width: 70%; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 15%;
-  width: 70%; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
-.hero-title {
-  font-family: var(--font-display);
-  font-size: 48px;
-  color: var(--gold);
-  text-shadow: 0 0 40px rgba(212,168,67,0.2), 0 2px 4px rgba(0,0,0,0.5);
-  margin-bottom: 10px;
-  letter-spacing: 12px;
-}
-
-.hero-sub {
-  font-size: 16px;
-  color: var(--muted);
-  letter-spacing: 6px;
-}
-
-.hero-desc {
-  max-width: 700px;
-  margin: 20px auto 0;
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 2;
-}
-
-/* ===== Section Common ===== */
-.section {
-  background: linear-gradient(135deg, rgba(17,17,40,0.85), rgba(26,26,58,0.7));
-  border: 1px solid rgba(212,168,67,0.15);
-  border-radius: 12px;
-  padding: 30px;
-  margin-bottom: 40px;
-  backdrop-filter: blur(4px);
-  position: relative;
-  overflow: hidden;
-}
-
-.section::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
-}
-
-.section-title {
-  font-family: var(--font-display);
-  font-size: 28px;
-  color: var(--gold);
-  text-align: center;
-  margin-bottom: 8px;
-  letter-spacing: 6px;
-}
-
-.section-subtitle {
-  text-align: center;
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 25px;
-  letter-spacing: 2px;
-}
-
-/* ===== 28 Mansions SVG ===== */
-.mansions-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-#mansion-svg {
-  width: 100%;
-  max-width: 750px;
-  height: auto;
-}
-
-.direction-legend {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  margin: 10px 0;
-}
-
-.direction-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-}
-
-.direction-dot {
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-/* Mansion detail panel */
-.mansion-detail {
-  background: rgba(10,10,30,0.9);
-  border: 1px solid var(--gold-dim);
-  border-radius: 8px;
-  padding: 20px;
-  margin-top: 10px;
-  display: none;
-  max-width: 550px;
-  width: 100%;
-}
-
-.mansion-detail.visible {
-  display: block;
-  animation: fadeSlideIn 0.4s ease;
-}
-
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.mansion-detail h3 {
-  font-family: var(--font-display);
-  font-size: 22px;
-  color: var(--gold-bright);
-  margin-bottom: 8px;
-}
-
-.mansion-detail .prop {
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.mansion-detail .prop span {
-  color: var(--gold-dim);
-}
-
-/* ===== Five Planets Section ===== */
-.planets-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-}
-
-@media (max-width: 800px) {
-  .planets-grid { grid-template-columns: 1fr; }
-}
-
-.planet-card {
-  background: rgba(10,10,30,0.6);
-  border: 1px solid rgba(212,168,67,0.12);
-  border-radius: 8px;
-  padding: 20px;
-}
-
-.planet-card h3 {
-  font-family: var(--font-display);
-  font-size: 20px;
-  color: var(--gold);
-  margin-bottom: 12px;
-  text-align: center;
-  letter-spacing: 3px;
-}
-
-.conjunction-timeline {
-  max-height: 350px;
-  overflow-y: auto;
-  padding-right: 8px;
-}
-
-.conjunction-timeline::-webkit-scrollbar {
-  width: 4px;
-}
-
-.conjunction-timeline::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.05);
-  border-radius: 2px;
-}
-
-.conjunction-timeline::-webkit-scrollbar-thumb {
-  background: var(--gold-dim);
-  border-radius: 2px;
-}
-
-.timeline-item {
-  display: flex;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.timeline-item:hover {
-  background: rgba(212,168,67,0.06);
-}
-
-.timeline-year {
-  font-family: var(--font-display);
-  font-size: 16px;
-  color: var(--gold);
-  min-width: 60px;
-  font-weight: 700;
-}
-
-.timeline-desc {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.timeline-detail {
-  font-size: 12px;
-  color: var(--star);
-  margin-top: 4px;
-  font-style: italic;
-}
-
-/* Five Elements Cycle */
-.wuxing-cycle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-}
-
-.wuxing-svg {
-  width: 100%;
-  max-width: 350px;
-  height: auto;
-}
-
-.wuxing-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-.wuxing-table th {
-  background: rgba(212,168,67,0.15);
-  color: var(--gold);
-  padding: 8px 10px;
-  text-align: center;
-  font-family: var(--font-display);
-  font-size: 14px;
-  letter-spacing: 2px;
-}
-
-.wuxing-table td {
-  padding: 7px 10px;
-  text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  color: var(--muted);
-}
-
-.wuxing-table tr:hover td {
-  background: rgba(212,168,67,0.05);
-  color: var(--ink);
-}
-
-/* ===== Sky Pacing Star Map ===== */
-.skymap-container {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.skymap-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 120px;
-}
-
-.skymap-btn {
-  background: rgba(10,10,30,0.6);
-  border: 1px solid rgba(212,168,67,0.15);
-  color: var(--muted);
-  padding: 10px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: var(--font);
-  font-size: 14px;
-  transition: all 0.3s;
-  text-align: center;
-}
-
-.skymap-btn:hover {
-  border-color: var(--gold-dim);
-  color: var(--gold);
-  background: rgba(212,168,67,0.08);
-}
-
-.skymap-btn.active {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: rgba(212,168,67,0.15);
-}
-
-.skymap-view {
-  flex: 1;
-  min-width: 300px;
-}
-
-#skymap-svg {
-  width: 100%;
-  max-width: 700px;
-  height: auto;
-}
-
-.skymap-info {
-  background: rgba(10,10,30,0.6);
-  border: 1px solid rgba(212,168,67,0.1);
-  border-radius: 6px;
-  padding: 16px;
-  margin-top: 12px;
-  font-size: 13px;
-  line-height: 1.8;
-  min-height: 60px;
-}
-
-.skymap-info h4 {
-  font-family: var(--font-display);
-  font-size: 18px;
-  color: var(--gold-bright);
-  margin-bottom: 6px;
-}
-
-/* ===== Calendar Calculator ===== */
-.calendar-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-}
-
-@media (max-width: 800px) {
-  .calendar-grid { grid-template-columns: 1fr; }
-}
-
-.calendar-card {
-  background: rgba(10,10,30,0.6);
-  border: 1px solid rgba(212,168,67,0.12);
-  border-radius: 8px;
-  padding: 20px;
-}
-
-.calendar-card h3 {
-  font-family: var(--font-display);
-  font-size: 18px;
-  color: var(--gold);
-  margin-bottom: 15px;
-  text-align: center;
-  letter-spacing: 2px;
-}
-
-.calc-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 15px;
-}
-
-.calc-form input {
-  background: rgba(10,10,30,0.8);
-  border: 1px solid rgba(212,168,67,0.2);
-  border-radius: 4px;
-  padding: 8px 12px;
-  color: var(--ink);
-  font-family: var(--font);
-  font-size: 14px;
-  width: 120px;
-  text-align: center;
-}
-
-.calc-form input:focus {
-  outline: none;
-  border-color: var(--gold);
-}
-
-.calc-form button {
-  background: linear-gradient(135deg, rgba(212,168,67,0.2), rgba(160,120,48,0.2));
-  border: 1px solid var(--gold-dim);
-  color: var(--gold);
-  padding: 8px 18px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: var(--font);
-  font-size: 14px;
-  transition: all 0.3s;
-}
-
-.calc-form button:hover {
-  background: linear-gradient(135deg, rgba(212,168,67,0.3), rgba(160,120,48,0.3));
-  box-shadow: 0 0 15px rgba(212,168,67,0.15);
-}
-
-.calc-result {
-  background: rgba(10,10,30,0.5);
-  border: 1px solid rgba(212,168,67,0.1);
-  border-radius: 6px;
-  padding: 12px 16px;
-  font-size: 14px;
-  line-height: 2;
-  min-height: 50px;
-}
-
-.calc-result .highlight {
-  color: var(--gold-bright);
-  font-weight: 700;
-}
-
-/* Solar terms list */
-.solar-terms-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin-top: 12px;
-}
-
-@media (max-width: 600px) {
-  .solar-terms-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-.term-item {
-  background: rgba(10,10,30,0.4);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 4px;
-  padding: 6px 8px;
-  text-align: center;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.term-item:hover {
-  border-color: var(--gold-dim);
-  background: rgba(212,168,67,0.06);
-}
-
-.term-item .term-name {
-  color: var(--star);
-  font-weight: 600;
-}
-
-.term-item .term-date {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.term-item.current {
-  border-color: var(--gold);
-  background: rgba(212,168,67,0.1);
-}
-
-/* Eight Trigrams */
-.trigram-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 12px;
-}
-
-@media (max-width: 500px) {
-  .trigram-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-.trigram-item {
-  background: rgba(10,10,30,0.4);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 6px;
-  padding: 12px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.trigram-item:hover {
-  border-color: var(--gold-dim);
-  background: rgba(212,168,67,0.08);
-}
-
-.trigram-item .trigram-glyph {
-  font-size: 28px;
-  color: var(--gold);
-  display: block;
-  margin-bottom: 4px;
-}
-
-.trigram-item .trigram-name {
-  font-size: 14px;
-  color: var(--star);
-  font-weight: 600;
-}
-
-.trigram-item .trigram-meaning {
-  font-size: 11px;
-  color: var(--muted);
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 600px) {
-  .hero-title { font-size: 32px; letter-spacing: 6px; }
-  .section { padding: 20px 15px; }
-  .nav-bar { flex-direction: column; gap: 10px; }
-  .nav-links { justify-content: center; }
-}
-
-/* ===== Scrollbar ===== */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-
-/* ===== Tooltip ===== */
-.tooltip {
-  position: absolute;
-  background: rgba(10,10,30,0.95);
-  border: 1px solid var(--gold-dim);
-  border-radius: 6px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: var(--ink);
-  pointer-events: none;
-  z-index: 100;
-  max-width: 220px;
-  line-height: 1.6;
-  display: none;
-}
-
-.tooltip.visible {
-  display: block;
-}
-
-/* ===== Loading Spinner ===== */
-.loading {
-  text-align: center;
-  padding: 30px;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.loading::after {
-  content: '';
-  display: inline-block;
-  width: 20px; height: 20px;
-  border: 2px solid var(--gold-dim);
-  border-top-color: var(--gold);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-left: 8px;
-  vertical-align: middle;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  font-family:var(--font);background:var(--bg);color:var(--ink);
+  line-height:1.8;overflow-x:hidden;min-height:100vh;
+}
+#stars-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+body::before{
+  content:'';position:fixed;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at 15% 30%,rgba(60,20,80,0.08) 0%,transparent 50%),
+    radial-gradient(ellipse at 85% 20%,rgba(20,40,100,0.08) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 80%,rgba(80,40,20,0.06) 0%,transparent 50%);
+  pointer-events:none;z-index:0;
+}
+.page-wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:20px;}
+
+/* Nav */
+.nav-bar{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  padding:10px 16px;margin-bottom:20px;
+  background:linear-gradient(135deg,rgba(10,10,10,0.95),rgba(17,17,22,0.9));
+  border:1px solid rgba(212,168,67,0.2);border-radius:8px;position:relative;gap:4px;
+}
+.nav-bar::after{
+  content:'';position:absolute;bottom:-1px;left:10%;
+  width:80%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.nav-title{
+  font-family:var(--font-display);font-size:20px;color:var(--gold);
+  text-shadow:0 0 20px rgba(212,168,67,0.3);margin-right:12px;
+}
+.nav-links{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;}
+.nav-links a{
+  color:var(--muted);text-decoration:none;font-size:12px;padding:3px 8px;
+  border-radius:4px;transition:all 0.3s;border:1px solid transparent;white-space:nowrap;
+}
+.nav-links a:hover{color:var(--gold);border-color:rgba(212,168,67,0.3);background:rgba(212,168,67,0.08);}
+.nav-links a.active{color:var(--gold);border-color:rgba(212,168,67,0.4);background:rgba(212,168,67,0.12);}
+
+/* Hero */
+.hero{text-align:center;padding:40px 20px 30px;margin-bottom:30px;position:relative;}
+.hero::before{content:'';position:absolute;top:0;left:15%;width:70%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.hero::after{content:'';position:absolute;bottom:0;left:15%;width:70%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.hero-title{
+  font-family:var(--font-display);font-size:44px;color:var(--gold);
+  text-shadow:0 0 40px rgba(212,168,67,0.2),0 2px 4px rgba(0,0,0,0.5);
+  margin-bottom:8px;letter-spacing:10px;
+}
+.hero-sub{font-size:15px;color:var(--muted);letter-spacing:6px;}
+.hero-desc{max-width:700px;margin:16px auto 0;font-size:13px;color:var(--muted);line-height:2;}
+
+/* Tabs */
+.tab-bar{
+  display:flex;flex-wrap:wrap;gap:4px;justify-content:center;
+  padding:12px 16px;margin-bottom:30px;
+  background:linear-gradient(135deg,rgba(17,17,22,0.85),rgba(26,26,34,0.7));
+  border:1px solid rgba(212,168,67,0.12);border-radius:8px;position:relative;
+}
+.tab-btn{
+  background:rgba(10,10,10,0.6);border:1px solid rgba(212,168,67,0.1);
+  color:var(--muted);padding:8px 14px;border-radius:6px;cursor:pointer;
+  font-family:var(--font-display);font-size:14px;letter-spacing:1px;
+  transition:all 0.3s;text-align:center;white-space:nowrap;
+}
+.tab-btn:hover{border-color:var(--gold-dim);color:var(--gold);background:rgba(212,168,67,0.08);}
+.tab-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(212,168,67,0.15);box-shadow:0 0 15px rgba(212,168,67,0.08);}
+
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadeIn 0.5s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Section common */
+.section{
+  background:linear-gradient(135deg,rgba(17,17,22,0.85),rgba(26,26,34,0.7));
+  border:1px solid rgba(212,168,67,0.12);border-radius:12px;
+  padding:28px;margin-bottom:30px;backdrop-filter:blur(4px);position:relative;overflow:hidden;
+}
+.section::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),var(--gold),var(--gold-dim),transparent);
+}
+.section-title{
+  font-family:var(--font-display);font-size:28px;color:var(--gold);
+  text-align:center;margin-bottom:4px;letter-spacing:6px;
+}
+.section-subtitle{text-align:center;font-size:13px;color:var(--muted);margin-bottom:20px;letter-spacing:2px;}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--gold);}
+
+/* ===== TAB 1: 28 Mansions ===== */
+.mansions-container{display:flex;flex-direction:column;align-items:center;gap:16px;}
+#mansion-canvas{width:100%;max-width:700px;height:auto;cursor:pointer;border-radius:8px;}
+.direction-legend{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin:6px 0;}
+.direction-item{display:flex;align-items:center;gap:6px;font-size:13px;}
+.direction-dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);}
+.mansion-detail{
+  background:rgba(10,10,20,0.95);border:1px solid var(--gold-dim);border-radius:8px;
+  padding:18px;margin-top:8px;display:none;max-width:600px;width:100%;
+}
+.mansion-detail.visible{display:block;animation:fadeSlideIn 0.4s ease;}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.mansion-detail h3{font-family:var(--font-display);font-size:22px;color:var(--gold-bright);margin-bottom:6px;}
+.mansion-detail .prop{font-size:13px;margin-bottom:3px;}
+.mansion-detail .prop span{color:var(--gold-dim);}
+.mansion-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:16px;}
+.mansion-table th{background:rgba(212,168,67,0.12);color:var(--gold);padding:7px 8px;text-align:center;font-family:var(--font-display);font-size:13px;letter-spacing:1px;border-bottom:1px solid rgba(212,168,67,0.15);}
+.mansion-table td{padding:6px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--muted);transition:all 0.3s;}
+.mansion-table tr:hover td{background:rgba(212,168,67,0.05);color:var(--ink);}
+.mansion-table tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+.mansion-table .dir-qinglong td:first-child{color:#2ecc71;}
+.mansion-table .dir-zhuque td:first-child{color:#e74c3c;}
+.mansion-table .dir-baihu td:first-child{color:#e67e22;}
+.mansion-table .dir-xuanwu td:first-child{color:#3498db;}
+
+/* ===== TAB 2: Five Planets ===== */
+.planets-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:800px){.planets-grid{grid-template-columns:1fr;}}
+.planet-card{
+  background:rgba(10,10,20,0.6);border:1px solid rgba(212,168,67,0.1);
+  border-radius:8px;padding:18px;
+}
+.planet-card h3{font-family:var(--font-display);font-size:18px;color:var(--gold);margin-bottom:10px;text-align:center;letter-spacing:2px;}
+.planet-vis{text-align:center;margin:10px 0;}
+.planet-vis canvas{max-width:100%;border-radius:8px;}
+.planet-data-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.planet-data-item{background:rgba(10,10,20,0.4);border-radius:4px;padding:6px 8px;font-size:12px;text-align:center;}
+.planet-data-item .label{color:var(--muted);font-size:11px;}
+.planet-data-item .value{color:var(--gold-bright);font-weight:600;font-size:14px;}
+.planet-calc{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0;}
+.planet-calc input{background:rgba(10,10,20,0.8);border:1px solid rgba(212,168,67,0.2);border-radius:4px;padding:6px 10px;color:var(--ink);font-family:var(--font);font-size:13px;width:100px;text-align:center;}
+.planet-calc input:focus{outline:none;border-color:var(--gold);}
+.planet-calc button{background:linear-gradient(135deg,rgba(212,168,67,0.2),rgba(160,120,48,0.2));border:1px solid var(--gold-dim);color:var(--gold);padding:6px 14px;border-radius:4px;cursor:pointer;font-family:var(--font);font-size:13px;transition:all 0.3s;}
+.planet-calc button:hover{background:linear-gradient(135deg,rgba(212,168,67,0.3),rgba(160,120,48,0.3));box-shadow:0 0 12px rgba(212,168,67,0.12);}
+.planet-result{background:rgba(10,10,20,0.5);border:1px solid rgba(212,168,67,0.1);border-radius:6px;padding:10px 14px;font-size:13px;line-height:1.8;min-height:40px;}
+
+/* ===== TAB 3: Asterisms ===== */
+.enclosure-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+@media(max-width:900px){.enclosure-grid{grid-template-columns:1fr;}}
+.enclosure-card{
+  background:rgba(10,10,20,0.6);border:1px solid rgba(212,168,67,0.1);border-radius:8px;padding:16px;
+}
+.enclosure-card h3{font-family:var(--font-display);font-size:18px;color:var(--gold-bright);margin-bottom:8px;text-align:center;letter-spacing:2px;}
+.enclosure-card p{font-size:12px;color:var(--muted);margin-bottom:6px;}
+.enclosure-card ul{list-style:none;font-size:12px;color:var(--star);}
+.enclosure-card ul li{padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
+.star-count-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+.star-count-table th{background:rgba(212,168,67,0.12);color:var(--gold);padding:6px 8px;text-align:center;font-family:var(--font-display);font-size:13px;}
+.star-count-table td{padding:5px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--muted);}
+.star-count-table tr:nth-child(even) td{background:rgba(255,255,255,0.02);}
+.zodiac-compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+@media(max-width:600px){.zodiac-compare{grid-template-columns:1fr;}}
+.zodiac-item{background:rgba(10,10,20,0.4);border:1px solid rgba(255,255,255,0.04);border-radius:6px;padding:8px 12px;font-size:12px;display:flex;justify-content:space-between;}
+.zodiac-item .cn{color:var(--gold-dim);}
+.zodiac-item .en{color:var(--muted);font-style:italic;}
+.search-box{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
+.search-box input{background:rgba(10,10,20,0.8);border:1px solid rgba(212,168,67,0.2);border-radius:4px;padding:6px 12px;color:var(--ink);font-family:var(--font);font-size:13px;width:200px;}
+.search-box input:focus{outline:none;border-color:var(--gold);}
+.search-box button{background:linear-gradient(135deg,rgba(212,168,67,0.2),rgba(160,120,48,0.2));border:1px solid var(--gold-dim);color:var(--gold);padding:6px 14px;border-radius:4px;cursor:pointer;font-family:var(--font);font-size:13px;}
+.search-box button:hover{background:linear-gradient(135deg,rgba(212,168,67,0.3),rgba(160,120,48,0.3));}
+
+/* ===== TAB 4: Historical Astronomy ===== */
+.history-list{display:flex;flex-direction:column;gap:6px;}
+.history-item{
+  background:rgba(10,10,20,0.4);border:1px solid rgba(255,255,255,0.04);border-radius:6px;
+  padding:10px 14px;cursor:pointer;transition:all 0.3s;
+}
+.history-item:hover{background:rgba(212,168,67,0.06);border-color:rgba(212,168,67,0.15);}
+.history-item .h-num{color:var(--gold-dim);font-size:11px;margin-right:8px;font-family:var(--font-display);}
+.history-item .h-name{color:var(--gold);font-size:14px;font-weight:600;}
+.history-item .h-author{color:var(--muted);font-size:12px;margin-left:8px;}
+.history-item .h-desc{color:var(--star);font-size:12px;margin-top:4px;display:none;}
+.history-item.expanded .h-desc{display:block;}
+
+/* ===== TAB 5: Yisi Zhan ===== */
+.yisi-overview{max-width:800px;margin:0 auto;font-size:14px;line-height:2;color:var(--star);}
+.yisi-vol-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+@media(max-width:600px){.yisi-vol-grid{grid-template-columns:1fr;}}
+.yisi-vol{
+  background:rgba(10,10,20,0.5);border:1px solid rgba(212,168,67,0.08);border-radius:6px;padding:12px;
+}
+.yisi-vol h4{font-family:var(--font-display);font-size:16px;color:var(--gold);margin-bottom:4px;}
+.yisi-vol p{font-size:12px;color:var(--muted);}
+.yisi-vol ul{list-style:none;font-size:11px;color:var(--star);margin-top:4px;}
+.yisi-vol ul li{padding:1px 0;}
+
+/* ===== TAB 6: Precession ===== */
+.precession-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:800px){.precession-grid{grid-template-columns:1fr;}}
+.precession-card{
+  background:rgba(10,10,20,0.5);border:1px solid rgba(212,168,67,0.08);border-radius:8px;padding:16px;
+}
+.precession-card h3{font-family:var(--font-display);font-size:17px;color:var(--gold);margin-bottom:8px;text-align:center;}
+.precession-card p{font-size:13px;color:var(--star);line-height:1.8;}
+.figures-list{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:12px 0;}
+.figure-item{background:rgba(10,10,20,0.5);border:1px solid rgba(212,168,67,0.08);border-radius:6px;padding:10px 14px;text-align:center;min-width:100px;}
+.figure-item .f-name{font-family:var(--font-display);font-size:16px;color:var(--gold-bright);}
+.figure-item .f-year{font-size:11px;color:var(--muted);}
+.figure-item .f-desc{font-size:11px;color:var(--star);margin-top:2px;}
+
+/* ===== TAB 7: Ling Tai Mi Yuan ===== */
+.ltm-overview{max-width:800px;margin:0 auto;font-size:14px;line-height:2;color:var(--star);}
+.school-compare{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px;}
+@media(max-width:700px){.school-compare{grid-template-columns:1fr;}}
+.school-card{background:rgba(10,10,20,0.5);border-radius:8px;padding:14px;border:1px solid rgba(212,168,67,0.06);text-align:center;}
+.school-card h4{font-family:var(--font-display);font-size:16px;color:var(--gold);margin-bottom:4px;}
+.school-card .stat{font-size:24px;color:var(--gold-bright);font-family:var(--font-display);}
+.school-card .stat-label{font-size:12px;color:var(--muted);}
+
+/* ===== TAB 8: Original Texts ===== */
+.text-scroll{
+  background:rgba(30,25,15,0.6);border:2px solid rgba(212,168,67,0.15);
+  border-radius:4px;padding:20px 24px;margin:12px 0;
+  font-family:var(--font-display);font-size:16px;line-height:2.2;color:var(--ink);
+  position:relative;box-shadow:inset 0 0 30px rgba(0,0,0,0.5),0 0 20px rgba(212,168,67,0.05);
+  max-height:500px;overflow-y:auto;
+}
+.text-scroll::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(to bottom,rgba(139,90,43,0.03),transparent 5%,transparent 95%,rgba(139,90,43,0.03));
+  pointer-events:none;
+}
+.text-scroll .text-title{font-size:20px;color:var(--gold-bright);text-align:center;margin-bottom:12px;letter-spacing:4px;}
+.text-scroll .text-annot{font-size:13px;color:var(--muted);text-align:center;margin-bottom:10px;font-family:var(--font);}
+.text-scroll .scroll-marker{color:var(--crimson);opacity:0.6;}
+.text-block{background:rgba(10,10,20,0.5);border-radius:8px;padding:16px;margin:12px 0;border:1px solid rgba(212,168,67,0.06);}
+.text-block h4{font-family:var(--font-display);font-size:18px;color:var(--gold);margin-bottom:6px;}
+
+/* Utils */
+.highlight{color:var(--gold-bright);font-weight:600;}
+.text-center{text-align:center;}
+.mt-8{margin-top:8px;}
+.mt-16{margin-top:16px;}
+.mb-8{margin-bottom:8px;}
+.flex-center{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;}
+.tag{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;margin:2px;}
+.tag-gold{background:rgba(212,168,67,0.15);color:var(--gold);}
+.tag-red{background:rgba(196,30,58,0.15);color:var(--crimson);}
+.tag-green{background:rgba(46,204,113,0.15);color:#2ecc71;}
+.tag-blue{background:rgba(52,152,219,0.15);color:#3498db;}
+
+@media(max-width:600px){
+  .hero-title{font-size:30px;letter-spacing:4px;}
+  .section{padding:16px 12px;}
+  .tab-btn{font-size:12px;padding:6px 10px;}
 }
 </style>
 </head>
 <body>
-
 <canvas id="stars-canvas"></canvas>
-
 <div class="page-wrap">
 
 <!-- Navigation -->
@@ -741,817 +311,876 @@ body::before {
   <a href="bazi-chart.html" class="nav-link">八字排盘</a>
   <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
   <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
 </nav>
 
 <!-- Hero -->
 <header class="hero">
-  <h1 class="hero-title">中国星象天文</h1>
-  <p class="hero-sub">仰观天象 · 俯察地理 · 通古今之变</p>
+  <h1 class="hero-title">中国古代天文星占</h1>
+  <p class="hero-sub">仰观天象 · 俯察地理 · 通古今之变 · 究天人之际</p>
   <p class="hero-desc">
-    融汇《周易》天人思想、《步天歌》星官体系、二十八宿分野、五星聚占星与五德终始说，
-    构建中国古代星象天文知识的交互知识图谱。
+    综合二十八宿、五星占、三垣星官、历代史志天文、李淳风《乙巳占》、岁差历法、庾季才《灵台秘苑》及先贤典籍，
+    构建中国古代天文星占的交互知识枢纽。
   </p>
 </header>
 
-<!-- Section 1: 28 Mansions -->
-<section class="section" id="section-mansions">
-  <h2 class="section-title">二十八宿</h2>
-  <p class="section-subtitle">四象七宿 · 周天二十八星宿</p>
+<!-- Tab Bar -->
+<div class="tab-bar" id="tabBar">
+  <button class="tab-btn active" data-tab="tab1">二十八宿</button>
+  <button class="tab-btn" data-tab="tab2">五星占</button>
+  <button class="tab-btn" data-tab="tab3">星官</button>
+  <button class="tab-btn" data-tab="tab4">史志天文</button>
+  <button class="tab-btn" data-tab="tab5">乙巳占</button>
+  <button class="tab-btn" data-tab="tab6">岁差与历法</button>
+  <button class="tab-btn" data-tab="tab7">灵台秘苑</button>
+  <button class="tab-btn" data-tab="tab8">典籍原文</button>
+</div>
 
+<!-- ===== TAB 1: 二十八宿 ===== -->
+<div class="tab-content active" id="tab1">
+<section class="section">
+  <h2 class="section-title">二十八宿</h2>
+  <p class="section-subtitle">四象七宿 · 周天二十八舍 · 角木蛟至轸水蚓</p>
   <div class="mansions-container">
     <div class="direction-legend" id="direction-legend"></div>
-
-    <svg id="mansion-svg" viewBox="0 0 600 600"></svg>
-
+    <canvas id="mansion-canvas" width="700" height="700"></canvas>
     <div class="mansion-detail" id="mansion-detail">
       <h3 id="detail-name"></h3>
-      <p class="prop"><span>方向：</span><span id="detail-dir"></span></p>
+      <p class="prop"><span>星官：</span><span id="detail-animal"></span></p>
+      <p class="prop"><span>四象：</span><span id="detail-dir"></span></p>
       <p class="prop"><span>星数：</span><span id="detail-stars"></span></p>
-      <p class="prop"><span>位置：</span><span id="detail-pos"></span></p>
       <p class="prop"><span>分野：</span><span id="detail-field"></span></p>
       <p class="prop"><span>象征：</span><span id="detail-symbol"></span></p>
+      <p class="prop"><span>对应星座：</span><span id="detail-zodiac"></span></p>
     </div>
+    <table class="mansion-table" id="mansion-table">
+      <thead><tr><th>星宿</th><th>星官</th><th>星数</th><th>四象</th><th>动物</th><th>分野</th><th>西方对应</th></tr></thead>
+      <tbody id="mansion-table-body"></tbody>
+    </table>
   </div>
 </section>
+</div>
 
-<!-- Section 2: Five Planets -->
-<section class="section" id="section-planets">
-  <h2 class="section-title">五星与五德</h2>
-  <p class="section-subtitle">五星聚 · 五行运化 · 五德终始</p>
-
+<!-- ===== TAB 2: 五星占 ===== -->
+<div class="tab-content" id="tab2">
+<section class="section">
+  <h2 class="section-title">五星占</h2>
+  <p class="section-subtitle">岁星 · 荧惑 · 镇星 · 太白 · 辰星 — 五纬行度与占星术</p>
   <div class="planets-grid">
     <div class="planet-card">
-      <h3>&#x2605; 五星聚历史纪年</h3>
-      <div class="conjunction-timeline" id="conjunction-list"></div>
+      <h3>五星数据总览</h3>
+      <div class="planet-vis"><canvas id="planet-canvas" width="500" height="320"></canvas></div>
+      <div class="planet-data-grid" id="planet-data-grid"></div>
     </div>
-
     <div class="planet-card">
-      <h3>&#x267B; 五德终始说</h3>
-      <div class="wuxing-cycle">
-        <svg class="wuxing-svg" viewBox="0 0 300 300" id="wuxing-svg"></svg>
-        <table class="wuxing-table">
-          <thead>
-            <tr><th>朝代</th><th>五德</th><th>属性</th><th>颜色</th></tr>
-          </thead>
-          <tbody id="wuxing-table-body"></tbody>
-        </table>
+      <h3>五行与五星对应</h3>
+      <div id="wuxing-planet-table"></div>
+    </div>
+  </div>
+  <div class="planet-card" style="margin-top:16px;">
+    <h3>五星主星计算器</h3>
+    <p style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:8px;">输入公历年份，基于会合周期推算当年主星</p>
+    <div class="planet-calc">
+      <input type="number" id="planet-year-input" value="2024" min="-3000" max="3000">
+      <button onclick="calcPlanetMaster()">推算主星</button>
+    </div>
+    <div class="planet-result" id="planet-result">输入年份，点击推算查看当年五星位置与主星。</div>
+  </div>
+</section>
+</div>
+
+<!-- ===== TAB 3: 星官 ===== -->
+<div class="tab-content" id="tab3">
+<section class="section">
+  <h2 class="section-title">星官</h2>
+  <p class="section-subtitle">三垣二十八宿 · 星官体系 · 步天歌</p>
+  <div class="search-box">
+    <input type="text" id="asterism-search" placeholder="搜索星官名称..." oninput="searchAsterism(this.value)">
+    <button onclick="searchAsterism(document.getElementById('asterism-search').value)">搜索</button>
+  </div>
+  <h3 style="font-family:var(--font-display);color:var(--gold);font-size:18px;text-align:center;margin-bottom:12px;">三垣</h3>
+  <div class="enclosure-grid" id="enclosure-grid"></div>
+  <h3 style="font-family:var(--font-display);color:var(--gold);font-size:18px;text-align:center;margin:16px 0 12px;">二十八宿星数总表</h3>
+  <table class="star-count-table">
+    <thead><tr><th>四象</th><th colspan="7">星宿（星数）</th><th>合计</th></tr></thead>
+    <tbody>
+      <tr><td style="color:#2ecc71;">东方青龙</td><td>角2</td><td>亢4</td><td>氐4</td><td>房6</td><td>心3</td><td>尾9</td><td>箕4</td><td style="color:var(--gold-bright);">32</td></tr>
+      <tr><td style="color:#3498db;">北方玄武</td><td>斗6</td><td>牛6</td><td>女4</td><td>虚3</td><td>危3</td><td>室2</td><td>壁2</td><td style="color:var(--gold-bright);">26</td></tr>
+      <tr><td style="color:#e67e22;">西方白虎</td><td>奎16</td><td>娄6</td><td>胃7</td><td>昴7</td><td>毕8</td><td>觜3</td><td>参10</td><td style="color:var(--gold-bright);">57</td></tr>
+      <tr><td style="color:#e74c3c;">南方朱雀</td><td>井8</td><td>鬼4</td><td>柳8</td><td>星7</td><td>张6</td><td>翼22</td><td>轸4</td><td style="color:var(--gold-bright);">59</td></tr>
+      <tr style="background:rgba(212,168,67,0.05);"><td colspan="8" style="text-align:right;color:var(--gold);font-weight:600;">二十八宿总计</td><td style="color:var(--gold-bright);font-weight:700;">174</td></tr>
+    </tbody>
+  </table>
+  <h3 style="font-family:var(--font-display);color:var(--gold);font-size:18px;text-align:center;margin:16px 0 12px;">二十八宿与西方黄道星座对照</h3>
+  <div class="zodiac-compare" id="zodiac-compare"></div>
+</section>
+</div>
+
+<!-- ===== TAB 4: 史志天文 ===== -->
+<div class="tab-content" id="tab4">
+<section class="section">
+  <h2 class="section-title">史志天文</h2>
+  <p class="section-subtitle">历代正史《天文志》/《天官书》/《律历志》目录</p>
+  <div class="history-list" id="history-list"></div>
+</section>
+</div>
+
+<!-- ===== TAB 5: 乙巳占 ===== -->
+<div class="tab-content" id="tab5">
+<section class="section">
+  <h2 class="section-title">乙巳占</h2>
+  <p class="section-subtitle">唐·李淳风 撰 — 中国古代星占学集大成之作</p>
+  <div class="yisi-overview">
+    <p><strong>李淳风（602-670）</strong>，唐代天文学家、数学家、星占学家。官至太史令，主持制造浑天仪，编订《麟德历》，并与袁天罡同撰《推背图》。</p>
+    <p style="margin-top:8px;"><strong>《乙巳占》</strong>成书于唐贞观年间（约640年），因上元"乙巳"之年得名。全书十卷，博采前人星占之说，汇历代天文星占之大成，是中国古代最重要的星占学著作之一。</p>
+    <p style="margin-top:8px;color:var(--gold-dim);font-style:italic;">"天垂象，见吉凶，圣人则之。观乎天文，以察时变。"</p>
+  </div>
+  <h3 style="font-family:var(--font-display);color:var(--gold);font-size:18px;text-align:center;margin:16px 0 8px;">十卷概要</h3>
+  <div class="yisi-vol-grid" id="yisi-vol-grid"></div>
+  <h3 style="font-family:var(--font-display);color:var(--gold);font-size:18px;text-align:center;margin:16px 0 8px;">主要星占方法</h3>
+  <div style="max-width:800px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="yisi-methods"></div>
+</section>
+</div>
+
+<!-- ===== TAB 6: 岁差与历法 ===== -->
+<div class="tab-content" id="tab6">
+<section class="section">
+  <h2 class="section-title">岁差与历法</h2>
+  <p class="section-subtitle">中国岁差发现史 · 历法沿革 · 大衍历系统</p>
+  <div class="precession-grid">
+    <div class="precession-card">
+      <h3>中国岁差发现史</h3>
+      <p><strong>岁差（precession）</strong>：地球自转轴在空间中的缓慢进动，使春分点沿黄道每约72年西移1°，约26000年完成一周。</p>
+      <div class="figures-list" id="figures-list"></div>
+    </div>
+    <div class="precession-card">
+      <h3>岁差计算器</h3>
+      <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:8px;">计算指定公元年份相对于公元2000年的岁差偏移</p>
+      <div class="planet-calc">
+        <input type="number" id="precession-year" value="2024" min="-3000" max="3000">
+        <button onclick="calcPrecession()">计算岁差</button>
       </div>
+      <div class="planet-result" id="precession-result"></div>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:center;">公式：岁差偏移 ≈ (year − 2000) × (1°/71.6年) | 中国岁差率 ~1°/72年</p>
+    </div>
+  </div>
+  <div class="precession-grid" style="margin-top:16px;">
+    <div class="precession-card">
+      <h3>大衍历系统</h3>
+      <p>僧一行（683-727）奉唐玄宗之命编撰《大衍历》，于开元十五年（727年）成书。大衍历系统以《周易》象数为理论基础，融合了实测天文数据，是中国古代最精密的历法体系之一。</p>
+      <p style="margin-top:6px;">主要成就：<br>
+      • 创立"定气"概念，以太阳实际运动划分节气<br>
+      • 改进岁差计算（约每83年差1度）<br>
+      • 精确测量子午线长度（一行与南宫说等合作）<br>
+      • 推算日食月食规律<br>
+      • 历元取"开元甲子"（公元724年）</p>
+    </div>
+    <div class="precession-card">
+      <h3>中国历法沿革</h3>
+      <div id="calendar-timeline" style="font-size:12px;color:var(--star);line-height:2.2;"></div>
     </div>
   </div>
 </section>
+</div>
 
-<!-- Section 3: Sky Pacing Song -->
-<section class="section" id="section-skymap">
-  <h2 class="section-title">步天歌·星图</h2>
-  <p class="section-subtitle">三垣二十八宿 · 步天歌诀</p>
+<!-- ===== TAB 7: 灵台秘苑 ===== -->
+<div class="tab-content" id="tab7">
+<section class="section">
+  <h2 class="section-title">灵台秘苑</h2>
+  <p class="section-subtitle">北周·庾季才 撰 — 宋代重修的星占百科</p>
+  <div class="ltm-overview">
+    <p><strong>庾季才</strong>，北周至隋代天文学家。原书《灵台秘苑》成书于北周（6世纪），后经宋代重修增补，成为中国古代重要的星占百科全书。书中系统整理了前代星占学说，融合了<strong>甘德</strong>（甘氏）、<strong>石申</strong>（石氏）、<strong>巫咸</strong>三家星官体系。</p>
+    <p style="margin-top:8px;"><strong>核心数据：</strong>全书收录<strong>283个星官</strong>、<strong>1464颗恒星</strong>的详细数据，包括星名、位置、星数、占辞等。其星官体系成为后世标准。</p>
+  </div>
+  <h3 style="font-family:var(--font-display);color:var(--gold);font-size:18px;text-align:center;margin:16px 0 12px;">三家星官比较</h3>
+  <div class="school-compare">
+    <div class="school-card">
+      <h4>甘氏星官</h4>
+      <div class="stat">118</div>
+      <div class="stat-label">星官数</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;">战果时期·齐国人<br>《天文星占》八卷<br>最早发现木星卫星</div>
+    </div>
+    <div class="school-card">
+      <h4>石氏星官</h4>
+      <div class="stat">122</div>
+      <div class="stat-label">星官数</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;">战果时期·魏国人<br>《天文》八卷<br>最早星表（公元前4世纪）</div>
+    </div>
+    <div class="school-card">
+      <h4>巫咸星官</h4>
+      <div class="stat">44</div>
+      <div class="stat-label">星官数</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;">上古传説<br>《巫咸占》<br>以占星术为主</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--gold-dim);">
+    三家合计 + 额外星官 = <span style="color:var(--gold-bright);font-weight:600;">283星官 · 1464星</span>
+  </div>
+</section>
+</div>
 
-  <div class="skymap-container">
-    <div class="skymap-nav" id="skymap-nav"></div>
-    <div class="skymap-view">
-      <svg id="skymap-svg" viewBox="0 0 700 500"></svg>
-      <div class="skymap-info" id="skymap-info">
-        <h4>三垣二十八宿</h4>
-        <p>点击左侧区域浏览不同天区星官分布。三垣为紫微垣、太微垣、天市垣，环绕二十八宿。</p>
-      </div>
+<!-- ===== TAB 8: 典籍原文 ===== -->
+<div class="tab-content" id="tab8">
+<section class="section">
+  <h2 class="section-title">典籍原文</h2>
+  <p class="section-subtitle">先贤著作原典 · 古文体展示</p>
+
+  <div class="text-block">
+    <h4>史记·天官书（节选）</h4>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:6px;">司马迁 · 约公元前91年</p>
+    <div class="text-scroll">
+      <div class="text-title">天官书</div>
+      <p>中宫天极星，其一明者，太一常居也；旁三星三公，或曰子属。后句四星，末大星正妃，余三星后宫之属也。环之匡卫十二星，藩臣。皆曰紫宫。</p>
+      <p style="margin-top:8px;">前列直斗口三星，随北端兑，若见若不，曰阴德，或曰天一。紫宫左三星曰天枪，右五星曰天棓，后六星绝汉抵营室，曰阁道。</p>
+      <p style="margin-top:8px;">北斗七星，所谓"旋、玑、玉衡以齐七政"。杓携龙角，衡殷南斗，魁枕参首。用昏建者杓；杓，自华以西南。夜半建者衡；衡，殷中州河、济之间。平旦建者魁；魁，海岱以东北也。</p>
+      <p style="margin-top:8px;">东宫苍龙，房、心。心为明堂，大星天王，前后星子属。房为府，曰天驷。其阴，右骖。旁有两星曰衿；北一星曰舝。</p>
+      <p style="margin-top:8px;">南宫朱鸟，权、衡。衡为太微，权、轩辕。轩辕，黄龙体。前大星，女主象；旁小星，侍者之属。太微三光之庭。其内五星，五帝座。</p>
+      <p style="margin-top:8px;">西宫咸池，曰天五潢。五潢，五帝车舍。火入，旱；金，兵；水，水。中有三柱；柱不具，兵起。</p>
+      <p style="margin-top:8px;">北宫玄武，虚、危。危为盖屋；虚为哭泣之事。其南有众星，曰羽林天军。军西为垒，或曰钺。旁有一大星为北落。</p>
+    </div>
+  </div>
+
+  <div class="text-block">
+    <h4>乙巳占·序（节选）</h4>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:6px;">李淳风 · 约640年</p>
+    <div class="text-scroll">
+      <div class="text-title">乙巳占序</div>
+      <p>臣闻：天道玄远，非神不足以知之；人事纷纭，非天不足以应之。故圣人仰观俯察，通神明之德，类万物之情，以成天地之文，以定吉凶之兆。</p>
+      <p style="margin-top:8px;">夫天垂象，见吉凶，圣人则之。观乎天文，以察时变；观乎人文，以化成天下。天象之变，所以示人君之得失，兆万民之休咎也。</p>
+      <p style="margin-top:8px;">昔者黄帝受命，始作《星经》。其后颛顼、帝喾、尧、舜、禹、汤，咸有天文之官，以司天象。周室既衰，星官失职，诸侯各以其法占候。</p>
+      <p style="margin-top:8px;">及至春秋，梓慎、裨灶之徒，以星占验，若合符契。战国纷争，甘德、石申各著星经，至今传焉。汉兴，司马迁为《天官书》，继以班固《天文志》，星占之学大备。</p>
+      <p style="margin-top:8px;">淳风不揣固陋，搜罗旧闻，参以新见，勒成十卷，名曰《乙巳占》。庶几仰赞圣朝之万一，俯备太史之采择。</p>
+    </div>
+  </div>
+
+  <div class="text-block">
+    <h4>周髀算经（节选）</h4>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:6px;">约公元前1世纪 — 中国古代最早的天文数学著作</p>
+    <div class="text-scroll">
+      <div class="text-title">周髀算经</div>
+      <p>昔者周公问于商高曰："窃闻乎大夫善数也，请问古者包牺立周天历度，夫天不可阶而升，地不可得尺寸而度，请问数安从出？"</p>
+      <p style="margin-top:8px;">商高曰："数之法出于圆方。圆出于方，方出于矩，矩出于九九八十一。故折矩以为句广三，股修四，径隅五。既方其外，半之一矩，环而共盘，得成三四五。两矩共长二十有五，是谓积矩。故禹之所以治天下者，此数之所生也。"</p>
+      <p style="margin-top:8px;">周公曰："大哉言数！请问用矩之道。"</p>
+      <p style="margin-top:8px;">商高曰："平矩以正绳，偃矩以望高，覆矩以测深，卧矩以知远，环矩以为圆，合矩以为方。方属地，圆属天，天圆地方。方数为典，以方出圆。笠以写天。天青黑，地黄赤。天数之为笠也，青黑为表，丹黄为里，以象天地之位。"</p>
+      <p style="margin-top:8px;">是故知地者智，知天者圣。智出于句，句出于矩。夫矩之于数，其裁制万物，唯所为耳。</p>
+    </div>
+  </div>
+
+  <div class="text-block">
+    <h4>大衍历经（节选）</h4>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:6px;">僧一行 · 727年</p>
+    <div class="text-scroll">
+      <div class="text-title">大衍历经</div>
+      <p>开元大衍历经：演纪上元甲子，距今开元十二年甲子，积九千六百九十六万一千七百四十一算。</p>
+      <p style="margin-top:8px;">大衍之数五十，其用四十有九。一者，元气也；二者，阴阳也；三者，三才也；四者，四时也；五者，五行也；六者，六律也；七者，七政也；八者，八风也；九者，九宫也；十者，十极也。</p>
+      <p style="margin-top:8px;">天数五，地数五，五位相得而各有合。天数二十有五，地数三十，凡天地之数五十有五。此所以成变化而行鬼神也。</p>
+      <p style="margin-top:8px;">乾之策二百一十有六，坤之策百四十有四，凡三百有六十，当期之日。二篇之策，万有一千五百二十，当万物之数也。</p>
+      <p style="margin-top:8px;">推日月五星行度：凡太阳行度，冬至日躔星纪之次... 又推交食之法，以朔望定日月之交，以交定食分深浅。四象著而成八卦，八卦成而六十四象兴焉。</p>
+      <p style="margin-top:8px;">推气序：凡二十四气，每气十五日有余。定气之法，以盈缩定其日数。春分、秋分，昼夜各五十刻。夏至昼六十五刻，夜三十五刻。冬至昼三十五刻，夜六十五刻。</p>
     </div>
   </div>
 </section>
-
-<!-- Section 4: Calendar Calculator -->
-<section class="section" id="section-calendar">
-  <h2 class="section-title">历法计算器</h2>
-  <p class="section-subtitle">天干地支 · 二十四节气 · 八卦对应</p>
-
-  <div class="calendar-grid">
-    <div class="calendar-card">
-      <h3>&#x1F4C5; 干支纪年转换</h3>
-      <div class="calc-form">
-        <input type="number" id="year-input" value="2024" min="-3000" max="3000">
-        <button onclick="calcGanzhi()">转换干支</button>
-      </div>
-      <div class="calc-result" id="ganzhi-result">
-        输入公元年份，点击转换查看干支纪年、生肖与纳音。
-      </div>
-    </div>
-
-    <div class="calendar-card">
-      <h3>&#x2609; 二十四节气</h3>
-      <div class="calc-form">
-        <input type="number" id="terms-year-input" value="2024" min="1900" max="2100">
-        <button onclick="showSolarTerms()">显示节气</button>
-      </div>
-      <div class="calc-result" id="terms-result">
-        <div class="solar-terms-grid" id="solar-terms-grid"></div>
-      </div>
-    </div>
-
-    <div class="calendar-card" style="grid-column: 1 / -1;">
-      <h3>&#x2630; 八卦对应表</h3>
-      <p style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:10px;">八卦与方位、五行、自然象征的对应关系</p>
-      <div class="trigram-grid" id="trigram-grid"></div>
-    </div>
-  </div>
-</section>
+</div>
 
 </div><!-- /page-wrap -->
 
 <script>
 /* ============================================================
-   DATA
+   DATA: 二十八宿 Complete
    ============================================================ */
-
-// 二十八宿完整数据
-const MANSIONS_DATA = [
-  // 东方青龙 (East Azure Dragon)
-  { id:'角', name:'角宿', dir:'青龙', dirCN:'东方青龙', stars:2, pos:'赤经11h-12h，赤纬0°~+10°', field:'郑地（河南）', symbol:'龙角——春之始，万物生发', order:0, color:'#2ecc71' },
-  { id:'亢', name:'亢宿', dir:'青龙', dirCN:'东方青龙', stars:4, pos:'赤经12h-13h，赤纬+10°~+20°', field:'郑地', symbol:'龙颈——刚直不屈', order:1, color:'#2ecc71' },
-  { id:'氐', name:'氐宿', dir:'青龙', dirCN:'东方青龙', stars:4, pos:'赤经13h-14h，赤纬+10°~-5°', field:'宋地（河南东部）', symbol:'龙身根基——稳固之本', order:2, color:'#2ecc71' },
-  { id:'房', name:'房宿', dir:'青龙', dirCN:'东方青龙', stars:4, pos:'赤经14h-15h，赤纬+0°~-15°', field:'宋地', symbol:'龙腹——天马行空', order:3, color:'#2ecc71' },
-  { id:'心', name:'心宿', dir:'青龙', dirCN:'东方青龙', stars:3, pos:'赤经15h-16h，赤纬-10°~-25°', field:'宋地', symbol:'龙心——大火星（Antares）所在', order:4, color:'#2ecc71' },
-  { id:'尾', name:'尾宿', dir:'青龙', dirCN:'东方青龙', stars:9, pos:'赤经16h-17h，赤纬-30°~-40°', field:'燕地（河北北部）', symbol:'龙尾——摆尾之力', order:5, color:'#2ecc71' },
-  { id:'箕', name:'箕宿', dir:'青龙', dirCN:'东方青龙', stars:4, pos:'赤经17h-18h，赤纬-20°~-35°', field:'燕地', symbol:'龙尾簸箕——风伯掌风', order:6, color:'#2ecc71' },
-  // 北方玄武 (North Black Tortoise)
-  { id:'斗', name:'斗宿', dir:'玄武', dirCN:'北方玄武', stars:6, pos:'赤经18h-19h，赤纬-20°~-35°', field:'吴地（江苏）', symbol:'蛇身——斗柄指北', order:7, color:'#3498db' },
-  { id:'牛', name:'牛宿', dir:'玄武', dirCN:'北方玄武', stars:6, pos:'赤经19h-20h，赤纬-10°~-25°', field:'越地（浙江）', symbol:'牛郎星之所在——农耕祥瑞', order:8, color:'#3498db' },
-  { id:'女', name:'女宿', dir:'玄武', dirCN:'北方玄武', stars:4, pos:'赤经20h-21h，赤纬0°~-15°', field:'越地', symbol:'织女星之域——女工之象', order:9, color:'#3498db' },
-  { id:'虚', name:'虚宿', dir:'玄武', dirCN:'北方玄武', stars:2, pos:'赤经21h-22h，赤纬+0°~-10°', field:'齐地（山东北部）', symbol:'虚危之星——祭祀天地', order:10, color:'#3498db' },
-  { id:'危', name:'危宿', dir:'玄武', dirCN:'北方玄武', stars:3, pos:'赤经22h-23h，赤纬+5°~-10°', field:'齐地', symbol:'屋脊之星——高耸入云', order:11, color:'#3498db' },
-  { id:'室', name:'室宿', dir:'玄武', dirCN:'北方玄武', stars:2, pos:'赤经23h-0h，赤纬+10°~+20°', field:'卫地（河南北部）', symbol:'营室——建造宫室', order:12, color:'#3498db' },
-  { id:'壁', name:'壁宿', dir:'玄武', dirCN:'北方玄武', stars:2, pos:'赤经0h-1h，赤纬+15°~+25°', field:'卫地', symbol:'东壁——图书之府', order:13, color:'#3498db' },
-  // 西方白虎 (West White Tiger)
-  { id:'奎', name:'奎宿', dir:'白虎', dirCN:'西方白虎', stars:16, pos:'赤经0h-2h，赤纬+15°~+30°', field:'鲁地（山东南部）', symbol:'虎足——天之府库', order:14, color:'#e67e22' },
-  { id:'娄', name:'娄宿', dir:'白虎', dirCN:'西方白虎', stars:3, pos:'赤经2h-3h，赤纬+20°~+35°', field:'鲁地', symbol:'虎之聚——牧养众星', order:15, color:'#e67e22' },
-  { id:'胃', name:'胃宿', dir:'白虎', dirCN:'西方白虎', stars:3, pos:'赤经3h-4h，赤纬+15°~+30°', field:'赵地（河北南部）', symbol:'虎胃——五谷之仓', order:16, color:'#e67e22' },
-  { id:'昴', name:'昴宿', dir:'白虎', dirCN:'西方白虎', stars:7, pos:'赤经3h30m-4h30m，赤纬+15°~+25°', field:'赵地', symbol:'虎头——昴星团/Pleiades', order:17, color:'#e67e22' },
-  { id:'毕', name:'毕宿', dir:'白虎', dirCN:'西方白虎', stars:8, pos:'赤经4h-5h，赤纬+5°~+25°', field:'魏地（山西）', symbol:'虎翼——毕网捕鸟', order:18, color:'#e67e22' },
-  { id:'觜', name:'觜宿', dir:'白虎', dirCN:'西方白虎', stars:3, pos:'赤经5h-6h，赤纬+20°~+35°', field:'魏地', symbol:'虎嘴——虎口吞金', order:19, color:'#e67e22' },
-  { id:'参', name:'参宿', dir:'白虎', dirCN:'西方白虎', stars:7, pos:'赤经5h-6h，赤纬-10°~+10°', field:'晋地（山西）', symbol:'虎身——参宿/Orion腰带三星', order:20, color:'#e67e22' },
-  // 南方朱雀 (South Vermilion Bird)
-  { id:'井', name:'井宿', dir:'朱雀', dirCN:'南方朱雀', stars:8, pos:'赤经6h-7h，赤纬-10°~+20°', field:'秦地（陕西）', symbol:'鸟首——东井八星', order:21, color:'#e74c3c' },
-  { id:'鬼', name:'鬼宿', dir:'朱雀', dirCN:'南方朱雀', stars:4, pos:'赤经7h-8h，赤纬+0°~+15°', field:'秦地', symbol:'鸟目——鬼星团/M44', order:22, color:'#e74c3c' },
-  { id:'柳', name:'柳宿', dir:'朱雀', dirCN:'南方朱雀', stars:8, pos:'赤经8h-9h，赤纬-10°~+5°', field:'周地（陕西中部）', symbol:'鸟喙——柳叶如眉', order:23, color:'#e74c3c' },
-  { id:'星', name:'星宿', dir:'朱雀', dirCN:'南方朱雀', stars:7, pos:'赤经9h-10h，赤纬0°~-15°', field:'周地', symbol:'鸟颈——七星为喉', order:24, color:'#e74c3c' },
-  { id:'张', name:'张宿', dir:'朱雀', dirCN:'南方朱雀', stars:6, pos:'赤经10h-11h，赤纬-10°~-25°', field:'周地', symbol:'鸟嗉囊——张开如网', order:25, color:'#e74c3c' },
-  { id:'翼', name:'翼宿', dir:'朱雀', dirCN:'南方朱雀', stars:22, pos:'赤经11h-12h，赤纬-10°~-30°', field:'楚地（湖北湖南）', symbol:'鸟翼——展翅飞翔', order:26, color:'#e74c3c' },
-  { id:'轸', name:'轸宿', dir:'朱雀', dirCN:'南方朱雀', stars:4, pos:'赤经12h-13h，赤纬-10°~-25°', field:'楚地', symbol:'鸟尾——轸车行远', order:27, color:'#e74c3c' },
+const MANSIONS = [
+  {id:'角',name:'角宿',animal:'木',creature:'蛟',title:'角木蛟',dir:'青龙',dirCN:'东方青龙',stars:2,field:'郑地',symbol:'龙角——春之始，万物生发',zodiac:'室女座',color:'#2ecc71',order:0},
+  {id:'亢',name:'亢宿',animal:'金',creature:'龙',title:'亢金龙',dir:'青龙',dirCN:'东方青龙',stars:4,field:'郑地',symbol:'龙颈——刚直不屈',zodiac:'室女座',color:'#2ecc71',order:1},
+  {id:'氐',name:'氐宿',animal:'土',creature:'貉',title:'氐土貉',dir:'青龙',dirCN:'东方青龙',stars:4,field:'宋地',symbol:'龙身根基——稳固之本',zodiac:'天秤座',color:'#2ecc71',order:2},
+  {id:'房',name:'房宿',animal:'日',creature:'兔',title:'房日兔',dir:'青龙',dirCN:'东方青龙',stars:6,field:'宋地',symbol:'龙腹——天马行空',zodiac:'天蝎座',color:'#2ecc71',order:3},
+  {id:'心',name:'心宿',animal:'月',creature:'狐',title:'心月狐',dir:'青龙',dirCN:'东方青龙',stars:3,field:'宋地',symbol:'龙心——大火星(Antares)所在',zodiac:'天蝎座',color:'#2ecc71',order:4},
+  {id:'尾',name:'尾宿',animal:'火',creature:'虎',title:'尾火虎',dir:'青龙',dirCN:'东方青龙',stars:9,field:'燕地',symbol:'龙尾——摆尾之力',zodiac:'天蝎座/人马座',color:'#2ecc71',order:5},
+  {id:'箕',name:'箕宿',animal:'水',creature:'豹',title:'箕水豹',dir:'青龙',dirCN:'东方青龙',stars:4,field:'燕地',symbol:'龙尾簸箕——风伯掌风',zodiac:'人马座',color:'#2ecc71',order:6},
+  {id:'斗',name:'斗宿',animal:'木',creature:'獬',title:'斗木獬',dir:'玄武',dirCN:'北方玄武',stars:6,field:'吴地',symbol:'蛇身——斗柄指北',zodiac:'人马座',color:'#3498db',order:7},
+  {id:'牛',name:'牛宿',animal:'金',creature:'牛',title:'牛金牛',dir:'玄武',dirCN:'北方玄武',stars:6,field:'越地',symbol:'牛郎星之所在',zodiac:'摩羯座',color:'#3498db',order:8},
+  {id:'女',name:'女宿',animal:'土',creature:'蝠',title:'女土蝠',dir:'玄武',dirCN:'北方玄武',stars:4,field:'越地',symbol:'织女星之域',zodiac:'宝瓶座',color:'#3498db',order:9},
+  {id:'虚',name:'虚宿',animal:'日',creature:'鼠',title:'虚日鼠',dir:'玄武',dirCN:'北方玄武',stars:3,field:'齐地',symbol:'虚危之星——祭祀天地',zodiac:'宝瓶座/摩羯座',color:'#3498db',order:10},
+  {id:'危',name:'危宿',animal:'月',creature:'燕',title:'危月燕',dir:'玄武',dirCN:'北方玄武',stars:3,field:'齐地',symbol:'屋脊之星——高耸入云',zodiac:'宝瓶座/飞马座',color:'#3498db',order:11},
+  {id:'室',name:'室宿',animal:'火',creature:'猪',title:'室火猪',dir:'玄武',dirCN:'北方玄武',stars:2,field:'卫地',symbol:'营室——建造宫室',zodiac:'飞马座',color:'#3498db',order:12},
+  {id:'壁',name:'壁宿',animal:'水',creature:'貐',title:'壁水貐',dir:'玄武',dirCN:'北方玄武',stars:2,field:'卫地',symbol:'东壁——图书之府',zodiac:'飞马座/仙女座',color:'#3498db',order:13},
+  {id:'奎',name:'奎宿',animal:'木',creature:'狼',title:'奎木狼',dir:'白虎',dirCN:'西方白虎',stars:16,field:'鲁地',symbol:'虎足——天之府库',zodiac:'仙女座/双鱼座',color:'#e67e22',order:14},
+  {id:'娄',name:'娄宿',animal:'金',creature:'狗',title:'娄金狗',dir:'白虎',dirCN:'西方白虎',stars:6,field:'鲁地',symbol:'虎之聚——牧养众星',zodiac:'白羊座',color:'#e67e22',order:15},
+  {id:'胃',name:'胃宿',animal:'土',creature:'雉',title:'胃土雉',dir:'白虎',dirCN:'西方白虎',stars:7,field:'赵地',symbol:'虎胃——五谷之仓',zodiac:'白羊座',color:'#e67e22',order:16},
+  {id:'昴',name:'昴宿',animal:'日',creature:'鸡',title:'昴日鸡',dir:'白虎',dirCN:'西方白虎',stars:7,field:'赵地',symbol:'虎头——昴星团(Pleiades)',zodiac:'金牛座',color:'#e67e22',order:17},
+  {id:'毕',name:'毕宿',animal:'月',creature:'乌',title:'毕月乌',dir:'白虎',dirCN:'西方白虎',stars:8,field:'魏地',symbol:'虎翼——毕网捕鸟',zodiac:'金牛座',color:'#e67e22',order:18},
+  {id:'觜',name:'觜宿',animal:'火',creature:'猴',title:'觜火猴',dir:'白虎',dirCN:'西方白虎',stars:3,field:'魏地',symbol:'虎嘴——虎口吞金',zodiac:'猎户座',color:'#e67e22',order:19},
+  {id:'参',name:'参宿',animal:'水',creature:'猿',title:'参水猿',dir:'白虎',dirCN:'西方白虎',stars:10,field:'晋地',symbol:'虎身——参宿(Orion腰带)',zodiac:'猎户座',color:'#e67e22',order:20},
+  {id:'井',name:'井宿',animal:'木',creature:'犴',title:'井木犴',dir:'朱雀',dirCN:'南方朱雀',stars:8,field:'秦地',symbol:'鸟首——东井八星',zodiac:'双子座',color:'#e74c3c',order:21},
+  {id:'鬼',name:'鬼宿',animal:'金',creature:'羊',title:'鬼金羊',dir:'朱雀',dirCN:'南方朱雀',stars:4,field:'秦地',symbol:'鸟目——鬼星团(M44)',zodiac:'巨蟹座',color:'#e74c3c',order:22},
+  {id:'柳',name:'柳宿',animal:'土',creature:'獐',title:'柳土獐',dir:'朱雀',dirCN:'南方朱雀',stars:8,field:'周地',symbol:'鸟喙——柳叶如眉',zodiac:'长蛇座',color:'#e74c3c',order:23},
+  {id:'星',name:'星宿',animal:'日',creature:'马',title:'星日马',dir:'朱雀',dirCN:'南方朱雀',stars:7,field:'周地',symbol:'鸟颈——七星为喉',zodiac:'长蛇座',color:'#e74c3c',order:24},
+  {id:'张',name:'张宿',animal:'月',creature:'鹿',title:'张月鹿',dir:'朱雀',dirCN:'南方朱雀',stars:6,field:'周地',symbol:'鸟嗉囊——张开如网',zodiac:'长蛇座',color:'#e74c3c',order:25},
+  {id:'翼',name:'翼宿',animal:'火',creature:'蛇',title:'翼火蛇',dir:'朱雀',dirCN:'南方朱雀',stars:22,field:'楚地',symbol:'鸟翼——展翅飞翔',zodiac:'巨爵座',color:'#e74c3c',order:26},
+  {id:'轸',name:'轸宿',animal:'水',creature:'蚓',title:'轸水蚓',dir:'朱雀',dirCN:'南方朱雀',stars:4,field:'楚地',symbol:'鸟尾——轸车行远',zodiac:'乌鸦座',color:'#e74c3c',order:27}
 ];
-
-// Direction colors
-const DIR_COLORS = { '青龙':'#2ecc71', '朱雀':'#e74c3c', '白虎':'#e67e22', '玄武':'#3498db' };
-const DIR_ANIMALS = { '青龙':'&#x1F409;', '朱雀':'&#x1F426;', '白虎':'&#x1F981;', '玄武':'&#x1F422;' };
-
-// 五星聚历史数据
-const CONJUNCTIONS = [
-  { year:-1953, label:'夏初', desc:'大禹治水成功，五星聚于东井（鬼宿附近）', detail:'据《竹书纪年》记载，夏朝建立前夜五星聚于东井，被视为天人感应。' },
-  { year:-1059, label:'殷末', desc:'周文王受命之年，五星聚于房宿', detail:'《竹书纪年》载："文王梦日月著其身，五星聚于房。"被视为朝代更替之兆。' },
-  { year:-205, label:'汉初', desc:'刘邦入咸阳之年，五星聚于东井', detail:'《史记·天官书》载："汉之兴，五星聚于东井。"被视为汉朝受命之符。' },
-  { year:710, label:'盛唐', desc:'唐睿宗景云元年，五星聚于尾宿', detail:'《新唐书·天文志》载，开元盛世前夕五星聚尾，预示大唐鼎盛。' },
-  { year:967, label:'宋初', desc:'宋太祖乾德五年，五星聚于奎宿', detail:'赵匡胤统一中原后五星聚奎，成为文教昌明之兆。' },
-  { year:1145, label:'南宋', desc:'宋高宗绍兴十五年，五星聚于尾宿', detail:'南宋偏安之际，五星再现于尾宿，被解读为偏安之象。' },
-  { year:1524, label:'明中', desc:'明世宗嘉靖三年，五星聚于斗宿', detail:'正德、嘉靖之交，五星聚斗，朝野震动，被视为世道变革之兆。' },
-  { year:1851, label:'清中', desc:'清咸丰元年，五星聚于奎宿', detail:'太平天国运动爆发之年，五星聚奎，天下大乱之兆。' },
-  { year:1962, label:'现代', desc:'20世纪中叶五星聚于室宿', detail:'现代天文学推算，1962年2月五星汇聚于室宿附近，肉眼可见。' },
-  { year:2000, label:'千禧', desc:'2000年5月五星聚于金牛座（昴宿附近）', detail:'五星汇聚于金牛座，对应中国二十八宿之昴宿，千禧之年天象奇观。' },
-];
-
-// 五德终始说
-const WUXING_VIRTUES = [
-  { dynasty:'黄帝', element:'土', color:'黄', era:'上古', desc:'以土德王，有黄龙地螾之瑞' },
-  { dynasty:'夏朝', element:'木', color:'青', era:'三代', desc:'木德之始，草木繁盛，青龙现于郊' },
-  { dynasty:'商朝', element:'金', color:'白', era:'三代', desc:'金德之兴，白银现于山' },
-  { dynasty:'周朝', element:'火', color:'赤', era:'三代', desc:'火德之运，赤乌衔丹书' },
-  { dynasty:'秦朝', element:'水', color:'黑', era:'帝国', desc:'水德之瑞，秦文公猎获黑龙' },
-  { dynasty:'汉朝(西汉)', element:'土(初)' , color:'黄', era:'帝国', desc:'初承秦之水德，后改土德，以黄帝为祖' },
-  { dynasty:'汉朝(东汉)', element:'火', color:'赤', era:'帝国', desc:'光武中兴，以火德王，尚赤' },
-  { dynasty:'唐朝', element:'土', color:'黄', era:'帝国', desc:'土德之运，承隋之火而生土' },
-  { dynasty:'宋朝', element:'火', color:'赤', era:'帝国', desc:'以火德兴，尊炎宋之名' },
-  { dynasty:'元朝', element:'金', color:'白', era:'帝国', desc:'金德之运，西方之象' },
-  { dynasty:'明朝', element:'火', color:'赤', era:'帝国', desc:'重光火德，明者火也' },
-  { dynasty:'清朝', element:'水', color:'黑', era:'帝国', desc:'水德之运，北方之象' },
-];
-
-// 三垣二十八宿星官数据 (步天歌)
-const SKY_REGIONS = [
-  {
-    id:'ziwei', name:'紫微垣', desc:'紫微垣为三垣之中垣，位于北天极附近，是天帝之宫。包括北极、勾陈、紫微左垣、右垣等37星官，共200余星。',
-    stars:'北极五星、勾陈六星、紫微左垣八星、右垣七星、北斗七星等',
-    verse:'紫微垣卫象天庭，北极勾陈护帝星。北斗七星司造化，文昌天柱掌文衡。'
-  },
-  {
-    id:'taiwei', name:'太微垣', desc:'太微垣为三垣之上垣，位于紫微之南，对应朝廷百官。包括太微左垣、右垣、五帝座等20星官，共70余星。',
-    stars:'五帝座五星、太微左垣五星、右垣五星、郎位十五星等',
-    verse:'太微垣内列朝堂，五帝端居镇四方。上将次将分左右，九卿执法辅君王。'
-  },
-  {
-    id:'tianshi', name:'天市垣', desc:'天市垣为三垣之下垣，位于紫微之东南，对应人间市集贸易。包括天市左垣、右垣等19星官，共80余星。',
-    stars:'天市左垣十一星、右垣十一星、市中六星、斗五星等',
-    verse:'天市垣开万国城，列肆层楼物价明。斗斛权衡分尺度，天市楼中察世情。'
-  },
-  {
-    id:'dongfang', name:'东方七宿', desc:'东方青龙七宿：角、亢、氐、房、心、尾、箕。共34星，主春。',
-    stars:'角2 亢4 氐4 房4 心3 尾9 箕4 — 共30星',
-    verse:'角亢氐房心尾箕，青龙七宿镇东陲。大火心星明且亮，房驷天马快如飞。'
-  },
-  {
-    id:'beifang', name:'北方七宿', desc:'北方玄武七宿：斗、牛、女、虚、危、室、壁。共25星，主冬。',
-    stars:'斗6 牛6 女4 虚2 危3 室2 壁2 — 共25星',
-    verse:'斗牛女虚危室壁，玄武七宿主北疆。斗柄回寅春气动，牛女隔河遥相望。'
-  },
-  {
-    id:'xifang', name:'西方七宿', desc:'西方白虎七宿：奎、娄、胃、昴、毕、觜、参。共47星，主秋。',
-    stars:'奎16 娄3 胃3 昴7 毕8 觜3 参7 — 共47星',
-    verse:'奎娄胃昴毕觜参，白虎西沉肃气深。昴星团内藏天机，参宿三星定古今。'
-  },
-  {
-    id:'nanfang', name:'南方七宿', desc:'南方朱雀七宿：井、鬼、柳、星、张、翼、轸。共59星，主夏。',
-    stars:'井8 鬼4 柳8 星7 张6 翼22 轸4 — 共59星',
-    verse:'井鬼柳星张翼轸，朱雀南翔火德昌。东井八星如法水，鬼星团内聚微光。'
-  }
-];
-
-// 二十四节气
-const SOLAR_TERMS = [
-  { name:'立春', date:'2月3-5日', en:'Start of Spring', idx:0 },
-  { name:'雨水', date:'2月18-20日', en:'Rain Water', idx:1 },
-  { name:'惊蛰', date:'3月5-7日', en:'Awakening of Insects', idx:2 },
-  { name:'春分', date:'3月20-22日', en:'Spring Equinox', idx:3 },
-  { name:'清明', date:'4月4-6日', en:'Clear and Bright', idx:4 },
-  { name:'谷雨', date:'4月19-21日', en:'Grain Rain', idx:5 },
-  { name:'立夏', date:'5月5-7日', en:'Start of Summer', idx:6 },
-  { name:'小满', date:'5月20-22日', en:'Grain Buds', idx:7 },
-  { name:'芒种', date:'6月5-7日', en:'Grain in Ear', idx:8 },
-  { name:'夏至', date:'6月21-22日', en:'Summer Solstice', idx:9 },
-  { name:'小暑', date:'7月6-8日', en:'Minor Heat', idx:10 },
-  { name:'大暑', date:'7月22-24日', en:'Major Heat', idx:11 },
-  { name:'立秋', date:'8月7-9日', en:'Start of Autumn', idx:12 },
-  { name:'处暑', date:'8月22-24日', en:'End of Heat', idx:13 },
-  { name:'白露', date:'9月7-9日', en:'White Dew', idx:14 },
-  { name:'秋分', date:'9月22-24日', en:'Autumnal Equinox', idx:15 },
-  { name:'寒露', date:'10月7-9日', en:'Cold Dew', idx:16 },
-  { name:'霜降', date:'10月23-24日', en:'Frost Descent', idx:17 },
-  { name:'立冬', date:'11月7-8日', en:'Start of Winter', idx:18 },
-  { name:'小雪', date:'11月22-23日', en:'Minor Snow', idx:19 },
-  { name:'大雪', date:'12月6-8日', en:'Major Snow', idx:20 },
-  { name:'冬至', date:'12月21-23日', en:'Winter Solstice', idx:21 },
-  { name:'小寒', date:'1月5-7日', en:'Minor Cold', idx:22 },
-  { name:'大寒', date:'1月20-21日', en:'Major Cold', idx:23 },
-];
-
-// 八卦数据
-const TRIGRAMS = [
-  { name:'乾', glyph:'&#x2630;', meaning:'天 · 健', dir:'西北', family:'父', element:'金', animal:'马' },
-  { name:'兑', glyph:'&#x2631;', meaning:'泽 · 悦', dir:'西', family:'少女', element:'金', animal:'羊' },
-  { name:'离', glyph:'&#x2632;', meaning:'火 · 丽', dir:'南', family:'中女', element:'火', animal:'雉' },
-  { name:'震', glyph:'&#x2633;', meaning:'雷 · 动', dir:'东', family:'长男', element:'木', animal:'龙' },
-  { name:'巽', glyph:'&#x2634;', meaning:'风 · 入', dir:'东南', family:'长女', element:'木', animal:'鸡' },
-  { name:'坎', glyph:'&#x2635;', meaning:'水 · 陷', dir:'北', family:'中男', element:'水', animal:'豕' },
-  { name:'艮', glyph:'&#x2636;', meaning:'山 · 止', dir:'东北', family:'少男', element:'土', animal:'狗' },
-  { name:'坤', glyph:'&#x2637;', meaning:'地 · 顺', dir:'西南', family:'母', element:'土', animal:'牛' },
-];
-
-// 天干地支数据
-const TIAN_GAN = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
-const DI_ZHI = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
-const SHENG_XIAO = ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
-const WU_XING_GAN = ['木','木','火','火','土','土','金','金','水','水'];
 
 /* ============================================================
-   STAR PARTICLES BACKGROUND
+   DATA: Five Planets
    ============================================================ */
-(function() {
-  const c = document.getElementById('stars-canvas');
-  const ctx = c.getContext('2d');
-  let w, h, stars = [];
+const PLANETS = [
+  {name:'岁星',name2:'木星',eng:'Jupiter',element:'木',dir:'东',season:'春',color:'青',flavor:'酸',state:'齐/鲁',synodic:398.88,roman:'Jupiter',god:'岁神'},
+  {name:'荧惑',name2:'火星',eng:'Mars',element:'火',dir:'南',season:'夏',color:'赤',flavor:'苦',state:'荆/楚',synodic:779.93,roman:'Mars',god:'火神'},
+  {name:'镇星',name2:'土星',eng:'Saturn',element:'土',dir:'中',season:'季夏',color:'黄',flavor:'甘',state:'周/豫',synodic:378.09,roman:'Saturn',god:'土神'},
+  {name:'太白',name2:'金星',eng:'Venus',element:'金',dir:'西',season:'秋',color:'白',flavor:'辛',state:'秦/晋',synodic:583.92,roman:'Venus',god:'金神'},
+  {name:'辰星',name2:'水星',eng:'Mercury',element:'水',dir:'北',season:'冬',color:'黑',flavor:'咸',state:'赵/燕',synodic:115.93,roman:'Mercury',god:'水神'}
+];
 
-  function resize() {
-    w = c.width = window.innerWidth;
-    h = c.height = window.innerHeight;
+/* ============================================================
+   DATA: Three Enclosures (三垣)
+   ============================================================ */
+const ENCLOSURES = [
+  {
+    name:'紫微垣',eng:'Purple Forbidden Enclosure',desc:'三垣之中垣，位于北天极附近。天帝之宫，北极所在。包含37星官，约200余星。',
+    verse:'紫微垣卫象天庭，北极勾陈护帝星。北斗七星司造化，文昌天柱掌文衡。',
+    asterisms:[
+      {n:'北极',s:5},{n:'勾陈',s:6},{n:'紫微左垣',s:8},{n:'紫微右垣',s:7},{n:'北斗',s:7},
+      {n:'文昌',s:6},{n:'天柱',s:5},{n:'天牢',s:6},{n:'天理',s:4},{n:'太阳守',s:1},
+      {n:'天一',s:1},{n:'太一',s:1},{n:'内厨',s:2},{n:'尚书',s:5},{n:'女史',s:1},
+      {n:'柱史',s:1},{n:'御女',s:4},{n:'天床',s:6},{n:'华盖',s:7},{n:'传舍',s:9}
+    ]
+  },
+  {
+    name:'太微垣',eng:'Supreme Palace Enclosure',desc:'三垣之上垣，位于紫微之南，对应朝廷百官。包含20星官，约70余星。',
+    verse:'太微垣内列朝堂，五帝端居镇四方。上将次将分左右，九卿执法辅君王。',
+    asterisms:[
+      {n:'五帝座',s:5},{n:'太微左垣',s:5},{n:'太微右垣',s:5},{n:'郎位',s:15},{n:'郎将',s:1},
+      {n:'常陈',s:7},{n:'九卿',s:3},{n:'三公',s:3},{n:'内屏',s:4},{n:'幸臣',s:1},
+      {n:'太子',s:1},{n:'从官',s:1},{n:'虎贲',s:1},{n:'少微',s:4},{n:'长垣',s:4}
+    ]
+  },
+  {
+    name:'天市垣',eng:'Heavenly Market Enclosure',desc:'三垣之下垣，位于紫微之东南，对应人间市集贸易。包含19星官，约80余星。',
+    verse:'天市垣开万国城，列肆层楼物价明。斗斛权衡分尺度，天市楼中察世情。',
+    asterisms:[
+      {n:'天市左垣',s:11},{n:'天市右垣',s:11},{n:'市楼',s:6},{n:'斗',s:5},{n:'斛',s:4},
+      {n:'列肆',s:2},{n:'屠肆',s:2},{n:'帛度',s:2},{n:'天纪',s:9},{n:'女床',s:3},
+      {n:'贯索',s:9},{n:'七公',s:7},{n:'宗正',s:2},{n:'宗人',s:4},{n:'宗星',s:2}
+    ]
   }
+];
 
-  function initStars() {
-    stars = [];
-    const count = Math.floor((w * h) / 3000);
-    for (let i = 0; i < count; i++) {
-      stars.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: Math.random() * 1.8 + 0.3,
-        a: Math.random() * 0.8 + 0.2,
-        speed: Math.random() * 0.008 + 0.002,
-        phase: Math.random() * Math.PI * 2
-      });
-    }
+/* ============================================================
+   DATA: Zodiac Comparison
+   ============================================================ */
+const ZODIAC_MAP = [
+  {cn:'角宿',en:'Spica / Virgo',note:'室女座最亮星角宿一'},
+  {cn:'亢宿',en:'Virgo',note:'室女座东部四星'},
+  {cn:'氐宿',en:'Libra',note:'天秤座区域'},
+  {cn:'房宿',en:'Scorpius',note:'天蝎座头部'},
+  {cn:'心宿',en:'Antares / Scorpius',note:'大火星为天蝎座α'},
+  {cn:'尾宿',en:'Scorpius tail',note:'天蝎座尾部'},
+  {cn:'箕宿',en:'Sagittarius',note:'人马座弓部'},
+  {cn:'斗宿',en:'Sagittarius',note:'人马座斗柄'},
+  {cn:'牛宿',en:'Capricornus',note:'摩羯座区域'},
+  {cn:'女宿',en:'Aquarius',note:'宝瓶座区域'},
+  {cn:'虚宿',en:'Aquarius/Capricorn',note:'宝瓶/摩羯交界'},
+  {cn:'危宿',en:'Aquarius/Pegasus',note:'宝瓶/飞马交界'},
+  {cn:'室宿',en:'Pegasus',note:'飞马座四边形'},
+  {cn:'壁宿',en:'Pegasus/Andromeda',note:'飞马/仙女交界'},
+  {cn:'奎宿',en:'Andromeda/Pisces',note:'仙女/双鱼区域'},
+  {cn:'娄宿',en:'Aries',note:'白羊座'},
+  {cn:'胃宿',en:'Aries',note:'白羊座区域'},
+  {cn:'昴宿',en:'Pleiades / Taurus',note:'金牛座昴星团'},
+  {cn:'毕宿',en:'Hyades / Taurus',note:'金牛座毕宿五'},
+  {cn:'觜宿',en:'Orion',note:'猎户座头部'},
+  {cn:'参宿',en:'Orion',note:'猎户座腰带三星+全身'},
+  {cn:'井宿',en:'Gemini',note:'双子座区域'},
+  {cn:'鬼宿',en:'Cancer / M44',note:'巨蟹座鬼星团'},
+  {cn:'柳宿',en:'Hydra',note:'长蛇座头部'},
+  {cn:'星宿',en:'Hydra',note:'长蛇座心脏'},
+  {cn:'张宿',en:'Hydra',note:'长蛇座身体'},
+  {cn:'翼宿',en:'Crater',note:'巨爵座'},
+  {cn:'轸宿',en:'Corvus',note:'乌鸦座'}
+];
+
+/* ============================================================
+   DATA: Historical Astronomy (史志天文)
+   ============================================================ */
+const HISTORY_ITEMS = [
+  {num:'01',name:'史记·天官书',author:'司马迁',dynasty:'西汉',date:'约公元前91年',desc:'中国历史上第一部系统记载天文的专篇。创立五官三垣体系，记载了91颗恒星、500余星官。提出"天人感应"思想，将星象与国家兴衰相联系。'},
+  {num:'02',name:'汉书·天文志',author:'班固',dynasty:'东汉',date:'约80年',desc:'继承《史记》体系，增补西汉200年天象记录。包含日食、月食、彗星、五星聚等珍贵观测数据。分为天文志和五行志两部分。'},
+  {num:'03',name:'后汉书·天文志',author:'司马彪',dynasty:'南朝宋',date:'约300年',desc:'记载东汉194年天象。志中明确记录了超新星爆发（公元185年），是世界上最早的超新星记载之一。分天象、星变、灾异三类记述。'},
+  {num:'04',name:'晋书·天文志',author:'房玄龄等',dynasty:'唐',date:'648年',desc:'三卷天文志，体系最完备。上卷论天体结构（浑天说）、仪象制度；中卷述二十八宿分野；下卷记星占应验。保留了三国至两晋的丰富天象记录。'},
+  {num:'05',name:'宋书·天文志',author:'沈约',dynasty:'南朝梁',date:'约488年',desc:'四卷天文志。详细记载了南北朝时期天象，包括日食、月食、彗星、流星雨等。其中对公元396年彗星的描述尤为详实。'},
+  {num:'06',name:'南齐书·天文志',author:'萧子显',dynasty:'南朝梁',date:'约537年',desc:'二卷天文志。上卷记天象，下卷记星占。保存了南朝齐代（479-502）二十余年连续天象记录。'},
+  {num:'07',name:'魏书·天象志',author:'魏收',dynasty:'北齐',date:'554年',desc:'四卷天象志，为北朝正史中天文志篇幅最大者。以灾异占候为主，详细记录了北魏至东魏时期的天象及其占验。'},
+  {num:'08',name:'隋书·天文志',author:'魏徵等',dynasty:'唐',date:'636年',desc:'三卷天文志。上卷考述天地起源、浑天仪象；中卷记星官星名，收录甘德、石申、巫咸三家星经；下卷记星占分野。系统总结了唐以前天文知识。'},
+  {num:'09',name:'旧唐书·天文志',author:'刘昫等',dynasty:'后晋',date:'945年',desc:'二卷天文志。记录了唐代天文机构的设置与变迁，以及诸多重要的天象观测记录。保留了僧一行大衍历的相关资料。'},
+  {num:'10',name:'新唐书·天文志',author:'欧阳修等',dynasty:'宋',date:'1060年',desc:'三卷天文志。较旧唐志更为详备，增加了大量天象定量记录。对五星运行、交食预报有系统记载。记录了唐一代290年的天象。'},
+  {num:'11',name:'旧五代史·天文志',author:'薛居正等',dynasty:'宋',date:'974年',desc:'记载五代十国时期（907-960）的天象记录。虽篇幅简短，但保存了政权更迭期的重要天文观测资料。'},
+  {num:'12',name:'新五代史·司天考',author:'欧阳修',dynasty:'宋',date:'1070年',desc:'欧阳修独创的"司天考"体例，既记天象又考历法。纠正了旧史中的错误，补充了新的观测数据。'},
+  {num:'13',name:'宋史·天文志',author:'脱脱等',dynasty:'元',date:'1345年',desc:'十三卷天文志，为历代正史篇幅最大。包括天体、星官、星变、云气、瑞星、妖星等章节。记录了大量超新星（如1054年客星）、彗星、流星雨等。'},
+  {num:'14',name:'辽史·历象志',author:'脱脱等',dynasty:'元',date:'1344年',desc:'辽代天文记录，包括历法和天象两部分。记录了辽代200余年间的重要天象，是研究北方民族天文史的重要资料。'},
+  {num:'15',name:'金史·天文志',author:'脱脱等',dynasty:'元',date:'1344年',desc:'记载金代天象观测记录。篇幅不大但内容珍贵，记录了金代（1115-1234）的各种异常天象。'},
+  {num:'16',name:'元史·天文志',author:'宋濂等',dynasty:'明',date:'1370年',desc:'二卷天文志。记载了郭守敬的简仪、仰仪等天文仪器，以及四海测验成果。保留了元代大规模天文测量的重要数据。'},
+  {num:'17',name:'明史·天文志',author:'张廷玉等',dynasty:'清',date:'1739年',desc:'三卷天文志。记载了明代在天文仪器（如浑仪、简仪、圭表）方面的发展，以及中西天文学的交流。收录了利玛窦等传教士带来的西方天文学知识。'},
+  {num:'18',name:'清史稿·天文志',author:'赵尔巽等',dynasty:'民国',date:'1927年',desc:'清代天文志，反映了西方天文学全面传入后的中国天文面貌。记载了望远镜的使用、新行星的发现（天王星、海王星）、以及近代天文台的建立。'}
+];
+
+/* ============================================================
+   DATA: Yisi Zhan 乙巳占 10 Volumes
+   ============================================================ */
+const YISI_VOLS = [
+  {v:1,title:'天象总论',desc:'天地起源、天体运行总论。论述日月星辰的基本规律。',items:['天象第一','天数第二','天占第三','日占第四']},
+  {v:2,title:'日月占候',desc:'日月运行与异常天象的占验方法。包括日食、月食、晕珥等。',items:['月占第五','日食占第六','月食占第七','晕珥占第八']},
+  {v:3,title:'五星占上',desc:'五星（岁星、荧惑、镇星）的运行轨迹与占星法。',items:['岁星占第九','荧惑占第十','镇星占第十一','五星聚合占第十二']},
+  {v:4,title:'五星占下',desc:'五星（太白、辰星）的运行轨迹与占星法。',items:['太白占第十三','辰星占第十四','五星色变占第十五']},
+  {v:5,title:'二十八宿占',desc:'二十八宿各宿主星占、分野占、列宿占。',items:['角宿占第十六','亢宿占第十七','氐宿占第十八','房心尾箕占第十九']},
+  {v:6,title:'星官占',desc:'三垣星官及中外星官的分野占候。',items:['紫微垣占第二十','太微垣占第廿一','天市垣占第廿二','中外官占第廿三']},
+  {v:7,title:'云气占候',desc:'云气形状、颜色、方位与吉凶的对应关系。',items:['云气总占第廿四','云气色占第廿五','瑞云占第廿六','妖云占第廿七']},
+  {v:8,title:'风角占候',desc:'八方之风的方向、强弱、时节与占验。',items:['风角总占第廿八','八风占第廿九','风色占第三十','风期占第三一']},
+  {v:9,title:'雷電虹霓占',desc:'雷电、虹霓、霰雪等大气现象的星占解释。',items:['雷占第三二','电占第三三','虹霓占第三四','霰雪霜露占第三五']},
+  {v:10,title:'杂占候',desc:'彗星、流星、客星、妖星等异常天象的综合占验。',items:['彗星占第三六','流星占第三七','客星占第三八','妖星占第三九','杂星占第四十']}
+];
+
+/* ============================================================
+   DATA: Yisi Methods
+   ============================================================ */
+const YISI_METHODS = [
+  {name:'星占地',desc:'根据恒星、行星位置与亮度变化判断吉凶。以二十八宿分野配九州。'},
+  {name:'日占地',desc:'观测太阳颜色、光晕、黑子、日食等，占验国家大事。'},
+  {name:'月占地',desc:'观察月亮颜色、月晕、月食，预测气象与人事。'},
+  {name:'云气占',desc:'观云气之形色方位，如天子气、霸王气、兵气等。'},
+  {name:'风角占',desc:'以八风定八方，测风之方向强弱以占吉凶。'},
+  {name:'雷電占',desc:'雷鸣之方位时辰、闪电之形色，均与人事对应。'},
+  {name:'流星占',desc:'流星之大小、颜色、方向、声响，各有所占。'},
+  {name:'彗星占',desc:'彗星（孛星、妖星）之出现方位与形色，主大灾异。'}
+];
+
+/* ============================================================
+   DATA: Precession Figures
+   ============================================================ */
+const PRECESSION_FIGURES = [
+  {name:'虞喜',year:'330年',dynasty:'东晋',desc:'中国岁差发现第一人。著《安天论》，提出"天自为天，岁自为岁"，推算岁差约50年差1°。'},
+  {name:'祖冲之',year:'462年',dynasty:'南朝宋',desc:'将岁差引入历法计算。著《大明历》，首次在历法中考虑岁差改正，推算岁差值约45年差1°。'},
+  {name:'僧一行',year:'727年',dynasty:'唐',desc:'在《大衍历》中改进岁差算法，确定约83年差1°。组织大规模天文测量，实测子午线长度。'},
+  {name:'郭守敬',year:'1280年',dynasty:'元',desc:'著《授时历》，以实测数据重新确定岁差常数，使中国历法精度达到新的高峰。'}
+];
+
+/* ============================================================
+   DATA: Calendar Timeline
+   ============================================================ */
+const CALENDAR_TIMELINE = [
+  {name:'黄帝历',era:'上古',note:'传说的最古历法'},
+  {name:'夏历',era:'夏',note:'以寅月为岁首'},
+  {name:'殷历',era:'商',note:'以丑月为岁首'},
+  {name:'周历',era:'周',note:'以子月为岁首'},
+  {name:'颛顼历',era:'秦',note:'秦至汉初行用'},
+  {name:'太初历',era:'西汉',note:'邓平等造，首用八十一分法'},
+  {name:'三统历',era:'西汉',note:'刘歆据太初历修订'},
+  {name:'四分历',era:'东汉',note:'李梵等造，精度提升'},
+  {name:'乾象历',era:'三国吴',note:'刘洪造，引入定朔算法'},
+  {name:'大明历',era:'南朝宋',note:'祖冲之造，首次用岁差'},
+  {name:'皇极历',era:'隋',note:'刘焯造，创等间距二次差内插法'},
+  {name:'戊寅元历',era:'唐',note:'傅仁钧造，行用46年'},
+  {name:'麟德历',era:'唐',note:'李淳风造，简化计算'},
+  {name:'大衍历',era:'唐',note:'僧一行造，最精密唐历'},
+  {name:'宣明历',era:'唐',note:'徐昂造，行用70年'},
+  {name:'崇天历',era:'宋',note:'北宋官方历法'},
+  {name:'统天历',era:'南宋',note:'杨忠辅造，精度极高'},
+  {name:'授时历',era:'元',note:'郭守敬造，行用360余年'},
+  {name:'大统历',era:'明',note:'即授时历的改历'},
+  {name:'时宪历',era:'清',note:'汤若望等以西法修撰'}
+];
+
+/* ============================================================
+   STARS BACKGROUND
+   ============================================================ */
+(function(){
+  const c=document.getElementById('stars-canvas');
+  const ctx=c.getContext('2d');
+  let w,h,stars=[];
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight;}
+  function init(){
+    stars=[];const cnt=Math.floor((w*h)/3500);
+    for(let i=0;i<cnt;i++){stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.6+0.2,a:Math.random()*0.7+0.2,sp:Math.random()*0.008+0.002,ph:Math.random()*Math.PI*2});}
   }
-
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-    const t = Date.now() * 0.001;
-    for (const s of stars) {
-      const flicker = 0.5 + 0.5 * Math.sin(t * s.speed + s.phase);
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200,200,232,${s.a * flicker})`;
-      ctx.fill();
-    }
+  function draw(){
+    ctx.clearRect(0,0,w,h);const t=Date.now()*0.001;
+    for(const s of stars){const f=0.5+0.5*Math.sin(t*s.sp+s.ph);ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle='rgba(200,200,232,'+(s.a*f)+')';ctx.fill();}
     requestAnimationFrame(draw);
   }
-
-  resize();
-  initStars();
-  draw();
-  window.addEventListener('resize', () => { resize(); initStars(); });
+  resize();init();draw();window.addEventListener('resize',()=>{resize();init();});
 })();
 
 /* ============================================================
-   28 MANSIONS SVG
+   TAB SWITCHING
    ============================================================ */
-function buildMansionChart() {
-  const svg = document.getElementById('mansion-svg');
-  const cx = 300, cy = 300, outerR = 250, innerR = 90;
-  const sectors = MANSIONS_DATA.length;
-  const arcSize = 360 / sectors;
-
-  // Direction color regions background
-  const dirs = [
-    { name:'青龙', start:0, end:7, color:'rgba(46,204,113,0.04)' },
-    { name:'朱雀', start:21, end:28, color:'rgba(231,76,60,0.04)' },
-    { name:'白虎', start:14, end:21, color:'rgba(230,126,34,0.04)' },
-    { name:'玄武', start:7, end:14, color:'rgba(52,152,219,0.04)' },
-  ];
-
-  let html = '';
-
-  // Background rings
-  html += `<circle cx="${cx}" cy="${cy}" r="${outerR}" fill="none" stroke="rgba(212,168,67,0.08)" stroke-width="1"/>`;
-  html += `<circle cx="${cx}" cy="${cy}" r="${innerR}" fill="none" stroke="rgba(212,168,67,0.06)" stroke-width="1"/>`;
-
-  // Direction background arcs
-  for (const d of dirs) {
-    const startAngle = d.start * arcSize - 90;
-    const endAngle = d.end * arcSize - 90;
-    const large = (endAngle - startAngle) > 180 ? 1 : 0;
-    const x1 = cx + outerR * Math.cos(startAngle * Math.PI / 180);
-    const y1 = cy + outerR * Math.sin(startAngle * Math.PI / 180);
-    const x2 = cx + outerR * Math.cos(endAngle * Math.PI / 180);
-    const y2 = cy + outerR * Math.sin(endAngle * Math.PI / 180);
-    html += `<path d="M ${cx + innerR * Math.cos(startAngle * Math.PI / 180)} ${cy + innerR * Math.sin(startAngle * Math.PI / 180)}
-      L ${x1} ${y1} A ${outerR} ${outerR} 0 ${large} 1 ${x2} ${y2}
-      L ${cx + innerR * Math.cos(endAngle * Math.PI / 180)} ${cy + innerR * Math.sin(endAngle * Math.PI / 180)}
-      A ${innerR} ${innerR} 0 ${large} 0 ${cx + innerR * Math.cos(startAngle * Math.PI / 180)} ${cy + innerR * Math.sin(startAngle * Math.PI / 180)}"
-      fill="${d.color}" stroke="none"/>`;
-  }
-
-  // Direction labels
-  const dirLabels = [
-    { name:'东 · 青龙', angle: 3.5 * arcSize - 90 },
-    { name:'北 · 玄武', angle: 10.5 * arcSize - 90 },
-    { name:'西 · 白虎', angle: 17.5 * arcSize - 90 },
-    { name:'南 · 朱雀', angle: 24.5 * arcSize - 90 },
-  ];
-
-  for (const dl of dirLabels) {
-    const a = dl.angle * Math.PI / 180;
-    const labelR = innerR * 0.6;
-    const x = cx + labelR * Math.cos(a);
-    const y = cy + labelR * Math.sin(a);
-    html += `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central"
-      fill="rgba(212,168,67,0.15)" font-size="13" font-family="'Ma Shan Zheng',cursive" letter-spacing="4">${dl.name}</text>`;
-  }
-
-  // Mansion sectors
-  for (let i = 0; i < sectors; i++) {
-    const m = MANSIONS_DATA[i];
-    const startAngle = i * arcSize - 90;
-    const endAngle = (i + 1) * arcSize - 90;
-    const midAngle = (startAngle + endAngle) / 2;
-    const rad = midAngle * Math.PI / 180;
-
-    // Connecting line from center
-    const midR = (innerR + outerR) / 2;
-    const labelX = cx + midR * Math.cos(rad);
-    const labelY = cy + midR * Math.sin(rad);
-
-    // Divider lines
-    const dx1 = cx + innerR * Math.cos(startAngle * Math.PI / 180);
-    const dy1 = cy + innerR * Math.sin(startAngle * Math.PI / 180);
-    const dx2 = cx + outerR * Math.cos(startAngle * Math.PI / 180);
-    const dy2 = cy + outerR * Math.sin(startAngle * Math.PI / 180);
-    html += `<line x1="${dx1}" y1="${dy1}" x2="${dx2}" y2="${dy2}" stroke="rgba(212,168,67,0.08)" stroke-width="1"/>`;
-
-    // Outer arc tick
-    const th = cy - outerR + 14;
-    const tickX = cx + outerR * Math.cos(rad);
-    const tickY = cy + outerR * Math.sin(rad);
-    html += `<line x1="${tickX}" y1="${tickY}" x2="${cx + (outerR + 8) * Math.cos(rad)}" y2="${cy + (outerR + 8) * Math.sin(rad)}" stroke="rgba(212,168,67,0.2)" stroke-width="1"/>`;
-
-    // Star count dots
-    const starDotR = 3;
-    for (let s = 0; s < Math.min(m.stars, 12); s++) {
-      const offset = (s - (Math.min(m.stars, 12) - 1) / 2) * 6;
-      const perpAngle = rad + Math.PI / 2;
-      const sx = labelX + offset * Math.cos(perpAngle);
-      const sy = labelY + offset * Math.sin(perpAngle);
-      html += `<circle cx="${sx}" cy="${sy}" r="${starDotR - 1}" fill="rgba(255,255,200,0.15)" stroke="none"/>`;
-    }
-
-    // Clickable sector
-    html += `<path
-      class="mansion-sector"
-      data-idx="${i}"
-      d="M ${cx + innerR * Math.cos(startAngle * Math.PI / 180)} ${cy + innerR * Math.sin(startAngle * Math.PI / 180)}
-         L ${cx + outerR * Math.cos(startAngle * Math.PI / 180)} ${cy + outerR * Math.sin(startAngle * Math.PI / 180)}
-         A ${outerR} ${outerR} 0 0 1 ${cx + outerR * Math.cos(endAngle * Math.PI / 180)} ${cy + outerR * Math.sin(endAngle * Math.PI / 180)}
-         L ${cx + innerR * Math.cos(endAngle * Math.PI / 180)} ${cy + innerR * Math.sin(endAngle * Math.PI / 180)}
-         A ${innerR} ${innerR} 0 0 0 ${cx + innerR * Math.cos(startAngle * Math.PI / 180)} ${cy + innerR * Math.sin(startAngle * Math.PI / 180)} z"
-      fill="transparent"
-      stroke="transparent"
-      style="cursor:pointer"
-      onmouseenter="hoverMansion(${i}, this)"
-      onmouseleave="unhoverMansion(${i}, this)"
-      onclick="selectMansion(${i})"/>`;
-
-    // Mansion label
-    const textR = (innerR + outerR) / 2;
-    const tx = cx + textR * Math.cos(rad);
-    const ty = cy + textR * Math.sin(rad);
-
-    // Show only ID for compactness
-    html += `<text x="${tx}" y="${ty - 8}" text-anchor="middle" dominant-baseline="central"
-      fill="rgba(200,200,232,0.7)" font-size="11" font-family="'Noto Serif SC',serif"
-      style="pointer-events:none;user-select:none;">${m.id}</text>`;
-    html += `<text x="${tx}" y="${ty + 10}" text-anchor="middle" dominant-baseline="central"
-      fill="rgba(212,168,67,0.3)" font-size="8" font-family="'Noto Serif SC',serif"
-      style="pointer-events:none;user-select:none;">${m.stars}星</text>`;
-  }
-
-  // Center title
-  html += `<text x="${cx}" y="${cy - 10}" text-anchor="middle" dominant-baseline="central"
-    fill="rgba(212,168,67,0.25)" font-size="16" font-family="'Ma Shan Zheng',cursive"
-    style="pointer-events:none;user-select:none;">周天星宿</text>`;
-  html += `<text x="${cx}" y="${cy + 14}" text-anchor="middle" dominant-baseline="central"
-    fill="rgba(212,168,67,0.15)" font-size="11" font-family="'Noto Serif SC',serif"
-    style="pointer-events:none;user-select:none;">二十八舍</text>`;
-
-  svg.innerHTML = html;
-
-  // Legend
-  const legendEl = document.getElementById('direction-legend');
-  legendEl.innerHTML = Object.entries(DIR_COLORS).map(([name, color]) =>
-    `<div class="direction-item">
-      <span class="direction-dot" style="background:${color};box-shadow:0 0 6px ${color}"></span>
-      <span style="color:${color}">${DIR_ANIMALS[name]} ${name}</span>
-    </div>`
-  ).join('');
-}
-
-function hoverMansion(idx, el) {
-  el.setAttribute('fill', 'rgba(212,168,67,0.08)');
-  el.setAttribute('stroke', 'rgba(212,168,67,0.3)');
-  el.setAttribute('stroke-width', '1');
-}
-
-function unhoverMansion(idx, el) {
-  el.setAttribute('fill', 'transparent');
-  el.setAttribute('stroke', 'transparent');
-}
-
-function selectMansion(idx) {
-  const m = MANSIONS_DATA[idx];
-  const detail = document.getElementById('mansion-detail');
-  detail.classList.add('visible');
-  document.getElementById('detail-name').textContent = `${m.name}（${m.id}）`;
-  document.getElementById('detail-dir').textContent = `${m.dirCN} (${m.dir})`;
-  document.getElementById('detail-stars').textContent = `${m.stars} 颗`;
-  document.getElementById('detail-pos').textContent = m.pos;
-  document.getElementById('detail-field').textContent = m.field;
-  document.getElementById('detail-symbol').textContent = m.symbol;
-}
-
-/* ============================================================
-   FIVE PLANETS CONJUNCTIONS
-   ============================================================ */
-function buildConjunctions() {
-  const list = document.getElementById('conjunction-list');
-  list.innerHTML = CONJUNCTIONS.map(c => `
-    <div class="timeline-item" onclick="showConjunctionDetail(this)">
-      <div class="timeline-year">${c.year < 0 ? Math.abs(c.year)+' BC' : c.year}</div>
-      <div>
-        <div style="color:var(--star);font-size:14px;font-weight:600;">${c.label}</div>
-        <div class="timeline-desc">${c.desc}</div>
-        <div class="timeline-detail">${c.detail}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function showConjunctionDetail(el) {
-  // Toggle detail visibility
-  const detail = el.querySelector('.timeline-detail');
-  const isVisible = detail.style.display !== 'none';
-  // Hide all details first
-  document.querySelectorAll('.timeline-detail').forEach(d => d.style.display = 'none');
-  if (!isVisible) detail.style.display = 'block';
-}
-
-/* ============================================================
-   WUXING (FIVE ELEMENTS) CYCLE
-   ============================================================ */
-function buildWuxingCycle() {
-  const svg = document.getElementById('wuxing-svg');
-  const cx = 150, cy = 150, r = 100;
-  const elements = [
-    { name:'木', color:'#2ecc71', angle:-90 },
-    { name:'火', color:'#e74c3c', angle: -90 + 72 },
-    { name:'土', color:'#f39c12', angle: -90 + 144 },
-    { name:'金', color:'#f1c40f', angle: -90 + 216 },
-    { name:'水', color:'#3498db', angle: -90 + 288 },
-  ];
-
-  let html = '';
-
-  // Connecting arrows (generating cycle: wood->fire->earth->metal->water->wood)
-  const genCycle = [0, 1, 2, 3, 4]; // wood->fire->earth->metal->water->wood
-  for (let i = 0; i < genCycle.length; i++) {
-    const from = genCycle[i];
-    const to = genCycle[(i + 1) % genCycle.length];
-    const a1 = elements[from].angle * Math.PI / 180;
-    const a2 = elements[to].angle * Math.PI / 180;
-    const midA = (elements[from].angle + elements[to].angle) / 2 * Math.PI / 180;
-    const x1 = cx + r * Math.cos(a1);
-    const y1 = cy + r * Math.sin(a1);
-    const x2 = cx + r * Math.cos(a2);
-    const y2 = cy + r * Math.sin(a2);
-    // Outer arc
-    const xm = cx + (r + 15) * Math.cos(midA);
-    const ym = cy + (r + 15) * Math.sin(midA);
-    html += `<path d="M ${x1} ${y1} Q ${xm} ${ym} ${x2} ${y2}" fill="none" stroke="rgba(212,168,67,0.15)" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>`;
-  }
-
-  // Arrow marker
-  html += `<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-    <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(212,168,67,0.3)"/>
-  </marker></defs>`;
-
-  // Controlling cycle (overcoming: wood->earth->water->fire->metal->wood)
-  const ctrlCycle = [0, 2, 4, 1, 3]; // wood over earth, earth over water, water over fire, fire over metal, metal over wood
-  for (let i = 0; i < ctrlCycle.length; i++) {
-    const from = ctrlCycle[i];
-    const to = ctrlCycle[(i + 1) % ctrlCycle.length];
-    const a1 = elements[from].angle * Math.PI / 180;
-    const a2 = elements[to].angle * Math.PI / 180;
-    const x1 = cx + r * Math.cos(a1);
-    const y1 = cy + r * Math.sin(a1);
-    const x2 = cx + r * Math.cos(a2);
-    const y2 = cy + r * Math.sin(a2);
-    const innerR = r - 5;
-    html += `<line x1="${cx + innerR * Math.cos(a1)}" y1="${cy + innerR * Math.sin(a1)}" x2="${cx + innerR * Math.cos(a2)}" y2="${cy + innerR * Math.sin(a2)}" stroke="rgba(192,57,43,0.1)" stroke-width="1.5" stroke-dasharray="2,4"/>`;
-  }
-
-  // Element circles and labels
-  for (const e of elements) {
-    const a = e.angle * Math.PI / 180;
-    const x = cx + r * Math.cos(a);
-    const y = cy + r * Math.sin(a);
-    html += `<circle cx="${x}" cy="${y}" r="22" fill="rgba(10,10,30,0.8)" stroke="${e.color}" stroke-width="2" filter="url(#glow)"/>`;
-    html += `<text x="${x}" y="${y + 1}" text-anchor="middle" dominant-baseline="central"
-      fill="${e.color}" font-size="16" font-weight="700" font-family="'Noto Serif SC',serif"
-      style="text-shadow:0 0 10px ${e.color}">${e.name}</text>`;
-  }
-
-  // Glow filter
-  html += `<defs>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>`;
-
-  // Fix filters - close properly
-  html = html.replace('</defs', '</defs>');
-
-  svg.innerHTML = html;
-
-  // Wuxing virtue table
-  const tableBody = document.getElementById('wuxing-table-body');
-  tableBody.innerHTML = WUXING_VIRTUES.map(v =>
-    `<tr><td>${v.dynasty}</td><td>${v.element}</td><td>${v.color}</td><td style="font-size:11px;color:var(--muted);">${v.desc}</td></tr>`
-  ).join('');
-}
-
-/* ============================================================
-   SKY PACING STAR MAP
-   ============================================================ */
-let currentSkyRegion = 0;
-
-function buildSkyMapNav() {
-  const nav = document.getElementById('skymap-nav');
-  nav.innerHTML = SKY_REGIONS.map((r, i) =>
-    `<button class="skymap-btn${i === 0 ? ' active' : ''}" onclick="selectSkyRegion(${i})">${r.name}</button>`
-  ).join('');
-  selectSkyRegion(0);
-}
-
-function selectSkyRegion(idx) {
-  currentSkyRegion = idx;
-  document.querySelectorAll('.skymap-btn').forEach((b, i) => {
-    b.classList.toggle('active', i === idx);
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById(this.dataset.tab).classList.add('active');
+    });
   });
-  drawSkyMap(idx);
-  updateSkyInfo(idx);
-}
+});
 
-function drawSkyMap(idx) {
-  const svg = document.getElementById('skymap-svg');
-  const r = SKY_REGIONS[idx];
-  const w = 700, h = 500;
-  let html = '';
+/* ============================================================
+   28 MANSIONS CANVAS
+   ============================================================ */
+function drawMansionCanvas(){
+  const canvas=document.getElementById('mansion-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=700,H=700,cx=350,cy=350,outerR=270,innerR=90;
+  const n=MANSIONS.length,arcSize=360/n;
+  ctx.clearRect(0,0,W,H);
 
   // Background
-  html += `<rect x="0" y="0" width="${w}" height="${h}" fill="rgba(5,5,20,0.5)" rx="8"/>`;
+  const grd=ctx.createRadialGradient(cx,cy,0,cx,cy,outerR+20);
+  grd.addColorStop(0,'rgba(5,5,15,1)');grd.addColorStop(1,'rgba(10,10,10,1)');
+  ctx.fillStyle=grd;ctx.fillRect(0,0,W,H);
 
-  // Starry background
-  const seed = idx * 137;
-  for (let i = 0; i < 80; i++) {
-    const sx = ((i * 73 + seed) % w);
-    const sy = ((i * 137 + seed * 3 + 50) % h);
-    const sr = (i % 3) * 0.5 + 0.5;
-    const sa = 0.2 + (i % 5) * 0.12;
-    html += `<circle cx="${sx}" cy="${sy}" r="${sr}" fill="rgba(200,200,232,${sa})"/>`;
+  // Direction backgrounds
+  const dirs=[{name:'青龙',start:0,end:7,color:'rgba(46,204,113,0.03)'},{name:'朱雀',start:21,end:28,color:'rgba(231,76,60,0.03)'},{name:'白虎',start:14,end:21,color:'rgba(230,126,34,0.03)'},{name:'玄武',start:7,end:14,color:'rgba(52,152,219,0.03)'}];
+  for(const d of dirs){
+    const sa=d.start*arcSize-90,ea=d.end*arcSize-90;
+    ctx.beginPath();
+    const sr_i=innerR*Math.cos(sa*Math.PI/180),sc_i=innerR*Math.sin(sa*Math.PI/180);
+    const sr_o=outerR*Math.cos(sa*Math.PI/180),sc_o=outerR*Math.sin(sa*Math.PI/180);
+    const er_i=innerR*Math.cos(ea*Math.PI/180),ec_i=innerR*Math.sin(ea*Math.PI/180);
+    const er_o=outerR*Math.cos(ea*Math.PI/180),ec_o=outerR*Math.sin(ea*Math.PI/180);
+    ctx.moveTo(cx+sr_i,cy+sc_i);ctx.lineTo(cx+sr_o,cy+sc_o);
+    ctx.arc(cx,cy,outerR,sa*Math.PI/180,ea*Math.PI/180);
+    ctx.lineTo(cx+er_i,cy+ec_i);
+    ctx.arc(cx,cy,innerR,ea*Math.PI/180,sa*Math.PI/180,true);
+    ctx.fillStyle=d.color;ctx.fill();
   }
 
-  // Draw stars for this region
-  const starCount = 15 + (idx % 5) * 5;
-  for (let i = 0; i < starCount; i++) {
-    const sx = 80 + ((i * 37 + idx * 53 + 11) % 540);
-    const sy = 60 + ((i * 59 + idx * 71 + 23) % 360);
-    const sr = 1.5 + (i % 4) * 0.8;
-    const sc = i % 3 === 0 ? '#d4a843' : (i % 3 === 1 ? '#c8c8e8' : '#8ab4f8');
-    html += `<circle cx="${sx}" cy="${sy}" r="${sr}" fill="${sc}" opacity="0.8"/>`;
+  // Outer ring & inner ring
+  ctx.beginPath();ctx.arc(cx,cy,outerR,0,Math.PI*2);ctx.strokeStyle='rgba(212,168,67,0.08)';ctx.lineWidth=1;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,innerR,0,Math.PI*2);ctx.strokeStyle='rgba(212,168,67,0.05)';ctx.lineWidth=1;ctx.stroke();
 
-    // Star name labels
-    const labelIdx = (i * 7 + idx * 13) % 8;
-    const labels = ['天枢','天璇','天玑','天权','玉衡','开阳','摇光','辅星',
-                    '北极','勾陈','华盖','文昌','天柱','天牢','天理','太阳',
-                    '角宿','亢宿','氐宿','房宿','心宿','尾宿','箕宿','斗宿',
-                    '井宿','鬼宿','柳宿','星宿','张宿','翼宿','轸宿','奎宿'];
-    // Only show some labels
-    if (i % 3 === 0) {
-      html += `<text x="${sx + 6}" y="${sy + 2}" fill="rgba(200,200,232,0.5)" font-size="8"
-        font-family="'Noto Serif SC',serif">${labels[labelIdx]}</text>`;
+  // Direction labels
+  const dirlabels=[{name:'东  青 龙',angle:3.5},{name:'北  玄 武',angle:10.5},{name:'西  白 虎',angle:17.5},{name:'南  朱 雀',angle:24.5}];
+  ctx.font='13px "Ma Shan Zheng",cursive';ctx.fillStyle='rgba(212,168,67,0.12)';ctx.textAlign='center';ctx.textBaseline='middle';
+  for(const dl of dirlabels){
+    const a=dl.angle*arcSize-90;const rad=a*Math.PI/180;
+    const x=cx+innerR*0.55*Math.cos(rad),y=cy+innerR*0.55*Math.sin(rad);
+    ctx.fillText(dl.name,x,y);
+  }
+
+  // Center text
+  ctx.font='18px "Ma Shan Zheng",cursive';ctx.fillStyle='rgba(212,168,67,0.2)';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('周天星宿',cx,cy-12);
+  ctx.font='12px "Noto Serif SC",serif';ctx.fillStyle='rgba(212,168,67,0.12)';
+  ctx.fillText('二十八舍',cx,cy+14);
+
+  // Store positions for click detection
+  window._mansionSectors=[];
+
+  // Draw each mansion
+  for(let i=0;i<n;i++){
+    const m=MANSIONS[i];
+    const sa=i*arcSize-90,ea=(i+1)*arcSize-90;
+    const sRad=Math.PI/180;
+    const saRad=sa*sRad,eaRad=ea*sRad;
+    const midRad=(sa+ea)/2*sRad;
+
+    // Divider line
+    ctx.beginPath();
+    ctx.moveTo(cx+innerR*Math.cos(saRad),cy+innerR*Math.sin(saRad));
+    ctx.lineTo(cx+outerR*Math.cos(saRad),cy+outerR*Math.sin(saRad));
+    ctx.strokeStyle='rgba(212,168,67,0.06)';ctx.lineWidth=1;ctx.stroke();
+
+    // Sector highlight on hover stored for click
+    const sx=cx+innerR*Math.cos(saRad),sy=cy+innerR*Math.sin(saRad);
+    const sx2=cx+outerR*Math.cos(saRad),sy2=cy+outerR*Math.sin(saRad);
+    const ex=cx+outerR*Math.cos(eaRad),ey=cy+outerR*Math.sin(eaRad);
+    const ex2=cx+innerR*Math.cos(eaRad),ey2=cy+innerR*Math.sin(eaRad);
+    window._mansionSectors.push({idx:i,sa:saRad,ea:eaRad,sx:cx+innerR*Math.cos(saRad),sy:cy+innerR*Math.sin(saRad),ex:cx+innerR*Math.cos(eaRad),ey:cy+innerR*Math.sin(eaRad),ox:cx+outerR*Math.cos(saRad),oy:cy+outerR*Math.sin(saRad),ox2:cx+outerR*Math.cos(eaRad),oy2:cy+outerR*Math.sin(eaRad)});
+
+    // Star dots
+    const midX=cx+(innerR+outerR)/2*Math.cos(midRad);
+    const midY=cy+(innerR+outerR)/2*Math.sin(midRad);
+    const maxDots=Math.min(m.stars,14);
+    for(let s=0;s<maxDots;s++){
+      const off=(s-(maxDots-1)/2)*5;
+      const perp=midRad+Math.PI/2;
+      const dx=midX+off*Math.cos(perp),dy=midY+off*Math.sin(perp);
+      ctx.beginPath();ctx.arc(dx,dy,1.5,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,255,200,0.12)';ctx.fill();
     }
+
+    // Mansion ID
+    ctx.font='12px "Noto Serif SC",serif';ctx.fillStyle='rgba(200,200,232,0.5)';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(m.id,midX,midY-10);
+    ctx.font='9px "Noto Serif SC",serif';ctx.fillStyle='rgba(212,168,67,0.25)';
+    ctx.fillText(m.stars+'星',midX,midY+10);
+
+    // Tick marks on outer
+    ctx.beginPath();
+    const tickX=cx+(outerR+6)*Math.cos(midRad),tickY=cy+(outerR+6)*Math.sin(midRad);
+    ctx.moveTo(cx+outerR*Math.cos(midRad),cy+outerR*Math.sin(midRad));
+    ctx.lineTo(tickX,tickY);
+    ctx.strokeStyle='rgba(212,168,67,0.12)';ctx.lineWidth=1;ctx.stroke();
   }
 
-  // Draw connecting lines (constellation patterns)
-  for (let i = 0; i < starCount - 1; i += 2) {
-    const x1 = 80 + ((i * 37 + idx * 53) % 540);
-    const y1 = 60 + ((i * 59 + idx * 71) % 360);
-    const x2 = 80 + (((i + 1) * 37 + idx * 53 + 20) % 540);
-    const y2 = 60 + (((i + 1) * 59 + idx * 71 + 30) % 360);
-    html += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="rgba(212,168,67,0.1)" stroke-width="1"/>`;
-  }
+  // Click handler
+  canvas.onclick=function(e){
+    const rect=canvas.getBoundingClientRect();
+    const scaleX=canvas.width/rect.width,scaleY=canvas.height/rect.height;
+    const mx=(e.clientX-rect.left)*scaleX,my=(e.clientY-rect.top)*scaleY;
+    const dx=mx-cx,dy=my-cy;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<innerR||dist>outerR){document.getElementById('mansion-detail').classList.remove('visible');return;}
+    let angle=Math.atan2(dy,dx)*180/Math.PI+90;
+    if(angle<0)angle+=360;
+    const idx=Math.floor(angle/arcSize);
+    if(idx>=0&&idx<n)selectMansion(idx);
+  };
 
-  // Region title
-  html += `<text x="${w/2}" y="30" text-anchor="middle" fill="rgba(212,168,67,0.6)" font-size="18"
-    font-family="'Ma Shan Zheng',cursive" letter-spacing="4">${r.name}</text>`;
+  // Legend
+  const dirColors={'青龙':'#2ecc71','朱雀':'#e74c3c','白虎':'#e67e22','玄武':'#3498db'};
+  const dirAnimals={'青龙':'&#x1F409;','朱雀':'&#x1F426;','白虎':'&#x1F981;','玄武':'&#x1F422;'};
+  document.getElementById('direction-legend').innerHTML=
+    Object.entries(dirColors).map(([n,c])=>'<div class="direction-item"><span class="direction-dot" style="background:'+c+';box-shadow:0 0 6px '+c+'"></span><span style="color:'+c+'">'+dirAnimals[n]+' '+n+'</span></div>').join('');
 
-  // Stars info
-  html += `<text x="${w/2}" y="${h - 15}" text-anchor="middle" fill="rgba(200,200,232,0.3)" font-size="10"
-    font-family="'Noto Serif SC',serif">${r.stars}</text>`;
-
-  svg.innerHTML = html;
+  // Build table
+  const tbody=document.getElementById('mansion-table-body');
+  const dirMap={'青龙':'dir-qinglong','朱雀':'dir-zhuque','白虎':'dir-baihu','玄武':'dir-xuanwu'};
+  tbody.innerHTML=MANSIONS.map(m=>'<tr class="'+dirMap[m.dir]+'" onclick="selectMansion('+m.order+')" style="cursor:pointer"><td>'+m.name+'</td><td>'+m.title+'</td><td>'+m.stars+'</td><td>'+m.dirCN+'</td><td>'+m.animal+m.creature+'</td><td>'+m.field+'</td><td>'+m.zodiac+'</td></tr>').join('');
 }
 
-function updateSkyInfo(idx) {
-  const r = SKY_REGIONS[idx];
-  const info = document.getElementById('skymap-info');
-  info.innerHTML = `
-    <h4>${r.name}</h4>
-    <p>${r.desc}</p>
-    <p style="margin-top:8px;color:var(--gold-dim);font-style:italic;font-size:13px;">${r.verse}</p>
-    <p style="margin-top:6px;color:var(--star);font-size:12px;">包含星官：${r.stars}</p>
-  `;
+function selectMansion(idx){
+  const m=MANSIONS[idx];
+  const d=document.getElementById('mansion-detail');d.classList.add('visible');
+  document.getElementById('detail-name').textContent=m.name+'('+m.id+')';
+  document.getElementById('detail-animal').textContent=m.title+'('+m.animal+m.creature+')';
+  document.getElementById('detail-dir').textContent=m.dirCN+'('+m.dir+')';
+  document.getElementById('detail-stars').textContent=m.stars+'颗';
+  document.getElementById('detail-field').textContent=m.field;
+  document.getElementById('detail-symbol').textContent=m.symbol;
+  document.getElementById('detail-zodiac').textContent=m.zodiac;
 }
 
 /* ============================================================
-   CALENDAR CALCULATOR
+   FIVE PLANETS VISUALIZATION
    ============================================================ */
+function drawPlanetChart(){
+  const canvas=document.getElementById('planet-canvas');
+  const ctx=canvas.getContext('2d');
+  const W=500,H=320;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(5,5,15,0.8)';ctx.fillRect(0,0,W,H);
 
-// 干支纪年转换 (真实计算)
-function calcGanzhi() {
-  const year = parseInt(document.getElementById('year-input').value);
-  if (isNaN(year)) return;
-
-  // 公元4年为甲子年 (参考：公元4年 = 甲子)
-  // 天干: (year - 4) % 10, 地支: (year - 4) % 12
-  let ganIdx = ((year - 4) % 10 + 10) % 10;
-  let zhiIdx = ((year - 4) % 12 + 12) % 12;
-
-  const gan = TIAN_GAN[ganIdx];
-  const zhi = DI_ZHI[zhiIdx];
-  const animal = SHENG_XIAO[zhiIdx];
-  const wx = WU_XING_GAN[ganIdx];
-
-  // 五行纳音 (简化版，根据年柱定纳音五行)
-  const nanyinMap = [
-    ['海中金','炉中火','大林木','路旁土','剑锋金','山头火','涧下水','城头土','白蜡金','杨柳木'],
-    ['井泉水','屋上土','霹雳火','松柏木','长流水','砂石金','山下火','平地木','壁上土','金箔金'],
-    ['覆灯火','天河水','大驿土','钗钏金','桑柘木','大溪水','沙中土','天上火','石榴木','大海水'],
+  // Orbit circles
+  const orbitData=[
+    {r:30,color:'#3498db',label:'辰星 115.93d'},
+    {r:60,color:'#f1c40f',label:'太白 583.92d'},
+    {r:95,color:'#e74c3c',label:'荧惑 779.93d'},
+    {r:130,color:'#2ecc71',label:'岁星 398.88d'},
+    {r:155,color:'#f39c12',label:'镇星 378.09d'}
   ];
 
-  // Simple nayin based on combination
-  const nayinIdx = (ganIdx + zhiIdx) % 30;
-  const nayinGroup = Math.floor(nayinIdx / 10);
-  const nayin = ['海中金-炉中火-大林木-路旁土-剑锋金-山头火-涧下水-城头土-白蜡金-杨柳木'][0].split('-')[ganIdx];
+  // Sun
+  const sunX=250,sunY=160;
+  const grd=ctx.createRadialGradient(sunX,sunY,0,sunX,sunY,25);
+  grd.addColorStop(0,'#f0d060');grd.addColorStop(0.5,'#d4a843');grd.addColorStop(1,'rgba(212,168,67,0.1)');
+  ctx.beginPath();ctx.arc(sunX,sunY,18,0,Math.PI*2);
+  ctx.fillStyle=grd;ctx.fill();
 
-  const result = document.getElementById('ganzhi-result');
-  result.innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;">
-      <div style="background:rgba(212,168,67,0.08);border-radius:6px;padding:12px;">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">干支纪年</div>
-        <div style="font-size:28px;color:var(--gold-bright);font-family:var(--font-display);letter-spacing:4px;">${gan}${zhi}</div>
-      </div>
-      <div style="background:rgba(212,168,67,0.08);border-radius:6px;padding:12px;">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">生肖</div>
-        <div style="font-size:28px;color:var(--ink);">${animal}</div>
-      </div>
-      <div style="background:rgba(212,168,67,0.08);border-radius:6px;padding:12px;">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">天干五行</div>
-        <div style="font-size:28px;color:var(--gold-bright);">${wx}</div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:10px;font-size:13px;color:var(--muted);">
-      公元 ${year} 年 = <span class="highlight">${gan}${zhi}</span> 年（${animal}年），天干属<span class="highlight">${wx}</span>
-    </div>
-  `;
+  // Orbits
+  for(const o of orbitData){
+    ctx.beginPath();ctx.arc(sunX,sunY,o.r,0,Math.PI*2);
+    ctx.strokeStyle='rgba(200,200,232,0.08)';ctx.lineWidth=1;ctx.stroke();
+    ctx.font='8px "Noto Serif SC",serif';ctx.fillStyle='rgba(200,200,232,0.2)';ctx.textAlign='left';
+    ctx.fillText(o.label,sunX+5,sunY-o.r-2);
+  }
+
+  // Planets at angle positions
+  const t=Date.now()*0.00005;
+  const planetAngles=[t*0.4,t*0.8,t*1.6,t*2.4,t*3.0];
+  for(let i=0;i<orbitData.length;i++){
+    const o=orbitData[i];const angle=planetAngles[i];
+    const px=sunX+o.r*Math.cos(angle),py=sunY+o.r*Math.sin(angle);
+    ctx.beginPath();ctx.arc(px,py,5,0,Math.PI*2);
+    ctx.fillStyle=o.color;ctx.fill();
+    ctx.shadowColor=o.color;ctx.shadowBlur=8;
+    ctx.fill();ctx.shadowBlur=0;
+    const names=['辰星','太白','荧惑','岁星','镇星'];
+    ctx.font='9px "Noto Serif SC",serif';ctx.fillStyle='rgba(200,200,232,0.5)';ctx.textAlign='center';
+    ctx.fillText(names[i],px,py-10);
+  }
+
+  ctx.font='10px "Noto Serif SC",serif';ctx.fillStyle='rgba(212,168,67,0.3)';ctx.textAlign='center';
+  ctx.fillText('五星轨道示意图（相对位置示意）',W/2,H-10);
+
+  // Planet data grid
+  const grid=document.getElementById('planet-data-grid');
+  grid.innerHTML=PLANETS.map(p=>'<div class="planet-data-item"><div class="label">'+p.name+'('+p.name2+')</div><div class="value">'+p.synodic+'d</div><div style="font-size:10px;color:var(--muted)">五行:'+p.element+' | '+p.dir+'方</div></div>').join('');
+
+  // Wu Xing planet table
+  const wxDiv=document.getElementById('wuxing-planet-table');
+  let wxHtml='<table class="star-count-table"><thead><tr><th>五星</th><th>五行</th><th>方位</th><th>季节</th><th>颜色</th><th>会合周期</th></tr></thead><tbody>';
+  wxHtml+=PLANETS.map(p=>'<tr><td style="color:var(--gold)">'+p.name+'</td><td>'+p.element+'</td><td>'+p.dir+'</td><td>'+p.season+'</td><td>'+p.color+'</td><td>'+p.synodic+'日</td></tr>').join('');
+  wxHtml+='</tbody></table>';
+  wxDiv.innerHTML=wxHtml;
+
+  // Animate
+  let animId;
+  function animate(){drawPlanetChart();animId=requestAnimationFrame(animate);}
+  // Don't auto-animate to save CPU; just redraw on tab switch
 }
 
-// 二十四节气
-function showSolarTerms() {
-  const year = parseInt(document.getElementById('terms-year-input').value);
-  if (isNaN(year)) return;
+/* ============================================================
+   PLANET MASTER CALCULATOR
+   ============================================================ */
+function calcPlanetMaster(){
+  const year=parseInt(document.getElementById('planet-year-input').value);
+  if(isNaN(year))return;
+  // Simplified: use year modulo to approximate dominant planet based on synodic cycles
+  const baseYear=2000;
+  const offset=year-baseYear;
+  // Each planet's influence cycles approximately with its synodic period
+  const cycles=PLANETS.map((p,i)=>{
+    const phase=((offset/p.synodic)*360+90)%360;
+    return {planet:p,phase:phase,strength:Math.abs(Math.sin(phase*Math.PI/180))};
+  });
+  cycles.sort((a,b)=>b.strength-a.strength);
+  const top3=cycles.slice(0,3);
+  const dominant=cycles[0];
 
-  const grid = document.getElementById('solar-terms-grid');
-  const now = new Date();
+  let html='<div style="margin-bottom:8px;text-align:center;">';
+  html+='公元 <span class="highlight">'+year+'</span> 年五星态势：<br><br>';
+  html+='<div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">';
+  for(const c of top3){
+    const p=c.planet;
+    const pct=Math.round(c.strength*100);
+    html+='<div style="background:rgba(212,168,67,0.06);border-radius:6px;padding:8px 14px;text-align:center;min-width:80px;">';
+    html+='<div style="font-size:13px;color:var(--gold);font-family:var(--font-display)">'+p.name+'</div>';
+    html+='<div style="font-size:20px;color:var(--gold-bright)">'+pct+'%</div>';
+    html+='</div>';
+  }
+  html+='</div></div>';
+  html+='<div style="text-align:center;font-size:13px;color:var(--star);margin-top:8px;">';
+  html+='★ 当年主星：<span class="highlight">'+dominant.planet.name+'('+dominant.planet.name2+')</span>，五行属<span class="highlight">'+dominant.planet.element+'</span>，主'+dominant.planet.dir+'方 '+dominant.planet.season+'<br>';
+  html+='<span style="font-size:11px;color:var(--muted)">推算方法：以各星会合周期为基准，计算相对于公元2000年的相位强度</span>';
+  html+='</div>';
+  document.getElementById('planet-result').innerHTML=html;
+}
 
-  grid.innerHTML = SOLAR_TERMS.map(t => {
-    // Calculate approximate date based on year
-    // Real calculation would need astronomical algorithms; this uses simplified dates
-    const month = parseInt(t.date.split('月')[0]);
-    const dayRange = t.date.split('月')[1].split('日')[0];
-    const days = dayRange.split('-').map(d => parseInt(d));
-    const approxDay = days[0]; // Use first day of range
-
-    // Check if this term is current (rough approximation)
-    const termDate = new Date(year, month - 1, approxDay);
-    const isCurrent = Math.abs(termDate - now) < 15 * 24 * 60 * 60 * 1000;
-
-    return `<div class="term-item${isCurrent ? ' current' : ''}">
-      <div class="term-name">${t.name}</div>
-      <div class="term-date">${t.date}</div>
-      <div style="font-size:9px;color:rgba(200,200,232,0.3);">${t.en}</div>
-    </div>`;
+/* ============================================================
+   ENCLOSURES (三垣)
+   ============================================================ */
+function buildEnclosures(){
+  const grid=document.getElementById('enclosure-grid');
+  grid.innerHTML=ENCLOSURES.map(e=>{
+    const list=e.asterisms.map(a=>'<li>'+a.n+'('+a.s+'星)</li>').join('');
+    return '<div class="enclosure-card"><h3>'+e.name+'</h3><p>'+e.desc+'</p><p style="font-style:italic;color:var(--gold-dim);font-size:12px;">'+e.verse+'</p><ul>'+list+'</ul></div>';
   }).join('');
 }
 
-// 八卦
-function buildTrigrams() {
-  const grid = document.getElementById('trigram-grid');
-  grid.innerHTML = TRIGRAMS.map(t =>
-    `<div class="trigram-item" onclick="showTrigramDetail('${t.name}')">
-      <span class="trigram-glyph">${t.glyph}</span>
-      <span class="trigram-name">${t.name}</span>
-      <span class="trigram-meaning">${t.meaning}</span>
-    </div>`
-  ).join('');
-}
-
-function showTrigramDetail(name) {
-  const t = TRIGRAMS.find(t => t.name === name);
-  if (!t) return;
-  alert(
-    `【${t.name}卦】\n` +
-    `符号：${t.glyph}\n` +
-    `含义：${t.meaning}\n` +
-    `方位：${t.dir}\n` +
-    `家庭成员：${t.family}\n` +
-    `五行：${t.element}\n` +
-    `象征动物：${t.animal}`
-  );
+/* ============================================================
+   ZODIAC COMPARISON
+   ============================================================ */
+function buildZodiacCompare(){
+  const div=document.getElementById('zodiac-compare');
+  div.innerHTML=ZODIAC_MAP.map(z=>'<div class="zodiac-item"><span class="cn">'+z.cn+'</span><span style="color:var(--star)">→</span><span class="en">'+z.en+'</span><span style="font-size:10px;color:var(--muted)">'+z.note+'</span></div>').join('');
 }
 
 /* ============================================================
-   INITIALIZATION
+   ASTERISM SEARCH
    ============================================================ */
-document.addEventListener('DOMContentLoaded', function() {
-  buildMansionChart();
-  buildConjunctions();
-  buildWuxingCycle();
-  buildSkyMapNav();
-  buildTrigrams();
+function searchAsterism(val){
+  const q=val.trim().toLowerCase();
+  const cards=document.querySelectorAll('.enclosure-card');
+  if(!q){cards.forEach(c=>c.style.display='block');return;}
+  cards.forEach(c=>{
+    const txt=c.textContent.toLowerCase();
+    c.style.display=txt.includes(q)?'block':'none';
+  });
+}
 
-  // Default calculations
-  calcGanzhi();
-  showSolarTerms();
+/* ============================================================
+   HISTORY ASTRONOMY
+   ============================================================ */
+function buildHistory(){
+  const list=document.getElementById('history-list');
+  list.innerHTML=HISTORY_ITEMS.map(h=>
+    '<div class="history-item" onclick="this.classList.toggle(\'expanded\')">'+
+    '<span class="h-num">['+h.num+']</span><span class="h-name">'+h.name+'</span>'+
+    '<span class="h-author">'+h.author+' · '+h.dynasty+' · '+h.date+'</span>'+
+    '<div class="h-desc">'+h.desc+'</div></div>'
+  ).join('');
+}
+
+/* ============================================================
+   YISI ZHAN
+   ============================================================ */
+function buildYisi(){
+  const grid=document.getElementById('yisi-vol-grid');
+  grid.innerHTML=YISI_VOLS.map(v=>{
+    const items=v.items.map(i=>'<li>'+i+'</li>').join('');
+    return '<div class="yisi-vol"><h4>卷第'+v.v+' · '+v.title+'</h4><p>'+v.desc+'</p><ul>'+items+'</ul></div>';
+  }).join('');
+
+  const methodsDiv=document.getElementById('yisi-methods');
+  methodsDiv.innerHTML=YISI_METHODS.map(m=>
+    '<div class="yisi-vol"><h4 style="font-size:14px;">'+m.name+'</h4><p>'+m.desc+'</p></div>'
+  ).join('');
+}
+
+/* ============================================================
+   PRECESSION
+   ============================================================ */
+function buildPrecession(){
+  const list=document.getElementById('figures-list');
+  list.innerHTML=PRECESSION_FIGURES.map(f=>
+    '<div class="figure-item"><div class="f-name">'+f.name+'</div><div class="f-year">'+f.dynasty+' '+f.year+'</div><div class="f-desc">'+f.desc+'</div></div>'
+  ).join('');
+}
+
+function calcPrecession(){
+  const year=parseInt(document.getElementById('precession-year').value);
+  if(isNaN(year))return;
+  const offset=(year-2000)/71.6;
+  const totalCycles=Math.abs(offset)/360;
+  const remain=Math.abs(offset)%360;
+  const dir=offset>=0?'东移':'西移';
+  const absOff=Math.abs(offset);
+  const r=document.getElementById('precession-result');
+  r.innerHTML='<div style="text-align:center;">'+
+    '公元 <span class="highlight">'+year+'</span> 年岁差计算<br><br>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">'+
+    '<div style="background:rgba(212,168,67,0.06);border-radius:6px;padding:10px;"><div style="font-size:11px;color:var(--muted)">岁差偏移量</div><div style="font-size:20px;color:var(--gold-bright)">'+absOff.toFixed(2)+'°</div></div>'+
+    '<div style="background:rgba(212,168,67,0.06);border-radius:6px;padding:10px;"><div style="font-size:11px;color:var(--muted)">偏移方向</div><div style="font-size:18px;color:var(--gold)">'+dir+'</div></div>'+
+    '<div style="background:rgba(212,168,67,0.06);border-radius:6px;padding:10px;"><div style="font-size:11px;color:var(--muted)">岁差周期</div><div style="font-size:16px;color:var(--gold)">'+(totalCycles.toFixed(1))+'周</div></div>'+
+    '</div>'+
+    '<div style="margin-top:8px;font-size:12px;color:var(--muted);">春分点'+dir+'约 '+absOff.toFixed(2)+'°（相当于 '+Math.round(absOff*72)+' 年前的星象位置）</div>'+
+    '<div style="font-size:12px;color:var(--muted);">以72年/°计，中国古称"岁差"</div>'+
+    '</div>';
+}
+
+/* ============================================================
+   CALENDAR TIMELINE
+   ============================================================ */
+function buildCalendarTimeline(){
+  const div=document.getElementById('calendar-timeline');
+  div.innerHTML=CALENDAR_TIMELINE.map(c=>'<div style="display:flex;gap:8px;padding:2px 0;"><span style="color:var(--gold-dim);min-width:70px;">'+c.name+'</span><span style="color:var(--muted);min-width:40px;">('+c.era+')</span><span style="color:var(--star);">— '+c.note+'</span></div>').join('');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded',function(){
+  drawMansionCanvas();
+  drawPlanetChart();
+  buildEnclosures();
+  buildZodiacCompare();
+  buildHistory();
+  buildYisi();
+  buildPrecession();
+  buildCalendarTimeline();
+  calcPlanetMaster();
+  selectMansion(0);
 });
 </script>
 </body>

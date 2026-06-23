@@ -50,6 +50,9 @@ body {
   50%{opacity:0.8;transform:scale(1.2)}
 }
 
+/* ===== PARTICLE CANVAS ===== */
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
 /* ===== CONTAINER ===== */
 .container {
   position: relative;
@@ -441,6 +444,7 @@ body {
 <body>
 
 <div class="occult-bg"></div>
+<canvas id="particleCanvas"></canvas>
 
 <div class="container">
 
@@ -470,6 +474,8 @@ body {
   <a href="bazi-chart.html" class="nav-link">八字排盘</a>
   <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
   <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
 </nav>
 
 <!-- Header -->
@@ -1668,6 +1674,40 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+// ===== PARTICLE BACKGROUND =====
+(function(){
+  var c = document.getElementById('particleCanvas');
+  if (!c) return;
+  var ctx = c.getContext('2d');
+  var w, h, particles = [];
+  function resize(){ w = c.width = window.innerWidth; h = c.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  for (var i = 0; i < 40; i++) {
+    particles.push({
+      x: Math.random() * w, y: Math.random() * h,
+      r: Math.random() * 1.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: (Math.random() - 0.5) * 0.2,
+      a: Math.random() * 0.3 + 0.1
+    });
+  }
+  function draw(){
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(function(p){
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212,168,67,' + p.a + ')';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
 
 </script>
 </body>

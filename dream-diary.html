@@ -959,6 +959,8 @@ body {
   <a href="bazi-chart.html" class="nav-link">八字排盘</a>
   <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
   <a href="dream-diary.html" class="nav-link active">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
 </nav>
 
 <!-- 粒子背景 -->
@@ -1276,7 +1278,7 @@ function loadDreams() {
 }
 
 function saveDreams() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(dreams));
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(dreams)); } catch(e) {}
 }
 
 function loadIncubations() {
@@ -1287,7 +1289,7 @@ function loadIncubations() {
 }
 
 function saveIncubations() {
-  localStorage.setItem(INCUBATION_KEY, JSON.stringify(incubations));
+  try { localStorage.setItem(INCUBATION_KEY, JSON.stringify(incubations)); } catch(e) {}
 }
 
 function loadDraft() {
@@ -1323,7 +1325,7 @@ function autoSaveDraft() {
     symbols: getSelectedSymbols()
   };
   if (draft.title || draft.content) {
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(draft)); } catch(e) {}
   }
 }
 
@@ -1377,7 +1379,7 @@ function saveDream() {
   document.querySelectorAll('#symbolTags .tag.selected').forEach(function(tag) {
     tag.classList.remove('selected');
   });
-  localStorage.removeItem(DRAFT_KEY);
+  try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
 
   showToast('梦境已记录：' + title);
 }

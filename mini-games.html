@@ -504,6 +504,8 @@ body {
   <a href="bazi-chart.html" class="nav-link">八字排盘</a>
   <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
   <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
 </nav>
 
 <!-- 粒子背景 -->
@@ -779,7 +781,7 @@ function saveHighScore(gameId, score) {
   scores.push(score);
   scores.sort(function(a, b) { return b - a; });
   if (scores.length > 3) scores = scores.slice(0, 3);
-  localStorage.setItem('mg_hi_' + gameId, JSON.stringify(scores));
+  try { localStorage.setItem('mg_hi_' + gameId, JSON.stringify(scores)); } catch(e) {}
   return scores;
 }
 function formatHighScores(scores) {

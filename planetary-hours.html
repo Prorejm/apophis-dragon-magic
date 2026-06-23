@@ -17,26 +17,37 @@ body {
     line-height: 1.8;
 }
 /* ── Navigation ── */
-nav {
-    background: #111;
+.nav-bar {
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid #d4a84333;
-    padding: 0.8rem 1.5rem;
+    padding: 0.6rem 1.5rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem 1.2rem;
     align-items: center;
     justify-content: center;
 }
-nav a {
+.nav-bar .nav-brand {
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.1rem;
     color: #d4a843;
+    white-space: nowrap;
+    letter-spacing: 3px;
+}
+.nav-bar .nav-link {
+    color: #8a7e6a;
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.75rem;
     padding: 0.3rem 0.6rem;
     border-radius: 4px;
-    transition: background 0.2s, color 0.2s;
+    transition: color 0.3s, background 0.3s;
+    white-space: nowrap;
+    letter-spacing: 1px;
 }
-nav a:hover { background: #d4a84322; color: #f0c860; }
-nav .brand { font-family: 'Ma Shan Zheng', cursive; font-size: 1.3rem; color: #c41e3a; }
+.nav-bar .nav-link:hover,
+.nav-bar .nav-link.active { color: #d4a843; background: rgba(212,168,67,0.1); }
 
 /* ── Layout ── */
 .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
@@ -293,6 +304,8 @@ html { padding-top: 48px; }
   <a href="bazi-chart.html" class="nav-link">八字排盘</a>
   <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
   <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
 </nav>
 
 <div class="container">

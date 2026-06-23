@@ -651,6 +651,8 @@ canvas.gen-canvas{
   <a href="bazi-chart.html" class="nav-link">八字排盘</a>
   <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
   <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
 </nav>
 
 <!-- ── Main Container ── -->
@@ -1243,6 +1245,14 @@ canvas.gen-canvas{
   }
   draw();
 })();
+
+/* ===== Safe localStorage helpers ===== */
+function safeGetItem(key, def) {
+  try { return JSON.parse(localStorage.getItem(key) || def); } catch(e) { return JSON.parse(def || 'null'); }
+}
+function safeSetItem(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
+}
 
 /* =====================================================================
    TAB SWITCHING
@@ -2865,14 +2875,14 @@ function translateDragon() {
   ctx.fillText('✦ 龙语符文 ✦',cx,cy+5);
   document.getElementById('dragonResult').innerHTML = '<div style="padding:1rem;"><div class="name-generated" style="font-size:1.3rem;">'+result+'</div><div style="color:#aaa;font-size:0.85rem;margin-top:0.5rem;">龙语符文已绘制于上方</div></div>';
   // Save to history
-  var history = JSON.parse(localStorage.getItem('af_dragon_history')||'[]');
+  var history = safeGetItem('af_dragon_history','[]');
   history.unshift({input:input,result:result,time:new Date().toLocaleString()});
   if(history.length>10)history.pop();
-  localStorage.setItem('af_dragon_history',JSON.stringify(history));
+  safeSetItem('af_dragon_history',history);
   renderDragonHistory();
 }
 function renderDragonHistory() {
-  var history = JSON.parse(localStorage.getItem('af_dragon_history')||'[]');
+  var history = safeGetItem('af_dragon_history','[]');
   var el = document.getElementById('dragonHistory');
   el.innerHTML = history.map(function(h){return '<div class="history-item">'+h.time+' — '+h.input+' → <span style="color:var(--accent2)">'+h.result+'</span></div>';}).join('');
 }
@@ -3124,14 +3134,14 @@ function analyzeDream() {
     analysis.map(function(a){return '<div class="dream-symbol-item"><span class="ds-word">'+a.keyword+'</span><span style="color:#888;font-size:0.8rem;margin-left:0.5rem;">['+a.element+']</span><div class="ds-interp">心理：'+a.meaning+'</div><div class="ds-interp" style="color:var(--accent2);">魔法：'+a.magic+'</div></div>';}).join('')+
     '<div style="margin-top:1rem;padding:0.8rem;background:var(--bg3);border-radius:8px;border:1px solid #333;"><div style="color:var(--accent2);font-family:var(--font-display);font-size:1.1rem;">✦ 综合解读</div><div style="color:var(--ink);font-size:0.9rem;margin-top:0.3rem;">'+interp+'</div></div></div>';
   // Save dream journal
-  var journal = JSON.parse(localStorage.getItem('af_dream_journal')||'[]');
+  var journal = safeGetItem('af_dream_journal','[]');
   journal.unshift({keywords:keywords.join(','),type:type,interp:interp,time:new Date().toLocaleString()});
   if(journal.length>20)journal.pop();
-  localStorage.setItem('af_dream_journal',JSON.stringify(journal));
+  safeSetItem('af_dream_journal',journal);
   renderDreamJournal();
 }
 function renderDreamJournal() {
-  var journal = JSON.parse(localStorage.getItem('af_dream_journal')||'[]');
+  var journal = safeGetItem('af_dream_journal','[]');
   var el = document.getElementById('dreamJournal');
   el.innerHTML = journal.length ? journal.map(function(j){return '<div class="dj-item"><span class="dj-date">'+j.time+'</span><span class="dj-text"> ['+j.type+'] '+j.keywords+'</span></div>';}).join('') : '<div style="color:var(--muted);font-size:0.8rem;padding:0.5rem;">暂无记录</div>';
 }
@@ -3183,33 +3193,39 @@ function drawSigilTarot() {
 /* =====================================================================
    14. RUNE DIVINATION (FIX: was missing)
    ===================================================================== */
-const runes = [
-  {name:'Fehu',zh:'费胡',symbol:'ᚠ',meaning:'财富与繁荣',element:'火',magic:'丰盛与成功'},
-  {name:'Uruz',zh:'乌鲁兹',symbol:'ᚢ',meaning:'力量与耐力',element:'土',magic:'健康与意志'},
-  {name:'Thurisaz',zh:'索里萨兹',symbol:'ᚦ',meaning:'保护与冲突',element:'火',magic:'防御与界限'},
-  {name:'Ansuz',zh:'安苏兹',symbol:'ᚨ',meaning:'智慧与沟通',element:'风',magic:'智慧与诗歌'},
-  {name:'Raidho',zh:'莱多',symbol:'ᚱ',meaning:'旅程与秩序',element:'风',magic:'旅行与正义'},
-  {name:'Kenaz',zh:'凯纳兹',symbol:'ᚲ',meaning:'火焰与创造',element:'火',magic:'创造与灵感'},
-  {name:'Gebo',zh:'吉布',symbol:'ᚷ',meaning:'礼物与关系',element:'风',magic:'爱与联盟'},
-  {name:'Wunjo',zh:'温约',symbol:'ᚹ',meaning:'喜悦与和谐',element:'风',magic:'幸福与成功'},
-  {name:'Hagalaz',zh:'哈格拉兹',symbol:'ᚺ',meaning:'冰雹与破坏',element:'水',magic:'危机与转变'},
-  {name:'Nauthiz',zh:'瑙西兹',symbol:'ᚾ',meaning:'需求与忍耐',element:'火',magic:'毅力与自律'},
-  {name:'Isa',zh:'伊萨',symbol:'ᛁ',meaning:'冰与停滞',element:'水',magic:'静止与反思'},
-  {name:'Jera',zh:'耶拉',symbol:'ᛃ',meaning:'收获与循环',element:'土',magic:'因果与丰收'},
-  {name:'Eihwaz',zh:'艾瓦兹',symbol:'ᛇ',meaning:'紫杉与坚守',element:'土',magic:'保护与启蒙'},
-  {name:'Perthro',zh:'佩斯罗',symbol:'ᛈ',meaning:'命运与秘密',element:'水',magic:'神秘与占卜'},
-  {name:'Algiz',zh:'阿尔吉兹',symbol:'ᛉ',meaning:'保护与联结',element:'风',magic:'守护与神性'},
-  {name:'Sowilo',zh:'索维洛',symbol:'ᛊ',meaning:'太阳与胜利',element:'火',magic:'成功与能量'},
-  {name:'Tiwaz',zh:'提瓦兹',symbol:'ᛏ',meaning:'战神与正义',element:'火',magic:'领导与胜利'},
-  {name:'Berkano',zh:'贝卡诺',symbol:'ᛒ',meaning:'桦树与生长',element:'土',magic:'生育与新生'},
-  {name:'Ehwaz',zh:'埃瓦兹',symbol:'ᛖ',meaning:'马与信任',element:'土',magic:'合作与进步'},
-  {name:'Mannaz',zh:'曼纳兹',symbol:'ᛗ',meaning:'人类与自我',element:'风',magic:'自我认知'},
-  {name:'Laguz',zh:'拉古兹',symbol:'ᛚ',meaning:'水与流动',element:'水',magic:'直觉与梦境'},
-  {name:'Ingwaz',zh:'英格瓦兹',symbol:'ᛝ',meaning:'丰饶与种子',element:'土',magic:'潜力与成长'},
-  {name:'Dagaz',zh:'达加兹',symbol:'ᛞ',meaning:'黎明与突破',element:'风',magic:'觉醒与转变'},
-  {name:'Othala',zh:'奥萨拉',symbol:'ᛟ',meaning:'遗产与家园',element:'土',magic:'传承与归属'},
+/* runes data and castRunes for Tab 14 */
+var tab14_runes = [
+  ['Fehu','费胡','ᚠ','财富与繁荣','火','丰盛与成功'],
+  ['Uruz','乌鲁兹','ᚢ','力量与耐力','土','健康与意志'],
+  ['Thurisaz','索里萨兹','ᚦ','保护与冲突','火','防御与界限'],
+  ['Ansuz','安苏兹','ᚨ','智慧与沟通','风','智慧与诗歌'],
+  ['Raidho','莱多','ᚱ','旅程与秩序','风','旅行与正义'],
+  ['Kenaz','凯纳兹','ᚲ','火焰与创造','火','创造与灵感'],
+  ['Gebo','吉布','ᚷ','礼物与关系','风','爱与联盟'],
+  ['Wunjo','温约','ᚹ','喜悦与和谐','风','幸福与成功'],
+  ['Hagalaz','哈格拉兹','ᚺ','冰雹与破坏','水','危机与转变'],
+  ['Nauthiz','瑙西兹','ᚾ','需求与忍耐','火','毅力与自律'],
+  ['Isa','伊萨','ᛁ','冰与停滞','水','静止与反思'],
+  ['Jera','耶拉','ᛃ','收获与循环','土','因果与丰收'],
+  ['Eihwaz','艾瓦兹','ᛇ','紫杉与坚守','土','保护与启蒙'],
+  ['Perthro','佩斯罗','ᛈ','命运与秘密','水','神秘与占卜'],
+  ['Algiz','阿尔吉兹','ᛉ','保护与联结','风','守护与神性'],
+  ['Sowilo','索维洛','ᛊ','太阳与胜利','火','成功与能量'],
+  ['Tiwaz','提瓦兹','ᛏ','战神与正义','火','领导与胜利'],
+  ['Berkano','贝卡诺','ᛒ','桦树与生长','土','生育与新生'],
+  ['Ehwaz','埃瓦兹','ᛖ','马与信任','土','合作与进步'],
+  ['Mannaz','曼纳兹','ᛗ','人类与自我','风','自我认知'},
+  ['Laguz','拉古兹','ᛚ','水与流动','水','直觉与梦境'],
+  ['Ingwaz','英格瓦兹','ᛝ','丰饶与种子','土','潜力与成长'],
+  ['Dagaz','达加兹','ᛞ','黎明与突破','风','觉醒与转变'],
+  ['Othala','奥萨拉','ᛟ','遗产与家园','土','传承与归属']
 ];
 function castRunes() {
+  var shuffled = tab14_runes.slice().sort(function(){return Math.random()-0.5;});
+  var selected = shuffled.slice(0,3);
+  var positions = ['过去 · 根源','现在 · 当下','未来 · 启示'];
+  document.getElementById('runeResult').innerHTML = '<div class="rune-interp"><div class="ri-title">✦ 符文投掷 ✦</div><div class="ri-text">'+selected.map(function(r,i){return '<div class="rune-card" style="display:inline-block;width:auto;min-width:120px;margin:0.5rem;padding:0.8rem;"><div class="rune-symbol" style="font-size:2.5rem;color:var(--accent2);">'+r[2]+'</div><div class="rune-name">'+r[0]+' ('+r[1]+')</div><div class="rune-element" style="color:#aaa;font-size:0.8rem;">'+r[3]+'</div><div class="rune-meaning" style="font-size:0.85rem;">'+r[4]+' · '+r[5]+'</div><div style="margin-top:0.4rem;font-size:0.8rem;color:#666;">'+positions[i]+'</div></div>';}).join('')+'<div style="margin-top:1rem;padding:0.8rem;background:var(--bg3);border-radius:8px;clear:both;"><div style="color:var(--accent2);font-family:var(--font-display);font-size:1.1rem;">✦ 综合解读</div><div style="color:var(--ink);font-size:0.9rem;margin-top:0.3rem;">过去的根源影响着当下的局面，而未来的启示指引着前进的方向。三个符文构成了一个完整的叙事。</div></div></div></div>';
+}
   var shuffled = runes.slice().sort(function(){return Math.random()-0.5;});
   var selected = shuffled.slice(0,3);
   var positions = ['过去 · 根源','现在 · 当下','未来 · 启示'];
@@ -3334,14 +3350,14 @@ function showSpirit(s) {
     '<div class="sa-info-item"><div class="sai-label">能量色</div><div class="sai-value" style="color:'+s.color+'">●</div></div></div>'+
     '<div class="sa-meaning"><strong style="color:var(--accent2);">✦ '+s.name+'的启示</strong><br><br>'+s.meaning+'<br><br>✦ 指引：'+s.advice+'</div></div>';
   // Save history
-  var hist = JSON.parse(localStorage.getItem('af_spirit_history')||'[]');
+  var hist = safeGetItem('af_spirit_history','[]');
   hist.unshift({animal:s.name,time:new Date().toLocaleString()});
   if(hist.length>10)hist.pop();
-  localStorage.setItem('af_spirit_history',JSON.stringify(hist));
+  safeSetItem('af_spirit_history',hist);
   renderSpiritHistory();
 }
 function renderSpiritHistory() {
-  var hist = JSON.parse(localStorage.getItem('af_spirit_history')||'[]');
+  var hist = safeGetItem('af_spirit_history','[]');
   var el = document.getElementById('spiritHistory');
   el.innerHTML = hist.map(function(h){return '<div class="sh-item"><span>'+h.animal+'</span><span style="color:#666;">'+h.time+'</span></div>';}).join('')||'<div style="color:var(--muted);font-size:0.8rem;padding:0.5rem;">暂无记录</div>';
 }

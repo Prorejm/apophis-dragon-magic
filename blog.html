@@ -537,6 +537,8 @@ body.light-mode .filter-btn.active { color: #fff; }
   <a href="bazi-chart.html" class="nav-link">八字排盘</a>
   <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
   <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
 </nav>
 
 <!-- 英雄区域 -->
@@ -1250,7 +1252,7 @@ body.light-mode .filter-btn.active { color: #fff; }
   }
 
   function saveBookmarks(ids) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); } catch(e) {}
   }
 
   function isBookmarked(id) {
@@ -1299,13 +1301,13 @@ body.light-mode .filter-btn.active { color: #fff; }
   const btn = document.getElementById('themeToggle');
 
   function getTheme() {
-    return localStorage.getItem(STORAGE_KEY) || 'dark';
+    try { return localStorage.getItem(STORAGE_KEY) || 'dark'; } catch(e) { return 'dark'; }
   }
 
   function setTheme(mode) {
     document.body.classList.toggle('light-mode', mode === 'light');
     btn.textContent = mode === 'light' ? '☀️ 亮' : '🌙 暗';
-    localStorage.setItem(STORAGE_KEY, mode);
+    try { localStorage.setItem(STORAGE_KEY, mode); } catch(e) {}
   }
 
   // 初始化
