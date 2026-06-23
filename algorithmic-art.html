@@ -402,6 +402,141 @@ input[type="range"]::-moz-range-thumb{
 .fade-in-section:nth-child(4){animation-delay:0.3s;}
 .fade-in-section:nth-child(5){animation-delay:0.4s;}
 
+
+/* ====== MOBILE NAV TOGGLE ====== */
+.nav-toggle{display:none;background:none;border:none;color:#d4a843;font-size:1.5rem;cursor:pointer;padding:0.25rem 0.5rem;flex-shrink:0;font-family:var(--font-display,cursive);}
+@media(max-width:768px){
+  .nav-bar{flex-wrap:wrap;padding:0.5rem 0.8rem;gap:0.3rem;max-height:52px;overflow:hidden;transition:max-height 0.4s ease;}
+  .nav-bar.open{max-height:100vh;overflow-y:auto;}
+  .nav-toggle{display:block;position:absolute;right:10px;top:8px;z-index:10001;}
+  .nav-bar .nav-link{width:100%;font-size:0.7rem;padding:0.35rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.03);}
+  .nav-brand{font-size:0.75rem;}
+}
+@media(max-width:480px){
+  .nav-bar .nav-link{font-size:0.65rem;padding:0.3rem 0.4rem;}
+  .nav-brand{font-size:0.7rem;}
+}
+/* ====== RESPONSIVE GRID SYSTEM ====== */
+@media(max-width:900px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr !important;}
+  .result-grid{grid-template-columns:1fr 1fr !important;}
+}
+@media(max-width:640px){
+  .grid-2,.grid-3,.grid-4,.result-grid,.ritual-grid,.card-grid{grid-template-columns:1fr !important;}
+  .grid-auto{grid-template-columns:repeat(2,1fr) !important;}
+}
+/* ====== RESPONSIVE CANVAS ====== */
+@media(max-width:768px){
+  canvas{max-width:100% !important;height:auto !important;}
+  .canvas-wrap,.chart-wrap,.weather-canvas-wrap,.cauldron-wrap,.sigil-canvas-wrap{overflow-x:auto;text-align:center;}
+}
+@media(max-width:480px){
+  canvas[width]:not([style*="width"]){width:100% !important;height:auto !important;}
+}
+/* ====== RESPONSIVE TABLES ====== */
+@media(max-width:768px){
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{font-size:0.75rem;}
+  table th,table td{padding:0.3rem 0.4rem !important;}
+}
+/* ====== RESPONSIVE CARDS/SECTIONS ====== */
+@media(max-width:768px){
+  .card{padding:0.8rem !important;}
+  .hero-title{font-size:1.8rem !important;}
+  .hero-subtitle{font-size:0.85rem !important;}
+  .page-title{font-size:1.5rem !important;}
+  .section-title{font-size:1.2rem !important;}
+  h2{font-size:1.1rem !important;}
+  h3{font-size:1rem !important;}
+  p,.desc,.result-text{font-size:0.82rem !important;line-height:1.6 !important;}
+  .controls-row{flex-direction:column !important;gap:0.5rem !important;}
+  .ctrl-group{width:100% !important;}
+  input,select,button{font-size:0.85rem !important;}
+  .gen-card{padding:0.8rem !important;}
+  
+  /* Tab bar scrollable */
+  .tab-nav{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;gap:0.3rem;padding-bottom:0.3rem;}
+  .tab-btn{font-size:0.7rem !important;padding:0.4rem 0.6rem !important;white-space:nowrap;}
+  
+  /* Game grid */
+  .game-grid{grid-template-columns:repeat(2,1fr) !important;}
+}
+@media(max-width:480px){
+  .game-grid{grid-template-columns:1fr !important;}
+  .hero-title{font-size:1.4rem !important;}
+  .page-title{font-size:1.2rem !important;}
+  .tab-btn{font-size:0.6rem !important;padding:0.3rem 0.5rem !important;}
+  .palace-grid{max-width:280px !important;}
+  .plant-grid{grid-template-columns:repeat(2,1fr) !important;}
+  .ten-essence-grid,.tianmu-grid{grid-template-columns:repeat(3,1fr) !important;}
+  .weather-btns{flex-direction:column !important;align-items:center;}
+  .weather-btn{width:100% !important;}
+}
+/* ====== MODAL RESPONSIVE ====== */
+@media(max-width:768px){
+  .modal-content{width:90% !important;max-width:90% !important;margin:2rem auto !important;padding:1rem !important;}
+  .modal-section p{font-size:0.82rem !important;}
+}
+/* ====== FOOTER RESPONSIVE ====== */
+@media(max-width:768px){
+  .footer{padding:1rem !important;font-size:0.7rem !important;}
+}
+/* ====== HP/BLOG RESPONSIVE ====== */
+@media(max-width:768px){
+  .site-links{grid-template-columns:repeat(2,1fr) !important;}
+  .site-link-btn{font-size:0.75rem !important;}
+  .book-list,.book-item{flex-direction:column !important;gap:0.3rem !important;}
+}
+@media(max-width:480px){
+  .site-links{grid-template-columns:1fr !important;}
+}
+/* ====== TAOTIE/ICHING RESPONSIVE ====== */
+@media(max-width:768px){
+  .hexagram-display{transform:scale(0.7);}
+  .iching-result{font-size:0.85rem;}
+}
+/* ====== BAZI / ZIWEI RESPONSIVE ====== */
+@media(max-width:768px){
+  .pillar-cards{grid-template-columns:repeat(2,1fr) !important;}
+  .bazi-grid{grid-template-columns:1fr !important;}
+}
+/* ====== LIUREN / QIMEN RESPONSIVE ====== */
+@media(max-width:768px){
+  .liuren-grid,.qimen-grid{grid-template-columns:1fr !important;}
+}
+/* ====== ASTROLOGY RESPONSIVE ====== */
+@media(max-width:768px){
+  .zodiac-wheel{transform:scale(0.8);}
+}
+/* ====== GENERATORS RESPONSIVE ====== */
+@media(max-width:768px){
+  .generator-panel .btn{padding:0.4rem 1rem !important;font-size:0.8rem !important;}
+  .ingredient-grid{grid-template-columns:repeat(3,1fr) !important;}
+}
+@media(max-width:480px){
+  .ingredient-grid{grid-template-columns:repeat(2,1fr) !important;}
+}
+/* ====== DREAM DIARY RESPONSIVE ====== */
+@media(max-width:768px){
+  .dream-tags{flex-wrap:wrap;}
+  .dream-tag{font-size:0.75rem !important;padding:0.2rem 0.5rem !important;}
+}
+/* ====== MINI GAMES RESPONSIVE ====== */
+@media(max-width:768px){
+  .game-overlay-header{padding:0.4rem !important;flex-wrap:wrap;}
+  .game-overlay-btn{font-size:0.7rem !important;padding:0.3rem 0.6rem !important;}
+}
+/* ====== GACHA ANIMATION RESPONSIVE ====== */
+@media(max-width:768px){
+  .gacha-grid{grid-template-columns:repeat(3,1fr) !important;gap:0.3rem !important;}
+  .gacha-card{width:80px !important;height:110px !important;}
+  .gacha-card .gc-content{font-size:0.65rem !important;}
+}
+@media(max-width:480px){
+  .gacha-grid{grid-template-columns:repeat(3,1fr) !important;gap:0.2rem !important;}
+  .gacha-card{width:65px !important;height:95px !important;}
+}
+
 </style>
 </head>
 <body>
@@ -941,5 +1076,32 @@ document.addEventListener('touchend', function() {
 // ---- Init UI ----
 updateSeedUI();
 </script>
+<script>
+
+// Mobile nav toggle
+document.addEventListener('DOMContentLoaded', function() {
+  var navBar = document.getElementById('navBar');
+  if (!navBar) return;
+  // Add toggle button
+  var toggle = document.createElement('button');
+  toggle.className = 'nav-toggle';
+  toggle.innerHTML = '&#9776;';
+  toggle.setAttribute('aria-label', 'Toggle navigation');
+  toggle.onclick = function() {
+    navBar.classList.toggle('open');
+    this.innerHTML = navBar.classList.contains('open') ? '&#10005;' : '&#9776;';
+  };
+  navBar.appendChild(toggle);
+  // Close nav when clicking a link
+  navBar.querySelectorAll('.nav-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navBar.classList.remove('open');
+      toggle.innerHTML = '&#9776;';
+    });
+  });
+});
+
+</script>
+
 </body>
 </html>
