@@ -135,6 +135,7 @@
 | 📜 法之书 | [book-of-law.html](https://prorejm.github.io/apophis-dragon-magic/book-of-law.html) |
 | 🌿 金枝 | [golden-bough.html](https://prorejm.github.io/apophis-dragon-magic/golden-bough.html) |
 | 🔥 性魔法 | [sex-magic.html](https://prorejm.github.io/apophis-dragon-magic/sex-magic.html) |
+| ⚧ 性别魔法 | [gender-magic.html](https://prorejm.github.io/apophis-dragon-magic/gender-magic.html) |
 ## 💻 本地运行
 
 直接用浏览器打开 `index.html` 即可，无需服务器。
