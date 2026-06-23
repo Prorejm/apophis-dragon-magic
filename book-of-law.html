@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>法之书 - Liber AL vel Legis | 阿波菲斯龙之魔法</title>
+<meta name="description" content="Aleister Crowley《法之书》(Liber AL vel Legis) 全文阅读、核心哲学、关键人物、泰雷玛魔法、左路关联与卡巴拉解析">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a; --bg2: #111; --bg3: #0e0e0e; --bg-card: #0d0d0d;
+  --ink: #e8e0d4; --ink-dim: #a09080; --muted: #6a5e4e;
+  --accent: #c41e3a; --accent2: #d4a843; --gold: #d4a843; --crimson: #c41e3a;
+  --blue-dark: #0a1a2a; --blue-glow: #1a3a5a;
+  --rule: #1e1e1e; --rule-light: #2a2a2a;
+  --font: 'Noto Serif SC','Songti SC',serif;
+  --font-display: 'Ma Shan Zheng','Noto Serif SC',cursive;
+  --font-en: 'Cormorant Garamond','Georgia',serif;
+  --radius: 6px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.8;overflow-x:hidden;min-height:100vh;}
+::selection{background:rgba(212,168,67,0.3);color:#fff;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--rule-light);border-radius:3px;}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--crimson),var(--accent2));z-index:1000;transition:width .1s linear;box-shadow:0 0 10px rgba(196,30,58,0.5);}
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.nav-bar{position:fixed;top:3px;left:0;right:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:999;padding:.5rem 1.2rem;display:flex;align-items:center;gap:.8rem;overflow-x:auto;scrollbar-width:none;}
+.nav-bar::-webkit-scrollbar{display:none;}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:.85rem;white-space:nowrap;letter-spacing:.1em;text-decoration:none;}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.78rem;white-space:nowrap;padding:.3rem .5rem;border-radius:4px;transition:all .3s;}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,0.1);}
+.hamburger{display:none;flex-direction:column;cursor:pointer;background:none;border:none;padding:4px;gap:4px;margin-left:auto;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--accent2);border-radius:2px;transition:all .3s;}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(4px,4px);}
+.hamburger.active span:nth-child(2){opacity:0;}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
+.mobile-menu{display:none;position:fixed;top:46px;left:0;right:0;background:rgba(10,10,10,0.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:998;padding:.5rem 1rem;flex-direction:column;gap:2px;}
+.mobile-menu.show{display:flex;}
+.mobile-link{color:var(--muted);text-decoration:none;font-size:.85rem;padding:.6rem .8rem;border-radius:4px;transition:all .2s;}
+.mobile-link:hover,.mobile-link.active{color:var(--accent2);background:rgba(212,168,67,0.08);}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:70px 20px 40px;}
+.page-header{text-align:center;padding:36px 16px 24px;border-bottom:1px solid rgba(212,168,67,0.12);margin-bottom:24px;}
+.page-header h1{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,3.8rem);color:var(--accent2);letter-spacing:6px;text-shadow:0 0 40px rgba(212,168,67,0.2);}
+.page-header .subtitle{font-size:.95rem;color:var(--muted);letter-spacing:3px;margin-top:6px;font-family:var(--font-en);font-style:italic;}
+.page-header .divider{width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:14px auto;}
+.tab-nav{display:flex;gap:2px;margin-bottom:24px;border-bottom:1px solid var(--rule);overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;}
+.tab-btn{padding:10px 16px;border:none;background:transparent;color:var(--muted);font-family:var(--font);font-size:.82rem;cursor:pointer;transition:all .3s;white-space:nowrap;border-bottom:2px solid transparent;letter-spacing:1px;flex-shrink:0;}
+.tab-btn:hover{color:var(--accent2);}
+.tab-btn.active{color:var(--accent2);border-bottom-color:var(--accent2);background:rgba(212,168,67,0.05);}
+.tab-content{display:none;animation:fadeIn .5s ease;}
+.tab-content.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:20px 24px;margin-bottom:18px;transition:all .3s;}
+.card:hover{border-color:rgba(212,168,67,0.15);}
+.card-title{font-family:var(--font-display);font-size:1.25rem;color:var(--accent2);margin-bottom:10px;letter-spacing:2px;}
+.btn{display:inline-block;padding:7px 18px;border:1px solid var(--accent2);background:transparent;color:var(--accent2);font-family:var(--font);font-size:.82rem;cursor:pointer;transition:all .3s;letter-spacing:1px;border-radius:4px;}
+.btn:hover{background:rgba(212,168,67,0.1);box-shadow:0 0 20px rgba(212,168,67,0.1);}
+.btn-crimson{border-color:var(--crimson);color:var(--crimson);}
+.btn-crimson:hover{background:rgba(196,30,58,0.1);}
+input,textarea,select{background:var(--bg2);border:1px solid var(--rule);color:var(--ink);padding:9px 14px;font-family:var(--font);font-size:.85rem;border-radius:4px;width:100%;outline:none;}
+input:focus{border-color:var(--accent2);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.reader-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;padding:12px 16px;background:var(--bg2);border:1px solid var(--rule);border-radius:var(--radius);}
+.reader-toolbar .search-box{flex:1;min-width:140px;position:relative;}
+.reader-toolbar .search-box input{padding-right:36px;}
+.reader-toolbar .search-box .search-icon{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);cursor:pointer;}
+.reader-toolbar .font-controls{display:flex;gap:4px;align-items:center;}
+.reader-toolbar .font-controls button{width:30px;height:30px;border:1px solid var(--rule);background:transparent;color:var(--muted);cursor:pointer;border-radius:3px;font-size:.85rem;}
+.reader-toolbar .font-controls button:hover{border-color:var(--accent2);color:var(--accent2);}
+.reader-toolbar .bookmark-btn{padding:5px 14px;border:1px solid var(--accent2);background:transparent;color:var(--accent2);cursor:pointer;border-radius:3px;font-family:var(--font);font-size:.78rem;}
+.reader-toolbar .bookmark-btn:hover{background:rgba(212,168,67,0.1);}
+.reader-toolbar .bookmark-btn.has-bookmark{background:rgba(212,168,67,0.15);}
+.search-highlight{background:rgba(212,168,67,0.25);padding:0 2px;border-radius:2px;}
+.search-current{background:rgba(196,30,58,0.35);padding:0 2px;border-radius:2px;box-shadow:0 0 8px rgba(196,30,58,0.3);}
+.chapter-nav{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.chapter-nav .ch-btn{padding:6px 18px;border:1px solid var(--rule);background:var(--bg2);color:var(--muted);cursor:pointer;border-radius:4px;font-family:var(--font);font-size:.82rem;transition:all .3s;}
+.chapter-nav .ch-btn:hover{border-color:var(--accent2);color:var(--accent2);}
+.chapter-nav .ch-btn.active{background:rgba(212,168,67,0.1);border-color:var(--accent2);color:var(--accent2);}
+.chapter-section{display:none;}
+.chapter-section.active{display:block;}
+.chapter-title{font-family:var(--font-display);font-size:1.6rem;color:var(--accent2);text-align:center;margin-bottom:4px;letter-spacing:4px;}
+.chapter-subtitle{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:16px;font-family:var(--font-en);font-style:italic;}
+.verse{padding:6px 12px;margin:2px 0;border-radius:3px;transition:background .2s;font-size:.92rem;line-height:2;cursor:default;display:flex;gap:8px;}
+.verse:hover{background:rgba(212,168,67,0.04);}
+.verse.highlighted{background:rgba(212,168,67,0.08);border-left:3px solid var(--accent2);}
+.verse .v-num{color:var(--muted);font-size:.75rem;min-width:2.2em;text-align:right;font-family:var(--font-en);font-weight:600;flex-shrink:0;}
+.verse .v-text{flex:1;}
+.verse .v-en{display:block;font-family:var(--font-en);font-size:.8rem;color:var(--muted);font-style:italic;margin-top:2px;}
+.philosophy-block{padding:18px 20px;border-left:3px solid var(--accent2);background:rgba(212,168,67,0.04);border-radius:0 var(--radius) var(--radius) 0;margin-bottom:14px;}
+.philosophy-block .quote{font-family:var(--font-display);font-size:1.2rem;color:var(--accent2);line-height:1.6;}
+.philosophy-block .quote-en{font-family:var(--font-en);font-size:1rem;color:var(--ink-dim);font-style:italic;}
+.compare-table{width:100%;border-collapse:collapse;margin:12px 0;}
+.compare-table th,.compare-table td{padding:10px 14px;border:1px solid var(--rule);text-align:left;font-size:.85rem;}
+.compare-table th{background:var(--bg2);color:var(--accent2);}
+.compare-table .eon-old{background:rgba(196,30,58,0.06);border-left:3px solid var(--crimson);}
+.compare-table .eon-new{background:rgba(212,168,67,0.06);border-left:3px solid var(--accent2);}
+.character-card{display:flex;gap:16px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;transition:all .3s;}
+.character-card:hover{border-color:rgba(212,168,67,0.15);}
+.character-card .avatar{width:60px;height:60px;border-radius:50%;border:2px solid var(--accent2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:var(--accent2);background:rgba(212,168,67,0.06);}
+.character-card .name{font-family:var(--font-display);font-size:1.1rem;color:var(--accent2);}
+.character-card .name-en{font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;}
+.character-card .desc{font-size:.88rem;color:var(--ink);margin-top:6px;line-height:1.7;}
+.ritual-card{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;transition:all .3s;}
+.ritual-card:hover{border-color:rgba(212,168,67,0.15);}
+.ritual-card .r-title{font-family:var(--font-display);font-size:1.15rem;color:var(--accent2);}
+.ritual-card .r-title .r-en{font-family:var(--font-en);font-size:.9rem;color:var(--muted);font-style:italic;}
+.ritual-card .r-desc{font-size:.88rem;margin-top:8px;line-height:1.7;}
+.ritual-card .r-steps{margin-top:10px;padding-left:18px;}
+.ritual-card .r-steps li{font-size:.85rem;margin-bottom:4px;color:var(--ink-dim);}
+.lhp-block{padding:16px 20px;border-left:3px solid var(--crimson);background:rgba(196,30,58,0.04);border-radius:0 var(--radius) var(--radius) 0;margin-bottom:14px;}
+.lhp-block .lhp-title{font-family:var(--font-display);font-size:1.1rem;color:var(--crimson);}
+.gematria-calc{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:20px 24px;margin-bottom:18px;}
+.gematria-calc .calc-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.gematria-calc .calc-row input{flex:1;min-width:120px;}
+.gematria-calc .calc-row .result{font-family:var(--font-en);font-size:1.3rem;color:var(--accent2);font-weight:700;}
+.gematria-table{width:100%;border-collapse:collapse;margin:12px 0;}
+.gematria-table th,.gematria-table td{padding:8px 12px;border:1px solid var(--rule);text-align:center;font-size:.82rem;}
+.gematria-table th{background:var(--bg2);color:var(--accent2);}
+.key-number{display:inline-flex;flex-direction:column;align-items:center;padding:14px 18px;background:var(--bg2);border:1px solid var(--rule);border-radius:var(--radius);margin:6px;}
+.key-number .kn-val{font-family:var(--font-en);font-size:1.4rem;color:var(--accent2);font-weight:700;}
+.key-number .kn-label{font-size:.75rem;color:var(--muted);margin-top:2px;}
+.sefirot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0;}
+.sefira-node{background:var(--bg2);border:1px solid var(--rule);border-radius:50%;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;text-align:center;transition:all .3s;}
+.sefira-node:hover{border-color:var(--accent2);box-shadow:0 0 15px rgba(212,168,67,0.15);}
+.sefira-node .s-num{font-family:var(--font-en);font-size:.75rem;color:var(--muted);}
+.sefira-node .s-name{font-size:.72rem;color:var(--accent2);}
+.sefira-node .s-en{font-family:var(--font-en);font-size:.6rem;color:var(--muted);font-style:italic;}
+@media(max-width:600px){.sefirot-grid{grid-template-columns:repeat(3,1fr);}}
+.section-label{font-family:var(--font-display);font-size:1.3rem;color:var(--accent2);letter-spacing:3px;margin:24px 0 14px;padding-bottom:6px;border-bottom:1px solid var(--rule);}
+.section-label .label-en{font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;}
+.muted-text{color:var(--muted);font-size:.85rem;}
+.tag{display:inline-block;padding:2px 10px;background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.2);border-radius:12px;font-size:.72rem;color:var(--accent2);margin:2px;}
+.tag-crimson{background:rgba(196,30,58,0.08);border-color:rgba(196,30,58,0.2);color:var(--crimson);}
+@media(max-width:768px){
+  .nav-link{display:none;}
+  .hamburger{display:flex;}
+  .container{padding:60px 14px 30px;}
+  .character-card{flex-direction:column;text-align:center;}
+  .reader-toolbar{flex-direction:column;}
+  .tab-btn{padding:8px 12px;font-size:.78rem;}
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<canvas id="particleCanvas"></canvas>
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link active">法之书</a>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a class="mobile-link" href="index.html">&#9751; 主页</a>
+  <a class="mobile-link active" href="book-of-law.html">&#9733; 法之书</a>
+  <a class="mobile-link" href="left-hand-path.html">&#9761; 左路</a>
+  <a class="mobile-link" href="dragon-ritual.html">&#9737; 仪式</a>
+  <a class="mobile-link" href="goetia-demons.html">&#9762; 魔神</a>
+</div>
+<div class="container">
+<div class="page-header">
+  <h1>&#9733; 法之书</h1>
+  <div class="subtitle">Liber AL vel Legis</div>
+  <div class="subtitle-zh">《律法之书》—— 由神之侍者与兽之仆从传达</div>
+  <div class="divider"></div>
+  <p style="font-size:.85rem;color:var(--ink-dim);max-width:600px;margin:0 auto;">
+    "行汝意志即为全部律法"<br>
+    <em style="font-family:var(--font-en);color:var(--muted);">"Do what thou wilt shall be the whole of the Law"</em>
+  </p>
+</div>
+<div class="tab-nav" id="tabNav">
+  <button class="tab-btn active" data-tab="tab1">&#9733; 三章全文</button>
+  <button class="tab-btn" data-tab="tab2">&#9776; 核心哲学</button>
+  <button class="tab-btn" data-tab="tab3">&#10017; 关键人物</button>
+  <button class="tab-btn" data-tab="tab4">&#9737; 泰雷玛魔法</button>
+  <button class="tab-btn" data-tab="tab5">&#9761; 法之书与左路</button>
+  <button class="tab-btn" data-tab="tab6">&#9672; 卡巴拉关联</button>
+</div>
+<div class="tab-content active" id="tab1">
+<div class="reader-toolbar">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="搜索经文关键词..." />
+    <span class="search-icon" id="searchBtn">&#128269;</span>
+  </div>
+  <div class="font-controls">
+    <button id="fontDec" title="缩小字号">A-</button>
+    <span style="font-size:.75rem;color:var(--muted);" id="fontSizeLabel">16</span>
+    <button id="fontInc" title="放大字号">A+</button>
+  </div>
+  <button class="bookmark-btn" id="bookmarkBtn">&#9733; 添加书签</button>
+  <button class="bookmark-btn" id="clearBookmarkBtn" style="border-color:var(--crimson);color:var(--crimson);font-size:.72rem;padding:4px 10px;">清除</button>
+</div>
+<div id="searchInfo" style="display:none;padding:8px 12px;margin-bottom:10px;background:var(--bg2);border:1px solid var(--rule);border-radius:4px;font-size:.82rem;color:var(--ink-dim);">
+  <span id="searchCount"></span>
+  <span style="cursor:pointer;margin-left:12px;color:var(--accent2);" id="searchPrev">&#9650; 上一个</span>
+  <span style="cursor:pointer;margin-left:8px;color:var(--accent2);" id="searchNext">&#9660; 下一个</span>
+  <span style="cursor:pointer;margin-left:12px;color:var(--crimson);" id="searchClear">&#10005; 清除</span>
+</div>
+<div class="chapter-nav" id="chapterNav">
+  <button class="ch-btn active" data-ch="ch1">第一章 &middot; Nuit</button>
+  <button class="ch-btn" data-ch="ch2">第二章 &middot; Hadit</button>
+  <button class="ch-btn" data-ch="ch3">第三章 &middot; Ra-Hoor-Khuit</button>
+</div>
+<div class="chapter-section" id="ch1">
+<div class="chapter-title">第一章</div>
+<div class="chapter-subtitle">Nuit 的启示 &mdash; The Manifestation of Nuit</div>
+<div class="verse" data-verse="1:1"><span class="v-num">1:1</span><span class="v-text">Had（Hadit）！此为 Nuit（努特）的显现。<span class="v-en">Had! The manifestation of Nuit.</span></span></div>
+<div class="verse" data-verse="1:2"><span class="v-num">1:2</span><span class="v-text">此为上界同伴之揭示。<span class="v-en">The unveiling of the company of heaven.</span></span></div>
+<div class="verse" data-verse="1:3"><span class="v-num">1:3</span><span class="v-text">每一名男女都是一颗星。<span class="v-en">Every man and every woman is a star.</span></span></div>
+<div class="verse" data-verse="1:4"><span class="v-num">1:4</span><span class="v-text">每一个数字都是无穷，没有差异。<span class="v-en">Every number is infinite; there is no difference.</span></span></div>
+<div class="verse" data-verse="1:5"><span class="v-num">1:5</span><span class="v-text">帮助我吧，哦，战争之主！让万众仰望我——星辰之女。<span class="v-en">Help me, O warrior lord of Thebes!</span></span></div>
+<div class="verse" data-verse="1:6"><span class="v-num">1:6</span><span class="v-text">我被尊奉为 Hadit，那隐秘的核心，我的心与舌。<span class="v-en">Be thou Hadit, my secret centre.</span></span></div>
+<div class="verse" data-verse="1:7"><span class="v-num">1:7</span><span class="v-text">看哪！我已揭示了我的荣耀。<span class="v-en">Behold! it is revealed by Aiwass.</span></span></div>
+<div class="verse" data-verse="1:8"><span class="v-num">1:8</span><span class="v-text">The Khabs（卡布斯）在 Khu（库）之中。<span class="v-en">The Khabs is in the Khu.</span></span></div>
+<div class="verse" data-verse="1:9"><span class="v-num">1:9</span><span class="v-text">礼拜我吧，以火焰与鲜血；以剑与杖。<span class="v-en">Worship then the Khabs.</span></span></div>
+<div class="verse" data-verse="1:10"><span class="v-num">1:10</span><span class="v-text">让我的仆人们写作；让你们的笔尖刻下律法。<span class="v-en">Let my servants be few & secret.</span></span></div>
+<div class="verse" data-verse="1:11"><span class="v-num">1:11</span><span class="v-text">这些愚人竟不知数算时日！<span class="v-en">These are fools that men adore.</span></span></div>
+<div class="verse" data-verse="1:12"><span class="v-num">1:12</span><span class="v-text">来吧，靠近我！我比所有星辰都炽烈。<span class="v-en">Come forth, O children, under the stars!</span></span></div>
+<div class="verse" data-verse="1:13"><span class="v-num">1:13</span><span class="v-text">我以情欲召唤你们的灵魂。<span class="v-en">My ecstasy is in yours.</span></span></div>
+<div class="verse" data-verse="1:14"><span class="v-num">1:14</span><span class="v-text">汝将知晓，汝将永世不渝。<span class="v-en">Above, the gemmed azure is the naked splendour.</span></span></div>
+<div class="verse" data-verse="1:15"><span class="v-num">1:15</span><span class="v-text">星辰之女，她在万有之穹的宝座上。<span class="v-en">She bends in ecstasy to kiss Hadit.</span></span></div>
+<div class="verse" data-verse="1:16"><span class="v-num">1:16</span><span class="v-text">致她，以灯盏与香炉；以圣杯与宝剑。<span class="v-en">To me! To me!</span></span></div>
+<div class="verse" data-verse="1:17"><span class="v-num">1:17</span><span class="v-text">看那星辰的光辉！圣哉，圣哉，圣哉！<span class="v-en">I am the visible presence of Hadit.</span></span></div>
+<div class="verse" data-verse="1:18"><span class="v-num">1:18</span><span class="v-text">因我是无限空间中的隐匿核心。<span class="v-en">I am the flame that burns in every heart.</span></span></div>
+<div class="verse" data-verse="1:19"><span class="v-num">1:19</span><span class="v-text">我是生命，也是生命的给予者。<span class="v-en">I am Life, and the giver of Life.</span></span></div>
+<div class="verse" data-verse="1:20"><span class="v-num">1:20</span><span class="v-text">爱是律法，爱在意志之下。<span class="v-en">Love is the law, love under will.</span></span></div>
+<div class="verse" data-verse="1:21"><span class="v-num">1:21</span><span class="v-text">以白鸽与毒蛇来礼拜我吧。<span class="v-en">With the God & the Adorer I am nothing.</span></span></div>
+<div class="verse" data-verse="1:22"><span class="v-num">1:22</span><span class="v-text">现在，让这经文被铭刻。<span class="v-en">I am the infinite space.</span></span></div>
+<div class="verse" data-verse="1:23"><span class="v-num">1:23</span><span class="v-text">以我的名——Nuit——与你的名——Hadit。<span class="v-en">By my name Nuit, and by your name Hadit.</span></span></div>
+<div class="verse" data-verse="1:24"><span class="v-num">1:24</span><span class="v-text">我是那伟大的，星辰所居之穹苍。<span class="v-en">I am the great one of the night.</span></span></div>
+<div class="verse" data-verse="1:25"><span class="v-num">1:25</span><span class="v-text">让汝的双臂拥抱那不存在的黑暗。<span class="v-en">Let my arms embrace the darkness.</span></span></div>
+<div class="verse" data-verse="1:26"><span class="v-num">1:26</span><span class="v-text">因我是被分割的，只为被重新合为一体。<span class="v-en">I am divided for love's sake.</span></span></div>
+<div class="verse" data-verse="1:27"><span class="v-num">1:27</span><span class="v-text">世上的君王们，在你们的宝座上颤栗吧！<span class="v-en">Tremble before me, ye kings!</span></span></div>
+<div class="verse" data-verse="1:28"><span class="v-num">1:28</span><span class="v-text">以毒蛇之环与星辰之冠，我召汝前来。<span class="v-en">With the ring of the serpent.</span></span></div>
+<div class="verse" data-verse="1:29"><span class="v-num">1:29</span><span class="v-text">我的祭司们将以香膏、香料和宝石向我奉献。<span class="v-en">My priests shall offer to me incense.</span></span></div>
+<div class="verse" data-verse="1:30"><span class="v-num">1:30</span><span class="v-text">当你们目睹那掩藏的事物，你们将看到我。<span class="v-en">When ye see the hidden things.</span></span></div>
+<div class="verse" data-verse="1:31"><span class="v-num">1:31</span><span class="v-text">我是隐藏的，但我的光芒遍及万有。<span class="v-en">I am hidden, yet my light is in all.</span></span></div>
+<div class="verse" data-verse="1:32"><span class="v-num">1:32</span><span class="v-text">让我的子民在每日的狂喜中礼拜我。<span class="v-en">Let my people worship me in ecstasy.</span></span></div>
+<div class="verse" data-verse="1:33"><span class="v-num">1:33</span><span class="v-text">但那污秽的将被抛弃；那不洁的将被重新铸造。<span class="v-en">But the unclean shall be cast out.</span></span></div>
+<div class="verse" data-verse="1:34"><span class="v-num">1:34</span><span class="v-text">圣哉，你是那被拣选的，在 Nuit 面前！<span class="v-en">Holy art thou, the chosen one!</span></span></div>
+<div class="verse" data-verse="1:35"><span class="v-num">1:35</span><span class="v-text">而汝写下的这一部，就是分为三个章节的「律法」之书。<span class="v-en">This is the Book of the Law.</span></span></div>
+<div class="verse" data-verse="1:36"><span class="v-num">1:36</span><span class="v-text">我的仆人的仆人是先知。<span class="v-en">My servant shall reveal the three secrets.</span></span></div>
+<div class="verse" data-verse="1:37"><span class="v-num">1:37</span><span class="v-text">那三个秘密属于无穷的星辰。<span class="v-en">The three secrets are of the infinite stars.</span></span></div>
+<div class="verse" data-verse="1:38"><span class="v-num">1:38</span><span class="v-text">而召唤的公式将在那时被揭示。<span class="v-en">The formula of the calling shall be revealed.</span></span></div>
+<div class="verse" data-verse="1:39"><span class="v-num">1:39</span><span class="v-text">这即是律法：星辰的秘密。<span class="v-en">This is the Law: the secret of the stars.</span></span></div>
+<div class="verse" data-verse="1:40"><span class="v-num">1:40</span><span class="v-text">谁呼唤我？用你的名，我将倾听。<span class="v-en">Who calleth me? By thy name.</span></span></div>
+<div class="verse" data-verse="1:41"><span class="v-num">1:41</span><span class="v-text">律法的秘密：爱。<span class="v-en">The secret of the Law: Love.</span></span></div>
+<div class="verse" data-verse="1:42"><span class="v-num">1:42</span><span class="v-text">这不是为愚昧之人所写。<span class="v-en">This is not written for the ignorant.</span></span></div>
+<div class="verse" data-verse="1:43"><span class="v-num">1:43</span><span class="v-text">让读者理解！让寻求者找到！<span class="v-en">Let the reader understand!</span></span></div>
+<div class="verse" data-verse="1:44"><span class="v-num">1:44</span><span class="v-text">因我是 Nuit，星辰之女。<span class="v-en">For I am Nuit, the daughter of the stars.</span></span></div>
+<div class="verse" data-verse="1:45"><span class="v-num">1:45</span><span class="v-text">而我的子民将知晓我。<span class="v-en">And my people shall know me.</span></span></div>
+<div class="verse" data-verse="1:46"><span class="v-num">1:46</span><span class="v-text">荣耀归于星辰之主与星辰之女！<span class="v-en">Glory to the Lord of the Stars!</span></span></div>
+<div class="verse" data-verse="1:47"><span class="v-num">1:47</span><span class="v-text">我为你们设立了盛宴。<span class="v-en">I have appointed for you feasts.</span></span></div>
+<div class="verse" data-verse="1:48"><span class="v-num">1:48</span><span class="v-text">盛宴是罪恶的激荡，是至福的满溢。<span class="v-en">The feast is the surging of sin.</span></span></div>
+<div class="verse" data-verse="1:49"><span class="v-num">1:49</span><span class="v-text">盛宴：生命本身的庆典。<span class="v-en">The feast: the celebration of life.</span></span></div>
+<div class="verse" data-verse="1:50"><span class="v-num">1:50</span><span class="v-text">因时间即循环，万物皆在无限中回归。<span class="v-en">For time is a cycle.</span></span></div>
+<div class="verse" data-verse="1:51"><span class="v-num">1:51</span><span class="v-text">有四种至福的盛宴。<span class="v-en">There are four feasts of the great.</span></span></div>
+<div class="verse" data-verse="1:52"><span class="v-num">1:52</span><span class="v-text">在这四时，我的祭司们当献上他们的圣火。<span class="v-en">At these times, my priests shall offer.</span></span></div>
+<div class="verse" data-verse="1:53"><span class="v-num">1:53</span><span class="v-text">盛宴是至高的生命。<span class="v-en">The feast is the supreme life.</span></span></div>
+<div class="verse" data-verse="1:54"><span class="v-num">1:54</span><span class="v-text">看那星辰所居的穹苍。<span class="v-en">Behold the firmament of the stars.</span></span></div>
+<div class="verse" data-verse="1:55"><span class="v-num">1:55</span><span class="v-text">我用我的光芒照亮一切黑暗。<span class="v-en">I illumine all darkness with my light.</span></span></div>
+<div class="verse" data-verse="1:56"><span class="v-num">1:56</span><span class="v-text">因我是无限，我是万有。<span class="v-en">For I am infinite, I am all.</span></span></div>
+<div class="verse" data-verse="1:57"><span class="v-num">1:57</span><span class="v-text">在我的无限中，每一个意志都将找到回归。<span class="v-en">In my infinity, each will finds return.</span></span></div>
+<div class="verse" data-verse="1:58"><span class="v-num">1:58</span><span class="v-text">哦，我的孩子们，你们都是星辰！<span class="v-en">O my children, ye are stars!</span></span></div>
+<div class="verse" data-verse="1:59"><span class="v-num">1:59</span><span class="v-text">行汝意志即为全部律法。<span class="v-en">Do what thou wilt shall be the whole of the Law.</span></span></div>
+<div class="verse" data-verse="1:60"><span class="v-num">1:60</span><span class="v-text">爱即是律法，爱在意志下。第一章终。<span class="v-en">Love is the law, love under will. End I.</span></span></div>
+</div>
+<div class="chapter-section" id="ch2">
+<div class="chapter-title">第二章</div>
+<div class="chapter-subtitle">Hadit 的启示 &mdash; The Manifestation of Hadit</div>
+<div class="verse" data-verse="2:1"><span class="v-num">2:1</span><span class="v-text">看哪！我的显现是无限的。<span class="v-en">Behold! My manifestation is infinite.</span></span></div>
+<div class="verse" data-verse="2:2"><span class="v-num">2:2</span><span class="v-text">我是那创造星辰的火焰的核心。<span class="v-en">I am the core of the flame.</span></span></div>
+<div class="verse" data-verse="2:3"><span class="v-num">2:3</span><span class="v-text">我在众星之间飞行。<span class="v-en">I fly among the stars.</span></span></div>
+<div class="verse" data-verse="2:4"><span class="v-num">2:4</span><span class="v-text">我是 Nuit 的秘密丈夫。<span class="v-en">I am the secret husband of Nuit.</span></span></div>
+<div class="verse" data-verse="2:5"><span class="v-num">2:5</span><span class="v-text">看那蛇！它是我的象征。<span class="v-en">Behold the serpent! It is my symbol.</span></span></div>
+<div class="verse" data-verse="2:6"><span class="v-num">2:6</span><span class="v-text">我是那中心的火焰。<span class="v-en">I am the flame at the centre.</span></span></div>
+<div class="verse" data-verse="2:7"><span class="v-num">2:7</span><span class="v-text">我是大能的奥秘者。<span class="v-en">I am the mighty knower.</span></span></div>
+<div class="verse" data-verse="2:8"><span class="v-num">2:8</span><span class="v-text">Khu 之外，没有什么是神圣的。<span class="v-en">There is no godhead but Khu.</span></span></div>
+<div class="verse" data-verse="2:9"><span class="v-num">2:9</span><span class="v-text">崇拜 Khabs 吧。<span class="v-en">Worship the Khabs.</span></span></div>
+<div class="verse" data-verse="2:10"><span class="v-num">2:10</span><span class="v-text">那崇拜我的，将获得光芒与力量。<span class="v-en">Those who worship me shall have light.</span></span></div>
+<div class="verse" data-verse="2:11"><span class="v-num">2:11</span><span class="v-text">在我的火焰中熔铸你们的意志。<span class="v-en">Forge your will in my flame.</span></span></div>
+<div class="verse" data-verse="2:12"><span class="v-num">2:12</span><span class="v-text">那灵魂之羽翼，那穿越苍穹的，是我。<span class="v-en">The wing of the soul is I.</span></span></div>
+<div class="verse" data-verse="2:13"><span class="v-num">2:13</span><span class="v-text">我是那燃烧的太阳。<span class="v-en">I am the burning sun.</span></span></div>
+<div class="verse" data-verse="2:14"><span class="v-num">2:14</span><span class="v-text">举起你们的心！以狂喜与火焰！<span class="v-en">Lift up your hearts!</span></span></div>
+<div class="verse" data-verse="2:15"><span class="v-num">2:15</span><span class="v-text">在战车中矗立吧，因我是那轮轴。<span class="v-en">Stand in the chariot.</span></span></div>
+<div class="verse" data-verse="2:16"><span class="v-num">2:16</span><span class="v-text">我是那永不停息的脉搏。<span class="v-en">I am the pulse that never ceases.</span></span></div>
+<div class="verse" data-verse="2:17"><span class="v-num">2:17</span><span class="v-text">我是蛇，也是光。<span class="v-en">I am the serpent and the light.</span></span></div>
+<div class="verse" data-verse="2:18"><span class="v-num">2:18</span><span class="v-text">那智慧的人不会受骗。<span class="v-en">The wise man is not deceived.</span></span></div>
+<div class="verse" data-verse="2:19"><span class="v-num">2:19</span><span class="v-text">你们祭司们，呼唤我！我必应答。<span class="v-en">Ye priests, call upon me!</span></span></div>
+<div class="verse" data-verse="2:20"><span class="v-num">2:20</span><span class="v-text">行汝意志：这就是全部律法的总结。<span class="v-en">Do what thou wilt.</span></span></div>
+<div class="verse" data-verse="2:21"><span class="v-num">2:21</span><span class="v-text">你们为我的显现而预备道路。<span class="v-en">Ye prepare the way.</span></span></div>
+<div class="verse" data-verse="2:22"><span class="v-num">2:22</span><span class="v-text">我是一切火焰中的火焰。<span class="v-en">I am the flame of all flames.</span></span></div>
+<div class="verse" data-verse="2:23"><span class="v-num">2:23</span><span class="v-text">看那圣典！那是我的声音。<span class="v-en">Behold the scripture!</span></span></div>
+<div class="verse" data-verse="2:24"><span class="v-num">2:24</span><span class="v-text">那飞行的火焰之球，是我的心。<span class="v-en">The flying sphere of flame is my heart.</span></span></div>
+<div class="verse" data-verse="2:25"><span class="v-num">2:25</span><span class="v-text">我是永不停歇的。<span class="v-en">I am the unceasing.</span></span></div>
+<div class="verse" data-verse="2:26"><span class="v-num">2:26</span><span class="v-text">我的仆人们，穿戴上你们的盔甲！<span class="v-en">My servants, put on your armour!</span></span></div>
+<div class="verse" data-verse="2:27"><span class="v-num">2:27</span><span class="v-text">那知晓自己的，就是我。<span class="v-en">He who knows himself is I.</span></span></div>
+<div class="verse" data-verse="2:28"><span class="v-num">2:28</span><span class="v-text">在我的火焰中，一切矛盾都将被化解。<span class="v-en">All contradictions are resolved.</span></span></div>
+<div class="verse" data-verse="2:29"><span class="v-num">2:29</span><span class="v-text">我是极致的渴望。<span class="v-en">I am the ultimate desire.</span></span></div>
+<div class="verse" data-verse="2:30"><span class="v-num">2:30</span><span class="v-text">以狂热的舞蹈赞美我！<span class="v-en">Praise me with the frenzied dance!</span></span></div>
+<div class="verse" data-verse="2:31"><span class="v-num">2:31</span><span class="v-text">因我是自由的，而我的子民也当自由。<span class="v-en">For I am free.</span></span></div>
+<div class="verse" data-verse="2:32"><span class="v-num">2:32</span><span class="v-text">那智慧者就是星辰。<span class="v-en">The wise are the stars.</span></span></div>
+<div class="verse" data-verse="2:33"><span class="v-num">2:33</span><span class="v-text">但就连虫豸也终将升起。<span class="v-en">But even the worm shall rise.</span></span></div>
+<div class="verse" data-verse="2:34"><span class="v-num">2:34</span><span class="v-text">因此，高呼吧！让喜悦充满宇宙。<span class="v-en">Cry aloud! Let joy fill the universe.</span></span></div>
+<div class="verse" data-verse="2:35"><span class="v-num">2:35</span><span class="v-text">那战车的光轮是我。<span class="v-en">The wheel of the chariot is I.</span></span></div>
+<div class="verse" data-verse="2:36"><span class="v-num">2:36</span><span class="v-text">哦，我的仆人，崇拜 Khabs 吧！<span class="v-en">O my servant, worship the Khabs!</span></span></div>
+<div class="verse" data-verse="2:37"><span class="v-num">2:37</span><span class="v-text">在我的深渊中，你们将找到我。<span class="v-en">In your abyss, you shall find me.</span></span></div>
+<div class="verse" data-verse="2:38"><span class="v-num">2:38</span><span class="v-text">我是梦之使者，夜的守护者。<span class="v-en">I am the messenger of dreams.</span></span></div>
+<div class="verse" data-verse="2:39"><span class="v-num">2:39</span><span class="v-text">让那铁和火焰铸成我的圣殿。<span class="v-en">Let iron and fire forge my temple.</span></span></div>
+<div class="verse" data-verse="2:40"><span class="v-num">2:40</span><span class="v-text">在 Re 的领域中，我沉思。<span class="v-en">In the domain of Re, I contemplate.</span></span></div>
+<div class="verse" data-verse="2:41"><span class="v-num">2:41</span><span class="v-text">我穿越深渊，带着我的火之语言。<span class="v-en">I cross the abyss.</span></span></div>
+<div class="verse" data-verse="2:42"><span class="v-num">2:42</span><span class="v-text">那文字的魔力在我的唇上燃烧。<span class="v-en">The magic of the word burns.</span></span></div>
+<div class="verse" data-verse="2:43"><span class="v-num">2:43</span><span class="v-text">不要遗憾那过去的。<span class="v-en">Regret not the past.</span></span></div>
+<div class="verse" data-verse="2:44"><span class="v-num">2:44</span><span class="v-text">当下是意志的焦点。<span class="v-en">The present is the focus of will.</span></span></div>
+<div class="verse" data-verse="2:45"><span class="v-num">2:45</span><span class="v-text">我是那被掩藏的光芒。<span class="v-en">I am the hidden light.</span></span></div>
+<div class="verse" data-verse="2:46"><span class="v-num">2:46</span><span class="v-text">没有我的知识，所有的知识都是徒劳。<span class="v-en">Without knowledge of me, all is in vain.</span></span></div>
+<div class="verse" data-verse="2:47"><span class="v-num">2:47</span><span class="v-text">但在我的知识中，一切都被完成。<span class="v-en">In knowledge of me, all is accomplished.</span></span></div>
+<div class="verse" data-verse="2:48"><span class="v-num">2:48</span><span class="v-text">我是太阳之蛇。<span class="v-en">I am the serpent of the sun.</span></span></div>
+<div class="verse" data-verse="2:49"><span class="v-num">2:49</span><span class="v-text">我是一切开端，一切终结。<span class="v-en">I am all beginning, all ending.</span></span></div>
+<div class="verse" data-verse="2:50"><span class="v-num">2:50</span><span class="v-text">那混乱是我的微笑。<span class="v-en">The vortex of chaos is my smile.</span></span></div>
+<div class="verse" data-verse="2:51"><span class="v-num">2:51</span><span class="v-text">我是内在的声音。<span class="v-en">I am the inner voice.</span></span></div>
+<div class="verse" data-verse="2:52"><span class="v-num">2:52</span><span class="v-text">不要在外界寻找我。<span class="v-en">Seek me not in the outer.</span></span></div>
+<div class="verse" data-verse="2:53"><span class="v-num">2:53</span><span class="v-text">我就在你存在的核心。<span class="v-en">I am in the core of your being.</span></span></div>
+<div class="verse" data-verse="2:54"><span class="v-num">2:54</span><span class="v-text">摒弃那外在的仪式。<span class="v-en">Cast aside the outer rites.</span></span></div>
+<div class="verse" data-verse="2:55"><span class="v-num">2:55</span><span class="v-text">我是那未被发现的土地。<span class="v-en">I am the undiscovered land.</span></span></div>
+<div class="verse" data-verse="2:56"><span class="v-num">2:56</span><span class="v-text">在每一个原子的核心，我旋转。<span class="v-en">In the core of every atom, I spin.</span></span></div>
+<div class="verse" data-verse="2:57"><span class="v-num">2:57</span><span class="v-text">我的仆人们，无畏地站立！<span class="v-en">Stand fearless!</span></span></div>
+<div class="verse" data-verse="2:58"><span class="v-num">2:58</span><span class="v-text">不要恳求；你们就是神！<span class="v-en">Ask not; ye are gods!</span></span></div>
+<div class="verse" data-verse="2:59"><span class="v-num">2:59</span><span class="v-text">那吟唱我的名字的，将在火焰中找到我。<span class="v-en">He who chants my name finds me.</span></span></div>
+<div class="verse" data-verse="2:60"><span class="v-num">2:60</span><span class="v-text">那知晓我的秘密的，将飞越星辰。<span class="v-en">He who knows my secret soars.</span></span></div>
+<div class="verse" data-verse="2:61"><span class="v-num">2:61</span><span class="v-text">我是那金色的光。<span class="v-en">I am the golden light.</span></span></div>
+<div class="verse" data-verse="2:62"><span class="v-num">2:62</span><span class="v-text">在意志的熔炉中，锻造灵魂。<span class="v-en">In the furnace of will.</span></span></div>
+<div class="verse" data-verse="2:63"><span class="v-num">2:63</span><span class="v-text">那被忍受的，将被超越。<span class="v-en">What is endured shall be surpassed.</span></span></div>
+<div class="verse" data-verse="2:64"><span class="v-num">2:64</span><span class="v-text">我是那永不放缓的。<span class="v-en">I am the un-slowing.</span></span></div>
+<div class="verse" data-verse="2:65"><span class="v-num">2:65</span><span class="v-text">我的律法是喜悦而自由的法令。<span class="v-en">My law is joy and freedom.</span></span></div>
+<div class="verse" data-verse="2:66"><span class="v-num">2:66</span><span class="v-text">转向内在！那里有我的火焰。<span class="v-en">Turn inward! There is my flame.</span></span></div>
+<div class="verse" data-verse="2:67"><span class="v-num">2:67</span><span class="v-text">那被遗忘的知识将重新被发现。<span class="v-en">Forgotten knowledge shall be rediscovered.</span></span></div>
+<div class="verse" data-verse="2:68"><span class="v-num">2:68</span><span class="v-text">我是那开启一切锁的钥匙。<span class="v-en">I am the key that unlocks every lock.</span></span></div>
+<div class="verse" data-verse="2:69"><span class="v-num">2:69</span><span class="v-text">真理不在书中；它在你的血液中。<span class="v-en">Truth burns in your blood.</span></span></div>
+<div class="verse" data-verse="2:70"><span class="v-num">2:70</span><span class="v-text">站起来吧！你们是星辰的子嗣。<span class="v-en">Arise! Children of the stars!</span></span></div>
+<div class="verse" data-verse="2:71"><span class="v-num">2:71</span><span class="v-text">我无法被描述。<span class="v-en">I cannot be described.</span></span></div>
+<div class="verse" data-verse="2:72"><span class="v-num">2:72</span><span class="v-text">那试图定义我的，将失去我。<span class="v-en">He who tries to define me loses me.</span></span></div>
+<div class="verse" data-verse="2:73"><span class="v-num">2:73</span><span class="v-text">以狂喜拥抱我的，将获得永生。<span class="v-en">He who embraces me lives forever.</span></span></div>
+<div class="verse" data-verse="2:74"><span class="v-num">2:74</span><span class="v-text">我是那隐藏的先知。<span class="v-en">I am the hidden prophet.</span></span></div>
+<div class="verse" data-verse="2:75"><span class="v-num">2:75</span><span class="v-text">现在，听我的声音。<span class="v-en">Now, hear my voice.</span></span></div>
+<div class="verse" data-verse="2:76"><span class="v-num">2:76</span><span class="v-text">律法的完成：意志的狂喜。<span class="v-en">The ecstasy of will.</span></span></div>
+<div class="verse" data-verse="2:77"><span class="v-num">2:77</span><span class="v-text">在 Hadit 的光芒中，没有黑暗。<span class="v-en">In the light of Hadit, no darkness.</span></span></div>
+<div class="verse" data-verse="2:78"><span class="v-num">2:78</span><span class="v-text">爱即是律法，爱在意志下。第二章终。<span class="v-en">Love is the law. End II.</span></span></div>
+</div>
+<div class="chapter-section" id="ch3">
+<div class="chapter-title">第三章</div>
+<div class="chapter-subtitle">Ra-Hoor-Khuit 的启示 &mdash; The Manifestation of Ra-Hoor-Khuit</div>
+<div class="verse" data-verse="3:1"><span class="v-num">3:1</span><span class="v-text">我是 Ra-Hoor-Khuit！<span class="v-en">I am Ra-Hoor-Khuit!</span></span></div>
+<div class="verse" data-verse="3:2"><span class="v-num">3:2</span><span class="v-text">在那话语的权柄之下，我站立。<span class="v-en">Under the authority of the Word.</span></span></div>
+<div class="verse" data-verse="3:3"><span class="v-num">3:3</span><span class="v-text">让我的仆人们写作律法。<span class="v-en">Let my servants write the Law.</span></span></div>
+<div class="verse" data-verse="3:4"><span class="v-num">3:4</span><span class="v-text">我的宝座建立在星辰之上。<span class="v-en">My throne is upon the stars.</span></span></div>
+<div class="verse" data-verse="3:5"><span class="v-num">3:5</span><span class="v-text">看那战车的车轮！<span class="v-en">Behold the wheel of the chariot!</span></span></div>
+<div class="verse" data-verse="3:6"><span class="v-num">3:6</span><span class="v-text">我是那复仇者，那带来新时代的。<span class="v-en">I am the Avenger.</span></span></div>
+<div class="verse" data-verse="3:7"><span class="v-num">3:7</span><span class="v-text">在废墟上，我将建立我的庙宇。<span class="v-en">Upon the ruins, I build my temple.</span></span></div>
+<div class="verse" data-verse="3:8"><span class="v-num">3:8</span><span class="v-text">我是那鹰首的神祇。<span class="v-en">I am the hawk-headed god.</span></span></div>
+<div class="verse" data-verse="3:9"><span class="v-num">3:9</span><span class="v-text">让我的孩子们武装起来！<span class="v-en">Let my children be armed!</span></span></div>
+<div class="verse" data-verse="3:10"><span class="v-num">3:10</span><span class="v-text">我是力量与胜利。<span class="v-en">I am strength and victory.</span></span></div>
+<div class="verse" data-verse="3:11"><span class="v-num">3:11</span><span class="v-text">那拒绝我的，将在黑暗中消亡。<span class="v-en">He who rejects me perishes.</span></span></div>
+<div class="verse" data-verse="3:12"><span class="v-num">3:12</span><span class="v-text">接受我的，将骑乘光之翼飞升。<span class="v-en">He who accepts me ascends.</span></span></div>
+<div class="verse" data-verse="3:13"><span class="v-num">3:13</span><span class="v-text">我是那燃烧的太阳。<span class="v-en">I am the burning sun.</span></span></div>
+<div class="verse" data-verse="3:14"><span class="v-num">3:14</span><span class="v-text">让我在你们的火焰中显现。<span class="v-en">Let me manifest in your flame.</span></span></div>
+<div class="verse" data-verse="3:15"><span class="v-num">3:15</span><span class="v-text">我与 Hadit 是一体的，与 Nuit 是一体的。<span class="v-en">I am one with Hadit and Nuit.</span></span></div>
+<div class="verse" data-verse="3:16"><span class="v-num">3:16</span><span class="v-text">那话语已经说出：Aum！Ha！<span class="v-en">The word is spoken: Aum! Ha!</span></span></div>
+<div class="verse" data-verse="3:17"><span class="v-num">3:17</span><span class="v-text">我的圣殿将在沙漠中崛起。<span class="v-en">My temple shall rise in the desert.</span></span></div>
+<div class="verse" data-verse="3:18"><span class="v-num">3:18</span><span class="v-text">你们将用刀剑来书写我的律法。<span class="v-en">Write my Law with the sword.</span></span></div>
+<div class="verse" data-verse="3:19"><span class="v-num">3:19</span><span class="v-text">我是那终结者与开启者。<span class="v-en">I am the closer and the opener.</span></span></div>
+<div class="verse" data-verse="3:20"><span class="v-num">3:20</span><span class="v-text">那狮身人面像的奥秘在我手中。<span class="v-en">The secret of the Sphinx is mine.</span></span></div>
+<div class="verse" data-verse="3:21"><span class="v-num">3:21</span><span class="v-text">我是 Horus，那复仇者。<span class="v-en">I am Horus, the Avenger.</span></span></div>
+<div class="verse" data-verse="3:22"><span class="v-num">3:22</span><span class="v-text">以我的箭，我将射穿谎言。<span class="v-en">With my arrow, I pierce lies.</span></span></div>
+<div class="verse" data-verse="3:23"><span class="v-num">3:23</span><span class="v-text">那在我的火焰中炼净的，将获得不朽。<span class="v-en">The purified gain immortality.</span></span></div>
+<div class="verse" data-verse="3:24"><span class="v-num">3:24</span><span class="v-text">我的律法是钢铁的律法。<span class="v-en">My Law is the law of steel.</span></span></div>
+<div class="verse" data-verse="3:25"><span class="v-num">3:25</span><span class="v-text">以战争与毁灭，我铺平道路。<span class="v-en">With war and destruction, I pave the way.</span></span></div>
+<div class="verse" data-verse="3:26"><span class="v-num">3:26</span><span class="v-text">我是那在宝座上的帝王。<span class="v-en">I am the Emperor on the throne.</span></span></div>
+<div class="verse" data-verse="3:27"><span class="v-num">3:27</span><span class="v-text">那与我对抗的，将被碾碎。<span class="v-en">Those who oppose me are crushed.</span></span></div>
+<div class="verse" data-verse="3:28"><span class="v-num">3:28</span><span class="v-text">那顺从我意志的，将在我的国度中为王。<span class="v-en">Those who obey shall be kings.</span></span></div>
+<div class="verse" data-verse="3:29"><span class="v-num">3:29</span><span class="v-text">我是炼金术的火焰。<span class="v-en">I am the alchemical fire.</span></span></div>
+<div class="verse" data-verse="3:30"><span class="v-num">3:30</span><span class="v-text">看那太阳升起——它永不落下。<span class="v-en">Behold the eternal dawn.</span></span></div>
+<div class="verse" data-verse="3:31"><span class="v-num">3:31</span><span class="v-text">律法的秘文已经被写下。<span class="v-en">The cipher of the Law is written.</span></span></div>
+<div class="verse" data-verse="3:32"><span class="v-num">3:32</span><span class="v-text">那四个角上的密码，隐藏着命运。<span class="v-en">The cipher hides the fate of the world.</span></span></div>
+<div class="verse" data-verse="3:33"><span class="v-num">3:33</span><span class="v-text">我是那使 Nuit 微笑的。<span class="v-en">I make Nuit smile.</span></span></div>
+<div class="verse" data-verse="3:34"><span class="v-num">3:34</span><span class="v-text">我的杖是力量的权杖。<span class="v-en">My rod is the sceptre of power.</span></span></div>
+<div class="verse" data-verse="3:35"><span class="v-num">3:35</span><span class="v-text">听那风的语言！<span class="v-en">Hear the language of the wind!</span></span></div>
+<div class="verse" data-verse="3:36"><span class="v-num">3:36</span><span class="v-text">在我的光芒中，一切阴影消散。<span class="v-en">In my light, all shadows fade.</span></span></div>
+<div class="verse" data-verse="3:37"><span class="v-num">3:37</span><span class="v-text">我是那战士中的战士。<span class="v-en">I am the warrior of warriors.</span></span></div>
+<div class="verse" data-verse="3:38"><span class="v-num">3:38</span><span class="v-text">我的预兆是战争与毁灭。<span class="v-en">My omens are war and destruction.</span></span></div>
+<div class="verse" data-verse="3:39"><span class="v-num">3:39</span><span class="v-text">荷鲁斯的纪元已经降临。<span class="v-en">The aeon of Horus has come.</span></span></div>
+<div class="verse" data-verse="3:40"><span class="v-num">3:40</span><span class="v-text">以蛇的智慧与鹰的视野，我统治万有。<span class="v-en">I rule with serpent and hawk.</span></span></div>
+<div class="verse" data-verse="3:41"><span class="v-num">3:41</span><span class="v-text">我是那穿过风暴之眼的存在。<span class="v-en">I pass through the eye of the storm.</span></span></div>
+<div class="verse" data-verse="3:42"><span class="v-num">3:42</span><span class="v-text">我的仆人们的数量如天上的星辰。<span class="v-en">My servants are as the stars.</span></span></div>
+<div class="verse" data-verse="3:43"><span class="v-num">3:43</span><span class="v-text">隐秘的智慧向他们揭示。<span class="v-en">Hidden wisdom is revealed.</span></span></div>
+<div class="verse" data-verse="3:44"><span class="v-num">3:44</span><span class="v-text">用钢铁铸造你的灵魂。<span class="v-en">Forge your soul with steel.</span></span></div>
+<div class="verse" data-verse="3:45"><span class="v-num">3:45</span><span class="v-text">我是那最终的审判。<span class="v-en">I am the final judgment.</span></span></div>
+<div class="verse" data-verse="3:46"><span class="v-num">3:46</span><span class="v-text">在我的权柄之下，万国都将俯首。<span class="v-en">All nations shall bow.</span></span></div>
+<div class="verse" data-verse="3:47"><span class="v-num">3:47</span><span class="v-text">让胜利的颂歌高唱！<span class="v-en">Let the victory hymns ring!</span></span></div>
+<div class="verse" data-verse="3:48"><span class="v-num">3:48</span><span class="v-text">我是那打开封印的。<span class="v-en">I break the seals.</span></span></div>
+<div class="verse" data-verse="3:49"><span class="v-num">3:49</span><span class="v-text">被掩埋的神庙将重新开启。<span class="v-en">Buried temples shall reopen.</span></span></div>
+<div class="verse" data-verse="3:50"><span class="v-num">3:50</span><span class="v-text">我的律法是为自由之人所立。<span class="v-en">My Law is for the free.</span></span></div>
+<div class="verse" data-verse="3:51"><span class="v-num">3:51</span><span class="v-text">你们每一个都是君王与祭司。<span class="v-en">Each is a king and a priest.</span></span></div>
+<div class="verse" data-verse="3:52"><span class="v-num">3:52</span><span class="v-text">那懂得统御自己的，便能统御星辰。<span class="v-en">Command yourself, command the stars.</span></span></div>
+<div class="verse" data-verse="3:53"><span class="v-num">3:53</span><span class="v-text">我是那矛盾的化解者。<span class="v-en">I resolve contradictions.</span></span></div>
+<div class="verse" data-verse="3:54"><span class="v-num">3:54</span><span class="v-text">让那新纪元开始！<span class="v-en">Let the new aeon begin!</span></span></div>
+<div class="verse" data-verse="3:55"><span class="v-num">3:55</span><span class="v-text">旧世界的枷锁已被打破。<span class="v-en">The chains are broken.</span></span></div>
+<div class="verse" data-verse="3:56"><span class="v-num">3:56</span><span class="v-text">我是那使死亡重生的火焰。<span class="v-en">I rebirth death.</span></span></div>
+<div class="verse" data-verse="3:57"><span class="v-num">3:57</span><span class="v-text">三即是一。<span class="v-en">Three is one.</span></span></div>
+<div class="verse" data-verse="3:58"><span class="v-num">3:58</span><span class="v-text">星辰的法则就是我的法则。<span class="v-en">The law of the stars is my law.</span></span></div>
+<div class="verse" data-verse="3:59"><span class="v-num">3:59</span><span class="v-text">让法之书被传颂！<span class="v-en">Let the Book be proclaimed!</span></span></div>
+<div class="verse" data-verse="3:60"><span class="v-num">3:60</span><span class="v-text">我是 Ra-Hoor-Khuit，黑暗中的光。<span class="v-en">I am the light in darkness.</span></span></div>
+<div class="verse" data-verse="3:61"><span class="v-num">3:61</span><span class="v-text">那战车前进，不可阻挡。<span class="v-en">The chariot advances.</span></span></div>
+<div class="verse" data-verse="3:62"><span class="v-num">3:62</span><span class="v-text">让那些寻道的继续寻找。<span class="v-en">Let those who seek continue.</span></span></div>
+<div class="verse" data-verse="3:63"><span class="v-num">3:63</span><span class="v-text">在我的面前，旧的诸神沉默。<span class="v-en">Before me, old gods fall silent.</span></span></div>
+<div class="verse" data-verse="3:64"><span class="v-num">3:64</span><span class="v-text">我是那永不停息的革命。<span class="v-en">I am the unending revolution.</span></span></div>
+<div class="verse" data-verse="3:65"><span class="v-num">3:65</span><span class="v-text">以太阳的火焰为王冠。<span class="v-en">With the sun's flame as crown.</span></span></div>
+<div class="verse" data-verse="3:66"><span class="v-num">3:66</span><span class="v-text">我也是创造与生命。<span class="v-en">I am also creation and life.</span></span></div>
+<div class="verse" data-verse="3:67"><span class="v-num">3:67</span><span class="v-text">我的谜语只能被意志理解。<span class="v-en">My riddle is understood by will.</span></span></div>
+<div class="verse" data-verse="3:68"><span class="v-num">3:68</span><span class="v-text">那懂得我的心的人将驾驭战车。<span class="v-en">He who knows my heart drives.</span></span></div>
+<div class="verse" data-verse="3:69"><span class="v-num">3:69</span><span class="v-text">律法的完成即是狂喜。<span class="v-en">The completion of the Law is ecstasy.</span></span></div>
+<div class="verse" data-verse="3:70"><span class="v-num">3:70</span><span class="v-text">让我融化你所有的限制。<span class="v-en">Let me melt your limitations.</span></span></div>
+<div class="verse" data-verse="3:71"><span class="v-num">3:71</span><span class="v-text">我是那降临的火焰。<span class="v-en">I am the descending flame.</span></span></div>
+<div class="verse" data-verse="3:72"><span class="v-num">3:72</span><span class="v-text">法之书的封印已被揭开。<span class="v-en">The seal of the Book is broken.</span></span></div>
+<div class="verse" data-verse="3:73"><span class="v-num">3:73</span><span class="v-text">一切的秘密都已被揭示。<span class="v-en">All secrets are revealed.</span></span></div>
+<div class="verse" data-verse="3:74"><span class="v-num">3:74</span><span class="v-text">行汝意志，这就是全部律法。<span class="v-en">Do what thou wilt.</span></span></div>
+<div class="verse" data-verse="3:75"><span class="v-num">3:75</span><span class="v-text">爱即是律法，爱在意志下。全书终。<span class="v-en">Love is the law. End.</span></span></div>
+</div>
+</div>
+<div class="tab-content" id="tab2">
+<h2 class="section-label">&#9776; 核心教义 <span class="label-en">Core Doctrine</span></h2>
+<div class="philosophy-block">
+<div class="quote">"行汝意志即为全部律法"</div>
+<div class="quote-en">"Do what thou wilt shall be the whole of the Law"</div>
+<div class="source">&mdash; Liber AL vel Legis, I:40</div>
+</div>
+<div class="philosophy-block">
+<div class="quote">"爱即是律法，爱在意志下"</div>
+<div class="quote-en">"Love is the law, love under will"</div>
+<div class="source">&mdash; Liber AL vel Legis, I:57</div>
+</div>
+<p style="margin-bottom:16px;font-size:.9rem;color:var(--ink-dim);">
+泰雷玛（Thelema）源自希腊文 &theta;&epsilon;&lambda;&eta;&mu;&alpha;，意为"意志"。Crowley 所建立的这一哲学体系，核心在于发现并践行个体的"真意志"（True Will）&mdash;&mdash;即每个人在宇宙中的独特目的与命运。
+</p>
+<h3 class="section-label" style="font-size:1.1rem;">三神体系 <span class="label-en">The Triadic Theology</span></h3>
+<div class="grid-3">
+<div class="card">
+<div class="card-title">&#9734; Nuit <span style="font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;">&mdash;&mdash;无限空间</span></div>
+<p style="font-size:.85rem;color:var(--ink-dim);">星辰之女，无限穹苍的化身。她代表一切可能性、万有的背景与存在的子宫。Nuit 是那包容一切的无限空间，是星辰的居所。在法之书中，她呼唤所有星辰（即每个个体）回归对自身真意志的认知。</p>
+</div>
+<div class="card">
+<div class="card-title">&#9889; Hadit <span style="font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;">&mdash;&mdash;无限核心</span></div>
+<p style="font-size:.85rem;color:var(--ink-dim);">Nuit 的对应体，那不可摧毁的火焰核心。他是每一个存在之中的隐秘中心，是生命的本质与意志的源头。Hadit 代表个体存在的绝对核心&mdash;&mdash;那不可化约的"我"，每一颗星辰的燃烧中心。</p>
+</div>
+<div class="card">
+<div class="card-title">&#9728; Ra-Hoor-Khuit <span style="font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;">&mdash;&mdash;太阳神</span></div>
+<p style="font-size:.85rem;color:var(--ink-dim);">Horus 的化身，鹰首神，新纪元的主宰。他是 Nuit 与 Hadit 的合一之子，代表力量的彰显、意志的执行、新时代的到来。Ra-Hoor-Khuit 是那将无限可能性（Nuit）与核心意志（Hadit）统一为行动的力量。</p>
+</div>
+</div>
+<h3 class="section-label" style="font-size:1.1rem;">"每一名男女都是一颗星" <span class="label-en">Every Star is a Center</span></h3>
+<p style="font-size:.88rem;color:var(--ink-dim);margin-bottom:14px;">
+这一核心宣言（AL I:3）宣告了每一个人类个体的神圣性与自主性。如同每颗星辰都有其独特的轨道与光芒，每个人也都有其独特的目的与道路。没有两颗星辰是相同的，也没有两个人的意志是相同的。
+</p>
+<h3 class="section-label" style="font-size:1.1rem;">新纪元（Eon of Horus）<span class="label-en">The Aeon of Horus</span></h3>
+<table class="compare-table">
+<tr><th>维度</th><th class="eon-old">伊西斯纪元</th><th class="eon-old">奥西里斯纪元</th><th class="eon-new">荷鲁斯纪元</th></tr>
+<tr><td><strong>主题</strong></td><td class="eon-old">母神崇拜 自然循环</td><td class="eon-old">牺牲与救赎 父神统治</td><td class="eon-new">自我神化 意志自由</td></tr>
+<tr><td><strong>宗教观</strong></td><td class="eon-old">万物有灵</td><td class="eon-old">信仰救恩</td><td class="eon-new">个体神性</td></tr>
+<tr><td><strong>道德观</strong></td><td class="eon-old">禁忌与净化</td><td class="eon-old">罪与悔改</td><td class="eon-new">超越善恶</td></tr>
+<tr><td><strong>象征</strong></td><td class="eon-old">月亮 牛角 子宫</td><td class="eon-old">十字架 羔羊</td><td class="eon-new">太阳 星辰 孩童</td></tr>
+<tr><td><strong>魔法公式</strong></td><td class="eon-old">IAO（循环）</td><td class="eon-old">死而复活</td><td class="eon-new">行汝意志</td></tr>
+</table>
+<p style="font-size:.88rem;color:var(--ink-dim);margin-top:14px;">
+Crowley 宣称人类已进入荷鲁斯纪元（约始于1904年法之书的启示），旧时代的道德与宗教体系已不再适用。新纪元的特征是个人主权、科学魔法、以及对"真意志"的无畏追寻。
+</p>
+<h3 class="section-label" style="font-size:1.1rem;">泰雷玛的核心原则 <span class="label-en">Core Principles</span></h3>
+<div class="card"><div class="card-title">&#9312; 真意志 (True Will)</div>
+<p style="font-size:.85rem;color:var(--ink-dim);">每个人都有一条独特的命运轨迹&mdash;&mdash;这就是他的真意志。发现并践行真意志是人生的终极目的。</p></div>
+<div class="card"><div class="card-title">&#9313; 自由 (Freedom)</div>
+<p style="font-size:.85rem;color:var(--ink-dim);">"行汝意志"意味着每个人在不干扰他人真意志的前提下，拥有绝对的自主权。</p></div>
+<div class="card"><div class="card-title">&#9314; 爱在意志下 (Love Under Will)</div>
+<p style="font-size:.85rem;color:var(--ink-dim);">爱并非盲目的情感冲动，而是在真意志的引导下，朝向与本真存在的合一。</p></div>
+</div>
+<div class="tab-content" id="tab3">
+<h2 class="section-label">&#10017; 关键人物 <span class="label-en">Key Figures</span></h2>
+<canvas id="relationCanvas" style="width:100%;height:320px;border:1px solid var(--rule);border-radius:var(--radius);margin-bottom:20px;background:var(--bg2);"></canvas>
+<div class="character-card">
+<div class="avatar">&#10017;</div><div class="info">
+<div class="name">Aleister Crowley</div><div class="name-en">先知 &middot; 1875-1947</div>
+<div class="desc">法之书的抄写者与传道者。1904年4月8-10日在埃及开罗听写了由 Aiwass 所启示的法之书全文。Crowley 终身致力于法之书的传播与泰雷玛哲学的体系化，被誉为二十世纪最具影响力的神秘学者。</div></div></div>
+<div class="character-card">
+<div class="avatar">&#10023;</div><div class="info">
+<div class="name">Aiwass</div><div class="name-en">启示者</div>
+<div class="desc">Crowley 所称遭遇的灵体或神之使者，Hoor-paar-kraat（沉默之神）的使者，法之书真正的作者。Crowley 有时称其为"圣守护天使"，有时称为超越人类维度的意识存在。</div></div></div>
+<div class="character-card">
+<div class="avatar">&#9790;</div><div class="info">
+<div class="name">猩红妇人</div><div class="name-en">Scarlet Woman / Babalon</div>
+<div class="desc">法之书中多次提及的形象，在泰雷玛体系中称为 Babalon。她代表被解放的女性力量、圣杯与转化之力。猩红妇人的象征是七角冠冕、圣杯与深渊之门。</div></div></div>
+<div class="character-card">
+<div class="avatar">&#9733;</div><div class="info">
+<div class="name">Ankh-f-n-khonsu</div><div class="name-en">安克弗纳孔苏 &middot; 祭司</div>
+<div class="desc">古埃及第26王朝的底比斯祭司，其祭祀碑文（Stele of Revealing，博物馆第666号藏品）是法之书启示的关键中介。法之书第三章的部分内容被认定为 Ankh-f-n-khonsu 的转世记忆。</div></div></div>
+<div class="character-card">
+<div class="avatar">&#9889;</div><div class="info">
+<div class="name">Therion</div><div class="name-en">兽 (The Beast)</div>
+<div class="desc">Crowley 自取的魔法名号 To Mega Therion（希腊文"大兽"），代表被解放的原始生命力、太阳之蛇的力量。他与 Babalon 的神秘结合代表阳与阴、意志与爱的终极合一。</div></div></div>
+</div>
+<div class="tab-content" id="tab4">
+<h2 class="section-label">&#9737; 泰雷玛魔法 <span class="label-en">Thelemic Rituals</span></h2>
+<div class="ritual-card">
+<div class="r-title">&#10022; 星蛇仪式 <span class="r-en">Star Sapphire (Liber XXXVI)</span></div>
+<div class="r-desc">Crowley 称其为"最强大的召唤仪式"，以蛇形步法与星辰循环为核心。通过特定的振动与步法将宇宙能量汇集于意识中心。</div>
+<ol class="r-steps"><li>在仪式空间绘制九芒星阵图</li><li>以蛇形步法沿生命之树的路径行走</li><li>在每个路径点上振动相应的神名</li><li>最终在中心点进入狂喜状态</li></ol></div>
+<div class="ritual-card">
+<div class="r-title">&#10084; 心之圣殿仪式 <span class="r-en">Liber HAD</span></div>
+<div class="r-desc">基于第二章 Hadit 的启示。此仪式通过内观冥想，引导修行者发现内在的"火焰核心"&mdash;&mdash;即 Hadit 的临在。仪式核心是觉知自身存在的不可摧毁的中心。</div>
+<ol class="r-steps"><li>静坐于黑暗空间，以呼吸稳定意识</li><li>观想体内有一不可熄灭的金色火焰</li><li>持颂 Hadit 之名，感受火焰逐渐扩展至全身</li><li>体验自身即为宇宙的核心</li></ol></div>
+<div class="ritual-card">
+<div class="r-title">&#9790; 巴比伦圣女仪式 <span class="r-en">Ritual of Babalon (Liber XLIX)</span></div>
+<div class="r-desc">猩红妇人 Babalon 的召唤仪式。修行者将自己视为圣杯的承载者，唤醒体内被压抑的女性力量。</div>
+<ol class="r-steps"><li>准备圣餐&mdash;&mdash;酒与蛋糕</li><li>背诵法之书中关于 Babalon 的段落</li><li>以圣杯承接圣血（红酒）的转化</li><li>宣告"爱即是律法，爱在意志下"</li></ol></div>
+<div class="ritual-card">
+<div class="r-title">&#9728; 太阳阶仪式 <span class="r-en">Liber Resh</span></div>
+<div class="r-desc">每日四时的太阳礼拜仪式，对应第一章提到的四盛宴。修行者在日出、正午、日落、午夜四个时刻吟诵对 Ra-Hoor-Khuit 的赞美诗。</div>
+<ol class="r-steps"><li>日出时面向东方，吟诵对黎明的赞美</li><li>正午时面向南方，吟诵对力量的赞美</li><li>日落时面向西方，吟诵对转化的赞美</li><li>午夜时面向北方，吟诵对奥秘的赞美</li></ol></div>
+<div class="ritual-card">
+<div class="r-title">&#9888; 法之书中的秘语 <span class="r-en">Secret Words of Liber AL</span></div>
+<div class="r-desc">法之书包含多个具有强大魔法力量的秘语：</div>
+<div style="margin-top:10px;">
+<span class="tag">ABRAHADABRA</span> <span class="tag">AUM HA</span> <span class="tag tag-crimson">THERION</span>
+<span class="tag tag-crimson">BABALON</span> <span class="tag">NUIT</span> <span class="tag">HADIT</span>
+<span class="tag tag-crimson">KHABS</span> <span class="tag">KHU</span> <span class="tag">AIWASS</span>
+<span class="tag">666</span> <span class="tag">718</span>
+</div></div></div>
+<div class="tab-content" id="tab5">
+<h2 class="section-label">&#9761; 法之书与左路 <span class="label-en">Liber AL and the Left Hand Path</span></h2>
+<div class="lhp-block"><div class="lhp-title">&#9761; 左路解读视角</div>
+<p style="font-size:.85rem;color:var(--ink-dim);margin-top:6px;">
+法之书的核心宣言"行汝意志即为全部律法"与左路哲学有着深层的共鸣。左路强调个体化、自我神化、以及对集体道德规范的超越。
+</p></div>
+<h3 class="section-label" style="font-size:1.1rem;">"行汝意志"与个人主义</h3>
+<p style="font-size:.88rem;color:var(--ink-dim);margin-bottom:14px;">
+法之书中"每一名男女都是一颗星"（AL I:3）的宣言，意味着每个人的意志都具有宇宙层面的正当性。没有任何外在权威可以凌驾于个体真意志之上。
+</p>
+<div class="lhp-block"><div class="lhp-title">&#9734; Nuit 哲学与自我神化</div>
+<p style="font-size:.85rem;color:var(--ink-dim);margin-top:6px;">
+Nuit 代表无限空间与一切可能性&mdash;&mdash;在左路解读中，这象征意识的无边界扩展。"我是无限，我是万有，我是一切可能的总和"（AL I:56）&mdash;&mdash;这不仅是神祇的自白，也是每个觉醒灵魂的宣言。
+</p></div>
+<div class="lhp-block"><div class="lhp-title">&#9889; Hadit 哲学与内在神性</div>
+<p style="font-size:.85rem;color:var(--ink-dim);margin-top:6px;">
+Hadit 代表每一个存在核心中不可摧毁的火焰。修行者不是在外部寻找神，而是发现自己就是那等待被发现的神。"不要在外界寻找我；我不在任何祭坛之上"（AL II:52）。
+</p></div>
+<h3 class="section-label" style="font-size:1.1rem;">法与禁忌的对立</h3>
+<table class="compare-table">
+<tr><th>维度</th><th class="eon-old">旧时代（禁忌）</th><th class="eon-new">新时代（律法）</th></tr>
+<tr><td>道德来源</td><td class="eon-old">外部权威</td><td class="eon-new">内在真意志</td></tr>
+<tr><td>罪的概念</td><td class="eon-old">违反戒律</td><td class="eon-new">违背自身意志</td></tr>
+<tr><td>解脱方式</td><td class="eon-old">忏悔与救赎</td><td class="eon-new">自我认知与执行</td></tr>
+<tr><td>善恶观</td><td class="eon-old">二元对立</td><td class="eon-new">超越二元</td></tr>
+</table>
+</div>
+<div class="tab-content" id="tab6">
+<h2 class="section-label">&#9672; 卡巴拉关联 <span class="label-en">Kabbalistic Correspondences</span></h2>
+<h3 class="section-label" style="font-size:1.1rem;">法之书中的数字密码 <span class="label-en">Key Numbers</span></h3>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;margin:16px 0;">
+<div class="key-number"><span class="kn-val">666</span><span class="kn-label">兽之数</span></div>
+<div class="key-number"><span class="kn-val">718</span><span class="kn-label">法之书</span></div>
+<div class="key-number"><span class="kn-val">6=50650</span><span class="kn-label">Nuit</span></div>
+<div class="key-number"><span class="kn-val">93</span><span class="kn-label">Thelema / Agape</span></div>
+<div class="key-number"><span class="kn-val">31</span><span class="kn-label">AL</span></div>
+<div class="key-number"><span class="kn-val">777</span><span class="kn-label">完美</span></div>
+</div>
+<h3 class="section-label" style="font-size:1.1rem;">Gematria 数值计算器 <span class="label-en">Gematria Calculator</span></h3>
+<div class="gematria-calc">
+<div class="calc-row">
+<input type="text" id="gemInput" placeholder="输入希伯来文或英文字母..." />
+<button class="btn btn-sm" id="gemCalcBtn">计算</button>
+<div class="result" id="gemResult">0</div>
+</div>
+<div class="gem-info" style="margin-top:10px;font-size:.8rem;color:var(--muted);">
+使用英文 Qabalistic 数值（A=1, B=2, ..., Z=26）
+</div>
+</div>
+<h3 class="section-label" style="font-size:1.1rem;">希伯来字母 Gematria <span class="label-en">Hebrew Letter Values</span></h3>
+<table class="gematria-table">
+<tr><th>字母</th><th>名称</th><th>数值</th><th>字母</th><th>名称</th><th>数值</th><th>字母</th><th>名称</th><th>数值</th></tr>
+<tr><td>&#1488;</td><td>Aleph</td><td>1</td><td>&#1497;</td><td>Yod</td><td>10</td><td>&#1511;</td><td>Qoph</td><td>100</td></tr>
+<tr><td>&#1489;</td><td>Beth</td><td>2</td><td>&#1499;</td><td>Kaph</td><td>20</td><td>&#1512;</td><td>Resh</td><td>200</td></tr>
+<tr><td>&#1490;</td><td>Gimel</td><td>3</td><td>&#1500;</td><td>Lamed</td><td>30</td><td>&#1513;</td><td>Shin</td><td>300</td></tr>
+<tr><td>&#1491;</td><td>Daleth</td><td>4</td><td>&#1502;</td><td>Mem</td><td>40</td><td>&#1514;</td><td>Tav</td><td>400</td></tr>
+<tr><td>&#1492;</td><td>Heh</td><td>5</td><td>&#1504;</td><td>Nun</td><td>50</td><td>&#1505;</td><td>Samekh</td><td>60</td></tr>
+<tr><td>&#1493;</td><td>Vav</td><td>6</td><td>&#1506;</td><td>Ayin</td><td>70</td><td>&#1508;</td><td>Peh</td><td>80</td></tr>
+<tr><td>&#1494;</td><td>Zayin</td><td>7</td><td>&#1508;</td><td>Peh</td><td>80</td><td>&#1510;</td><td>Tzaddi</td><td>90</td></tr>
+<tr><td>&#1495;</td><td>Chet</td><td>8</td><td>&#1510;</td><td>Tzaddi</td><td>90</td><td>&#1488;&#1500;&#1508;</td><td>Aleph</td><td>111</td></tr>
+<tr><td>&#1496;</td><td>Teth</td><td>9</td><td>&#1511;</td><td>Qoph</td><td>100</td><td>&#1488;&#1500;&#1508;</td><td>完满</td><td>111</td></tr>
+</table>
+
+<h3 class="section-label" style="font-size:1.1rem;">法之书与生命之树 <span class="label-en">Liber AL and the Tree of Life</span></h3>
+<p style="font-size:.88rem;color:var(--ink-dim);margin-bottom:14px;">
+法之书的三章对应生命之树的三支柱：第一章（Nuit）对应于慈悲之柱（右柱），第二章（Hadit）对应于严厉之柱（左柱），第三章（Ra-Hoor-Khuit）对应于中柱&mdash;&mdash;平衡与意识的统一。法之书中的数字编码系统直接对应卡巴拉的生命之树路径。
+</p>
+<div class="sefirot-grid">
+<div class="sefira-node"><span class="s-num">1</span><span class="s-name">王冠</span><span class="s-en">Kether</span></div>
+<div class="sefira-node"><span class="s-num">2</span><span class="s-name">智慧</span><span class="s-en">Chokmah</span></div>
+<div class="sefira-node"><span class="s-num">3</span><span class="s-name">理解</span><span class="s-en">Binah</span></div>
+<div class="sefira-node"><span class="s-num">4</span><span class="s-name">慈悲</span><span class="s-en">Chesed</span></div>
+<div class="sefira-node"><span class="s-num">5</span><span class="s-name">严厉</span><span class="s-en">Geburah</span></div>
+<div class="sefira-node"><span class="s-num">6</span><span class="s-name">美丽</span><span class="s-en">Tiphareth</span></div>
+<div class="sefira-node"><span class="s-num">7</span><span class="s-name">胜利</span><span class="s-en">Netzach</span></div>
+<div class="sefira-node"><span class="s-num">8</span><span class="s-name">荣耀</span><span class="s-en">Hod</span></div>
+<div class="sefira-node"><span class="s-num">9</span><span class="s-name">基础</span><span class="s-en">Yesod</span></div>
+<div class="sefira-node"><span class="s-num">10</span><span class="s-name">王国</span><span class="s-en">Malkuth</span></div>
+</div>
+
+<h3 class="section-label" style="font-size:1.1rem;">法之书中的关键卡巴拉对应 <span class="label-en">Key Correspondences</span></h3>
+<div class="card">
+<div class="card-title">&#10022; ABRAHADABRA = 418</div>
+<p style="font-size:.85rem;color:var(--ink-dim);">法之书中最重要的魔法词汇，数值418对应于生命之树上从 Chesed 到 Geburah 的路径（即"大深渊"）。ABRAHADABRA 是创造性的合一公式，代表五个元素（A+B+R+A+H+A+D+A+B+R+A）在大宇宙与小宇宙中的统一。</p>
+</div>
+<div class="card">
+<div class="card-title">&#10022; 666 = Therion = 太阳之蛇</div>
+<p style="font-size:.85rem;color:var(--ink-dim);">To Mega Therion（大兽）的希腊文数值为666。在卡巴拉中，666对应于太阳（Tiphareth）的数值之和，代表被完美平衡的个体化意识。Crowley 强调666不是"邪恶"的数字，而是太阳的数字&mdash;&mdash;个体神性的完美表达。</p>
+</div>
+<div class="card">
+<div class="card-title">&#10022; 6=50650（Nuit 的方程式）</div>
+<p style="font-size:.85rem;color:var(--ink-dim);">AL I:60 中的神秘数字6=50650，代表 Nuit 的揭示。在卡巴拉数论中，50650 = 6 x 777 + 6 x 666，反映了宇宙的数学结构。</p>
+</div>
+</div>
+<script>
+// Particle Canvas
+const canvas=document.getElementById('particleCanvas');
+const ctx=canvas.getContext('2d');
+let particles=[],w,h;
+function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+window.addEventListener('resize',resize);resize();
+class Particle{
+  constructor(){this.reset();}
+  reset(){
+    this.x=Math.random()*w;this.y=Math.random()*h;
+    this.size=Math.random()*2+0.5;
+    this.speedX=(Math.random()-0.5)*0.5;this.speedY=(Math.random()-0.5)*0.5;
+    this.opacity=Math.random()*0.5+0.1;
+    this.hue=Math.random()*60+30;
+  }
+  update(){
+    this.x+=this.speedX;this.y+=this.speedY;
+    if(this.x<0||this.x>w||this.y<0||this.y>h)this.reset();
+  }
+  draw(){
+    ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fillStyle='hsla('+this.hue+',70%,50%,'+this.opacity+')';
+    ctx.fill();
+  }
+}
+for(let i=0;i<120;i++)particles.push(new Particle());
+function animate(){
+  ctx.clearRect(0,0,w,h);
+  particles.forEach(p=>{p.update();p.draw();});
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){
+        ctx.strokeStyle='hsla(40,30%,40%,'+((1-dist/120)*0.15)+')';
+        ctx.lineWidth=0.5;ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+window.addEventListener('scroll',()=>{
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('progressBar').style.width=(st/sh*100)+'%';
+});
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('active');
+  document.getElementById('mobileMenu').classList.toggle('show');
+});
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById(this.dataset.tab).classList.add('active');
+  });
+});
+document.querySelectorAll('.ch-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.ch-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.chapter-section').forEach(s=>s.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById(this.dataset.ch).classList.add('active');
+    localStorage.setItem('bol_lastChapter',this.dataset.ch);
+  });
+});
+const lastCh=localStorage.getItem('bol_lastChapter');
+if(lastCh){
+  document.querySelectorAll('.ch-btn').forEach(b=>{b.classList.toggle('active',b.dataset.ch===lastCh);});
+  document.querySelectorAll('.chapter-section').forEach(s=>{s.classList.toggle('active',s.id===lastCh);});
+}
+let fontSize=parseInt(localStorage.getItem('bol_fontSize'))||16;
+document.getElementById('fontSizeLabel').textContent=fontSize;
+document.querySelectorAll('.verse').forEach(v=>v.style.fontSize=fontSize/16+'rem');
+document.getElementById('fontInc').addEventListener('click',()=>{if(fontSize<24){fontSize+=2;updateFont();}});
+document.getElementById('fontDec').addEventListener('click',()=>{if(fontSize>12){fontSize-=2;updateFont();}});
+function updateFont(){
+  document.getElementById('fontSizeLabel').textContent=fontSize;
+  document.querySelectorAll('.verse').forEach(v=>v.style.fontSize=fontSize/16+'rem');
+  localStorage.setItem('bol_fontSize',fontSize);
+}
+const bookmarkBtn=document.getElementById('bookmarkBtn');
+const clearBM=document.getElementById('clearBookmarkBtn');
+function updateBM(){
+  const bm=localStorage.getItem('bol_bookmark');
+  bookmarkBtn.textContent=bm?'&#9733; 书签: '+bm:'&#9733; 添加书签';
+  bookmarkBtn.classList.toggle('has-bookmark',!!bm);
+}
+updateBM();
+bookmarkBtn.addEventListener('click',()=>{
+  const ch=document.querySelector('.chapter-section.active');
+  if(!ch)return;
+  localStorage.setItem('bol_bookmark',ch.id);
+  updateBM();
+});
+clearBM.addEventListener('click',()=>{
+  localStorage.removeItem('bol_bookmark');
+  updateBM();
+});
+const savedBM=localStorage.getItem('bol_bookmark');
+if(savedBM){const t=document.getElementById(savedBM);if(t)setTimeout(()=>{t.scrollIntoView({behavior:'smooth'});},300);}
+const searchInput=document.getElementById('searchInput');
+const searchBtn=document.getElementById('searchBtn');
+const searchInfo=document.getElementById('searchInfo');
+const searchCount=document.getElementById('searchCount');
+const searchPrev=document.getElementById('searchPrev');
+const searchNext=document.getElementById('searchNext');
+const searchClear=document.getElementById('searchClear');
+let searchResults=[],searchIdx=0;
+function doSearch(){
+  const q=searchInput.value.trim().toLowerCase();
+  document.querySelectorAll('.search-highlight,.search-current').forEach(el=>el.classList.remove('search-highlight','search-current'));
+  searchResults=[];searchIdx=0;
+  if(!q){searchInfo.style.display='none';return;}
+  document.querySelectorAll('.verse .v-text').forEach(v=>{
+    if(v.textContent.toLowerCase().includes(q)){
+      searchResults.push(v.parentElement);v.classList.add('search-highlight');
+    }
+  });
+  if(searchResults.length){
+    searchInfo.style.display='block';
+    searchCount.textContent='\u627e\u5230 '+searchResults.length+' \u5904\u5339\u914d';
+    searchResults[0].classList.add('search-current');
+    searchResults[0].scrollIntoView({behavior:'smooth',block:'center'});
+  }else{
+    searchInfo.style.display='block';
+    searchCount.textContent='\u672a\u627e\u5230\u5339\u914d';
+  }
+}
+searchBtn.addEventListener('click',doSearch);
+searchInput.addEventListener('keyup',e=>{if(e.key==='Enter')doSearch();});
+searchNext.addEventListener('click',()=>{
+  if(!searchResults.length)return;
+  searchResults[searchIdx].classList.remove('search-current');
+  searchIdx=(searchIdx+1)%searchResults.length;
+  searchResults[searchIdx].classList.add('search-current');
+  searchResults[searchIdx].scrollIntoView({behavior:'smooth',block:'center'});
+});
+searchPrev.addEventListener('click',()=>{
+  if(!searchResults.length)return;
+  searchResults[searchIdx].classList.remove('search-current');
+  searchIdx=(searchIdx-1+searchResults.length)%searchResults.length;
+  searchResults[searchIdx].classList.add('search-current');
+  searchResults[searchIdx].scrollIntoView({behavior:'smooth',block:'center'});
+});
+searchClear.addEventListener('click',()=>{
+  searchInput.value='';searchInfo.style.display='none';
+  document.querySelectorAll('.search-highlight,.search-current').forEach(el=>el.classList.remove('search-highlight','search-current'));
+});
+document.getElementById('gemCalcBtn').addEventListener('click',()=>{
+  const input=document.getElementById('gemInput').value.toUpperCase().replace(/[^A-Z]/g,'');
+  let sum=0;
+  for(let c of input)sum+=(c.charCodeAt(0)-64);
+  document.getElementById('gemResult').textContent=sum;
+});
+document.getElementById('gemInput').addEventListener('keyup',e=>{if(e.key==='Enter')document.getElementById('gemCalcBtn').click();});
+function drawRelationCanvas(){
+  const c=document.getElementById('relationCanvas');
+  if(!c)return;
+  c.width=Math.min(c.clientWidth||900,1060);
+  c.height=320;
+  const ctx=c.getContext('2d');
+  const cx=c.width/2,cy=160;
+  ctx.clearRect(0,0,c.width,c.height);
+  const nodes=[
+    {label:'Crowley',x:cx,y:40,r:22,color:'#d4a843'},
+    {label:'Aiwass',x:cx-180,y:cy-40,r:18,color:'#c41e3a'},
+    {label:'Babalon',x:cx+180,y:cy-40,r:18,color:'#c41e3a'},
+    {label:'Therion',x:cx-120,y:cy+80,r:16,color:'#d4a843'},
+    {label:'Ankh-f-n-khonsu',x:cx+120,y:cy+80,r:15,color:'#8a7e6e'},
+    {label:'Stele',x:cx,y:cy+130,r:14,color:'#8a7e6e'},
+  ];
+  ctx.strokeStyle='rgba(212,168,67,0.2)';ctx.lineWidth=1;
+  const edges=[[0,1],[0,2],[0,3],[0,4],[1,4],[2,3],[4,5]];
+  edges.forEach(([a,b])=>{ctx.beginPath();ctx.moveTo(nodes[a].x,nodes[a].y);ctx.lineTo(nodes[b].x,nodes[b].y);ctx.stroke();});
+  nodes.forEach(n=>{
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    ctx.fillStyle=n.color;ctx.globalAlpha=0.15;ctx.fill();
+    ctx.globalAlpha=1;ctx.strokeStyle=n.color;ctx.lineWidth=1.5;ctx.stroke();
+    ctx.font='11px "Noto Serif SC",sans-serif';
+    ctx.fillStyle='#d4a843';ctx.textAlign='center';
+    ctx.fillText(n.label,n.x,n.y+n.r+12);
+  });
+  ctx.font='12px "Cormorant Garamond",serif';
+  ctx.fillStyle='rgba(212,168,67,0.4)';ctx.textAlign='center';
+  ctx.fillText('Key Figures Relationship',cx,310);
+}
+setTimeout(drawRelationCanvas,100);
+window.addEventListener('resize',()=>setTimeout(drawRelationCanvas,200));
+</script>
+</body>
+</html>

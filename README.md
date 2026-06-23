@@ -128,6 +128,11 @@
 | ⚔️ 左路魔法 | [left-hand-path.html](https://prorejm.github.io/apophis-dragon-magic/left-hand-path.html) |
 | 💀 死灵术 | [necromancy.html](https://prorejm.github.io/apophis-dragon-magic/necromancy.html) |
 | 🎲 跑团规则 | [apophis-trpg.html](https://prorejm.github.io/apophis-dragon-magic/apophis-trpg.html) |
+| 🌳 欧甘字母 | [ogham-alphabet.html](https://prorejm.github.io/apophis-dragon-magic/ogham-alphabet.html) |
+| ᚱ 卢恩字母 | [rune-alphabet.html](https://prorejm.github.io/apophis-dragon-magic/rune-alphabet.html) |
+| ✡ 希伯来字母 | [hebrew-alphabet.html](https://prorejm.github.io/apophis-dragon-magic/hebrew-alphabet.html) |
+| 🌟 卡巴拉 | [kabbalah.html](https://prorejm.github.io/apophis-dragon-magic/kabbalah.html) |
+| 📜 法之书 | [book-of-law.html](https://prorejm.github.io/apophis-dragon-magic/book-of-law.html) |
 ## 💻 本地运行
 
 直接用浏览器打开 `index.html` 即可，无需服务器。

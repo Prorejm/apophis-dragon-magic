@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>欧甘字母 · Ogham Alphabet · 阿波菲斯之龙</title>
+<meta name="description" content="欧甘字母完整交互指南 — 字母表总览、欧甘文占卜、铭文转换、凯尔特树历、神话背景">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;
+  --bg2:#0f0a10;
+  --bg3:#1a1020;
+  --ink:#e8e0d4;
+  --muted:#8a7a8a;
+  --gold:#d4a843;
+  --gold-dim:#a07830;
+  --gold-bright:#f0d060;
+  --crimson:#c41e3a;
+  --crimson-dim:#8a1528;
+  --rule:#2a1a2a;
+  --font:'Noto Serif SC','Songti SC',serif;
+  --font-display:'Ma Shan Zheng','Noto Serif SC',cursive;
+  --font-en:'Cormorant Garamond','Georgia',serif;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.8;
+}
+
+/* ===== PARTICLES ===== */
+#particleCanvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* ===== NAV ===== */
+.nav-bar{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:1000;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 24px;
+  height:60px;
+}
+.nav-brand{
+  font-family:var(--font-display);
+  font-size:26px;
+  color:var(--gold);
+  text-decoration:none;
+  letter-spacing:4px;
+}
+.nav-brand span{color:var(--crimson)}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links li a{
+  display:block;
+  padding:18px 14px;
+  color:var(--muted);
+  text-decoration:none;
+  font-size:14px;
+  transition:all .3s;
+  position:relative;
+  font-family:var(--font);
+  white-space:nowrap;
+}
+.nav-links li a:hover,.nav-links li a.active{color:var(--gold)}
+.nav-links li a.active::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:14px;right:14px;
+  height:2px;
+  background:var(--gold);
+}
+.hamburger{
+  display:none;
+  flex-direction:column;
+  cursor:pointer;
+  gap:5px;
+  background:none;
+  border:none;
+  padding:8px;
+}
+.hamburger span{
+  display:block;
+  width:26px;height:2px;
+  background:var(--gold);
+  transition:all .3s;
+  border-radius:2px;
+}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ===== CONTAINER ===== */
+.container{
+  position:relative;
+  z-index:1;
+  max-width:1200px;
+  margin:80px auto 40px;
+  padding:0 20px;
+}
+.page-title{
+  text-align:center;
+  padding:40px 0 10px;
+  font-family:var(--font-display);
+  font-size:48px;
+  color:var(--gold);
+  letter-spacing:6px;
+  text-shadow:0 0 30px rgba(212,168,67,0.2);
+}
+.page-title small{
+  display:block;
+  font-family:var(--font-en);
+  font-size:16px;
+  color:var(--muted);
+  font-weight:400;
+  letter-spacing:4px;
+  margin-top:6px;
+}
+.subtitle{
+  text-align:center;
+  color:var(--muted);
+  margin-bottom:30px;
+  font-style:italic;
+}
+
+/* ===== TABS ===== */
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  margin-bottom:30px;
+  border-bottom:1px solid var(--rule);
+  padding-bottom:0;
+}
+.tab-btn{
+  padding:12px 20px;
+  background:transparent;
+  border:1px solid transparent;
+  border-bottom:none;
+  color:var(--muted);
+  cursor:pointer;
+  font-family:var(--font);
+  font-size:14px;
+  transition:all .3s;
+  border-radius:6px 6px 0 0;
+}
+.tab-btn:hover{color:var(--gold);background:rgba(212,168,67,0.05)}
+.tab-btn.active{
+  color:var(--gold);
+  border-color:var(--rule);
+  background:var(--bg2);
+  margin-bottom:-1px;
+}
+.tab-content{display:none;animation:fadeIn .4s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--bg2);
+  border:1px solid var(--rule);
+  border-radius:10px;
+  padding:24px;
+  margin-bottom:20px;
+}
+.card h2{
+  font-family:var(--font-display);
+  color:var(--gold);
+  font-size:24px;
+  margin-bottom:12px;
+}
+.card h3{
+  color:var(--gold);
+  font-size:18px;
+  margin:16px 0 8px;
+  font-family:var(--font-display);
+}
+.card p{color:var(--ink);margin-bottom:10px;font-size:15px;line-height:1.8}
+.card .note{color:var(--muted);font-size:13px;font-style:italic}
+.card ul{list-style:none;padding:0}
+.card ul li{padding:4px 0;padding-left:16px;position:relative;color:var(--ink);font-size:14px}
+.card ul li::before{content:'\25C6';position:absolute;left:0;color:var(--crimson);font-size:10px;top:7px}
+
+/* ===== OGHAM GRID ===== */
+.ogham-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:12px;
+}
+.ogham-card{
+  background:var(--bg3);
+  border:1px solid var(--rule);
+  border-radius:8px;
+  padding:14px 8px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .3s;
+  position:relative;
+}
+.ogham-card:hover{
+  border-color:var(--gold);
+  transform:translateY(-4px);
+  box-shadow:0 8px 25px rgba(212,168,67,0.15);
+}
+.ogham-card .symbol{
+  font-size:44px;
+  color:var(--gold);
+  display:block;
+  margin-bottom:6px;
+  line-height:1.2;
+  font-family:var(--font-en);
+}
+.ogham-card .name{font-size:14px;color:var(--ink);font-weight:700}
+.ogham-card .tree{font-size:11px;color:var(--muted)}
+.ogham-card .letter-tag{
+  position:absolute;
+  top:4px;right:6px;
+  font-size:10px;
+  color:var(--crimson);
+  font-family:var(--font-en);
+  font-weight:700;
+}
+.aicme-label{
+  grid-column:1/-1;
+  text-align:center;
+  padding:8px;
+  font-family:var(--font-display);
+  color:var(--gold);
+  font-size:20px;
+  letter-spacing:4px;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:4px;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+  display:none;
+  position:fixed;
+  z-index:2000;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  justify-content:center;
+  align-items:center;
+}
+.modal-overlay.show{display:flex}
+.modal{
+  background:var(--bg2);
+  border:1px solid var(--gold);
+  border-radius:12px;
+  max-width:500px;
+  width:90%;
+  max-height:85vh;
+  overflow-y:auto;
+  padding:32px;
+  position:relative;
+  animation:fadeIn .3s;
+}
+.modal-close{
+  position:absolute;
+  top:16px;right:20px;
+  background:none;
+  border:none;
+  color:var(--muted);
+  font-size:28px;
+  cursor:pointer;
+  transition:color .3s;
+  line-height:1;
+}
+.modal-close:hover{color:var(--gold)}
+.modal .m-symbol{
+  font-size:72px;
+  color:var(--gold);
+  text-align:center;
+  display:block;
+  margin-bottom:8px;
+  font-family:var(--font-en);
+}
+.modal .m-name{
+  font-size:30px;
+  font-family:var(--font-display);
+  color:var(--gold);
+  text-align:center;
+}
+.modal .m-letter{
+  text-align:center;
+  color:var(--crimson);
+  font-family:var(--font-en);
+  font-size:20px;
+  margin-bottom:16px;
+}
+.modal .m-info{line-height:2.2;font-size:15px}
+.modal .m-info strong{color:var(--gold)}
+.modal .m-meaning{
+  background:var(--bg3);
+  padding:14px;
+  border-radius:6px;
+  margin-top:12px;
+  border-left:3px solid var(--gold);
+  font-style:italic;
+  color:var(--gold-bright);
+  line-height:1.8;
+}
+
+/* ===== DIVINATION ===== */
+.divine-intro{text-align:center;margin-bottom:20px;color:var(--muted)}
+.divine-controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.divine-btn{
+  padding:12px 28px;
+  background:var(--gold);
+  color:var(--bg);
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-family:var(--font);
+  font-size:15px;
+  font-weight:700;
+  transition:all .3s;
+  letter-spacing:1px;
+}
+.divine-btn:hover{background:var(--gold-dim);transform:translateY(-2px);box-shadow:0 4px 15px rgba(212,168,67,0.3)}
+.divine-btn.secondary{
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+}
+.divine-btn.secondary:hover{background:rgba(212,168,67,0.1)}
+#divineCanvas{
+  display:block;
+  margin:0 auto 20px;
+  background:var(--bg3);
+  border:1px solid var(--rule);
+  border-radius:8px;
+  max-width:100%;
+}
+.divine-result{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin:20px 0;
+}
+.divine-card{
+  background:var(--bg3);
+  border:1px solid var(--gold);
+  border-radius:10px;
+  padding:16px;
+  text-align:center;
+  width:140px;
+  animation:fadeIn .5s ease forwards;
+  opacity:0;
+}
+.divine-card:nth-child(1){animation-delay:0s}
+.divine-card:nth-child(2){animation-delay:.12s}
+.divine-card:nth-child(3){animation-delay:.24s}
+.divine-card:nth-child(4){animation-delay:.36s}
+.divine-card:nth-child(5){animation-delay:.48s}
+.divine-card .dc-symbol{font-size:36px;color:var(--gold);display:block;font-family:var(--font-en)}
+.divine-card .dc-name{font-size:15px;color:var(--ink);font-weight:700;margin-top:4px}
+.divine-card .dc-pos{font-size:11px;color:var(--crimson);margin-top:2px}
+.divine-card .dc-meaning{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+.divine-reading{
+  background:var(--bg3);
+  padding:18px;
+  border-radius:8px;
+  border-left:3px solid var(--gold);
+  margin-top:20px;
+  line-height:1.9;
+  color:var(--ink);
+  font-size:14px;
+}
+.divine-history{
+  margin-top:20px;
+  padding:16px;
+  background:var(--bg2);
+  border:1px solid var(--rule);
+  border-radius:8px;
+  max-height:300px;
+  overflow-y:auto;
+}
+.divine-history h4{color:var(--gold);font-family:var(--font-display);margin-bottom:10px}
+.divine-history-item{
+  padding:8px 0;
+  border-bottom:1px solid var(--rule);
+  font-size:13px;
+  color:var(--muted);
+  cursor:pointer;
+  transition:color .3s;
+}
+.divine-history-item:hover{color:var(--gold)}
+.divine-history-item .dh-date{color:var(--gold-dim);font-size:11px;display:block}
+
+/* ===== INSCRIPTION ===== */
+.inscription-area{display:flex;gap:20px;flex-wrap:wrap}
+.inscription-input{flex:1;min-width:300px}
+.inscription-input textarea{
+  width:100%;
+  height:120px;
+  background:var(--bg3);
+  border:1px solid var(--rule);
+  border-radius:8px;
+  padding:14px;
+  color:var(--ink);
+  font-size:16px;
+  font-family:var(--font);
+  resize:vertical;
+  transition:border .3s;
+}
+.inscription-input textarea:focus{outline:none;border-color:var(--gold)}
+.inscription-output{
+  flex:1;
+  min-width:300px;
+  background:var(--bg3);
+  border:1px solid var(--gold);
+  border-radius:8px;
+  padding:20px;
+  text-align:center;
+}
+.inscription-output .result-text{
+  font-size:36px;
+  color:var(--gold);
+  line-height:1.6;
+  word-break:break-all;
+  font-family:var(--font-en);
+  letter-spacing:8px;
+}
+.inscription-output .result-label{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:10px;
+}
+.inscription-table{
+  margin-top:20px;
+  overflow-x:auto;
+}
+.inscription-table table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+.inscription-table th,.inscription-table td{
+  padding:8px 10px;
+  border:1px solid var(--rule);
+  text-align:center;
+}
+.inscription-table th{
+  background:var(--bg3);
+  color:var(--gold);
+  font-family:var(--font-display);
+  font-weight:400;
+}
+.inscription-table td{color:var(--ink)}
+.inscription-table .ogham-char{font-size:22px;color:var(--gold);font-family:var(--font-en)}
+
+/* ===== TREE CALENDAR ===== */
+.calendar-intro{text-align:center;margin-bottom:20px;color:var(--muted)}
+.month-selector{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  justify-content:center;
+  margin-bottom:24px;
+}
+.month-btn{
+  padding:8px 14px;
+  background:transparent;
+  border:1px solid var(--rule);
+  border-radius:6px;
+  color:var(--muted);
+  cursor:pointer;
+  font-family:var(--font);
+  font-size:13px;
+  transition:all .3s;
+}
+.month-btn:hover{border-color:var(--gold);color:var(--gold)}
+.month-btn.active{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:700}
+.tree-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:14px;
+}
+.tree-card{
+  background:var(--bg3);
+  border:1px solid var(--rule);
+  border-radius:8px;
+  padding:18px;
+  transition:all .3s;
+  cursor:pointer;
+}
+.tree-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 6px 20px rgba(212,168,67,0.1)}
+.tree-card h4{
+  color:var(--gold);
+  font-family:var(--font-display);
+  font-size:18px;
+}
+.tree-card .tc-date{
+  color:var(--crimson);
+  font-size:13px;
+  margin-top:2px;
+}
+.tree-card .tc-ogham{
+  font-size:28px;
+  color:var(--gold-dim);
+  display:block;
+  margin:6px 0;
+  font-family:var(--font-en);
+}
+.tree-card .tc-magical{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:6px;
+  line-height:1.7;
+}
+.tree-card .tc-myth{
+  color:var(--ink);
+  font-size:13px;
+  margin-top:6px;
+  font-style:italic;
+  border-top:1px solid var(--rule);
+  padding-top:6px;
+}
+.tree-featured{
+  background:var(--bg2);
+  border:1px solid var(--gold);
+  border-radius:10px;
+  padding:20px;
+  margin-top:20px;
+  display:none;
+  animation:fadeIn .4s ease;
+}
+.tree-featured.show{display:block}
+.tree-featured h3{font-family:var(--font-display);color:var(--gold);font-size:22px}
+.tree-featured .tf-date{color:var(--crimson);font-size:14px}
+.tree-featured .tf-body{column-count:2;column-gap:24px;margin-top:12px;font-size:14px;line-height:1.9}
+.tree-featured .tf-body p{margin-bottom:10px;break-inside:avoid}
+
+/* ===== MYTHOLOGY ===== */
+.myth-hero{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  margin-bottom:20px;
+}
+.myth-hero-icon{
+  width:100px;
+  height:100px;
+  border:2px solid var(--gold);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  color:var(--gold);
+  background:var(--bg3);
+  flex-shrink:0;
+}
+.myth-hero-text{flex:1;min-width:200px}
+.myth-hero-text h3{font-family:var(--font-display);color:var(--gold);font-size:20px;margin-bottom:6px}
+.myth-hero-text p{font-size:14px;line-height:1.8;color:var(--ink)}
+.myth-section{
+  margin-top:20px;
+  position:relative;
+  padding-left:20px;
+  border-left:2px solid var(--rule);
+}
+.myth-section h3{font-family:var(--font-display);color:var(--gold);font-size:20px;margin-bottom:10px}
+.myth-section p{font-size:14px;line-height:1.9;margin-bottom:10px}
+.myth-quote{
+  background:var(--bg3);
+  border-left:3px solid var(--gold);
+  padding:14px 18px;
+  margin:14px 0;
+  font-style:italic;
+  color:var(--gold-bright);
+  font-size:14px;
+  line-height:1.8;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .nav-links{
+    position:fixed;
+    top:60px;left:0;right:0;
+    background:rgba(10,10,10,0.97);
+    backdrop-filter:blur(12px);
+    flex-direction:column;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .4s ease;
+    border-bottom:1px solid var(--rule);
+  }
+  .nav-links.open{max-height:500px}
+  .nav-links li a{padding:14px 24px;font-size:15px}
+  .hamburger{display:flex}
+  .page-title{font-size:32px}
+  .page-title small{font-size:13px}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab-btn{padding:10px 14px;font-size:13px;white-space:nowrap}
+  .ogham-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
+  .tree-grid{grid-template-columns:1fr}
+  .tree-featured .tf-body{column-count:1}
+  .inscription-output .result-text{font-size:26px}
+  .myth-hero-icon{width:70px;height:70px;font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== PARTICLES ===== -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- ===== NAV ===== -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link active">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="container">
+  <h1 class="page-title">
+    欧甘字母
+    <small>Ogham &#x2022; Beith-Luis-Nion</small>
+  </h1>
+  <p class="subtitle">古凯尔特人的神圣文字 — 每一条刻线都是树木的低语、神灵的启示</p>
+
+  <!-- TABS -->
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="tab1">&#x1F4D6; 字母表总览</button>
+    <button class="tab-btn" data-tab="tab2">&#x1F52E; 欧甘文占卜</button>
+    <button class="tab-btn" data-tab="tab3">&#x270D; 铭文转换</button>
+    <button class="tab-btn" data-tab="tab4">&#x1F333; 树之历法</button>
+    <button class="tab-btn" data-tab="tab5">&#x1F3F9; 凯尔特神话</button>
+  </div>
+
+  <!-- ==================== TAB1: ALPHABET ==================== -->
+  <div class="tab-content active" id="tab1">
+    <div class="card">
+      <h2>&#x1F4DC; 二十字母 &#x2014; Beith-Luis-Nion</h2>
+      <p>欧甘字母（Ogham）是公元4至6世纪在爱尔兰和不列颠西部使用的字母系统，最早出现于欧甘石碑上。共20个基础字母（f&#xE9;dh/few），分为4组（aicme），每组5个字母。每个字母对应一棵神圣的树木或植物，因此又称"凯尔特树文字"。传说由达努神族的智慧之神奥格玛（Ogma）所创。</p>
+      <p style="margin-top:10px;font-size:13px;color:var(--muted)"><strong style="color:var(--gold);">点击任意字母</strong> 查看详细信息、魔法属性与使用方式。</p>
+    </div>
+
+    <div class="ogham-grid" id="oghamGrid">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3>&#x1F9F9; 五枚额外字母（Forfeda）</h3>
+      <p>除了20个基础字母，欧甘字母还有5个额外字母（Forfeda），用于表示复合音或特殊用途。</p>
+      <div class="ogham-grid" id="forfedaGrid" style="margin-top:12px;">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB2: DIVINATION ==================== -->
+  <div class="tab-content" id="tab2">
+    <div class="card">
+      <h2>&#x1F52E; 欧甘树枝占卜</h2>
+      <p class="divine-intro">点击"投掷树枝"按钮，随机选取5枚欧甘字母。每枚字母的位置代表生命的不同面向：<br>
+      <strong style="color:var(--gold);">1-过去</strong> &#x2022; <strong style="color:var(--crimson);">2-现在</strong> &#x2022; <strong style="color:var(--gold);">3-未来</strong> &#x2022; <strong style="color:var(--crimson);">4-阻碍</strong> &#x2022; <strong style="color:var(--gold);">5-指引</strong></p>
+
+      <div class="divine-controls">
+        <button class="divine-btn" id="divineThrow">&#x1F3AF; 投掷树枝</button>
+        <button class="divine-btn secondary" id="divineClear">&#x1F5D1; 清空</button>
+        <button class="divine-btn secondary" id="divineSave">&#x1F4BE; 保存结果</button>
+      </div>
+
+      <canvas id="divineCanvas" width="600" height="120"></canvas>
+
+      <div id="divineResultArea">
+        <div class="divine-result" id="divineCards"></div>
+        <div class="divine-reading" id="divineReading" style="display:none;"></div>
+      </div>
+
+      <div class="divine-history" id="divineHistory" style="display:none;">
+        <h4>&#x1F4C4; 占卜记录</h4>
+        <div id="divineHistoryList"></div>
+        <button class="divine-btn secondary" id="divineClearHistory" style="margin-top:10px;font-size:13px;padding:6px 16px;">&#x1F5D1; 清除记录</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB3: INSCRIPTION ==================== -->
+  <div class="tab-content" id="tab3">
+    <div class="card">
+      <h2>&#x270D; 欧甘铭文转换器</h2>
+      <p>输入拉丁字母文本，将其转换为欧甘符文符号。支持A-Z及常见字母组合（EA、OI、UI、IO、AE）。</p>
+
+      <div class="inscription-area">
+        <div class="inscription-input">
+          <label style="color:var(--gold);display:block;margin-bottom:6px;font-size:14px;">&#x1F4DD; 输入文本（拉丁字母）</label>
+          <textarea id="inscriptionInput" placeholder="例如: OGHAM MAGIC DRAGON"></textarea>
+          <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="divine-btn" id="inscriptionConvert" style="padding:8px 20px;font-size:14px;">&#x21C4; 转换</button>
+            <button class="divine-btn secondary" id="inscriptionClear" style="padding:8px 20px;font-size:14px;">&#x1F5D1; 清空</button>
+          </div>
+        </div>
+        <div class="inscription-output">
+          <div class="result-text" id="inscriptionResult">&#x1F516;</div>
+          <div class="result-label">欧甘符文串</div>
+        </div>
+      </div>
+
+      <div class="inscription-table">
+        <h3 style="margin-bottom:10px;">&#x1F4CA; 字母对照表</h3>
+        <table>
+          <thead>
+            <tr><th>字母</th><th>符号</th><th>名称</th><th>字母</th><th>符号</th><th>名称</th><th>字母</th><th>符号</th><th>名称</th><th>字母</th><th>符号</th><th>名称</th></tr>
+          </thead>
+          <tbody id="inscriptionMapTable">
+            <!-- Generated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB4: TREE CALENDAR ==================== -->
+  <div class="tab-content" id="tab4">
+    <div class="card">
+      <h2>&#x1F333; 凯尔特树历</h2>
+      <p class="calendar-intro">凯尔特树历（Celtic Tree Calendar）基于欧甘字母的20棵圣树，每棵树对应一个月份或时期。选择月份查看详情。</p>
+
+      <div class="month-selector" id="monthSelector">
+        <!-- Generated by JS -->
+      </div>
+
+      <div class="tree-grid" id="treeGrid">
+        <!-- Generated by JS -->
+      </div>
+
+      <div class="tree-featured" id="treeFeatured">
+        <h3 id="tfTitle"></h3>
+        <div class="tf-date" id="tfDate"></div>
+        <div class="tf-body" id="tfBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB5: MYTHOLOGY ==================== -->
+  <div class="tab-content" id="tab5">
+    <div class="card">
+      <h2>&#x1F3F9; 欧甘文的神话世界</h2>
+      <p style="margin-bottom:16px;">在爱尔兰神话的深邃森林中，欧甘字母不仅仅是书写符号——它们是连接凡人世界与神灵领域的桥梁，是树木灵魂的声音，是诸神赐予人类的智慧之礼。</p>
+
+      <div class="myth-hero">
+        <div class="myth-hero-icon">&#x1F3F9;</div>
+        <div class="myth-hero-text">
+          <h3>奥格玛（Ogma）— 文字之神</h3>
+          <p>根据《凯尔斯书》和《巴利莫特书》的记载，欧甘字母由达努神族（Tuatha D&#xE9; Danann）的智慧与语言之神奥格玛创造。奥格玛是达努神族的战士诗人，以他的雄辩和力量闻名。传说他为了证明人类配得上智慧的礼物，将树木的语言转化为可见的符号，创造了欧甘字母。因此，欧甘文有时也被称为"奥格玛的文字"或"森林的语言"。</p>
+        </div>
+      </div>
+
+      <div class="myth-section">
+        <h3>&#x1F3F9; 达努神族（Tuatha D&#xE9; Danann）</h3>
+        <p>达努神族是爱尔兰神话中的超自然种族，字面意为"女神达努的子民"。他们精通魔法、工艺与诗歌，是爱尔兰的第五代统治者。传说他们来自四座神秘的岛屿——法利亚斯（Falias）、戈里亚斯（Gorias）、芬迪亚斯（Findias）和穆里亚斯（Murias），每座岛屿都带来了一件圣物。达努神族最终在与米利都人（Milesians，即现代爱尔兰人的祖先）的战斗后，退入仙丘（sidhe），成为爱尔兰民间传说中的精灵。</p>
+        <div class="myth-quote">"达努神族带来了四件宝物：法利亚斯的命运之石（Lia F&#xE1;il）、戈里亚斯的不败之矛、芬迪亚斯的无敌之剑，以及穆里亚斯的丰饶之釜——达格达的釜。"</div>
+        <p>欧甘字母的发明正是达努神族智慧的象征。每一组Aicme（字母组）据说对应着一件宝物或一种自然力量的显化。</p>
+      </div>
+
+      <div class="myth-section">
+        <h3>&#x1F3F9; 欧甘石碑与祖先崇拜</h3>
+        <p>在不列颠群岛现存约400块欧甘石碑，主要分布在爱尔兰（尤其是凯里郡）、威尔士、康沃尔和苏格兰。这些石碑多为界碑或墓葬碑，刻有逝者的名字，以"MAQI"（儿子）格式表达父系关系。例如"DUVETOMAS MAQI TIGIRNAS"意为"Tigernas之子Duvetomas"。</p>
+        <p>凯尔特人相信树木是连接天地、今生与来世的桥梁。将欧甘字母刻在石碑上，不仅是为了纪念死者，更是为了让逝者的灵魂借助树木的能量穿越到彼世（Otherworld）。这种传统反映了凯尔特人的灵魂信仰——死亡不是终点，而是通往另一世界的旅程。</p>
+      </div>
+
+      <div class="myth-section">
+        <h3>&#x1F3F9; 英雄与欧甘文</h3>
+        <p>在古爱尔兰的叙事诗《夺牛长征记》（T&#xE1;in B&#xF3; C&#xFA;ailnge）中，英雄库丘林（C&#xFA; Chulainn）与欧甘文有着密切关联。传说他在梅芙女王（Queen Medb）的军队逼近时，在橡树桩上刻下欧甘警告："GABOR DORAS"（注意门户），警告入侵者。这块树桩被称为"库丘林的警告桩"。</p>
+        <p>另一个著名的故事是《芬尼亚传奇》（Fianna Cycle）中的诗人兼战士芬恩·麦克库尔（Fionn mac Cumhaill）。芬恩曾用欧甘文在一根榛树枝上写下预言，这根树枝后来成为"知识之棒"（Craebh Tadh），象征灵感与智慧。</p>
+      </div>
+
+      <div class="myth-section">
+        <h3>&#x1F3F9; 自然崇拜与树之圣灵</h3>
+        <p>凯尔特德鲁伊将树木视为有灵的圣物。橡树（Dair）是神圣之王，是力量与智慧的象征；榛树（Coll）是智慧之树，榛果中蕴藏着所有的知识；紫杉（Iodhadh）是永生之树，守护着通往彼世的大门。德鲁伊在林中举行仪式，通过观察树木的形态和纹理来进行占卜和预言。</p>
+        <div class="myth-quote">"在凯尔特的宇宙观中，世界之树——库兰（Crann Bethadh）支撑着天地。它的根深入地下世界，树冠触及星辰，而树干则是人间中界。欧甘字母就是这棵宇宙之树的枝条。"</div>
+        <p>欧甘字母与树木的对应关系并非随意。每种树木在凯尔特文化中都有特定的魔法属性和神话含义，这份古老的智慧通过欧甘字母得以保存和传承。</p>
+      </div>
+
+      <div class="myth-section">
+        <h3>&#x1F3F9; 欧甘文的现代复兴</h3>
+        <p>20世纪以来，随着新德鲁伊运动（Neo-Druidism）和凯尔特复兴运动的兴起，欧甘字母重新获得关注。现代魔法实践者将欧甘字母用于占卜、冥想、符文魔法和仪式中。著名的魔法体系如罗伯特·格雷夫斯（Robert Graves）在《白女神》（The White Goddess）中重建的"凯尔特树历"，虽然学术上存有争议，但深刻影响了现代欧甘魔法传统。</p>
+        <p>今天，欧甘字母不仅是历史学家的研究对象，也是无数魔法实践者、艺术家和精神追寻者的灵感源泉。它提醒着我们——文字的力量不仅在于沟通，更在于连接我们与自然、与祖先、与神灵的深邃纽带。</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="letterModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <span class="m-symbol" id="mSymbol"></span>
+    <div class="m-name" id="mName"></div>
+    <div class="m-letter" id="mLetter"></div>
+    <div class="m-info" id="mInfo"></div>
+    <div class="m-meaning" id="mMeaning"></div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   OGHAM ALPHABET - Complete Data & Interactivity
+   ================================================================ */
+
+// ---- DATA ----
+const oghamData = [
+  {id:'beith', name:'Beith', letter:'B', symbol:'\u1691', unicode:'\u1681', tree:'桦树', pronounce:'B', meaning:'新生、净化、开始', magic:'用于新开端仪式、房屋净化、春季魔法。桦木是凯尔特历法中的第一个月，象征新生命的诞生和周期的开始。' },
+  {id:'luis', name:'Luis', letter:'L', symbol:'\u1691', unicode:'\u1682', tree:'花楸', pronounce:'L', meaning:'保护、灵感', magic:'花楸具有强大的保护力量，常用于防护魔法和灵感召唤。德鲁伊将花楸枝条挂在门楣上，抵御邪灵和闪电。' },
+  {id:'fearn', name:'Fearn', letter:'F', symbol:'\u1691', unicode:'\u1683', tree:'桤木', pronounce:'F', meaning:'力量、勇气、水之守护', magic:'桤木生长于水边，是水元素之树。用于勇气魔法、水之仪式和情绪疗愈。桤木的木料在水中千年不腐。' },
+  {id:'sail', name:'Sail', letter:'S', symbol:'\u1691', unicode:'\u1684', tree:'柳树', pronounce:'S', meaning:'直觉、月亮、诗歌', magic:'柳树与月亮女神紧密相连，是直觉和诗歌灵感之树。用于月亮仪式、梦境工作和灵性开发。' },
+  {id:'nion', name:'Nion', letter:'N', symbol:'\u1691', unicode:'\u1685', tree:'白蜡树', pronounce:'N', meaning:'连接、知识', magic:'白蜡树是世界之树Yggdrasil的对应，象征天地连接。用于冥想、知识寻求和灵性旅行。' },
+  {id:'uath', name:'Uath', letter:'H', symbol:'\u1691', unicode:'\u1686', tree:'山楂', pronounce:'H', meaning:'净化、等待、考验', magic:'山楂树是边境之树，生长在仙丘边缘。用于净化仪式、耐心考验和与精灵世界沟通。' },
+  {id:'dair', name:'Dair', letter:'D', symbol:'\u1691', unicode:'\u1687', tree:'橡树', pronounce:'D', meaning:'力量、智慧、门', magic:'橡树是德鲁伊最神圣的树木。用于力量魔法、智慧寻求、保护仪式和开启门户。德鲁伊在橡树林中举行仪式。' },
+  {id:'tinne', name:'Tinne', letter:'T', symbol:'\u1691', unicode:'\u1688', tree:'冬青', pronounce:'T', meaning:'正义、平衡、牺牲', magic:'冬青象征正义与平衡，是冬季之王。用于正义裁决、平衡魔法和战士的护身符。' },
+  {id:'coll', name:'Coll', letter:'C', symbol:'\u1691', unicode:'\u1689', tree:'榛树', pronounce:'C', meaning:'灵感、智慧、诗歌', magic:'榛树是智慧之树，榛果蕴藏所有知识。用于创意灵感、学习辅助和预言魔法。著名典故"智慧之鲑"便食用了榛果。' },
+  {id:'quert', name:'Quert', letter:'Q', symbol:'\u1691', unicode:'\u168A', tree:'苹果树', pronounce:'Q', meaning:'选择、美丽、爱', magic:'苹果树象征爱与不朽，是彼世之岛阿瓦隆的圣树。用于爱情魔法、美丽仪式和选择决策。' },
+  {id:'muin', name:'Muin', letter:'M', symbol:'\u1691', unicode:'\u168B', tree:'葡萄藤', pronounce:'M', meaning:'预言、内在智慧', magic:'葡萄藤与酒神和预言相关。用于预言工作、内在探索和欢乐庆典。' },
+  {id:'gort', name:'Gort', letter:'G', symbol:'\u1691', unicode:'\u168C', tree:'常春藤', pronounce:'G', meaning:'纽带、追寻', magic:'常春藤象征连接与追寻。用于绑定魔法、寻觅失物和坚定决心。常春藤生生不息，象征永恒。' },
+  {id:'nGetal', name:'nGetal', letter:'NG', symbol:'\u1691', unicode:'\u168D', tree:'芦苇', pronounce:'NG', meaning:'疗愈、音乐', magic:'芦苇生长于水边，是音乐和疗愈之树。用于疗愈仪式、声音治疗和净化。芦苇制成的笛子有神奇力量。' },
+  {id:'straif', name:'Straif', letter:'Z', symbol:'\u1691', unicode:'\u168E', tree:'黑刺李', pronounce:'Z', meaning:'挑战、命运', magic:'黑刺李是黑暗之树，象征挑战和命运。用于面对恐惧、命运解读和强大保护。黑刺李的刺用于诅咒反射。' },
+  {id:'ruis', name:'Ruis', letter:'R', symbol:'\u1691', unicode:'\u168F', tree:'接骨木', pronounce:'R', meaning:'转变、周期', magic:'接骨木是女巫之树，象征死亡与重生周期。用于转变仪式、生命周期魔法和与祖先沟通。' },
+  {id:'ailm', name:'Ailm', letter:'A', symbol:'\u1691', unicode:'\u1690', tree:'银冷杉', pronounce:'A', meaning:'远见、高度', magic:'银冷杉指向天空，象征远见和崇高理想。用于远见魔法、目标设定和与星辰沟通。' },
+  {id:'onn', name:'Onn', letter:'O', symbol:'\u1691', unicode:'\u1691', tree:'金雀花', pronounce:'O', meaning:'精神、活力', magic:'金雀花燃烧时发出噼啪声，象征精神能量。用于活力魔法、太阳仪式和能量净化。' },
+  {id:'ur', name:'Ur', letter:'U', symbol:'\u1691', unicode:'\u1692', tree:'石楠', pronounce:'U', meaning:'直觉、激情', magic:'石楠生长于荒野，象征热情和直觉。用于激情魔法、直觉开发和自然连接。' },
+  {id:'eadhadh', name:'Eadhadh', letter:'E', symbol:'\u1691', unicode:'\u1693', tree:'白杨', pronounce:'E', meaning:'耐力、勇气', magic:'白杨树叶在风中颤抖如低语，象征沟通和勇气。用于耐力魔法、克服恐惧和灵性沟通。' },
+  {id:'iodhadh', name:'Iodhadh', letter:'I', symbol:'\u1691', unicode:'\u1694', tree:'紫杉', pronounce:'I', meaning:'死亡、重生、永生', magic:'紫杉是永生之树，守护通往彼世的大门。用于死亡与重生仪式、祖先连接和永生魔法。紫杉是凯尔特墓地最常见的树木。' }
+];
+
+const forfedaData = [
+  {id:'ebad', name:'Ebad', letter:'EA', symbol:'\u1695', unicode:'\u1695', tree:'白杨（变体）', pronounce:'EA', meaning:'传承、智慧传递', magic:'代表知识与智慧从一代传向下一代的纽带。' },
+  {id:'oir', name:'Oir', letter:'OI', symbol:'\u1696', unicode:'\u1696', tree:'杜松（变体）', pronounce:'OI', meaning:'庇护、隐藏知识', magic:'象征隐藏的智慧和守护的秘密。' },
+  {id:'uillenn', name:'Uillenn', letter:'UI', symbol:'\u1697', unicode:'\u1697', tree:'忍冬', pronounce:'UI', meaning:'甜蜜、成长', magic:'代表甜蜜的生长和温和的力量。' },
+  {id:'iphin', name:'Iphin', letter:'IO', symbol:'\u1698', unicode:'\u1698', tree:'松树（变体）', pronounce:'IO', meaning:'转变、蜕变', magic:'象征深层次的转变和灵魂的蜕变。' },
+  {id:'eamhancholl', name:'Eamhancholl', letter:'AE', symbol:'\u1699', unicode:'\u1699', tree:'榛树（变体）', pronounce:'AE', meaning:'双倍智慧', magic:'代表双重的智慧和深刻的内在知识。' }
+];
+
+// ---- PARTICLE BACKGROUND ----
+(function(){
+  const c = document.getElementById('particleCanvas');
+  const ctx = c.getContext('2d');
+  let particles = [];
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+  window.addEventListener('resize',resize); resize();
+  for(let i=0;i<80;i++){
+    particles.push({
+      x:Math.random()*c.width, y:Math.random()*c.height,
+      vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4,
+      r:Math.random()*2+1, a:Math.random()*0.5+0.15
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=c.width;if(p.x>c.width)p.x=0;
+      if(p.y<0)p.y=c.height;if(p.y>c.height)p.y=0;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(212,168,67,'+p.a+')';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ---- NAV HAMBURGER ----
+document.addEventListener('DOMContentLoaded',()=>{
+  const hamburger=document.getElementById('hamburger');
+  const navLinks=document.getElementById('navLinks');
+  hamburger.addEventListener('click',()=>{
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('open');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.addEventListener('click',()=>{
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('open');
+    });
+  });
+});
+
+// ---- TAB SWITCHING ----
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+});
+
+// ---- TAB1: OGHAM GRID ----
+function renderOghamGrid(){
+  const grid=document.getElementById('oghamGrid');
+  grid.innerHTML='';
+  const aicmeNames=['Aicme Beithe (B-组)','Aicme hUatha (H-组)','Aicme Muine (M-组)','Aicme Ailme (A-组)'];
+  oghamData.forEach((d,i)=>{
+    const aicmeIdx=Math.floor(i/5);
+    if(i%5===0){
+      const label=document.createElement('div');
+      label.className='aicme-label';
+      label.textContent=aicmeNames[aicmeIdx];
+      grid.appendChild(label);
+    }
+    const card=document.createElement('div');
+    card.className='ogham-card';
+    card.innerHTML='<span class="symbol">'+d.unicode+'</span><span class="name">'+d.name+'</span><span class="tree">'+d.tree+'</span><span class="letter-tag">'+d.letter+'</span>';
+    card.addEventListener('click',()=>showModal(d));
+    grid.appendChild(card);
+  });
+}
+
+function renderForfedaGrid(){
+  const grid=document.getElementById('forfedaGrid');
+  grid.innerHTML='';
+  forfedaData.forEach(d=>{
+    const card=document.createElement('div');
+    card.className='ogham-card';
+    card.innerHTML='<span class="symbol">'+d.unicode+'</span><span class="name">'+d.name+'</span><span class="tree">'+d.tree+'</span><span class="letter-tag">'+d.letter+'</span>';
+    card.addEventListener('click',()=>showModal(d));
+    grid.appendChild(card);
+  });
+}
+
+// ---- MODAL ----
+function showModal(d){
+  document.getElementById('mSymbol').textContent=d.unicode;
+  document.getElementById('mName').textContent=d.name;
+  document.getElementById('mLetter').textContent='\u2726 '+d.letter+' \u2022 发音: '+d.pronounce+' \u2726';
+  document.getElementById('mInfo').innerHTML='<strong>对应树:</strong> '+d.tree+'<br><strong>含义:</strong> '+d.meaning;
+  document.getElementById('mMeaning').innerHTML='<strong>\u2726 魔法用途:</strong> '+d.magic;
+  document.getElementById('letterModal').classList.add('show');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('modalClose').addEventListener('click',()=>{
+    document.getElementById('letterModal').classList.remove('show');
+  });
+  document.getElementById('letterModal').addEventListener('click',function(e){
+    if(e.target===this) this.classList.remove('show');
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape') document.getElementById('letterModal').classList.remove('show');
+  });
+});
+
+// ---- TAB2: DIVINATION ----
+const divinePositions=[
+  {pos:1,label:'\u25C0 过去  \u25C0',desc:'影响你当下处境的过往力量'},
+  {pos:2,label:'\u25B6 现在  \u25B6',desc:'当前的能量和关注点'},
+  {pos:3,label:'\u25B6 未来  \u25B6',desc:'正在显现的可能性'},
+  {pos:4,label:'\u25B2 阻碍  \u25B2',desc:'需要面对的挑战'},
+  {pos:5,label:'\u2605 指引  \u2605',desc:'最高的建议和方向'}
+];
+
+let currentDivination=[];
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('divineThrow').addEventListener('click',throwSticks);
+  document.getElementById('divineClear').addEventListener('click',clearDivination);
+  document.getElementById('divineSave').addEventListener('click',saveDivination);
+  document.getElementById('divineClearHistory').addEventListener('click',clearDivineHistory);
+  loadDivineHistory();
+});
+
+function throwSticks(){
+  const pool=[...oghamData];
+  const selected=[];
+  for(let i=0;i<5;i++){
+    const idx=Math.floor(Math.random()*pool.length);
+    selected.push(pool.splice(idx,1)[0]);
+  }
+  currentDivination=selected;
+  drawDivineSticks(selected);
+  showDivineCards(selected);
+  showDivineReading(selected);
+}
+
+function drawDivineSticks(sticks){
+  const c=document.getElementById('divineCanvas');
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.strokeStyle='#d4a843';
+  ctx.lineWidth=2;
+  // Draw 5 vertical sticks with ogham symbols
+  const spacing=c.width/6;
+  for(let i=0;i<5;i++){
+    const x=spacing*(i+1);
+    // Stick line
+    ctx.beginPath();
+    ctx.moveTo(x,20);
+    ctx.lineTo(x,100);
+    ctx.strokeStyle='#d4a843';
+    ctx.lineWidth=2;
+    ctx.stroke();
+    // Ogham strokes on the stick
+    ctx.strokeStyle='#c41e3a';
+    ctx.lineWidth=1.5;
+    const strokeCount=3+(i%3);
+    for(let s=0;s<strokeCount;s++){
+      const sy=35+s*18;
+      ctx.beginPath();
+      ctx.moveTo(x-8,sy);
+      ctx.lineTo(x+8,sy);
+      ctx.stroke();
+    }
+    // Label
+    ctx.fillStyle='#d4a843';
+    ctx.font='12px Cormorant Garamond, serif';
+    ctx.textAlign='center';
+    ctx.fillText(sticks[i].letter+' ('+divinePositions[i].label.split(' ')[1]+')',x,115);
+  }
+}
+
+function showDivineCards(sticks){
+  const container=document.getElementById('divineCards');
+  container.innerHTML='';
+  sticks.forEach((d,i)=>{
+    const card=document.createElement('div');
+    card.className='divine-card';
+    card.innerHTML='<span class="dc-symbol">'+d.unicode+'</span><span class="dc-name">'+d.name+'</span><span class="dc-pos">'+divinePositions[i].label+'</span><span class="dc-meaning">'+d.meaning.split('、')[0]+'...</span>';
+    container.appendChild(card);
+  });
+}
+
+function showDivineReading(sticks){
+  const el=document.getElementById('divineReading');
+  el.style.display='block';
+  let html='<strong>\u2726 欧甘占卜解读 \u2726</strong><br><br>';
+  sticks.forEach((d,i)=>{
+    html+='<strong style="color:var(--crimson);">位置'+(i+1)+': '+divinePositions[i].label+'</strong> — <strong style="color:var(--gold);">'+d.name+' ('+d.letter+') - '+d.tree+'</strong><br>';
+    html+='<span style="color:var(--muted);font-size:13px;">'+divinePositions[i].desc+'</span><br>';
+    html+='含义: '+d.meaning+'<br>';
+    html+='魔法指引: '+d.magic+'<br><br>';
+  });
+  el.innerHTML=html;
+}
+
+function clearDivination(){
+  currentDivination=[];
+  document.getElementById('divineCards').innerHTML='';
+  document.getElementById('divineReading').style.display='none';
+  const c=document.getElementById('divineCanvas');
+  const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+}
+
+function saveDivination(){
+  if(currentDivination.length===0){alert('请先投掷树枝！');return;}
+  const record={
+    date:new Date().toLocaleString('zh-CN'),
+    letters:currentDivination.map(d=>d.name+'('+d.letter+')').join(', '),
+    reading:currentDivination.map(d=>d.meaning).join('; ')
+  };
+  let history=JSON.parse(localStorage.getItem('ogham_divination')||'[]');
+  history.unshift(record);
+  if(history.length>50)history=history.slice(0,50);
+  localStorage.setItem('ogham_divination',JSON.stringify(history));
+  loadDivineHistory();
+}
+
+function loadDivineHistory(){
+  const history=JSON.parse(localStorage.getItem('ogham_divination')||'[]');
+  const container=document.getElementById('divineHistory');
+  const list=document.getElementById('divineHistoryList');
+  if(history.length===0){container.style.display='none';return;}
+  container.style.display='block';
+  list.innerHTML='';
+  history.forEach((r,i)=>{
+    const item=document.createElement('div');
+    item.className='divine-history-item';
+    item.innerHTML='<span class="dh-date">'+r.date+'</span>'+r.letters+' — '+r.reading;
+    list.appendChild(item);
+  });
+}
+
+function clearDivineHistory(){
+  if(confirm('确定清除所有占卜记录？')) {
+    localStorage.removeItem('ogham_divination');
+    document.getElementById('divineHistory').style.display='none';
+  }
+}
+
+// ---- TAB3: INSCRIPTION ----
+const oghamMap={
+  'A':'\u1690','B':'\u1681','C':'\u1689','D':'\u1687','E':'\u1693',
+  'F':'\u1683','G':'\u168C','H':'\u1686','I':'\u1694','L':'\u1682',
+  'M':'\u168B','N':'\u1685','O':'\u1691','Q':'\u168A','R':'\u168F',
+  'S':'\u1684','T':'\u1688','U':'\u1692','Z':'\u168E',
+  'EA':'\u1695','OI':'\u1696','UI':'\u1697','IO':'\u1698','AE':'\u1699'
+};
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('inscriptionConvert').addEventListener('click',convertInscription);
+  document.getElementById('inscriptionClear').addEventListener('click',()=>{
+    document.getElementById('inscriptionInput').value='';
+    document.getElementById('inscriptionResult').textContent='\u{1F516}';
+  });
+  document.getElementById('inscriptionInput').addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&e.ctrlKey) convertInscription();
+  });
+});
+
+function convertInscription(){
+  const input=document.getElementById('inscriptionInput').value.toUpperCase().trim();
+  if(!input){document.getElementById('inscriptionResult').textContent='\u26A0 请输入文本';return;}
+  let result='';
+  let i=0;
+  while(i<input.length){
+    if(i+1<input.length && oghamMap[input.substr(i,2)]){
+      result+=oghamMap[input.substr(i,2)];
+      i+=2;
+    }else if(oghamMap[input[i]]){
+      result+=oghamMap[input[i]];
+      i++;
+    }else{
+      result+=input[i];
+      i++;
+    }
+  }
+  document.getElementById('inscriptionResult').textContent=result;
+}
+
+function renderInscriptionTable(){
+  const tbody=document.getElementById('inscriptionMapTable');
+  const entries=Object.entries(oghamMap).filter(([k])=>k.length===1);
+  let html='<tr>';
+  entries.forEach(([k,v],i)=>{
+    html+='<td>'+k+'</td><td class="ogham-char">'+v+'</td><td>'+oghamData.find(d=>d.letter===k)?.name||k+'</td>';
+    if((i+1)%4===0&&i<entries.length-1){html+='</tr><tr>';}
+  });
+  while(html.split('<td>').length%4!==1){html+='<td>-</td><td>-</td><td>-</td>';}
+  html+='</tr>';
+  tbody.innerHTML=html;
+}
+
+// ---- TAB4: TREE CALENDAR ----
+const treeCalendar = [
+  {month:'12月24日 - 1月20日',name:'Beith',letter:'B',tree:'桦树',symbol:'\u1681',myth:'桦树是凯尔特树历的第一棵树，象征新生的开始。在凯尔特传统中，桦树代表净化与新起点，常用于新年仪式。',magical:'净化、新开始、生育、春季仪式'},
+  {month:'1月21日 - 2月17日',name:'Luis',letter:'L',tree:'花楸',symbol:'\u1682',myth:'花楸被称为"女巫之树"，具有很强的保护力量。凯尔特人将花楸枝条编成十字架挂在门上以抵御邪灵。',magical:'保护、灵感、魔法强化、避邪'},
+  {month:'2月18日 - 3月17日',name:'Fearn',letter:'F',tree:'桤木',symbol:'\u1683',myth:'桤木是水边之树，象征水元素的流动力量。它的木料在水中千年不腐，被用于建造桥梁。',magical:'水元素、勇气、情绪疗愈、平衡'},
+  {month:'3月18日 - 4月14日',name:'Sail',letter:'S',tree:'柳树',symbol:'\u1684',myth:'柳树与月亮女神塞勒涅相关联，是诗歌与灵感的源泉。柳条柔软坚韧，象征柔韧的力量。',magical:'月亮魔法、直觉、梦境、诗歌灵感'},
+  {month:'4月15日 - 5月12日',name:'Nion',letter:'N',tree:'白蜡树',symbol:'\u1685',myth:'白蜡树是凯尔特人的世界之树，连接天堂、人间与冥界。它代表着三个世界的交汇点。',magical:'连接、知识、灵性旅行、冥想'},
+  {month:'5月13日 - 6月9日',name:'Uath',letter:'H',tree:'山楂',symbol:'\u1686',myth:'山楂树是精灵之门，生长在仙丘外围。五月开花的山楂树是爱情与保护的象征，但砍伐它会招致厄运。',magical:'净化、精灵沟通、边境魔法、考验'},
+  {month:'6月10日 - 7月7日',name:'Dair',letter:'D',tree:'橡树',symbol:'\u1687',myth:'橡树是德鲁伊最崇敬的树木，神圣之王。德鲁伊在橡树林中举行仪式，采集槲寄生。',magical:'力量、智慧、保护、门之开启'},
+  {month:'7月8日 - 8月4日',name:'Tinne',letter:'T',tree:'冬青',symbol:'\u1688',myth:'冬青是冬季之王，在夏季力量最强。凯尔特人在冬季用冬青装饰房屋，象征来年的生命力。',magical:'正义、平衡、战士保护、牺牲'},
+  {month:'8月5日 - 9月1日',name:'Coll',letter:'C',tree:'榛树',symbol:'\u1689',myth:'智慧之榛树，榛果落入神圣水池被智慧之鲑鱼吃掉。芬恩·麦克库尔烤鲑鱼时被烫伤的手指获得了全部智慧。',magical:'智慧、灵感、诗歌、预言、学习'},
+  {month:'9月2日 - 9月29日',name:'Muin',letter:'M',tree:'葡萄藤',symbol:'\u168B',myth:'葡萄藤象征丰饶与欢乐，与狄俄尼索斯/巴克斯神灵相联系。藤蔓缠绕生长，代表生命的纠缠。',magical:'预言、内在智慧、庆典、丰饶'},
+  {month:'9月30日 - 10月27日',name:'Gort',letter:'G',tree:'常春藤',symbol:'\u168C',myth:'常春藤终年常绿，象征永恒与坚韧。它缠绕生长，代表人与人之间的纽带和忠诚。',magical:'纽带、追寻、永恒、绑定魔法'},
+  {month:'10月28日 - 11月24日',name:'nGetal',letter:'NG',tree:'芦苇',symbol:'\u168D',myth:'芦苇生长于圣泉之畔，凯尔特人用芦苇制作笛子和箭矢。芦苇的声音被认为能沟通灵界。',magical:'疗愈、音乐、净化、灵界沟通'},
+  {month:'11月25日 - 12月22日',name:'Ruis',letter:'R',tree:'接骨木',symbol:'\u168F',myth:'接骨木是女巫之树，连接生死。凯尔特人相信接骨木中住着精灵，砍伐前必须获得许可。',magical:'转变、死亡与重生、祖先沟通、周期'}
+];
+
+function buildMonthSelector(){
+  const container=document.getElementById('monthSelector');
+  const months=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  months.forEach((m,i)=>{
+    const btn=document.createElement('button');
+    btn.className='month-btn';
+    btn.textContent=m;
+    btn.dataset.month=i;
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.month-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      filterTreeByMonth(i);
+    });
+    container.appendChild(btn);
+  });
+}
+
+function filterTreeByMonth(monthIdx){
+  const startMonths=[11,0,1,2,3,4,5,6,7,8,9,10]; // Dec, Jan, Feb...
+  const matchStart=startMonths[monthIdx];
+  const tf=document.getElementById('treeFeatured');
+  tf.classList.remove('show');
+  document.querySelectorAll('.tree-card').forEach(c=>{
+    const m=parseInt(c.dataset.monthIdx);
+    c.style.display=(m===matchStart)?'block':'none';
+  });
+}
+
+function renderTreeGrid(){
+  const grid=document.getElementById('treeGrid');
+  grid.innerHTML='';
+  treeCalendar.forEach((t,i)=>{
+    let monthIdx=0;
+    const monthStr=t.month.split('月')[0];
+    if(monthStr==='12')monthIdx=11;
+    else if(monthStr==='1')monthIdx=0;
+    else if(monthStr==='2')monthIdx=1;
+    else if(monthStr==='3')monthIdx=2;
+    else if(monthStr==='4')monthIdx=3;
+    else if(monthStr==='5')monthIdx=4;
+    else if(monthStr==='6')monthIdx=5;
+    else if(monthStr==='7')monthIdx=6;
+    else if(monthStr==='8')monthIdx=7;
+    else if(monthStr==='9')monthIdx=8;
+    else if(monthStr==='10')monthIdx=9;
+    else if(monthStr==='11')monthIdx=10;
+    const card=document.createElement('div');
+    card.className='tree-card';
+    card.dataset.monthIdx=monthIdx;
+    card.innerHTML='<h4>'+t.name+' ('+t.letter+')</h4><div class="tc-date">'+t.month+'</div><span class="tc-ogham">'+t.symbol+'</span><div class="tc-magical"><strong style="color:var(--gold);">对应树:</strong> '+t.tree+'</div><div class="tc-magical"><strong style="color:var(--gold);">魔法属性:</strong> '+t.magical+'</div><div class="tc-myth">'+t.myth+'</div>';
+    card.addEventListener('click',()=>showTreeFeatured(t));
+    grid.appendChild(card);
+  });
+  // Auto select current month
+  const now=new Date();
+  const currentMonth=now.getMonth();
+  const monthBtns=document.querySelectorAll('.month-btn');
+  if(monthBtns[currentMonth]){
+    monthBtns[currentMonth].click();
+  }else if(monthBtns.length>0){
+    monthBtns[0].click();
+  }
+}
+
+function showTreeFeatured(t){
+  const el=document.getElementById('treeFeatured');
+  document.getElementById('tfTitle').textContent=t.name+' ('+t.letter+') \u2014 '+t.tree;
+  document.getElementById('tfDate').textContent='\u{1F4C5} '+t.month;
+  document.getElementById('tfBody').innerHTML='<p><strong style="color:var(--gold);">神话传说:</strong> '+t.myth+'</p><p><strong style="color:var(--gold);">魔法属性:</strong> '+t.magical+'</p><p style="margin-top:10px;">点击其他月份卡片浏览不同树木的奥秘...</p>';
+  el.classList.add('show');
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded',()=>{
+  renderOghamGrid();
+  renderForfedaGrid();
+  renderInscriptionTable();
+  buildMonthSelector();
+  renderTreeGrid();
+});
+</script>
+</body>
+</html>

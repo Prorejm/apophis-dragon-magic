@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>希伯来字母 · Hebrew Alphabet · 阿波菲斯之龙</title>
+<meta name="description" content="希伯来字母完整交互指南 — 字母表、Gematria数字学、卡巴拉生命树路径、神名与咒语、字母冥想">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111;
+  --bg3:#1a1a1a;
+  --gold:#d4a843;
+  --gold-dim:#b8922e;
+  --crimson:#c41e3a;
+  --crimson-dim:#8b1528;
+  --text:#ddd;
+  --text-dim:#999;
+  --border:#333;
+  --font-title:'Ma Shan Zheng','Noto Serif SC',serif;
+  --font-body:'Noto Serif SC','Cormorant Garamond',serif;
+  --font-eng:'Cormorant Garamond','Noto Serif SC',serif;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.7;
+}
+#particleCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* ===== NAV ===== */
+.nav-bar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;height:60px;
+}
+.nav-brand{
+  font-family:var(--font-title);font-size:26px;color:var(--gold);
+  text-decoration:none;letter-spacing:4px;
+}
+.nav-brand span{color:var(--crimson)}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links li a{
+  display:block;padding:18px 14px;
+  color:var(--text-dim);text-decoration:none;font-size:14px;
+  transition:all .3s;position:relative;font-family:var(--font-body);white-space:nowrap;
+}
+.nav-links li a:hover,.nav-links li a.active{color:var(--gold)}
+.nav-links li a.active::after{
+  content:'';position:absolute;bottom:0;left:14px;right:14px;
+  height:2px;background:var(--gold);
+}
+.hamburger{display:none;flex-direction:column;cursor:pointer;gap:5px;background:none;border:none;padding:8px}
+.hamburger span{display:block;width:26px;height:2px;background:var(--gold);transition:all .3s;border-radius:2px}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.container{position:relative;z-index:1;max-width:1200px;margin:80px auto 40px;padding:0 20px}
+.page-title{
+  text-align:center;padding:30px 0 10px;
+  font-family:var(--font-title);font-size:42px;color:var(--gold);
+  letter-spacing:6px;
+}
+.page-title small{display:block;font-family:var(--font-eng);font-size:16px;color:var(--text-dim);font-weight:400;letter-spacing:2px;margin-top:4px}
+.subtitle{text-align:center;color:var(--text-dim);margin-bottom:30px;font-style:italic}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:30px;border-bottom:1px solid var(--border);padding-bottom:0}
+.tab-btn{
+  padding:10px 18px;background:transparent;border:1px solid transparent;border-bottom:none;
+  color:var(--text-dim);cursor:pointer;font-family:var(--font-body);font-size:14px;
+  transition:all .3s;border-radius:6px 6px 0 0;
+}
+.tab-btn:hover{color:var(--gold);background:rgba(212,168,67,0.05)}
+.tab-btn.active{color:var(--gold);border-color:var(--border);background:var(--bg2);margin-bottom:-1px}
+.tab-content{display:none;animation:fadeIn .4s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== TAB 1: LETTER CARDS ===== */
+.letter-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px;
+}
+.letter-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:18px;
+  transition:all .3s;cursor:pointer;position:relative;overflow:hidden;
+}
+.letter-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--gold);opacity:0;transition:opacity .3s;
+}
+.letter-card:hover{border-color:var(--gold-dim);transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,168,67,0.08)}
+.letter-card:hover::before{opacity:1}
+.letter-card .hebrew{font-size:48px;text-align:right;color:var(--gold);font-family:'Times New Roman','Noto Serif SC',serif;line-height:1.2;margin-bottom:4px}
+.letter-card .letter-name{font-size:18px;color:var(--gold);font-family:var(--font-title);letter-spacing:2px}
+.letter-card .letter-eng{font-family:var(--font-eng);font-size:15px;color:var(--text-dim);font-style:italic}
+.letter-card .letter-meta{display:flex;gap:12px;margin:6px 0;font-size:13px;color:var(--text-dim)}
+.letter-card .letter-meta span{background:var(--bg3);padding:2px 8px;border-radius:4px}
+.letter-card .letter-meaning{font-size:14px;color:var(--text);margin-top:6px;border-top:1px solid var(--border);padding-top:6px}
+.letter-card .letter-tarot{font-size:13px;color:var(--crimson);font-family:var(--font-eng);font-style:italic;margin-top:4px}
+
+/* ===== TAB 2: GEMATRIA ===== */
+.gematria-section{display:flex;flex-direction:column;gap:30px}
+.calculator-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;
+}
+.calculator-card h3{color:var(--gold);font-family:var(--font-title);font-size:22px;margin-bottom:16px;letter-spacing:2px}
+.calc-input-group{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.calc-input-group label{color:var(--text-dim);font-size:14px}
+.calc-input-group input{
+  background:var(--bg3);border:1px solid var(--border);color:var(--text);
+  padding:8px 14px;border-radius:6px;font-size:16px;width:200px;font-family:var(--font-body);
+}
+.calc-input-group input:focus{outline:none;border-color:var(--gold)}
+.calc-input-group button{
+  background:var(--gold);color:var(--bg);border:none;padding:8px 20px;
+  border-radius:6px;cursor:pointer;font-size:14px;font-family:var(--font-body);
+  transition:all .3s;
+}
+.calc-input-group button:hover{background:var(--gold-dim)}
+.calc-result{font-size:20px;color:var(--gold);margin-top:12px;font-family:var(--font-eng)}
+.gematria-table{width:100%;border-collapse:collapse;margin-top:10px}
+.gematria-table th,.gematria-table td{
+  border:1px solid var(--border);padding:8px 12px;text-align:left;font-size:14px;
+}
+.gematria-table th{background:var(--bg3);color:var(--gold);font-family:var(--font-title);letter-spacing:1px}
+.gematria-table td{color:var(--text)}
+.gematria-table tr:hover{background:rgba(212,168,67,0.05)}
+.info-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;
+}
+.info-card h3{color:var(--gold);font-family:var(--font-title);font-size:20px;margin-bottom:10px}
+.info-card p{font-size:14px;color:var(--text);margin-bottom:8px}
+.info-card .highlight{color:var(--gold)}
+
+/* ===== TAB 3: TREE OF LIFE ===== */
+.tree-section{display:flex;flex-wrap:wrap;gap:20px}
+.tree-canvas-wrap{
+  flex:1;min-width:320px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:10px;position:relative;
+}
+.tree-canvas-wrap canvas{width:100%;display:block;border-radius:6px;cursor:pointer}
+.tree-info-panel{
+  width:320px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:20px;align-self:flex-start;min-height:300px;
+}
+.tree-info-panel h3{color:var(--gold);font-family:var(--font-title);font-size:20px;margin-bottom:8px}
+.tree-info-panel .empty-msg{color:var(--text-dim);font-style:italic;font-size:14px}
+.tree-info-panel .path-detail{font-size:14px}
+.tree-info-panel .path-detail .label{color:var(--gold-dim)}
+.tree-info-panel .path-detail .value{color:var(--text);margin-bottom:4px}
+.tree-info-panel .path-detail .tarot{color:var(--crimson);font-family:var(--font-eng);font-style:italic}
+.pillar-legend{display:flex;gap:16px;margin:12px 0;flex-wrap:wrap}
+.pillar-legend span{font-size:12px;padding:4px 10px;border-radius:4px;border:1px solid var(--border)}
+.pillar-legend .mercy{color:#5b8c5a;border-color:#5b8c5a}
+.pillar-legend .severity{color:#c41e3a;border-color:#c41e3a}
+.pillar-legend .mild{color:#d4a843;border-color:#d4a843}
+
+/* ===== TAB 4: INCANTATIONS ===== */
+.incant-section{display:flex;flex-direction:column;gap:24px}
+.divine-names-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.divine-name-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;
+  transition:all .3s;
+}
+.divine-name-card:hover{border-color:var(--gold)}
+.divine-name-card .dn-hebrew{font-size:36px;color:var(--gold);font-family:'Times New Roman',serif;margin-bottom:6px}
+.divine-name-card .dn-name{color:var(--text);font-size:16px;font-family:var(--font-title)}
+.divine-name-card .dn-meaning{font-size:13px;color:var(--text-dim)}
+.divine-name-card .dn-value{font-size:13px;color:var(--crimson);font-family:var(--font-eng)}
+.amulet-maker{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;
+}
+.amulet-maker h3{color:var(--gold);font-family:var(--font-title);font-size:22px;margin-bottom:12px;letter-spacing:2px}
+.amulet-letters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.amulet-letter-btn{
+  width:44px;height:44px;background:var(--bg3);border:1px solid var(--border);
+  color:var(--gold);font-size:22px;cursor:pointer;border-radius:6px;
+  transition:all .2s;font-family:'Times New Roman',serif;
+}
+.amulet-letter-btn:hover,.amulet-letter-btn.selected{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.amulet-preview{
+  background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  padding:30px;text-align:center;min-height:120px;margin:12px 0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.amulet-preview .amulet-hebrew{font-size:56px;color:var(--gold);font-family:'Times New Roman',serif;letter-spacing:8px}
+.amulet-preview .amulet-label{margin-top:8px;font-size:13px;color:var(--text-dim)}
+.amulet-actions{display:flex;gap:12px;flex-wrap:wrap}
+.amulet-actions button{
+  background:var(--gold);color:var(--bg);border:none;padding:8px 20px;
+  border-radius:6px;cursor:pointer;font-size:14px;font-family:var(--font-body);
+  transition:all .3s;
+}
+.amulet-actions button:hover{background:var(--gold-dim)}
+.amulet-actions button.danger{background:var(--crimson)}
+.amulet-actions button.danger:hover{background:var(--crimson-dim)}
+.spell-display{display:flex;flex-direction:column;gap:14px}
+.spell-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.spell-card .spell-hebrew{font-size:32px;color:var(--gold);font-family:'Times New Roman',serif;min-width:80px;text-align:center}
+.spell-card .spell-info{flex:1}
+.spell-card .spell-name{color:var(--text);font-size:16px;font-family:var(--font-title)}
+.spell-card .spell-desc{font-size:13px;color:var(--text-dim)}
+.spell-card .spell-tag{display:inline-block;padding:2px 8px;background:var(--bg3);border-radius:4px;font-size:12px;color:var(--gold);margin-top:4px}
+
+/* ===== TAB 5: MEDITATION ===== */
+.meditation-section{display:flex;flex-direction:column;gap:24px}
+.meditation-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.meditation-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:18px;transition:all .3s;cursor:pointer;
+}
+.meditation-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.meditation-card .med-hebrew{font-size:42px;color:var(--gold);font-family:'Times New Roman',serif;text-align:center;margin-bottom:6px}
+.meditation-card .med-name{text-align:center;color:var(--text);font-size:16px;font-family:var(--font-title)}
+.meditation-card .med-guide{font-size:13px;color:var(--text-dim);margin-top:8px;line-height:1.6}
+.combo-meditation{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;
+}
+.combo-meditation h3{color:var(--gold);font-family:var(--font-title);font-size:20px;margin-bottom:10px}
+.combo-meditation p{font-size:14px;color:var(--text);margin-bottom:8px}
+.meditation-timer{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;text-align:center;
+}
+.meditation-timer h3{color:var(--gold);font-family:var(--font-title);font-size:22px;margin-bottom:16px;letter-spacing:2px}
+.timer-display{font-size:72px;color:var(--gold);font-family:var(--font-eng);letter-spacing:4px;margin:16px 0}
+.timer-controls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.timer-controls button{
+  padding:10px 24px;border:none;border-radius:6px;cursor:pointer;
+  font-size:14px;font-family:var(--font-body);transition:all .3s;
+}
+.timer-start{background:var(--gold);color:var(--bg)}
+.timer-start:hover{background:var(--gold-dim)}
+.timer-pause{background:var(--crimson);color:#fff}
+.timer-pause:hover{background:var(--crimson-dim)}
+.timer-reset{background:var(--bg3);color:var(--text);border:1px solid var(--border)!important}
+.timer-reset:hover{background:var(--border)}
+.timer-presets{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap}
+.timer-presets button{
+  padding:6px 14px;background:var(--bg3);border:1px solid var(--border);color:var(--text-dim);
+  border-radius:20px;cursor:pointer;font-size:12px;font-family:var(--font-body);transition:all .3s;
+}
+.timer-presets button:hover,.timer-presets button.active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.meditation-current{
+  background:var(--bg3);border:1px solid var(--border);border-radius:10px;
+  padding:20px;margin-top:12px;text-align:center;
+}
+.meditation-current .mc-hebrew{font-size:64px;color:var(--gold);font-family:'Times New Roman',serif;margin-bottom:6px}
+.meditation-current .mc-name{font-size:20px;color:var(--text);font-family:var(--font-title)}
+.meditation-current .mc-guide{font-size:14px;color:var(--text-dim);margin-top:8px;max-width:600px;margin-left:auto;margin-right:auto}
+.meditation-current .mc-auto-cycle{font-size:13px;color:var(--gold-dim);margin-top:8px;font-style:italic}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .hamburger{display:flex}
+  .nav-links{
+    position:fixed;top:60px;left:0;right:0;background:rgba(10,10,10,0.97);
+    backdrop-filter:blur(12px);flex-direction:column;border-bottom:1px solid var(--border);
+    display:none;
+  }
+  .nav-links.open{display:flex}
+  .nav-links li a{padding:14px 24px;border-bottom:1px solid rgba(255,255,255,0.04)}
+  .nav-links li a.active::after{display:none}
+  .page-title{font-size:32px}
+  .letter-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .timer-display{font-size:52px}
+  .tree-info-panel{width:100%}
+  .divine-names-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  .meditation-grid{grid-template-columns:1fr}
+  .calc-input-group input{width:100%}
+}
+@media(max-width:480px){
+  .page-title{font-size:26px}
+  .letter-grid{grid-template-columns:1fr}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}
+  .tab-btn{white-space:nowrap;font-size:12px;padding:8px 12px}
+}
+</style>
+</head>
+<body>
+<canvas id="particleCanvas"></canvas>
+
+<!-- ===== NAV ===== -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link active">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+</nav>
+
+<div class="container">
+  <h1 class="page-title">希伯来字母 <small>Hebrew Alphabet &middot; &#x5d0;&#x5dc;&#x5e3;-&#x5d1;&#x5d9;&#x5ea;</small></h1>
+  <p class="subtitle">22个神圣字母 &middot; 卡巴拉生命树 &middot; 数字学奥秘 &middot; 魔法咒语 &middot; 冥想之路</p>
+
+  <div class="tabs" id="tabButtons">
+    <button class="tab-btn active" data-tab="tab1">&#x1f4dc; 字母表</button>
+    <button class="tab-btn" data-tab="tab2">&#x1f522; 数值学</button>
+    <button class="tab-btn" data-tab="tab3">&#x1f332; 生命树路径</button>
+    <button class="tab-btn" data-tab="tab4">&#x1f9d9; 咒语神名</button>
+    <button class="tab-btn" data-tab="tab5">&#x1f549; 冥想字母</button>
+  </div>
+
+  <!-- ===== TAB 1: ALPHABET ===== -->
+  <div class="tab-content active" id="tab1">
+    <div class="letter-grid" id="letterGrid"></div>
+  </div>
+
+  <!-- ===== TAB 2: GEMATRIA ===== -->
+  <div class="tab-content" id="tab2">
+    <div class="gematria-section">
+      <div class="calculator-card">
+        <h3>&#x1f4ca; Gematria 数值计算器</h3>
+        <div class="calc-input-group">
+          <label>输入希伯来文字母:</label>
+          <input type="text" id="gematriaInput" placeholder="例如: &#x5d7;&#x5d9;" value="&#x5d7;&#x5d9;">
+          <button id="calcGematria">计算数值</button>
+        </div>
+        <div class="calc-result" id="gematriaResult">&#x5d7;&#x5d9; = 18 (Chai / &#x751f;&#x547d;)</div>
+      </div>
+      <div class="info-card">
+        <h3>&#x1f4d6; 著名数值对应</h3>
+        <table class="gematria-table">
+          <thead><tr><th>数值</th><th>希伯来文</th><th>含义</th><th>说明</th></tr></thead>
+          <tbody id="famousValues"></tbody>
+        </table>
+      </div>
+      <div class="info-card">
+        <h3>&#x1f4a1; Notarikon &amp; Temurah</h3>
+        <p><span class="highlight">Notarikon (&#x5e7;&#x5d9;&#x5e7;&#x5e8;&#x5d5;&#x5e0;&#x5d9;&#x5e7;&#x5f3;)</span>: &#x5c06;&#x6bcf;&#x4e2a;&#x8bcd;&#x7684;&#x9996;&#x5b57;&#x6bcd;&#x62bd;&#x53d6;&#x51fa;&#x6765;&#x7ec4;&#x6210;&#x65b0;&#x8bcd;&#xff0c;&#x6216;&#x5c06;&#x4e00;&#x4e2a;&#x8bcd;&#x7684;&#x6bcf;&#x4e2a;&#x5b57;&#x6bcd;&#x4f5c;&#x4e3a;&#x53e5;&#x9996;&#x5b57;&#x6bcd;&#x5c55;&#x5f00;&#x4e3a;&#x53e5;&#x5b50;&#x3002;&#x4f8b;&#x5982;&#xff0c;&#x56db;&#x5b57;&#x795e;&#x540d;YHVH (&#x5d9;&#x5d4;&#x5d5;&#x5d4;) &#x7684;Notarikon&#x53ef;&#x4ee5;&#x5c55;&#x5f00;&#x4e3a;&#x201c;&#x5d9;&#x5d4;&#x5d5;&#x5d4; &#x5d0;&#x5d3;&#x5d5;&#x5e0;&#x5d9; &#x5d4;&#x5d0;&#x5e8;&#x5e5; &#x5d5;&#x5d4;&#x5e9;&#x5de;&#x5d9;&#x5dd;&#x201d; (Adonai ha&#x2019;Aretz ve&#x2019;ha&#x2019;Shamayim) &#x2014; &#x5929;&#x5730;&#x7684;&#x4e3b;&#x3002;</p>
+        <p><span class="highlight">Temurah (&#x5ea;&#x5de;&#x5e8;&#x5d5;&#x5bc;&#x5e8;&#x5d4;)</span>: &#x5b57;&#x6bcd;&#x66ff;&#x6362;&#xff0c;&#x6309;&#x7167;&#x7279;&#x5b9a;&#x89c4;&#x5219;&#x5c06;&#x4e00;&#x4e2a;&#x5b57;&#x6bcd;&#x66ff;&#x6362;&#x4e3a;&#x53e6;&#x4e00;&#x4e2a;&#x5b57;&#x6bcd;&#x3002;&#x5e38;&#x89c1;&#x7684;&#x65b9;&#x6cd5;&#x5305;&#x62ec;Atbash (&#x7b2c;&#x4e00;&#x4e2a;&#x5b57;&#x6bcd;&#x4e0e;&#x6700;&#x540e;&#x4e00;&#x4e2a;&#x4e92;&#x6362;: &#x5d0;&#x2194;&#x5ea;, &#x5d1;&#x2194;&#x5e9;...) &#x3001;Avgad (&#x76f8;&#x90bb;&#x5b57;&#x6bcd;&#x4e92;&#x6362;: &#x5d0;&#x2194;&#x5d1;, &#x5d2;&#x2194;&#x5d3;...) &#x3001;Albam (&#x7b2c;&#x4e00;&#x534a;&#x4e0e;&#x7b2c;&#x4e8c;&#x534a;&#x5bf9;&#x5e94;: &#x5d0;&#x2194;&#x5dc;, &#x5d1;&#x2194;&#x5dd;...)&#x3002;Temurah&#x662f;&#x5361;&#x5df4;&#x62c9;&#x5bc6;&#x7801;&#x5b66;&#x548c;&#x9b54;&#x6cd5;&#x7b26;&#x6587;&#x5236;&#x4f5c;&#x7684;&#x91cd;&#x8981;&#x57fa;&#x7840;&#x3002;</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 3: TREE OF LIFE ===== -->
+  <div class="tab-content" id="tab3">
+    <div class="tree-section">
+      <div class="tree-canvas-wrap">
+        <canvas id="treeCanvas"></canvas>
+      </div>
+      <div class="tree-info-panel" id="treeInfoPanel">
+        <h3>&#x1f4a1; 路径信息</h3>
+        <div class="pillar-legend">
+          <span class="mercy">&#x2b31; 慈悲柱</span>
+          <span class="severity">&#x2b31; 严厉柱</span>
+          <span class="mild">&#x2b31; 温和柱</span>
+        </div>
+        <div id="treeInfoContent">
+          <p class="empty-msg">点击路径查看详细信息</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 4: INCANTATIONS ===== -->
+  <div class="tab-content" id="tab4">
+    <div class="incant-section">
+      <div class="info-card">
+        <h3>&#x1f64f; 卡巴拉神名对应表</h3>
+        <div class="divine-names-grid" id="divineNamesGrid"></div>
+      </div>
+      <div class="amulet-maker">
+        <h3>&#x1f4ff; 护符文字制作</h3>
+        <p style="color:var(--text-dim);font-size:14px;margin-bottom:8px">点击下方字母组合成护符文字</p>
+        <div class="amulet-letters" id="amuletLetters"></div>
+        <div class="amulet-preview" id="amuletPreview">
+          <div class="amulet-hebrew" id="amuletDisplay">&mdash;</div>
+          <div class="amulet-label">点击上方字母开始制作</div>
+        </div>
+        <div class="amulet-actions">
+          <button id="amuletClear" class="danger">清空</button>
+          <button id="amuletCopy">复制文字</button>
+          <button id="amuletRandom">随机护符</button>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>&#x1f4dc; 著名卡巴拉咒语</h3>
+        <div class="spell-display" id="spellDisplay"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TAB 5: MEDITATION ===== -->
+  <div class="tab-content" id="tab5">
+    <div class="meditation-section">
+      <div class="meditation-grid" id="meditationGrid"></div>
+      <div class="combo-meditation">
+        <h3>&#x2727; 神圣名字组合冥想</h3>
+        <p>推荐冥想顺序: <span class="highlight">Yod-He-Vav-He (&#x5d9;&#x5d4;&#x5d5;&#x5d4;)</span> &rarr; <span class="highlight">Adonai (&#x5d0;&#x5d3;&#x5e0;&#x5d9;)</span> &rarr; <span class="highlight">Ehyeh (&#x5d0;&#x5d4;&#x5d9;&#x5d4;)</span></p>
+        <p>方法：安静坐下，深呼吸。在吸气时观想第一个字母，呼气时感受其振动。依次念诵每个字母的发音，让神圣名字的能量充满全身。每次专注一个神名，每日修习21分钟。</p>
+        <p>进阶：将字母对应到生命树的路径，在冥想中沿路径上行，从Malkuth（王国）到Kether（王冠），体验意识提升的旅程。</p>
+      </div>
+      <div class="meditation-timer">
+        <h3>&#x23f1; 引导式冥想计时器</h3>
+        <div class="meditation-current" id="medCurrent">
+          <div class="mc-hebrew" id="medCurrentLetter">&#x5d0;</div>
+          <div class="mc-name" id="medCurrentName">Aleph &mdash; &#x725b;, &#x5f00;&#x7aef;</div>
+          <div class="mc-guide" id="medCurrentGuide">观想一头圣牛的轮廓。感受字母Aleph在喉咙中的振动。它是所有字母之母，代表神圣呼吸的开始。让气息带着金色的光从头顶流入，充满整个身体。</div>
+          <div class="mc-auto-cycle" id="medAutoLabel">&#x25b6; 字母自动轮播中 ...</div>
+        </div>
+        <div class="timer-presets" id="timerPresets">
+          <button data-min="3">3 分钟</button>
+          <button data-min="5" class="active">5 分钟</button>
+          <button data-min="11">11 分钟</button>
+          <button data-min="21">21 分钟</button>
+          <button data-min="42">42 分钟</button>
+        </div>
+        <div class="timer-display" id="timerDisplay">05:00</div>
+        <div class="timer-controls">
+          <button class="timer-start" id="timerStart">&#x25b6; 开始冥想</button>
+          <button class="timer-pause" id="timerPause" style="display:none">&#x23f8; 暂停</button>
+          <button class="timer-reset" id="timerReset">&#x21ba; 重置</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== PARTICLE BACKGROUND =====
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let animId;
+
+function resizeCanvas(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize',resizeCanvas);
+
+class Particle{
+  constructor(){this.reset()}
+  reset(){
+    this.x=Math.random()*canvas.width;
+    this.y=Math.random()*canvas.height;
+    this.size=Math.random()*2+0.5;
+    this.speedX=(Math.random()-0.5)*0.4;
+    this.speedY=(Math.random()-0.5)*0.4;
+    this.opacity=Math.random()*0.5+0.1;
+  }
+  update(){
+    this.x+=this.speedX;
+    this.y+=this.speedY;
+    if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset();
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fillStyle=`rgba(212,168,67,${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+function initParticles(n=80){
+  particles=[];
+  for(let i=0;i<n;i++)particles.push(new Particle());
+}
+function animateParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{p.update();p.draw()});
+  animId=requestAnimationFrame(animateParticles);
+}
+initParticles();
+animateParticles();
+
+// ===== HAMBURGER =====
+const hamburger=document.getElementById('hamburger');
+const navLinks=document.getElementById('navLinks');
+hamburger.addEventListener('click',()=>{
+  hamburger.classList.toggle('active');
+  navLinks.classList.toggle('open');
+});
+
+// ===== TAB SYSTEM =====
+const tabBtns=document.querySelectorAll('.tab-btn');
+const tabContents=document.querySelectorAll('.tab-content');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const target=btn.dataset.tab;
+    tabBtns.forEach(b=>b.classList.remove('active'));
+    tabContents.forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(target).classList.add('active');
+    // Redraw tree canvas when tab3 is shown
+    if(target==='tab3'&&typeof drawTree==='function')drawTree();
+  });
+});
+
+// ===== HEBREW LETTER DATA =====
+const hebrewLetters = [
+  {hebrew:'&#x5d0;',name:'Aleph',nameZh:'&#x963f;&#x52d2;&#x592b;',num:1,meaning:'&#x725b;&#x3001;&#x5f00;&#x7aef;',mystic:'&#x795e;&#x5723;&#x547c;&#x5438;&#xff0c;&#x4e00;&#x5207;&#x5b57;&#x6bcd;&#x4e4b;&#x6bcd;',tarot:'&#x611a;&#x8005;(0)',path:11,pronounce:'&#x5f31;&#x58f0;&#x5583;&#x55e6;/&#x503c;&#x58f0;&#x5039;'},
+  {hebrew:'&#x5d1;',name:'Beth',nameZh:'&#x8d1d;&#x7279;',num:2,meaning:'&#x623f;&#x5c4b;',mystic:'&#x795e;&#x5723;&#x4e4b;&#x5bb6;&#xff0c;&#x5305;&#x5bb9;&#x4e0e;&#x5b88;&#x62a4;',tarot:'&#x9b54;&#x672f;&#x5e08;(I)',path:12,pronounce:'b'},
+  {hebrew:'&#x5d2;',name:'Gimel',nameZh:'&#x5409;&#x7c73;&#x5c14;',num:3,meaning:'&#x9a7c;&#x9a7c;',mystic:'&#x5bcc;&#x8db3;&#x4e0e;&#x65c5;&#x7a0b;&#xff0c;&#x7cbe;&#x795e;&#x7684;&#x8f6c;&#x53d8;',tarot:'&#x5973;&#x796d;&#x53f8;(II)',path:13,pronounce:'g'},
+  {hebrew:'&#x5d3;',name:'Dalet',nameZh:'&#x8fbe;&#x83b1;&#x7279;',num:4,meaning:'&#x95e8;',mystic:'&#x8fdb;&#x5165;&#x795e;&#x5723;&#x4e4b;&#x95e8;&#xff0c;&#x51ed;&#x4fe1;&#x4e4b;&#u8df3;',tarot:'&#x7687;&#x540e;(III)',path:14,pronounce:'d'},
+  {hebrew:'&#x5d4;',name:'He',nameZh:'&#x8d6b;',num:5,meaning:'&#x7a97;&#x6237;',mystic:'&#x795e;&#x5723;&#x5149;&#x7167;&#x8fdb;&#x7684;&#x7a97;&#x53e3;&#xff0c;&#x542f;&#x793a;&#x4e0e;&#x6069;&#x5178;',tarot:'&#x7687;&#u5e1d;(IV)',path:15,pronounce:'h'},
+  {hebrew:'&#x5d5;',name:'Vav',nameZh:'&#x74e6;&#x592b;',num:6,meaning:'&#x9489;&#x5b50;&#x3001;&#x94a9;&#x5b50;',mystic:'&#x8fde;&#x63a5;&#x4e4b;&#x529b;&#xff0c;&#x5929;&#u4e0e;&#x5730;&#x7684;&#x6865;&#x6881;',tarot:'&#x6559;&#x7687;(V)',path:16,pronounce:'v'},
+  {hebrew:'&#x5d6;',name:'Zayin',nameZh:'&#x624e;&#x56e0;',num:7,meaning:'&#x5251;',mystic:'&#x7cbe;&#x795e;&#x4e4b;&#x5251;&#xff0c;&#u51b3;&#x65ad;&#x4e0e;&#u5206;&#x8fa8;',tarot:'&#x604b;&#u4eba;(VI)',path:17,pronounce:'z'},
+  {hebrew:'&#x5d7;',name:'Chet',nameZh:'&#x8d6b;&#x7279;',num:8,meaning:'&#x6805;&#x680f;',mystic:'&#x8d85;&#x8d8a;&#x4e16;&#x4fd7;&#x4e4b;&#x56f4;&#xff0c;&#u795e;&#x5723;&#x4e4b;&#u56f4;',tarot:'&#x6218;&#u8f66;(VII)',path:18,pronounce:'ch'},
+  {hebrew:'&#x5d8;',name:'Tet',nameZh:'&#x7279;&#u7279;',num:9,meaning:'&#x86c7;',mystic:'&#x5305;&#x88f9;&#x4e0e;&#x4fdd;&#x62a4;&#xff0c;&#x6f5c;&#x80fd;&#x7684;&#x87ba;&#x65cb;',tarot:'&#x529b;&#x91cf;(VIII)',path:19,pronounce:'t'},
+  {hebrew:'&#x5d9;',name:'Yod',nameZh:'&#x7ea6;&#u5fb7;',num:10,meaning:'&#x624b;',mystic:'&#x521b;&#x9020;&#x4e4b;&#x624b;&#xff0c;&#x6240;&#x6709;&#x5b57;&#u6bcd;&#x7684;&#u6838;&#u5fc3;',tarot:'&#x9690;&#x58eb;(IX)',path:20,pronounce:'y'},
+  {hebrew:'&#x5db;',name:'Kaf',nameZh:'&#x5361;&#u592b;',num:20,meaning:'&#x624b;&#x638c;',mystic:'&#x63a5;&#x53d7;&#x4e0e;&#x5f00;&#x542f;&#xff0c;&#x53ef;&#x80fd;&#x6027;&#x7684;&#x5bb9;&#x5668;',tarot:'&#x547d;&#x8fd0;&#x4e4b;&#x8f6e;(X)',path:21,pronounce:'k'},
+  {hebrew:'&#x5dc;',name:'Lamed',nameZh:'&#x62c9;&#x6885;&#xb5b7;',num:30,meaning:'&#x725b;&#x97ad;',mystic:'&#x5b66;&#x4e60;&#x4e0e;&#x6559;&#x5bfc;&#xff0c;&#x5411;&#x4e0a;&#x7684;&#x8ffd;&#x6c42;',tarot:'&#x6b63;&#x4e49;(XI)',path:22,pronounce:'l'},
+  {hebrew:'&#x5de;',name:'Mem',nameZh:'&#x6885;&#x59c6;',num:40,meaning:'&#x6c34;',mystic:'&#x6df1;&#x6e0a;&#x4e4b;&#x6c34;&#xff0c;&#x6d41;&#x52a8;&#x4e0e;&#x611f;&#x60c5;',tarot:'&#x5012;&#x540a;&#x4eba;(XII)',path:23,pronounce:'m'},
+  {hebrew:'&#x5df;',name:'Nun',nameZh:'&#x7eb3;&#x6069;',num:50,meaning:'&#x9c7c;',mystic:'&#x5b88;&#x5019;&#x4e0e;&#x8f6c;&#x53d8;&#xff0c;&#x6df1;&#x6d77;&#x4e4b;&#x4e2d;&#x7684;&#x751f;&#x547d;',tarot:'&#x6b7b;&#x795e;(XIII)',path:24,pronounce:'n'},
+  {hebrew:'&#x5e1;',name:'Samekh',nameZh:'&#x8428;&#x6885;&#x8d6b;',num:60,meaning:'&#x652f;&#x67f1;',mystic:'&#x652f;&#x6301;&#x4e0e;&#x5faa;&#x73af;&#xff0c;&#x5b87;&#x5b99;&#x7684;&#x652f;&#x67f1;',tarot:'&#x8282;&#x5236;(XIV)',path:25,pronounce:'s'},
+  {hebrew:'&#x5e2;',name:'Ayin',nameZh:'&#x963f;&#x56e0;',num:70,meaning:'&#x773c;&#x775b;',mystic:'&#x7cbe;&#x795e;&#x4e4b;&#x773c;&#xff0c;&#x771f;&#x76f8;&#x7684;&#x89c6;&#x91ce;',tarot:'&#x9b54;&#x9b3c;(XV)',path:26,pronounce:'a/&#x5039;'},
+  {hebrew:'&#x5e4;',name:'Pe',nameZh:'&#x6d3e;',num:80,meaning:'&#x53e3;',mystic:'&#x8a00;&#x8f9e;&#x4e0e;&#x58f0;&#x97f3;&#xff0c;&#x521b;&#x9020;&#x6027;&#x7684;&#x8bed;&#x8a00;',tarot:'&#x9ad8;&#x5854;(XVI)',path:27,pronounce:'p'},
+  {hebrew:'&#x5e6;',name:'Tzadi',nameZh:'&#x7d2d;&#x8fea;',num:90,meaning:'&#x9c7c;&#x94a9;',mystic:'&#x6b63;&#x4e49;&#x4e0e;&#x8d85;&#x8d8a;&#xff0c;&#x4fe1;&#x4ef0;&#x7684;&#x94a9;',tarot:'&#x661f;&#x661f;(XVII)',path:28,pronounce:'tz'},
+  {hebrew:'&#x5e7;',name:'Qof',nameZh:'&#x79d1;&#x592b;',num:100,meaning:'&#x540e;&#x8111;',mystic:'&#x5723;&#x5409;&#x4e4b;&#x5149;&#xff0c;&#x5706;&#x6ee1;&#x7684;&#x5468;&#x671f;',tarot:'&#x6708;&#x4eae;(XVIII)',path:29,pronounce:'q'},
+  {hebrew:'&#x5e8;',name:'Resh',nameZh:'&#x96f7;&#x4ec0;',num:200,meaning:'&#x5934;',mystic:'&#x667a;&#x6167;&#x4e0e;&#x5146;&#x8c61;&#xff0c;&#x7cbe;&#x795e;&#x7684;&#x9996;&#x9886;',tarot:'&#x592a;&#x9633;(XIX)',path:30,pronounce:'r'},
+  {hebrew:'&#x5e9;',name:'Shin',nameZh:'&#x5e0c;&#x56e0;',num:300,meaning:'&#x7259;&#x9f7f;',mystic:'&#x795e;&#x5723;&#x4e4b;&#x706b;&#xff0c;&#x6539;&#x53d8;&#x4e0e;&#x5316;&#x89e3;',tarot:'&#x5ba1;&#x5224;(XX)',path:31,pronounce:'sh'},
+  {hebrew:'&#x5ea;',name:'Tav',nameZh:'&#x5854;&#x592b;',num:400,meaning:'&#x5341;&#x5b57;&#x6807;&#x8bb0;',mystic:'&#x5b8c;&#x6210;&#x4e0e;&#x771f;&#x7406;&#xff0c;&#x5b87;&#x5b99;&#x7684;&#x7f3a;&#x53e3;',tarot:'&#x4e16;&#x754c;(XXI)',path:32,pronounce:'t'}
+];
+
+// ===== TAB 1: RENDER LETTER CARDS =====
+function renderLetters(){
+  const grid=document.getElementById('letterGrid');
+  grid.innerHTML='';
+  hebrewLetters.forEach((l,i)=>{
+    const card=document.createElement('div');
+    card.className='letter-card';
+    card.innerHTML=`
+      <div class="hebrew">${l.hebrew}</div>
+      <div class="letter-name">${l.nameZh} (${l.name})</div>
+      <div class="letter-eng">${l.pronounce} &middot; 数值 ${l.num}</div>
+      <div class="letter-meta"><span>路径 ${l.path}</span><span>${l.tarot}</span></div>
+      <div class="letter-meaning"><strong>含义:</strong> ${l.meaning}</div>
+      <div class="letter-meaning"><strong>神秘学:</strong> ${l.mystic}</div>
+      <div class="letter-tarot">&#x1f90e; 塔罗: ${l.tarot}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+renderLetters();
+
+// ===== TAB 2: GEMATRIA =====
+const gematriaInput=document.getElementById('gematriaInput');
+const calcBtn=document.getElementById('calcGematria');
+const resultDiv=document.getElementById('gematriaResult');
+
+function calcGematriaValue(str){
+  let total=0;
+  const letterValues={
+    '&#x5d0;':1,'&#x5d1;':2,'&#x5d2;':3,'&#x5d3;':4,'&#x5d4;':5,'&#x5d5;':6,'&#x5d6;':7,'&#x5d7;':8,'&#x5d8;':9,'&#x5d9;':10,
+    '&#x5db;':20,'&#x5da;':20,'&#x5dc;':30,'&#x5de;':40,'&#x5dd;':40,'&#x5df;':50,'&#x5e1;':60,'&#x5e2;':70,'&#x5e4;':80,'&#x5e3;':80,
+    '&#x5e6;':90,'&#x5e5;':90,'&#x5e7;':100,'&#x5e8;':200,'&#x5e9;':300,'&#x5ea;':400
+  };
+  // Map actual Unicode chars - we need the actual chars
+  const chars={
+    '\u05d0':1,'\u05d1':2,'\u05d2':3,'\u05d3':4,'\u05d4':5,'\u05d5':6,'\u05d6':7,'\u05d7':8,'\u05d8':9,'\u05d9':10,
+    '\u05db':20,'\u05da':20,'\u05dc':30,'\u05de':40,'\u05dd':40,'\u05df':50,'\u05e1':60,'\u05e2':70,'\u05e4':80,'\u05e3':80,
+    '\u05e6':90,'\u05e5':90,'\u05e7':100,'\u05e8':200,'\u05e9':300,'\u05ea':400
+  };
+  for(const ch of str){
+    if(chars[ch])total+=chars[ch];
+  }
+  return total;
+}
+
+calcBtn.addEventListener('click',()=>{
+  const val=gematriaInput.value.trim();
+  if(!val){resultDiv.textContent='请输入希伯来文字母';return}
+  const total=calcGematriaValue(val);
+  resultDiv.innerHTML=`${val} = <strong>${total}</strong>`;
+  // Find matching meaning
+  const famous=famousGematria.find(f=>f.value===total);
+  if(famous)resultDiv.innerHTML+=` &rarr; ${famous.hebrew} (${famous.meaning})`;
+});
+gematriaInput.addEventListener('keydown',e=>{if(e.key==='Enter')calcBtn.click()});
+// Initial calc
+setTimeout(()=>calcBtn.click(),100);
+
+const famousGematria=[
+  {value:1,hebrew:'&#x5d0;&#x5d7;&#x5d3;',meaning:'Echad - &#x4e00;&#x552f;',desc:'&#x795e;&#x7684;&#x4e00;&#x552f;&#x6027;'},
+  {value:13,hebrew:'&#x5d0;&#x5d4;&#x5d1;&#x5d4;',meaning:'Ahavah - &#x7231;',desc:'&#x795e;&#x4e4b;&#x7231;'},
+  {value:18,hebrew:'&#x5d7;&#x5d9;',meaning:'Chai - &#x751f;&#x547d;',desc:'&#x751f;&#x547d;&#x4e4b;&#x529b;&#xff0c;&#x5e38;&#x7528;&#x4e8e;&#x62a4;&#x8eab;&#x7b26;'},
+  {value:26,hebrew:'&#x5d9;&#x5d4;&#x5d5;&#x5d4;',meaning:'YHVH - &#x56db;&#x5b57;&#x795e;&#x540d;',desc:'&#x6700;&#x5723;&#x7684;&#x795e;&#x540d;'},
+  {value:32,hebrew:'&#x5dc;&#x5d1;',meaning:'Lev - &#x5fc3;',desc:'&#x667a;&#x6167;&#x4e4b;&#x5fc3;'},
+  {value:40,hebrew:'&#x5de;&#x5d9;&#x5dd;',meaning:'Mayim - &#x6c34;',desc:'&#x539f;&#x521d;&#x4e4b;&#x6c34;'},
+  {value:65,hebrew:'&#x5d0;&#x5d3;&#x5e0;&#x5d9;',meaning:'Adonai - &#x6211;&#x4e3b;',desc:'&#x5c0a;&#x79f0;'},
+  {value:72,hebrew:'&#x5d7;&#x5e1;&#x5d3;',meaning:'Chesed - &#x60c5;&#x8c6a;',desc:'&#x60c5;&#x8c6a;&#x4e4b;&#x4e3b;'},
+  {value:86,hebrew:'&#x5d0;&#x5dc;&#x5d4;&#x5d9;&#x5dd;',meaning:'Elohim - &#x795e;',desc:'&#x521b;&#x9020;&#x4e4b;&#x795e;'},
+  {value:108,hebrew:'&#x5d0;&#x5de;&#x5ea;',meaning:'Emet - &#x771f;&#x7406;',desc:'&#x771f;&#x7406;&#x4e0e;&#x5b9e;&#x5728;'},
+  {value:365,hebrew:'&#x5e9;&#x5e0;&#x5ea;',meaning:'Shanah - &#x5e74;',desc:'&#x592a;&#x9633;&#x5e74;&#x7684;&#x5929;&#x6570;'},
+  {value:666,hebrew:'&#x5e9;&#x5e8;&#x5e9;',meaning:'Shesh - &#x517d;&#x7684;&#x6570;&#x76ee;',desc:'&#x201c;&#x667a;&#x6167;&#x5728;&#x5176;&#x4e2d;&#x201d;'},
+  {value:777,hebrew:'&#x5ea;&#x5e8;&#x5e2;&#x5d2;',meaning:'ThROG - &#x5929;&#x5347;',desc:'&#x5361;&#x5df4;&#x62c9;&#x5b8c;&#x7f8e;&#x6570;'},
+  {value:913,hebrew:'&#x5d1;&#x5e8;&#x5d0;&#x5e9;&#x5d9;&#x5ea;',meaning:'B&#x2019;reshit - &#x8d77;&#x59cb;',desc:'&#x57fa;&#x7763;&#x6559;&#x5723;&#x7ecf;&#x7b2c;&#x4e00;&#x4e2a;&#x8bcd;'}
+];
+function renderFamous(){
+  const tbody=document.getElementById('famousValues');
+  tbody.innerHTML='';
+  famousGematria.forEach(f=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>${f.value}</strong></td><td>${f.hebrew}</td><td>${f.meaning}</td><td>${f.desc}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+renderFamous();
+
+// ===== TAB 3: TREE OF LIFE =====
+const treeCanvas=document.getElementById('treeCanvas');
+const treeCtx=treeCanvas.getContext('2d');
+const treeInfoContent=document.getElementById('treeInfoContent');
+
+const sephiroth = [
+  {id:1,name:'Kether',nameZh:'&#x738b;&#x51a0;',cx:0.5,cy:0.04,color:'#fff'},
+  {id:2,name:'Chokhmah',nameZh:'&#x667a;&#x6167;',cx:0.25,cy:0.14,color:'#8888cc'},
+  {id:3,name:'Binah',nameZh:'&#x7406;&#x89e3;',cx:0.75,cy:0.14,color:'#cc88cc'},
+  {id:4,name:'Chesed',nameZh:'&#x60c5;&#x8c6a;',cx:0.2,cy:0.32,color:'#88cccc'},
+  {id:5,name:'Geburah',nameZh:'&#x4e25;&#x5389;',cx:0.8,cy:0.32,color:'#cc8888'},
+  {id:6,name:'Tiphareth',nameZh:'&#x7f8e;',cx:0.5,cy:0.38,color:'#cccc88'},
+  {id:7,name:'Netzach',nameZh:'&#x80dc;&#u5229;',cx:0.2,cy:0.58,color:'#88cc88'},
+  {id:8,name:'Hod',nameZh:'&#x8363;&#x8000;',cx:0.8,cy:0.58,color:'#8888aa'},
+  {id:9,name:'Yesod',nameZh:'&#x57fa;&#x7840;',cx:0.5,cy:0.68,color:'#aaaa88'},
+  {id:10,name:'Malkuth',nameZh:'&#x738b;&#x56fd;',cx:0.5,cy:0.92,color:'#886644'}
+];
+
+const treePaths = [
+  {from:1,to:2,letterIdx:0,letter:'&#x5d0;',name:'Aleph',tarot:'&#x611a;&#x8005;(0)',meaning:'&#x725b;&#x3001;&#x795e;&#x5723;&#x547c;&#x5438;'},
+  {from:1,to:3,letterIdx:1,letter:'&#x5d1;',name:'Beth',tarot:'&#x9b54;&#x672f;&#x5e08;(I)',meaning:'&#x623f;&#x5c4b;&#x3001;&#x5305;&#x5bb9;'},
+  {from:1,to:6,letterIdx:2,letter:'&#x5d2;',name:'Gimel',tarot:'&#x5973;&#x796d;&#x53f8;(II)',meaning:'&#x9a7c;&#x9a7c;&#x3001;&#x8f6c;&#x53d8;'},
+  {from:2,to:3,letterIdx:3,letter:'&#x5d3;',name:'Dalet',tarot:'&#x7687;&#x540e;(III)',meaning:'&#x95e8;&#x3001;&#x8fdb;&#x5165;'},
+  {from:2,to:6,letterIdx:4,letter:'&#x5d4;',name:'He',tarot:'&#x7687;&#x5e1d;(IV)',meaning:'&#x7a97;&#x6237;&#x3001;&#x542f;&#x793a;'},
+  {from:2,to:4,letterIdx:5,letter:'&#x5d5;',name:'Vav',tarot:'&#x6559;&#x7687;(V)',meaning:'&#x9489;&#x5b50;&#x3001;&#x8fde;&#x63a5;'},
+  {from:3,to:6,letterIdx:6,letter:'&#x5d6;',name:'Zayin',tarot:'&#x604b;&#x4eba;(VI)',meaning:'&#x5251;&#x3001;&#x51b3;&#x65ad;'},
+  {from:3,to:5,letterIdx:7,letter:'&#x5d7;',name:'Chet',tarot:'&#x6218;&#x8f66;(VII)',meaning:'&#x6805;&#x680f;&#x3001;&#x8d85;&#x8d8a;'},
+  {from:4,to:5,letterIdx:8,letter:'&#x5d8;',name:'Tet',tarot:'&#x529b;&#x91cf;(VIII)',meaning:'&#x86c7;&#x3001;&#x5305;&#x88f9;'},
+  {from:4,to:6,letterIdx:9,letter:'&#x5d9;',name:'Yod',tarot:'&#

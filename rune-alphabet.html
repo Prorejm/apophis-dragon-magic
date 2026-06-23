@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿波菲斯 - 卢恩字母 · 老弗萨克 24符文</title>
+<meta name="description" content="阿波菲斯 - 老弗萨克卢恩字母完整指南，卢恩占卜、魔法、冥想与制作">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Noto Serif SC','Songti SC',serif;
+  background:#0a0a0a;
+  color:#d4c5a9;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.8;
+}
+/* ===== PARTICLES ===== */
+#particleCanvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+/* ===== NAV ===== */
+.nav-bar{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:1000;
+  background:rgba(10,10,10,0.92);
+  border-bottom:1px solid rgba(212,168,67,0.15);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 1.5rem;
+  height:60px;
+}
+.nav-bar .logo{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.4rem;
+  color:#d4a843;
+  text-decoration:none;
+  letter-spacing:2px;
+}
+.nav-links{
+  display:flex;
+  gap:0.25rem;
+  list-style:none;
+}
+.nav-links a{
+  display:block;
+  padding:0.5rem 1rem;
+  color:#d4c5a9;
+  text-decoration:none;
+  font-size:0.85rem;
+  transition:all 0.3s;
+  border-radius:4px;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';
+  position:absolute;
+  bottom:2px;left:50%;
+  width:0;height:2px;
+  background:#d4a843;
+  transition:all 0.3s;
+  transform:translateX(-50%);
+}
+.nav-links a:hover::after{width:60%}
+.nav-links a:hover{color:#d4a843}
+.nav-links a.active{color:#d4a843}
+.nav-links a.active::after{width:60%}
+.hamburger{
+  display:none;
+  flex-direction:column;
+  cursor:pointer;
+  gap:5px;
+  padding:5px;
+  background:none;
+  border:none;
+  z-index:1001;
+}
+.hamburger span{
+  display:block;
+  width:24px;height:2px;
+  background:#d4a843;
+  transition:all 0.3s;
+  border-radius:2px;
+}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+/* ===== MAIN ===== */
+.main{
+  position:relative;
+  z-index:1;
+  padding-top:60px;
+  min-height:100vh;
+}
+.page-header{
+  text-align:center;
+  padding:3rem 1rem 1.5rem;
+}
+.page-header h1{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:2.8rem;
+  color:#d4a843;
+  letter-spacing:6px;
+  text-shadow:0 0 30px rgba(212,168,67,0.3);
+}
+.page-header p{
+  color:#8a7e6a;
+  font-size:0.95rem;
+  margin-top:0.5rem;
+  letter-spacing:2px;
+}
+/* ===== TABS ===== */
+.tab-bar{
+  display:flex;
+  justify-content:center;
+  gap:0;
+  padding:0 1rem;
+  border-bottom:1px solid rgba(212,168,67,0.15);
+  max-width:960px;
+  margin:0 auto;
+  overflow-x:auto;
+}
+.tab-btn{
+  padding:0.75rem 1.5rem;
+  background:transparent;
+  border:none;
+  color:#8a7e6a;
+  font-family:'Noto Serif SC',serif;
+  font-size:0.85rem;
+  cursor:pointer;
+  transition:all 0.3s;
+  white-space:nowrap;
+  position:relative;
+  border-bottom:2px solid transparent;
+}
+.tab-btn:hover{color:#d4c5a9}
+.tab-btn.active{
+  color:#d4a843;
+  border-bottom-color:#d4a843;
+}
+.tab-content{display:none;padding:1.5rem 1rem 3rem;max-width:1200px;margin:0 auto}
+.tab-content.active{display:block}
+/* ===== RUNE CARD GRID (TAB1) ===== */
+.aett-section{margin-bottom:2.5rem}
+.aett-title{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.5rem;
+  color:#d4a843;
+  margin-bottom:1rem;
+  text-align:center;
+  letter-spacing:3px;
+  border-bottom:1px solid rgba(212,168,67,0.2);
+  padding-bottom:0.5rem;
+}
+.rune-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1rem;
+}
+.rune-card{
+  background:rgba(20,18,15,0.8);
+  border:1px solid rgba(212,168,67,0.12);
+  border-radius:8px;
+  padding:1.2rem;
+  cursor:pointer;
+  transition:all 0.4s;
+  position:relative;
+  overflow:hidden;
+}
+.rune-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(135deg,rgba(212,168,67,0.05),transparent);
+  opacity:0;
+  transition:opacity 0.4s;
+}
+.rune-card:hover::before{opacity:1}
+.rune-card:hover{
+  border-color:rgba(212,168,67,0.4);
+  transform:translateY(-3px);
+  box-shadow:0 6px 25px rgba(212,168,67,0.1);
+}
+.rune-card .rune-symbol{
+  font-size:2.8rem;
+  color:#d4a843;
+  display:block;
+  text-align:center;
+  line-height:1.2;
+  font-family:'Cormorant Garamond',serif;
+}
+.rune-card .rune-name{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.1rem;
+  color:#d4a843;
+  text-align:center;
+  margin:0.3rem 0;
+}
+.rune-card .rune-phonetic{
+  text-align:center;
+  color:#c41e3a;
+  font-size:0.85rem;
+  font-family:'Cormorant Garamond',serif;
+  font-weight:600;
+  letter-spacing:1px;
+}
+.rune-card .rune-meaning{
+  color:#b0a080;
+  font-size:0.8rem;
+  text-align:center;
+  margin-top:0.3rem;
+  line-height:1.5;
+}
+.rune-card .rune-detail{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.4s ease;
+  font-size:0.78rem;
+  color:#8a7e6a;
+  line-height:1.6;
+}
+.rune-card.expanded .rune-detail{
+  max-height:300px;
+  margin-top:0.8rem;
+  padding-top:0.8rem;
+  border-top:1px solid rgba(212,168,67,0.12);
+}
+/* ===== DIVINATION (TAB2) ===== */
+.divination-section{text-align:center}
+.divination-section h2{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.6rem;
+  color:#d4a843;
+  margin-bottom:0.5rem;
+}
+.divination-section p{color:#8a7e6a;font-size:0.9rem;margin-bottom:1.5rem}
+.throw-btn{
+  background:linear-gradient(135deg,#d4a843,#b8922f);
+  border:none;
+  color:#0a0a0a;
+  font-family:'Noto Serif SC',serif;
+  font-size:1rem;
+  font-weight:700;
+  padding:0.8rem 2.5rem;
+  border-radius:6px;
+  cursor:pointer;
+  transition:all 0.3s;
+  letter-spacing:2px;
+  margin-bottom:2rem;
+}
+.throw-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 30px rgba(212,168,67,0.3);
+}
+.throw-btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+  transform:none;
+}
+.rune-result{
+  display:flex;
+  justify-content:center;
+  gap:2rem;
+  flex-wrap:wrap;
+  margin-bottom:2rem;
+}
+.rune-slot{
+  width:200px;
+  min-height:300px;
+  background:rgba(20,18,15,0.8);
+  border:1px solid rgba(212,168,67,0.15);
+  border-radius:12px;
+  padding:1rem;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transition:all 0.5s;
+}
+.rune-slot.filled{
+  border-color:#d4a843;
+  box-shadow:0 0 20px rgba(212,168,67,0.15);
+}
+.rune-slot .slot-canvas{
+  width:120px;
+  height:160px;
+  border-radius:6px;
+  background:rgba(30,28,25,0.9);
+  margin-bottom:0.8rem;
+}
+.rune-slot .slot-name{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.2rem;
+  color:#d4a843;
+}
+.rune-slot .slot-meaning{
+  font-size:0.8rem;
+  color:#b0a080;
+  text-align:center;
+  margin-top:0.3rem;
+  line-height:1.5;
+}
+.rune-slot .slot-position{
+  font-size:0.75rem;
+  color:#c41e3a;
+  font-family:'Cormorant Garamond',serif;
+  margin-bottom:0.3rem;
+  letter-spacing:1px;
+}
+.history-section{
+  max-width:600px;
+  margin:2rem auto;
+  text-align:left;
+}
+.history-section h3{
+  font-family:'Ma Shan Zheng',cursive;
+  color:#d4a843;
+  font-size:1.1rem;
+  margin-bottom:0.5rem;
+  text-align:center;
+}
+.history-list{
+  max-height:300px;
+  overflow-y:auto;
+  background:rgba(20,18,15,0.6);
+  border-radius:6px;
+  padding:0.5rem;
+}
+.history-item{
+  padding:0.5rem;
+  border-bottom:1px solid rgba(212,168,67,0.08);
+  font-size:0.8rem;
+  color:#8a7e6a;
+}
+.history-item:last-child{border-bottom:none}
+.clear-history{
+  background:transparent;
+  border:1px solid #c41e3a;
+  color:#c41e3a;
+  padding:0.3rem 1rem;
+  border-radius:4px;
+  cursor:pointer;
+  font-family:'Noto Serif SC',serif;
+  font-size:0.75rem;
+  margin-top:0.5rem;
+  transition:all 0.3s;
+}
+.clear-history:hover{
+  background:#c41e3a;
+  color:#0a0a0a;
+}
+/* ===== MAGIC (TAB3) ===== */
+.magic-section{}
+.magic-section h2{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.6rem;
+  color:#d4a843;
+  text-align:center;
+  margin-bottom:1.5rem;
+}
+.ritual-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1.2rem;
+  margin-bottom:2rem;
+}
+.ritual-card{
+  background:rgba(20,18,15,0.8);
+  border:1px solid rgba(212,168,67,0.12);
+  border-radius:8px;
+  padding:1.2rem;
+  transition:all 0.3s;
+}
+.ritual-card h3{
+  font-family:'Ma Shan Zheng',cursive;
+  color:#d4a843;
+  font-size:1.1rem;
+  margin-bottom:0.5rem;
+}
+.ritual-card p{
+  color:#b0a080;
+  font-size:0.82rem;
+  line-height:1.7;
+}
+.ritual-card .ritual-steps{
+  margin-top:0.5rem;
+  padding-left:1.2rem;
+  color:#8a7e6a;
+  font-size:0.78rem;
+}
+.ritual-card .ritual-steps li{
+  margin-bottom:0.3rem;
+}
+/* ===== BIND RUNE GENERATOR ===== */
+.bind-rune-section{
+  text-align:center;
+  padding:2rem;
+  background:rgba(20,18,15,0.8);
+  border:1px solid rgba(212,168,67,0.15);
+  border-radius:12px;
+  margin-bottom:2rem;
+}
+.bind-rune-section h3{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.3rem;
+  color:#d4a843;
+  margin-bottom:0.5rem;
+}
+.bind-rune-section p{
+  color:#8a7e6a;
+  font-size:0.85rem;
+  margin-bottom:1rem;
+}
+.bind-rune-controls{
+  display:flex;
+  justify-content:center;
+  gap:0.5rem;
+  flex-wrap:wrap;
+  margin-bottom:1rem;
+}
+.bind-rune-controls select{
+  background:rgba(30,28,25,0.9);
+  border:1px solid rgba(212,168,67,0.2);
+  color:#d4c5a9;
+  padding:0.4rem 0.8rem;
+  border-radius:4px;
+  font-family:'Noto Serif SC',serif;
+  font-size:0.85rem;
+}
+.bind-rune-controls button{
+  background:linear-gradient(135deg,#d4a843,#b8922f);
+  border:none;
+  color:#0a0a0a;
+  font-family:'Noto Serif SC',serif;
+  font-weight:700;
+  padding:0.4rem 1.2rem;
+  border-radius:4px;
+  cursor:pointer;
+  font-size:0.85rem;
+  transition:all 0.3s;
+}
+.bind-rune-controls button:hover{
+  transform:scale(1.05);
+}
+.bind-rune-display{
+  width:240px;
+  height:240px;
+  margin:0 auto;
+  background:rgba(30,28,25,0.9);
+  border-radius:8px;
+  border:1px solid rgba(212,168,67,0.2);
+}
+.bind-rune-meaning{
+  margin-top:1rem;
+  color:#b0a080;
+  font-size:0.85rem;
+  max-width:500px;
+  margin-left:auto;
+  margin-right:auto;
+  line-height:1.7;
+}
+/* ===== MEDITATION GUIDE ===== */
+.meditation-guide{
+  background:rgba(20,18,15,0.8);
+  border:1px solid rgba(212,168,67,0.15);
+  border-radius:12px;
+  padding:1.5rem;
+  margin-bottom:2rem;
+}
+.meditation-guide h3{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.2rem;
+  color:#d4a843;
+  text-align:center;
+  margin-bottom:1rem;
+}
+.meditation-steps{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:1rem;
+}
+.meditation-step{
+  text-align:center;
+  padding:1rem;
+  background:rgba(30,28,25,0.6);
+  border-radius:8px;
+  border:1px solid rgba(212,168,67,0.08);
+}
+.meditation-step .step-num{
+  display:inline-block;
+  width:32px;height:32px;
+  line-height:32px;
+  border-radius:50%;
+  background:#d4a843;
+  color:#0a0a0a;
+  font-weight:700;
+  font-size:0.85rem;
+  margin-bottom:0.5rem;
+}
+.meditation-step h4{
+  color:#d4a843;
+  font-size:0.9rem;
+  margin-bottom:0.3rem;
+}
+.meditation-step p{
+  color:#8a7e6a;
+  font-size:0.78rem;
+  line-height:1.5;
+}
+/* ===== TAB4: YGGDRASIL ===== */
+.norse-section{text-align:center}
+.norse-section h2{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.6rem;
+  color:#d4a843;
+  margin-bottom:0.5rem;
+}
+.norse-section>p{
+  color:#8a7e6a;
+  font-size:0.9rem;
+  margin-bottom:1.5rem;
+}
+.yggdrasil-container{
+  position:relative;
+  max-width:700px;
+  margin:0 auto;
+}
+#yggdrasilCanvas{
+  width:100%;
+  aspect-ratio:1/1;
+  background:rgba(10,8,5,0.6);
+  border-radius:12px;
+  border:1px solid rgba(212,168,67,0.12);
+  cursor:pointer;
+}
+.realm-info{
+  margin-top:1rem;
+  padding:1rem;
+  background:rgba(20,18,15,0.8);
+  border:1px solid rgba(212,168,67,0.15);
+  border-radius:8px;
+  transition:all 0.3s;
+}
+.realm-info h3{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.2rem;
+  color:#d4a843;
+  margin-bottom:0.3rem;
+}
+.realm-info p{
+  color:#b0a080;
+  font-size:0.85rem;
+  line-height:1.6;
+}
+.realm-info .realm-runes{
+  color:#c41e3a;
+  font-size:0.8rem;
+  margin-top:0.3rem;
+  font-family:'Cormorant Garamond',serif;
+  letter-spacing:2px;
+}
+/* ===== AGISHJALMUR SECTION ===== */
+.agishjalmur-section{
+  background:rgba(20,18,15,0.8);
+  border:1px solid rgba(212,168,67,0.15);
+  border-radius:12px;
+  padding:1.5rem;
+  margin-bottom:2rem;
+  text-align:center;
+}
+.agishjalmur-section h3{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:1.2rem;
+  color:#d4a843;
+  margin-bottom:0.5rem;
+}
+.agishjalmur-section p{
+  color:#b0a080;
+  font-size:0.85rem;
+  max-width:600px;
+  margin:0 auto 1rem;
+  line-height:1.7;
+}
+.agishjalmur-section .ritual-steps{
+  text-align:left;
+  max-width:500px;
+  margin:0 auto;
+  color:#8a7e6a;
+  font-size:0.8rem;
+}
+/* ===== AGISHJALMUR CANVAS ===== */
+#agishjalmurCanvas{
+  width:200px;
+  height:200px;
+  margin:0 auto 1rem;
+  display:block;
+  background:rgba(30,28,25,0.9);
+  border-radius:8px;
+  border:1px solid rgba(212,168,67,0.2);
+}
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .nav-links{
+    position:fixed;
+    top:60px;left:0;right:0;
+    background:rgba(10,10,10,0.98);
+    flex-direction:column;
+    padding:0.5rem;
+    border-bottom:1px solid rgba(212,168,67,0.15);
+    transform:translateY(-120%);
+    transition:transform 0.3s;
+    backdrop-filter:blur(12px);
+  }
+  .nav-links.open{transform:translateY(0)}
+  .hamburger{display:flex}
+  .hamburger.active span{background:#d4a843}
+  .page-header h1{font-size:2rem}
+  .rune-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .rune-result{flex-direction:column;align-items:center}
+  .rune-slot{width:100%;max-width:280px}
+  .tab-btn{padding:0.5rem 0.8rem;font-size:0.78rem}
+}
+@media(max-width:480px){
+  .rune-grid{grid-template-columns:1fr 1fr;gap:0.6rem}
+  .rune-card{padding:0.8rem}
+  .rune-card .rune-symbol{font-size:2rem}
+  .tab-bar{gap:0;justify-content:flex-start}
+}
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:rgba(212,168,67,0.3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(212,168,67,0.5)}
+</style>
+</head>
+<body>
+<canvas id="particleCanvas"></canvas>
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link active">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+</nav>
+<main class="main">
+  <header class="page-header">
+    <h1>&#x16A0; 卢恩字母</h1>
+    <p>Elder Futhark &middot; 老弗萨克 &middot; 24符文</p>
+  </header>
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="tab1">卢恩字母表</button>
+    <button class="tab-btn" data-tab="tab2">卢恩占卜</button>
+    <button class="tab-btn" data-tab="tab3">卢恩魔法</button>
+    <button class="tab-btn" data-tab="tab4">九界结界</button>
+  </div>
+  <!-- ===== TAB1: RUNE ALPHABET ===== -->
+  <div class="tab-content active" id="tab1">
+    <div id="runeAlphabet"></div>
+  </div>
+  <!-- ===== TAB2: DIVINATION ===== -->
+  <div class="tab-content" id="tab2">
+    <div class="divination-section">
+      <h2>&#x16A0; 卢恩占卜</h2>
+      <p>点击按钮投掷3枚卢恩符文，解读过去、现在、未来</p>
+      <button class="throw-btn" id="throwBtn">&#x2616; 投掷符文</button>
+      <div class="rune-result" id="runeResult"></div>
+      <div class="history-section">
+        <h3>&#x2616; 历史记录</h3>
+        <div class="history-list" id="historyList"></div>
+        <button class="clear-history" id="clearHistory">清除历史</button>
+      </div>
+    </div>
+  </div>
+  <!-- ===== TAB3: MAGIC ===== -->
+  <div class="tab-content" id="tab3">
+    <div class="magic-section">
+      <h2>&#x16A0; 卢恩魔法仪式</h2>
+      <div class="ritual-grid">
+        <div class="ritual-card">
+          <h3>&#x16A0; 符文雕刻</h3>
+          <p>在木片、石块或金属上雕刻符文，使其成为魔法护符。传统上使用橡木或白蜡木，在月相盈满时进行雕刻并染以朱砂或自己的血液激活。</p>
+          <ul class="ritual-steps">
+            <li>准备材料：木片/石片、雕刻刀、朱砂颜料</li>
+            <li>净化空间：点燃鼠尾草或焚香</li>
+            <li>冥想凝聚意图，一笔刻成符文</li>
+            <li>染以朱砂，对符文吹气激活</li>
+            <li>携带或放置于特定位置</li>
+          </ul>
+        </div>
+        <div class="ritual-card">
+          <h3>&#x16A0; 符文符咒制作</h3>
+          <p>将多个符文组合为特定目标的符咒。选择与意图相符的符文序列，写在羊皮纸或桦树皮上，折叠后封入小袋随身携带。</p>
+          <ul class="ritual-steps">
+            <li>明确意图后选择对应符文系列</li>
+            <li>在蜡烛光下逐个画出符文</li>
+            <li>每画一个诵读其名和含义</li>
+            <li>折叠符纸，滴蜡密封</li>
+            <li>每日持咒冥想以充能</li>
+          </ul>
+        </div>
+        <div class="ritual-card">
+          <h3>&#x16A0; 阿戈尔恐惧头盔</h3>
+          <p>Agishjalmur（&#x16A0;&#x16DF;&#x16D2;&#x16D2;&#x16A0;&#x16DF;&#x16DE;&#x16DE;）是北欧魔法符号，用于威慑敌人和增强自身意志力。传统上画在额头或盾牌上。</p>
+          <ul class="ritual-steps">
+            <li>在冥想中观想符号由眉心向外辐射</li>
+            <li>以朱砂或炭笔在额头画出符号</li>
+            <li>诵读："我立于不败之地"</li>
+            <li>可画于盾牌或护符带在身上</li>
+            <li>用于重要对决或需要勇气时</li>
+          </ul>
+        </div>
+      </div>
+      <!-- AGISHJALMUR -->
+      <div class="agishjalmur-section">
+        <h3>&#x16A0; Agishjalmur &#x2014; 恐惧头盔</h3>
+        <canvas id="agishjalmurCanvas" width="400" height="400"></canvas>
+        <p>以下为Agishjalmur（恐惧头盔/阿戈尔）之复合符咒结构。中心十字分出四臂，每臂末端各有一组Algiz（&#x16C9;）符文交错，形成强大的防护与威慑力场。</p>
+        <ul class="ritual-steps">
+          <li>传统用途：保护战士、威慑敌人、增强意志</li>
+          <li>绘制时需保持极度的专注与杀意</li>
+          <li>每次使用后需用烟雾净化</li>
+          <li>不可轻易展示于他人，以免力量消散</li>
+        </ul>
+      </div>
+      <!-- BIND RUNE GENERATOR -->
+      <div class="bind-rune-section">
+        <h3>&#x16A0; 符文结合 &mdash; Bind Rune 生成器</h3>
+        <p>选择2-3个卢恩符文，将其叠加组合为强大的复合符文</p>
+        <div class="bind-rune-controls" id="bindRuneControls">
+          <select id="bindSel1"></select>
+          <select id="bindSel2"></select>
+          <select id="bindSel3" style="display:none"></select>
+          <button id="toggleBindCount">+ 第三个符文</button>
+          <button id="generateBind">&#x2616; 生成合符文</button>
+        </div>
+        <canvas id="bindRuneCanvas" class="bind-rune-display" width="480" height="480"></canvas>
+        <div class="bind-rune-meaning" id="bindRuneMeaning">选择符文组合，生成结合符文</div>
+      </div>
+      <!-- MEDITATION -->
+      <div class="meditation-guide">
+        <h3>&#x16A0; 符文冥想引导</h3>
+        <div class="meditation-steps">
+          <div class="meditation-step">
+            <div class="step-num">1</div>
+            <h4>静坐调息</h4>
+            <p>背直身正，闭目。深吸4秒，屏息4秒，慢呼6秒。重复5次</p>
+          </div>
+          <div class="meditation-step">
+            <div class="step-num">2</div>
+            <h4>观想符文</h4>
+            <p>选择一枚符文，在眉心第三眼处观想其形状，从模糊渐清晰</p>
+          </div>
+          <div class="meditation-step">
+            <div class="step-num">3</div>
+            <h4>诵读真名</h4>
+            <p>以低沉的喉音诵读符文之名，感受声波在体内的共鸣</p>
+          </div>
+          <div class="meditation-step">
+            <div class="step-num">4</div>
+            <h4>融合能量</h4>
+            <p>想象符文之能量自眉心流入全身，与自身气脉融合</p>
+          </div>
+          <div class="meditation-step">
+            <div class="step-num">5</div>
+            <h4>收功归元</h4>
+            <p>深呼吸3次，以掌心覆小腹，将能量归于丹田</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===== TAB4: YGGDRASIL ===== -->
+  <div class="tab-content" id="tab4">
+    <div class="norse-section">
+      <h2>&#x16A0; 北欧九界 &mdash; Yggdrasil 世界树</h2>
+      <p>点击九界领域查看对应的卢恩符文关联</p>
+      <div class="yggdrasil-container">
+        <canvas id="yggdrasilCanvas" width="800" height="800"></canvas>
+        <div class="realm-info" id="realmInfo">
+          <h3>点击领域查看详情</h3>
+          <p>世界树Yggdrasil连接九大世界，每个领域与特定的卢恩符文能量对应。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+/* ===== RUNE DATA ===== */
+const RUNES = [
+  {sym:'&#x16A0;',name:'Fehu',pron:'F',meaning:'财富、牛、移动的财富',deity:'芙蕾雅/Freyr',color:'金色',magic:'提升财运、增加物质流动、吸引机会',detail:'Fehu代表流动的财富与丰饶。它是起始的符文，象征着原始的牛群财富。在魔法上可用于吸引力法则，促进事业发展和物质世界的增长。对应北欧神明弗雷与芙蕾雅的丰饶能量。'},
+  {sym:'&#x16A2;',name:'Uruz',pron:'U',meaning:'野牛、力量、耐力',deity:'索尔/Thor',color:'棕色',magic:'增强体力、康复、突破障碍',detail:'Uruz是野牛的力量，代表未经驯化的原始生命力。它给予克服困难的力量与决心，适用于康复仪式和需要克服挑战时。它呼唤内在的野性力量。'},
+  {sym:'&#x16A6;',name:'Thurisaz',pron:'TH',meaning:'巨人、刺、保护',deity:'索尔/Thor',color:'赤红',magic:'保护、摧毁障碍、防御魔法',detail:'Thurisaz是巨人之刺，代表保护性的攻击力量。它像一道荆棘篱笆一样保护使用者，同时能摧毁前进道路上的障碍。与雷神索尔的雷神之锤有深层联系。'},
+  {sym:'&#x16A8;',name:'Ansuz',pron:'A',meaning:'神、奥丁、信息',deity:'奥丁/Odin',color:'蓝色',magic:'沟通、智慧、灵感、诗人咒语',detail:'Ansuz是奥丁之声的符文，代表神圣的沟通与智慧。它是"诸神之父"奥丁的符文，用于提升口才、获得灵感、增强沟通能力。适用于学习、演讲和需要智慧的场合。'},
+  {sym:'&#x16B1;',name:'Raido',pron:'R',meaning:'旅程、车乘、节奏',deity:'索尔/Thor',color:'绿色',magic:'旅途保护、人生方向、精神旅程',detail:'Raido是骑行与旅程的符文，代表人生的节奏与方向。它保护旅行者，指引人生道路，帮助人们找到正确的方向。这个符文也代表精神上的旅程与蜕变。'},
+  {sym:'&#x16B2;',name:'Kenaz',pron:'K',meaning:'火炬、创造、知识',deity:'海姆达尔/Heimdall',color:'橙色',magic:'创造力、技术、灵感、性魔法',detail:'Kenaz是火炬的光明，代表创造性的火焰与技术的知识。它照亮黑暗，带来灵感与洞见。适用于艺术创作、工艺技术和需要突破性想法的场合。也是转化与炼金术的象征。'},
+  {sym:'&#x16B7;',name:'Gebo',pron:'G',meaning:'礼物、交换、伙伴',deity:'奥丁/Odin',color:'紫色',magic:'人际关系、合作、伴侣关系、感恩',detail:'Gebo是给予与接受的符文，代表礼物、交换和伙伴关系。它体现互惠互利的原则，促进平衡的人际关系和合作。常用于爱情魔法和商业合作仪式。'},
+  {sym:'&#x16B9;',name:'Wunjo',pron:'W',meaning:'喜悦、和谐、舒适',deity:'芙蕾雅/Freya',color:'金色',magic:'快乐、和谐、人际关系、成功',detail:'Wunjo是喜悦与和谐的符文，代表心灵的平静与满足。它带来欢乐、舒适和成就感，是FrEA's Aett的结束符文，象征着在经历了前七个符文的旅程后获得的圆满喜悦。'},
+  {sym:'&#x16BA;',name:'Hagalaz',pron:'H',meaning:'冰雹、破坏、自然力',deity:'奥丁/Odin',color:'白色',magic:'危机转化、清理障碍、觉醒',detail:'Hagalaz是冰雹的破坏力，代表无法控制的自然力量。它摧毁旧结构以创造新秩序，是转变之符文。虽然看似具有破坏性，但实为清理道路之必要之力。'},
+  {sym:'&#x16BE;',name:'Nauthiz',pron:'N',meaning:'需要、限制、忍耐',deity:'诗寇蒂/Skuld',color:'灰色',magic:'忍耐、自我反省、克服困难',detail:'Nauthiz是需要与限制的符文，代表在困境中的忍耐与坚持。它是逆境中的导师，教导我们如何在资源有限的条件下生存和成长。适用于度过艰难时期的仪式。'},
+  {sym:'&#x16C1;',name:'Isa',pron:'I',meaning:'冰、静止、专注',deity:'尤弥尔/Ymir',color:'冰蓝',magic:'专注、冻结、静止、内省',detail:'Isa是冰的静止之力，代表凝固、专注与内省。它是时间暂停的符文，用于集中意志力、冻结不利局势、在混乱中寻找内心的平静。适合冥想和需要高度专注时使用。'},
+  {sym:'&#x16C3;',name:'Jera',pron:'J',meaning:'年、收获、循环',deity:'弗雷/Freyr',color:'翠绿',magic:'丰收、回报、自然节律、耐心',detail:'Jera是年轮与收获的符文，代表自然界的循环与因果报偿。它提醒我们一切都需要时间成熟，春种秋收是自然法则。用于祈求收成和看到努力的回报。'},
+  {sym:'&#x16C7;',name:'Eihwaz',pron:'EI',meaning:'紫杉、死亡、永生',deity:'奥丁/Odin',color:'深绿',magic:'保护、驱逐、连接灵界',detail:'Eihwaz是紫杉树之力，代表死亡与重生的循环。紫杉是北欧神话中最长寿和神秘的树，连接生者与死者。它是强大的防护符文，用于连接祖先智慧和灵界力量。'},
+  {sym:'&#x16C8;',name:'Perthro',pron:'P',meaning:'命运杯、秘密、未知',deity:'芙丽嘉/Frigg',color:'紫色',magic:'占卜、命运、秘密揭示、随机',detail:'Perthro是命运杯的符文，代表未知与命运的力量。它是女神的秘密容器，盛放着一切可能性。用于增强直觉、占卜能力和接受人生的未知。与命运三女神相关。'},
+  {sym:'&#x16C9;',name:'Algiz',pron:'Z',meaning:'麋鹿、保护、连接',deity:'海姆达尔/Heimdall',color:'银色',magic:'保护、防御、精神连接、神佑',detail:'Algiz是麋鹿角与向上伸展的树枝，代表保护与神性连接。它是北欧符文中最强大的防护符号，像麋鹿的角一样捍卫边界。用于结界保护和与神明沟通。'},
+  {sym:'&#x16CA;',name:'Sowilo',pron:'S',meaning:'太阳、成功、意志',deity:'索尔/Sol',color:'金色',magic:'成功、胜利、能量、复苏',detail:'Sowilo是太阳之光辉，代表胜利、生命力和高我意志。它是最具正面力量的符文之一，带来确定性的成功与荣耀。用于祈求胜利、增强自信和生命活力。'},
+  {sym:'&#x16CF;',name:'Tiwaz',pron:'T',meaning:'提尔神、正义、牺牲',deity:'提尔/Tyr',color:'赤红',magic:'正义、胜利、牺牲、领导力',detail:'Tiwaz是战神提尔的符文，代表公正、自我牺牲与领导力。它是指向上的矛尖，象征为更高目标而战的决心。用于法律事务、竞争和需要原则性决策时。'},
+  {sym:'&#x16D2;',name:'Berkano',pron:'B',meaning:'桦树、新生、成长',deity:'芙丽嘉/Frigg',color:'嫩绿',magic:'新生、生育、成长、家庭',detail:'Berkano是桦树的符文，代表新生与成长。桦树是北方最先在春天发芽的树木，象征新的开始与生育力。用于祈求新生、家庭和谐和个人成长。'},
+  {sym:'&#x16D6;',name:'Ehwaz',pron:'E',meaning:'马、信任、伙伴',deity:'弗雷/Freyr',color:'棕色',magic:'合作、信任、进步、伙伴关系',detail:'Ehwaz是马匹的符文，代表信任与伙伴关系。马与北欧人共享生活与战场，这个符文象征忠诚的伙伴关系和共同进步。适用于巩固合作关系和推动事务进展。'},
+  {sym:'&#x16D7;',name:'Mannaz',pron:'M',meaning:'人类、社会、智慧',deity:'奥丁/Odin',color:'靛蓝',magic:'社会关系、自我认知、智慧',detail:'Mannaz是人类的符文，代表人、社会关系和集体智慧。它倒映出人的自我与他人之间的联系。适用于提升社交能力、增进群体合作和自我认知的冥想。'},
+  {sym:'&#x16DA;',name:'Laguz',pron:'L',meaning:'水、直觉、流动',deity:'尼约德/Njord',color:'深蓝',magic:'直觉、流动、净化、梦境',detail:'Laguz是水的符文，代表直觉、流动与潜意识。水是生命之源也是通往灵界的媒介。这个符文增强直觉能力、净化身心、促进梦境的启示。与海神尼约德的力量相应。'},
+  {sym:'&#x16DD;',name:'Ingwaz',pron:'NG',meaning:'英格神、丰饶、潜力',deity:'英格/Freyr',color:'琥珀',magic:'潜力、丰饶、内在力量、种子',detail:'Ingwaz是英格（弗雷）神的符文，代表内在的丰饶与未显露的潜力。它如一颗埋藏的种子，蕴含着未来的全部可能性。用于培育项目、等待时机的仪式。'},
+  {sym:'&#x16DF;',name:'Othala',pron:'O',meaning:'遗产、家园、传承',deity:'奥丁/Odin',color:'棕色',magic:'家宅保护、传承、祖先连接',detail:'Othala是家园与遗产的符文，代表祖先传承的土地与财产。它是归属感和家族根脉的象征。用于家宅保护仪式和连接祖先智慧。也是物质财产的守护符文。'},
+  {sym:'&#x16DE;',name:'Dagaz',pron:'D',meaning:'白天、黎明、转变',deity:'海姆达尔/Heimdall',color:'金色',magic:'转变、觉醒、突破、新起点',detail:'Dagaz是黎明之光，代表黑暗之后的觉醒与突破。它是昼与夜的结合点，象征一个循环的结束和全新的开始。适用于突破困境、觉醒意识和迎接人生新阶段。'},
+];
+/* ===== AEtt GROUPS ===== */
+const AETTS = [
+  {name:'Freya / Frey 之 Aett','start':0,desc:'由丰饶之神掌管，涉及物质世界与世俗生活的方方面面'},
+  {name:'Hagal / 海姆达尔 之 Aett','start':8,desc:'由守护神掌管，涉及自然力量、挑战与人类经验的深层面向'},
+  {name:'Tyr / 提尔 之 Aett','start':16,desc:'由战神掌管，涉及精神成长、社会秩序与灵性转化'},
+];
+/* ===== REALMS ===== */
+const REALMS = [
+  {id:'asgard',name:'阿斯加德 &#x16A8;',desc:'阿萨神族的居所，由奥丁统治。对应符文Ansuz（&#x16A8;）&#x2014; 神圣沟通与智慧之力',color:'#d4a843',runes:['Ansuz','Tiwaz','Sowilo'],x:400,y:100},
+  {id:'vanaheim',name:'华纳海姆 &#x16D4;',desc:'华纳神族的居所，丰饶与自然之力。对应符文Ingwaz（&#x16DD;）&#x2014; 丰饶与潜力',color:'#4a9e4a',runes:['Ingwaz','Fehu','Jera'],x:280,y:180},
+  {id:'alfheim',name:'亚尔夫海姆 &#x16D4;',desc:'光精灵的居所，光明与美丽。对应符文Sowilo（&#x16CA;）&#x2014; 太阳的光辉与胜利',color:'#ffe066',runes:['Sowilo','Wunjo','Kenaz'],x:520,y:180},
+  {id:'midgard',name:'中庭 &#x16D6;',desc:'人类的居所，物质世界。对应符文Mannaz（&#x16D7;）&#x2014; 人类与社会关系',color:'#5a7a4a',runes:['Mannaz','Ehwaz','Raido'],x:400,y:300},
+  {id:'jotunheim',name:'约顿海姆 &#x16A6;',desc:'巨人族的居所，混沌与自然之力。对应符文Thurisaz（&#x16A6;）&#x2014; 巨人与保护',color:'#6a5a4a',runes:['Thurisaz','Hagalaz','Nauthiz'],x:200,y:380},
+  {id:'svartalfheim',name:'斯瓦塔尔法海姆 &#x16B2;',desc:'矮人/黑暗精灵的居所，锻造与工艺。对应符文Kenaz（&#x16B2;）&#x2014; 创作与技艺的火焰',color:'#5a4a6a',runes:['Kenaz','Eihwaz','Perthro'],x:600,y:380},
+  {id:'niflheim',name:'尼福尔海姆 &#x16C1;',desc:'雾之国，原始冰之世界。对应符文Isa（&#x16C1;）&#x2014; 冰与静止之力',color:'#6a8a9a',runes:['Isa','Hagalaz','Nauthiz'],x:300,y:520},
+  {id:'muspelheim',name:'穆斯贝尔海姆 &#x16B2;',desc:'火之国，原始火焰之世界。对应符文Kenaz（&#x16B2;）&#x2014; 毁灭与创造的火焰',color:'#c41e3a',runes:['Kenaz','Sowilo','Dagaz'],x:500,y:520},
+  {id:'helheim',name:'赫尔海姆 &#x16C7;',desc:'亡者的居所，由海拉统治。对应符文Eihwaz（&#x16C7;）&#x2014; 死亡与永生之树',color:'#3a2a4a',runes:['Eihwaz','Perthro','Othala'],x:400,y:660},
+];
+/* ===== PARTICLES ===== */
+(function(){
+  const c=document.getElementById('particleCanvas');
+  const ctx=c.getContext('2d');
+  let particles=[],w,h;
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight}
+  window.addEventListener('resize',resize);resize();
+  for(let i=0;i<80;i++){
+    particles.push({
+      x:Math.random()*w,y:Math.random()*h,
+      vx:(Math.random()-0.5)*0.4,vy:(Math.random()-0.5)*0.4,
+      r:Math.random()*2+0.5,o:Math.random()*0.4+0.1
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=w;if(p.x>w)p.x=0;
+      if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(212,168,67,${p.o})`;
+      ctx.fill();
+    });
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<150){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle=`rgba(212,168,67,${0.06*(1-dist/150)})`;
+          ctx.lineWidth=0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+/* ===== HAMBURGER ===== */
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('active');
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.getElementById('hamburger').classList.remove('active');
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+/* ===== TABS ===== */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById(this.dataset.tab).classList.add('active');
+  });
+});
+/* ===== TAB1: RENDER RUNES ===== */
+function renderRunes(){
+  const container=document.getElementById('runeAlphabet');
+  let html='';
+  AETTS.forEach((aett,i)=>{
+    const runes=RUNES.slice(aett.start,aett.start+8);
+    html+=`<div class="aett-section">
+      <div class="aett-title">&#x2616; ${aett.name}</div>
+      <p style="text-align:center;color:#8a7e6a;font-size:0.82rem;margin-bottom:1rem">${aett.desc}</p>
+      <div class="rune-grid">`;
+    runes.forEach((r,j)=>{
+      const idx=i*8+j;
+      html+=`<div class="rune-card" data-idx="${idx}">
+        <span class="rune-symbol">${r.sym}</span>
+        <div class="rune-name">${r.name}</div>
+        <div class="rune-phonetic">${r.pron}</div>
+        <div class="rune-meaning">${r.meaning}</div>
+        <div class="rune-detail">
+          <strong style="color:#d4a843">神祇：</strong>${r.deity}<br>
+          <strong style="color:#d4a843">颜色：</strong>${r.color}<br>
+          <strong style="color:#d4a843">魔法用途：</strong>${r.magic}<br>
+          <strong style="color:#d4a843">详解：</strong>${r.detail}
+        </div>
+      </div>`;
+    });
+    html+=`</div></div>`;
+  });
+  container.innerHTML=html;
+  document.querySelectorAll('.rune-card').forEach(card=>{
+    card.addEventListener('click',()=>card.classList.toggle('expanded'));
+  });
+}
+renderRunes();
+/* ===== TAB2: DIVINATION ===== */
+let divHistory=JSON.parse(localStorage.getItem('runeDivinationHistory')||'[]');
+function renderHistory(){
+  const el=document.getElementById('historyList');
+  if(divHistory.length===0){
+    el.innerHTML='<div style="text-align:center;color:#5a5040;padding:1rem">暂无记录</div>';
+    return;
+  }
+  el.innerHTML=divHistory.slice().reverse().map(h=>
+    `<div class="history-item">
+      <span style="color:#d4a843">${new Date(h.time).toLocaleString('zh-CN')}</span><br>
+      ${h.runes.map((r,i)=>['过去','现在','未来'][i]+'：'+r.sym+' '+r.name+(r.reversed?' (逆位)':'')).join(' | ')}
+    </div>`
+  ).join('');
+}
+renderHistory();
+document.getElementById('clearHistory').addEventListener('click',()=>{
+  divHistory=[];
+  localStorage.removeItem('runeDivinationHistory');
+  renderHistory();
+});
+function drawRuneSlot(canvas,rune,reversed){
+  const ctx=canvas.getContext('2d');
+  const w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  // Background
+  const grad=ctx.createLinearGradient(0,0,w,h);
+  grad.addColorStop(0,'rgba(40,35,25,0.95)');
+  grad.addColorStop(1,'rgba(20,18,15,0.95)');
+  ctx.fillStyle=grad;
+  ctx.fillRect(0,0,w,h);
+  // Border
+  ctx.strokeStyle='rgba(212,168,67,0.3)';
+  ctx.lineWidth=1;
+  ctx.strokeRect(2,2,w-4,h-4);
+  // Corner decorations
+  ctx.strokeStyle='rgba(212,168,67,0.15)';
+  ctx.lineWidth=1;
+  const cSize=15;
+  [[0,0],[w,0],[0,h],[w,h]].forEach(([cx,cy])=>{
+    ctx.beginPath();
+    ctx.arc(cx,cy,cSize,0,Math.PI*2);
+    ctx.stroke();
+  });
+  // Rune symbol
+  ctx.save();
+  if(reversed){
+    ctx.translate(w/2,h/2);
+    ctx.rotate(Math.PI);
+    ctx.translate(-w/2,-h/2);
+  }
+  ctx.font='72px "Cormorant Garamond",serif';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillStyle='#d4a843';
+  ctx.shadowColor='rgba(212,168,67,0.3)';
+  ctx.shadowBlur=10;
+  ctx.fillText(rune.sym,w/2,h/2-10);
+  ctx.shadowBlur=0;
+  // Name
+  ctx.font='16px "Ma Shan Zheng",cursive';
+  ctx.fillStyle='#d4a843';
+  ctx.fillText(rune.name,w/2,h/2+50);
+  ctx.restore();
+  // Reversed indicator
+  if(reversed){
+    ctx.fillStyle='#c41e3a';
+    ctx.font='10px "Cormorant Garamond",serif';
+    ctx.textAlign='center';
+    ctx.fillText('&#x2193; 逆位',w/2,h-15);
+  }
+}
+document.getElementById('throwBtn').addEventListener('click',function(){
+  this.disabled=true;
+  this.textContent='&#x2616; 投掷中...';
+  const positions=['过去','现在','未来'];
+  const result=document.getElementById('runeResult');
+  const selected=[];
+  const available=RUNES.slice();
+  for(let i=0;i<3;i++){
+    const idx=Math.floor(Math.random()*available.length);
+    selected.push(available.splice(idx,1)[0]);
+  }
+  const isReversed=selected.map(()=>Math.random()<0.3);
+  result.innerHTML='';
+  selected.forEach((r,i)=>{
+    const slot=document.createElement('div');
+    slot.className='rune-slot';
+    const canvas=document.createElement('canvas');
+    canvas.className='slot-canvas';
+    canvas.width=240;
+    canvas.height=320;
+    setTimeout(()=>drawRuneSlot(canvas,r,isReversed[i]),10);
+    slot.appendChild(canvas);
+    slot.innerHTML+=`<div class="slot-position">${positions[i]}</div>`;
+    slot.innerHTML+=`<div class="slot-name">${r.sym} ${r.name}${isReversed[i]?' (逆)':''}</div>`;
+    slot.innerHTML+=`<div class="slot-meaning">${r.meaning}</div>`;
+    setTimeout(()=>slot.classList.add('filled'),50);
+    result.appendChild(slot);
+  });
+  // Save history
+  divHistory.push({
+    time:Date.now(),
+    runes:selected.map((r,i)=>({sym:r.sym,name:r.name,meaning:r.meaning,reversed:isReversed[i]}))
+  });
+  if(divHistory.length>50)divHistory=divHistory.slice(-50);
+  localStorage.setItem('runeDivinationHistory',JSON.stringify(divHistory));
+  renderHistory();
+  setTimeout(()=>{
+    this.disabled=false;
+    this.textContent='&#x2616; 投掷符文';
+  },800);
+});
+/* ===== TAB3: AGISHJALMUR ===== */
+(function drawAgishjalmur(){
+  const c=document.getElementById('agishjalmurCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);
+  // Background
+  ctx.fillStyle='rgba(30,28,25,0.95)';
+  ctx.fillRect(0,0,w,h);
+  ctx.translate(w/2,h/2);
+  // Draw Agishjalmur
+  const arms=8;
+  for(let i=0;i<arms;i++){
+    const angle=(Math.PI*2/arms)*i-Math.PI/2;
+    ctx.save();
+    ctx.rotate(angle);
+    // Main arm
+    ctx.strokeStyle='#d4a843';
+    ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.lineTo(0,-130);
+    ctx.stroke();
+    // Cross lines
+    ctx.lineWidth=1.5;
+    ctx.beginPath();
+    ctx.moveTo(-15,-60);
+    ctx.lineTo(15,-60);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(-12,-90);
+    ctx.lineTo(12,-90);
+    ctx.stroke();
+    // Outer Algiz
+    ctx.strokeStyle='#c41e3a';
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(-8,-130);
+    ctx.lineTo(0,-150);
+    ctx.lineTo(8,-130);
+    ctx.stroke();
+    // Inner Algiz
+    ctx.strokeStyle='rgba(212,168,67,0.4)';
+    ctx.lineWidth=1.5;
+    ctx.beginPath();
+    ctx.moveTo(-5,-35);
+    ctx.lineTo(0,-50);
+    ctx.lineTo(5,-35);
+    ctx.stroke();
+    ctx.restore();
+  }
+  // Center circle
+  ctx.strokeStyle='#d4a843';
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.arc(0,0,20,0,Math.PI*2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0,0,10,0,Math.PI*2);
+  ctx.stroke();
+  // Center dot
+  ctx.fillStyle='#c41e3a';
+  ctx.beginPath();
+  ctx.arc(0,0,3,0,Math.PI*2);
+  ctx.fill();
+  ctx.setTransform(1,0,0,1,0,0);
+})();
+/* ===== TAB3: BIND RUNE ===== */
+(function initBindRune(){
+  const sel1=document.getElementById('bindSel1');
+  const sel2=document.getElementById('bindSel2');
+  const sel3=document.getElementById('bindSel3');
+  function populateSelect(sel){
+    sel.innerHTML='<option value="">选择符文</option>';
+    RUNES.forEach((r,i)=>{
+      const opt=document.createElement('option');
+      opt.value=i;
+      opt.textContent=r.sym+' '+r.name+' - '+r.meaning;
+      sel.appendChild(opt);
+    });
+  }
+  populateSelect(sel1);
+  populateSelect(sel2);
+  populateSelect(sel3);
+  let useThird=false;
+  document.getElementById('toggleBindCount').addEventListener('click',function(){
+    useThird=!useThird;
+    sel3.style.display=useThird?'inline-block':'none';
+    this.textContent=useThird?'- 移除第三个符文':'+ 第三个符文';
+  });
+  document.getElementById('generateBind').addEventListener('click',function(){
+    const idx1=parseInt(sel1.value);
+    const idx2=parseInt(sel2.value);
+    const idx3=useThird?parseInt(sel3.value):-1;
+    const canvas=document.getElementById('bindRuneCanvas');
+    const ctx=canvas.getContext('2d');
+    const w=canvas.width,h=canvas.height;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='rgba(30,28,25,0.95)';
+    ctx.fillRect(0,0,w,h);
+    const runes=[];
+    if(!isNaN(idx1))runes.push(RUNES[idx1]);
+    if(!isNaN(idx2))runes.push(RUNES[idx2]);
+    if(useThird&&!isNaN(idx3))runes.push(RUNES[idx3]);
+    if(runes.length<2){
+      document.getElementById('bindRuneMeaning').textContent='请至少选择2个符文进行结合';
+      return;
+    }
+    // Draw bind rune - overlapping symbols
+    ctx.save();
+    ctx.translate(w/2,h/2);
+    const baseSize=90;
+    runes.forEach((r,i)=>{
+      ctx.save();
+      const angle=(i-runes.length/2+0.5)*0.3;
+      const scale=Math.min(1,1.8/runes.length);
+      ctx.rotate(angle);
+      ctx.scale(scale,scale);
+      ctx.font='140px "Cormorant Garamond",serif';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillStyle=`rgba(212,168,67,${1-i*0.15})`;
+      ctx.shadowColor='rgba(212,168,67,0.2)';
+      ctx.shadowBlur=8;
+      ctx.fillText(r.sym,0,0);
+      ctx.restore();
+    });
+    ctx.restore();
+    // Meaning
+    const meaning=runes.map(r=>r.name+'('+r.meaning.split('、')[0]+')').join(' + ');
+    const combinedMeanings=runes.map(r=>r.meaning.split('、')[0]);
+    let interpretation='';
+    if(runes.length===2){
+      interpretation=`${combinedMeanings[0]}之力与${combinedMeanings[1]}之力的融合，形成了"以${combinedMeanings[0]}达成${combinedMeanings[1]}"的复合能量场。`;
+    }else{
+      interpretation=`${combinedMeanings[0]}、${combinedMeanings[1]}与${combinedMeanings[2]}三种力量交织，构成${combinedMeanings[0]}之基、${combinedMeanings[1]}之径、${combinedMeanings[2]}之果的完整符咒。`;
+    }
+    document.getElementById('bindRuneMeaning').innerHTML=
+      `<strong style="color:#d4a843">合符文：</strong>${meaning}<br><br>
+       <strong style="color:#d4a843">解读：</strong>${interpretation}<br><br>
+       <span style="color:#8a7e6a">包含符文：${runes.map(r=>r.sym+' '+r.name).join(' · ')}</span>`;
+  });
+})();
+/* ===== TAB4: YGGDRASIL ===== */
+(function drawYggdrasil(){
+  const c=document.getElementById('yggdrasilCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const w=c.width,h=c.height;
+  let activeRealm=-1;
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    // Deep background
+    const bgGrad=ctx.createRadialGradient(w/2,h/2,50,w/2,h/2,400);
+    bgGrad.addColorStop(0,'rgba(20,18,15,0.8)');
+    bgGrad.addColorStop(0.5,'rgba(15,13,10,0.9)');
+    bgGrad.addColorStop(1,'rgba(5,3,2,1)');
+    ctx.fillStyle=bgGrad;
+    ctx.fillRect(0,0,w,h);
+    // Draw tree trunk
+    ctx.strokeStyle='rgba(212,168,67,0.15)';
+    ctx.lineWidth=8;
+    ctx.beginPath();
+    ctx.moveTo(w/2,h-50);
+    ctx.quadraticCurveTo(w/2-20,h/2+50,w/2,h/2-30);
+    ctx.stroke();
+    ctx.lineWidth=5;
+    ctx.beginPath();
+    ctx.moveTo(w/2-30,h-30);
+    ctx.quadraticCurveTo(w/2-10,h/2+30,w/2,h/2-30);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(w/2+30,h-30);
+    ctx.quadraticCurveTo(w/2+10,h/2+30,w/2,h/2-30);
+    ctx.stroke();
+    // Branches
+    ctx.strokeStyle='rgba(212,168,67,0.1)';
+    ctx.lineWidth=3;
+    for(let i=0;i<6;i++){
+      const angle=-Math.PI/2+Math.PI*0.15+Math.random()*0.3;
+      const len=80+Math.random()*60;
+      const startY=200+Math.random()*200;
+      ctx.beginPath();
+      ctx.moveTo(w/2,startY);
+      ctx.quadraticCurveTo(w/2+Math.cos(angle)*len*0.5,startY-20,w/2+Math.cos(angle)*len,startY-40+Math.random()*20);
+      ctx.stroke();
+    }
+    // Draw realms
+    REALMS.forEach((realm,i)=>{
+      const isActive=i===activeRealm;
+      const radius=isActive?38:30;
+      const gradient=ctx.createRadialGradient(realm.x,realm.y,2,realm.x,realm.y,radius+15);
+      gradient.addColorStop(0,realm.color+'cc');
+      gradient.addColorStop(0.6,realm.color+'88');
+      gradient.addColorStop(1,realm.color+'22');
+      ctx.shadowColor=isActive?realm.color:'transparent';
+      ctx.shadowBlur=isActive?30:0;
+      // Glow
+      ctx.beginPath();
+      ctx.arc(realm.x,realm.y,radius+8,0,Math.PI*2);
+      ctx.fillStyle=gradient;
+      ctx.fill();
+      // Circle
+      ctx.beginPath();
+      ctx.arc(realm.x,realm.y,radius,0,Math.PI*2);
+      ctx.fillStyle=isActive?realm.color+'44':'rgba(10,10,10,0.6)';
+      ctx.fill();
+      ctx.strokeStyle=isActive?realm.color:realm.color+'88';
+      ctx.lineWidth=isActive?3:1.5;
+      ctx.stroke();
+      ctx.shadowBlur=0;
+      // Label
+      ctx.font=isActive?'13px "Ma Shan Zheng",cursive':'11px "Ma Shan Zheng",cursive';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillStyle=isActive?'#fff':realm.color+'cc';
+      const lines=realm.name.split('<br>');
+      if(lines.length===1){
+        ctx.fillText(realm.name.replace(/<[^>]*>/g,''),realm.x,realm.y);
+      }else{
+        lines.forEach((line,j)=>{
+          ctx.fillText(line.replace(/<[^>]*>/g,''),realm.x,realm.y+(j-lines.length/2+0.5)*16);
+        });
+      }
+    });
+    // Draw connecting lines (roots)
+    ctx.strokeStyle='rgba(212,168,67,0.06)';
+    ctx.lineWidth=1;
+    const connections=[[0,1],[0,2],[1,3],[2,3],[1,4],[2,5],[3,6],[3,7],[4,6],[5,7],[6,8],[7,8]];
+    connections.forEach(([a,b])=>{
+      ctx.beginPath();
+      ctx.moveTo(REALMS[a].x,REALMS[a].y);
+      ctx.lineTo(REALMS[b].x,REALMS[b].y);
+      ctx.stroke();
+    });
+  }
+  draw();
+  // Click handler
+  c.addEventListener('click',function(e){
+    const rect=c.getBoundingClientRect();
+    const scaleX=w/rect.width;
+    const scaleY=h/rect.height;
+    const mx=(e.clientX-rect.left)*scaleX;
+    const my=(e.clientY-rect.top)*scaleY;
+    let found=-1;
+    REALMS.forEach((r,i)=>{
+      const dist=Math.sqrt((mx-r.x)**2+(my-r.y)**2);
+      if(dist<40)found=i;
+    });
+    activeRealm=found;
+    draw();
+    const info=document.getElementById('realmInfo');
+    if(found>=0){
+      const r=REALMS[found];
+      info.innerHTML=`<h3 style="color:${r.color}">${r.name}</h3>
+        <p>${r.desc}</p>
+        <div class="realm-runes">关联符文：${r.runes.join(' · ')}</div>`;
+    }else{
+      info.innerHTML=`<h3>点击领域查看详情</h3>
+        <p>世界树Yggdrasil连接九大世界，每个领域与特定的卢恩符文能量对应。</p>`;
+    }
+  });
+  // Hover effect
+  c.addEventListener('mousemove',function(e){
+    const rect=c.getBoundingClientRect();
+    const scaleX=w/rect.width;
+    const scaleY=h/rect.height;
+    const mx=(e.clientX-rect.left)*scaleX;
+    const my=(e.clientY-rect.top)*scaleY;
+    let hovered=false;
+    REALMS.forEach(r=>{
+      const dist=Math.sqrt((mx-r.x)**2+(my-r.y)**2);
+      if(dist<35)hovered=true;
+    });
+    c.style.cursor=hovered?'pointer':'default';
+  });
+})();
+</script>
+</body>
+</html>
