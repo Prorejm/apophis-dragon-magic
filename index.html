@@ -937,6 +937,216 @@ html {
   .subheading { font-size: 1.1rem; }
 }
 
+
+/* ====== 插图样式 ====== */
+.sigil-figure {
+  margin: 2rem auto;
+  text-align: center;
+  max-width: 600px;
+}
+
+.sigil-img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--accent2);
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(212, 168, 67, 0.15);
+  transition: all 0.3s ease;
+}
+
+.sigil-img:hover {
+  box-shadow: 0 0 30px rgba(212, 168, 67, 0.3);
+  transform: scale(1.01);
+}
+
+.fig-caption {
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.sigil-placeholder {
+  padding: 2rem;
+  border: 1px dashed var(--rule);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ====== 七首对比表 ====== */
+.heads-table-wrapper {
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.heads-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.heads-table th {
+  background: linear-gradient(135deg, var(--accent), rgba(196, 30, 58, 0.6));
+  color: var(--ink);
+  padding: 12px 10px;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.heads-table th:first-child {
+  border-radius: 8px 0 0 0;
+}
+
+.heads-table th:last-child {
+  border-radius: 0 8px 0 0;
+}
+
+.heads-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--rule);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.heads-table tr:hover td {
+  background: rgba(212, 168, 67, 0.05);
+}
+
+.heads-table .head-num {
+  color: var(--accent2);
+  font-weight: 900;
+  font-size: 1.1rem;
+  font-family: var(--font-display);
+}
+
+.heads-table .head-dark {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.heads-table .head-light {
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+.heads-table .head-planet {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ====== 思维导图 ====== */
+.mindmap-container {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  margin: 2.5rem auto;
+  padding: 2rem 1rem;
+}
+
+.mindmap-svg {
+  width: 100%;
+  height: auto;
+}
+
+.mindmap-node {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mindmap-node:hover {
+  filter: brightness(1.3);
+}
+
+.mindmap-node text {
+  font-family: var(--font-display);
+  font-size: 14px;
+  fill: #e8e0d4;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.mindmap-node .node-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.mindmap-node .node-sub {
+  font-size: 11px;
+  fill: #8a7e6e;
+}
+
+.mindmap-link {
+  stroke: #2a2a2a;
+  stroke-width: 1.5;
+  fill: none;
+  stroke-dasharray: 4,3;
+}
+
+.mindmap-link.active {
+  stroke: var(--accent2);
+  stroke-dasharray: none;
+  stroke-width: 2;
+}
+
+/* ====== 官网链接栏 ====== */
+.site-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 780px;
+}
+
+.site-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.8rem;
+  border: 1px solid var(--accent2);
+  border-radius: 30px;
+  color: var(--accent2);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.site-link-btn:hover {
+  background: rgba(212, 168, 67, 0.1);
+  box-shadow: 0 0 20px rgba(212, 168, 67, 0.2);
+  transform: translateY(-2px);
+}
+
+.site-link-btn .icon {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+  .site-links {
+    flex-direction: column;
+    align-items: center;
+  }
+  .site-link-btn {
+    width: 80%;
+    justify-content: center;
+  }
+}
+
+/* ====== 思维导图动画 ====== */
+@keyframes pulseNode {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.mindmap-node.highlight circle {
+  animation: pulseNode 2s ease-in-out infinite;
+}
+
 </style>
 
 <!-- ====== ENHANCED ANIMATIONS & TYPOGRAPHY ====== -->
@@ -1583,6 +1793,216 @@ html {
     transform: none;
   }
 }
+
+/* ====== 插图样式 ====== */
+.sigil-figure {
+  margin: 2rem auto;
+  text-align: center;
+  max-width: 600px;
+}
+
+.sigil-img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--accent2);
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(212, 168, 67, 0.15);
+  transition: all 0.3s ease;
+}
+
+.sigil-img:hover {
+  box-shadow: 0 0 30px rgba(212, 168, 67, 0.3);
+  transform: scale(1.01);
+}
+
+.fig-caption {
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.sigil-placeholder {
+  padding: 2rem;
+  border: 1px dashed var(--rule);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ====== 七首对比表 ====== */
+.heads-table-wrapper {
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.heads-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.heads-table th {
+  background: linear-gradient(135deg, var(--accent), rgba(196, 30, 58, 0.6));
+  color: var(--ink);
+  padding: 12px 10px;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.heads-table th:first-child {
+  border-radius: 8px 0 0 0;
+}
+
+.heads-table th:last-child {
+  border-radius: 0 8px 0 0;
+}
+
+.heads-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--rule);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.heads-table tr:hover td {
+  background: rgba(212, 168, 67, 0.05);
+}
+
+.heads-table .head-num {
+  color: var(--accent2);
+  font-weight: 900;
+  font-size: 1.1rem;
+  font-family: var(--font-display);
+}
+
+.heads-table .head-dark {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.heads-table .head-light {
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+.heads-table .head-planet {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ====== 思维导图 ====== */
+.mindmap-container {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  margin: 2.5rem auto;
+  padding: 2rem 1rem;
+}
+
+.mindmap-svg {
+  width: 100%;
+  height: auto;
+}
+
+.mindmap-node {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mindmap-node:hover {
+  filter: brightness(1.3);
+}
+
+.mindmap-node text {
+  font-family: var(--font-display);
+  font-size: 14px;
+  fill: #e8e0d4;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.mindmap-node .node-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.mindmap-node .node-sub {
+  font-size: 11px;
+  fill: #8a7e6e;
+}
+
+.mindmap-link {
+  stroke: #2a2a2a;
+  stroke-width: 1.5;
+  fill: none;
+  stroke-dasharray: 4,3;
+}
+
+.mindmap-link.active {
+  stroke: var(--accent2);
+  stroke-dasharray: none;
+  stroke-width: 2;
+}
+
+/* ====== 官网链接栏 ====== */
+.site-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 780px;
+}
+
+.site-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.8rem;
+  border: 1px solid var(--accent2);
+  border-radius: 30px;
+  color: var(--accent2);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.site-link-btn:hover {
+  background: rgba(212, 168, 67, 0.1);
+  box-shadow: 0 0 20px rgba(212, 168, 67, 0.2);
+  transform: translateY(-2px);
+}
+
+.site-link-btn .icon {
+  font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+  .site-links {
+    flex-direction: column;
+    align-items: center;
+  }
+  .site-link-btn {
+    width: 80%;
+    justify-content: center;
+  }
+}
+
+/* ====== 思维导图动画 ====== */
+@keyframes pulseNode {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.mindmap-node.highlight circle {
+  animation: pulseNode 2s ease-in-out infinite;
+}
+
 </style>
 
 </head>
@@ -1627,6 +2047,17 @@ html {
 </header>
 
 <!-- 主内容 -->
+
+<!-- 官网链接栏 -->
+<div class="site-links">
+  <a href="sigil-game.html" class="site-link-btn">
+    <span class="icon">⚜</span> 符印工坊
+  </a>
+  <a href="liuren-simulator.html" class="site-link-btn">
+    <span class="icon">☯</span> 大六壬模拟器
+  </a>
+</div>
+
 <main class="main-content">
 <section class="intro-section" id="intro">
   <h2 class="section-title">引言</h2>
@@ -1932,6 +2363,81 @@ html {
   <p>7.  提丰，致命之风天使</p>
   <p>直到阿佩普工作完成后，我才阅读了上述象征性归属，然而，当与工作所归属的七种力量相比较时，这些象征意义的贴切程度令人震惊，这些力量是教团入门者寻求、发展并最终掌握的。</p>
   <p>在分析每个头颅之前，我想指出，上面给出的列表代表了&quot;暗面&quot;的归属，最适合阿波菲斯的工作。但花点时间将象征意义与阿莱斯特·克劳利在讨论他的《透特之书》中第十一号大阿卡纳&quot;欲望&quot;时，所列出的狮蛇兽七首象征意义进行比较和对照，是很有趣的。克劳利的列表提供了一个有趣的对比，因为它属于现实的有序、阳光、男性化的一面，而不是沸腾、混沌、女性化的暗面。两组归属并列如下：</p>
+  
+  <!-- 七首对比表 -->
+  <div class="heads-table-wrapper">
+    <table class="heads-table">
+      <thead>
+        <tr>
+          <th>首</th>
+          <th>暗面象征</th>
+          <th>明面象征</th>
+          <th>行星</th>
+          <th>力量</th>
+          <th>品质</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="head-num">一</td>
+          <td class="head-dark">蝎子</td>
+          <td class="head-light">天使</td>
+          <td class="head-planet">🌙 月亮</td>
+          <td>控制身体</td>
+          <td>感官、肉体、毒性</td>
+        </tr>
+        <tr>
+          <td class="head-num">二</td>
+          <td class="head-dark">雷霆/旋转十字</td>
+          <td class="head-light">圣徒</td>
+          <td class="head-planet">☿ 水星</td>
+          <td>控制心智</td>
+          <td>思想、交流、专注</td>
+        </tr>
+        <tr>
+          <td class="head-num">三</td>
+          <td class="head-dark">鬣狗</td>
+          <td class="head-light">诗人</td>
+          <td class="head-planet">♀ 金星</td>
+          <td>透视与同步性</td>
+          <td>直觉、梦境、联系</td>
+        </tr>
+        <tr>
+          <td class="head-num">四</td>
+          <td class="head-dark">蛇</td>
+          <td class="head-light">通奸女子</td>
+          <td class="head-planet">☉ 太阳</td>
+          <td>命运/黑贤者</td>
+          <td>超然、视角、再显化</td>
+        </tr>
+        <tr>
+          <td class="head-num">五</td>
+          <td class="head-dark">怒吼的狮子</td>
+          <td class="head-light">勇士</td>
+          <td class="head-planet">♂ 火星</td>
+          <td>欲望</td>
+          <td>战争、主权、情色</td>
+        </tr>
+        <tr>
+          <td class="head-num">六</td>
+          <td class="head-dark">叛逆的巨人</td>
+          <td class="head-light">萨特</td>
+          <td class="head-planet">♃ 木星</td>
+          <td>掌握时空</td>
+          <td>叛逆、超越、自由</td>
+        </tr>
+        <tr>
+          <td class="head-num">七</td>
+          <td class="head-dark">提丰</td>
+          <td class="head-light">狮蛇</td>
+          <td class="head-planet">♄ 土星</td>
+          <td>自我神化/红贤者</td>
+          <td>毁灭、创造、神性</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <p>头颅 暗面 / 明面 / 阿佩普派 荷鲁斯派</p>
   <p>第一 蝎子 天使</p>
   <p>第二 旋转十字架， 圣徒 雷霆</p>
@@ -1978,6 +2484,96 @@ html {
   <p>行星归属是土星，因为塞特是时间的主宰，时间是祂的工具，而不是栖息地或监狱。土星传统上也是死亡的行星，在这个工作中确实有一种死亡需要经历：成功唤醒这个首所暗示的个人毁灭怎么强调都不为过。当第七首升起时，阿佩普将吞噬太阳。</p>
   <p>阿佩普工作导致了七首的概念化，这是以适合教团的象征意义对教团目标的重新表述，现在这成为了适合教团的工作。这些是应当实际应用的钥匙。前面的头颅不可避免地比后面更晦涩的头颅更容易概念化和理解，后面的头颅（在这个阶段）必须纯粹象征性地表达。请放心，所有七个头颅都将在接下来的章节中被赋予实用和可操作的技术。</p>
   <p>现在，给读者一个沉思的问题，这可能会被证明富有成果和启发性：为什么利维坦之眼的位置及其视角（虽然肯定隐含在所有七个头颅中）集中在第四首而不是第七首，这或许是可以预料的？我对这个问题的回答，在迄今为止所写的所有内容中都有坚实的暗示，并将在后面的适当位置充分讨论。但是，请在你的阅读中花时间停下来，考虑你自己对提出问题的答案。永远不要让自己被灌输。</p>
+  
+  <!-- 龙之七首思维导图 -->
+  <div class="mindmap-container">
+    <h3 class="subheading" style="text-align:center;border-left:none;padding-left:0;">龙之七首结构图</h3>
+    <svg viewBox="0 0 700 500" xmlns="http://www.w3.org/2000/svg" class="mindmap-svg">
+      <defs>
+        <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" style="stop-color:#d4a843;stop-opacity:0.3"/>
+          <stop offset="100%" style="stop-color:#d4a843;stop-opacity:0"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      
+      <!-- 中心光晕 -->
+      <circle cx="350" cy="250" r="120" fill="url(#centerGlow)"/>
+      
+      <!-- 中心节点 - 龙 -->
+      <g class="mindmap-node highlight" filter="url(#glow)">
+        <circle cx="350" cy="250" r="30" fill="#1a1a1a" stroke="#d4a843" stroke-width="2"/>
+        <text x="350" y="248" class="node-title" fill="#d4a843" font-size="18">龙</text>
+        <text x="350" y="264" class="node-sub" fill="#8a7e6e" font-size="10">七首</text>
+      </g>
+      
+      <!-- 第一首 - 蝎子 -->
+      <g class="mindmap-node">
+        <line x1="350" y1="250" x2="200" y2="100" class="mindmap-link active"/>
+        <circle cx="200" cy="100" r="22" fill="#1a1a1a" stroke="#c41e3a" stroke-width="2"/>
+        <text x="200" y="96" class="node-title" fill="#c41e3a" font-size="14">第一首</text>
+        <text x="200" y="112" class="node-sub" fill="#8a7e6e" font-size="10">蝎子</text>
+      </g>
+      
+      <!-- 第二首 - 雷霆 -->
+      <g class="mindmap-node">
+        <line x1="350" y1="250" x2="100" y2="200" class="mindmap-link active"/>
+        <circle cx="100" cy="200" r="22" fill="#1a1a1a" stroke="#c41e3a" stroke-width="2"/>
+        <text x="100" y="196" class="node-title" fill="#c41e3a" font-size="14">第二首</text>
+        <text x="100" y="212" class="node-sub" fill="#8a7e6e" font-size="10">雷霆</text>
+      </g>
+      
+      <!-- 第三首 - 鬣狗 -->
+      <g class="mindmap-node">
+        <line x1="350" y1="250" x2="100" y2="360" class="mindmap-link active"/>
+        <circle cx="100" cy="360" r="22" fill="#1a1a1a" stroke="#c41e3a" stroke-width="2"/>
+        <text x="100" y="356" class="node-title" fill="#c41e3a" font-size="14">第三首</text>
+        <text x="100" y="372" class="node-sub" fill="#8a7e6e" font-size="10">鬣狗</text>
+      </g>
+      
+      <!-- 第四首 - 蛇（中心上方） -->
+      <g class="mindmap-node">
+        <line x1="350" y1="220" x2="350" y2="120" class="mindmap-link active"/>
+        <circle cx="350" cy="120" r="24" fill="#1a1a1a" stroke="#d4a843" stroke-width="2.5" filter="url(#glow)"/>
+        <text x="350" y="115" class="node-title" fill="#d4a843" font-size="15">第四首</text>
+        <text x="350" y="132" class="node-sub" fill="#8a7e6e" font-size="11">蛇·利维坦之眼</text>
+      </g>
+      
+      <!-- 第五首 - 狮子 -->
+      <g class="mindmap-node">
+        <line x1="350" y1="250" x2="600" y2="100" class="mindmap-link active"/>
+        <circle cx="600" cy="100" r="22" fill="#1a1a1a" stroke="#c41e3a" stroke-width="2"/>
+        <text x="600" y="96" class="node-title" fill="#c41e3a" font-size="14">第五首</text>
+        <text x="600" y="112" class="node-sub" fill="#8a7e6e" font-size="10">怒吼的狮子</text>
+      </g>
+      
+      <!-- 第六首 - 巨人 -->
+      <g class="mindmap-node">
+        <line x1="350" y1="250" x2="600" y2="200" class="mindmap-link active"/>
+        <circle cx="600" cy="200" r="22" fill="#1a1a1a" stroke="#c41e3a" stroke-width="2"/>
+        <text x="600" y="196" class="node-title" fill="#c41e3a" font-size="14">第六首</text>
+        <text x="600" y="212" class="node-sub" fill="#8a7e6e" font-size="10">叛逆的巨人</text>
+      </g>
+      
+      <!-- 第七首 - 提丰 -->
+      <g class="mindmap-node">
+        <line x1="350" y1="250" x2="600" y2="360" class="mindmap-link active"/>
+        <circle cx="600" cy="360" r="22" fill="#1a1a1a" stroke="#d4a843" stroke-width="2"/>
+        <text x="600" y="356" class="node-title" fill="#d4a843" font-size="14">第七首</text>
+        <text x="600" y="372" class="node-sub" fill="#8a7e6e" font-size="10">提丰</text>
+      </g>
+      
+      <!-- 底部装饰文字 -->
+      <text x="350" y="470" text-anchor="middle" fill="#2a2a2a" font-size="11" font-style="italic">阿佩普 - 古龙之七首</text>
+    </svg>
+  </div>
+
   <p>总而言之，各头颅的力量和品质如下：</p>
   <p>1.  控制身体</p>
   <p>2.  控制心智</p>
@@ -2217,11 +2813,17 @@ html {
   <h3 class="subheading">印记与自动绘图</h3>
   <p>奥斯汀·斯佩尔发展了一种印记技术，近年来已变得广为人知。印记基本上是一种图解符号，隐藏了一个欲望陈述。当眼睛看到印记时，它们不会有意识地记录其含义；然而，潜意识心智，它目睹了印记的形成并记得它是如何塑造的，肯定会将其形式与欲望联系起来。使用这种印记是一种绕过有意识心智理性反对的方法，将欲望的暗示直接植入心理深处，在那里它可能被作用。这些心理操控方法属于第二首的工作，入门者应练习直到他们精通于此类的简单巫术。我们将首先考察这种印记可能形成的方式，然后讨论它们如何被有效地植入以实现魔法师的欲望。在这件事上和大多数情况一样，不同的技术最适合不同的人。</p>
   <p>制定印记最简单的方法是决定一个用简单术语陈述你欲望的短语。让我们以天气魔法为例。假设一个魔法师不擅长航海，但需要乘坐渡轮。他的欲望陈述可能是&quot;晴朗天气&quot;。然后他从陈述中删除所有重复的字母（这个步骤是可选的，某些字母可以使用多次以创造更美观或数字上更重要的设计）。这给他留下了 FAIRWETH。然后把这些字母组合成一个单一的图解表达，利用它们的所有形状，如下例所示。魔法师可以根据自己的艺术感，将其制作得尽可能简单或华丽。</p>
-  <p>图片\[\[428, 431, 528, 476\]\]</p>
+  <div class="sigil-figure">
+  <img src="sigil_fairweather.png" alt="FAIR WEATHER 符印示例" class="sigil-img" loading="lazy">
+  <p class="fig-caption">图：FAIR WETHER 符印示例 - 从欲望陈述到图解符号的转化</p>
+</div>
   <p>我们现在有了一个源自魔法师意志陈述的符号，但它不再有意识地暗示它。就我个人而言，我建议在正式仪式的充满能量环境中创建印记，配合庄严的意图声明，以更易于在心灵中巩固其目的（关于仪式指南，见第三首的章节和阅读清单中的许多书籍）。一旦创建，印记应被放置几天，然后再取出并充能，如下所述。</p>
   <p>印记也可以创建以与神或灵体的能量共鸣，无论是传统的还是由魔法师自己的心智塑造的（所谓的人工元素体或思想形态）。魔法书充满了与特定灵体和恶魔相关的印记。在这种情况下，灵体名字的字母将被纳入印记的设计中。</p>
   <p>下面建议了一个用于阿佩普奉献工作的简单印记。</p>
-  <p>图片\[\[249, 233, 795, 289\]\]</p>
+  <div class="sigil-figure">
+  <img src="sigil_apep.png" alt="阿佩普符印" class="sigil-img" loading="lazy">
+  <p class="fig-caption">图：用于阿佩普奉献工作的符印</p>
+</div>
   <p>可以根据魔法师的创造力添加装饰，如第二个更富联想性和美观性的表现。</p>
   <p>看看奥斯汀·斯佩尔的艺术作品或彼得·卡罗尔《虚空之书与心灵航行者》中的插图，将提供许多以这种方式创建的印记示例，这应该有助于激发新入门者的创作灵感。</p>
   <p>简单回顾一下咒语的主题，这些也可以通过同样的方式创建。通过选择一个欲望陈述，删除重复字母，然后打乱剩余字母，可以产生一个听起来合适的词或短语来念诵。以上面的&quot;晴朗天气&quot;为例，我们可以创建一个像&quot;THERIF AW&quot;这样的咒语。然后这将类似于视觉印记的方式被充能，但在施展时，它将是被念诵而不是被盯着看。</p>
@@ -2238,7 +2840,10 @@ html {
   <p>M N O P Q\</p>
   <p>S U V X Z</p>
   <p>现在魔法师可以在这个方阵上描绘印记，进一步表达他的欲望。创建了晴朗天气的魔法方阵后，魔法师可能希望在其上印记&quot;渡轮旅程&quot;这个词，以使他的欲望更具体。他通过在方阵的字母上画线来做到这一点，拼出单词 f-e-r-r-y j-o-u-r-n-e-y 并描绘由此产生的形状，产生以下两个印记：</p>
-  <p>图片\[\[373, 218, 683, 311\]\]</p>
+  <div class="sigil-figure">
+  <img src="sigil_grid.png" alt="5x5 魔法方阵" class="sigil-img" loading="lazy">
+  <p class="fig-caption">图：5×5 字母网格魔法方阵</p>
+</div>
   <p>这些形状和线条图案对有意识心智来说没有意义，但潜意识知道它们是如何形成的以及它们意味着什么，识别出其中编码的欲望。因为与它们有意识的分离，当它们被充能时，潜意识可以直接操控它们而不受干扰。</p>
   <p>另一种可用于创建印记的技术也源自奥斯汀·斯佩尔，即自动绘图。在这种情况下，技术非常简单，尽管要达到令人满意的使用水平可能需要一些时间和练习才能发展到美观的标准。它确实需要降低抑制力和心理障碍。但你现在已经知道流程了：练习、练习、再练习。手放松地握着一支笔或铅笔，放在一张白纸上。心智在对要实现的欲望的遐想中飘移，手被允许自由移动，没有意识的干预或指导。从结果图案中，可以提取一些部分并作为欲望的印记进行改编，随后充能。</p>
   <p>充能印记的方法多种多样。有些对某些入门者效果很好，有些则不然。基本意图是达到一种改变的意识状态，在这种状态下，心智进入虚空并将印记释放，将其投入深层领域，然后它将在那里显现。然后它被有效地遗忘，并让其发挥作用。现在不是热情渴望结果的时候和地点；那应该早在印记的实际形成阶段就已完成。充能或施加的时候，需要没有&quot;结果之欲&quot;，将欲望交给地狱深处，即潜意识。只有通过完全以这种方式释放它，它才能自由移动和行动，实现其在外部世界显现的指令。</p>

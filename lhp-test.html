@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>左路魔法心理测试——你是否适合左路魔法</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Noto Serif SC', serif;
+  background-color: #0a0a0a;
+  color: #d4c5a9;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.8;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+.occult-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.occult-bg::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 168, 67, 0.03) 0%, transparent 70%);
+  top: -200px;
+  right: -200px;
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+.occult-bg::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196, 30, 58, 0.03) 0%, transparent 70%);
+  bottom: -150px;
+  left: -150px;
+  animation: glowPulse 10s ease-in-out infinite reverse;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.3); }
+}
+
+/* ===== STARFIELD ===== */
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #d4a843;
+  border-radius: 50%;
+  animation: twinkle var(--duration, 3s) ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.8; }
+}
+
+/* ===== MAIN CONTAINER ===== */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  padding: 60px 20px 40px;
+  border-bottom: 1px solid rgba(212, 168, 67, 0.15);
+  margin-bottom: 40px;
+}
+
+.header-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+  opacity: 0.7;
+}
+
+h1 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: #d4a843;
+  letter-spacing: 6px;
+  text-shadow: 0 0 30px rgba(212, 168, 67, 0.2);
+  margin-bottom: 12px;
+}
+
+.header-subtitle {
+  font-size: 0.95rem;
+  color: #8a7e6a;
+  letter-spacing: 2px;
+}
+
+/* ===== NAVIGATION BAR ===== */
+.nav-bar {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 16px 0;
+  margin-bottom: 8px;
+}
+
+.nav-link {
+  color: #8a7e6a;
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #d4a843;
+  transition: width 0.3s;
+}
+
+.nav-link:hover {
+  color: #d4a843;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: #d4a843;
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* ===== START SCREEN ===== */
+.screen {
+  display: none;
+  animation: fadeIn 0.6s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.start-screen {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.start-screen .sigil {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 32px;
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.start-screen .sigil svg {
+  width: 80px;
+  height: 80px;
+}
+
+.start-description {
+  max-width: 620px;
+  margin: 0 auto 36px;
+  font-size: 0.95rem;
+  color: #b0a48e;
+  line-height: 2;
+}
+
+.start-description strong {
+  color: #d4a843;
+}
+
+.start-description .highlight-crimson {
+  color: #c41e3a;
+}
+
+.test-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 2rem;
+  color: #d4a843;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #8a7e6a;
+  letter-spacing: 1px;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-block;
+  padding: 14px 48px;
+  border: 1px solid #d4a843;
+  background: transparent;
+  color: #d4a843;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.4s;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: rgba(212, 168, 67, 0.1);
+  box-shadow: 0 0 30px rgba(212, 168, 67, 0.15);
+}
+
+.btn-crimson {
+  border-color: #c41e3a;
+  color: #c41e3a;
+}
+
+.btn-crimson:hover {
+  background: rgba(196, 30, 58, 0.1);
+  box-shadow: 0 0 30px rgba(196, 30, 58, 0.15);
+}
+
+.btn-small {
+  padding: 10px 28px;
+  font-size: 0.85rem;
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-muted {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: rgba(212, 168, 67, 0.2);
+  color: rgba(212, 168, 67, 0.4);
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-container {
+  margin-bottom: 36px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  font-size: 0.8rem;
+  color: #8a7e6a;
+  letter-spacing: 1px;
+}
+
+.progress-percent {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1rem;
+  color: #d4a843;
+}
+
+.progress-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(212, 168, 67, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c41e3a, #d4a843);
+  transition: width 0.5s ease;
+  width: 0%;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -1px;
+  width: 6px;
+  height: 5px;
+  background: #d4a843;
+  box-shadow: 0 0 8px rgba(212, 168, 67, 0.6);
+}
+
+/* =====QUESTION AREA ===== */
+.question-area {
+  min-height: 400px;
+}
+
+.question-card {
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid rgba(212, 168, 67, 0.12);
+  padding: 40px 36px;
+  animation: slideIn 0.45s ease;
+}
+
+.question-number {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1rem;
+  color: #c41e3a;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+.question-text {
+  font-size: 1.2rem;
+  color: #d4c5a9;
+  margin-bottom: 32px;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  border: 1px solid rgba(212, 168, 67, 0.1);
+  background: rgba(212, 168, 67, 0.02);
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.option:hover {
+  border-color: rgba(212, 168, 67, 0.3);
+  background: rgba(212, 168, 67, 0.05);
+}
+
+.option.selected {
+  border-color: #d4a843;
+  background: rgba(212, 168, 67, 0.08);
+}
+
+.option.selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #c41e3a, #d4a843);
+}
+
+.option input[type="radio"] {
+  display: none;
+}
+
+.option-marker {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  transition: all 0.3s;
+}
+
+.option.selected .option-marker {
+  border-color: #d4a843;
+  background: #d4a843;
+}
+
+.option-marker::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: #0a0a0a;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.option.selected .option-marker::after {
+  opacity: 1;
+}
+
+.option-text {
+  font-size: 0.92rem;
+  color: #b0a48e;
+  transition: color 0.3s;
+}
+
+.option.selected .option-text {
+  color: #d4c5a9;
+}
+
+/* ===== NAVIGATION BUTTONS ===== */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+  gap: 16px;
+}
+
+.nav-buttons .btn {
+  min-width: 120px;
+}
+
+.nav-buttons .btn:first-child {
+  margin-right: auto;
+}
+
+/* ===== RESULT SCREEN ===== */
+.result-screen {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.result-header {
+  margin-bottom: 40px;
+}
+
+.result-level {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 2.8rem;
+  color: #d4a843;
+  display: block;
+  margin-bottom: 8px;
+  letter-spacing: 4px;
+  text-shadow: 0 0 40px rgba(212, 168, 67, 0.15);
+}
+
+.result-score {
+  display: inline-block;
+  padding: 12px 40px;
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  font-size: 1.1rem;
+  color: #8a7e6a;
+  letter-spacing: 2px;
+  margin-top: 12px;
+}
+
+.result-score span {
+  color: #d4a843;
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.5rem;
+}
+
+/* ===== RESULT CARD ===== */
+.result-card {
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid rgba(212, 168, 67, 0.12);
+  padding: 40px 36px;
+  text-align: left;
+  margin-bottom: 36px;
+  animation: fadeIn 0.8s ease;
+}
+
+.result-card h3 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.4rem;
+  color: #d4a843;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+
+.result-card p {
+  font-size: 0.92rem;
+  color: #b0a48e;
+  line-height: 2;
+  margin-bottom: 12px;
+}
+
+.result-card .trait-list {
+  margin: 16px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.result-card .trait-list li {
+  padding: 8px 0 8px 24px;
+  position: relative;
+  font-size: 0.9rem;
+  color: #b0a48e;
+  line-height: 1.7;
+}
+
+.result-card .trait-list li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  color: #c41e3a;
+  font-size: 0.6rem;
+  top: 10px;
+}
+
+/* ===== RESULT BREAKDOWN ===== */
+.breakdown-section {
+  margin-bottom: 36px;
+  text-align: left;
+}
+
+.breakdown-section h3 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.2rem;
+  color: #d4a843;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.breakdown-item {
+  text-align: center;
+  padding: 16px 10px;
+  border: 1px solid rgba(212, 168, 67, 0.08);
+  background: rgba(212, 168, 67, 0.02);
+}
+
+.breakdown-label {
+  font-size: 0.75rem;
+  color: #8a7e6a;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.breakdown-value {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.3rem;
+  color: #d4a843;
+  display: block;
+}
+
+.breakdown-max {
+  font-size: 0.7rem;
+  color: #5a5040;
+}
+
+/* ===== RESULT ACTIONS ===== */
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+
+/* ===== LEVEL BADGE ANIMATION ===== */
+.level-badge {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 24px;
+  border: 2px solid #d4a843;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: badgeReveal 1s ease;
+}
+
+.level-badge svg {
+  width: 80px;
+  height: 80px;
+}
+
+.level-badge::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 168, 67, 0.15);
+  animation: rotate 20s linear infinite;
+}
+
+.level-badge::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px dashed rgba(212, 168, 67, 0.08);
+  animation: rotate 30s linear infinite reverse;
+}
+
+@keyframes badgeReveal {
+  from { transform: scale(0) rotate(-180deg); opacity: 0; }
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: rgba(10, 10, 10, 0.95);
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  padding: 14px 32px;
+  color: #d4c5a9;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: all 0.5s;
+  z-index: 100;
+  white-space: nowrap;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .container { padding: 20px 16px 60px; }
+  .header { padding: 40px 16px 30px; }
+  .question-card { padding: 28px 20px; }
+  .result-card { padding: 28px 20px; }
+  .nav-buttons { flex-wrap: wrap; justify-content: center; }
+  .nav-buttons .btn:first-child { margin-right: 0; }
+  .result-actions { flex-direction: column; align-items: center; }
+  .nav-bar { gap: 20px; flex-wrap: wrap; }
+  .breakdown-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ===== QUOTE ===== */
+.quote-block {
+  border-left: 2px solid rgba(212, 168, 67, 0.2);
+  padding: 16px 24px;
+  margin: 24px 0;
+  font-size: 0.88rem;
+  color: #8a7e6a;
+  font-style: italic;
+  line-height: 1.9;
+}
+
+.quote-block cite {
+  display: block;
+  margin-top: 8px;
+  color: #5a5040;
+  font-size: 0.8rem;
+  font-style: normal;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 40px 0;
+  border-top: 1px solid rgba(212, 168, 67, 0.08);
+  margin-top: 40px;
+}
+
+.footer p {
+  font-size: 0.78rem;
+  color: #5a5040;
+  letter-spacing: 1px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: rgba(212, 168, 67, 0.2); }
+::-webkit-scrollbar-thumb:hover { background: rgba(212, 168, 67, 0.3); }
+
+/* Selection */
+::selection { background: rgba(212, 168, 67, 0.3); color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="occult-bg"></div>
+<div class="starfield" id="starfield"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Main Container -->
+<div class="container">
+
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <a href="index.html" class="nav-link">← 返回主书页</a>
+    <a href="#" class="nav-link active">心理测试</a>
+    <a href="sigil-game.html" class="nav-link">印记游戏</a>
+    <a href="liuren-simulator.html" class="nav-link">六壬模拟</a>
+  </nav>
+
+  <!-- Header -->
+  <header class="header">
+    <span class="header-icon"></span>
+    <h1>左路魔法心理测试</h1>
+    <p class="header-subtitle">你是否适合左路魔法之路</p>
+  </header>
+
+  <!-- ===== START SCREEN ===== -->
+  <div class="screen active" id="screen-start">
+    <div class="start-screen">
+      <div class="sigil">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" stroke="#d4a843" stroke-width="0.5" opacity="0.3"/>
+          <path d="M50 15 L55 40 L80 45 L60 60 L68 85 L50 70 L32 85 L40 60 L20 45 L45 40 Z" fill="none" stroke="#d4a843" stroke-width="1.5" opacity="0.7"/>
+          <circle cx="50" cy="50" r="3" fill="#c41e3a"/>
+          <path d="M38 38 Q50 30 62 38 Q70 50 62 62 Q50 70 38 62 Q30 50 38 38" fill="none" stroke="#c41e3a" stroke-width="0.8" opacity="0.4"/>
+        </svg>
+      </div>
+
+      <p class="start-description">
+        <strong>左路魔法</strong>（Left-Hand Path）并非适合所有人。<br>
+        它适合一种特殊的思想者——一个逃避舒适顺从的外来者，<br>
+        接受自己的本质作为其存在的唯一理由。<br><br>
+        这份测试将评估你在 <strong class="highlight-crimson">个人主义</strong>、<strong class="highlight-crimson">反权威倾向</strong>、<strong class="highlight-crimson">自我依赖</strong>、<br>
+        <strong class="highlight-crimson">对黑暗与越界的接纳度</strong> 以及 <strong class="highlight-crimson">自我神化渴望</strong> 等维度的倾向。<br><br>
+        请诚实地回答每一道题——<br>
+        这里没有对错之分，只有真实与否。
+      </p>
+
+      <div class="test-stats">
+        <div class="stat-item">
+          <span class="stat-number" id="questionCountDisplay">15</span>
+          <span class="stat-label">道题目</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">~8</span>
+          <span class="stat-label">分钟</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">5</span>
+          <span class="stat-label">个等级</span>
+        </div>
+      </div>
+
+      <button class="btn" onclick="startTest()">开始测试</button>
+    </div>
+  </div>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <div class="screen" id="screen-quiz">
+    <div class="progress-container">
+      <div class="progress-header">
+        <span class="progress-label" id="progressLabel">第 1 / 15 题</span>
+        <span class="progress-percent" id="progressPercent">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <div class="question-area" id="questionArea">
+      <!-- Dynamically populated -->
+    </div>
+  </div>
+
+  <!-- ===== RESULT SCREEN ===== -->
+  <div class="screen" id="screen-result">
+    <div class="result-screen" id="resultContent">
+      <!-- Dynamically populated -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>▼ 阿佩普龙之魔法 · 左路路径心理评估</p>
+  </footer>
+
+</div>
+
+<script>
+// ===== QUESTIONS DATA =====
+const questions = [
+  {
+    id: 1,
+    text: '面对一个权威指令，你的第一反应是什么？',
+    options: [
+      { text: '毫不犹豫地遵守', score: 0 },
+      { text: '先质疑合理性，再决定是否遵守', score: 1 },
+      { text: '只遵守我认为合理的部分', score: 2 },
+      { text: '倾向于质疑和反抗', score: 3 }
+    ]
+  },
+  {
+    id: 2,
+    text: '独自一人长时间自省或冥想，你感到？',
+    options: [
+      { text: '不安和孤独，渴望有人陪伴', score: 0 },
+      { text: '可以接受，但不会太久', score: 1 },
+      { text: '享受独处，这是充电的方式', score: 2 },
+      { text: '这是我最渴望的精神状态', score: 3 }
+    ]
+  },
+  {
+    id: 3,
+    text: '关于人生的终极目标，你更倾向于？',
+    options: [
+      { text: '融入更大的整体，与之合一', score: 0 },
+      { text: '在集体中找到自己的位置', score: 1 },
+      { text: '实现个人成长，同时保持联结', score: 2 },
+      { text: '成为完全独立自主的神性存在', score: 3 }
+    ]
+  },
+  {
+    id: 4,
+    text: '面对被社会禁忌或被禁止的知识，你的态度是？',
+    options: [
+      { text: '避而远之，存在即有其道理', score: 0 },
+      { text: '谨慎接触，需确认无害', score: 1 },
+      { text: '感到好奇，想要一探究竟', score: 2 },
+      { text: '被强烈吸引，越是禁忌越有价值', score: 3 }
+    ]
+  },
+  {
+    id: 5,
+    text: '你对死亡的看法是？',
+    options: [
+      { text: '恐惧和回避，不愿讨论', score: 0 },
+      { text: '自然的终点，接受但不多想', score: 1 },
+      { text: '一种深刻的转变和必经之路', score: 2 },
+      { text: '通往更高存在的必要门户，甚至令人向往', score: 3 }
+    ]
+  },
+  {
+    id: 6,
+    text: '社会规则和传统道德对你而言意味着？',
+    options: [
+      { text: '维系文明的必要准则', score: 0 },
+      { text: '值得尊重的框架，但可灵活调整', score: 1 },
+      { text: '多数是过时的约束性枷锁', score: 2 },
+      { text: '个人成长的障碍，应被主动超越', score: 3 }
+    ]
+  },
+  {
+    id: 7,
+    text: '为了追求个人力量与成长，你愿意付出何种代价？',
+    options: [
+      { text: '不愿意付出任何代价', score: 0 },
+      { text: '可以付出少量舒适和安逸', score: 1 },
+      { text: '愿意付出相当程度的牺牲', score: 2 },
+      { text: '不惜一切代价，包括承受孤立与恐惧', score: 3 }
+    ]
+  },
+  {
+    id: 8,
+    text: '你对黑暗美学、恐怖或哥特式题材的感受是？',
+    options: [
+      { text: '厌恶和排斥', score: 0 },
+      { text: '不太喜欢，感到不适', score: 1 },
+      { text: '有一定兴趣和欣赏', score: 2 },
+      { text: '深深着迷，从中感受到美与力量', score: 3 }
+    ]
+  },
+  {
+    id: 9,
+    text: '你的自律和意志力水平如何？',
+    options: [
+      { text: '较差，难以坚持长期计划', score: 0 },
+      { text: '一般，偶尔能坚持重要事项', score: 1 },
+      { text: '较好，在关键事务上能持之以恒', score: 2 },
+      { text: '极强，自律是我的核心品质', score: 3 }
+    ]
+  },
+  {
+    id: 10,
+    text: '在集体中，你通常扮演什么角色？',
+    options: [
+      { text: '跟随者——服从多数决议', score: 0 },
+      { text: '协作成员——平衡各方意见', score: 1 },
+      { text: '独立贡献者——按自己方式做事', score: 2 },
+      { text: '异类或引领者——走自己的路，不在乎认同', score: 3 }
+    ]
+  },
+  {
+    id: 11,
+    text: '当你的深层欲望与社会规范发生冲突时，你通常？',
+    options: [
+      { text: '压抑欲望，遵守规范', score: 0 },
+      { text: '尽量寻求妥协方案', score: 1 },
+      { text: '在暗中追随欲望', score: 2 },
+      { text: '公开追随欲望，不在乎社会评判', score: 3 }
+    ]
+  },
+  {
+    id: 12,
+    text: '你对"自我神化"——即通过修炼使自我升华为神性存在的概念——的看法是？',
+    options: [
+      { text: '傲慢和亵渎的想法', score: 0 },
+      { text: '不切实际的幻想', score: 1 },
+      { text: '一个有趣的哲学思辨概念', score: 2 },
+      { text: '我人生的终极目标和意义所在', score: 3 }
+    ]
+  },
+  {
+    id: 13,
+    text: '面对生活中的重大变革或身份转变，你倾向于？',
+    options: [
+      { text: '极力回避，维持现状', score: 0 },
+      { text: '谨慎接受，缓慢适应', score: 1 },
+      { text: '愿意主动尝试新方向', score: 2 },
+      { text: '主动寻求破坏与重建的契机', score: 3 }
+    ]
+  },
+  {
+    id: 14,
+    text: '关于善恶二元论，你的立场是？',
+    options: [
+      { text: '善就是善，恶就是恶，界限分明', score: 0 },
+      { text: '大部分情况可以分清', score: 1 },
+      { text: '道德是相对的，取决于视角', score: 2 },
+      { text: '善恶是人为构造——我超越这种划分', score: 3 }
+    ]
+  },
+  {
+    id: 15,
+    text: '当你独自面对重大困境时，你倾向于？',
+    options: [
+      { text: '立即寻求他人的帮助和支持', score: 0 },
+      { text: '先自行尝试，无效再求助', score: 1 },
+      { text: '主要依靠自己解决', score: 2 },
+      { text: '完全独立面对，视求助为放弃自主', score: 3 }
+    ]
+  }
+];
+
+// ===== RESULT DATA =====
+const results = [
+  {
+    level: '不适合',
+    maxScore: 10,
+    title: '不适合左路魔法',
+    subtitle: '传统之道更适合你',
+    svgPath: 'M50 20 L55 35 L70 35 L58 45 L63 60 L50 50 L37 60 L42 45 L30 35 L45 35 Z',
+    description: '你的心理倾向与左路魔法的核心理念存在较大距离。你更倾向于遵守社会规范、依赖集体、寻求外在认同，并倾向于回避禁忌与黑暗主题。',
+    interpretation: '这完全没有任何问题。左路魔法并非适合所有人，如《阿波菲斯——龙之魔法》中所言："对你们，我会说，走自己的路，舒适地享受生活。这里没有适合你们的东西。" 右手路径或传统精神道路或许更能满足你的灵魂需求。你的价值观和天性指向一种更温和、更融入的存在方式，这种方式同样有它的美和意义。',
+    traits: [
+      '倾向于遵守规则和传统',
+      '在集体中感到安全与舒适',
+      '对禁忌主题持回避态度',
+      '对个人神化没有兴趣或持否定态度',
+      '重视社会和谐胜于个人突破'
+    ],
+    advice: '你不需要勉强自己走上不适合的道路。探索传统宗教、主流灵修或右手路径的实践，可能会带给你更真实的满足感。关键是要对自己诚实。'
+  },
+  {
+    level: '探索者',
+    maxScore: 20,
+    title: '左路探索者',
+    subtitle: '心怀好奇的观察者',
+    svgPath: 'M50 18 L53 38 L73 42 L58 55 L63 75 L50 62 L37 75 L42 55 L27 42 L47 38 Z',
+    description: '你拥有一定的独立思考和反传统倾向，但尚未完全形成左路魔法的内在驱动力。你对禁忌和黑暗主题抱持好奇，但在舒适区与探索欲之间摇摆。',
+    interpretation: '你处于一个有趣的十字路口。你身上有一些左路路径的潜在素质——独立思考、对规范的不完全认同、对未知的某种好奇——但这些特质尚未完全整合为你核心的生存驱动力。你可能被左路魔法的美学或哲学所吸引，但你的内在倾向还没有完全转向那条"令人恐惧、疏离且反律法主义"的道路。',
+    traits: [
+      '有一定独立思考能力',
+      '对传统规范持温和质疑',
+      '对黑暗主题抱持好奇心',
+      '在个人与集体间寻求平衡',
+      '尚未形成强烈的自我神化渴望'
+    ],
+    advice: '继续探索和学习。阅读《阿波菲斯——龙之魔法》等左手路径经典著作，进行自省和冥想。给自己时间，不要强迫自己接受不适合的道路。通过更多的自我探索来确认这是否是你的真实方向。'
+  },
+  {
+    level: '学徒',
+    maxScore: 30,
+    title: '左路学徒',
+    subtitle: '走在边缘的追寻者',
+    svgPath: 'M50 15 L54 38 L78 42 L60 57 L66 80 L50 65 L34 80 L40 57 L22 42 L46 38 Z',
+    description: '你具备相当程度的左路潜质。你强烈倾向独立思考、质疑权威、拥抱黑暗面，并对自我超越有着真实的内在驱动力。',
+    interpretation: '你的心理轮廓已经与左路魔法的主要特质产生了清晰的共鸣。你拥有挑战权威的勇气、面对黑暗面的心理承受力，以及对个人成长和自我超越的真实渴望。这些是左路路径入门的合格基础。你并非随波逐流者，而是愿意为了真实的自我成长面对不舒适的事物。不过，你的意志力和自我纪律仍在发展的过程中。',
+    traits: [
+      '清晰的反权威倾向和独立思考',
+      '能够面对并接纳黑暗主题',
+      '对个人成长和自我超越有真实渴望',
+      '具备一定程度的自律能力',
+      '在社会规范与个人意志之间更倾向于后者'
+    ],
+    advice: '这是一个极好的起点。深入研究《阿波菲斯——龙之魔法》中的实践，从第一个头颅"地之龙"开始系统训练。培养钢铁般的自律习惯——左路魔法需要强大的意志力作为基础。考虑寻找导师或加入志同道合的团体。'
+  },
+  {
+    level: '入门者',
+    maxScore: 40,
+    title: '左路入门者',
+    subtitle: '踏上龙之道路',
+    svgPath: 'M50 12 L55 36 L80 40 L62 56 L68 82 L50 66 L32 82 L38 56 L20 40 L45 36 Z',
+    description: '你的心理特质与左路魔法高度契合。你天生就是一个反律法主义者，拥有强大的自我意志和面对黑暗的勇气，自我神化是你内在的真实追求。',
+    interpretation: '你正在觉醒。你的心理轮廓清楚地表明你是左路魔法的天然候选者。你拥有那"逃避舒适顺从的外来者"的心灵结构——不接受预设的真理，不畏惧禁忌的领域，愿意为了自我转化付出艰苦的努力。你身上有"巨兽"的种子：强大的意志、对个人力量的渴望、以及对超越凡俗状态的强烈向往。龙之魔法中的许多教义和训练方法对你来说将不是陌生的理论，而是你早已直觉感知到的真理的形式化表达。',
+    traits: [
+      '强烈的个人主义和自主意识',
+      '愿意面对和整合自己的阴影',
+      '对自我神化有内在的认同和渴望',
+      '强大的自律和意志力基础',
+      '能够从容面对社会孤立和非议'
+    ],
+    advice: '认真投入龙之魔法的系统训练。从虚空冥想和欲望魔法的基础开始。建立日常仪式和自我纪律。龙之魔法的七个头颅的工作将带给你深远的转化。正如书中所言："将自己从宇宙子宫中撕裂出来是一项意志和英雄主义的实践。" 你已准备好迎接这项实践。'
+  },
+  {
+    level: '行家',
+    maxScore: 45,
+    title: '左路行家',
+    subtitle: 'Xeper·我已生成',
+    svgPath: 'M50 10 L56 34 L82 38 L64 55 L70 84 L50 66 L30 84 L36 55 L18 38 L44 34 Z',
+    description: '你的心理特质与左路魔法完全吻合。你是一个天生的左路行者——独立、坚毅、无畏，将自我神化视为存在的核心意义。',
+    interpretation: 'Xeper——"我已生成"。这句话在你心中引起的不只是共鸣，而是一种存在的确认。你是被龙之潮流选中的灵魂之一。你身上集合了左路魔法所需要的全部核心特质：不可动摇的独立性、超越善恶的视野、面对绝对黑暗的勇气、以及对自我神化的不可逆转的渴望。你不是在寻找一条道路，而是在确认你早已行走其上的路径。对你而言，龙之魔法不仅仅是一个有趣的知识体系，而是你内在本质的语言和表达方式。你是少数——那"少数成功者"中的潜在一员。',
+    traits: [
+      '完全独立的个体，不依赖外部认同',
+      '超越常规道德的自主伦理体系',
+      '对死亡和转变有着深刻的理解和接纳',
+      '钢铁般的意志力',
+      '将自我神化作为存在的核心驱动力',
+      '从容面对孤独、黑暗和禁忌'
+    ],
+    advice: '直接深入龙之魔法的核心实践。虚空魔法、欲望魔法、阿波菲斯七首工作——这些是你的天然工具。不要浪费时间在基础徘徊，而是直接进入深度工作。仔细研读《阿波菲斯——龙之魔法》并严格执行其课程。"必须按照给出的顺序来接近这些头颅的工作，以确保一致和可靠的结果。" 你的潜力巨大，但必须要有结构的奉献。记录你的魔法日记，持之以恒。'
+  }
+];
+
+// ===== STATE =====
+let state = {
+  currentQuestion: 0,
+  answers: {},
+  started: false,
+  completed: false
+};
+
+// ===== INIT =====
+function init() {
+  createStars();
+  loadState();
+  if (state.started && !state.completed) {
+    showScreen('screen-quiz');
+    renderQuestion();
+  } else if (state.completed) {
+    showScreen('screen-result');
+    renderResult();
+  } else {
+    showScreen('screen-start');
+  }
+  document.getElementById('questionCountDisplay').textContent = questions.length;
+}
+
+// ===== STARFIELD =====
+function createStars() {
+  const container = document.getElementById('starfield');
+  for (let i = 0; i < 80; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--duration', (3 + Math.random() * 4) + 's');
+    star.style.animationDelay = (Math.random() * 4) + 's';
+    star.style.width = (1 + Math.random() * 2) + 'px';
+    star.style.height = star.style.width;
+    container.appendChild(star);
+  }
+}
+
+// ===== SCREEN MANAGEMENT =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ===== TEST CONTROL =====
+function startTest() {
+  state.started = true;
+  state.currentQuestion = 0;
+  state.answers = {};
+  state.completed = false;
+  saveState();
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+// ===== RENDER QUESTION =====
+function renderQuestion() {
+  const q = questions[state.currentQuestion];
+  const total = questions.length;
+  const num = state.currentQuestion + 1;
+
+  document.getElementById('progressLabel').textContent = `第 ${num} / ${total} 题`;
+  const pct = Math.round((num / total) * 100);
+  document.getElementById('progressPercent').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  const area = document.getElementById('questionArea');
+
+  let html = '<div class="question-card">';
+  html += `<div class="question-number">问题 ${num} / ${total}</div>`;
+  html += `<div class="question-text">${q.text}</div>`;
+  html += '<div class="options">';
+
+  q.options.forEach((opt, idx) => {
+    const selected = state.answers[q.id] === idx;
+    html += `<label class="option${selected ? ' selected' : ''}" data-qid="${q.id}" data-oidx="${idx}">`;
+    html += `<input type="radio" name="q${q.id}" value="${idx}" ${selected ? 'checked' : ''}>`;
+    html += `<span class="option-marker"></span>`;
+    html += `<span class="option-text">${opt.text}</span>`;
+    html += '</label>';
+  });
+
+  html += '</div>';
+
+  html += '<div class="nav-buttons">';
+  if (num > 1) {
+    html += '<button class="btn btn-small" onclick="prevQuestion()">← 上一题</button>';
+  } else {
+    html += '<button class="btn btn-small" onclick="prevQuestion()" disabled>← 上一题</button>';
+  }
+  if (num < total) {
+    const canNext = state.answers[q.id] !== undefined;
+    html += `<button class="btn btn-small ${canNext ? '' : 'btn-muted'}" onclick="nextQuestion()" ${canNext ? '' : 'disabled'}>下一题 →</button>`;
+  } else {
+    const canSubmit = state.answers[q.id] !== undefined;
+    html += `<button class="btn btn-small ${canSubmit ? '' : 'btn-muted'}" onclick="submitTest()" ${canSubmit ? '' : 'disabled'}>查看结果</button>`;
+  }
+  html += '</div>';
+  html += '</div>';
+
+  area.innerHTML = html;
+
+  // Add event listeners to options
+  area.querySelectorAll('.option').forEach(el => {
+    el.addEventListener('click', function() {
+      const qid = parseInt(this.dataset.qid);
+      const oidx = parseInt(this.dataset.oidx);
+      selectOption(qid, oidx);
+    });
+  });
+}
+
+// ===== SELECT OPTION =====
+function selectOption(qid, oidx) {
+  state.answers[qid] = oidx;
+  saveState();
+
+  // Update UI
+  const card = document.querySelector('.question-card');
+  card.querySelectorAll('.option').forEach(el => {
+    const eqid = parseInt(el.dataset.qid);
+    const eoidx = parseInt(el.dataset.oidx);
+    el.classList.toggle('selected', eqid === qid && eoidx === oidx);
+    if (eqid === qid && eoidx === oidx) {
+      el.querySelector('input[type="radio"]').checked = true;
+    }
+  });
+
+  // Update nav buttons
+  const total = questions.length;
+  const num = state.currentQuestion + 1;
+  const navDiv = card.querySelector('.nav-buttons');
+  if (num < total || num === total) {
+    const nextBtn = navDiv.querySelector('button:last-child');
+    if (num < total) {
+      nextBtn.textContent = '下一题 →';
+      nextBtn.onclick = nextQuestion;
+      nextBtn.className = 'btn btn-small';
+      nextBtn.disabled = false;
+    } else {
+      nextBtn.textContent = '查看结果';
+      nextBtn.onclick = submitTest;
+      nextBtn.className = 'btn btn-small';
+      nextBtn.disabled = false;
+    }
+  }
+}
+
+// ===== NAVIGATION =====
+function nextQuestion() {
+  if (state.currentQuestion < questions.length - 1) {
+    state.currentQuestion++;
+    renderQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (state.currentQuestion > 0) {
+    state.currentQuestion--;
+    renderQuestion();
+  }
+}
+
+// ===== SUBMIT =====
+function submitTest() {
+  const total = questions.length;
+  const answered = Object.keys(state.answers).length;
+  if (answered < total) {
+    showToast(`还有 ${total - answered} 道题未回答`);
+    return;
+  }
+
+  state.completed = true;
+  saveState();
+  showScreen('screen-result');
+  renderResult();
+}
+
+// ===== CALCULATE RESULT =====
+function calculateResult() {
+  let totalScore = 0;
+  const maxPossible = questions.length * 3;
+
+  questions.forEach(q => {
+    const ansIdx = state.answers[q.id];
+    if (ansIdx !== undefined) {
+      totalScore += q.options[ansIdx].score;
+    }
+  });
+
+  let resultIndex = results.length - 1;
+  for (let i = 0; i < results.length; i++) {
+    if (totalScore <= results[i].maxScore) {
+      resultIndex = i;
+      break;
+    }
+  }
+
+  // Category breakdown
+  const categories = [
+    { label: '反权威', questions: [0, 5] },
+    { label: '独处自省', questions: [1, 8] },
+    { label: '个人力量', questions: [2, 6, 11] },
+    { label: '死亡转变', questions: [4, 12] },
+    { label: '禁忌接纳', questions: [3, 7] },
+    { label: '个人主义', questions: [9, 13, 14] }
+  ];
+
+  const breakdown = categories.map(cat => {
+    let sum = 0;
+    let max = 0;
+    cat.questions.forEach(qIdx => {
+      const q = questions[qIdx];
+      const ansIdx = state.answers[q.id];
+      if (ansIdx !== undefined) {
+        sum += q.options[ansIdx].score;
+      }
+      max += 3;
+    });
+    return { label: cat.label, value: sum, max: max };
+  });
+
+  return {
+    score: totalScore,
+    maxScore: maxPossible,
+    result: results[resultIndex],
+    index: resultIndex,
+    breakdown: breakdown
+  };
+}
+
+// ===== RENDER RESULT =====
+function renderResult() {
+  const data = calculateResult();
+  const r = data.result;
+
+  let html = '';
+
+  // Badge
+  html += '<div class="level-badge">';
+  html += `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">`;
+  html += `<circle cx="50" cy="50" r="45" stroke="#d4a843" stroke-width="0.5" opacity="0.3"/>`;
+  html += `<path d="${r.svgPath}" fill="none" stroke="#d4a843" stroke-width="1.5" opacity="0.8"/>`;
+  html += `<circle cx="50" cy="50" r="3" fill="#c41e3a"/>`;
+  html += '</svg>';
+  html += '</div>';
+
+  // Level
+  html += '<div class="result-header">';
+  html += `<span class="result-level">${r.level}</span>`;
+  html += `<span class="result-score">得分 <span>${data.score}</span> / ${data.maxScore}</span>`;
+  html += '</div>';
+
+  // Result card
+  html += '<div class="result-card">';
+  html += `<h3>${r.title} · ${r.subtitle}</h3>`;
+  html += `<p>${r.description}</p>`;
+  html += `<p>${r.interpretation}</p>`;
+
+  html += '<ul class="trait-list">';
+  r.traits.forEach(t => {
+    html += `<li>${t}</li>`;
+  });
+  html += '</ul>';
+
+  html += `<p><strong style="color:#d4a843;">建议：</strong>${r.advice}</p>`;
+  html += '</div>';
+
+  // Breakdown
+  html += '<div class="breakdown-section">';
+  html += '<h3>特质维度分析</h3>';
+  html += '<div class="breakdown-grid">';
+  data.breakdown.forEach(b => {
+    const pct = Math.round((b.value / b.max) * 100);
+    html += '<div class="breakdown-item">';
+    html += `<span class="breakdown-label">${b.label}</span>`;
+    html += `<span class="breakdown-value">${b.value}</span>`;
+    html += `<span class="breakdown-max">/ ${b.max} (${pct}%)</span>`;
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '</div>';
+
+  // Quote
+  const quotes = [
+    '"将自己从宇宙子宫中撕裂出来是一项意志和英雄主义的实践，这些品质只有通过激烈的斗争才能获得。" —— 《阿波菲斯——龙之魔法》',
+    '"Xeper：我已生成。" —— 塞特之格言',
+    '"爱是律法，爱受意志引导。" —— 阿莱斯特·克劳利',
+    '"龙之魔法毫无疑问是左手路径的一个学派。它教导个体心灵的永生化和神化。" —— 《阿波菲斯——龙之魔法》',
+    '"每个男人和每个女人都是一颗星。" —— 阿莱斯特·克劳利'
+  ];
+  const quote = quotes[data.index % quotes.length];
+  html += '<div class="quote-block">';
+  html += `<p>${quote}</p>`;
+  html += '</div>';
+
+  // Actions
+  html += '<div class="result-actions">';
+  html += '<button class="btn btn-small" onclick="retakeTest()">重新测试</button>';
+  html += '<button class="btn btn-small btn-crimson" onclick="shareResult()">分享结果</button>';
+  html += '<button class="btn btn-small" onclick="scrollToTop()">返回顶部</button>';
+  html += '</div>';
+
+  document.getElementById('resultContent').innerHTML = html;
+}
+
+// ===== ACTIONS =====
+function retakeTest() {
+  state.started = false;
+  state.currentQuestion = 0;
+  state.answers = {};
+  state.completed = false;
+  localStorage.removeItem('lhp_test_state');
+  showScreen('screen-start');
+}
+
+function shareResult() {
+  const data = calculateResult();
+  const r = data.result;
+
+  const text = [
+    '═══ 左路魔法心理测试 ═══',
+    '',
+    `等级：${r.level}（${r.title}）`,
+    `得分：${data.score} / ${data.maxScore}`,
+    '',
+    `"${r.subtitle}"`,
+    '',
+    '在 apophis-dragon-magic/lhp-test.html 测试'
+  ].join('\n');
+
+  // Try Web Share API
+  if (navigator.share) {
+    navigator.share({ text: text }).catch(() => {});
+  } else {
+    // Fallback: copy to clipboard
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('结果已复制到剪贴板');
+    }).catch(() => {
+      // Final fallback
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      showToast('结果已复制到剪贴板');
+    });
+  }
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// ===== KEYBOARD SUPPORT =====
+document.addEventListener('keydown', function(e) {
+  const quizScreen = document.getElementById('screen-quiz');
+  if (!quizScreen.classList.contains('active')) return;
+
+  if (e.key === 'ArrowRight' || e.key === 'Enter') {
+    const total = questions.length;
+    const num = state.currentQuestion + 1;
+    if (num < total) {
+      nextQuestion();
+    } else {
+      submitTest();
+    }
+  } else if (e.key === 'ArrowLeft') {
+    prevQuestion();
+  } else if (e.key >= '1' && e.key <= '4') {
+    const idx = parseInt(e.key) - 1;
+    const q = questions[state.currentQuestion];
+    if (idx < q.options.length) {
+      selectOption(q.id, idx);
+    }
+  }
+});
+
+// ===== LOCAL STORAGE =====
+function saveState() {
+  try {
+    localStorage.setItem('lhp_test_state', JSON.stringify(state));
+  } catch (e) {}
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('lhp_test_state');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      state.currentQuestion = parsed.currentQuestion || 0;
+      state.answers = parsed.answers || {};
+      state.started = parsed.started || false;
+      state.completed = parsed.completed || false;
+    }
+  } catch (e) {}
+}
+
+// ===== INIT ON LOAD =====
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

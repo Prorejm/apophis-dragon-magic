@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>符印铸造 - 阿波菲斯·龙之魔法</title>
+<meta name="description" content="交互式符印铸造工具 —— 基于 Austin Spare 的欲望符印技法">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg2: #1a1a1a;
+  --bg3: #121212;
+  --ink: #e8e0d4;
+  --muted: #8a7e6e;
+  --accent: #c41e3a;
+  --accent2: #d4a843;
+  --rule: #2a2a2a;
+  --font: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --font-display: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
+  --gold-dim: rgba(212,168,67,0.15);
+  --crimson-dim: rgba(196,30,58,0.12);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 18px;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--ink);
+  line-height: 1.9;
+  overflow-x: hidden;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 400px 300px at 20% 10%, rgba(212,168,67,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 500px 400px at 80% 90%, rgba(196,30,58,0.03) 0%, transparent 60%);
+}
+
+/* ====== 导航栏 ====== */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  z-index: 999;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.nav-bar::-webkit-scrollbar { display: none; }
+
+.nav-brand {
+  color: var(--accent2);
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+}
+
+.back-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  color: var(--accent2);
+  background: rgba(212,168,67,0.1);
+}
+
+/* ====== 主容器 ====== */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 3rem;
+}
+
+/* ====== 标题 ====== */
+header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+header::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+  margin: 1rem auto 0;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  font-weight: 400;
+  color: var(--accent2);
+  text-shadow: 0 0 40px rgba(212,168,67,0.2);
+  letter-spacing: 0.15em;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+  letter-spacing: 0.08em;
+}
+
+/* ====== 说明文字 ====== */
+.instructions {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 1.6rem 2rem;
+  margin-bottom: 2rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.95;
+}
+
+.instructions h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--accent2);
+  margin-bottom: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+}
+
+.instructions strong {
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+.instructions .step {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.instructions ol {
+  padding-left: 1.4rem;
+  margin-top: 0.5rem;
+}
+
+.instructions ol li {
+  margin-bottom: 0.35rem;
+}
+
+/* ====== 输入区 ====== */
+.input-section {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.input-section label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.06em;
+}
+
+.input-row {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.input-row input {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.6rem 1rem;
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1rem;
+  min-width: 260px;
+  text-align: center;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-row input:focus {
+  outline: none;
+  border-color: var(--accent2);
+  box-shadow: 0 0 12px rgba(212,168,67,0.15);
+}
+
+.input-row input::placeholder {
+  text-transform: none;
+  color: #555;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.btn {
+  background: linear-gradient(135deg, var(--accent2), #b8922e);
+  color: var(--bg);
+  border: none;
+  border-radius: 4px;
+  padding: 0.6rem 1.8rem;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(212,168,67,0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-crimson {
+  background: linear-gradient(135deg, var(--accent), #a0182e);
+}
+
+.btn-crimson:hover {
+  box-shadow: 0 4px 20px rgba(196,30,58,0.3);
+}
+
+/* ====== 密钥显示 ====== */
+.key-display {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1rem 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.key-display p {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.key-display .key-value {
+  color: var(--accent2);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  font-size: 1.05rem;
+}
+
+.key-display .key-value.empty {
+  color: #555;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+/* ====== Canvas 区域 ====== */
+.canvas-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.canvas-container {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.canvas-container h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--accent2);
+  font-weight: 400;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.1em;
+}
+
+.canvas-container canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* ====== 充能区 ====== */
+.charge-section {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-top: 2px solid var(--accent2);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.charge-section h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--accent2);
+  font-weight: 400;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.12em;
+}
+
+#chargeCanvas {
+  display: block;
+  margin: 1rem auto 0;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+}
+
+.charge-status {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-top: 0.6rem;
+  min-height: 1.4rem;
+  transition: color 0.5s;
+}
+
+.charge-status.active {
+  color: var(--accent2);
+}
+
+.charge-status.charged {
+  color: var(--accent);
+}
+
+/* ====== 响应式 ====== */
+@media (max-width: 700px) {
+  .canvas-section {
+    grid-template-columns: 1fr;
+  }
+  h1 { font-size: 2.4rem; }
+  .container { padding: 4rem 1rem 2rem; }
+  .instructions, .input-section, .key-display, .canvas-container, .charge-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .input-row input {
+    min-width: 200px;
+  }
+}
+
+/* ====== 装饰性分割 ====== */
+.sigil-separator {
+  text-align: center;
+  color: var(--rule);
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  letter-spacing: 0.5em;
+  user-select: none;
+}
+</style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<nav class="nav-bar">
+  <a href="index.html" class="back-link">&#x2190; 返回主页面</a>
+  <span class="nav-brand">&#x25C6; 阿波菲斯 · 龙之魔法</span>
+</nav>
+
+<div class="container">
+
+  <!-- 标题 -->
+  <header>
+    <h1>符印铸造</h1>
+    <p class="subtitle">—— 基于 Austin Spare 的欲望符印技法</p>
+  </header>
+
+  <!-- 说明 -->
+  <section class="instructions">
+    <h2>&#x25B3; 符印原理</h2>
+    <p>
+      <strong>Austin Spare</strong> 的符印魔法认为，潜意识是连接个体意志与宇宙能量的桥梁。
+      通过将文字欲望转化为抽象的几何符号，可以绕过显意识的批判机制，
+      直接将意念烙印于潜意识深处，从而在现实中显化。
+    </p>
+    <p style="margin-top:0.5rem;"><strong>铸造步骤：</strong></p>
+    <ol>
+      <li><span class="step">确定愿望：</span>用一句简短、肯定的短句描述你的愿望（例如 <strong>"FAIR WEATHER"</strong>）。</li>
+      <li><span class="step">去除重复：</span>将所有字母转为大写，移除空格与标点，然后逐个去除重复字母（保留首次出现）。</li>
+      <li><span class="step">创造符印：</span>将剩余的唯一字母排列成圆形图案，或在 5x5 网格上绘制连线，形成抽象的几何符印。</li>
+      <li><span class="step">充能：</span>集中意念，通过视觉化的光芒脉冲为符印注入能量，将其烙印于潜意识。</li>
+      <li><span class="step">释放：</span>充能完成后，将符印抛之脑后——不再执念于结果，让宇宙自行运作。</li>
+    </ol>
+  </section>
+
+  <!-- 输入区 -->
+  <section class="input-section">
+    <label for="desireInput">&#x25CB; 输入你的愿望陈述（英文）</label>
+    <div class="input-row">
+      <input type="text" id="desireInput" placeholder="例如: FAIR WEATHER" maxlength="50" autocomplete="off">
+      <button class="btn" id="createBtn">铸造符印</button>
+    </div>
+  </section>
+
+  <!-- 密钥显示 -->
+  <section class="key-display" id="keyDisplay">
+    <p>原始陈述：<span class="key-value empty" id="originalText">等待输入……</span></p>
+    <p>去重字母（符印密钥）：<span class="key-value empty" id="keyLetters">—</span></p>
+  </section>
+
+  <!-- Canvas -->
+  <div class="sigil-separator">&#x25C6; &#x25C7; &#x25C6;</div>
+
+  <section class="canvas-section">
+    <div class="canvas-container">
+      <h3>&#x25CB; 圆形符印</h3>
+      <canvas id="circularCanvas" width="420" height="420"></canvas>
+    </div>
+    <div class="canvas-container">
+      <h3>&#x25A0; 网格符印 (5×5)</h3>
+      <canvas id="gridCanvas" width="420" height="420"></canvas>
+    </div>
+  </section>
+
+  <div class="sigil-separator">&#x25C6; &#x25C7; &#x25C6;</div>
+
+  <!-- 充能区 -->
+  <section class="charge-section">
+    <h3>&#x25B3; 符印充能</h3>
+    <p style="color:var(--muted);font-size:0.82rem;margin-bottom:0.6rem;">
+      集中意念于你的愿望，点击下方按钮为符印注入能量
+    </p>
+    <button class="btn btn-crimson" id="chargeBtn">开始充能</button>
+    <canvas id="chargeCanvas" width="420" height="200"></canvas>
+    <div class="charge-status" id="chargeStatus">点击按钮开始充能仪式</div>
+  </section>
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  /* ====== 常量与 DOM 引用 ====== */
+  const COLORS = {
+    bg:      '#0a0a0a',
+    ink:     '#e8e0d4',
+    muted:   '#8a7e6e',
+    accent:  '#c41e3a',
+    gold:    '#d4a843',
+    goldDim: 'rgba(212,168,67,0.2)',
+    goldGlow:'rgba(212,168,67,0.5)',
+    rule:    '#2a2a2a',
+  };
+
+  // 5x5 网格（A-Y，省略 Z）
+  const GRID_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXY';
+  const GRID_SIZE = 5;
+
+  const desireInput    = document.getElementById('desireInput');
+  const createBtn      = document.getElementById('createBtn');
+  const originalText   = document.getElementById('originalText');
+  const keyLetters     = document.getElementById('keyLetters');
+  const circularCanvas = document.getElementById('circularCanvas');
+  const gridCanvas     = document.getElementById('gridCanvas');
+  const chargeCanvas   = document.getElementById('chargeCanvas');
+  const chargeBtn      = document.getElementById('chargeBtn');
+  const chargeStatus   = document.getElementById('chargeStatus');
+  const keyDisplay     = document.getElementById('keyDisplay');
+
+  const ctxCirc = circularCanvas.getContext('2d');
+  const ctxGrid = gridCanvas.getContext('2d');
+  const ctxChg  = chargeCanvas.getContext('2d');
+
+  // 高 DPI 支持
+  function setupCanvas(canvas, ctx, w, h) {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width  = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.scale(dpr, dpr);
+  }
+
+  setupCanvas(circularCanvas, ctxCirc, 420, 420);
+  setupCanvas(gridCanvas, ctxGrid, 420, 420);
+  setupCanvas(chargeCanvas, ctxChg, 420, 200);
+
+  /* ====== 核心逻辑：去重 ====== */
+  function processDesire(text) {
+    const raw = text.toUpperCase().replace(/[^A-Z]/g, '');
+    let seen = new Set();
+    let result = '';
+    for (let ch of raw) {
+      if (!seen.has(ch)) {
+        seen.add(ch);
+        result += ch;
+      }
+    }
+    return { original: raw, key: result };
+  }
+
+  /* ====== 绘制圆形符印 ====== */
+  function drawCircularSigil(key) {
+    const W = 420, H = 420, cx = W/2, cy = H/2;
+    const radius = 140;
+    const dpr = window.devicePixelRatio || 1;
+    ctxCirc.save();
+    ctxCirc.setTransform(dpr,0,0,dpr,0,0);
+    ctxCirc.clearRect(0,0,W,H);
+
+    // 背景装饰
+    ctxCirc.fillStyle = COLORS.bg;
+    ctxCirc.fillRect(0,0,W,H);
+
+    // 外圈装饰环
+    ctxCirc.beginPath();
+    ctxCirc.arc(cx, cy, radius + 30, 0, Math.PI*2);
+    ctxCirc.strokeStyle = COLORS.rule;
+    ctxCirc.lineWidth = 1;
+    ctxCirc.stroke();
+
+    ctxCirc.beginPath();
+    ctxCirc.arc(cx, cy, radius + 36, 0, Math.PI*2);
+    ctxCirc.strokeStyle = 'rgba(212,168,67,0.06)';
+    ctxCirc.lineWidth = 1;
+    ctxCirc.setLineDash([4,8]);
+    ctxCirc.stroke();
+    ctxCirc.setLineDash([]);
+
+    if (!key || key.length < 2) {
+      ctxCirc.fillStyle = COLORS.muted;
+      ctxCirc.font = '14px "Noto Serif SC", serif';
+      ctxCirc.textAlign = 'center';
+      ctxCirc.textBaseline = 'middle';
+      ctxCirc.fillText('请输入愿望并点击"铸造符印"', cx, cy);
+      ctxCirc.restore();
+      return;
+    }
+
+    const n = key.length;
+    // 绘制连线
+    ctxCirc.beginPath();
+    for (let i = 0; i < n; i++) {
+      const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+      if (i === 0) ctxCirc.moveTo(x, y);
+      else ctxCirc.lineTo(x, y);
+    }
+    ctxCirc.closePath();
+    ctxCirc.strokeStyle = COLORS.gold;
+    ctxCirc.lineWidth = 2;
+    ctxCirc.shadowColor = COLORS.goldGlow;
+    ctxCirc.shadowBlur = 8;
+    ctxCirc.stroke();
+    ctxCirc.shadowBlur = 0;
+
+    // 绘制内部星形连线（连接相对的点）
+    ctxCirc.beginPath();
+    for (let i = 0; i < n; i++) {
+      const j = (i + Math.floor(n/2)) % n;
+      if (j <= i) continue;
+      const angle1 = (i / n) * Math.PI * 2 - Math.PI / 2;
+      const angle2 = (j / n) * Math.PI * 2 - Math.PI / 2;
+      const x1 = cx + radius * Math.cos(angle1);
+      const y1 = cy + radius * Math.sin(angle1);
+      const x2 = cx + radius * Math.cos(angle2);
+      const y2 = cy + radius * Math.sin(angle2);
+      ctxCirc.moveTo(x1, y1);
+      ctxCirc.lineTo(x2, y2);
+    }
+    ctxCirc.strokeStyle = 'rgba(196,30,58,0.25)';
+    ctxCirc.lineWidth = 0.8;
+    ctxCirc.stroke();
+
+    // 绘制节点和字母
+    for (let i = 0; i < n; i++) {
+      const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+
+      // 节点
+      ctxCirc.beginPath();
+      ctxCirc.arc(x, y, 6, 0, Math.PI * 2);
+      ctxCirc.fillStyle = COLORS.accent;
+      ctxCirc.shadowColor = 'rgba(196,30,58,0.4)';
+      ctxCirc.shadowBlur = 6;
+      ctxCirc.fill();
+      ctxCirc.shadowBlur = 0;
+
+      ctxCirc.beginPath();
+      ctxCirc.arc(x, y, 3, 0, Math.PI * 2);
+      ctxCirc.fillStyle = COLORS.gold;
+      ctxCirc.fill();
+
+      // 字母
+      ctxCirc.fillStyle = COLORS.ink;
+      ctxCirc.font = 'bold 18px "Noto Serif SC", serif';
+      ctxCirc.textAlign = 'center';
+      ctxCirc.textBaseline = 'middle';
+      const labelAngle = angle;
+      const labelR = radius + 24;
+      const lx = cx + labelR * Math.cos(labelAngle);
+      const ly = cy + labelR * Math.sin(labelAngle);
+      ctxCirc.fillText(key[i], lx, ly);
+    }
+
+    // 中心点
+    ctxCirc.beginPath();
+    ctxCirc.arc(cx, cy, 3, 0, Math.PI * 2);
+    ctxCirc.fillStyle = COLORS.gold;
+    ctxCirc.shadowColor = COLORS.goldGlow;
+    ctxCirc.shadowBlur = 10;
+    ctxCirc.fill();
+
+    // 中心五角星装饰
+    ctxCirc.beginPath();
+    for (let i = 0; i < 5; i++) {
+      const a = (i * 2 * Math.PI / 5) - Math.PI / 2;
+      const r = i === 0 ? 15 : 15;
+      const x = cx + r * Math.cos(a);
+      const y = cy + r * Math.sin(a);
+      if (i === 0) ctxCirc.moveTo(x, y);
+      else ctxCirc.lineTo(x, y);
+    }
+    ctxCirc.closePath();
+    ctxCirc.strokeStyle = 'rgba(212,168,67,0.2)';
+    ctxCirc.lineWidth = 1;
+    ctxCirc.stroke();
+    ctxCirc.shadowBlur = 0;
+
+    ctxCirc.restore();
+  }
+
+  /* ====== 绘制网格符印 ====== */
+  function drawGridSigil(key) {
+    const W = 420, H = 420;
+    const pad = 40;
+    const cellW = (W - pad * 2) / GRID_SIZE;
+    const cellH = (H - pad * 2) / GRID_SIZE;
+    const dpr = window.devicePixelRatio || 1;
+
+    ctxGrid.save();
+    ctxGrid.setTransform(dpr,0,0,dpr,0,0);
+    ctxGrid.clearRect(0,0,W,H);
+
+    ctxGrid.fillStyle = COLORS.bg;
+    ctxGrid.fillRect(0,0,W,H);
+
+    if (!key || key.length < 2) {
+      ctxGrid.fillStyle = COLORS.muted;
+      ctxGrid.font = '14px "Noto Serif SC", serif';
+      ctxGrid.textAlign = 'center';
+      ctxGrid.textBaseline = 'middle';
+      ctxGrid.fillText('请输入愿望并点击"铸造符印"', W/2, H/2);
+      ctxGrid.restore();
+      return;
+    }
+
+    // 获取网格坐标
+    function getGridPos(letter) {
+      const idx = GRID_LETTERS.indexOf(letter);
+      if (idx === -1) return null;
+      return { row: Math.floor(idx / GRID_SIZE), col: idx % GRID_SIZE };
+    }
+
+    function toCanvas(row, col) {
+      return {
+        x: pad + col * cellW + cellW / 2,
+        y: pad + row * cellH + cellH / 2
+      };
+    }
+
+    // 绘制网格线
+    ctxGrid.strokeStyle = COLORS.rule;
+    ctxGrid.lineWidth = 1;
+    for (let r = 0; r <= GRID_SIZE; r++) {
+      const y = pad + r * cellH;
+      ctxGrid.beginPath();
+      ctxGrid.moveTo(pad, y);
+      ctxGrid.lineTo(W - pad, y);
+      ctxGrid.stroke();
+    }
+    for (let c = 0; c <= GRID_SIZE; c++) {
+      const x = pad + c * cellW;
+      ctxGrid.beginPath();
+      ctxGrid.moveTo(x, pad);
+      ctxGrid.lineTo(x, H - pad);
+      ctxGrid.stroke();
+    }
+
+    // 填充网格字母（大写）
+    ctxGrid.fillStyle = COLORS.muted;
+    ctxGrid.font = '13px "Noto Serif SC", serif';
+    ctxGrid.textAlign = 'center';
+    ctxGrid.textBaseline = 'middle';
+    for (let i = 0; i < GRID_LETTERS.length; i++) {
+      const row = Math.floor(i / GRID_SIZE);
+      const col = i % GRID_SIZE;
+      const pos = toCanvas(row, col);
+      ctxGrid.fillStyle = COLORS.muted;
+      ctxGrid.globalAlpha = 0.35;
+      ctxGrid.fillText(GRID_LETTERS[i], pos.x, pos.y);
+      ctxGrid.globalAlpha = 1;
+    }
+
+    // 收集有效的网格位置
+    const positions = [];
+    for (let ch of key) {
+      const pos = getGridPos(ch);
+      if (pos) positions.push(pos);
+    }
+
+    if (positions.length < 2) {
+      ctxGrid.fillStyle = COLORS.muted;
+      ctxGrid.font = '14px "Noto Serif SC", serif';
+      ctxGrid.textAlign = 'center';
+      ctxGrid.textBaseline = 'middle';
+      ctxGrid.fillText('密钥中仅找到 ' + positions.length + ' 个可绘制字母（需要至少 2 个）', W/2, H/2);
+      ctxGrid.restore();
+      return;
+    }
+
+    // 绘制连线
+    ctxGrid.beginPath();
+    for (let i = 0; i < positions.length; i++) {
+      const pos = toCanvas(positions[i].row, positions[i].col);
+      if (i === 0) ctxGrid.moveTo(pos.x, pos.y);
+      else ctxGrid.lineTo(pos.x, pos.y);
+    }
+    ctxGrid.closePath();
+    ctxGrid.strokeStyle = COLORS.gold;
+    ctxGrid.lineWidth = 2.5;
+    ctxGrid.shadowColor = COLORS.goldGlow;
+    ctxGrid.shadowBlur = 8;
+    ctxGrid.stroke();
+    ctxGrid.shadowBlur = 0;
+
+    // 交叉连线（隔点连接）
+    if (positions.length >= 4) {
+      ctxGrid.beginPath();
+      for (let i = 0; i < positions.length; i++) {
+        const p = toCanvas(positions[i].row, positions[i].col);
+        const q = toCanvas(positions[(i+2) % positions.length].row, positions[(i+2) % positions.length].col);
+        ctxGrid.moveTo(p.x, p.y);
+        ctxGrid.lineTo(q.x, q.y);
+      }
+      ctxGrid.strokeStyle = 'rgba(196,30,58,0.18)';
+      ctxGrid.lineWidth = 0.8;
+      ctxGrid.stroke();
+    }
+
+    // 绘制节点
+    for (let i = 0; i < positions.length; i++) {
+      const pos = toCanvas(positions[i].row, positions[i].col);
+
+      // 外圈
+      ctxGrid.beginPath();
+      ctxGrid.arc(pos.x, pos.y, 8, 0, Math.PI * 2);
+      ctxGrid.fillStyle = COLORS.accent;
+      ctxGrid.shadowColor = 'rgba(196,30,58,0.3)';
+      ctxGrid.shadowBlur = 6;
+      ctxGrid.fill();
+      ctxGrid.shadowBlur = 0;
+
+      // 内圈
+      ctxGrid.beginPath();
+      ctxGrid.arc(pos.x, pos.y, 4, 0, Math.PI * 2);
+      ctxGrid.fillStyle = COLORS.gold;
+      ctxGrid.fill();
+
+      // 字母序号
+      ctxGrid.fillStyle = COLORS.ink;
+      ctxGrid.font = 'bold 12px "Noto Serif SC", serif';
+      ctxGrid.textAlign = 'center';
+      ctxGrid.textBaseline = 'bottom';
+      ctxGrid.fillText(key[i], pos.x, pos.y - 12);
+    }
+
+    ctxGrid.restore();
+  }
+
+  /* ====== 充能动画系统 ====== */
+  let chargeAnimId = null;
+  let isCharging = false;
+  let currentKey = '';
+
+  function startChargeAnimation(key) {
+    if (!key || key.length < 2) {
+      chargeStatus.textContent = '请先铸造一个有效的符印！';
+      chargeStatus.className = 'charge-status';
+      return;
+    }
+
+    if (isCharging) return;
+    isCharging = true;
+    chargeBtn.textContent = '充能中……';
+    chargeBtn.disabled = true;
+    chargeStatus.textContent = '正在注入能量…… 集中意念于你的愿望。';
+    chargeStatus.className = 'charge-status active';
+
+    const W = 420, H = 200, cx = W / 2, cy = H / 2;
+    const dpr = window.devicePixelRatio || 1;
+    const startTime = performance.now();
+    const DURATION = 5000; // 5 秒充能
+
+    let particles = [];
+
+    // 生成粒子
+    function spawnParticles(time) {
+      const count = 2 + Math.floor(time / 100);
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 0.3 + Math.random() * 1.2;
+        particles.push({
+          x: cx, y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1,
+          decay: 0.003 + Math.random() * 0.008,
+          size: 1.5 + Math.random() * 3,
+          hue: Math.random() > 0.3 ? 0.9 : 0.05 // 金或红
+        });
+      }
+    }
+
+    function render(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / DURATION, 1);
+
+      ctxChg.save();
+      ctxChg.setTransform(dpr,0,0,dpr,0,0);
+      ctxChg.clearRect(0,0,W,H);
+
+      // 背景
+      ctxChg.fillStyle = COLORS.bg;
+      ctxChg.fillRect(0,0,W,H);
+
+      // 脉冲辉光
+      const pulse1 = Math.sin(now * 0.003) * 0.3 + 0.5;
+      const pulse2 = Math.sin(now * 0.005 + 1.2) * 0.2 + 0.3;
+
+      // 圆形光晕
+      const glowR = 30 + progress * 60 + pulse1 * 20;
+      const grad = ctxChg.createRadialGradient(cx, cy, 0, cx, cy, glowR);
+      grad.addColorStop(0, `rgba(212,168,67,${0.15 + progress * 0.25 + pulse1 * 0.1})`);
+      grad.addColorStop(0.5, `rgba(212,168,67,${0.05 * progress})`);
+      grad.addColorStop(1, 'rgba(212,168,67,0)');
+      ctxChg.fillStyle = grad;
+      ctxChg.beginPath();
+      ctxChg.arc(cx, cy, glowR, 0, Math.PI * 2);
+      ctxChg.fill();
+
+      // 外圈光环
+      ctxChg.beginPath();
+      ctxChg.arc(cx, cy, 30 + pulse1 * 15, 0, Math.PI * 2);
+      ctxChg.strokeStyle = `rgba(212,168,67,${0.1 + pulse1 * 0.15})`;
+      ctxChg.lineWidth = 1.5;
+      ctxChg.shadowColor = COLORS.goldGlow;
+      ctxChg.shadowBlur = 15;
+      ctxChg.stroke();
+      ctxChg.shadowBlur = 0;
+
+      // 第二道光环
+      ctxChg.beginPath();
+      ctxChg.arc(cx, cy, 55 + pulse2 * 20, 0, Math.PI * 2);
+      ctxChg.strokeStyle = `rgba(196,30,58,${0.06 + pulse2 * 0.08})`;
+      ctxChg.lineWidth = 1;
+      ctxChg.stroke();
+
+      // 生成粒子
+      spawnParticles(elapsed);
+
+      // 更新和绘制粒子
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= p.decay;
+        p.vx *= 0.99;
+        p.vy *= 0.99;
+        p.vy += (p.y - cy) * 0.0003; // 轻微引力
+
+        if (p.life <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        const color = p.hue > 0.5
+          ? `rgba(212,168,67,${p.life * 0.8})`
+          : `rgba(196,30,58,${p.life * 0.6})`;
+        ctxChg.fillStyle = color;
+        ctxChg.shadowColor = p.hue > 0.5 ? COLORS.goldGlow : 'rgba(196,30,58,0.4)';
+        ctxChg.shadowBlur = p.size * 4;
+        ctxChg.beginPath();
+        ctxChg.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+        ctxChg.fill();
+        ctxChg.shadowBlur = 0;
+      }
+
+      // 进度条
+      const barW = 300, barH = 4, barX = (W - barW) / 2, barY = H - 30;
+      ctxChg.fillStyle = COLORS.rule;
+      ctxChg.fillRect(barX, barY, barW, barH);
+
+      const filledW = barW * progress;
+      const gradBar = ctxChg.createLinearGradient(barX, barY, barX + barW, barY);
+      gradBar.addColorStop(0, COLORS.accent);
+      gradBar.addColorStop(1, COLORS.gold);
+      ctxChg.fillStyle = gradBar;
+      ctxChg.shadowColor = COLORS.goldGlow;
+      ctxChg.shadowBlur = 6;
+      ctxChg.fillRect(barX, barY, filledW, barH);
+      ctxChg.shadowBlur = 0;
+
+      // 进度文字
+      ctxChg.fillStyle = COLORS.muted;
+      ctxChg.font = '11px "Noto Serif SC", serif';
+      ctxChg.textAlign = 'center';
+      ctxChg.textBaseline = 'top';
+      ctxChg.fillText(Math.round(progress * 100) + '%', cx, barY + 8);
+
+      // 符印密钥显示
+      if (currentKey) {
+        ctxChg.fillStyle = `rgba(212,168,67,${0.3 + progress * 0.4})`;
+        ctxChg.font = 'bold 16px "Noto Serif SC", serif';
+        ctxChg.textAlign = 'center';
+        ctxChg.textBaseline = 'middle';
+        ctxChg.shadowColor = COLORS.goldGlow;
+        ctxChg.shadowBlur = 10 + progress * 20;
+        ctxChg.fillText(currentKey, cx, cy - 10);
+        ctxChg.shadowBlur = 0;
+      }
+
+      ctxChg.restore();
+
+      if (progress < 1) {
+        chargeAnimId = requestAnimationFrame(render);
+      } else {
+        // 充能完成 —— 闪白特效
+        completeCharge();
+      }
+    }
+
+    function completeCharge() {
+      // 闪白
+      ctxChg.save();
+      ctxChg.setTransform(dpr,0,0,dpr,0,0);
+      ctxChg.fillStyle = `rgba(212,168,67,0.6)`;
+      ctxChg.fillRect(0,0,W,H);
+      ctxChg.restore();
+
+      setTimeout(() => {
+        ctxChg.save();
+        ctxChg.setTransform(dpr,0,0,dpr,0,0);
+        ctxChg.clearRect(0,0,W,H);
+
+        // 最终辉光背景
+        const grad = ctxChg.createRadialGradient(cx, cy, 0, cx, cy, 100);
+        grad.addColorStop(0, 'rgba(212,168,67,0.2)');
+        grad.addColorStop(0.5, 'rgba(212,168,67,0.05)');
+        grad.addColorStop(1, 'rgba(212,168,67,0)');
+        ctxChg.fillStyle = grad;
+        ctxChg.fillRect(0,0,W,H);
+
+        ctxChg.fillStyle = COLORS.gold;
+        ctxChg.font = 'bold 22px "Ma Shan Zheng", cursive';
+        ctxChg.textAlign = 'center';
+        ctxChg.textBaseline = 'middle';
+        ctxChg.shadowColor = COLORS.goldGlow;
+        ctxChg.shadowBlur = 30;
+        ctxChg.fillText('符印已充能', cx, cy);
+        ctxChg.shadowBlur = 0;
+        ctxChg.restore();
+
+        chargeStatus.textContent = '符印充能完成！释放执念，让宇宙自行运作。';
+        chargeStatus.className = 'charge-status charged';
+        chargeBtn.textContent = '再次充能';
+        chargeBtn.disabled = false;
+        isCharging = false;
+      }, 300);
+    }
+
+    chargeAnimId = requestAnimationFrame(render);
+  }
+
+  function stopCharge() {
+    if (chargeAnimId) {
+      cancelAnimationFrame(chargeAnimId);
+      chargeAnimId = null;
+    }
+    isCharging = false;
+    chargeBtn.textContent = '开始充能';
+    chargeBtn.disabled = false;
+  }
+
+  /* ====== 主铸造流程 ====== */
+  function createSigil() {
+    const text = desireInput.value.trim();
+    if (!text) {
+      originalText.textContent = '请先输入愿望陈述！';
+      originalText.className = 'key-value empty';
+      keyLetters.textContent = '—';
+      keyLetters.className = 'key-value empty';
+      drawCircularSigil('');
+      drawGridSigil('');
+      stopCharge();
+      currentKey = '';
+      return;
+    }
+
+    const { original, key } = processDesire(text);
+
+    originalText.textContent = original || '（无有效字母）';
+    originalText.className = 'key-value';
+
+    if (key.length < 2) {
+      keyLetters.textContent = '至少需要 2 个不同的字母才能铸造符印';
+      keyLetters.className = 'key-value empty';
+      drawCircularSigil('');
+      drawGridSigil('');
+      stopCharge();
+      currentKey = '';
+      return;
+    }
+
+    keyLetters.textContent = key;
+    keyLetters.className = 'key-value';
+
+    currentKey = key;
+    drawCircularSigil(key);
+    drawGridSigil(key);
+    stopCharge();
+
+    // 重置充能动画画布
+    const W = 420, H = 200, cx = W/2, cy = H/2;
+    const dpr = window.devicePixelRatio || 1;
+    ctxChg.save();
+    ctxChg.setTransform(dpr,0,0,dpr,0,0);
+    ctxChg.clearRect(0,0,W,H);
+    ctxChg.fillStyle = COLORS.bg;
+    ctxChg.fillRect(0,0,W,H);
+    ctxChg.fillStyle = COLORS.muted;
+    ctxChg.font = '13px "Noto Serif SC", serif';
+    ctxChg.textAlign = 'center';
+    ctxChg.textBaseline = 'middle';
+    ctxChg.fillText('符印已就绪，点击上方按钮充能', cx, cy);
+    ctxChg.restore();
+
+    chargeStatus.textContent = '符印已铸造完成！点击"开始充能"注入能量。';
+    chargeStatus.className = 'charge-status';
+    chargeBtn.textContent = '开始充能';
+    chargeBtn.disabled = false;
+  }
+
+  /* ====== 充能按钮 ====== */
+  function handleCharge() {
+    if (!currentKey || currentKey.length < 2) {
+      chargeStatus.textContent = '请先铸造一个有效的符印！';
+      chargeStatus.className = 'charge-status';
+      return;
+    }
+    startChargeAnimation(currentKey);
+  }
+
+  /* ====== 窗口大小变化 ====== */
+  function handleResize() {
+    // 重新设置画布尺寸
+    [circularCanvas, gridCanvas].forEach(c => {
+      const ctx = c.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      c.width  = 420 * dpr;
+      c.height = 420 * dpr;
+      c.style.width  = '420px';
+      c.style.height = '420px';
+      ctx.scale(dpr, dpr);
+    });
+
+    const dpr = window.devicePixelRatio || 1;
+    chargeCanvas.width  = 420 * dpr;
+    chargeCanvas.height = 200 * dpr;
+    chargeCanvas.style.width  = '420px';
+    chargeCanvas.style.height = '200px';
+    ctxChg.scale(dpr, dpr);
+
+    // 重绘
+    if (currentKey) {
+      drawCircularSigil(currentKey);
+      drawGridSigil(currentKey);
+    } else {
+      drawCircularSigil('');
+      drawGridSigil('');
+    }
+
+    // 重置充能画布
+    ctxChg.save();
+    ctxChg.setTransform(dpr,0,0,dpr,0,0);
+    ctxChg.clearRect(0,0,420,200);
+    ctxChg.fillStyle = COLORS.bg;
+    ctxChg.fillRect(0,0,420,200);
+    ctxChg.fillStyle = COLORS.muted;
+    ctxChg.font = '13px "Noto Serif SC", serif';
+    ctxChg.textAlign = 'center';
+    ctxChg.textBaseline = 'middle';
+    ctxChg.fillText(currentKey ? '符印已就绪，点击上方按钮充能' : '待铸造符印', 210, 100);
+    ctxChg.restore();
+  }
+
+  /* ====== 初始绘制 ====== */
+  function initDraw() {
+    const dpr = window.devicePixelRatio || 1;
+    // Circular canvas init
+    ctxCirc.save();
+    ctxCirc.setTransform(dpr,0,0,dpr,0,0);
+    ctxCirc.fillStyle = COLORS.bg;
+    ctxCirc.fillRect(0,0,420,420);
+    ctxCirc.fillStyle = COLORS.muted;
+    ctxCirc.font = '14px "Noto Serif SC", serif';
+    ctxCirc.textAlign = 'center';
+    ctxCirc.textBaseline = 'middle';
+    ctxCirc.fillText('请输入愿望并点击"铸造符印"', 210, 210);
+    ctxCirc.restore();
+
+    // Grid canvas init
+    ctxGrid.save();
+    ctxGrid.setTransform(dpr,0,0,dpr,0,0);
+    ctxGrid.fillStyle = COLORS.bg;
+    ctxGrid.fillRect(0,0,420,420);
+    ctxGrid.fillStyle = COLORS.muted;
+    ctxGrid.font = '14px "Noto Serif SC", serif';
+    ctxGrid.textAlign = 'center';
+    ctxGrid.textBaseline = 'middle';
+    ctxGrid.fillText('请输入愿望并点击"铸造符印"', 210, 210);
+    ctxGrid.restore();
+
+    // Charge canvas init
+    ctxChg.save();
+    ctxChg.setTransform(dpr,0,0,dpr,0,0);
+    ctxChg.fillStyle = COLORS.bg;
+    ctxChg.fillRect(0,0,420,200);
+    ctxChg.fillStyle = COLORS.muted;
+    ctxChg.font = '13px "Noto Serif SC", serif';
+    ctxChg.textAlign = 'center';
+    ctxChg.textBaseline = 'middle';
+    ctxChg.fillText('铸造符印后将在此充能', 210, 100);
+    ctxChg.restore();
+  }
+
+  /* ====== 绑定事件 ====== */
+  createBtn.addEventListener('click', createSigil);
+
+  desireInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      createSigil();
+    }
+  });
+
+  chargeBtn.addEventListener('click', handleCharge);
+
+  // 防抖 resize
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(handleResize, 200);
+  });
+
+  /* ====== 启动 ====== */
+  initDraw();
+
+})();
+</script>
+
+</body>
+</html>
