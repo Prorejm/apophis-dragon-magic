@@ -705,6 +705,54 @@ var GAMES = [
     desc: '控制幼龙跳跃，躲避诅咒之柱和混沌蝙蝠。跑得越远分越高！',
     badge: '跑酷 · 速度递增',
     instructions: ['空格/点击跳跃', '躲避障碍物', '跑得越远得分越高', '速度会逐渐加快']
+  },
+  {
+    id: 'memory',
+    title: '记忆翻牌',
+    icon: '🃏',
+    desc: '翻开神秘符印卡片，记住位置，配对相同的 occult 符号！',
+    badge: '记忆 · 配对',
+    instructions: ['点击翻开卡片', '记住符印符号的位置', '找到全部8对匹配', '翻开次数越少越好']
+  },
+  {
+    id: 'slide',
+    title: '数字华容道',
+    icon: '🔢',
+    desc: '移动数字方块，按顺序排列 1-15。挑战你的逻辑思维！',
+    badge: '逻辑 · 滑块',
+    instructions: ['点击与空格相邻的数字方块', '将数字按1-15顺序排列', '空格在右下角为胜利', '移动次数越少越好']
+  },
+  {
+    id: 'maze',
+    title: '迷宫逃脱',
+    icon: '🔱',
+    desc: '在随机生成的迷宫中找到出口。每局迷宫都不同！',
+    badge: '随机生成 · 逐步变难',
+    instructions: ['方向键 / WASD 移动金色光点', '从左上角出发到达右下角红星', '迷宫每局随机生成', '尽可能快速到达出口']
+  },
+  {
+    id: 'minesweeper',
+    title: '混沌扫雷',
+    icon: '💀',
+    desc: '找出所有混沌炸弹的位置。左键揭开，右键标记符印！',
+    badge: '推理 · 经典',
+    instructions: ['左键点击揭开格子', '右键标记疑似炸弹的位置', '数字表示相邻格子的炸弹数', '揭开所有非炸弹格子即获胜']
+  },
+  {
+    id: 'sigilpuzzle',
+    title: '符印拼图',
+    icon: '⚜️',
+    desc: '还原被打乱的 occult 符印图案。滑动拼块恢复原貌！',
+    badge: '拼图 · 滑动',
+    instructions: ['点击与空格相邻的拼块滑动', '右上角显示参考图案', '还原完整的符印图案胜利', '移动次数越少越好']
+  },
+  {
+    id: 'color',
+    title: '颜色试炼',
+    icon: '🎨',
+    desc: '斯特鲁普测试：点击与圆圈颜色匹配的文字！注意文字颜色可能不同！',
+    badge: '限时30秒 · 反应',
+    instructions: ['观察圆圈的颜色', '点击文字与圆圈颜色匹配的按钮', '文字本身的颜色可能是干扰', '30秒内尽可能多答对']
   }
 ];
 
@@ -2332,6 +2380,1379 @@ function initDino(canvas) {
 }
 
 // ==========================================
+// ========== 游戏 7: 记忆翻牌 =============
+// ==========================================
+function initMemory(canvas) {
+  var ctx = canvas.getContext('2d');
+  var COLS = 4, ROWS = 4;
+  var SYMBOLS = ['✦','☯','⚜','☽','♄','♃','♂','♀'];
+  var cards = [];
+  var flipped = [];
+  var matchedCount = 0;
+  var score = 0;
+  var flips = 0;
+  var timer = 0;
+  var timerRunning = false;
+  var started = false;
+  var alive = true;
+  var locked = false;
+  var frameId = null;
+  var cellSize = 60, offsetX = 0, offsetY = 0;
+
+  function calcLayout() {
+    cellSize = Math.min(Math.floor(canvas.width / (COLS + 1)), Math.floor(canvas.height / (ROWS + 2)), 85);
+    cellSize = Math.max(35, Math.min(cellSize, 80));
+    var gridW = cellSize * COLS;
+    var gridH = cellSize * ROWS;
+    offsetX = (canvas.width - gridW) / 2;
+    offsetY = (canvas.height - gridH) / 2 - 10;
+  }
+
+  function shuffleArr(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  function initCards() {
+    cards = [];
+    matchedCount = 0;
+    flipped = [];
+    flips = 0;
+    score = 0;
+    timer = 0;
+    timerRunning = false;
+    locked = false;
+    var pairs = [];
+    for (var i = 0; i < 8; i++) pairs.push(i, i);
+    shuffleArr(pairs);
+    for (var i = 0; i < 16; i++) {
+      cards.push({
+        id: i,
+        pair: pairs[i],
+        symbol: SYMBOLS[pairs[i]],
+        flipped: false,
+        matched: false
+      });
+    }
+    updateHUD(0, '翻开: 0 时间: 0s');
+  }
+
+  function checkMatch() {
+    if (flipped.length !== 2) return;
+    locked = true;
+    var a = flipped[0], b = flipped[1];
+    if (cards[a].pair === cards[b].pair) {
+      cards[a].matched = true;
+      cards[b].matched = true;
+      matchedCount += 2;
+      score++;
+      flips++;
+      flashFeedback(true);
+      flipped = [];
+      locked = false;
+      updateHUD(score, '翻开: ' + flips + ' 时间: ' + Math.floor(timer) + 's');
+      if (matchedCount === 16) {
+        alive = false;
+        var finalScore = Math.max(100, matchedCount * 100 - flips * 5 + Math.max(0, 120 - Math.floor(timer)) * 5);
+        gameOver(finalScore);
+      }
+    } else {
+      flips++;
+      flashFeedback(false);
+      updateHUD(score, '翻开: ' + flips + ' 时间: ' + Math.floor(timer) + 's');
+      var aIdx = a, bIdx = b;
+      setTimeout(function() {
+        cards[aIdx].flipped = false;
+        cards[bIdx].flipped = false;
+        flipped = [];
+        locked = false;
+      }, 700);
+    }
+  }
+
+  function update() {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+    if (timerRunning) {
+      timer += 1/60;
+    }
+    draw();
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    calcLayout();
+
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var row = Math.floor(i / COLS);
+      var col = i % COLS;
+      var x = offsetX + col * cellSize;
+      var y = offsetY + row * cellSize;
+
+      if (card.matched) {
+        // Matched - drawn with green glow outline
+        ctx.shadowColor = 'rgba(0,255,0,0.4)';
+        ctx.shadowBlur = 12;
+        ctx.strokeStyle = 'rgba(0,255,0,0.6)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
+        ctx.shadowBlur = 0;
+        continue;
+      }
+
+      // Card back
+      if (!card.flipped) {
+        ctx.fillStyle = '#1a1a1a';
+        ctx.strokeStyle = '#2a2a2a';
+        ctx.lineWidth = 2;
+        ctx.fillRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
+        ctx.strokeRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
+        // Occult pattern on back
+        ctx.fillStyle = '#2a2a2a';
+        ctx.font = (cellSize * 0.25) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('⚜', x + cellSize/2, y + cellSize/2);
+        ctx.strokeStyle = 'rgba(42,42,42,0.3)';
+        ctx.lineWidth = 0.5;
+        ctx.strokeRect(x + cellSize*0.15, y + cellSize*0.15, cellSize*0.7, cellSize*0.7);
+      } else {
+        // Card front
+        ctx.shadowColor = 'rgba(212,168,67,0.4)';
+        ctx.shadowBlur = 10;
+        ctx.fillStyle = '#0d0d0d';
+        ctx.fillRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
+        ctx.strokeStyle = '#d4a843';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
+        ctx.fillStyle = '#d4a843';
+        ctx.font = (cellSize * 0.5) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(card.symbol, x + cellSize/2, y + cellSize/2);
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    // Timer display at bottom
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('时间: ' + Math.floor(timer) + 's  |  配对: ' + Math.floor(matchedCount/2) + '/8', canvas.width/2, canvas.height - 8);
+  }
+
+  canvas.addEventListener('click', function(e) {
+    if (!started || !alive || paused || locked) return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    var col = Math.floor((mx - offsetX) / cellSize);
+    var row = Math.floor((my - offsetY) / cellSize);
+    if (col < 0 || col >= COLS || row < 0 || row >= ROWS) return;
+    var idx = row * COLS + col;
+    if (!cards[idx] || cards[idx].flipped || cards[idx].matched) return;
+    if (flipped.length >= 2) return;
+
+    if (!timerRunning) timerRunning = true;
+    cards[idx].flipped = true;
+    flipped.push(idx);
+    if (flipped.length === 2) checkMatch();
+  });
+
+  calcLayout();
+  initCards();
+  draw();
+
+  window.startGame = function() {
+    started = true;
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+  };
+}
+
+// ==========================================
+// ======== 游戏 8: 数字华容道 =============
+// ==========================================
+function initSlide(canvas) {
+  var ctx = canvas.getContext('2d');
+  var SIZE = 4;
+  var tiles = [];
+  var emptyIdx = 15;
+  var moves = 0;
+  var timer = 0;
+  var timerRunning = false;
+  var started = false;
+  var alive = true;
+  var frameId = null;
+  var cellSize = 60, offsetX = 0, offsetY = 0;
+  var won = false;
+
+  function calcLayout() {
+    cellSize = Math.min(Math.floor(canvas.width / (SIZE + 1)), Math.floor(canvas.height / (SIZE + 2)), 85);
+    cellSize = Math.max(40, Math.min(cellSize, 80));
+    var gridW = cellSize * SIZE;
+    var gridH = cellSize * SIZE;
+    offsetX = (canvas.width - gridW) / 2;
+    offsetY = (canvas.height - gridH) / 2 - 10;
+  }
+
+  function shuffleTiles() {
+    // Start from solved state and perform random moves
+    tiles = [];
+    for (var i = 0; i < 16; i++) tiles[i] = i + 1;
+    tiles[15] = 0; // empty
+    emptyIdx = 15;
+
+    // Perform 200 random valid moves
+    for (var m = 0; m < 200; m++) {
+      var neighbors = getNeighbors(emptyIdx);
+      var rnd = neighbors[Math.floor(Math.random() * neighbors.length)];
+      tiles[emptyIdx] = tiles[rnd];
+      tiles[rnd] = 0;
+      emptyIdx = rnd;
+    }
+
+    // Ensure it's not already solved
+    var solved = true;
+    for (var i = 0; i < 15; i++) { if (tiles[i] !== i + 1) { solved = false; break; } }
+    if (solved || tiles[15] !== 0) {
+      // Swap two tiles to ensure unsolved
+      var n = getNeighbors(emptyIdx);
+      if (n.length >= 2) {
+        var t = tiles[n[0]];
+        tiles[n[0]] = tiles[n[1]];
+        tiles[n[1]] = t;
+      }
+    }
+
+    moves = 0;
+    timer = 0;
+    timerRunning = false;
+    won = false;
+    updateHUD(0, '移动: 0 时间: 0s');
+  }
+
+  function getNeighbors(idx) {
+    var r = Math.floor(idx / SIZE);
+    var c = idx % SIZE;
+    var result = [];
+    if (r > 0) result.push(idx - SIZE);
+    if (r < SIZE - 1) result.push(idx + SIZE);
+    if (c > 0) result.push(idx - 1);
+    if (c < SIZE - 1) result.push(idx + 1);
+    return result;
+  }
+
+  function moveTile(idx) {
+    if (won || !alive) return;
+    var neighbors = getNeighbors(emptyIdx);
+    if (neighbors.indexOf(idx) === -1) return;
+
+    if (!timerRunning) timerRunning = true;
+
+    tiles[emptyIdx] = tiles[idx];
+    tiles[idx] = 0;
+    emptyIdx = idx;
+    moves++;
+    updateHUD(0, '移动: ' + moves + ' 时间: ' + Math.floor(timer) + 's');
+    flashFeedback(true);
+
+    // Check win
+    var solved = true;
+    for (var i = 0; i < 15; i++) {
+      if (tiles[i] !== i + 1) { solved = false; break; }
+    }
+    if (solved && emptyIdx === 15) {
+      won = true;
+      alive = false;
+      var finalScore = Math.max(100, 5000 - moves * 10 - Math.floor(timer) * 5);
+      gameOver(finalScore);
+    }
+  }
+
+  function update() {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+    if (timerRunning) timer += 1/60;
+    draw();
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    calcLayout();
+
+    for (var i = 0; i < 16; i++) {
+      var val = tiles[i];
+      var row = Math.floor(i / SIZE);
+      var col = i % SIZE;
+      var x = offsetX + col * cellSize;
+      var y = offsetY + row * cellSize;
+
+      if (val === 0) {
+        // Empty space
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(x, y, cellSize, cellSize);
+        ctx.strokeStyle = '#1a1a1a';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, y, cellSize, cellSize);
+      } else {
+        // Numbered tile
+        ctx.shadowColor = 'rgba(212,168,67,0.2)';
+        ctx.shadowBlur = won ? 10 : 4;
+        ctx.fillStyle = won ? '#1a2a1a' : '#151515';
+        ctx.fillRect(x + 1, y + 1, cellSize - 2, cellSize - 2);
+        ctx.strokeStyle = won ? '#00ff00' : '#d4a843';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(x + 1, y + 1, cellSize - 2, cellSize - 2);
+
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = won ? '#00ff00' : '#d4a843';
+        ctx.font = (cellSize * 0.45) + 'px "Ma Shan Zheng", serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(val, x + cellSize/2, y + cellSize/2 + 1);
+      }
+    }
+
+    // Info
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('移动: ' + moves + '  时间: ' + Math.floor(timer) + 's', canvas.width/2, canvas.height - 8);
+
+    // Shuffle button
+    var btnX = canvas.width - 100;
+    var btnY = 12;
+    ctx.fillStyle = '#1a1a1a';
+    ctx.strokeStyle = '#2a2a2a';
+    ctx.lineWidth = 1;
+    ctx.fillRect(btnX, btnY, 80, 28);
+    ctx.strokeRect(btnX, btnY, 80, 28);
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '12px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('重新打乱', btnX + 40, btnY + 14);
+  }
+
+  canvas.addEventListener('click', function(e) {
+    if (!started || !alive || paused) return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    // Check shuffle button
+    var btnX = canvas.width - 100;
+    var btnY = 12;
+    if (mx >= btnX && mx <= btnX + 80 && my >= btnY && my <= btnY + 28) {
+      shuffleTiles();
+      draw();
+      return;
+    }
+
+    var col = Math.floor((mx - offsetX) / cellSize);
+    var row = Math.floor((my - offsetY) / cellSize);
+    if (col < 0 || col >= SIZE || row < 0 || row >= SIZE) return;
+    var idx = row * SIZE + col;
+    if (tiles[idx] !== 0) moveTile(idx);
+  });
+
+  calcLayout();
+  shuffleTiles();
+  draw();
+
+  window.startGame = function() {
+    started = true;
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+  };
+}
+
+// ==========================================
+// ======== 游戏 9: 迷宫逃脱 ===============
+// ==========================================
+function initMaze(canvas) {
+  var ctx = canvas.getContext('2d');
+  var cols = 15, rows = 11;
+  var cellW, cellH;
+  var grid = [];
+  var player = {x: 0, y: 0};
+  var exit = {x: cols - 1, y: rows - 1};
+  var timer = 0;
+  var timerRunning = false;
+  var started = false;
+  var alive = true;
+  var frameId = null;
+  var won = false;
+  var difficultyLevel = 1;
+
+  function generateMaze() {
+    // Initialize grid: each cell has walls [top, right, bottom, left]
+    grid = [];
+    for (var y = 0; y < rows; y++) {
+      grid[y] = [];
+      for (var x = 0; x < cols; x++) {
+        grid[y][x] = {x: x, y: y, walls: [true, true, true, true], visited: false};
+      }
+    }
+
+    // Recursive backtracking
+    var stack = [];
+    var start = grid[0][0];
+    start.visited = true;
+    stack.push(start);
+
+    while (stack.length > 0) {
+      var current = stack[stack.length - 1];
+      var neighbors = [];
+      var cx = current.x, cy = current.y;
+
+      if (cy > 0 && !grid[cy - 1][cx].visited) neighbors.push({x: cx, y: cy - 1, dir: 0, opp: 2});
+      if (cx < cols - 1 && !grid[cy][cx + 1].visited) neighbors.push({x: cx + 1, y: cy, dir: 1, opp: 3});
+      if (cy < rows - 1 && !grid[cy + 1][cx].visited) neighbors.push({x: cx, y: cy + 1, dir: 2, opp: 0});
+      if (cx > 0 && !grid[cy][cx - 1].visited) neighbors.push({x: cx - 1, y: cy, dir: 3, opp: 1});
+
+      if (neighbors.length > 0) {
+        var next = neighbors[Math.floor(Math.random() * neighbors.length)];
+        // Remove wall between current and next
+        current.walls[next.dir] = false;
+        grid[next.y][next.x].walls[next.opp] = false;
+        grid[next.y][next.x].visited = true;
+        stack.push(grid[next.y][next.x]);
+      } else {
+        stack.pop();
+      }
+    }
+
+    // Reset player and exit
+    player = {x: 0, y: 0};
+    exit = {x: cols - 1, y: rows - 1};
+    timer = 0;
+    timerRunning = false;
+    won = false;
+    updateHUD(0, '时间: 0s 难度: ' + difficultyLevel);
+  }
+
+  function calcCellSize() {
+    cellW = (canvas.width - 40) / cols;
+    cellH = (canvas.height - 40) / rows;
+  }
+
+  function movePlayer(dx, dy) {
+    if (!alive || won || paused) return;
+    var nx = player.x + dx;
+    var ny = player.y + dy;
+    if (nx < 0 || nx >= cols || ny < 0 || ny >= rows) return;
+
+    // Check wall
+    var cell = grid[player.y][player.x];
+    if (dx === 1 && cell.walls[1]) return;
+    if (dx === -1 && cell.walls[3]) return;
+    if (dy === 1 && cell.walls[2]) return;
+    if (dy === -1 && cell.walls[0]) return;
+
+    if (!timerRunning) timerRunning = true;
+    player.x = nx;
+    player.y = ny;
+
+    // Check win
+    if (player.x === exit.x && player.y === exit.y) {
+      won = true;
+      alive = false;
+      var score = Math.max(100, 2000 - Math.floor(timer) * 10 + difficultyLevel * 500);
+      gameOver(score);
+    }
+  }
+
+  function update() {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+    if (timerRunning) timer += 1/60;
+    draw();
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    calcCellSize();
+
+    var offX = (canvas.width - cellW * cols) / 2;
+    var offY = (canvas.height - cellH * rows) / 2;
+
+    // Draw cells
+    for (var y = 0; y < rows; y++) {
+      for (var x = 0; x < cols; x++) {
+        var px = offX + x * cellW;
+        var py = offY + y * cellH;
+        var cell = grid[y][x];
+
+        // Floor
+        ctx.fillStyle = '#0d0d0d';
+        ctx.fillRect(px, py, cellW, cellH);
+
+        // Walls
+        ctx.strokeStyle = '#d4a843';
+        ctx.lineWidth = 3;
+        if (cell.walls[0]) { // top
+          ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px + cellW, py); ctx.stroke();
+        }
+        if (cell.walls[1]) { // right
+          ctx.beginPath(); ctx.moveTo(px + cellW, py); ctx.lineTo(px + cellW, py + cellH); ctx.stroke();
+        }
+        if (cell.walls[2]) { // bottom
+          ctx.beginPath(); ctx.moveTo(px, py + cellH); ctx.lineTo(px + cellW, py + cellH); ctx.stroke();
+        }
+        if (cell.walls[3]) { // left
+          ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, py + cellH); ctx.stroke();
+        }
+      }
+    }
+
+    // Exit (red star)
+    var ex = offX + exit.x * cellW + cellW/2;
+    var ey = offY + exit.y * cellH + cellH/2;
+    ctx.shadowColor = 'rgba(255,0,0,0.6)';
+    ctx.shadowBlur = 12;
+    ctx.fillStyle = '#ff0000';
+    ctx.font = (cellH * 0.5) + 'px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('★', ex, ey + 1);
+    ctx.shadowBlur = 0;
+
+    // Player (golden dot)
+    var px = offX + player.x * cellW + cellW/2;
+    var py = offY + player.y * cellH + cellH/2;
+    ctx.shadowColor = 'rgba(255,215,0,0.8)';
+    ctx.shadowBlur = 15;
+    ctx.fillStyle = '#ffd700';
+    ctx.beginPath();
+    ctx.arc(px, py, Math.min(cellW, cellH) * 0.25, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Minimap
+    var mmSize = 60;
+    var mmX = canvas.width - mmSize - 15;
+    var mmY = 15;
+    var mmCellW = mmSize / cols;
+    var mmCellH = mmSize / rows;
+
+    ctx.fillStyle = 'rgba(10,10,10,0.85)';
+    ctx.strokeStyle = '#2a2a2a';
+    ctx.lineWidth = 1;
+    ctx.fillRect(mmX - 2, mmY - 2, mmSize + 4, mmSize + 4);
+    ctx.strokeRect(mmX - 2, mmY - 2, mmSize + 4, mmSize + 4);
+
+    // Draw minimap walls (thin)
+    ctx.strokeStyle = 'rgba(212,168,67,0.4)';
+    ctx.lineWidth = 1;
+    for (var y = 0; y < rows; y++) {
+      for (var x = 0; x < cols; x++) {
+        var cell = grid[y][x];
+        var mpx = mmX + x * mmCellW;
+        var mpy = mmY + y * mmCellH;
+        if (cell.walls[0]) { ctx.beginPath(); ctx.moveTo(mpx, mpy); ctx.lineTo(mpx + mmCellW, mpy); ctx.stroke(); }
+        if (cell.walls[1]) { ctx.beginPath(); ctx.moveTo(mpx + mmCellW, mpy); ctx.lineTo(mpx + mmCellW, mpy + mmCellH); ctx.stroke(); }
+        if (cell.walls[2]) { ctx.beginPath(); ctx.moveTo(mpx, mpy + mmCellH); ctx.lineTo(mpx + mmCellW, mpy + mmCellH); ctx.stroke(); }
+        if (cell.walls[3]) { ctx.beginPath(); ctx.moveTo(mpx, mpy); ctx.lineTo(mpx, mpy + mmCellH); ctx.stroke(); }
+      }
+    }
+
+    // Player on minimap
+    ctx.fillStyle = '#ffd700';
+    ctx.fillRect(mmX + player.x * mmCellW, mmY + player.y * mmCellH, 2, 2);
+    // Exit on minimap
+    ctx.fillStyle = '#ff0000';
+    ctx.fillRect(mmX + exit.x * mmCellW, mmY + exit.y * mmCellH, 2, 2);
+
+    // Timer
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('时间: ' + Math.floor(timer) + 's', canvas.width/2, canvas.height - 8);
+  }
+
+  calcCellSize();
+  generateMaze();
+  draw();
+
+  window.startGame = function() {
+    started = true;
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.handleKeyDown = function(e) {
+    if (!started || !alive || paused) return;
+    switch(e.key) {
+      case 'ArrowUp': case 'w': case 'W': e.preventDefault(); movePlayer(0, -1); break;
+      case 'ArrowDown': case 's': case 'S': e.preventDefault(); movePlayer(0, 1); break;
+      case 'ArrowLeft': case 'a': case 'A': e.preventDefault(); movePlayer(-1, 0); break;
+      case 'ArrowRight': case 'd': case 'D': e.preventDefault(); movePlayer(1, 0); break;
+    }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+  };
+}
+
+// ==========================================
+// ======== 游戏 10: 混沌扫雷 ==============
+// ==========================================
+function initMinesweeper(canvas) {
+  var ctx = canvas.getContext('2d');
+  var COLS = 9, ROWS = 9, MINE_COUNT = 10;
+  var cellSize = 36, offsetX = 0, offsetY = 0;
+  var grid = [];
+  var revealed = [];
+  var flagged = [];
+  var gameState = 'playing'; // playing, won, lost
+  var mineCount = MINE_COUNT;
+  var timer = 0;
+  var timerRunning = false;
+  var firstClick = true;
+  var started = false;
+  var alive = true;
+  var frameId = null;
+
+  function calcLayout() {
+    cellSize = Math.min(Math.floor(canvas.width / (COLS + 2)), Math.floor(canvas.height / (ROWS + 3)), 42);
+    cellSize = Math.max(24, cellSize);
+    var gridW = cellSize * COLS;
+    var gridH = cellSize * ROWS;
+    offsetX = (canvas.width - gridW) / 2;
+    offsetY = (canvas.height - gridH) / 2;
+  }
+
+  function initGrid() {
+    grid = [];
+    revealed = [];
+    flagged = [];
+    for (var y = 0; y < ROWS; y++) {
+      grid[y] = [];
+      revealed[y] = [];
+      flagged[y] = [];
+      for (var x = 0; x < COLS; x++) {
+        grid[y][x] = 0;
+        revealed[y][x] = false;
+        flagged[y][x] = false;
+      }
+    }
+    mineCount = MINE_COUNT;
+    gameState = 'playing';
+    timer = 0;
+    timerRunning = false;
+    firstClick = true;
+    updateHUD(mineCount, '时间: 0s');
+  }
+
+  function placeMines(safeX, safeY) {
+    var placed = 0;
+    while (placed < MINE_COUNT) {
+      var x = Math.floor(Math.random() * COLS);
+      var y = Math.floor(Math.random() * ROWS);
+      if (grid[y][x] === -1) continue;
+      if (Math.abs(x - safeX) <= 1 && Math.abs(y - safeY) <= 1) continue;
+      grid[y][x] = -1;
+      placed++;
+    }
+    // Calculate numbers
+    for (var y = 0; y < ROWS; y++) {
+      for (var x = 0; x < COLS; x++) {
+        if (grid[y][x] === -1) continue;
+        var count = 0;
+        for (var dy = -1; dy <= 1; dy++) {
+          for (var dx = -1; dx <= 1; dx++) {
+            var nx = x + dx, ny = y + dy;
+            if (nx >= 0 && nx < COLS && ny >= 0 && ny < ROWS && grid[ny][nx] === -1) count++;
+          }
+        }
+        grid[y][x] = count;
+      }
+    }
+  }
+
+  function reveal(x, y) {
+    if (x < 0 || x >= COLS || y < 0 || y >= ROWS) return;
+    if (revealed[y][x] || flagged[y][x]) return;
+
+    revealed[y][x] = true;
+
+    if (grid[y][x] === -1) {
+      // BOOM - reveal all mines
+      gameState = 'lost';
+      alive = false;
+      // Reveal all mines
+      for (var yy = 0; yy < ROWS; yy++) {
+        for (var xx = 0; xx < COLS; xx++) {
+          if (grid[yy][xx] === -1) revealed[yy][xx] = true;
+        }
+      }
+      setTimeout(function() { gameOver(0); }, 500);
+      return;
+    }
+
+    if (grid[y][x] === 0) {
+      // Flood fill
+      for (var dy = -1; dy <= 1; dy++) {
+        for (var dx = -1; dx <= 1; dx++) {
+          if (dx !== 0 || dy !== 0) reveal(x + dx, y + dy);
+        }
+      }
+    }
+
+    checkWin();
+  }
+
+  function checkWin() {
+    var totalCells = COLS * ROWS;
+    var revealedCount = 0;
+    for (var y = 0; y < ROWS; y++) {
+      for (var x = 0; x < COLS; x++) {
+        if (revealed[y][x]) revealedCount++;
+      }
+    }
+    if (revealedCount === totalCells - MINE_COUNT) {
+      gameState = 'won';
+      alive = false;
+      var score = Math.max(100, 5000 - Math.floor(timer) * 5);
+      gameOver(score);
+    }
+  }
+
+  function update() {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+    if (timerRunning) timer += 1/60;
+    draw();
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    calcLayout();
+
+    for (var y = 0; y < ROWS; y++) {
+      for (var x = 0; x < COLS; x++) {
+        var px = offsetX + x * cellSize;
+        var py = offsetY + y * cellSize;
+
+        // Cell background
+        if (revealed[y][x]) {
+          ctx.fillStyle = '#111';
+          ctx.fillRect(px, py, cellSize, cellSize);
+          ctx.strokeStyle = '#1a1a1a';
+          ctx.lineWidth = 0.5;
+          ctx.strokeRect(px, py, cellSize, cellSize);
+
+          if (grid[y][x] === -1) {
+            // Mine (skull)
+            ctx.shadowColor = 'rgba(255,0,0,0.6)';
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = '#ff0000';
+            ctx.font = (cellSize * 0.5) + 'px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('☠', px + cellSize/2, py + cellSize/2 + 1);
+            ctx.shadowBlur = 0;
+          } else if (grid[y][x] > 0) {
+            var colors = ['', '#1e90ff', '#228b22', '#ff4500', '#8a2be2', '#c41e3a', '#00ced1', '#333', '#888'];
+            ctx.fillStyle = colors[grid[y][x]] || '#d4a843';
+            ctx.font = 'bold ' + (cellSize * 0.4) + 'px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(grid[y][x], px + cellSize/2, py + cellSize/2 + 1);
+          }
+        } else {
+          // Hidden cell
+          ctx.fillStyle = '#1a1a1a';
+          ctx.fillRect(px, py, cellSize, cellSize);
+          ctx.strokeStyle = '#2a2a2a';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(px, py, cellSize, cellSize);
+
+          // 3D bevel effect
+          ctx.fillStyle = '#222';
+          ctx.fillRect(px + 1, py + 1, cellSize - 2, 2);
+          ctx.fillRect(px + 1, py + 1, 2, cellSize - 2);
+          ctx.fillStyle = '#111';
+          ctx.fillRect(px + cellSize - 3, py + 1, 2, cellSize - 2);
+          ctx.fillRect(px + 1, py + cellSize - 3, cellSize - 2, 2);
+
+          if (flagged[y][x]) {
+            ctx.fillStyle = '#d4a843';
+            ctx.font = (cellSize * 0.45) + 'px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('⚜', px + cellSize/2, py + cellSize/2 + 1);
+          }
+        }
+      }
+    }
+
+    // Info bar
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('剩余炸弹: ' + (MINE_COUNT - flaggedCount()) + '  时间: ' + Math.floor(timer) + 's', canvas.width/2, canvas.height - 8);
+
+    // Legend
+    ctx.fillStyle = '#5a4e3e';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('左键揭开 | 右键标记', 10, canvas.height - 8);
+  }
+
+  function flaggedCount() {
+    var c = 0;
+    for (var y = 0; y < ROWS; y++) for (var x = 0; x < COLS; x++) if (flagged[y][x]) c++;
+    return c;
+  }
+
+  // Left click
+  canvas.addEventListener('click', function(e) {
+    if (!started || !alive || paused || gameState !== 'playing') return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    var x = Math.floor((mx - offsetX) / cellSize);
+    var y = Math.floor((my - offsetY) / cellSize);
+    if (x < 0 || x >= COLS || y < 0 || y >= ROWS) return;
+    if (flagged[y][x]) return;
+
+    if (firstClick) {
+      placeMines(x, y);
+      firstClick = false;
+      timerRunning = true;
+    }
+    if (!timerRunning) timerRunning = true;
+    reveal(x, y);
+  });
+
+  // Right click (flag)
+  canvas.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    if (!started || !alive || paused || gameState !== 'playing') return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    var x = Math.floor((mx - offsetX) / cellSize);
+    var y = Math.floor((my - offsetY) / cellSize);
+    if (x < 0 || x >= COLS || y < 0 || y >= ROWS) return;
+    if (revealed[y][x]) return;
+    flagged[y][x] = !flagged[y][x];
+    updateHUD(MINE_COUNT - flaggedCount(), '时间: ' + Math.floor(timer) + 's');
+  });
+
+  calcLayout();
+  initGrid();
+  draw();
+
+  window.startGame = function() {
+    started = true;
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+  };
+}
+
+// ==========================================
+// ======== 游戏 11: 符印拼图 ==============
+// ==========================================
+function initSigilPuzzle(canvas) {
+  var ctx = canvas.getContext('2d');
+  var SIZE = 3;
+  var tiles = [];
+  var emptyIdx = 8;
+  var moves = 0;
+  var timer = 0;
+  var timerRunning = false;
+  var started = false;
+  var alive = true;
+  var frameId = null;
+  var cellSize = 80, offsetX = 0, offsetY = 0;
+  var won = false;
+
+  // Sigil pattern: each tile is a piece of a larger occult symbol
+  // We draw a colored sigil pattern on the canvas and cut it into 9 pieces
+  var sigilColors = [
+    '#c41e3a', '#d4a843', '#8a2be2',
+    '#ff8c00', '#1e90ff', '#228b22',
+    '#ff69b4', '#00ced1', '#333'
+  ];
+
+  function calcLayout() {
+    cellSize = Math.min(Math.floor(canvas.width / (SIZE + 3)), Math.floor(canvas.height / (SIZE + 1)), 110);
+    cellSize = Math.max(40, Math.min(cellSize, 100));
+    var gridW = cellSize * SIZE;
+    var gridH = cellSize * SIZE;
+    offsetX = (canvas.width - gridW) / 2;
+    offsetY = (canvas.height - gridH) / 2 - 10;
+  }
+
+  function shuffleTiles() {
+    tiles = [];
+    for (var i = 0; i < 9; i++) tiles[i] = i;
+    tiles[8] = 8; // empty (blank tile)
+    emptyIdx = 8;
+
+    for (var m = 0; m < 100; m++) {
+      var neighbors = getNeighbors(emptyIdx);
+      var rnd = neighbors[Math.floor(Math.random() * neighbors.length)];
+      tiles[emptyIdx] = tiles[rnd];
+      tiles[rnd] = 8;
+      emptyIdx = rnd;
+    }
+
+    // Verify it's not already solved
+    var solved = true;
+    for (var i = 0; i < 8; i++) { if (tiles[i] !== i) { solved = false; break; } }
+    if (solved && emptyIdx === 8) {
+      // Swap first two
+      var n = getNeighbors(emptyIdx);
+      if (n.length >= 1) {
+        var t = tiles[n[0]];
+        tiles[n[0]] = 8;
+        emptyIdx = n[0];
+        tiles[emptyIdx === 0 ? 1 : 0] = t;
+      }
+    }
+
+    moves = 0;
+    timer = 0;
+    timerRunning = false;
+    won = false;
+    updateHUD(0, '移动: 0 时间: 0s');
+  }
+
+  function getNeighbors(idx) {
+    var r = Math.floor(idx / SIZE);
+    var c = idx % SIZE;
+    var result = [];
+    if (r > 0) result.push(idx - SIZE);
+    if (r < SIZE - 1) result.push(idx + SIZE);
+    if (c > 0) result.push(idx - 1);
+    if (c < SIZE - 1) result.push(idx + 1);
+    return result;
+  }
+
+  function moveTile(idx) {
+    if (won || !alive) return;
+    var neighbors = getNeighbors(emptyIdx);
+    if (neighbors.indexOf(idx) === -1) return;
+
+    if (!timerRunning) timerRunning = true;
+
+    tiles[emptyIdx] = tiles[idx];
+    tiles[idx] = 8;
+    emptyIdx = idx;
+    moves++;
+    updateHUD(0, '移动: ' + moves + ' 时间: ' + Math.floor(timer) + 's');
+    flashFeedback(true);
+
+    // Check win
+    var solved = true;
+    for (var i = 0; i < 8; i++) {
+      if (tiles[i] !== i) { solved = false; break; }
+    }
+    if (solved && emptyIdx === 8) {
+      won = true;
+      alive = false;
+      var finalScore = Math.max(100, 3000 - moves * 5 - Math.floor(timer) * 3);
+      gameOver(finalScore);
+    }
+  }
+
+  function drawSigilTile(ctx, tileIdx, cx, cy, size) {
+    // Each tile is a portion of the sigil pattern
+    var tx = tileIdx % SIZE;
+    var ty = Math.floor(tileIdx / SIZE);
+
+    // Background circle
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx + size/2, cy + size/2, size * 0.4, 0, Math.PI * 2);
+    ctx.fillStyle = sigilColors[tileIdx];
+    ctx.shadowColor = sigilColors[tileIdx];
+    ctx.shadowBlur = 8;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Inner symbol
+    ctx.fillStyle = '#fff';
+    ctx.font = (size * 0.35) + 'px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    var symbols = ['✦', '☯', '⚜', '☽', '♄', '♃', '♂', '♀', '✧'];
+    ctx.fillText(symbols[tileIdx], cx + size/2, cy + size/2 + 1);
+
+    // Decorative lines based on position
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 1;
+    if (tx > 0) {
+      ctx.beginPath(); ctx.moveTo(cx, cy + size*0.2); ctx.lineTo(cx, cy + size*0.8); ctx.stroke();
+    }
+    if (ty > 0) {
+      ctx.beginPath(); ctx.moveTo(cx + size*0.2, cy); ctx.lineTo(cx + size*0.8, cy); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function update() {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+    if (timerRunning) timer += 1/60;
+    draw();
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    calcLayout();
+
+    for (var i = 0; i < 9; i++) {
+      var val = tiles[i];
+      var row = Math.floor(i / SIZE);
+      var col = i % SIZE;
+      var x = offsetX + col * cellSize;
+      var y = offsetY + row * cellSize;
+
+      if (val === 8) {
+        // Empty space
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(x, y, cellSize, cellSize);
+        ctx.strokeStyle = '#1a1a1a';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, y, cellSize, cellSize);
+      } else {
+        // Sigil tile
+        ctx.shadowColor = won ? 'rgba(0,255,0,0.3)' : 'rgba(212,168,67,0.2)';
+        ctx.shadowBlur = won ? 8 : 4;
+        ctx.fillStyle = '#151515';
+        ctx.fillRect(x + 1, y + 1, cellSize - 2, cellSize - 2);
+        ctx.strokeStyle = won ? '#00ff00' : '#d4a843';
+        ctx.lineWidth = won ? 2 : 1.5;
+        ctx.strokeRect(x + 1, y + 1, cellSize - 2, cellSize - 2);
+        ctx.shadowBlur = 0;
+
+        drawSigilTile(ctx, val, x, y, cellSize);
+      }
+    }
+
+    // Reference image in top-right corner
+    var refSize = 60;
+    var refX = canvas.width - refSize - 15;
+    var refY = 15;
+    ctx.fillStyle = 'rgba(10,10,10,0.9)';
+    ctx.strokeStyle = '#d4a843';
+    ctx.lineWidth = 1;
+    ctx.fillRect(refX - 2, refY - 2, refSize + 4, refSize + 4);
+    ctx.strokeRect(refX - 2, refY - 2, refSize + 4, refSize + 4);
+
+    var refCell = refSize / SIZE;
+    for (var r = 0; r < SIZE; r++) {
+      for (var c = 0; c < SIZE; c++) {
+        var idx = r * SIZE + c;
+        var rx = refX + c * refCell;
+        var ry = refY + r * refCell;
+        ctx.fillStyle = sigilColors[idx];
+        ctx.fillRect(rx, ry, refCell, refCell);
+        ctx.fillStyle = '#fff';
+        ctx.font = (refCell * 0.3) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        var refSym = ['✦', '☯', '⚜', '☽', '♄', '♃', '♂', '♀', ''];
+        ctx.fillText(refSym[idx] || '', rx + refCell/2, ry + refCell/2 + 1);
+      }
+    }
+
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('参考', refX + refSize/2, refY + refSize + 12);
+
+    // Info
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('移动: ' + moves + '  时间: ' + Math.floor(timer) + 's', canvas.width/2, canvas.height - 8);
+
+    // Shuffle button
+    var btnX = canvas.width - 100;
+    var btnY = canvas.height - 35;
+    ctx.fillStyle = '#1a1a1a';
+    ctx.strokeStyle = '#2a2a2a';
+    ctx.lineWidth = 1;
+    ctx.fillRect(btnX, btnY, 80, 26);
+    ctx.strokeRect(btnX, btnY, 80, 26);
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('重新打乱', btnX + 40, btnY + 13);
+  }
+
+  canvas.addEventListener('click', function(e) {
+    if (!started || !alive || paused) return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    // Check shuffle button
+    var btnX = canvas.width - 100;
+    var btnY = canvas.height - 35;
+    if (mx >= btnX && mx <= btnX + 80 && my >= btnY && my <= btnY + 26) {
+      shuffleTiles();
+      draw();
+      return;
+    }
+
+    var col = Math.floor((mx - offsetX) / cellSize);
+    var row = Math.floor((my - offsetY) / cellSize);
+    if (col < 0 || col >= SIZE || row < 0 || row >= SIZE) return;
+    var idx = row * SIZE + col;
+    if (tiles[idx] !== 8) moveTile(idx);
+  });
+
+  calcLayout();
+  shuffleTiles();
+  draw();
+
+  window.startGame = function() {
+    started = true;
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+  };
+}
+
+// ==========================================
+// ======== 游戏 12: 颜色试炼 ==============
+// ==========================================
+function initColorReaction(canvas) {
+  var ctx = canvas.getContext('2d');
+  var COLORS = [
+    {name: '红', value: '#c41e3a'},
+    {name: '蓝', value: '#1e90ff'},
+    {name: '绿', value: '#228b22'},
+    {name: '黄', value: '#d4a843'},
+    {name: '紫', value: '#8a2be2'},
+    {name: '橙', value: '#ff8c00'}
+  ];
+  var currentColor = null;
+  var options = [];
+  var correctIdx = -1;
+  var score = 0;
+  var streak = 0;
+  var maxStreak = 0;
+  var timeLeft = 30;
+  var started = false;
+  var alive = true;
+  var frameId = null;
+  var circleX, circleY, circleR;
+  var btnW = 100, btnH = 45;
+  var btnY;
+
+  function calcLayout() {
+    circleX = canvas.width / 2;
+    circleY = canvas.height * 0.28;
+    circleR = Math.min(canvas.width, canvas.height) * 0.12;
+    circleR = Math.max(30, Math.min(circleR, 60));
+    btnW = Math.min(110, (canvas.width - 40) / 4);
+    btnH = Math.min(45, (canvas.height - circleY - circleR - 40) / 2);
+    btnY = circleY + circleR + 30;
+  }
+
+  function generateQuestion() {
+    // Pick a random color for the circle
+    var ci = Math.floor(Math.random() * COLORS.length);
+    currentColor = COLORS[ci];
+    correctIdx = Math.floor(Math.random() * 4);
+
+    // Generate 4 options
+    options = [];
+    var used = {};
+    for (var i = 0; i < 4; i++) {
+      if (i === correctIdx) {
+        options.push({
+          label: currentColor.name,
+          textColor: COLORS[Math.floor(Math.random() * COLORS.length)].value
+        });
+        used[currentColor.name] = true;
+      } else {
+        var name;
+        do {
+          name = COLORS[Math.floor(Math.random() * COLORS.length)].name;
+        } while (used[name] || name === currentColor.name);
+        used[name] = true;
+        options.push({
+          label: name,
+          textColor: COLORS[Math.floor(Math.random() * COLORS.length)].value
+        });
+      }
+    }
+  }
+
+  function handleClick(btnIdx) {
+    if (!started || !alive || paused) return;
+    if (btnIdx === correctIdx) {
+      score++;
+      streak++;
+      if (streak > maxStreak) maxStreak = streak;
+      flashFeedback(true);
+    } else {
+      streak = 0;
+      flashFeedback(false);
+    }
+    updateHUD(score, '连击: ' + streak + ' 时间: ' + Math.ceil(timeLeft) + 's');
+    generateQuestion();
+  }
+
+  function update() {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+    timeLeft -= 1/60;
+    if (timeLeft <= 0) {
+      timeLeft = 0;
+      alive = false;
+      var finalScore = score * 100 + maxStreak * 50;
+      gameOver(finalScore);
+      return;
+    }
+    updateHUD(score, '连击: ' + streak + ' 剩余: ' + Math.ceil(timeLeft) + 's');
+    draw();
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    calcLayout();
+
+    // Colored circle
+    ctx.shadowColor = currentColor.value;
+    ctx.shadowBlur = 20;
+    ctx.fillStyle = currentColor.value;
+    ctx.beginPath();
+    ctx.arc(circleX, circleY, circleR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Circle border
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Prompt text
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '16px "Ma Shan Zheng", serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('选择与圆圈颜色匹配的文字', canvas.width/2, circleY - circleR - 20);
+
+    // 4 buttons
+    var totalW = btnW * 4 + 10 * 3;
+    var btnStartX = (canvas.width - totalW) / 2;
+
+    for (var i = 0; i < 4; i++) {
+      var bx = btnStartX + i * (btnW + 10);
+      var by = btnY;
+
+      // Button background
+      ctx.fillStyle = '#151515';
+      ctx.strokeStyle = '#2a2a2a';
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(bx, by, btnW, btnH);
+      ctx.strokeRect(bx, by, btnW, btnH);
+
+      // Button text (with potentially different color)
+      ctx.fillStyle = options[i].textColor;
+      ctx.font = 'bold ' + (btnH * 0.4) + 'px "Ma Shan Zheng", serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(options[i].label, bx + btnW/2, by + btnH/2 + 1);
+    }
+
+    // Timer bar at top
+    var barW = 200;
+    var barX = (canvas.width - barW) / 2;
+    ctx.fillStyle = '#1a1a1a';
+    ctx.fillRect(barX, 8, barW, 6);
+    ctx.fillStyle = timeLeft > 10 ? '#d4a843' : '#c41e3a';
+    ctx.fillRect(barX, 8, barW * (timeLeft / 30), 6);
+
+    // Score display
+    ctx.fillStyle = '#d4a843';
+    ctx.font = '14px "Ma Shan Zheng", serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('得分: ' + score + '  连击: ' + streak, canvas.width/2, circleY - circleR - 45);
+  }
+
+  canvas.addEventListener('click', function(e) {
+    if (!started || !alive || paused) return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    var totalW = btnW * 4 + 10 * 3;
+    var btnStartX = (canvas.width - totalW) / 2;
+
+    for (var i = 0; i < 4; i++) {
+      var bx = btnStartX + i * (btnW + 10);
+      var by = btnY;
+      if (mx >= bx && mx <= bx + btnW && my >= by && my <= by + btnH) {
+        handleClick(i);
+        return;
+      }
+    }
+  });
+
+  calcLayout();
+  generateQuestion();
+  updateHUD(0, '连击: 0 剩余: 30s');
+
+  window.startGame = function() {
+    started = true;
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+  };
+}
+
+// ==========================================
 // ========= 游戏初始化调度器 ==============
 // ==========================================
 function initGame(gameId, canvas) {
@@ -2350,6 +3771,12 @@ function initGame(gameId, canvas) {
     case 'match3': initMatch3(canvas); break;
     case 'tetris': initTetris(canvas); break;
     case 'dino': initDino(canvas); break;
+    case 'memory': initMemory(canvas); break;
+    case 'slide': initSlide(canvas); break;
+    case 'maze': initMaze(canvas); break;
+    case 'minesweeper': initMinesweeper(canvas); break;
+    case 'sigilpuzzle': initSigilPuzzle(canvas); break;
+    case 'color': initColorReaction(canvas); break;
   }
 }
 </script>

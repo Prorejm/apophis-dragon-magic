@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>魔法生成器工坊 — Apophis Dragon Magic</title>
-<meta name="description" content="魔法生成器工坊 - 魔法名生成、行星符印、咒语生成、占卜随机、仪式时间计算、元素平衡测试">
+<meta name="description" content="魔法生成器工坊 - 魔法名生成、行星符印、咒语生成、占卜随机、仪式时间计算、元素平衡测试、龙语翻译、塔罗占卜、药水调配、星盘命轮、符印增强、梦境解析、符印塔罗、龙之符文占卜、混沌天气模拟、灵魂动物向导">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
@@ -345,7 +345,281 @@ canvas.gen-canvas{
 /* ── Test complete screen ── */
 .test-complete{text-align:center;padding:1.5rem;}
 .test-complete .result-title{font-size:1.5rem;color:var(--accent2);margin-bottom:1rem;}
-</style>
+
+/* ════════════════════════════════════════
+   TAB 7: DRAGON LANGUAGE TRANSLATOR
+   ════════════════════════════════════════ */
+.draconic-script{font-size:2.5rem;text-align:center;color:var(--accent2);font-family:var(--font-display);letter-spacing:0.3em;margin:1rem 0;text-shadow:0 0 30px rgba(212,168,67,0.3);}
+.power-level{display:inline-block;padding:0.2rem 1rem;border-radius:20px;font-size:0.8rem;font-weight:600;}
+.power-low{background:rgba(74,127,181,0.2);color:#4a7fb5;border:1px solid #4a7fb5;}
+.power-medium{background:rgba(212,168,67,0.2);color:var(--accent2);border:1px solid var(--accent2);}
+.power-high{background:rgba(196,30,58,0.2);color:#c41e3a;border:1px solid #c41e3a;}
+.power-ancient{background:rgba(180,100,200,0.2);color:#b464c8;border:1px solid #b464c8;}
+.translation-breakdown{margin:1rem 0;}
+.translation-breakdown .tb-item{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #222;}
+.translation-breakdown .tb-item:last-child{border-bottom:none;}
+.translation-breakdown .tb-word{color:var(--accent2);font-weight:600;}
+.translation-breakdown .tb-draconic{color:var(--ink);font-family:var(--font-display);}
+.translation-breakdown .tb-meaning{color:var(--muted);font-size:0.85rem;}
+.history-list{max-height:150px;overflow-y:auto;margin-top:0.5rem;}
+.history-list .hl-item{padding:0.3rem 0.6rem;border-bottom:1px solid #222;font-size:0.85rem;display:flex;justify-content:space-between;color:var(--muted);}
+
+/* ════════════════════════════════════════
+   TAB 8: TAROT / ORACLE CARDS
+   ════════════════════════════════════════ */
+.card-container{perspective:1200px;display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin:1.5rem 0;}
+.card-3d{width:180px;height:270px;position:relative;transform-style:preserve-3d;transition:transform 0.8s cubic-bezier(0.4,0,0.2,1);cursor:pointer;}
+.card-3d.flipped{transform:rotateY(180deg);}
+.card-face{position:absolute;inset:0;border-radius:12px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;border:2px solid var(--rule2);box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+.card-back{background:linear-gradient(135deg,#1a1a2e,#16213e);z-index:2;}
+.card-back .sigil-mark{font-size:3rem;color:var(--accent2);opacity:0.6;text-shadow:0 0 20px rgba(212,168,67,0.3);}
+.card-back .card-back-text{color:var(--muted);font-size:0.7rem;margin-top:0.5rem;letter-spacing:0.15em;}
+.card-front{background:linear-gradient(180deg,#1a1a2e,#0a0a0a);transform:rotateY(180deg);z-index:1;}
+.card-front .card-number{color:var(--muted);font-size:0.7rem;position:absolute;top:8px;left:12px;}
+.card-front .card-title-zh{font-family:var(--font-display);font-size:1.3rem;color:var(--accent2);text-align:center;}
+.card-front .card-element{font-size:0.75rem;color:#aaa;margin-top:0.3rem;}
+.card-front .card-meaning{font-size:0.75rem;color:var(--muted);text-align:center;margin-top:0.5rem;line-height:1.4;}
+.card-spread{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin:1.5rem 0;}
+.card-spread-position{text-align:center;}
+.card-spread-position .sp-label{color:var(--muted);font-size:0.8rem;margin-bottom:0.5rem;}
+
+/* ════════════════════════════════════════
+   TAB 9: POTION MIXER
+   ════════════════════════════════════════ */
+.ingredient-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:0.6rem;margin:1rem 0;}
+.ingredient-btn{background:var(--bg3);border:1px solid #333;color:var(--ink);padding:0.6rem 0.4rem;border-radius:8px;cursor:pointer;text-align:center;transition:all 0.3s;font-family:var(--font);font-size:0.8rem;}
+.ingredient-btn:hover{border-color:var(--accent2);background:rgba(212,168,67,0.1);}
+.ingredient-btn.selected{border-color:var(--accent2);background:rgba(212,168,67,0.2);box-shadow:0 0 15px rgba(212,168,67,0.2);}
+.ingredient-btn .ing-icon{font-size:1.5rem;display:block;margin-bottom:0.3rem;}
+.cauldron-wrap{text-align:center;margin:1rem 0;position:relative;}
+.cauldron-wrap canvas{border-radius:50%;background:#0a0a0a;border:2px solid #333;}
+.potion-result{display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--bg3);border-radius:8px;border:1px solid #333;margin-top:1rem;}
+.potion-color-sample{width:50px;height:50px;border-radius:50%;border:2px solid #555;flex-shrink:0;}
+.potion-info{flex:1;}
+.potion-info .pi-name{font-size:1.2rem;color:var(--accent2);font-family:var(--font-display);}
+.potion-info .pi-effect{color:var(--ink);font-size:0.9rem;margin-top:0.3rem;}
+.potion-info .pi-stars{color:var(--accent3);font-size:0.9rem;margin-top:0.2rem;}
+.potion-info .pi-use{color:var(--muted);font-size:0.8rem;margin-top:0.2rem;}
+
+/* ════════════════════════════════════════
+   TAB 10: ASTROLOGICAL CHART
+   ════════════════════════════════════════ */
+.chart-wrap{text-align:center;margin:1rem 0;}
+.chart-wrap canvas{border-radius:50%;background:#0a0a0a;border:2px solid #333;max-width:100%;}
+.chart-reading{margin-top:1rem;padding:1rem;background:var(--bg3);border-radius:8px;border:1px solid #333;line-height:1.8;}
+.chart-reading .cr-title{color:var(--accent2);font-family:var(--font-display);font-size:1.2rem;margin-bottom:0.5rem;}
+.chart-reading .cr-line{color:var(--ink);font-size:0.9rem;}
+
+/* ════════════════════════════════════════
+   TAB 11: ADVANCED SIGIL FORGE
+   ════════════════════════════════════════ */
+.sigil-method-select{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.sigil-method-btn{background:var(--bg3);border:1px solid #333;color:var(--muted);padding:0.5rem 1rem;border-radius:8px;cursor:pointer;font-family:var(--font);font-size:0.85rem;transition:all 0.3s;}
+.sigil-method-btn:hover{border-color:var(--accent2);color:var(--accent2);}
+.sigil-method-btn.active{border-color:var(--accent2);background:rgba(212,168,67,0.15);color:var(--accent2);}
+.sigil-controls-row{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;margin-bottom:1rem;}
+.sigil-controls-row label{color:#aaa;font-size:0.8rem;}
+.sigil-controls-row input[type="color"]{width:40px;height:40px;border:1px solid #333;border-radius:6px;background:transparent;cursor:pointer;padding:2px;}
+.sigil-canvas-wrap{text-align:center;position:relative;margin:1rem 0;}
+.sigil-canvas-wrap canvas{border:1px solid #333;background:#0a0a0a;border-radius:8px;max-width:100%;}
+.particle-burst{position:absolute;pointer-events:none;top:50%;left:50%;}
+.sigil-interpretation{margin-top:1rem;padding:1rem;background:var(--bg3);border-radius:8px;border:1px solid #333;}
+
+/* ════════════════════════════════════════
+   TAB 12: DREAM ORACLE
+   ════════════════════════════════════════ */
+.dream-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin:0.5rem 0;}
+.dream-tag{background:var(--bg3);border:1px solid #333;color:var(--muted);padding:0.3rem 0.8rem;border-radius:20px;cursor:pointer;font-size:0.85rem;transition:all 0.3s;font-family:var(--font);}
+.dream-tag:hover{border-color:var(--accent2);color:var(--accent2);}
+.dream-tag.selected{background:rgba(212,168,67,0.15);border-color:var(--accent2);color:var(--accent2);}
+.dream-type-badge{display:inline-block;padding:0.2rem 1rem;border-radius:20px;font-size:0.8rem;font-weight:600;margin-right:0.5rem;}
+.dream-type-预言{background:rgba(212,168,67,0.2);color:var(--accent2);border:1px solid var(--accent2);}
+.dream-type-警告{background:rgba(196,30,58,0.2);color:#c41e3a;border:1px solid #c41e3a;}
+.dream-type-启示{background:rgba(74,127,181,0.2);color:#4a7fb5;border:1px solid #4a7fb5;}
+.dream-type-考验{background:rgba(180,100,200,0.2);color:#b464c8;border:1px solid #b464c8;}
+.dream-type-回忆{background:rgba(139,105,20,0.2);color:#8B6914;border:1px solid #8B6914;}
+.dream-symbol-item{padding:0.6rem;background:var(--bg3);border-radius:8px;border:1px solid #333;margin-bottom:0.5rem;}
+.dream-symbol-item .ds-word{color:var(--accent2);font-weight:600;}
+.dream-symbol-item .ds-interp{color:var(--ink);font-size:0.9rem;margin-top:0.3rem;}
+.dream-journal{max-height:200px;overflow-y:auto;margin-top:0.5rem;}
+.dream-journal .dj-item{padding:0.4rem 0.6rem;border-bottom:1px solid #222;font-size:0.85rem;}
+.dream-journal .dj-item .dj-date{color:var(--muted);font-size:0.75rem;}
+.dream-journal .dj-item .dj-text{color:var(--ink);}
+
+/* ════════════════════════════════════════
+   TAB 13: SIGIL TAROT
+   ════════════════════════════════════════ */
+.sigil-tarot-card-wrap{perspective:1200px;display:flex;justify-content:center;margin:1.5rem 0;}
+.sigil-tarot-card{width:220px;height:320px;position:relative;transform-style:preserve-3d;transition:transform 0.8s cubic-bezier(0.4,0,0.2,1);cursor:pointer;}
+.sigil-tarot-card.flipped{transform:rotateY(180deg);}
+.st-card-face{position:absolute;inset:0;border-radius:12px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;border:2px solid var(--rule2);box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+.st-card-back{background:linear-gradient(135deg,#1a1a2e,#16213e);z-index:2;}
+.st-card-back .st-back-icon{font-size:3rem;color:var(--accent2);opacity:0.6;}
+.st-card-back .st-back-text{color:var(--muted);font-size:0.7rem;margin-top:0.5rem;}
+.st-card-front{background:linear-gradient(180deg,#1a1a2e,#0a0a0a);transform:rotateY(180deg);z-index:1;}
+.st-card-front canvas{width:180px;height:180px;border-radius:8px;background:#0a0a0a;border:1px solid #333;margin-bottom:0.5rem;}
+.st-card-front .st-name{font-family:var(--font-display);font-size:1.2rem;color:var(--accent2);text-align:center;}
+.st-card-front .st-orient{font-size:0.75rem;margin-top:0.2rem;}
+.st-card-front .st-orient.upright{color:#4a7fb5;}
+.st-card-front .st-orient.reversed{color:#c41e3a;}
+.st-card-front .st-meaning{font-size:0.7rem;color:var(--muted);text-align:center;margin-top:0.3rem;line-height:1.3;max-height:2.6rem;overflow:hidden;}
+
+/* ════════════════════════════════════════
+   TAB 14: DRAGON RUNE DIVINATION
+   ════════════════════════════════════════ */
+.rune-spread{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin:1.5rem 0;}
+.rune-card{width:160px;text-align:center;background:var(--bg3);border:1px solid #333;border-radius:12px;padding:1rem;transition:all 0.3s;}
+.rune-card:hover{border-color:var(--accent2);}
+.rune-card canvas{display:block;margin:0 auto 0.5rem;border-radius:8px;background:#0a0a0a;border:1px solid #333;}
+.rune-card .rune-name{font-family:var(--font-display);font-size:1.1rem;color:var(--accent2);}
+.rune-card .rune-pos{color:var(--muted);font-size:0.75rem;margin-bottom:0.3rem;}
+.rune-card .rune-element{display:inline-block;padding:0.1rem 0.6rem;border-radius:12px;font-size:0.7rem;margin:0.3rem 0;}
+.rune-card .rune-element.fire{background:rgba(196,30,58,0.2);color:#c41e3a;border:1px solid #c41e3a;}
+.rune-card .rune-element.water{background:rgba(74,127,181,0.2);color:#4a7fb5;border:1px solid #4a7fb5;}
+.rune-card .rune-element.earth{background:rgba(139,105,20,0.2);color:#8B6914;border:1px solid #8B6914;}
+.rune-card .rune-element.air{background:rgba(176,176,200,0.2);color:#b0b0c8;border:1px solid #b0b0c8;}
+.rune-card .rune-element.spirit{background:rgba(180,100,200,0.2);color:#b464c8;border:1px solid #b464c8;}
+.rune-card .rune-meaning{color:var(--ink);font-size:0.8rem;margin-top:0.3rem;}
+.rune-interp{background:var(--bg3);border:1px solid var(--rule2);border-radius:8px;padding:1rem;margin-top:1rem;}
+.rune-interp .ri-title{color:var(--accent2);font-family:var(--font-display);font-size:1.2rem;margin-bottom:0.5rem;}
+.rune-interp .ri-text{color:var(--ink);font-size:0.9rem;line-height:1.6;}
+
+/* ════════════════════════════════════════
+   TAB 15: CHAOS WEATHER SIMULATOR
+   ════════════════════════════════════════ */
+.weather-btns{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin:1rem 0;}
+.weather-btn{background:var(--bg3);border:1px solid #333;color:var(--ink);padding:0.5rem 1rem;border-radius:8px;cursor:pointer;font-family:var(--font);font-size:0.85rem;transition:all 0.3s;}
+.weather-btn:hover{transform:translateY(-2px);}
+.weather-btn.active{background:rgba(212,168,67,0.15);border-color:var(--accent2);color:var(--accent2);box-shadow:0 0 20px rgba(212,168,67,0.15);}
+.weather-canvas-wrap{text-align:center;margin:1rem 0;}
+.weather-canvas-wrap canvas{border-radius:12px;background:#0a0a0a;border:2px solid #333;max-width:100%;}
+.weather-info{background:var(--bg3);border:1px solid var(--rule2);border-radius:8px;padding:1rem;margin-top:1rem;}
+.weather-info .wi-name{font-family:var(--font-display);font-size:1.4rem;color:var(--accent2);}
+.weather-info .wi-duration{color:var(--muted);font-size:0.85rem;margin-top:0.3rem;}
+.weather-info .wi-significance{color:var(--ink);font-size:0.9rem;margin-top:0.5rem;line-height:1.6;}
+.weather-info .wi-planet{color:#aaa;font-size:0.85rem;margin-top:0.3rem;}
+
+/* ════════════════════════════════════════
+   TAB 16: SPIRIT ANIMAL GUIDE
+   ════════════════════════════════════════ */
+.spirit-result{text-align:center;padding:1rem;}
+.spirit-result .sa-animal{font-size:2rem;margin-bottom:0.5rem;}
+.spirit-result .sa-name{font-family:var(--font-display);font-size:1.8rem;color:var(--accent2);margin-bottom:0.3rem;}
+.spirit-result .sa-illustration{color:#aaa;font-size:0.85rem;margin:0.5rem 0;line-height:1.4;}
+.spirit-result .sa-info{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin:1rem 0;}
+.spirit-result .sa-info-item{background:var(--bg3);border:1px solid #333;border-radius:8px;padding:0.6rem;}
+.spirit-result .sa-info-item .sai-label{color:var(--muted);font-size:0.75rem;}
+.spirit-result .sa-info-item .sai-value{color:var(--accent2);font-size:1rem;font-weight:600;margin-top:0.2rem;}
+.spirit-result .sa-meaning{color:var(--ink);font-size:0.9rem;line-height:1.6;margin-top:0.5rem;padding:1rem;background:var(--bg3);border-radius:8px;border:1px solid #333;text-align:left;}
+.spirit-history{max-height:200px;overflow-y:auto;margin-top:0.5rem;}
+.spirit-history .sh-item{padding:0.4rem 0.6rem;border-bottom:1px solid #222;font-size:0.85rem;display:flex;justify-content:space-between;color:var(--muted);}
+
+/* ════════════════════════════════════════
+   TAB 7: DRAGON EXPANDED DICTIONARY
+   ════════════════════════════════════════ */
+.dict-filter{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.8rem;}
+.dict-filter button{background:var(--bg3);border:1px solid #333;color:var(--muted);padding:0.25rem 0.7rem;border-radius:12px;cursor:pointer;font-size:0.75rem;font-family:var(--font);transition:all 0.2s;}
+.dict-filter button:hover{border-color:var(--accent2);color:var(--accent2);}
+.dict-filter button.active{background:rgba(212,168,67,0.15);border-color:var(--accent2);color:var(--accent2);}
+.dragon-vocab-list{max-height:200px;overflow-y:auto;border:1px solid #333;border-radius:8px;margin-bottom:1rem;}
+.dragon-vocab-list .dv-item{display:flex;justify-content:space-between;padding:0.3rem 0.8rem;border-bottom:1px solid #222;font-size:0.8rem;}
+.dragon-vocab-list .dv-item:last-child{border-bottom:none;}
+.dragon-vocab-list .dv-item .dv-zh{color:var(--ink);}
+.dragon-vocab-list .dv-item .dv-draconic{color:var(--accent2);font-family:var(--font-display);}
+.dragon-vocab-list .dv-item .dv-cat{color:var(--muted);font-size:0.7rem;}
+
+/* ════════════════════════════════════════
+   TAB 17: NUMEROLOGY CALCULATOR
+   ════════════════════════════════════════ */
+.numero-large{text-align:center;padding:1.5rem;position:relative;}
+.numero-large .nl-number{font-size:4.5rem;font-family:var(--font-display);color:var(--accent2);text-shadow:0 0 40px rgba(212,168,67,0.4);transition:all 0.5s ease;cursor:pointer;}
+.numero-large .nl-number.reveal-anim{animation:numeroReveal 0.8s ease forwards;}
+@keyframes numeroReveal{0%{opacity:0;transform:scale(0.3) rotate(-180deg);filter:blur(10px);}100%{opacity:1;transform:scale(1) rotate(0);filter:blur(0);}}
+.numero-large .nl-label{color:var(--muted);font-size:0.9rem;margin-top:0.3rem;}
+.numero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.8rem;margin:1rem 0;}
+.numero-card{background:var(--bg3);border:1px solid #333;border-radius:10px;padding:1rem;text-align:center;transition:all 0.3s;}
+.numero-card:hover{border-color:var(--accent2);transform:translateY(-3px);}
+.numero-card .nc-number{font-size:2rem;font-family:var(--font-display);color:var(--accent2);}
+.numero-card .nc-name{color:#aaa;font-size:0.8rem;margin:0.3rem 0;}
+.numero-card .nc-desc{color:var(--muted);font-size:0.78rem;line-height:1.4;}
+.numero-card .nc-element{display:inline-block;padding:0.1rem 0.6rem;border-radius:12px;font-size:0.7rem;margin-top:0.3rem;}
+.numero-card .nc-element.fire{background:rgba(196,30,58,0.2);color:#c41e3a;border:1px solid #c41e3a;}
+.numero-card .nc-element.earth{background:rgba(139,105,20,0.2);color:#8B6914;border:1px solid #8B6914;}
+.numero-card .nc-element.air{background:rgba(176,176,200,0.2);color:#b0b0c8;border:1px solid #b0b0c8;}
+.numero-card .nc-element.water{background:rgba(74,127,181,0.2);color:#4a7fb5;border:1px solid #4a7fb5;}
+.numero-card .nc-element.spirit{background:rgba(180,100,200,0.2);color:#b464c8;border:1px solid #b464c8;}
+.numero-interp{margin-top:1rem;padding:1.2rem;background:var(--bg3);border-radius:8px;border:1px solid var(--rule2);}
+.numero-interp .ni-title{font-family:var(--font-display);font-size:1.3rem;color:var(--accent2);margin-bottom:0.5rem;}
+.numero-interp .ni-text{color:var(--ink);font-size:0.9rem;line-height:1.7;}
+.numero-tarot{text-align:center;margin-top:0.8rem;padding:0.8rem;background:rgba(212,168,67,0.06);border-radius:8px;border:1px dashed var(--rule2);}
+.numero-tarot .nt-label{color:var(--muted);font-size:0.78rem;}
+.numero-tarot .nt-value{color:var(--accent2);font-family:var(--font-display);font-size:1.1rem;}
+
+/* ════════════════════════════════════════
+   TAB 18: KABBALAH TREE OF LIFE
+   ════════════════════════════════════════ */
+.kabbalah-layout{display:flex;flex-wrap:wrap;gap:1.5rem;}
+.kabbalah-layout .kl-canvas-wrap{flex:0 0 auto;}
+.kabbalah-layout .kl-canvas-wrap canvas{border-radius:8px;background:#0a0a0a;border:1px solid #333;max-width:100%;}
+.kabbalah-layout .kl-sidebar{flex:1;min-width:220px;}
+.kabbalah-layout .kl-sidebar .kl-placeholder{color:var(--muted);font-size:0.9rem;padding:2rem 1rem;text-align:center;border:1px dashed #333;border-radius:8px;}
+.sephirah-info{background:var(--bg3);border:1px solid var(--rule2);border-radius:8px;padding:1.2rem;margin-bottom:1rem;}
+.sephirah-info .si-name{font-family:var(--font-display);font-size:1.5rem;color:var(--accent2);}
+.sephirah-info .si-hebrew{color:#aaa;font-size:1rem;margin:0.3rem 0;}
+.sephirah-info .si-detail{color:var(--ink);font-size:0.88rem;line-height:1.6;margin-top:0.5rem;}
+.sephirah-info .si-detail .sd-row{display:flex;justify-content:space-between;padding:0.3rem 0;border-bottom:1px solid #222;}
+.sephirah-info .si-detail .sd-row:last-child{border-bottom:none;}
+.sephirah-info .si-detail .sd-label{color:var(--muted);}
+.sephirah-info .si-detail .sd-value{color:var(--accent2);}
+.worlds-display{display:grid;grid-template-columns:repeat(2,1fr);gap:0.5rem;margin:0.8rem 0;}
+.world-card{background:var(--bg3);border:1px solid #333;border-radius:6px;padding:0.6rem;text-align:center;}
+.world-card .wc-num{color:var(--accent2);font-family:var(--font-display);font-size:1.2rem;}
+.world-card .wc-name{color:var(--ink);font-size:0.85rem;margin:0.2rem 0;}
+.world-card .wc-hebrew{color:var(--muted);font-size:0.75rem;}
+.pathworking-read{background:var(--bg3);border:1px solid var(--rule2);border-radius:8px;padding:1.2rem;margin-top:1rem;}
+.pathworking-read .pr-title{font-family:var(--font-display);font-size:1.2rem;color:var(--accent2);margin-bottom:0.5rem;}
+.pathworking-read .pr-text{color:var(--ink);font-size:0.9rem;line-height:1.7;}
+
+/* ════════════════════════════════════════
+   TAB 19: RUNIC CIRCLE
+   ════════════════════════════════════════ */
+.rune-type-select{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.rune-type-btn{background:var(--bg3);border:1px solid #333;color:var(--muted);padding:0.5rem 1rem;border-radius:8px;cursor:pointer;font-family:var(--font);font-size:0.85rem;transition:all 0.3s;}
+.rune-type-btn:hover{border-color:var(--accent2);color:var(--accent2);}
+.rune-type-btn.active{border-color:var(--accent2);background:rgba(212,168,67,0.15);color:var(--accent2);}
+.runic-circle-wrap{text-align:center;margin:1rem 0;}
+.runic-circle-wrap canvas{border-radius:50%;background:#0a0a0a;border:2px solid #333;max-width:100%;}
+.rune-detail-panel{background:var(--bg3);border:1px solid var(--rule2);border-radius:8px;padding:1.2rem;margin-top:1rem;display:none;}
+.rune-detail-panel.visible{display:block;}
+.rune-detail-panel .rd-symbol{font-size:3rem;text-align:center;color:var(--accent2);margin-bottom:0.5rem;}
+.rune-detail-panel .rd-name{font-family:var(--font-display);font-size:1.5rem;color:var(--accent2);text-align:center;}
+.rune-detail-panel .rd-element{text-align:center;margin:0.5rem 0;}
+.rune-detail-panel .rd-meaning{color:var(--ink);font-size:0.9rem;line-height:1.6;margin-top:0.5rem;}
+.rune-detail-panel .rd-magical{color:#aaa;font-size:0.85rem;margin-top:0.3rem;}
+.rune-casting-result{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin:1rem 0;}
+.rune-cast-card{width:140px;text-align:center;background:var(--bg3);border:1px solid #333;border-radius:10px;padding:0.8rem;}
+.rune-cast-card .rcc-symbol{font-size:2.5rem;color:var(--accent2);}
+.rune-cast-card .rcc-name{color:#ccc;font-size:0.85rem;margin:0.3rem 0;}
+.rune-cast-card .rcc-pos{color:var(--muted);font-size:0.72rem;}
+.rune-cast-card .rcc-meaning{color:#aaa;font-size:0.78rem;margin-top:0.3rem;}
+
+/* ════════════════════════════════════════
+   TAB 20: CHAOS MAGIC RITUAL
+   ════════════════════════════════════════ */
+.chaos-scroll-card{background:linear-gradient(135deg,#1a1410,#2a1f15);border:2px solid #8B6914;border-radius:12px;padding:2rem;margin:1.5rem 0;position:relative;box-shadow:0 0 40px rgba(139,105,20,0.15);}
+.chaos-scroll-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:10px;background:url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;opacity:0.3;}
+.chaos-scroll-card .csc-inner{position:relative;z-index:1;}
+.chaos-scroll-card .csc-title{font-family:var(--font-display);font-size:2rem;color:var(--accent2);text-align:center;text-shadow:0 0 20px rgba(212,168,67,0.3);margin-bottom:0.5rem;}
+.chaos-scroll-card .csc-subtitle{text-align:center;color:#aaa;font-size:0.85rem;margin-bottom:1.5rem;font-style:italic;}
+.chaos-scroll-card .csc-section{margin-bottom:1rem;}
+.chaos-scroll-card .csc-section .cs-label{color:var(--accent2);font-size:0.85rem;font-weight:600;border-bottom:1px solid rgba(139,105,20,0.3);padding-bottom:0.3rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+.chaos-scroll-card .csc-section .cs-body{color:var(--ink);font-size:0.9rem;line-height:1.7;white-space:pre-wrap;}
+.chaos-scroll-card .csc-incantation{text-align:center;font-family:var(--font-display);font-size:1.4rem;color:var(--accent3);margin:1rem 0;line-height:1.5;text-shadow:0 0 30px rgba(240,200,96,0.2);font-style:italic;}
+.chaos-scroll-card .csc-sigil-area{text-align:center;margin:1rem 0;padding:1rem;border:1px dashed rgba(139,105,20,0.4);border-radius:8px;}
+.chaos-scroll-card .csc-sigil-area .csa-label{color:var(--muted);font-size:0.8rem;margin-bottom:0.5rem;}
+.chaos-scroll-card .csc-sigil-area canvas{border-radius:6px;background:#0a0a0a;border:1px solid #333;}
+.chaos-scroll-card .csc-closing{text-align:center;color:var(--accent2);font-family:var(--font-display);font-size:1.2rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(139,105,20,0.3);}
+
 </head>
 <body>
 
@@ -379,7 +653,7 @@ canvas.gen-canvas{
 
   <div class="page-header">
     <h1>✦ 魔法生成器工坊 ✦</h1>
-    <p>六种神秘工具，助你探索魔法之道</p>
+    <p>十六种神秘工具，助你探索魔法之道</p>
   </div>
 
   <!-- Tab Navigation -->
@@ -390,6 +664,20 @@ canvas.gen-canvas{
     <button class="tab-btn" data-tab="tab-divine">占卜</button>
     <button class="tab-btn" data-tab="tab-ritual">仪式时间</button>
     <button class="tab-btn" data-tab="tab-element">元素平衡</button>
+    <button class="tab-btn" data-tab="tab-dragon">龙语翻译</button>
+    <button class="tab-btn" data-tab="tab-tarot">塔罗占卜</button>
+    <button class="tab-btn" data-tab="tab-potion">药水调配</button>
+    <button class="tab-btn" data-tab="tab-chart">星盘命轮</button>
+    <button class="tab-btn" data-tab="tab-sigil-adv">符印增强</button>
+    <button class="tab-btn" data-tab="tab-dream">梦境解析</button>
+    <button class="tab-btn" data-tab="tab-sigil-tarot">符印塔罗</button>
+    <button class="tab-btn" data-tab="tab-rune">龙之符文</button>
+    <button class="tab-btn" data-tab="tab-weather">混沌天气</button>
+    <button class="tab-btn" data-tab="tab-spirit">灵魂动物</button>
+    <button class="tab-btn" data-tab="tab-numerology">数字命理</button>
+    <button class="tab-btn" data-tab="tab-kabbalah">卡巴拉生命树</button>
+    <button class="tab-btn" data-tab="tab-runic">符文魔法阵</button>
+    <button class="tab-btn" data-tab="tab-chaos-ritual">混沌魔法仪式</button>
   </div>
 
   <!-- ===================== TAB 1: Name Generator ===================== -->
@@ -542,6 +830,365 @@ canvas.gen-canvas{
         </div>
       </div>
       <div id="testResult" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 7: Dragon Language Translator ===================== -->
+  <div class="generator-panel" id="tab-dragon">
+    <div class="gen-card">
+      <h2>龙语翻译器</h2>
+      <p class="desc">将中文文字翻译为远古龙语，揭示其隐藏的魔法力量（支持30+词汇）</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>输入中文</label>
+          <input type="text" id="dragonInput" placeholder="输入文字..." value="龙焰之力">
+        </div>
+        <button class="btn" onclick="translateDragon()">✦ 翻译龙语</button>
+      </div>
+      <div style="margin-bottom:0.8rem;">
+        <div style="color:var(--accent2);font-size:0.85rem;margin-bottom:0.3rem;">✦ 词库分类筛选</div>
+        <div class="dict-filter" id="dictFilter">
+          <button class="active" data-cat="all" onclick="filterDict('all')">全部</button>
+          <button data-cat="称谓" onclick="filterDict('称谓')">龙族称谓</button>
+          <button data-cat="自然" onclick="filterDict('自然')">自然元素</button>
+          <button data-cat="魔法" onclick="filterDict('魔法')">魔法术语</button>
+          <button data-cat="仪式" onclick="filterDict('仪式')">仪式用语</button>
+          <button data-cat="战斗" onclick="filterDict('战斗')">战斗指令</button>
+        </div>
+      </div>
+      <div class="dragon-vocab-list" id="dragonVocabList"></div>
+      <div id="dragonResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:1rem;">输入文字后点击"翻译龙语"</div>
+      </div>
+      <canvas id="dragonScriptCanvas" class="gen-canvas" width="500" height="120" style="display:none;"></canvas>
+      <div style="margin-top:1rem;">
+        <div style="color:var(--muted);font-size:0.8rem;margin-bottom:0.3rem;">翻译历史</div>
+        <div class="history-list" id="dragonHistory"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 8: Oracle Card Draw ===================== -->
+  <div class="generator-panel" id="tab-tarot">
+    <div class="gen-card">
+      <h2>塔罗 / 神谕卡生成器</h2>
+      <p class="desc">二十二张阿波菲斯主题大阿尔卡纳神谕卡，揭示命运之秘</p>
+      <div class="controls-row">
+        <button class="btn" onclick="drawSingleCard()">✦ 抽一张</button>
+        <button class="btn btn-secondary" onclick="drawThreeCards()">✦ 抽三张（过去·现在·未来）</button>
+      </div>
+      <div id="tarotResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:1rem;">点击"抽一张"或"抽三张"开始占卜</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 9: Potion Mixer ===================== -->
+  <div class="generator-panel" id="tab-potion">
+    <div class="gen-card">
+      <h2>魔法药水调配器</h2>
+      <p class="desc">选择基础材料与催化剂，在坩埚中调配魔法药水</p>
+      <div style="color:var(--accent2);font-size:0.85rem;margin-bottom:0.5rem;">✦ 基础材料（点击选择）</div>
+      <div class="ingredient-grid" id="baseIngredients"></div>
+      <div style="color:var(--accent2);font-size:0.85rem;margin-bottom:0.5rem;">✦ 催化剂（点击选择）</div>
+      <div class="ingredient-grid" id="catalystIngredients"></div>
+      <div class="cauldron-wrap">
+        <canvas id="cauldronCanvas" class="gen-canvas" width="200" height="200"></canvas>
+      </div>
+      <div style="text-align:center;margin:0.5rem 0;">
+        <button class="btn" onclick="mixPotion()">✦ 调配</button>
+        <button class="btn btn-secondary btn-sm" onclick="clearCauldron()">↻ 清空</button>
+      </div>
+      <div id="potionResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:0.5rem;">选择材料后点击"调配"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 10: Astrological Chart ===================== -->
+  <div class="generator-panel" id="tab-chart">
+    <div class="gen-card">
+      <h2>星盘命轮生成器</h2>
+      <p class="desc">输入出生信息，生成专属星盘命轮与解读</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>出生日期</label>
+          <input type="date" id="chartBirthDate">
+        </div>
+        <div class="ctrl-group">
+          <label>出生时间</label>
+          <input type="time" id="chartBirthTime" value="12:00">
+        </div>
+        <button class="btn" onclick="generateChart()">✦ 生成星盘</button>
+      </div>
+      <div id="chartResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:1rem;">输入信息后点击"生成星盘"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 11: Advanced Sigil Forge ===================== -->
+  <div class="generator-panel" id="tab-sigil-adv">
+    <div class="gen-card">
+      <h2>符印增强版 · 神圣符印锻造炉</h2>
+      <p class="desc">选择构造方法、颜色与行星封印，锻造专属符印</p>
+      <div class="sigil-method-select" id="sigilMethodSelect">
+        <button class="sigil-method-btn active" data-method="circle" onclick="setSigilMethod('circle')">圆形</button>
+        <button class="sigil-method-btn" data-method="square" onclick="setSigilMethod('square')">方形</button>
+        <button class="sigil-method-btn" data-method="sacred" onclick="setSigilMethod('sacred')">神圣几何</button>
+      </div>
+      <div class="sigil-controls-row">
+        <div>
+          <label>符印颜色</label>
+          <input type="color" id="sigilColor" value="#d4a843" onchange="generateAdvSigil()">
+        </div>
+        <div class="ctrl-group" style="min-width:120px;flex:0;">
+          <label>行星封印</label>
+          <select id="advPlanetSelect" onchange="generateAdvSigil()">
+            <option value="saturn">土星</option>
+            <option value="jupiter" selected>木星</option>
+            <option value="mars">火星</option>
+            <option value="sun">太阳</option>
+            <option value="venus">金星</option>
+            <option value="mercury">水星</option>
+            <option value="moon">月亮</option>
+          </select>
+        </div>
+        <button class="btn btn-sm" onclick="chargeSigil()">✦ 充能</button>
+        <button class="btn btn-secondary btn-sm" onclick="exportSigilPNG()">⬇ 导出PNG</button>
+      </div>
+      <div class="sigil-canvas-wrap">
+        <canvas id="advSigilCanvas" class="gen-canvas" width="400" height="400"></canvas>
+      </div>
+      <div id="sigilInterpretation" class="sigil-interpretation">
+        <div style="color:var(--muted);font-size:0.85rem;text-align:center;">调整参数生成符印后，将显示解读</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 12: Dream Oracle ===================== -->
+  <div class="generator-panel" id="tab-dream">
+    <div class="gen-card">
+      <h2>梦境解析器</h2>
+      <p class="desc">输入梦境关键词（最多5个），获取阿波菲斯主题解梦启示</p>
+      <div class="dream-tags" id="dreamTags"></div>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>或手动输入关键词（用空格分隔）</label>
+          <input type="text" id="dreamInput" placeholder="如: 火焰 龙 深渊 星辰 血月" onkeydown="if(event.key==='Enter')analyzeDream()">
+        </div>
+        <button class="btn" onclick="analyzeDream()">✦ 解析梦境</button>
+      </div>
+      <div id="dreamResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:1rem;">选择或输入关键词后点击"解析梦境"</div>
+      </div>
+      <div style="margin-top:1rem;">
+        <div style="color:var(--muted);font-size:0.8rem;margin-bottom:0.3rem;">梦境札记</div>
+        <div class="dream-journal" id="dreamJournal"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 13: Sigil Tarot ===================== -->
+  <div class="generator-panel" id="tab-sigil-tarot">
+    <div class="gen-card">
+      <h2>符印塔罗 · 随机抽牌</h2>
+      <p class="desc">二十二张符印塔罗牌，融合神秘符号与塔罗智慧，揭示命运轨迹</p>
+      <div class="controls-row">
+        <button class="btn" onclick="drawSigilTarot()">✦ 抽取一张符印塔罗</button>
+      </div>
+      <div class="sigil-tarot-card-wrap" id="sigilTarotWrap" style="display:none;">
+        <div class="sigil-tarot-card" id="sigilTarotCard" onclick="this.classList.toggle('flipped')">
+          <div class="st-card-face st-card-back">
+            <div class="st-back-icon">✦</div>
+            <div class="st-back-text">点击翻转</div>
+          </div>
+          <div class="st-card-face st-card-front">
+            <canvas id="sigilTarotCanvas" width="180" height="180"></canvas>
+            <div class="st-name" id="stName"></div>
+            <div class="st-orient" id="stOrient"></div>
+            <div class="st-meaning" id="stMeaning"></div>
+          </div>
+        </div>
+      </div>
+      <div id="sigilTarotInterp" class="result-box" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 14: Dragon Rune Divination ===================== -->
+  <div class="generator-panel" id="tab-rune">
+    <div class="gen-card">
+      <h2>龙之符文占卜</h2>
+      <p class="desc">二十四枚远古龙之符文，投掷三枚揭示过去·现在·未来的命运之线</p>
+      <div class="controls-row">
+        <button class="btn" onclick="castRunes()">✦ 投掷符文</button>
+      </div>
+      <div id="runeResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:1rem;">点击"投掷符文"开始占卜</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 15: Chaos Weather Simulator ===================== -->
+  <div class="generator-panel" id="tab-weather">
+    <div class="gen-card">
+      <h2>混沌天气模拟器</h2>
+      <p class="desc">模拟六种神秘混沌天气，感受自然元素的魔法力量</p>
+      <div class="weather-btns" id="weatherBtns">
+        <button class="weather-btn" data-weather="tornado" onclick="simulateWeather('tornado')">🌪 龙卷风</button>
+        <button class="weather-btn" data-weather="thunderstorm" onclick="simulateWeather('thunderstorm')">⛈ 雷暴</button>
+        <button class="weather-btn" data-weather="mist" onclick="simulateWeather('mist')">🌫 迷雾</button>
+        <button class="weather-btn" data-weather="meteor" onclick="simulateWeather('meteor')">☄ 流星雨</button>
+        <button class="weather-btn" data-weather="eclipse" onclick="simulateWeather('eclipse')">🌑 日食</button>
+        <button class="weather-btn" data-weather="bloodmoon" onclick="simulateWeather('bloodmoon')">🔴 月食</button>
+      </div>
+      <div class="weather-canvas-wrap">
+        <canvas id="weatherCanvas" class="gen-canvas" width="600" height="300"></canvas>
+      </div>
+      <div id="weatherInfo" class="weather-info" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 16: Spirit Animal Guide ===================== -->
+  <div class="generator-panel" id="tab-spirit">
+    <div class="gen-card">
+      <h2>灵魂动物向导</h2>
+      <p class="desc">输入出生日期或随机抽取，发现与你灵魂共鸣的动物向导</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>出生日期</label>
+          <input type="date" id="spiritBirthDate">
+        </div>
+        <button class="btn" onclick="getSpiritAnimal()">✦ 查看灵魂动物</button>
+        <button class="btn btn-secondary" onclick="getRandomSpirit()">✦ 随机抽取</button>
+      </div>
+      <div id="spiritResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:1rem;">输入出生日期或点击"随机抽取"</div>
+      </div>
+      <div style="margin-top:1rem;">
+        <div style="color:var(--muted);font-size:0.8rem;margin-bottom:0.3rem;">历史记录</div>
+        <div class="spirit-history" id="spiritHistory"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===================== TAB 17: NUMEROLOGY CALCULATOR ===================== -->
+  <div class="generator-panel" id="tab-numerology">
+    <div class="gen-card">
+      <h2>数字命理计算器</h2>
+      <p class="desc">输入出生日期，揭示生命数字的奥秘与灵魂密码</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>出生日期</label>
+          <input type="date" id="numeroBirthDate">
+        </div>
+        <button class="btn" onclick="calculateNumerology()">✦ 揭示命理数字</button>
+      </div>
+      <div id="numeroResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:1rem;">输入出生日期后点击"揭示命理数字"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 18: KABBALAH TREE OF LIFE ===================== -->
+  <div class="generator-panel" id="tab-kabbalah">
+    <div class="gen-card">
+      <h2>卡巴拉生命之树</h2>
+      <p class="desc">探索十个原质(Sephiroth)与二十二条路径的神秘网络</p>
+      <div class="kabbalah-layout">
+        <div class="kl-canvas-wrap">
+          <canvas id="treeCanvas" class="gen-canvas" width="500" height="600"></canvas>
+        </div>
+        <div class="kl-sidebar">
+          <div class="controls-row" style="margin-bottom:0.8rem;flex-wrap:nowrap;">
+            <button class="btn btn-sm" onclick="showSephirahInfo('keter')">王冠</button>
+            <button class="btn btn-sm" onclick="showSephirahInfo('chokmah')">智慧</button>
+            <button class="btn btn-sm" onclick="showSephirahInfo('binah')">理解</button>
+            <button class="btn btn-sm" onclick="showSephirahInfo('chesed')">慈悲</button>
+            <button class="btn btn-sm" onclick="showSephirahInfo('gevurah')">严厉</button>
+            <button class="btn btn-sm" onclick="showSephirahInfo('tiferet')">美丽</button>
+            <button class="btn btn-sm" onclick="showSephirahInfo('netzach')">胜利</button>
+            <button class="btn btn-sm" onclick="showSephirahInfo('hod')">光辉</button>
+            <button class="btn btn-sm" onclick="showSephirahInfo('yesod')">基础</button>
+            <button class="btn btn-sm" onclick="showSephirahInfo('malkuth')">王国</button>
+          </div>
+          <div class="worlds-display" id="worldsDisplay"></div>
+          <div id="sephirahInfoPanel" class="sephirah-info">
+            <div style="color:var(--muted);font-size:0.85rem;text-align:center;">点击上方标签或点击画布上的原质节点查看详情</div>
+          </div>
+          <div style="text-align:center;margin-top:0.5rem;">
+            <button class="btn" onclick="generatePathworking()">✦ 探寻路径</button>
+          </div>
+          <div id="pathworkingResult" class="pathworking-read" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 19: RUNIC CIRCLE ===================== -->
+  <div class="generator-panel" id="tab-runic">
+    <div class="gen-card">
+      <h2>符文魔法阵</h2>
+      <p class="desc">选择符文体系，绘制符文圆环，投掷符文占卜过去·现在·未来</p>
+      <div class="rune-type-select" id="runeTypeSelect">
+        <button class="rune-type-btn active" data-rune-type="norse" onclick="setRuneType('norse')">北欧符文</button>
+        <button class="rune-type-btn" data-rune-type="celtic" onclick="setRuneType('celtic')">凯尔特符文</button>
+        <button class="rune-type-btn" data-rune-type="dragon" onclick="setRuneType('dragon')">龙之符文</button>
+      </div>
+      <div class="runic-circle-wrap">
+        <canvas id="runicCircleCanvas" class="gen-canvas" width="500" height="500"></canvas>
+      </div>
+      <div id="runeDetailPanel" class="rune-detail-panel"></div>
+      <div class="controls-row" style="justify-content:center;">
+        <button class="btn" onclick="castRunicRunes()">✦ 投掷符文（过去·现在·未来）</button>
+      </div>
+      <div id="runeCastResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:1rem;">选择符文类型后点击"投掷符文"进行占卜</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 20: CHAOS MAGIC RITUAL ===================== -->
+  <div class="generator-panel" id="tab-chaos-ritual">
+    <div class="gen-card">
+      <h2>混沌魔法仪式生成器</h2>
+      <p class="desc">输入意图与时间参数，生成完整的混沌魔法仪式脚本</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>仪式意图</label>
+          <input type="text" id="chaosIntent" placeholder="如：财富吸引、保护结界、智慧开启..." value="内在力量觉醒">
+        </div>
+        <div class="ctrl-group">
+          <label>行星日</label>
+          <select id="chaosPlanetDay">
+            <option value="sun">日曜日 — 太阳</option>
+            <option value="moon" selected>月曜日 — 月亮</option>
+            <option value="mars">火曜日 — 火星</option>
+            <option value="mercury">水曜日 — 水星</option>
+            <option value="jupiter">木曜日 — 木星</option>
+            <option value="venus">金曜日 — 金星</option>
+            <option value="saturn">土曜日 — 土星</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <label>月相</label>
+          <select id="chaosMoonPhase">
+            <option value="new">🌑 新月</option>
+            <option value="waxing" selected>🌒 蛾眉月</option>
+            <option value="first">🌓 上弦月</option>
+            <option value="gibbous">🌔 盈凸月</option>
+            <option value="full">🌕 满月</option>
+            <option value="waning">🌖 亏凸月</option>
+            <option value="last">🌗 下弦月</option>
+            <option value="dark">🌘 残月</option>
+          </select>
+        </div>
+        <button class="btn" onclick="generateChaosRitual()">✦ 生成仪式脚本</button>
+      </div>
+      <div id="chaosRitualResult" class="result-box">
+        <div style="text-align:center;color:var(--muted);padding:1rem;">输入意图和时间参数后点击"生成仪式脚本"</div>
+      </div>
     </div>
   </div>
 
@@ -1292,6 +1939,856 @@ function submitElementTest(){
 
 // Render test on load
 renderElementTest();
+
+/* =====================================================================
+   17. NUMEROLOGY CALCULATOR
+   ===================================================================== */
+const numeroMeanings = {
+  1:{zh:'一',element:'fire',tarot:'魔术师',meaning:'开创者之数。独立、自信、原创性。代表新的开始与领导力。在卡巴拉中对应Keter(王冠)——纯粹意志的源头。',
+     keywords:['独立','自信','创造力','领导力','原创性'],color:'#c41e3a'},
+  2:{zh:'二',element:'water',tarot:'女祭司',meaning:'联结者之数。平衡、合作、敏感。代表二元性与关系。在卡巴拉中对应Chokmah(智慧)——原初的二元性。',
+     keywords:['合作','平衡','直觉','包容','敏感'],color:'#4a7fb5'},
+  3:{zh:'三',element:'air',tarot:'女皇',meaning:'表达者之数。创造力、社交、乐观。代表自我表达与丰饶。在卡巴拉中对应Binah(理解)——孕育万物的子宫。',
+     keywords:['表达','创造力','社交','乐观','艺术'],color:'#b0b0c8'},
+  4:{zh:'四',element:'earth',tarot:'皇帝',meaning:'建设者之数。稳定、秩序、务实。代表物质世界的构建。在卡巴拉中对应Chesed(慈悲)——结构的恩典。',
+     keywords:['稳定','务实','纪律','可靠','勤奋'],color:'#8B6914'},
+  5:{zh:'五',element:'air',tarot:'教皇',meaning:'自由者之数。变化、冒险、多才。代表突破与自由探索。在卡巴拉中对应Gevurah(严厉)——变革的力量。',
+     keywords:['自由','变化','冒险','适应','好奇'],color:'#b0b0c8'},
+  6:{zh:'六',element:'water',tarot:'恋人',meaning:'守护者之数。责任、和谐、关爱。代表家庭与平衡。在卡巴拉中对应Tiferet(美丽)——和谐的中心。',
+     keywords:['责任','和谐','关爱','家庭','平衡'],color:'#4a7fb5'},
+  7:{zh:'七',element:'spirit',tarot:'战车',meaning:'探索者之数。智慧、内省、灵性。代表真理的追寻。在卡巴拉中对应Netzach(胜利)——灵性的胜利。',
+     keywords:['智慧','内省','灵性','分析','完美'],color:'#b464c8'},
+  8:{zh:'八',element:'earth',tarot:'力量',meaning:'成就者之数。权力、富足、自信。代表物质成就。在卡巴拉中对应Hod(光辉)——宏伟的成就。',
+     keywords:['权力','富足','成就','自信','效率'],color:'#8B6914'},
+  9:{zh:'九',element:'fire',tarot:'隐士',meaning:'完成者之数。慈悲、智慧、完成。代表博爱与终结。在卡巴拉中对应Yesod(基础)——万象的基础。',
+     keywords:['慈悲','智慧','完成','博爱','理想'],color:'#c41e3a'},
+  11:{zh:'十一',element:'spirit',tarot:'正义',meaning:'大师数·灵感。直觉、理想、启示。高等灵性的通道，拥有强大的精神力量。需要平衡理想与现实。',
+     keywords:['灵感','直觉','启蒙','理想','灵性'],color:'#b464c8'},
+  22:{zh:'二十二',element:'spirit',tarot:'愚人',meaning:'大师数·建设。大师建造者之数。将远大理想转化为现实成就。需要脚踏实地。',
+     keywords:['建设','成就','远见','实践','大师'],color:'#b464c8'},
+  33:{zh:'三十三',element:'spirit',tarot:'世界',meaning:'大师数·博爱。无条件的爱与慈悲。高等灵性导师之数。需要稳固基础。',
+     keywords:['博爱','疗愈','启迪','慈悲','指导'],color:'#b464c8'}
+};
+
+function reduceNumber(n, allowMaster=true) {
+  if (allowMaster && (n === 11 || n === 22 || n === 33)) return n;
+  while (n > 9) {
+    let s = 0;
+    while (n > 0) { s += n % 10; n = Math.floor(n / 10); }
+    n = s;
+    if (allowMaster && (n === 11 || n === 22 || n === 33)) break;
+  }
+  return n;
+}
+
+function calculateNumerology() {
+  const dateStr = document.getElementById('numeroBirthDate').value;
+  if (!dateStr) {
+    document.getElementById('numeroResult').innerHTML = '<div style="color:var(--accent);text-align:center;">请选择出生日期。</div>';
+    return;
+  }
+  const parts = dateStr.split('-');
+  const year = parseInt(parts[0]);
+  const month = parseInt(parts[1]);
+  const day = parseInt(parts[2]);
+
+  // Life Path Number: sum of all digits
+  const allDigits = dateStr.replace(/-/g, '').split('').map(Number);
+  const lpSum = allDigits.reduce((a, b) => a + b, 0);
+  const lifePath = reduceNumber(lpSum);
+
+  // Expression Number: sum of reduced month + reduced day + reduced year
+  const exprSum = reduceNumber(month, false) + reduceNumber(day, false) + reduceNumber(year, false);
+  const expression = reduceNumber(exprSum);
+
+  // Soul Urge (Heart's Desire): based on day (inner self)
+  const soulUrge = reduceNumber(day, false);
+
+  // Personality Number: based on month + year
+  const persSum = reduceNumber(month, false) + reduceNumber(year, false);
+  const personality = reduceNumber(persSum);
+
+  const numbers = [
+    { name: '生命路径', key: 'lifePath', value: lifePath },
+    { name: '表达', key: 'expression', value: expression },
+    { name: '灵魂冲动', key: 'soulUrge', value: soulUrge },
+    { name: '个性', key: 'personality', value: personality }
+  ];
+
+  const mainMeaning = numeroMeanings[lifePath] || numeroMeanings[reduceNumber(lifePath, false)];
+
+  let cardsHtml = '';
+  const elemMap = {fire:'🔥 火',earth:'🌍 土',air:'🌪️ 风',water:'💧 水',spirit:'✨ 灵'};
+  const elemClassMap = {fire:'fire',earth:'earth',air:'air',water:'water',spirit:'spirit'};
+
+  numbers.forEach((n, i) => {
+    const info = numeroMeanings[n.value] || numeroMeanings[reduceNumber(n.value, false)];
+    setTimeout(() => {
+      const el = document.getElementById(`nc-number-${i}`);
+      if (el) {
+        el.textContent = n.value;
+        el.classList.add('reveal-anim');
+      }
+    }, 300 + i * 200);
+    cardsHtml += `<div class="numero-card">
+      <div class="nc-number" id="nc-number-${i}">?</div>
+      <div class="nc-name">${n.name}</div>
+      <div class="nc-element ${elemClassMap[info.element]}">${elemMap[info.element] || ''}</div>
+      <div class="nc-desc">${info.keywords.slice(0,3).join(' · ')}</div>
+    </div>`;
+  });
+
+  // Element association for main LP number
+  const mainElem = mainMeaning.element;
+
+  document.getElementById('numeroResult').innerHTML = `
+    <div class="numero-large">
+      <div class="nl-number" id="nlMainNumber">✦</div>
+      <div class="nl-label">生命路径数字 · 命运之数</div>
+    </div>
+    <div class="numero-grid">
+      ${cardsHtml}
+    </div>
+    <div class="numero-interp">
+      <div class="ni-title">✦ 数字 ${lifePath} · ${mainMeaning.zh} ✦</div>
+      <div class="ni-text">${mainMeaning.meaning}</div>
+      <div style="margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:0.4rem;justify-content:center;">
+        ${mainMeaning.keywords.map(k => `<span style="background:rgba(212,168,67,0.1);border:1px solid var(--rule2);border-radius:12px;padding:0.15rem 0.6rem;font-size:0.78rem;color:var(--accent2);">${k}</span>`).join('')}
+      </div>
+    </div>
+    <div class="numero-tarot">
+      <div class="nt-label">对应塔罗牌</div>
+      <div class="nt-value">✦ ${mainMeaning.tarot} ✦</div>
+    </div>
+  `;
+
+  // Animate main number
+  setTimeout(() => {
+    const el = document.getElementById('nlMainNumber');
+    if (el) {
+      el.textContent = lifePath;
+      el.classList.add('reveal-anim');
+    }
+  }, 200);
+}
+
+// Set default date
+(function(){
+  const today = new Date();
+  document.getElementById('numeroBirthDate').value = '1990-06-15';
+})();
+
+/* =====================================================================
+   18. KABBALAH TREE OF LIFE
+   ===================================================================== */
+const sephirothData = {
+  keter: {
+    name:'王冠',hebrew:'Keter',en:'Crown',num:1,
+    planet:'无限之冠',angel:'Metatron',meaning:'纯粹意志与神圣源头的显化。代表超越一切对立面的统一意识。在冥想中，Keter是通往无限的门户。',
+    color:'#ffffff',sphere:' primordial'
+  },
+  chokmah: {
+    name:'智慧',hebrew:'Chokmah',en:'Wisdom',num:2,
+    planet:'黄道带',angel:'Raziel',meaning:'原初的智慧与创造力。代表阳性的、主动的、迸发的创造能量。它是宇宙的第一道迸发。',
+    color:'#88aaff',sphere:' zodiac'
+  },
+  binah: {
+    name:'理解',hebrew:'Binah',en:'Understanding',num:3,
+    planet:'土星',angel:'Tzaphkiel',meaning:'孕育性的理解与结构。代表阴性的、接受性的、形式赋予的力量。诞生的子宫与时间之母。',
+    color:'#8844aa',sphere:' saturn'
+  },
+  chesed: {
+    name:'慈悲',hebrew:'Chesed',en:'Mercy',num:4,
+    planet:'木星',angel:'Tzadkiel',meaning:'无限的慈悲与恩典。代表扩张、爱与宽恕的力量。神性的仁慈面向。',
+    color:'#4488ff',sphere:' jupiter'
+  },
+  gevurah: {
+    name:'严厉',hebrew:'Gevurah',en:'Severity',num:5,
+    planet:'火星',angel:'Kamael',meaning:'审判与力量。代表约束、纪律与边界。需要与Chesed平衡，否则会变得残忍。',
+    color:'#ff4444',sphere:' mars'
+  },
+  tiferet: {
+    name:'美丽',hebrew:'Tiferet',en:'Beauty',num:6,
+    planet:'太阳',angel:'Raphael',meaning:'和谐与美丽的中心。代表平衡与整合，是生命之树的核心。太阳一般的光辉照耀一切。',
+    color:'#ffaa22',sphere:' sun'
+  },
+  netzach: {
+    name:'胜利',hebrew:'Netzach',en:'Victory',num:7,
+    planet:'金星',angel:'Haniel',meaning:'永恒的力量与胜利。代表情感、自然与艺术的力量。感性与毅力的结合。',
+    color:'#44dd88',sphere:' venus'
+  },
+  hod: {
+    name:'光辉',hebrew:'Hod',en:'Glory',num:8,
+    planet:'水星',angel:'Michael',meaning:'宏伟与智慧的光辉。代表理性、沟通与知识。思维的精密与传达。',
+    color:'#ff9922',sphere:' mercury'
+  },
+  yesod: {
+    name:'基础',hebrew:'Yesod',en:'Foundation',num:9,
+    planet:'月亮',angel:'Gabriel',meaning:'万物的基础与潜意识。代表梦境、直觉与连接。物质与精神之间的桥梁。',
+    color:'#9966cc',sphere:' moon'
+  },
+  malkuth: {
+    name:'王国',hebrew:'Malkuth',en:'Kingdom',num:10,
+    planet:'地球',angel:'Sandalphon',meaning:'物质世界的王国。代表现实、身体与地球本身。灵性在物质中的显化。',
+    color:'#66aa44',sphere:' earth'
+  }
+};
+
+const fourWorlds = [
+  {num:'I',name:'Atziluth',zh:'原型界',hebrew:'אצילות',desc:'纯粹神性的世界，最高层次的显化'},
+  {num:'II',name:'Beriah',zh:'创造界',hebrew:'בריאה',desc:'创造性的世界，原型的形成'},
+  {num:'III',name:'Yetzirah',zh:'形成界',hebrew:'יצירה',desc:'形成性的世界，能量与形式的结合'},
+  {num:'IV',name:'Assiah',zh:'物质界',hebrew:'עשיה',desc:'行动的世界，物质层面的显化'}
+];
+
+// Tree of Life layout coordinates (center of each Sephirah)
+const treeLayout = {
+  keter:    {x:250, y:40},
+  chokmah:  {x:150, y:140},
+  binah:    {x:350, y:140},
+  chesed:   {x:120, y:280},
+  gevurah:  {x:380, y:280},
+  tiferet:  {x:250, y:320},
+  netzach:  {x:120, y:440},
+  hod:      {x:380, y:440},
+  yesod:    {x:250, y:480},
+  malkuth:  {x:250, y:570}
+};
+
+// 22 paths (connections between Sephiroth)
+const treePaths = [
+  ['keter','chokmah'],['keter','binah'],['chokmah','binah'],
+  ['chokmah','chesed'],['chokmah','tiferet'],
+  ['binah','gevurah'],['binah','tiferet'],
+  ['chesed','gevurah'],['chesed','tiferet'],['chesed','netzach'],
+  ['gevurah','tiferet'],['gevurah','hod'],
+  ['tiferet','netzach'],['tiferet','hod'],['tiferet','yesod'],
+  ['netzach','hod'],['netzach','yesod'],
+  ['hod','yesod'],
+  ['yesod','malkuth']
+];
+
+function drawTreeOfLife(highlightSephirah) {
+  const canvas = document.getElementById('treeCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Background
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(0, 0, W, H);
+
+  // Draw 3 pillars guides (column lines)
+  ctx.strokeStyle = 'rgba(212,168,67,0.04)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4,6]);
+  // Left pillar (Chokmah, Chesed, Netzach)
+  ctx.beginPath(); ctx.moveTo(150, 0); ctx.lineTo(120, 600); ctx.stroke();
+  // Center pillar (Keter, Tiferet, Yesod, Malkuth)
+  ctx.beginPath(); ctx.moveTo(250, 0); ctx.lineTo(250, 600); ctx.stroke();
+  // Right pillar (Binah, Gevurah, Hod)
+  ctx.beginPath(); ctx.moveTo(350, 0); ctx.lineTo(380, 600); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Draw paths (lines between sephiroth)
+  treePaths.forEach(path => {
+    const from = treeLayout[path[0]];
+    const to = treeLayout[path[1]];
+    ctx.beginPath();
+    ctx.moveTo(from.x, from.y);
+    ctx.lineTo(to.x, to.y);
+    ctx.strokeStyle = 'rgba(212,168,67,0.15)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  });
+
+  // Draw Sephiroth
+  Object.keys(sephirothData).forEach(key => {
+    const data = sephirothData[key];
+    const pos = treeLayout[key];
+    const isHighlight = key === highlightSephirah;
+
+    // Glow
+    const grad = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, 35);
+    grad.addColorStop(0, isHighlight ? 'rgba(255,215,0,0.3)' : 'rgba(212,168,67,0.08)');
+    grad.addColorStop(1, 'rgba(212,168,67,0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath(); ctx.arc(pos.x, pos.y, 35, 0, Math.PI*2); ctx.fill();
+
+    // Circle
+    ctx.beginPath(); ctx.arc(pos.x, pos.y, 20, 0, Math.PI*2);
+    ctx.strokeStyle = isHighlight ? '#ffd700' : 'rgba(212,168,67,0.6)';
+    ctx.lineWidth = isHighlight ? 3 : 1.5;
+    ctx.stroke();
+    ctx.fillStyle = isHighlight ? 'rgba(255,215,0,0.15)' : 'rgba(212,168,67,0.05)';
+    ctx.fill();
+
+    // Number
+    ctx.fillStyle = 'rgba(212,168,67,0.4)';
+    ctx.font = '10px "Noto Serif SC",serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(data.num, pos.x, pos.y - 28);
+
+    // Name
+    ctx.fillStyle = isHighlight ? '#ffd700' : '#d4a843';
+    ctx.font = '13px "Ma Shan Zheng",cursive';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(data.name, pos.x, pos.y);
+    ctx.textBaseline = 'alphabetic';
+  });
+
+  // Title
+  ctx.fillStyle = 'rgba(212,168,67,0.2)';
+  ctx.font = '12px "Noto Serif SC",serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('עץ החיים · 卡巴拉生命之树', 250, 590);
+}
+
+function showSephirahInfo(key) {
+  const data = sephirothData[key];
+  if (!data) return;
+  drawTreeOfLife(key);
+
+  const panel = document.getElementById('sephirahInfoPanel');
+  panel.innerHTML = `
+    <div class="si-name">${key}. ${data.name} (${data.hebrew})</div>
+    <div style="color:#888;font-size:0.9rem;">${data.en} · 第${data.num}个原质</div>
+    <div class="si-detail">
+      <div class="sd-row"><span class="sd-label">掌管行星/领域</span><span class="sd-value">${data.planet}</span></div>
+      <div class="sd-row"><span class="sd-label">大天使</span><span class="sd-value">${data.angel}</span></div>
+      <div class="sd-row"><span class="sd-label">对应四界</span><span class="sd-value">${data.num <= 3 ? 'Atziluth(原型界)' : data.num <= 6 ? 'Beriah(创造界)' : data.num <= 9 ? 'Yetzirah(形成界)' : 'Assiah(物质界)'}</span></div>
+    </div>
+    <div style="color:var(--ink);font-size:0.9rem;line-height:1.6;margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid #222;">
+      ${data.meaning}
+    </div>
+  `;
+
+  // Show worlds
+  const worldsHtml = fourWorlds.map(w => `
+    <div class="world-card">
+      <div class="wc-num">${w.num}</div>
+      <div class="wc-name">${w.zh}</div>
+      <div class="wc-hebrew">${w.hebrew}</div>
+      <div style="color:#aaa;font-size:0.72rem;margin-top:0.2rem;">${w.desc}</div>
+    </div>
+  `).join('');
+  document.getElementById('worldsDisplay').innerHTML = worldsHtml;
+}
+
+// Canvas click handler for tree
+document.addEventListener('DOMContentLoaded', function() {
+  const canvas = document.getElementById('treeCanvas');
+  if (!canvas) return;
+  canvas.addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const scaleX = this.width / rect.width;
+    const scaleY = this.height / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top) * scaleY;
+
+    // Find closest sephirah
+    let closest = null, minDist = 30;
+    Object.keys(treeLayout).forEach(key => {
+      const pos = treeLayout[key];
+      const dist = Math.sqrt((mx - pos.x)**2 + (my - pos.y)**2);
+      if (dist < minDist) { minDist = dist; closest = key; }
+    });
+    if (closest) showSephirahInfo(closest);
+  });
+});
+
+const pathworkingReadings = [
+  '你的灵魂在生命之树的上行之旅中徘徊于${sephirah}的领域。在这里，你被召唤去超越物质世界的幻象，认识到你不仅是行走在大地上的存在，更是星辰之间的旅者。${sephirah}的光芒照进你的内心，揭示出你一直寻求的答案其实早已在你的灵魂深处。放下执念，让${sephirah}的智慧自然流淌。',
+  '在${sephirah}的光辉中，你看到了时空之外的景象。你所经历的每一次挑战都是灵魂精心设计的课程。${sephirah}告诉你：真正的力量不在于控制外在，而在于掌握内心。让${sephirah}的能量清洗你的心灵之眼，你将在混沌中看到秩序。',
+  '穿越${sephirah}的路径，你感受到宇宙的脉动与自己的心跳合二为一。${sephirah}的神秘引领你进入内在的圣殿。在这里，所有对立面得以和解，所有矛盾得以超越。接纳${sephirah}的启示，你将发现自己从未孤独。',
+  '${sephirah}的力量如同古老的真理，在时间的长河中始终不变。它提醒你：你既是寻找者，也是被寻找者。在这个神圣的空间中，${sephirah}的智慧将会重塑你对现实的认知。勇敢地迈向未知，因为${sephirah}在你身后守护。'
+];
+
+function generatePathworking() {
+  const panel = document.getElementById('pathworkingResult');
+  const keys = Object.keys(sephirothData);
+  const randomKeys = [];
+  for (let i = 0; i < 3; i++) {
+    randomKeys.push(keys[Math.floor(Math.random() * keys.length)]);
+  }
+  const reading = pathworkingReadings[Math.floor(Math.random() * pathworkingReadings.length)];
+  const pathNames = randomKeys.map(k => sephirothData[k].name).join(' → ');
+
+  panel.style.display = 'block';
+  panel.innerHTML = `
+    <div class="pr-title">✦ 路径探索：${pathNames} ✦</div>
+    <div class="pr-text">${reading.replace(/\${sephirah}/g, randomKeys.map(k => sephirothData[k].name).join('与'))}</div>
+    <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid #222;font-size:0.85rem;color:var(--muted);">
+      <div>途径原质：${randomKeys.map(k => `<span style="color:var(--accent2);">${sephirothData[k].name}(${k})</span>`).join(' → ')}</div>
+      <div style="margin-top:0.3rem;">建议：在心中默念每个原质的名字，感受其能量在生命之树上的流动</div>
+    </div>
+  `;
+}
+
+// Initialize tree on tab show
+let treeDrawn = false;
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (this.dataset.tab === 'tab-kabbalah' && !treeDrawn) {
+      setTimeout(() => { drawTreeOfLife(); treeDrawn = true; }, 200);
+    }
+  });
+});
+
+/* =====================================================================
+   19. RUNIC CIRCLE
+   ===================================================================== */
+const runeSets = {
+  norse: {
+    name: '北欧符文 (Elder Futhark)',
+    runes: [
+      {symbol:'ᚠ',name:'Fehu',zh:'财富',element:'fire',meaning:'财富与流动的能量。代表物质繁荣、可移动的财产和能量的循环。在魔法中用于吸引丰盛。',magical:'吸引财富、增强生命力'},
+      {symbol:'ᚢ',name:'Uruz',zh:'力量',element:'earth',meaning:'野牛的力量与耐力。代表原始的生命力、勇气和坚定的意志。用于增强体能与治愈。',magical:'强化意志、疗愈疾病'},
+      {symbol:'ᚦ',name:'Thurisaz',zh:'巨人',element:'fire',meaning:'巨人的力量与保护。代表挑战与防御并存的能量。可用于打破障碍或建立保护。',magical:'保护屏障、破除障碍'},
+      {symbol:'ᚨ',name:'Ansuz',zh:'神谕',element:'air',meaning:'众神的声音与启示。代表沟通、智慧和灵感的传递。用于增强口才和预言能力。',magical:'增强沟通、获得智慧'},
+      {symbol:'ᚱ',name:'Raidho',zh:'旅程',element:'air',meaning:'神圣的旅程与秩序。代表旅行、宇宙的律法和正确的行动。用于旅途保护。',magical:'旅行安全、寻找方向'},
+      {symbol:'ᚲ',name:'Kenaz',zh:'火炬',element:'fire',meaning:'火炬的光芒与创造力。代表灵感、工艺和 transformative 的能量。用于艺术创作。',magical:'激发创造、驱散黑暗'},
+      {symbol:'ᚷ',name:'Gebo',zh:'礼物',element:'air',meaning:'神圣的礼物与交换。代表慷慨、伙伴关系和平衡的给予与接受。',magical:'增进关系、促成合作'},
+      {symbol:'ᚹ',name:'Wunjo',zh:'喜悦',element:'air',meaning:'完美的喜悦与和谐。代表幸福、满足和愿望的实现。用于带来快乐。',magical:'带来喜悦、实现愿望'},
+      {symbol:'ᚺ',name:'Hagalaz',zh:'冰雹',element:'water',meaning:'破坏与变革的自然力量。代表无法控制的外力与彻底的净化。用于破除旧模式。',magical:'破除束缚、净化空间'},
+      {symbol:'ᚾ',name:'Nauthiz',zh:'需求',element:'fire',meaning:'需求与逆境的力量。代表生存的本能和克服困难的韧性。用于增强忍耐力。',magical:'增强韧性、渡过难关'},
+      {symbol:'ᛁ',name:'Isa',zh:'冰',element:'water',meaning:'冰的凝固与静止。代表暂停、内省和能量的冻结。用于暂停不利局面。',magical:'冻结局势、深度冥想'},
+      {symbol:'ᛃ',name:'Jera',zh:'收获',element:'earth',meaning:'一年的循环与收获。代表因果报应和努力之后的丰硕果实。',magical:'促进成长、收获成果'},
+      {symbol:'ᛇ',name:'Eihwaz',zh:'紫杉',element:'earth',meaning:'紫杉树的生命与死亡之力。代表坚韧、转化和连接彼岸的智慧。',magical:'保护、连接祖先'},
+      {symbol:'ᛈ',name:'Perthro',zh:'骰杯',element:'water',meaning:'命运之杯与神秘。代表未知、运气和潜意识的奥秘。用于占卜。',magical:'增强占卜、探索奥秘'},
+      {symbol:'ᛉ',name:'Algiz',zh:'麋鹿',element:'air',meaning:'麋鹿的角与保护。代表高层次的防护、觉醒和神圣的连接。',magical:'强力保护、灵性觉醒'},
+      {symbol:'ᛊ',name:'Sowilo',zh:'太阳',element:'fire',meaning:'太阳的光芒与胜利。代表成功、活力和毫无疑问的胜利。',magical:'获得成功、增强活力'},
+      {symbol:'ᛏ',name:'Tiwaz',zh:'战神',element:'fire',meaning:'战神提尔的正义之剑。代表公正、自我牺牲和正确的行动。',magical:'获得正义、增强勇气'},
+      {symbol:'ᛒ',name:'Berkano',zh:'桦树',element:'earth',meaning:'桦树女神的新生之力。代表生育、成长和新的开始。',magical:'促进生育、新的开始'},
+      {symbol:'ᛖ',name:'Ehwaz',zh:'马',element:'air',meaning:'马与伴侣的信任。代表合作、忠诚和向前的进展。',magical:'促进合作、旅行安全'},
+      {symbol:'ᛗ',name:'Mannaz',zh:'人类',element:'air',meaning:'人类与社群的联系。代表自我、智慧和人类的集体意识。',magical:'增强智慧、社群和谐'},
+      {symbol:'ᛚ',name:'Laguz',zh:'水',element:'water',meaning:'湖泊的流动与直觉。代表潜意识、情感的流动和生命的源泉。',magical:'增强直觉、情感疗愈'},
+      {symbol:'ᛝ',name:'Ingwaz',zh:'英格',element:'earth',meaning:'英格神的丰饶之力。代表内在的成长、潜能的孕育。',magical:'促进内在成长、孕育潜能'},
+      {symbol:'ᛞ',name:'Dagaz',zh:'黎明',element:'fire',meaning:'黎明的突破与觉醒。代表转变、光明战胜黑暗和新的希望。',magical:'带来突破、唤醒意识'},
+      {symbol:'ᛟ',name:'Othala',zh:'遗产',element:'earth',meaning:'祖传的土地与遗产。代表家园、传承和归属感。',magical:'保护家园、连接根源'}
+    ]
+  },
+  celtic: {
+    name: '凯尔特符文 (Ogham)',
+    runes: [
+      {symbol:'ᚁ',name:'Beith',zh:'桦树',element:'earth',meaning:'桦树代表新的开始与净化。在凯尔特传统中，桦树是起源之树，用于启动新项目。',magical:'新的开始、净化仪式'},
+      {symbol:'ᚂ',name:'Luis',zh:'花楸',element:'fire',meaning:'花楸是保护之树，常用于抵御邪灵和负面能量。强大的防护力量。',magical:'强力保护、抵御负面'},
+      {symbol:'ᚃ',name:'Fearn',zh:'桤木',element:'water',meaning:'桤木象征勇气与战斗精神。凯尔特战士用其制作盾牌。',magical:'增强勇气、精神力量'},
+      {symbol:'ᚄ',name:'Saille',zh:'柳树',element:'water',meaning:'柳树与月亮和直觉相连。代表梦境、诗歌和灵性感知。',magical:'增强直觉、梦境启示'},
+      {symbol:'ᚅ',name:'Nion',zh:'白蜡',element:'air',meaning:'白蜡树连接天地，是凯尔特世界树的象征。代表宏伟与连接。',magical:'连接天地、灵性成长'},
+      {symbol:'ᚆ',name:'Huath',zh:'山楂',element:'fire',meaning:'山楂是保护与净化的荆棘。凯尔特人用于保护家园免受侵扰。',magical:'家园保护、净化空间'},
+      {symbol:'ᚇ',name:'Duir',zh:'橡树',element:'earth',meaning:'橡树是力量与耐力的象征。德鲁伊在橡树林中举行仪式。',magical:'获得力量、持久耐力'},
+      {symbol:'ᚈ',name:'Tinne',zh:'冬青',element:'fire',meaning:'冬青象征战斗与保护。凯尔特战士佩戴冬青护身符。',magical:'战斗保护、增强意志'},
+      {symbol:'ᚉ',name:'Coll',zh:'榛树',element:'air',meaning:'榛树与智慧和灵感相连。凯尔特人认为榛实带来知识。',magical:'获取智慧、启发灵感'},
+      {symbol:'ᚊ',name:'Quert',zh:'苹果',element:'earth',meaning:'苹果树象征永生与丰饶。凯尔特神话中的阿瓦隆。',magical:'永生祝福、丰饶之愿'},
+      {symbol:'ᚋ',name:'Muin',zh:'葡萄',element:'water',meaning:'葡萄藤象征喜悦与丰收。用于庆祝仪式和感恩魔法。',magical:'庆祝丰收、带来喜悦'},
+      {symbol:'ᚌ',name:'Gort',zh:'常春藤',element:'air',meaning:'常春藤象征紧密的联结与执着。用于绑定和强化关系。',magical:'稳固关系、绑定誓言'},
+      {symbol:'ᚍ',name:'NGetal',zh:'芦苇',element:'water',meaning:'芦苇象征治疗与隐秘的知识。生长于水边的神秘植物。',magical:'治疗疾病、获取秘知'},
+      {symbol:'ᚎ',name:'Straif',zh:'黑刺李',element:'earth',meaning:'黑刺李代表命运与转变。凯尔特人认为其有强大的魔法。',magical:'转变命运、破除诅咒'},
+      {symbol:'ᚏ',name:'Ruis',zh:'接骨木',element:'water',meaning:'接骨木代表结束与新生。用于告别过去开启新篇章。',magical:'结束旧事、开启新生'},
+      {symbol:'ᚐ',name:'Ailm',zh:'银杉',element:'fire',meaning:'银杉代表力量与正直。高大的针叶树指向天空。',magical:'增强力量、保持正直'},
+      {symbol:'ᚑ',name:'Onn',zh:'金雀花',element:'fire',meaning:'金雀花象征美丽与丰盛。凯尔特人用于繁荣仪式。',magical:'吸引丰盛、增添美丽'},
+      {symbol:'ᚒ',name:'Ur',zh:'石楠',element:'earth',meaning:'石楠象征好运与浪漫。生长于荒野的紫色花丛。',magical:'带来好运、吸引爱情'},
+      {symbol:'ᚓ',name:'Eadhadh',zh:'白杨',element:'air',meaning:'白杨象征勇气与坚韧。凯尔特战士用白杨木制作盾牌。',magical:'增强勇气、坚韧不拔'},
+      {symbol:'ᚔ',name:'Iodhadh',zh:'紫杉',element:'earth',meaning:'紫杉象征死亡与重生。凯尔特墓地常植紫杉。',magical:'连接祖先、灵魂旅行'},
+      {symbol:'ᚕ',name:'Eamhancholl',zh:'核桃',element:'water',meaning:'核桃树代表梦境与直觉。用于灵性探索和占卜。',magical:'灵性探索、梦境启示'}
+    ]
+  },
+  dragon: {
+    name: '龙之符文',
+    runes: [
+      {symbol:'𐍈',name:'Draconis',zh:'龙焰',element:'fire',meaning:'龙之烈焰，代表生命之火与毁灭之力。是龙王吐息中的第一个音节。',magical:'龙火净化、力量觉醒'},
+      {symbol:'𐍉',name:'Vermis',zh:'龙鳞',element:'earth',meaning:'龙鳞的坚固防护。没有任何魔法可以穿透真正的龙鳞。',magical:'绝对防护、盾牌结界'},
+      {symbol:'𐍊',name:'Alarum',zh:'龙翼',element:'air',meaning:'龙翼的展开遮蔽天空。代表自由与俯瞰一切的视野。',magical:'获得远见、突破限制'},
+      {symbol:'ϟ',name:'Tempestas',zh:'龙息',element:'water',meaning:'龙息中蕴含的冰霜之力。冻结一切不洁之物的远古寒冷。',magical:'冰霜封印、净化之水'},
+      {symbol:'ꝏ',name:'Somnium',zh:'龙梦',element:'spirit',meaning:'龙在时间尽头所做的梦。代表预言与超越时空的感知。',magical:'预言力量、时空感知'},
+      {symbol:'☥',name:'Aeternus',zh:'永恒',element:'spirit',meaning:'永恒之龙的循环。超越生死的存在之符。',magical:'永生之门、轮回启示'},
+      {symbol:'⚶',name:'Ignis',zh:'龙心',element:'fire',meaning:'龙心在胸腔中燃烧。代表勇气、热情与不屈的精神。',magical:'激发勇气、点燃热情'},
+      {symbol:'⌘',name:'Sapientia',zh:'龙智',element:'air',meaning:'积累千年的智慧之光。代表古老知识与深邃思维。',magical:'获取智慧、启迪心智'},
+      {symbol:'⚘',name:'Venator',zh:'龙猎',element:'fire',meaning:'猎龙的古老仪式之用。代表追捕与征服的力量。',magical:'追捕目标、成就征服'},
+      {symbol:'⎔',name:'Custos',zh:'龙守',element:'earth',meaning:'守护宝藏的龙之本能。代表保护与守护的终极力量。',magical:'守护宝藏、保护领地'},
+      {symbol:'⚚',name:'Sanguis',zh:'龙血',element:'fire',meaning:'流淌在龙血管中的液态魔法。最强大的魔法催化媒介。',magical:'魔法催化、增强仪式'},
+      {symbol:'Ꝛ',name:'Umbra',zh:'龙影',element:'spirit',meaning:'龙飞行时投下的阴影。代表隐藏、沉默与存在的痕迹。',magical:'隐藏踪迹、潜行之力'},
+      {symbol:'ꜧ',name:'Furor',zh:'龙怒',element:'fire',meaning:'龙之愤怒毁灭一切。不可阻挡的原始破坏力量。',magical:'摧毁障碍、破敌之力'},
+      {symbol:'ꜩ',name:'Lux',zh:'龙光',element:'air',meaning:'龙鳞反射的星光。代表启迪、真相与显化的光。',magical:'带来光明、揭示真相'},
+      {symbol:'ⵔ',name:'Mare',zh:'龙渊',element:'water',meaning:'龙居住的深海深渊。代表深邃、奥秘与无意识的力量。',magical:'探索深处、获得力量'},
+      {symbol:'ⵣ',name:'Avis',zh:'龙翔',element:'air',meaning:'龙在云端的飞翔姿态。代表超越世俗的视角。',magical:'超越限制、崇高视野'},
+      {symbol:'⌭',name:'Gloria',zh:'龙冠',element:'spirit',meaning:'百龙之王冠上的宝石。代表王权、尊贵与最高权威。',magical:'获得权威、赢得尊荣'},
+      {symbol:'⎊',name:'Nox',zh:'夜龙',element:'spirit',meaning:'在黑夜中飞行的隐龙。代表神秘、隐秘与黑夜的力量。',magical:'黑夜之力、隐秘行动'},
+      {symbol:'⌨',name:'Flamma',zh:'龙焰语',element:'fire',meaning:'龙用火焰书写的古老语言。代表创造与毁灭的言灵。',magical:'言灵之力、创造毁灭'},
+      {symbol:'⚔',name:'Bellum',zh:'龙战',element:'fire',meaning:'龙与远古之神的战争记忆。代表战争、冲突与征服。',magical:'战争之力、胜利意志'},
+      {symbol:'⚲',name:'Pax',zh:'龙和',element:'water',meaning:'龙与世界的和平契约。带来秩序、平和与安定的力量。',magical:'带来和平、建立秩序'},
+      {symbol:'⚳',name:'Terra',zh:'地龙',element:'earth',meaning:'沉睡在地脉中的龙。代表大地之力、稳定与根基。',magical:'连接地脉、获得稳定'},
+      {symbol:'⚴',name:'Caelum',zh:'天龙',element:'air',meaning:'在银河中飞翔的天龙。代表星空、宇宙与无限。',magical:'连接宇宙、星辰之力'},
+      {symbol:'⚵',name:'Magus',zh:'龙法',element:'spirit',meaning:'龙所掌握的最高魔法源头。代表一切的起源与终结。',magical:'魔法之源、终极力量'}
+    ]
+  }
+};
+
+let currentRuneType = 'norse';
+let runeCanvasClickHandler = null;
+
+function setRuneType(type) {
+  currentRuneType = type;
+  document.querySelectorAll('.rune-type-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.rune-type-btn[data-rune-type="${type}"]`).classList.add('active');
+  drawRunicCircle(null);
+  document.getElementById('runeDetailPanel').classList.remove('visible');
+}
+
+function drawRunicCircle(hoverIndex) {
+  const canvas = document.getElementById('runicCircleCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2;
+  const outerR = Math.min(W, H)/2 - 30;
+  const innerR = outerR - 60;
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(0, 0, W, H);
+
+  const runes = runeSets[currentRuneType].runes;
+  const count = runes.length;
+  const angleStep = (Math.PI * 2) / count;
+
+  // Outer circle
+  ctx.beginPath(); ctx.arc(cx, cy, outerR + 10, 0, Math.PI*2);
+  ctx.strokeStyle = 'rgba(212,168,67,0.2)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Inner circle
+  ctx.beginPath(); ctx.arc(cx, cy, innerR - 10, 0, Math.PI*2);
+  ctx.strokeStyle = 'rgba(212,168,67,0.1)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3,5]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Center mark
+  ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(212,168,67,0.3)';
+  ctx.fill();
+
+  // Radial lines
+  for (let i = 0; i < count; i++) {
+    const angle = -Math.PI/2 + i * angleStep;
+    const r1x = cx + innerR * Math.cos(angle);
+    const r1y = cy + innerR * Math.sin(angle);
+    const r2x = cx + outerR * Math.cos(angle);
+    const r2y = cy + outerR * Math.sin(angle);
+    ctx.beginPath(); ctx.moveTo(r1x, r1y); ctx.lineTo(r2x, r2y);
+    ctx.strokeStyle = 'rgba(212,168,67,0.08)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  }
+
+  // Draw runes
+  runes.forEach((rune, i) => {
+    const angle = -Math.PI/2 + i * angleStep;
+    const r = (innerR + outerR) / 2;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    const isHover = i === hoverIndex;
+
+    // Background circle
+    ctx.beginPath(); ctx.arc(x, y, isHover ? 28 : 22, 0, Math.PI*2);
+    ctx.fillStyle = isHover ? 'rgba(255,215,0,0.12)' : 'rgba(212,168,67,0.03)';
+    ctx.fill();
+    ctx.strokeStyle = isHover ? '#ffd700' : 'rgba(212,168,67,0.25)';
+    ctx.lineWidth = isHover ? 2 : 1;
+    ctx.stroke();
+
+    // Rune symbol
+    ctx.fillStyle = isHover ? '#ffd700' : '#d4a843';
+    ctx.font = isHover ? '24px "Noto Serif SC",serif' : '20px "Noto Serif SC",serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(rune.symbol, x, y - 6);
+
+    // Name
+    ctx.fillStyle = isHover ? '#ccc' : 'rgba(212,168,67,0.6)';
+    ctx.font = '8px "Noto Serif SC",serif';
+    ctx.fillText(rune.zh, x, y + 12);
+  });
+
+  // Title
+  ctx.fillStyle = 'rgba(212,168,67,0.15)';
+  ctx.font = '11px "Noto Serif SC",serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(runeSets[currentRuneType].name + ' · 符文魔法阵', cx, H - 8);
+
+  // Click handler
+  if (runeCanvasClickHandler) {
+    canvas.removeEventListener('click', runeCanvasClickHandler);
+  }
+  runeCanvasClickHandler = function(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top) * scaleY;
+    const cx2 = canvas.width/2, cy2 = canvas.height/2;
+    const r = (innerR + outerR) / 2;
+
+    let closest = -1, minDist = 30;
+    runes.forEach((_, i) => {
+      const angle = -Math.PI/2 + i * angleStep;
+      const rx = cx2 + r * Math.cos(angle);
+      const ry = cy2 + r * Math.sin(angle);
+      const dist = Math.sqrt((mx - rx)**2 + (my - ry)**2);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    if (closest >= 0) showRuneDetail(closest);
+  };
+  canvas.addEventListener('click', runeCanvasClickHandler);
+}
+
+function showRuneDetail(index) {
+  const runes = runeSets[currentRuneType].runes;
+  const rune = runes[index];
+  if (!rune) return;
+  drawRunicCircle(index);
+
+  const panel = document.getElementById('runeDetailPanel');
+  const elemMap = {fire:'🔥 火',earth:'🌍 土',air:'🌪️ 风',water:'💧 水',spirit:'✨ 灵'};
+  panel.innerHTML = `
+    <div class="rd-symbol">${rune.symbol}</div>
+    <div class="rd-name">${rune.name} · ${rune.zh}</div>
+    <div class="rd-element">${elemMap[rune.element] || ''}</div>
+    <div class="rd-meaning">${rune.meaning}</div>
+    <div class="rd-magical">✦ 魔法用途：${rune.magical}</div>
+  `;
+  panel.classList.add('visible');
+}
+
+function castRunicRunes() {
+  const runes = runeSets[currentRuneType].runes;
+  const indices = [];
+  while (indices.length < 3) {
+    const idx = Math.floor(Math.random() * runes.length);
+    if (!indices.includes(idx)) indices.push(idx);
+  }
+
+  const positions = ['过去', '现在', '未来'];
+  const elemMap = {fire:'🔥',earth:'🌍',air:'🌪️',water:'💧',spirit:'✨'};
+
+  let cardsHtml = indices.map((idx, i) => {
+    const r = runes[idx];
+    return `<div class="rune-cast-card">
+      <div class="rcc-symbol">${r.symbol}</div>
+      <div class="rcc-name">${r.zh}</div>
+      <div class="rcc-pos">${positions[i]}</div>
+      <div style="font-size:0.72rem;color:#aaa;">${elemMap[r.element] || ''} ${r.element}</div>
+      <div class="rcc-meaning">${r.meaning.slice(0, 30)}...</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('runeCastResult').innerHTML = `
+    <div style="text-align:center;color:var(--accent2);font-family:var(--font-display);font-size:1.2rem;margin-bottom:0.5rem;">✦ 符文投掷结果 ✦</div>
+    <div class="rune-casting-result">${cardsHtml}</div>
+    <div style="margin-top:1rem;padding:1rem;background:var(--bg3);border-radius:8px;border:1px solid var(--rule2);">
+      <div style="color:var(--accent2);font-size:0.9rem;margin-bottom:0.3rem;">综合解读</div>
+      <div style="color:var(--ink);font-size:0.88rem;line-height:1.6;">
+        过去的能量由${runes[indices[0]].zh}符文主导，预示${runes[indices[0]].meaning.slice(0, 24)}。
+        现在的处境受到${runes[indices[1]].zh}的影响，${runes[indices[1]].meaning.slice(0, 24)}。
+        未来的走向由${runes[indices[2]].zh}指引，${runes[indices[2]].meaning.slice(0, 24)}。
+        建议你将${runes[indices[0]].zh}的过去经验、${runes[indices[1]].zh}的当下力量与${runes[indices[2]].zh}的未来启示融合，在符文之环中获得完整的智慧。
+      </div>
+    </div>
+  `;
+}
+
+// Initialize runic circle
+let runicInitialized = false;
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (this.dataset.tab === 'tab-runic' && !runicInitialized) {
+      setTimeout(() => { drawRunicCircle(null); runicInitialized = true; }, 200);
+    }
+  });
+});
+
+/* =====================================================================
+   20. CHAOS MAGIC RITUAL
+   ===================================================================== */
+const chaosPlanetData = {
+  sun:    {name:'太阳',color:'#d4a843',energy:'太阳能量 — 光辉、成功、活力',timing:'日出至正午，最佳时间为上午6:00-9:00'},
+  moon:   {name:'月亮',color:'#c0c0d0',energy:'月亮能量 — 直觉、梦境、情感',timing:'日落后至午夜，最佳时间为晚上7:00-10:00'},
+  mars:   {name:'火星',color:'#c41e3a',energy:'火星能量 — 力量、勇气、冲突',timing:'正午至下午3:00，适合战斗与突破仪式'},
+  mercury:{name:'水星',color:'#b0b0c8',energy:'水星能量 — 沟通、智慧、交易',timing:'清晨至上午，最佳时间为上午5:00-8:00'},
+  jupiter:{name:'木星',color:'#4a7fb5',energy:'木星能量 — 扩张、财富、好运',timing:'上午至正午，适合丰盛与好运仪式'},
+  venus:  {name:'金星',color:'#c8a0c8',energy:'金星能量 — 爱情、美丽、和谐',timing:'日落前两小时，适合爱情与艺术仪式'},
+  saturn: {name:'土星',color:'#2d5a27',energy:'土星能量 — 限制、结构、业力',timing:'午夜至凌晨3:00，适合封印与深层冥想'}
+};
+
+const chaosMoonData = {
+  new:     {name:'新月',energy:'全新开始、播种、启动',sigil:'三曲之月'},
+  waxing:  {name:'蛾眉月',energy:'增长、吸引、建设',sigil:'弯月之钩'},
+  first:   {name:'上弦月',energy:'决策、力量、行动',sigil:'半月光辉'},
+  gibbous: {name:'盈凸月',energy:'完善、调整、耐心',sigil:'充盈之光'},
+  full:    {name:'满月',energy:'巅峰、显化、强力魔法',sigil:'满月之轮'},
+  waning:  {name:'亏凸月',energy:'释放、驱散、净化',sigil:'渐消之月'},
+  last:    {name:'下弦月',energy:'结束、放下、反思',sigil:'残月之镰'},
+  dark:    {name:'残月',energy:'沉默、深层冥想、封印',sigil:'暗月之眼'}
+};
+
+const chaosToolTemplates = {
+  protection: ['黑曜石或黑碧玺护身符×1', '白色蜡烛×1', '海盐一小碗', '艾草或圣木熏香', '铁质祭刀(阿塔姆)'],
+  wealth: ['绿色蜡烛×1', '肉桂棒×3', '黄水晶或黄铁矿×1', '金币或硬币×5', '肉桂粉与檀香'],
+  wisdom: ['蓝色蜡烛×1', '紫水晶或青金石×1', '鼠尾草熏香', '羽毛笔与羊皮纸', '清水一碗'],
+  love: ['粉色蜡烛×1', '玫瑰石英×1', '干玫瑰花蕾×7', '蜂蜜一小罐', '茉莉或玫瑰熏香'],
+  strength: ['红色蜡烛×1', '血石或红玛瑙×1', '龙血树脂熏香', '铁质物品×1', '烈酒一小杯(祭品)'],
+  healing: ['绿色或白色蜡烛×1', '月光石或翡翠×1', '薰衣草干花', '杏仁油', '纯净泉水一碗'],
+  general: ['黑色蜡烛×1', '白色蜡烛×1', '香炉与熏香', '海盐一圈(结界)', '个人祭坛物品×1']
+};
+
+const chaosIncantPrefixes = ['Ixos', 'Vorth', 'Zael', 'Morth', 'Kael', 'Thorn', 'Vex', 'Zor', 'Nex', 'Val'];
+const chaosIncantSuffixes = ['um', 'ar', 'is', 'on', 'ax', 'os', 'ith', 'an', 'en', 'or'];
+const chaosIncantMiddles = ['bar', 'thor', 'morn', 'zul', 'kel', 'fro', 'gath', 'seth', 'lorn', 'quor', 'xen', 'zod', 'kul', 'reth', 'vorn', 'farn'];
+
+function generateChaosRitual() {
+  const intent = document.getElementById('chaosIntent').value.trim() || '意图未指定';
+  const planetKey = document.getElementById('chaosPlanetDay').value;
+  const moonKey = document.getElementById('chaosMoonPhase').value;
+  const planet = chaosPlanetData[planetKey];
+  const moon = chaosMoonData[moonKey];
+
+  // Generate ritual name
+  const namePrefixes = ['混沌', '虚空', '深渊', '星界', '远古', '暗影', '光辉', '永恒', '秘仪', '夜之'];
+  const nameSuffixes = ['之仪', '的召唤', '的启示', '的觉醒', '的显化', '的共鸣', '的编织', '的颂歌'];
+  const ritualName = namePrefixes[Math.floor(Math.random() * namePrefixes.length)] + intent + nameSuffixes[Math.floor(Math.random() * nameSuffixes.length)];
+
+  // Best timing
+  const timingText = `${planet.timing} · ${moon.name}期间`;
+  const fullTiming = `${moon.name}的${planet.name}日 · ${planet.timing}`;
+
+  // Tools
+  const intentKey = getIntentKey(intent);
+  const baseTools = chaosToolTemplates[intentKey] || chaosToolTemplates.general;
+  const extraTools = ['个人仪式袍或黑衣', '仪式记录用纸笔'];
+  const tools = [...baseTools, ...extraTools].map(t => `✦ ${t}`).join('\n');
+
+  // Incantation
+  const words = [];
+  for (let i = 0; i < 5 + Math.floor(Math.random() * 3); i++) {
+    let word = chaosIncantPrefixes[Math.floor(Math.random() * chaosIncantPrefixes.length)];
+    word += chaosIncantMiddles[Math.floor(Math.random() * chaosIncantMiddles.length)];
+    word += chaosIncantSuffixes[Math.floor(Math.random() * chaosIncantSuffixes.length)];
+    words.push(word);
+  }
+  const incantation = words.join(' · ');
+
+  // Sigil instructions
+  const sigilMethods = ['将意图简化为核心词汇，去除重复字母，重组为抽象符号', '在圆中画出意图对应的几何图形，叠加你的签名', '将意图用龙语译音转写，编织成连续的线条', '在满月之夜，用左手将意图写在纸上，折叠七次'];
+  const sigilMethod = sigilMethods[Math.floor(Math.random() * sigilMethods.length)];
+  const sigilCharge = ['点燃蜡烛凝视符印直至其在你眼中燃烧', '将符印置于月光下放置一夜', '大声诵唱符印名称四十九次', '将符印握于双手之间，感受能量注入', '焚烧符印释放能量于宇宙之中'];
+
+  // Closing words
+  const closings = [
+    '以我之名，以此符为证，混沌之力，如我所愿。此仪圆满，归于寂静。',
+    '诸界之壁在此刻消融，愿混沌之力见证我的意志。仪式已成，归于虚无。',
+    '我以此仪宣告：现实为我所塑，意志为我所持。如此而成，如是而终。',
+    '在混沌之中，我找到秩序；在沉默之中，我听到回应。仪式完成，归于尘土。'
+  ];
+
+  // Build the scroll
+  const resultHtml = `
+    <div class="chaos-scroll-card">
+      <div class="csc-inner">
+        <div class="csc-title">✦ ${ritualName} ✦</div>
+        <div class="csc-subtitle">— 混沌魔法仪式 · ${intent} —</div>
+
+        <div class="csc-section">
+          <div class="cs-label">⏰ 最佳时机</div>
+          <div class="cs-body">行星日：${planet.name}（${planet.energy}）\n月相：${moon.name}（${moon.energy}）\n推荐时间：${fullTiming}</div>
+        </div>
+
+        <div class="csc-section">
+          <div class="cs-label">🛠 所需工具</div>
+          <div class="cs-body">${tools}</div>
+        </div>
+
+        <div class="csc-section">
+          <div class="cs-label">📜 神圣咒文</div>
+          <div class="csc-incantation">✦ ${incantation} ✦</div>
+          <div style="text-align:center;color:#aaa;font-size:0.8rem;font-style:italic;">诵唱三次，每次加深呼吸，感受能量随声波震动</div>
+        </div>
+
+        <div class="csc-section">
+          <div class="cs-label">✧ 符印制作</div>
+          <div class="cs-body">${sigilMethod}。\n充能方式：${sigilCharge[Math.floor(Math.random() * sigilCharge.length)]}。</div>
+        </div>
+
+        <div class="csc-section">
+          <div class="cs-label">⚡ 仪式流程</div>
+          <div class="cs-body">1. 用海盐在地面画圆，设立神圣空间\n2. 点燃蜡烛与熏香，面朝${planetKey === 'sun' ? '东方' : planetKey === 'moon' ? '西方' : '北方'}\n3. 闭目深呼吸七次，稳定心神\n4. 大声诵唱咒文三遍\n5. 凝视${moonKey === 'full' ? '月光' : '烛火'}，观想意图显化的画面\n6. 按上述方法制作并充能符印\n7. 感谢宇宙能量，吹熄蜡烛\n8. 写下仪式记录，留存于祭坛三日</div>
+        </div>
+
+        <div class="csc-closing">${closings[Math.floor(Math.random() * closings.length)]}</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:0.5rem;">
+      <button class="btn btn-secondary btn-sm" onclick="exportChaosRitual()">⬇ 导出为文本</button>
+      <button class="btn btn-sm" style="margin-left:0.5rem;" onclick="generateChaosRitual()">✦ 重新生成</button>
+    </div>
+  `;
+
+  // Store for export
+  window._lastChaosRitual = {
+    name: ritualName,
+    intent: intent,
+    timing: fullTiming,
+    tools: tools,
+    incantation: incantation,
+    sigil: sigilMethod + '。充能方式：' + sigilCharge[Math.floor(Math.random() * sigilCharge.length)],
+    closing: closings[Math.floor(Math.random() * closings.length)]
+  };
+
+  document.getElementById('chaosRitualResult').innerHTML = resultHtml;
+}
+
+function getIntentKey(intent) {
+  const map = {
+    '保护':'protection','防护':'protection','护盾':'protection','防御':'protection','结界':'protection',
+    '财富':'wealth','金钱':'wealth','丰盛':'wealth','富足':'wealth','繁荣':'wealth',
+    '智慧':'wisdom','知识':'wisdom','学习':'wisdom','启迪':'wisdom','开悟':'wisdom',
+    '爱情':'love','爱':'love','感情':'love','关系':'love','浪漫':'love',
+    '力量':'strength','勇气':'strength','力量':'strength','强大':'strength','意志':'strength',
+    '治愈':'healing','疗愈':'healing','健康':'healing','治疗':'healing','康复':'healing'
+  };
+  for (const [key, val] of Object.entries(map)) {
+    if (intent.includes(key)) return val;
+  }
+  return 'general';
+}
+
+function exportChaosRitual() {
+  // Actually re-generate to get current data
+  // Simpler: grab text from the displayed result
+  const scroll = document.querySelector('.chaos-scroll-card');
+  if (!scroll) return;
+  const text = scroll.textContent.replace(/\\s+/g, ' ').trim();
+  const lines = text.split(/\\n/).filter(l => l.trim());
+  const exportText = '═══════════════════════════════════════\n' +
+    '  混沌魔法仪式脚本\n' +
+    '═══════════════════════════════════════\n\n' +
+    lines.join('\n') + '\n\n' +
+    '═══════════════════════════════════════\n' +
+    '  仪式由 Apophis Dragon Magic 生成\n' +
+    '═══════════════════════════════════════\n';
+
+  const blob = new Blob([exportText], {type: 'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `混沌仪式_${new Date().toISOString().split('T')[0]}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 
 </script>
 </body>
