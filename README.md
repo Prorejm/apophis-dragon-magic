@@ -60,10 +60,13 @@
 
 | 页面 | 链接 |
 |------|------|
-| 主书 | [index.html](https://prorejm.github.io/apophis-dragon-magic/) |
-| 符印工坊 | [sigil-game.html](https://prorejm.github.io/apophis-dragon-magic/sigil-game.html) |
-| 大六壬模拟器 | [liuren-simulator.html](https://prorejm.github.io/apophis-dragon-magic/liuren-simulator.html) |
-| 心理测试 | [lhp-test.html](https://prorejm.github.io/apophis-dragon-magic/lhp-test.html) |
+| 📖 主书 | [index.html](https://prorejm.github.io/apophis-dragon-magic/) |
+| 🎮 符印工坊 | [sigil-game.html](https://prorejm.github.io/apophis-dragon-magic/sigil-game.html) |
+| ☯ 大六壬 | [liuren-simulator.html](https://prorejm.github.io/apophis-dragon-magic/liuren-simulator.html) |
+| 🪐 行星时计算 | [planetary-hours.html](https://prorejm.github.io/apophis-dragon-magic/planetary-hours.html) |
+| 👹 七十二魔神 | [goetia-demons.html](https://prorejm.github.io/apophis-dragon-magic/goetia-demons.html) |
+| ✦ 天文星象 | [astrology-hub.html](https://prorejm.github.io/apophis-dragon-magic/astrology-hub.html) |
+| 🔮 魔法测试 | [lhp-test.html](https://prorejm.github.io/apophis-dragon-magic/lhp-test.html) |
 
 ## 💻 本地运行
 
