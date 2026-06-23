@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>魔法植物学 / Magical Botany - Apophis Dragon Magic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#c8b89a;font-family:'Noto Serif SC',serif;min-height:100vh;overflow-x:hidden}
+#particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.page-wrap{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:20px}
+
+/* Navigation */
+.nav{background:rgba(10,10,10,0.95);border-bottom:2px solid #d4a843;padding:12px 30px;display:flex;align-items:center;gap:25px;flex-wrap:wrap;position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Ma Shan Zheng',cursive;font-size:26px;color:#d4a843;text-decoration:none;white-space:nowrap}
+.nav-logo span{color:#c41e3a}
+.nav a{color:#c8b89a;text-decoration:none;font-size:14px;transition:color .3s;padding:5px 10px}
+.nav a:hover,.nav a.active{color:#d4a843}
+.nav a.active{text-shadow:0 0 10px rgba(212,168,67,0.5)}
+
+/* Header */
+.header{text-align:center;padding:60px 20px 40px;position:relative}
+.header::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:3px;background:linear-gradient(90deg,transparent,#d4a843,transparent)}
+.header h1{font-family:'Ma Shan Zheng',cursive;font-size:56px;color:#d4a843;text-shadow:0 0 30px rgba(212,168,67,0.3);margin-bottom:10px}
+.header .subtitle{font-family:'Cinzel',serif;font-size:14px;color:#c41e3a;letter-spacing:6px;text-transform:uppercase}
+.header .quote{font-size:14px;color:#8a7e6a;font-style:italic;margin-top:15px;max-width:600px;margin-left:auto;margin-right:auto}
+
+/* Tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:30px 0;border-bottom:1px solid #2a2a2a;padding-bottom:0}
+.tab-btn{background:transparent;border:1px solid #2a2a2a;border-bottom:none;color:#8a7e6a;padding:12px 22px;font-size:13px;cursor:pointer;transition:all .3s;font-family:'Noto Serif SC',serif;border-radius:4px 4px 0 0}
+.tab-btn:hover{color:#d4a843;border-color:#d4a843}
+.tab-btn.active{background:rgba(212,168,67,0.1);color:#d4a843;border-color:#d4a843;text-shadow:0 0 10px rgba(212,168,67,0.3)}
+
+/* Tab Content */
+.tab-content{display:none;padding:30px 0;animation:fadeIn .5s}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Search */
+.search-bar{display:flex;gap:12px;margin-bottom:25px;flex-wrap:wrap;align-items:center}
+.search-bar input{flex:1;min-width:200px;background:#1a1a1a;border:1px solid #2a2a2a;color:#c8b89a;padding:12px 18px;font-size:14px;border-radius:4px;outline:none;transition:border-color .3s}
+.search-bar input:focus{border-color:#d4a843}
+.search-bar select{background:#1a1a1a;border:1px solid #2a2a2a;color:#c8b89a;padding:12px 18px;font-size:14px;border-radius:4px;outline:none;cursor:pointer}
+
+/* Plant Cards */
+.plant-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.plant-card{background:linear-gradient(135deg,#141414,#1a1a1a);border:1px solid #2a2a2a;border-radius:8px;padding:20px;transition:all .3s;cursor:default}
+.plant-card:hover{border-color:#d4a843;transform:translateY(-3px);box-shadow:0 8px 30px rgba(212,168,67,0.1)}
+.plant-card .cn-name{font-family:'Ma Shan Zheng',cursive;font-size:24px;color:#d4a843;margin-bottom:2px}
+.plant-card .en-name{font-size:13px;color:#8a7e6a;font-style:italic;margin-bottom:8px}
+.plant-card .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.plant-card .badge{font-size:11px;padding:3px 10px;border-radius:12px;display:inline-block}
+.badge-element{background:rgba(212,168,67,0.15);color:#d4a843;border:1px solid rgba(212,168,67,0.3)}
+.badge-planet{background:rgba(196,30,58,0.15);color:#c41e3a;border:1px solid rgba(196,30,58,0.3)}
+.badge-intent{background:rgba(100,180,100,0.15);color:#64b464;border:1px solid rgba(100,180,100,0.3)}
+.plant-card .magical-uses{font-size:13px;color:#8a7e6a;line-height:1.6}
+.plant-card .magical-uses strong{color:#c8b89a}
+.plant-card .deities{font-size:12px;color:#6a5e4a;margin-top:8px;font-style:italic}
+
+/* Parchment blocks */
+.parchment{background:linear-gradient(135deg,#1e1a10,#2a2218);border:1px solid #3a3020;border-radius:6px;padding:25px 30px;margin:20px 0;position:relative;font-style:italic;color:#b8a88a}
+.parchment::before{content:'"';position:absolute;top:5px;left:12px;font-size:40px;color:#d4a843;opacity:.4;font-family:serif}
+.parchment::after{content:'"';position:absolute;bottom:-5px;right:15px;font-size:40px;color:#d4a843;opacity:.4;font-family:serif}
+
+/* Divination section */
+.divination-section{padding:20px;background:#141414;border:1px solid #2a2a2a;border-radius:8px;margin-bottom:20px}
+.divination-section h3{font-family:'Ma Shan Zheng',cursive;font-size:28px;color:#d4a843;margin-bottom:15px}
+.divination-section p{font-size:14px;line-height:1.8;color:#8a7e6a;margin-bottom:10px}
+
+/* Fortune button */
+.fortune-btn{display:block;margin:30px auto;padding:16px 40px;background:linear-gradient(135deg,#1a1a1a,#2a1a0a);border:2px solid #d4a843;color:#d4a843;font-family:'Ma Shan Zheng',cursive;font-size:22px;cursor:pointer;transition:all .3s;border-radius:8px}
+.fortune-btn:hover{background:#d4a843;color:#0a0a0a;box-shadow:0 0 30px rgba(212,168,67,0.3)}
+.fortune-result{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:25px;margin:20px 0;min-height:80px;text-align:center;font-size:15px;line-height:1.8;color:#c8b89a}
+
+/* Recipe cards */
+.recipe-card{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:25px;margin-bottom:20px;border-left:3px solid #d4a843}
+.recipe-card h3{font-family:'Ma Shan Zheng',cursive;font-size:24px;color:#d4a843;margin-bottom:10px}
+.recipe-card .ingredients{font-size:13px;color:#c41e3a;margin-bottom:12px}
+.recipe-card .ingredients span{color:#8a7e6a;font-style:italic}
+.recipe-card .instructions{font-size:14px;line-height:1.8;color:#8a7e6a;margin-bottom:8px}
+.recipe-card .timing{font-size:13px;color:#64b464;font-style:italic}
+
+/* Correspondences tables */
+.corr-section{margin-bottom:30px}
+.corr-section h3{font-family:'Ma Shan Zheng',cursive;font-size:26px;color:#d4a843;margin-bottom:15px;border-bottom:1px solid #2a2a2a;padding-bottom:10px}
+.corr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.corr-item{background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.corr-item .label{color:#8a7e6a;font-size:13px}
+.corr-item .value{color:#d4a843;font-size:14px;font-weight:700}
+
+/* Lucky plant entries */
+.super-section{padding:20px;background:#141414;border:1px solid #2a2a2a;border-radius:8px;margin-bottom:15px}
+.super-section h3{font-family:'Ma Shan Zheng',cursive;font-size:24px;color:#d4a843;margin-bottom:8px}
+.super-section .tag{display:inline-block;padding:2px 12px;border-radius:10px;font-size:11px;margin-bottom:8px}
+.tag-lucky{background:rgba(100,180,100,0.2);color:#64b464;border:1px solid rgba(100,180,100,0.3)}
+.tag-unlucky{background:rgba(196,30,58,0.2);color:#c41e3a;border:1px solid rgba(196,30,58,0.3)}
+.super-section .folklore{font-size:14px;line-height:1.8;color:#8a7e6a}
+.super-section .avoid{font-size:13px;color:#c41e3a;margin-top:5px}
+.super-section .counter{font-size:13px;color:#64b464;margin-top:3px}
+
+/* Calendar */
+.calendar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:15px}
+.month-card{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:20px;border-top:3px solid #d4a843}
+.month-card h3{font-family:'Ma Shan Zheng',cursive;font-size:22px;color:#d4a843;margin-bottom:10px}
+.month-card .entry{font-size:13px;line-height:1.7;color:#8a7e6a;margin-bottom:6px;padding-left:12px;border-left:2px solid #2a2a2a}
+.month-card .entry strong{color:#c8b89a}
+
+/* Sabbat section */
+.sabbat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:15px;margin:20px 0}
+.sabbat-card{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:20px;text-align:center;border-top:3px solid #c41e3a}
+.sabbat-card h4{font-family:'Ma Shan Zheng',cursive;font-size:22px;color:#d4a843;margin-bottom:5px}
+.sabbat-card .date{font-size:12px;color:#8a7e6a;margin-bottom:8px}
+.sabbat-card .herbs{font-size:13px;color:#c8b89a;line-height:1.6}
+
+/* Wheel */
+.wheel-container{position:relative;max-width:500px;margin:30px auto;text-align:center}
+#herbal-wheel{width:100%;max-width:500px}
+
+/* Responsive */
+@media(max-width:768px){
+  .header h1{font-size:36px}
+  .tab-btn{padding:8px 14px;font-size:12px}
+  .plant-grid{grid-template-columns:1fr}
+  .nav{padding:10px 15px;gap:10px}
+  .nav-logo{font-size:20px}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#d4a843}
+
+/* Celtic tree months */
+.celtic-table{width:100%;border-collapse:collapse;margin:15px 0}
+.celtic-table th,.celtic-table td{padding:10px 14px;text-align:left;border-bottom:1px solid #2a2a2a;font-size:14px}
+.celtic-table th{color:#d4a843;font-weight:700;border-bottom:2px solid #d4a843}
+.celtic-table td{color:#8a7e6a}
+.celtic-table tr:hover td{color:#c8b89a;background:rgba(212,168,67,0.05)}
+</style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- Navigation -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link active">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+</nav>
+
+<!-- Header -->
+<header class="header">
+  <h1>魔法植物学</h1>
+  <div class="subtitle">Magical Botany</div>
+  <div class="quote">"存在于每一片叶子、每一朵花、每一棵草木之中的古老魔法与智慧" — 基于 Gerina Dunwich《Herbal Magick》</div>
+</header>
+
+<!-- Tabs -->
+<div class="tabs" id="tabNav">
+  <button class="tab-btn active" data-tab="encyclopedia">植物图鉴</button>
+  <button class="tab-btn" data-tab="divination">植物占卜</button>
+  <button class="tab-btn" data-tab="spells">草药魔法配方</button>
+  <button class="tab-btn" data-tab="superstitions">幸运与禁忌</button>
+  <button class="tab-btn" data-tab="correspondences">魔法草药词典</button>
+  <button class="tab-btn" data-tab="calendar">植物日历</button>
+</div>
+
+<div class="page-wrap">
+
+<!-- ============================================================ -->
+<!-- TAB 1: HERBAL ENCYCLOPEDIA -->
+<!-- ============================================================ -->
+<div class="tab-content active" id="tab-encyclopedia">
+  <div class="search-bar">
+    <input type="text" id="herbSearch" placeholder="搜索植物名称（中/英）..." oninput="filterHerbs()">
+    <select id="elementFilter" onchange="filterHerbs()">
+      <option value="">所有元素</option>
+      <option value="Fire">火 Fire</option>
+      <option value="Water">水 Water</option>
+      <option value="Air">风 Air</option>
+      <option value="Earth">土 Earth</option>
+    </select>
+    <select id="planetFilter" onchange="filterHerbs()">
+      <option value="">所有行星</option>
+      <option value="Sun">太阳 Sun</option>
+      <option value="Moon">月亮 Moon</option>
+      <option value="Mercury">水星 Mercury</option>
+      <option value="Venus">金星 Venus</option>
+      <option value="Mars">火星 Mars</option>
+      <option value="Jupiter">木星 Jupiter</option>
+      <option value="Saturn">土星 Saturn</option>
+    </select>
+  </div>
+  <div class="plant-grid" id="herbGrid"></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 2: HERBAL DIVINATION -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-divination">
+  <div class="divination-section">
+    <h3>植物占卜学 / Botanomancy</h3>
+    <p>植物占卜（Botanomancy）源自希腊语"botane"（草药），是人类最古老的预言方法之一。自古以来，女巫、德鲁伊和占卜师通过观察植物的形态、燃烧方式和烟迹来解读未来的讯息。</p>
+  </div>
+
+  <div class="divination-section">
+    <h3>叶脉占卜 / Phyllomancy</h3>
+    <p>通过解读树叶上的脉络图案来洞察未来事件或揭示未知之事。占卜者仔细观察叶脉的分支走向、交叉点和纹路的深浅，从中寻找神谕的暗示。</p>
+  </div>
+
+  <div class="divination-section">
+    <h3>燃烧占卜 / Causimomancy</h3>
+    <p>通过燃烧植物产生的灰烬来解读预兆。植物在火中燃烧的速度——若缓慢冒烟或无法燃烧被视为凶兆，若迅速燃烧则为吉兆。该占卜法有多种变体：</p>
+    <p><strong>Capnomancy（烟占术）：</strong>解读燃烧植物产生的烟雾形态。起源于古巴比伦，祭司将雪松枝放在热炭上或投入火中，仔细解读烟雾的象征意义。烟雾直直升天被视为吉兆；烟雾低垂则为凶兆；若烟雾触及地面，则是神灵或诸神发出的警告。</p>
+    <p><strong>Daphnomancy（月桂占卜）：</strong>通过燃烧月桂木或月桂叶产生的烟雾和声音来解读预兆。该占卜法源于前基督教时代的罗马，与罗马皇帝种植的月桂圣林有关。</p>
+    <p><strong>Libanomancy（焚香占卜）：</strong>解读焚香烟雾的占卜法，可追溯至古巴比伦的魔法师。烟雾向右飘散预示你将在对抗中获胜；向左飘散则表示对手将获胜。烟雾聚集是成功和财运的吉兆；若烟雾分散，则预示财务损失。</p>
+  </div>
+
+  <div class="divination-section">
+    <h3>玫瑰花瓣占卜 / Phyllorhodomancy</h3>
+    <p>古希腊流行的占卜法，通过观察玫瑰花瓣来预测未来。占卜者选择一片凹形玫瑰花瓣，提出一个是否问题，然后将花瓣放在右手掌中，用力合掌拍击一次。若花瓣爆裂，答案为肯定；若未爆裂，则为否定回答。</p>
+  </div>
+
+  <div class="divination-section">
+    <h3>樱桃树占卜 / Cherry Tree Divination</h3>
+    <div class="parchment">"樱桃树，我摇动你，<br>樱桃树，请告诉我，<br>我将活到多少岁？<br>落果之数即答案。"</div>
+    <p>在仲夏夜，围绕结满果实的樱桃树顺时针跑三圈，然后用力摇晃树干。数一数掉落在地上的樱桃数量——每一颗代表你将活到的一岁年龄。</p>
+  </div>
+
+  <div class="divination-section">
+    <h3>橡子占卜 / Acorn Divination</h3>
+    <p>在满月之夜，取两粒橡子，一粒刻上你的姓名首字母，另一粒刻上未婚夫/妻的首字母。将两粒橡子放入盛满水的坩埚中，保持3英寸距离，然后观察它们的移动：若它们相互靠近，预示婚礼即将到来；若相互远离，表示将分手；若保持不动，需改日再占。</p>
+  </div>
+
+  <div class="divination-section">
+    <h3>万圣节植物占卜 / Halloween Plant Divinations</h3>
+    <p><strong>鼠尾草婚姻占卜：</strong>在万圣节午夜时分，独自走进花园，一言不发地摘下12片鼠尾草叶——每敲响一次钟声摘一片。当第12次钟声响起时摘下第12片叶子，你未来丈夫的面容将在你眼前显现。</p>
+    <p><strong>燕麦子女占卜：</strong>在万圣节午夜，独自走进燕麦田。闭眼顺时针自转三圈，伸手随机拔三株燕麦。数第三株上的谷粒数——这将是你会拥有的子女数量。</p>
+    <p><strong>落叶许愿：</strong>在万圣节接住一片飘落的秋叶，许下愿望——传说这个愿望一定会实现。</p>
+  </div>
+
+  <div class="divination-section">
+    <h3>更多植物占卜法</h3>
+    <p><strong>月桂叶恋人占卜：</strong>在圣约翰前夜，取一片月桂叶，用针刻上爱人的名字。将叶子别在睡衣上贴近心脏的位置入睡。早晨检查叶子：若变为棕色，表示爱人一直忠实于你；若颜色未变，则表示爱人已经或将要欺骗你。</p>
+    <p><strong>苹果皮占卜：</strong>将苹果削成一整条不断的皮。在粉色魔法蜡烛的光芒下，右手拿果皮，念咒三遍后从右肩抛向身后。若果皮落地形成字母形状，则是未来配偶姓氏的首字母。若果皮断裂，预示你将永不结婚。</p>
+    <p><strong>三叶草占卜：</strong>摘一片两叶三叶草放入右鞋中。女性遇到的第一个年轻男性将拥有与你未来丈夫相同的名字或首字母。</p>
+    <p><strong>蓍草爱情占卜：</strong>在五朔节前夜或新月之夜摘10根蓍草茎。睡前将9根放在枕头下，第10根从左肩抛向身后，同时念诵咒语，将梦见未来真爱。</p>
+    <p><strong>冬青梦占卜：</strong>在周五午夜，一言不发地走进花园，从雌性（光滑边缘）冬青植株上摘九片叶子。将每片叶子打结系在三角手帕中，放在枕头下入睡，将梦见未来配偶。</p>
+    <p><strong>玫瑰梦占卜：</strong>在仲夏夜午夜钟声敲响12下时，一言不发地倒退走进花园，摘下最红的那朵盛开的玫瑰。用白纸包好藏在秘密处。在冬至日出时取出放在胸前——据说你将来的丈夫会来把它取走。</p>
+  </div>
+
+  <button class="fortune-btn" onclick="randomDivination()">&#9758; 尝试占卜</button>
+  <div class="fortune-result" id="fortuneResult">点击上方按钮，获取一则随机植物占卜...</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 3: HERBAL SPELL RECIPES -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-spells">
+  <div class="recipe-card">
+    <h3>爱情魔法 — 幸运之手招爱咒</h3>
+    <div class="ingredients">材料：<span>幸运手根（兰花根）、玫瑰油、带盖小罐</span></div>
+    <div class="instructions">在周五（金星之日），月亮处于盈相且在金星时刻，将幸运手根放入装满玫瑰油的小罐中。盖上盖子，念诵咒语三次："盈月金星时，注此根以神秘之力。令其无阻运作，吸引真爱降临。"让根在玫瑰油中浸泡七天七夜。接下来的周五，在金星时刻取出根，每日每夜贴身佩戴。</div>
+    <div class="timing">最佳时间：周五、盈月、金星时刻</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>爱情魔法 — 长生草招爱咒</h3>
+    <div class="ingredients">材料：<span>新鲜长生草（Houseleek）、玫瑰油或爱情魔法油、魔法袋</span></div>
+    <div class="instructions">在魔法袋中装满新鲜长生草，同时心中满怀对心上人的浪漫思念。用三滴玫瑰油或爱情魔法油涂抹袋子，然后每日每夜贴身佩戴。每三天更换新鲜草药并重新涂油。</div>
+    <div class="timing">最佳时间：新月开始效果最佳</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>爱情魔法 — 吉普赛洋葱爱情咒</h3>
+    <div class="ingredients">材料：<span>一个洋葱或郁金香球茎、干净的新花盆、新土</span></div>
+    <div class="instructions">将洋葱或郁金香球茎种植在干净的未使用过的花盆中，同时念诵心上人的名字。每天日出和日落时分对着花盆念诵："如此根生长，如此花绽放，愿他/她的心，转向我！"随着时间的推移，你心爱之人将越来越倾向于你。</div>
+    <div class="timing">最佳时间：日出和日落时分</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>爱情魔法 — 莳萝忠诚占卜</h3>
+    <div class="ingredients">材料：<span>圣约翰草、门框和窗框</span></div>
+    <div class="instructions">在圣约翰日（6月24日）采摘圣约翰草，将其悬挂在房屋和谷仓的门窗上方，可防止邪恶精灵进入。随身携带或在魔法袋中携带圣约翰草，可抵御最邪恶的幽灵和恶魔实体。</div>
+    <div class="timing">最佳时间：圣约翰日（6月24日）</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>招财魔法 — 海角约翰招财符</h3>
+    <div class="ingredients">材料：<span>海角约翰根（High John the Conqueror）、2美元闰年纸币、银色水星10美分硬币、绿色法兰绒魔法袋、海角约翰油</span></div>
+    <div class="instructions">将2美元闰年纸币包裹海角约翰根和银色水星10分硬币（注意朝自己方向折叠，不可朝外）。放入绿色法兰绒魔法袋中，每日滴三滴海角约翰油或招财魔法油。无论睡眠时都必须随身携带。</div>
+    <div class="timing">最佳时间：周三水星时刻制作</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>招财魔法 — 中国招财咒</h3>
+    <div class="ingredients">材料：<span>三枚硬币、红纸、一盆圆叶植物</span></div>
+    <div class="instructions">将三枚硬币用红纸包裹，埋在圆叶盆栽的土壤中。植物越大，咒语效力越强。务必保持植物健康快乐，及时移除枯萎或死亡叶片，否则咒语的正面效果可能逆转。</div>
+    <div class="timing">最佳时间：新月之时</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>招财魔法 — 啤酒花好运咒</h3>
+    <div class="ingredients">材料：<span>干啤酒花</span></div>
+    <div class="instructions">用干啤酒花编织花环，悬挂在壁炉架或炉膛上方，可吸引好运并驱散厄运。每年啤酒花采摘季节更换新花环，防止好运耗尽。此外，将干啤酒花塞入枕套可治疗失眠和驱散噩梦。</div>
+    <div class="timing">每年采摘季节更换</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>保护魔法 — 护身花园</h3>
+    <div class="ingredients">材料：<span>以下任选植物：茴香、圣约翰草、迷迭香、杜松、罗勒、大蒜、芸香、艾草、茴芹、牛膝草</span></div>
+    <div class="instructions">在房屋周围种植这些被认为具有神秘保护力量的植物。可以辟邪、抵御敌人和不幸。也可制作魔法袋随身携带：将茴香籽装袋；在门窗上悬挂茴香；佩戴魔鬼鞋带根项链；在房屋周围种植冬青；用鼠尾草烟熏棒净化空间。</div>
+    <div class="timing">盈月或满月时种植</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>保护魔法 — 幸运13草药花园</h3>
+    <div class="ingredients">材料：<span>从以下任选13种好运草药：芦荟、竹子、蓝铃花、卷心菜、菖蒲、苦木、水仙、魔鬼草、蕨类、天堂谷、榛树、石楠、冬青、长生草、越橘、爱尔兰苔、薏苡、幸运手、橡树、石榴、罂粟、马齿苋、玫瑰、蛇根、八角、草莓、香根草、紫罗兰、木玫瑰</span></div>
+    <div class="instructions">在周四（木星之日），月相盈或满时种植13种好运草药。切记不要在月亏时种植，否则会招致好运衰退。</div>
+    <div class="timing">周四、盈月或满月</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>吉普赛魔法 — 母性 fertility 护符</h3>
+    <div class="ingredients">材料：<span>曼德拉草根、小丝袋</span></div>
+    <div class="instructions">将曼德拉草根放入小丝袋中，在整个孕期日夜随身携带。这是吉普赛女巫（chovihani）传统使用的生育护符。</div>
+    <div class="timing">怀孕全程</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>胡毒魔法 — 幸运手赌博符</h3>
+    <div class="ingredients">材料：<span>幸运手根粉、钞票</span></div>
+    <div class="instructions">在下注前，将少量幸运手根粉秘密撒在钞票上，称为"标记金钱"。许多赌徒坚信这能让幸运女神常伴左右。也可用幸运手根油搓手后再开始赌博。</div>
+    <div class="timing">下注前进行</div>
+  </div>
+
+  <div class="recipe-card">
+    <h3>治疗魔法 — 啤酒花安眠枕</h3>
+    <div class="ingredients">材料：<span>干啤酒花、枕套</span></div>
+    <div class="instructions">用已被观想和咒语加持过的干啤酒花塞满枕套。将草药枕垫在头下入睡，可享受整夜安眠，驱散失眠和噩梦。</div>
+    <div class="timing">睡前准备</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 4: LUCKY & UNLUCKY PLANTS -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-superstitions">
+  <div class="wheel-container">
+    <canvas id="herbal-wheel" width="500" height="500"></canvas>
+  </div>
+
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:32px;color:#d4a843;margin:30px 0 15px;text-align:center">幸运植物</h2>
+
+  <div class="super-section">
+    <h3>橡子 / Acorn</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">将橡子放在窗台上可守护房屋免遭火灾和雷击。这一迷信可追溯至北欧神话——雷神索尔曾在橡树下躲避雷雨。</div>
+    <div class="counter">将橡子放在窗台即可。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>苹果树 / Apple Tree</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">"一日一苹果，医生远离我。"在第十二夜向苹果树祝酒（wassailing）可驱散邪灵。在挪威异教徒中，吃苹果可获得"永生智慧"。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>罗勒 / Basil</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">罗勒被称为"女巫之草"，在印度文化中与图尔西女神相关，被视为神圣的植物，能带来好运、爱情和保护。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>月桂 / Bay Laurel</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">月桂叶放在枕头下可带来预知之梦。二月十三日夜，将五片月桂叶放在枕头下，未婚女子将梦见未来丈夫。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>桦树 / Birch</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">桦树象征女神或阴性原则，是五朔节圣火九种圣木之一，象征新生与净化。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>三叶草 / Clover</h3>
+    <span class="tag tag-lucky">极其幸运</span>
+    <div class="folklore">四叶三叶草是极其幸运的象征。两叶三叶草可用于爱情占卜。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>接骨木 / Elder</h3>
+    <span class="tag tag-lucky">幸运（但需谨慎）</span>
+    <div class="folklore">接骨木是德鲁伊用于祝福和诅咒的树木。在门窗上悬挂接骨木可抵御恶魔，但燃烧接骨木则会招引恶魔入门。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>蕨类 / Fern</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">蕨类植物具有吸引好运的力量。男子用雄性蕨籽酿造爱情药水给心仪女子，女子用雌性蕨籽酿造给心仪男子。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>大蒜 / Garlic</h3>
+    <span class="tag tag-lucky">保护与幸运</span>
+    <div class="folklore">大蒜驱赶吸血鬼和邪灵的力量举世闻名。据说五月采摘的大蒜最有效。大蒜还能吸收疾病和负面能量。</div>
+    <div class="counter">随身携带大蒜或挂在门口。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>榛树 / Hazel</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">榛树象征智慧，是五朔节九圣木之一。凯尔特树月中有以榛树命名的月份。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>石楠 / Heather</h3>
+    <span class="tag tag-lucky">极其幸运</span>
+    <div class="folklore">白花石楠被认为是最幸运的室内植物之一。但若非白色石楠，则不宜带入室内。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>冬青 / Holly</h3>
+    <span class="tag tag-lucky">保护与幸运</span>
+    <div class="folklore">冬青在房屋周围种植可护宅辟邪、防雷击。冬青木魔杖可抵御一切诅咒。雄性冬青（尖叶）为男性带来好运；雌性冬青（滑叶）为女性带来好运。但圣诞夜之前不可将冬青带入家中。</div>
+    <div class="counter">种植在房屋周围；在圣诞节时挂在家中。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>长生草 / Houseleek</h3>
+    <span class="tag tag-lucky">极其幸运</span>
+    <div class="folklore">在英国，房墙上和屋顶上生长的长生草被认为能为住户带来非凡好运。若割断长生草则会遭遇恶运。</div>
+    <div class="counter">种植在房屋外墙或屋顶上。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>常春藤 / Ivy</h3>
+    <span class="tag tag-lucky">幸运（室外）/ 不吉（室内）</span>
+    <div class="folklore">常春藤象征婚姻和忠贞。但在维多利亚花语中，常春藤代表婚姻和忠诚。将常春藤带入室内会带来厄运。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>茉莉 / Jasmine</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">茉莉花象征爱情和浪漫，常用于爱情魔法和春季节庆。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>杜松 / Juniper</h3>
+    <span class="tag tag-lucky">保护</span>
+    <div class="folklore">杜松用于驱散邪灵和净化空间。杜松浆果常用于魔法仪式。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>薰衣草 / Lavender</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">薰衣草被称为"精灵叶"，用于爱情魔法、吸引好运和驱邪。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>金盏花 / Marigold</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">金盏花在太阳统治之下，用于保护、预知之梦和爱情魔法。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>薄荷 / Mint</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">薄荷用于招财、保护和疗愈魔法。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>槲寄生 / Mistletoe</h3>
+    <span class="tag tag-lucky">极强保护力</span>
+    <div class="folklore">槲寄生必须在夏至、冬至或新月后第六日用金镰刀一次性割下，不得接触地面。德鲁伊认为橡树上的槲寄生具有治愈、促进生育和辟邪的力量。挂在烟囱或门窗上可防雷击和风暴。</div>
+    <div class="counter">用金镰刀在夏至或冬至时采摘，挂在门窗上。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>橡树 / Oak</h3>
+    <span class="tag tag-lucky">神圣之树</span>
+    <div class="folklore">橡树是德鲁伊最神圣的树木，象征力量和智慧。砍伐健康橡树被认为最不吉利。</div>
+    <div class="counter">尊重橡树，不可随意砍伐。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>橄榄 / Olive</h3>
+    <span class="tag tag-lucky">幸运与和平</span>
+    <div class="folklore">橄榄枝象征和平与繁荣，献给雅典娜等神祇。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>芍药 / Peony</h3>
+    <span class="tag tag-lucky">保护</span>
+    <div class="folklore">芍药根可作保护护身符佩戴，驱散邪灵。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>松树 / Pine</h3>
+    <span class="tag tag-lucky">幸运与保护</span>
+    <div class="folklore">松树象征永生和再生，用于冬季节日和净化仪式。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>玫瑰 / Rose</h3>
+    <span class="tag tag-lucky">爱情与幸运</span>
+    <div class="folklore">玫瑰是爱与美的象征，用于爱情魔法、吸引好运。红玫瑰代表激情，白玫瑰代表纯洁。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>迷迭香 / Rosemary</h3>
+    <span class="tag tag-lucky">驱邪招福</span>
+    <div class="folklore">迷迭香被称为"精灵叶"，为家庭带来好运，驱散恶魔和幽灵。用于净化、爱情和记忆魔法。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>花楸 / Rowan</h3>
+    <span class="tag tag-lucky">最幸运</span>
+    <div class="folklore">花楸是英语草药传说中最幸运的室内植物之一。花楸木制作护身符可抵御一切伤害。5月3日为花楸树日，传统上采摘花楸枝用于魔法咒语和护身符。</div>
+    <div class="counter">在家中放置花楸枝；用花楸木制作护身符。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>芸香 / Rue</h3>
+    <span class="tag tag-lucky">保护与辟邪</span>
+    <div class="folklore">古罗马人认为食用芸香可免疫邪眼。用泡过芸香的水洗眼可治愈已中邪眼之人。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>鼠尾草 / Sage</h3>
+    <span class="tag tag-lucky">净化与智慧</span>
+    <div class="folklore">鼠尾草用于净化仪式和智慧提升。金色的羊角形护身符中装入一撮鼠尾草是对抗邪眼的有效方法。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>圣约翰草 / St. John's Wort</h3>
+    <span class="tag tag-lucky">最强驱魔</span>
+    <div class="folklore">圣约翰草被认为是对抗撒旦最有效的草药护身符。在英国，常将其缝入衣物以抵御恶魔。在圣约翰前夜采摘后挂在门窗上方保护家庭。</div>
+    <div class="counter">在圣约翰日采摘，挂在门窗上。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>百里香 / Thyme</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">百里香用于爱情魔法、勇气提升和净化仪式。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>马鞭草 / Vervain</h3>
+    <span class="tag tag-lucky">魔法师之草</span>
+    <div class="folklore">马鞭草被称为"魔法师之草"，在仲夏或天狼星升起时采摘最为有效。用于爱情、保护和财运魔法。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>紫罗兰 / Violet</h3>
+    <span class="tag tag-lucky">幸运</span>
+    <div class="folklore">紫罗兰用于爱情魔法、保护和吸引好运。在金星统治下，与爱情和美丽相关。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>柳树 / Willow</h3>
+    <span class="tag tag-lucky">保护</span>
+    <div class="folklore">柳树长期以来被珍视为抵御巫术和邪眼的天生保护者。触摸柳树可确保好运。但不可在柳树下泄露秘密，否则秘密会被柳树"泄露"出去。</div>
+    <div class="counter">触摸柳树带来好运；柳木不可在篝火之夜焚烧。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>蓍草 / Yarrow</h3>
+    <span class="tag tag-lucky">保护与占卜</span>
+    <div class="folklore">将蓍草撒在门槛上，魔鬼不敢进入你的房屋。蓍草用于驱散邪灵和负面能量，以及占卜爱情。</div>
+    <div class="counter">撒在门槛上可辟邪；放在枕头下可梦见未来爱人。</div>
+  </div>
+
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:32px;color:#c41e3a;margin:40px 0 15px;text-align:center">不吉植物</h2>
+
+  <div class="super-section">
+    <h3>颠茄 / Belladonna (Deadly Nightshade)</h3>
+    <span class="tag tag-unlucky">剧毒</span>
+    <div class="folklore">颠茄被称为"恶魔之樱桃"和"女巫之莓"，在土星统治下，与黑卡蒂女神相关。具有剧毒，在魔法中常用于飞行药膏。</div>
+    <div class="avoid">避免接触和误食；不可带入家中。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>黑莓（10月11日后） / Blackberry (after Oct 11)</h3>
+    <span class="tag tag-unlucky">魔鬼的诅咒</span>
+    <div class="folklore">10月11日（旧历米迦勒节）后采摘或食用黑莓会遭厄运。传说恶魔在很久以前的这一天跌入黑莓丛，对黑莓植物施下了诅咒。</div>
+    <div class="avoid">10月11日后不可采摘或食用黑莓。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>金雀花 / Broom</h3>
+    <span class="tag tag-unlucky">五月最凶</span>
+    <div class="folklore">金雀花长期被视为不祥之兆，五月尤其不吉。用开花金雀花扫屋子（或带入室内）会"把头扫走"。</div>
+    <div class="avoid">五月不可将金雀花带入室内。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>仙人掌（作为礼物） / Cactus (as gift)</h3>
+    <span class="tag tag-unlucky">带刺的礼物</span>
+    <div class="folklore">在许多文化中，带刺的仙人掌作为礼物被认为会刺破友谊或爱情，带来厄运。</div>
+    <div class="avoid">避免将仙人掌作为礼物赠送。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>水仙（单株） / Daffodil (single)</h3>
+    <span class="tag tag-unlucky">不吉之兆</span>
+    <div class="folklore">若春天或夏天看到的第一朵水仙花向你的方向低头，这预示着接下来一年的厄运。此外，带进家中的报春花或水仙花总数不可少于13朵。</div>
+    <div class="avoid">避免单株水仙；水仙总数不少于13。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>毛地黄 / Foxglove</h3>
+    <span class="tag tag-unlucky">精灵的指套</span>
+    <div class="folklore">毛地黄被称为"精灵指套"、"精灵围裙"，在金星和水元素统治下。虽美丽但全株有毒，与仙灵世界相关。</div>
+    <div class="avoid">不可误食；尊重其毒性。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>毒参 / Hemlock</h3>
+    <span class="tag tag-unlucky">巫师之草</span>
+    <div class="folklore">毒参被称为"巫师之草"，在土星和水元素统治下，献给黑卡蒂女神。苏格拉底即死于毒参。剧毒。</div>
+    <div class="avoid">剧毒植物，避免接触。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>天仙子 / Henbane</h3>
+    <span class="tag tag-unlucky">恶魔之眼</span>
+    <div class="folklore">天仙子被称为"恶魔之眼"，在土星统治下。中世纪女巫的飞行药膏成分之一，全株有毒。</div>
+    <div class="avoid">剧毒植物，避免接触。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>绣球花 / Hydrangea</h3>
+    <span class="tag tag-unlucky">老处女之咒</span>
+    <div class="folklore">据英国民间传说，绣球花对想找丈夫的年轻女士是不吉利的植物。让绣球花在房屋附近（尤其是前门旁）生长，会诅咒女儿孤独终生。</div>
+    <div class="avoid">避免在房屋附近种植绣球花。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>常春藤（室内） / Ivy (indoors)</h3>
+    <span class="tag tag-unlucky">室内不祥</span>
+    <div class="folklore">将常春藤带入室内会带来厄运。采摘教堂墙上的常春藤叶会招致疾病。房屋墙上常春藤无故枯萎预示家中将发生死亡。</div>
+    <div class="avoid">不可将常春藤带入室内。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>曼德拉草 / Mandrake</h3>
+    <span class="tag tag-unlucky">尖叫的根</span>
+    <div class="folklore">传说曼德拉草被拔出地面时会发出刺耳的尖叫，听到的人会发疯或痛苦死亡。中世纪魔法师用狗来拔曼德拉草作为安全措施。曼德拉草根形似人体，用于爱情和生育魔法。</div>
+    <div class="avoid">采摘时需谨慎；传统上用狗来拔取。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>夹竹桃 / Oleander</h3>
+    <span class="tag tag-unlucky">剧毒</span>
+    <div class="folklore">夹竹桃全株剧毒，在土星和土元素统治下。不可食用或接触其汁液。</div>
+    <div class="avoid">剧毒植物，远离儿童和宠物。</div>
+  </div>
+
+  <div class="super-section">
+    <h3>一品红 / Poinsettia</h3>
+    <span class="tag tag-unlucky">室内不吉</span>
+    <div class="folklore">一品红的乳汁有毒，在一些传统中被视为不吉利的室内植物。</div>
+    <div class="avoid">避免接触其乳汁；如有宠物需特别注意。</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 5: HERBAL CORRESPONDENCES -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-correspondences">
+  <div class="corr-section">
+    <h3>行星对应 / Planetary Correspondences</h3>
+    <div class="corr-grid" id="planetCorrGrid"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>元素对应 / Elemental Correspondences</h3>
+    <div class="corr-grid" id="elementCorrGrid"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>星座对应 / Zodiac Correspondences</h3>
+    <div class="corr-grid" id="zodiacCorrGrid"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>神祇对应 / Deity Correspondences</h3>
+    <p style="color:#8a7e6a;font-size:14px;margin-bottom:15px">以下是与植物相关的部分重要神祇：</p>
+    <div class="corr-grid" id="deityCorrGrid"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>魔法意图对应 / Magical Intent Correspondences</h3>
+    <div class="corr-grid" id="intentCorrGrid"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 6: HERBAL CALENDAR -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-calendar">
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:32px;color:#d4a843;margin-bottom:20px;text-align:center">异教八节与草药</h2>
+  <div class="sabbat-grid" id="sabbatGrid"></div>
+
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:32px;color:#d4a843;margin:40px 0 20px;text-align:center">凯尔特树月</h2>
+  <table class="celtic-table">
+    <thead><tr><th>月份</th><th>凯尔特名</th><th>圣树</th><th>日期</th></tr></thead>
+    <tbody id="celticTreeTable"></tbody>
+  </table>
+
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:32px;color:#d4a843;margin:40px 0 20px;text-align:center">全年草药日历</h2>
+  <div class="calendar-grid" id="calendarGrid"></div>
+</div>
+
+</div><!-- /page-wrap -->
+
+<script>
+// ================================================================
+// PARTICLE BACKGROUND
+// ================================================================
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.5 + 0.1;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if(this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(212,168,67,${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+function initParticles() {
+  particles = [];
+  for(let i = 0; i < 80; i++) particles.push(new Particle());
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+
+resizeCanvas();
+initParticles();
+animateParticles();
+window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
+
+// ================================================================
+// TAB NAVIGATION
+// ================================================================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+  });
+});
+
+// ================================================================
+// PLANT DATA
+// ================================================================
+const plants = [
+  {cn:'金合欢',en:'Acacia',enFull:'Acacia Senegal',planet:'Sun',element:'Air',deities:'Astarte, Diana, Ishtar, Osiris, Ra',uses:'保护、净化、神圣仪式'},
+  {cn:'橡子',en:'Acorn',enFull:'Quercus spp.',planet:'Sun',element:'Fire',deities:'Thor, Zeus, Jupiter',uses:'保护（放置窗台防雷击）、丰饶、爱情占卜'},
+  {cn:'龙芽草',en:'Agrimony',enFull:'Agrimonia eupatoria',planet:'Jupiter',element:'Air',deities:'—',uses:'保护、驱邪、安眠（放于枕下）'},
+  {cn:'杏仁',en:'Almond',enFull:'Prunus dulcis',planet:'Mercury',element:'Air',deities:'Attis, Hermes, Mercury, Thoth',uses:'成功、智慧、防醉酒（五颗杏仁配酒）'},
+  {cn:'当归',en:'Angelica',enFull:'Angelica archangelica',planet:'Sun',element:'Fire',deities:'Venus',uses:'保护、驱邪、破除诅咒、好运、peace'},
+  {cn:'八角',en:'Anise',enFull:'Pimpinella anisum',planet:'Jupiter',element:'Air',deities:'—',uses:'驱邪眼（焚烧或撒在家中）、保护、净化'},
+  {cn:'苹果',en:'Apple',enFull:'Pyrus spp.',planet:'Venus',element:'Water',deities:'Aphrodite, Apollo, Athena, Diana, Dionysus, Hera, Iduna, Olwen, Venus, Zeus',uses:'爱情、丰饶、不朽、占卜'},
+  {cn:'白蜡树',en:'Ash',enFull:'Fraxinus excelsior',planet:'Sun',element:'Fire',deities:'Gwydion, Mars, Neptune, Poseidon, Thor, Uranus, Woden',uses:'保护、预言之梦（13片叶放枕下）、魔法杖'},
+  {cn:'罗勒',en:'Basil',enFull:'Ocimum basilicum',planet:'Mars',element:'Fire',deities:'Erzulie, Vishnu',uses:'爱情、保护、驱邪、招财'},
+  {cn:'月桂',en:'Bay Laurel',enFull:'Laurus nobilis',planet:'Sun',element:'Fire',deities:'Aesculapius, Apollo, Ceres, Eros, Faunus',uses:'爱情占卜、预言、保护、净化'},
+  {cn:'颠茄',en:'Belladonna',enFull:'Atropa belladonna',planet:'Saturn',element:'Water',deities:'Bellona, Circe, Hecate',uses:'（剧毒）飞行药膏、魔法仪式'},
+  {cn:'黑莓',en:'Blackberry',enFull:'Rubus villosus',planet:'Venus',element:'Water',deities:'Brigit',uses:'丰饶、保护、财富（10月11日后不可采摘）'},
+  {cn:'桦树',en:'Birch',enFull:'Betula alba',planet:'Venus',element:'Water',deities:'Thor',uses:'净化、新生、五朔节圣火木'},
+  {cn:'金雀花',en:'Broom',enFull:'Cytisus scoparius',planet:'Mars',element:'Air',deities:'—',uses:'净化、驱邪（五月不可带入室内）'},
+  {cn:'猫薄荷',en:'Catnip',enFull:'Nepeta cataria',planet:'Venus',element:'Water',deities:'—',uses:'爱情魔法、吸引能量、快乐'},
+  {cn:'雪松',en:'Cedar',enFull:'Cedrus spp.',planet:'Sun',element:'Fire',deities:'—',uses:'净化、保护、智慧、招财'},
+  {cn:'洋甘菊',en:'Chamomile',enFull:'Chamamelum nobile',planet:'Sun',element:'Water',deities:'Woden',uses:'爱情、净化、疗愈、安眠'},
+  {cn:'樱桃',en:'Cherry',enFull:'Prunus avium',planet:'Venus',element:'Water',deities:'Venus',uses:'爱情占卜、寿命占卜（仲夏夜樱桃树法）'},
+  {cn:'肉桂',en:'Cinnamon',enFull:'Cinnamomum zeylanicum',planet:'Sun',element:'Fire',deities:'Aphrodite, Venus',uses:'招财、成功、爱情、保护、灵性能量'},
+  {cn:'三叶草',en:'Clover',enFull:'Trifolium spp.',planet:'Mercury',element:'Air',deities:'Rowen',uses:'好运（四叶）、爱情占卜（两叶）、保护'},
+  {cn:'聚合草',en:'Comfrey',enFull:'Symphytum officinale',planet:'Saturn',element:'Water',deities:'—',uses:'疗愈、保护、旅行安全'},
+  {cn:'水仙',en:'Daffodil',enFull:'Narcissus spp.',planet:'Venus',element:'Water',deities:'—',uses:'爱情、fertility、好运（数量需13枝以上）'},
+  {cn:'雏菊',en:'Daisy',enFull:'Chrysanthemum leucanthemum',planet:'Venus',element:'Water',deities:'Artemis, Freya, Thor',uses:'爱情占卜（他爱我/他不爱我）、纯真'},
+  {cn:'蒲公英',en:'Dandelion',enFull:'Taraxacum officinale',planet:'Jupiter',element:'Air',deities:'Hecate',uses:'占卜（吹籽数结婚年数）、召唤灵魂、预知'},
+  {cn:'接骨木',en:'Elder',enFull:'Sambucus canadensis',planet:'Venus',element:'Water',deities:'Holda, Venus',uses:'保护（挂门窗驱魔）、疗愈（不可焚烧）'},
+  {cn:'茴香',en:'Fennel',enFull:'Foeniculum vulgare',planet:'Mercury',element:'Fire',deities:'Dionysus, Prometheus',uses:'保护（种子装袋/挂门窗驱邪）、净化'},
+  {cn:'蕨类',en:'Fern',enFull:'Various spp.',planet:'—',element:'—',deities:'Kupala',uses:'好运、爱情（蕨籽酿造爱情药水）、隐形'},
+  {cn:'毛地黄',en:'Foxglove',enFull:'Digitalis purpurea',planet:'Venus',element:'Water',deities:'—',uses:'（有毒）仙灵联系、魔法仪式'},
+  {cn:'大蒜',en:'Garlic',enFull:'Allium sativum',planet:'Mars',element:'Fire',deities:'Hecate',uses:'最强驱邪、防吸血鬼、保护、吸收疾病'},
+  {cn:'姜',en:'Ginger',enFull:'Zingiber officinale',planet:'Mars',element:'Fire',deities:'—',uses:'爱情、招财、成功、能量增强'},
+  {cn:'人参',en:'Ginseng',enFull:'Panax ginseng',planet:'Sun',element:'Fire',deities:'—',uses:'保护（烧干人参根驱邪）、疗愈、性力增强'},
+  {cn:'山楂',en:'Hawthorn',enFull:'Crataegus oxacantha',planet:'Mars',element:'Fire',deities:'Cardea, Flora, Hymen',uses:'保护、净化、婚姻、精灵关联（砍伐招厄运）'},
+  {cn:'榛树',en:'Hazel',enFull:'Corylus spp.',planet:'Sun',element:'Air',deities:'Artemis, Diana, Mercury, Thor',uses:'智慧、占卜、魔法杖、保护'},
+  {cn:'石楠',en:'Heather',enFull:'Calluna vulgaris',planet:'Venus',element:'Water',deities:'Isis',uses:'好运（白花石楠最幸运）、爱情、驱邪'},
+  {cn:'嚏根草',en:'Hellebore',enFull:'Helleborus niger',planet:'Saturn',element:'Water',deities:'—',uses:'保护（治愈疯狂、防癫痫）、驱巫（黑色不吉）'},
+  {cn:'毒参',en:'Hemlock',enFull:'Conium maculatum',planet:'Saturn',element:'Water',deities:'Hecate',uses:'（剧毒）飞行药膏成分'},
+  {cn:'大麻',en:'Hemp',enFull:'Cannabis sativa',planet:'Saturn',element:'Water',deities:'—',uses:'占卜、冥想、幻觉'},
+  {cn:'天仙子',en:'Henbane',enFull:'Hyoscyamus niger',planet:'Saturn',element:'Water',deities:'—',uses:'（剧毒）飞行药膏、禁闭'},
+  {cn:'冬青',en:'Holly',enFull:'Ilex aquifolium',planet:'Mars',element:'Fire',deities:'—',uses:'保护（种植于房屋周围）、驱雷击、占卜、好运'},
+  {cn:'金银花',en:'Honeysuckle',enFull:'Lonicera caprifolium',planet:'Jupiter',element:'Earth',deities:'—',uses:'好运、招财、爱情、灵性成长'},
+  {cn:'长生草',en:'Houseleek',enFull:'Sempervivum tectorum',planet:'Jupiter',element:'Air',deities:'—',uses:'极好运（种植屋顶）、防雷火、爱情咒'},
+  {cn:'常春藤',en:'Ivy',enFull:'Hedera helix',planet:'Saturn',element:'Water',deities:'Bacchus, Dionysus, Osiris',uses:'保护（室外）、婚姻忠贞、爱情占卜'},
+  {cn:'茉莉',en:'Jasmine',enFull:'Jasminum officinale',planet:'Moon',element:'Water',deities:'Vishnu',uses:'爱情、招财、预知之梦、灵性'},
+  {cn:'杜松',en:'Juniper',enFull:'Juniperus communis',planet:'Sun',element:'Fire',deities:'—',uses:'保护、驱邪、净化、爱情'},
+  {cn:'薰衣草',en:'Lavender',enFull:'Lavendula officinale',planet:'Mercury',element:'Air',deities:'—',uses:'爱情、驱邪眼、安眠、净化、好运'},
+  {cn:'百合',en:'Lily',enFull:'Lilium spp.',planet:'Moon',element:'Water',deities:'Juno, Kwan Yin, Nepthys, Venus',uses:'纯洁、净化和灵魂安宁'},
+  {cn:'莲花',en:'Lotus',enFull:'Nelumbo nucifera',planet:'Moon',element:'Water',deities:'—',uses:'灵性觉醒、净化、重生、冥想'},
+  {cn:'曼德拉草',en:'Mandrake',enFull:'Mandragora officinale',planet:'Mercury',element:'Fire',deities:'Hathor, Hecate',uses:'（剧毒）爱情、生育、保护、性力（形似人根）'},
+  {cn:'金盏花',en:'Marigold',enFull:'Calendula officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'保护、预知之梦、爱情魔法、占卜'},
+  {cn:'薄荷',en:'Mint',enFull:'Mentha spp.',planet:'Mercury',element:'Air',deities:'Hecate, Pluto',uses:'招财、保护、疗愈、净化、旅行安全'},
+  {cn:'槲寄生',en:'Mistletoe',enFull:'Viscum album',planet:'Sun',element:'Air',deities:'Apollo, Freya, Frigga, Odin, Venus',uses:'最强保护（金镰刀采摘）、生育、驱邪、爱情'},
+  {cn:'艾草',en:'Mugwort',enFull:'Artemisia vulgaris',planet:'Venus',element:'Earth',deities:'Artemis, Diana',uses:'占卜（萨温节）、预知之梦、保护、增强灵性'},
+  {cn:'毛蕊花',en:'Mullein',enFull:'Verbascum thapsus',planet:'Saturn',element:'Fire',deities:'Jupiter',uses:'保护、驱邪、勇气、疗愈'},
+  {cn:'桃金娘',en:'Myrtle',enFull:'Myrtus communis',planet:'Venus',element:'Water',deities:'Venus, Aphrodite',uses:'爱情、婚姻占卜、好运、繁衍'},
+  {cn:'橡树',en:'Oak',enFull:'Quercus alba',planet:'Sun',element:'Fire',deities:'Cybele, Dagda, Diana, Hecate, Herne, Janus, Jupiter, Pan, Rhea, Thor, Zeus',uses:'力量、智慧、保护、神圣（德鲁伊圣树）'},
+  {cn:'洋葱',en:'Onion',enFull:'Allium cepa',planet:'Mars',element:'Fire',deities:'Isis',uses:'保护、驱邪、爱情、占卜、吸收疾病'},
+  {cn:'兰花',en:'Orchid',enFull:'Orchis spp.',planet:'Venus',element:'Water',deities:'—',uses:'爱情、性力、美丽、好运'},
+  {cn:'欧芹',en:'Parsley',enFull:'Petroselinum sativum',planet:'Mercury',element:'Air',deities:'Persephone',uses:'保护、净化（与恶魔相关传说）'},
+  {cn:'芍药',en:'Peony',enFull:'Paeonia officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'保护（根作护身符）、驱邪'},
+  {cn:'胡椒薄荷',en:'Peppermint',enFull:'Mentha piperita',planet:'Mercury',element:'Fire',deities:'Pluto',uses:'净化、疗愈、招财、提升能量'},
+  {cn:'松树',en:'Pine',enFull:'Pinus spp.',planet:'Mars',element:'Air',deities:'Astarte, Attis, Cybele, Dionysus, Pan, Sylvanus, Venus',uses:'净化、保护、丰饶、冬至仪式'},
+  {cn:'罂粟',en:'Poppy',enFull:'Papaver spp.',planet:'Moon',element:'Water',deities:'Demeter, Hypnos',uses:'fertility、丰饶、睡眠、占卜、好运'},
+  {cn:'玫瑰',en:'Rose',enFull:'Rosa spp.',planet:'Venus',element:'Water',deities:'Adonis, Aurora, Cupid, Demeter, Eros, Harpocrates, Hathor, Holda, Isis',uses:'爱情、美丽、占卜、保护、浪漫魔法'},
+  {cn:'迷迭香',en:'Rosemary',enFull:'Rosemarinus officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'驱邪、净化、爱情、记忆、好运、保护'},
+  {cn:'花楸',en:'Rowan',enFull:'Sorbus aucuparia',planet:'Sun',element:'Fire',deities:'Thor',uses:'最强保护（驱巫）、好运（最幸运室内植物）'},
+  {cn:'芸香',en:'Rue',enFull:'Ruta graveolens',planet:'Mars',element:'Fire',deities:'Aradia, Diana',uses:'保护（防邪眼）、驱邪、疗愈'},
+  {cn:'藏红花',en:'Saffron',enFull:'Crocus sativa',planet:'Sun',element:'Fire',deities:'Ashtoreth, Eos',uses:'爱情、疗愈、灵性提升、净化'},
+  {cn:'鼠尾草',en:'Sage',enFull:'Salvia officinalis',planet:'Jupiter',element:'Air',deities:'—',uses:'净化（烟熏）、智慧、保护（邪眼护符）'},
+  {cn:'圣约翰草',en:"St. John's Wort",enFull:'Hypericum perforatum',planet:'Sun',element:'Fire',deities:'Baldur',uses:'最强驱魔、保护（缝入衣物）、疗愈抑郁'},
+  {cn:'檀香',en:'Sandalwood',enFull:'Santalum album',planet:'Moon',element:'Water',deities:'—',uses:'灵性净化、冥想、保护、召唤灵魂'},
+  {cn:'向日葵',en:'Sunflower',enFull:'Helianthus annuus',planet:'Sun',element:'Fire',deities:'Sol',uses:'好运、招财、能量、成功'},
+  {cn:'百里香',en:'Thyme',enFull:'Thymus vulgaris',planet:'Venus',element:'Water',deities:'—',uses:'爱情、勇气、净化、疗愈、睡眠'},
+  {cn:'缬草',en:'Valerian',enFull:'Valeriana officinalis',planet:'Venus',element:'Water',deities:'—',uses:'安眠、爱情、净化'},
+  {cn:'马鞭草',en:'Vervain',enFull:'Verbena officinalis',planet:'Venus',element:'Earth',deities:'Aradia, Cerridwen, Isis, Juno, Jupiter, Mars, Thor, Venus',uses:'爱情、保护、招财、占卜（仲夏采摘最佳）'},
+  {cn:'紫罗兰',en:'Violet',enFull:'Viola odorata',planet:'Venus',element:'Water',deities:'—',uses:'爱情、好运、保护、灵性'},
+  {cn:'柳树',en:'Willow',enFull:'Salix alba',planet:'Moon',element:'Water',deities:'Artemis, Belili, Belinus, Ceres, Hecate, Hera, Mercury, Persephone',uses:'保护（防巫术邪眼）、好运（触摸）、情感疗愈'},
+  {cn:'冬青',en:'Wintergreen',enFull:'Gaultheria procumbens',planet:'Moon',element:'Water',deities:'—',uses:'疗愈、保护'},
+  {cn:'金缕梅',en:'Witch Hazel',enFull:'Hamamelis virginica',planet:'Sun',element:'Fire',deities:'—',uses:'保护、疗愈（消肿消炎）'},
+  {cn:'水苏',en:'Wood Betony',enFull:'Stachys officinalis',planet:'Jupiter',element:'Fire',deities:'—',uses:'保护（仲夏火中跳跃净化）、驱噩梦'},
+  {cn:'蓍草',en:'Yarrow',enFull:'Achillea millefolium',planet:'Venus',element:'Water',deities:'—',uses:'占卜（爱情梦见未来配偶）、保护（门槛撒草驱魔）'},
+];
+
+// ================================================================
+// RENDER HERBAL ENCYCLOPEDIA
+// ================================================================
+function renderHerbs(list) {
+  const grid = document.getElementById('herbGrid');
+  grid.innerHTML = list.map(p => `
+    <div class="plant-card">
+      <div class="cn-name">${p.cn}</div>
+      <div class="en-name">${p.en} (${p.enFull})</div>
+      <div class="badges">
+        ${p.element !== '—' && p.element ? `<span class="badge badge-element">${p.element}</span>` : ''}
+        ${p.planet !== '—' && p.planet ? `<span class="badge badge-planet">${p.planet}</span>` : ''}
+      </div>
+      <div class="magical-uses"><strong>魔法用途：</strong>${p.uses}</div>
+      ${p.deities && p.deities !== '—' ? `<div class="deities">神圣关联：${p.deities}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+function filterHerbs() {
+  const q = document.getElementById('herbSearch').value.toLowerCase();
+  const elem = document.getElementById('elementFilter').value;
+  const plan = document.getElementById('planetFilter').value;
+  let filtered = plants;
+  if(q) filtered = filtered.filter(p => p.cn.includes(q) || p.en.toLowerCase().includes(q) || p.enFull.toLowerCase().includes(q));
+  if(elem) filtered = filtered.filter(p => p.element === elem);
+  if(plan) filtered = filtered.filter(p => p.planet === plan);
+  renderHerbs(filtered);
+}
+
+renderHerbs(plants);
+
+// ================================================================
+// HERBAL WHEEL
+// ================================================================
+function drawWheel() {
+  const c = document.getElementById('herbal-wheel');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  const cx = 250, cy = 250, r = 200;
+  ctx.clearRect(0,0,500,500);
+
+  // Background
+  const grad = ctx.createRadialGradient(cx,cy,10,cx,cy,r+20);
+  grad.addColorStop(0,'#1a1408');
+  grad.addColorStop(1,'#0a0a0a');
+  ctx.fillStyle = grad;
+  ctx.beginPath(); ctx.arc(cx,cy,r+20,0,Math.PI*2); ctx.fill();
+
+  // Draw elements
+  const elements = [
+    {name:'Fire\n火',color:'#c41e3a',angle:0,herbs:'罗勒、大蒜、姜、杜松、橡树、迷迭香'},
+    {name:'Water\n水',color:'#1a3a6a',angle:90,herbs:'百合、莲花、柳树、玫瑰、紫罗兰'},
+    {name:'Air\n风',color:'#8a7e6a',angle:180,herbs:'薰衣草、薄荷、茴香、金合欢、鼠尾草'},
+    {name:'Earth\n土',color:'#4a6a2a',angle:270,herbs:'马鞭草、紫罗兰、艾草、苔藓'},
+  ];
+
+  elements.forEach((el,i) => {
+    const startAngle = (el.angle - 45) * Math.PI / 180;
+    const endAngle = (el.angle + 45) * Math.PI / 180;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,startAngle,endAngle);
+    ctx.closePath();
+    ctx.fillStyle = el.color + '33';
+    ctx.fill();
+    ctx.strokeStyle = el.color + '88';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Label
+    const midAngle = el.angle * Math.PI / 180;
+    const labelR = r * 0.65;
+    ctx.fillStyle = '#d4a843';
+    ctx.font = 'bold 16px "Ma Shan Zheng",cursive';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const lines = el.name.split('\n');
+    lines.forEach((line,j) => {
+      ctx.fillText(line, cx + Math.cos(midAngle)*labelR, cy + Math.sin(midAngle)*labelR + j*18 - 10);
+    });
+
+    // Herbs list
+    ctx.fillStyle = '#8a7e6a';
+    ctx.font = '10px "Noto Serif SC",serif';
+    const herbR = r * 0.85;
+    ctx.fillText(el.herbs, cx + Math.cos(midAngle)*herbR, cy + Math.sin(midAngle)*herbR);
+  });
+
+  // Center circle
+  ctx.beginPath();
+  ctx.arc(cx,cy,40,0,Math.PI*2);
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fill();
+  ctx.strokeStyle = '#d4a843';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = '#d4a843';
+  ctx.font = 'bold 18px "Ma Shan Zheng",cursive';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('植物元素', cx, cy);
+}
+
+drawWheel();
+
+// ================================================================
+// RANDOM DIVINATION
+// ================================================================
+const divinations = [
+  '【橡子占卜】在满月之夜，取两粒橡子刻上你和爱人的首字母，放入水中：若靠拢，婚礼在即；若远离，缘分已尽。',
+  '【月桂叶占卜】在圣约翰前夜，刻有爱人名字的月桂叶别在胸前入睡：早晨变棕则真爱不渝。',
+  '【苹果皮占卜】削不断皮的苹果，从右肩抛向身后：果皮形状预示未来配偶姓氏。',
+  '【蓍草爱情梦】五朔节前夜摘10根蓍草，9根放枕下，1根抛左肩：梦见未来真爱。',
+  '【冬青梦占卜】周五午夜摘9片光滑冬青叶，打结系手帕放枕下：梦见未来配偶。',
+  '【玫瑰梦占卜】仲夏夜摘最红玫瑰，白纸包藏至冬至：未来丈夫会来取走。',
+  '【樱桃树占卜】仲夏夜绕樱桃树跑三圈，摇树：落果数量即你会活到的岁数。',
+  '【鼠尾草万圣占卜】万圣午夜摘12片鼠尾草叶，第12叶即见未来夫君面容。',
+  '【燕麦子女占卜】万圣午夜闭眼在燕麦田自转三圈，拔三株燕麦：第三株谷粒数为子女数。',
+  '【蒲公英结婚年】吹散蒲公英种子所需的呼吸次数，即你还要等多少年才能结婚。',
+  '【雏菊占卜】"他爱我，他不爱我"——逐片摘雏菊花瓣，最后一片揭示真相。',
+  '【鸡蛋花占卜】将蛋花放入水中：若漂浮，爱情顺遂；若下沉，情路坎坷。',
+  '【圣约翰草占卜】仲夏夜摘圣约翰草放枕下，梦中将获得神谕启示。',
+  '【艾草预言梦】仲夏前夜摘艾草放枕下——激发预言梦境，揭示未来。',
+  '【三叶草占卜】摘两叶三叶草放右鞋中：遇到的第一个异性拥有未来配偶的名字首字母。',
+  '【接骨木神谕】摘一片接骨木叶，向叶片吹气三次后抛向风中：叶片落地朝向指示命运方向。',
+];
+
+function randomDivination() {
+  const result = document.getElementById('fortuneResult');
+  const d = divinations[Math.floor(Math.random() * divinations.length)];
+  result.innerHTML = '<div style="color:#d4a843;font-family:\'Ma Shan Zheng\',cursive;font-size:20px;margin-bottom:8px">&#9733; 占卜结果 &#9733;</div>' + d;
+}
+
+// ================================================================
+// CORRESPONDENCES DATA
+// ================================================================
+// Planetary
+const planetData = {
+  'Sun 太阳': '当归、洋甘菊、肉桂、金合欢、月桂、迷迭香、圣约翰草、向日葵、橡树、芍药、藏红花、金盏花',
+  'Moon 月亮': '百合、莲花、茉莉、柳树、檀香、罂粟、冬青、黄瓜、甘蓝、水田芥',
+  'Mercury 水星': '茴香、薰衣草、薄荷、马郁兰、欧芹、小茴香、杏仁、胡萝卜、缬草',
+  'Venus 金星': '玫瑰、紫罗兰、桃金娘、马鞭草、草莓、苹果、桦树、黑莓、雏菊、毛地黄、天竺葵、金盏花',
+  'Mars 火星': '大蒜、姜、罗勒、杜松、松树、洋葱、辣椒、胡椒、荨麻、大黄、艾草',
+  'Jupiter 木星': '鼠尾草、龙芽草、聚合草、榛树、栗树、橡树、蒲公英、肉豆蔻、琉璃苣',
+  'Saturn 土星': '毒参、天仙子、颠茄、曼德拉草、常春藤、毛蕊花、紫杉、罂粟、款冬',
+};
+
+function renderPlanetCorr() {
+  const g = document.getElementById('planetCorrGrid');
+  g.innerHTML = Object.entries(planetData).map(([k,v]) =>
+    `<div class="corr-item"><span class="label">${k}</span><span class="value" style="font-size:12px;text-align:right">${v}</span></div>`
+  ).join('');
+}
+
+const elementData = {
+  'Fire 火': '罗勒、大蒜、姜、杜松、橡树、迷迭香、圣约翰草、洋葱、松树、肉桂、罂粟、肉豆蔻、多香果',
+  'Water 水': '百合、莲花、柳树、玫瑰、紫罗兰、桃金娘、接骨木、樱桃、苹果、桦树、黑莓、雏菊、毛地黄',
+  'Air 风': '薰衣草、薄荷、茴香、金合欢、鼠尾草、马郁兰、欧芹、龙芽草、八角、蒲公英、榆树',
+  'Earth 土': '马鞭草、艾草、苔藓、紫罗兰（部分）、稻谷、玉米、小麦、葫芦巴',
+};
+
+function renderElementCorr() {
+  const g = document.getElementById('elementCorrGrid');
+  g.innerHTML = Object.entries(elementData).map(([k,v]) =>
+    `<div class="corr-item"><span class="label">${k}</span><span class="value" style="font-size:12px;text-align:right">${v}</span></div>`
+  ).join('');
+}
+
+const zodiacData = {
+  '白羊座 Aries (火)': '大蒜、杜松、松树、胡椒、荨麻、大黄',
+  '金牛座 Taurus (土)': '苹果、玫瑰、桃金娘、紫罗兰、薄荷、马鞭草',
+  '双子座 Gemini (风)': '薰衣草、茴香、欧芹、小茴香、马郁兰、杏仁',
+  '巨蟹座 Cancer (水)': '百合、莲花、黄瓜、甘蓝、缬草、罂粟',
+  '狮子座 Leo (火)': '迷迭香、洋甘菊、肉桂、月桂、向日葵、金盏花',
+  '处女座 Virgo (土)': '龙芽草、聚合草、薄荷、缬草、鼠尾草',
+  '天秤座 Libra (风)': '玫瑰、紫罗兰、草莓、百里香、马鞭草',
+  '天蝎座 Scorpio (水)': '艾草、曼德拉草、毒参、天仙子、颠茄',
+  '射手座 Sagittarius (火)': '橡树、姜、肉豆蔻、鼠尾草、丁香',
+  '摩羯座 Capricorn (土)': '常春藤、毛蕊花、紫杉、藜芦、匍匐筋骨草',
+  '水瓶座 Aquarius (风)': '金合欢、接骨木、杏仁、八角、乳香',
+  '双鱼座 Pisces (水)': '百合、莲花、柳树、罂粟、檀香',
+};
+
+function renderZodiacCorr() {
+  const g = document.getElementById('zodiacCorrGrid');
+  g.innerHTML = Object.entries(zodiacData).map(([k,v]) =>
+    `<div class="corr-item"><span class="label">${k}</span><span class="value" style="font-size:12px;text-align:right">${v}</span></div>`
+  ).join('');
+}
+
+const deityData = {
+  '阿波罗 Apollo': '月桂、槲寄生、向日葵、橄榄、罂粟',
+  '维纳斯 Venus': '玫瑰、桃金娘、苹果、马鞭草、百合、紫罗兰',
+  '黑卡蒂 Hecate': '艾草、曼德拉草、毒参、颠茄、大蒜、橡树',
+  '索尔 Thor': '橡树、花楸、桦树、雏菊、马鞭草',
+  '阿尔忒弥斯 Artemis': '艾草、榛树、柳树、雏菊、桃金娘',
+  '狄安娜 Diana': '艾草、芸香、橡树、榛树、苹果',
+  '德墨忒尔 Demeter': '罂粟、玫瑰、小麦、大麦、谷物',
+  '芙蕾雅 Freya': '槲寄生、雏菊、草莓、报春花、玫瑰',
+  '伊西斯 Isis': '洋葱、玫瑰、百合、马鞭草、桃金娘',
+  '色列斯 Ceres': '玉米、月桂、橡树、谷物、水果',
+};
+
+function renderDeityCorr() {
+  const g = document.getElementById('deityCorrGrid');
+  g.innerHTML = Object.entries(deityData).map(([k,v]) =>
+    `<div class="corr-item"><span class="label">${k}</span><span class="value" style="font-size:12px;text-align:right">${v}</span></div>`
+  ).join('');
+}
+
+const intentData = {
+  '爱情 Love': '玫瑰、薰衣草、茉莉、桃金娘、马鞭草、苹果、百里香、紫罗兰、迷迭香',
+  '保护 Protection': '大蒜、圣约翰草、花楸、橡树、迷迭香、杜松、芸香、金雀花、接骨木',
+  '财富 Wealth': '肉桂、姜、罗勒、薄荷、向日葵、松树、丁香、肉豆蔻、琉璃苣',
+  '疗愈 Healing': '洋甘菊、聚合草、鼠尾草、薰衣草、迷迭香、百里香、缬草、圣约翰草',
+  '占卜 Divination': '艾草、蓍草、月桂叶、三叶草、蒲公英、玫瑰、接骨木',
+  '净化 Purification': '鼠尾草、雪松、薰衣草、迷迭香、乳香、檀香、杜松',
+  '幸运 Luck': '四叶三叶草、白花石楠、花楸、榛树、橡子、长生草、冬青',
+};
+
+function renderIntentCorr() {
+  const g = document.getElementById('intentCorrGrid');
+  g.innerHTML = Object.entries(intentData).map(([k,v]) =>
+    `<div class="corr-item"><span class="label">${k}</span><span class="value" style="font-size:12px;text-align:right">${v}</span></div>`
+  ).join('');
+}
+
+renderPlanetCorr();
+renderElementCorr();
+renderZodiacCorr();
+renderDeityCorr();
+renderIntentCorr();
+
+// ================================================================
+// SABBAT DATA
+// ================================================================
+const sabbats = [
+  {name:'萨温 Samhain',date:'10月31日',herbs:'艾草、橡树、曼德拉草、迷迭香、鼠尾草、南瓜、苹果'},
+  {name:'冬至 Yule',date:'12月21日左右',herbs:'冬青、槲寄生、常春藤、松树、迷迭香、月桂、雪松'},
+  {name:'圣烛节 Imbolc',date:'2月2日',herbs:'当归、罗勒、月桂、没药、白屈菜、石楠、紫藤、黄花'},
+  {name:'春分 Ostara',date:'3月21日左右',herbs:'橡子、白屈菜、洋甘菊、番红花、水仙、金银花、玫瑰、紫罗兰'},
+  {name:'五朔节 Beltane',date:'5月1日',herbs:'杏仁、当归、白蜡、蓝铃、山楂、常春藤、丁香、金盏花、玫瑰'},
+  {name:'夏至 Litha',date:'6月21日左右',herbs:'洋甘菊、茴香、薰衣草、艾草、圣约翰草、玫瑰、百里香、马鞭草'},
+  {name:'收获节 Lammas',date:'8月1日',herbs:'金合欢、芦荟、玉米、石楠、冬青、桃金娘、橡树、向日葵、小麦'},
+  {name:'秋分 Mabon',date:'9月22日左右',herbs:'橡子、紫菀、蕨类、金银花、金盏花、没药、橡树、松树、鼠尾草'},
+];
+
+function renderSabbats() {
+  const g = document.getElementById('sabbatGrid');
+  g.innerHTML = sabbats.map(s => `
+    <div class="sabbat-card">
+      <h4>${s.name}</h4>
+      <div class="date">${s.date}</div>
+      <div class="herbs"><strong>草药：</strong>${s.herbs}</div>
+    </div>
+  `).join('');
+}
+renderSabbats();
+
+// ================================================================
+// CELTIC TREE MONTHS
+// ================================================================
+const celticTrees = [
+  {month:'12月24日 - 1月20日',name:'Beth',tree:'桦树 Birch'},
+  {month:'1月21日 - 2月17日',name:'Luis',tree:'花楸 Rowan'},
+  {month:'2月18日 - 3月17日',name:'Nuin',tree:'白蜡 Ash'},
+  {month:'3月18日 - 4月14日',name:'Fearn',tree:'桤木 Alder'},
+  {month:'4月15日 - 5月12日',name:'Saille',tree:'柳树 Willow'},
+  {month:'5月13日 - 6月9日',name:'Huath',tree:'山楂 Hawthorn'},
+  {month:'6月10日 - 7月7日',name:'Duir',tree:'橡树 Oak'},
+  {month:'7月8日 - 8月4日',name:'Tinne',tree:'冬青 Holly'},
+  {month:'8月5日 - 9月1日',name:'Coll',tree:'榛树 Hazel'},
+  {month:'9月2日 - 9月29日',name:'Muin',tree:'葡萄藤 Vine'},
+  {month:'9月30日 - 10月27日',name:'Gort',tree:'常春藤 Ivy'},
+  {month:'10月28日 - 11月24日',name:'Ngetal',tree:'芦苇 Reed'},
+  {month:'11月25日 - 12月22日',name:'Ruis',tree:'接骨木 Elder'},
+];
+
+function renderCelticTrees() {
+  const t = document.getElementById('celticTreeTable');
+  t.innerHTML = celticTrees.map(c => `
+    <tr><td>${c.month}</td><td>${c.name}</td><td>${c.tree}</td><td>${c.month}</td></tr>
+  `).join('');
+}
+renderCelticTrees();
+
+// ================================================================
+// FULL CALENDAR
+// ================================================================
+const calendarData = {
+  '一月 January': [
+    '5日 - 主显节前夜，传统上燃烧祝福过的干草药，在门口洒圣水。',
+    '6日 - 第十二夜。所有圣诞装饰（冬青、常春藤、槲寄生）应取下焚烧，否则带来12个月厄运。',
+    '13日 - 世界部分地区继续观察古老的向苹果树祝酒（Wassailing）异教传统。',
+    '20日 - 圣阿格尼斯前夜：喝欧芹茶、吃干面包后入睡，将梦见未来婚姻伴侣。凯尔特桦树月结束。',
+    '21日 - 凯尔特花楸月（Luis）开始。',
+  ],
+  '二月 February': [
+    '2日 - 圣烛节（Imbolc）。传统草药：当归、罗勒、月桂、没药、白屈菜、石楠、紫藤、黄花。',
+    '3日 - 日本节分祭，抛干大豆驱邪："Oni-wa soto! Fuku-wa uchi!"。',
+    '13日 - 五片月桂叶放枕下，未婚女子将梦见未来丈夫。',
+    '14日 - 圣瓦伦丁节。维多利亚花语：玫瑰（爱情）、常春藤（婚姻与忠诚）、紫罗兰（忠贞不渝）。',
+    '17日 - 古罗马Fornacalia节敬奉烤炉女神。凯尔特花楸月结束。',
+    '18日 - 凯尔特白蜡月（Nuin）开始。',
+  ],
+  '三月 March': [
+    '1日 - 圣大卫日。威尔士的韭葱和水仙象征旺盛生长。',
+    '17日 - 圣帕特里克节。三叶草是神圣植物。凯尔特白蜡月结束。',
+    '18日 - 凯尔特桤木月（Fearn）开始。',
+    '21日 - 春分（Ostara）。传统草药：橡子、白屈菜、洋甘菊、番红花、水仙、金银花、玫瑰、紫罗兰。',
+  ],
+  '四月 April': [
+    '10日 - 1872年内布拉斯加州种植近百万棵树庆祝首个植树节。',
+    '14日 - 凯尔特桤木月结束。',
+    '15日 - 凯尔特柳树月（Saille）开始。',
+    '22日 - 地球日。女巫和异教徒冥想大地母亲，进行疗愈仪式。',
+    '25日 - 圣马可日占卜：正午12时摘9片鼠尾草叶，未来丈夫将显现。',
+    '30日 - 沃尔普吉斯之夜（五朔节前夜）。携带当归、大蒜、曼德拉草根、花楸或圣约翰草作为护身符。',
+  ],
+  '五月 May': [
+    '1日 - 五朔节（Beltane）。草药：杏仁、当归、白蜡、蓝铃、山楂、常春藤、丁香、金盏花、玫瑰。',
+    '3日 - 花楸树日。传统上采摘花楸枝和叶用于魔法咒语和护身符。',
+    '12日 - 凯尔特柳树月结束。',
+    '13日 - 凯尔特山楂月（Huath）开始。',
+    '23日 - 古罗马玫瑰节Rosalia敬奉花神Flora。',
+    '29日 - 橡果日。在英格兰，传统上佩戴橡树叶。',
+  ],
+  '六月 June': [
+    '1日 - 凯尔特文化中庆祝橡树宁芙节。',
+    '9日 - 凯尔特山楂月结束。',
+    '10日 - 凯尔特橡树月（Duir）开始。',
+    '21日 - 夏至（Litha）。草药：洋甘菊、茴香、薰衣草、艾草、圣约翰草、玫瑰、百里香、马鞭草。',
+    '23日 - 圣约翰前夜。采摘草药用于爱情魔法和春药的最佳时间。',
+    '24日 - 圣约翰日。采摘马鞭草用于爱情药水（用金币挖根）。',
+  ],
+  '七月 July': [
+    '7日 - 古罗马Consualia节。凯尔特橡树月结束。',
+    '8日 - 凯尔特冬青月（Tinne）开始。',
+    '15日 - 花楸女神Rowana被北欧人敬奉。花楸木制作保护护身符。',
+    '满月 - 药草月（Wort Moon），传统上采集草药用于魔药和医疗。',
+  ],
+  '八月 August': [
+    '1日 - 收获节（Lammas/Lughnasadh）。草药：金合欢、芦荟、玉米、石楠、桃金娘、橡树、向日葵。',
+    '4日 - 凯尔特冬青月结束。',
+    '5日 - 凯尔特榛树月（Coll）开始。',
+    '13日 - 13片白蜡树叶放枕下，可诱导预言性梦境。',
+    '27日 - 圣约翰草叶片上神秘出现红点，象征圣人的鲜血。',
+  ],
+  '九月 September': [
+    '1日 - 凯尔特榛树月结束。',
+    '2日 - 凯尔特葡萄藤月（Muin）开始。',
+    '14日 - 中世纪民间传说：恶魔在这一天在森林中寻找坚果。',
+    '22日 - 秋分（Mabon）。草药：橡子、紫菀、蕨类、金银花、金盏花、橡树、松树、鼠尾草。',
+    '29日 - 凯尔特葡萄藤月结束。',
+    '30日 - 凯尔特常春藤月（Gort）开始。',
+  ],
+  '十月 October': [
+    '11日 - 采摘或食用黑莓招厄运（恶魔诅咒日）。',
+    '18日 - 1616年占星家和草药师尼古拉斯·卡尔佩珀出生。',
+    '27日 - 奥西里斯节。',
+    '31日 - 萨温节（Samhain）。万圣节植物占卜：鼠尾草、燕麦、落叶许愿。',
+  ],
+  '十一月 November': [
+    '1日 - 罗马Pomonalia节（敬奉果园女神波莫纳），标志收获完成。',
+    '25日 - 凯尔特常春藤月结束。',
+    '26日 - 凯尔特接骨木月（Ruis）开始。',
+  ],
+  '十二月 December': [
+    '17-19日 - 古罗马农神节（Saturnalia）。',
+    '21日左右 - 冬至（Yule）。草药：冬青、槲寄生、常春藤、松树、迷迭香、月桂、雪松。',
+    '24日 - 圣诞前夜。冬青必须摆放在家中；烧冬青枝招引死神。',
+    '25日 - 冬至日。传统上凯尔特树月循环重新开始。',
+  ],
+};
+
+function renderCalendar() {
+  const g = document.getElementById('calendarGrid');
+  g.innerHTML = Object.entries(calendarData).map(([month, entries]) => `
+    <div class="month-card">
+      <h3>${month}</h3>
+      ${entries.map(e => `<div class="entry">${e}</div>`).join('')}
+    </div>
+  `).join('');
+}
+renderCalendar();
+
+// ================================================================
+// ADDITIONAL PLANT SUPERSTITIONS DATA (for Tab 2 Divination)
+// ================================================================
+</script>
+</body>
+</html>
+
