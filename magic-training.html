@@ -311,6 +311,15 @@ body {
   font-family: 'Courier New', monospace;
   letter-spacing: 4px;
   text-shadow: 0 0 30px rgba(212,168,67,0.2);
+  transition: text-shadow 0.5s ease;
+}
+.tracker-time.running {
+  animation: fastPulse 2s ease-in-out infinite;
+  text-shadow: 0 0 40px rgba(212,168,67,0.35), 0 0 80px rgba(212,168,67,0.1);
+}
+@keyframes fastPulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.85; }
 }
 .tracker-status {
   font-size: 0.85rem;
@@ -512,7 +521,7 @@ body {
   border: 2px solid rgba(212,168,67,0.2);
   margin: 16px auto;
   position: relative;
-  transition: transform 4s ease-in-out, border-color 0.3s;
+  transition: transform var(--breath-transition, 4s) ease-in-out, border-color 0.3s;
 }
 .breathing-circle.inhale {
   transform: scale(1.3);
@@ -936,6 +945,425 @@ body {
   flex: 1;
 }
 
+/* ===== SECTION 6: APOPHIS SEVEN STEPS ===== */
+.step-card {
+  background: rgba(26,26,26,0.7);
+  border: 1px solid rgba(212,168,67,0.12);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  transition: all 0.3s;
+}
+.step-card:hover {
+  border-color: rgba(212,168,67,0.25);
+}
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.step-number {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid #d4a843;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1rem;
+  color: #d4a843;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.step-card.expanded .step-number {
+  background: rgba(212,168,67,0.15);
+  box-shadow: 0 0 15px rgba(212,168,67,0.15);
+}
+.step-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.1rem;
+  color: #d4a843;
+  letter-spacing: 2px;
+  flex: 1;
+}
+.step-toggle {
+  font-size: 0.75rem;
+  color: #6a5e4e;
+  transition: transform 0.3s;
+}
+.step-card.expanded .step-toggle {
+  transform: rotate(180deg);
+}
+.step-body {
+  display: none;
+  animation: fadeSlideIn 0.4s ease;
+  padding-top: 10px;
+  border-top: 1px solid rgba(212,168,67,0.08);
+}
+.step-card.expanded .step-body {
+  display: block;
+}
+.step-source {
+  font-size: 0.75rem;
+  color: #6a5e4e;
+  font-style: italic;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.step-desc {
+  font-size: 0.85rem;
+  color: #8a7e6a;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+/* Sense picker */
+.sense-picker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.sense-btn {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.12);
+  color: #8a7e6a;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-family: 'Noto Serif SC', serif;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.sense-btn:hover {
+  border-color: rgba(212,168,67,0.3);
+  color: #d4c5a9;
+}
+.sense-btn.active {
+  background: rgba(212,168,67,0.12);
+  border-color: #d4a843;
+  color: #d4a843;
+}
+.sense-tip {
+  font-size: 0.8rem;
+  color: #d4a843;
+  margin-top: 8px;
+  min-height: 1.4em;
+}
+
+/* Time devourer timer */
+.time-devourer-display {
+  text-align: center;
+  padding: 16px;
+}
+.td-time {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #d4a843;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 4px;
+  text-shadow: 0 0 30px rgba(212,168,67,0.15);
+  transition: all 0.3s;
+}
+.td-time.running {
+  animation: fastPulse 2s ease-in-out infinite;
+}
+.td-presets {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.td-preset-btn {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.12);
+  color: #8a7e6a;
+  padding: 6px 18px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: 'Noto Serif SC', serif;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.td-preset-btn:hover {
+  border-color: rgba(212,168,67,0.3);
+  color: #d4c5a9;
+}
+.td-preset-btn.active {
+  background: rgba(212,168,67,0.12);
+  border-color: #d4a843;
+  color: #d4a843;
+}
+.td-log {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin: 8px 0;
+  flex-wrap: wrap;
+}
+.td-log select {
+  background: rgba(10,10,10,0.8);
+  border: 1px solid rgba(212,168,67,0.15);
+  color: #d4c5a9;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-family: 'Noto Serif SC', serif;
+}
+.td-log select:focus { outline: none; border-color: #d4a843; }
+.td-log-entries {
+  margin-top: 8px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.td-log-entry {
+  font-size: 0.75rem;
+  color: #6a5e4e;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(212,168,67,0.05);
+  display: flex;
+  gap: 8px;
+}
+.td-log-entry .tdle-date { color: #8a7e6a; min-width: 70px; }
+.td-log-entry .tdle-feeling { color: #d4a843; }
+
+/* Thought questioning */
+.thought-q-list {
+  margin: 10px 0;
+}
+.thought-q-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(212,168,67,0.06);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.thought-q-item:hover {
+  background: rgba(212,168,67,0.03);
+}
+.thought-q-item .tq-check {
+  width: 20px; height: 20px;
+  border: 2px solid rgba(212,168,67,0.2);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  color: transparent;
+  transition: all 0.3s;
+  margin-top: 2px;
+}
+.thought-q-item.done .tq-check {
+  border-color: #4a9e6a;
+  background: rgba(74,158,106,0.12);
+  color: #4a9e6a;
+}
+.thought-q-item .tq-text {
+  font-size: 0.82rem;
+  color: #d4c5a9;
+  flex: 1;
+}
+.thought-q-item.done .tq-text {
+  color: #6a5e4e;
+  text-decoration: line-through;
+}
+
+/* Desire fire */
+.desire-input-area {
+  margin: 10px 0;
+}
+.desire-input-area input,
+.desire-input-area textarea {
+  width: 100%;
+  background: rgba(10,10,10,0.8);
+  border: 1px solid rgba(212,168,67,0.15);
+  color: #d4c5a9;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+.desire-input-area input:focus,
+.desire-input-area textarea:focus {
+  outline: none;
+  border-color: #d4a843;
+}
+.desire-input-area textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+/* Re-manifestation spiral */
+.release-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+.release-tag {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.1);
+  color: #8a7e6a;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.release-tag:hover {
+  border-color: rgba(196,30,58,0.3);
+  color: #c41e3a;
+}
+.release-tag.released {
+  background: rgba(196,30,58,0.1);
+  border-color: #c41e3a;
+  color: #c41e3a;
+  text-decoration: line-through;
+}
+
+/* Aethyr tracker */
+.aethyr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 6px;
+  margin: 10px 0;
+}
+.aethyr-item {
+  background: rgba(26,26,26,0.5);
+  border: 1px solid rgba(212,168,67,0.08);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  color: #6a5e4e;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.aethyr-item:hover {
+  border-color: rgba(212,168,67,0.2);
+}
+.aethyr-item .aethyr-num {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: #d4a843;
+  font-size: 0.85rem;
+  min-width: 24px;
+}
+.aethyr-item.active-aethyr {
+  border-color: #d4a843;
+  background: rgba(212,168,67,0.06);
+  color: #d4c5a9;
+}
+.aethyr-item.completed-aethyr {
+  border-color: rgba(74,158,106,0.3);
+  background: rgba(74,158,106,0.04);
+  color: #4a9e6a;
+}
+.aethyr-notes textarea {
+  width: 100%;
+  background: rgba(10,10,10,0.8);
+  border: 1px solid rgba(212,168,67,0.15);
+  color: #d4c5a9;
+  padding: 8px;
+  border-radius: 6px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.82rem;
+  resize: vertical;
+  min-height: 80px;
+}
+.aethyr-notes textarea:focus {
+  outline: none;
+  border-color: #d4a843;
+}
+
+/* Eye of the Serpent - meditation */
+.serpent-meditation-text {
+  background: rgba(10,10,10,0.6);
+  border: 1px solid rgba(212,168,67,0.1);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 10px 0;
+  font-size: 0.85rem;
+  color: #8a7e6a;
+  line-height: 2;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.serpent-meditation-text p {
+  margin-bottom: 10px;
+  text-indent: 2em;
+}
+.dual-perspective-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 10px 0;
+}
+.dual-perspective-grid .dp-card {
+  background: rgba(26,26,26,0.5);
+  border: 1px solid rgba(212,168,67,0.08);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+.dual-perspective-grid .dp-card h4 {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: #d4a843;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+.dual-perspective-grid .dp-card p {
+  font-size: 0.8rem;
+  color: #8a7e6a;
+  line-height: 1.6;
+}
+
+/* Step progress bar (across all 7 steps) */
+.steps-progress-wrap {
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+.steps-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #8a7e6a;
+  margin-bottom: 6px;
+}
+.steps-progress-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 6px;
+}
+.steps-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(212,168,67,0.15);
+  transition: all 0.3s;
+}
+.steps-dot.completed {
+  border-color: #4a9e6a;
+  background: rgba(74,158,106,0.2);
+}
+.steps-dot.current {
+  border-color: #d4a843;
+  background: rgba(212,168,67,0.2);
+  box-shadow: 0 0 10px rgba(212,168,67,0.15);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .container { padding: 16px 12px 60px; }
@@ -949,6 +1377,7 @@ body {
   .tab-btn { font-size: 0.85rem; padding: 8px 14px; }
   .fasting-phases { grid-template-columns: 1fr; }
   .breath-grid { grid-template-columns: 1fr; }
+  .dual-perspective-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
@@ -985,6 +1414,11 @@ body {
   <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
   <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
   <a href="magic-training.html" class="nav-link active">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
 </nav>
 
 <!-- ===== PAGE CONTENT ===== -->
@@ -1004,6 +1438,7 @@ body {
     <button class="tab-btn" data-tab="ritual">仪式准备</button>
     <button class="tab-btn" data-tab="elemental">元素训练</button>
     <button class="tab-btn" data-tab="journal">修炼日志</button>
+    <button class="tab-btn" data-tab="apophis_steps">七步修炼</button>
   </nav>
 
   <!-- ================================================================ -->
@@ -1466,6 +1901,354 @@ body {
     </div>
   </div>
 
+  <!-- ================================================================ -->
+  <!-- TAB 6: APOPHIS SEVEN STEPS TRAINING METHOD                        -->
+  <!-- ================================================================ -->
+  <div class="tab-panel" id="panel-apophis_steps">
+
+    <h2 class="section-title">阿波菲斯修炼七步法</h2>
+    <p style="text-align:center;color:#8a7e6a;font-size:0.85rem;margin-bottom:16px;">基于《阿波菲斯龙之魔法》教义 · 点击每步展开详细练习</p>
+
+    <!-- Overall progress -->
+    <div class="steps-progress-wrap">
+      <div class="steps-progress-header">
+        <span>修炼进度</span>
+        <span id="stepsProgressText">0 / 7</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-fill" id="stepsProgressBar" style="width:0%;"></div>
+      </div>
+      <div class="steps-progress-dots" id="stepsDots"></div>
+    </div>
+
+    <!-- ===== STEP 1 ===== -->
+    <div class="step-card" data-step="1">
+      <div class="step-header" data-toggle="step-1">
+        <span class="step-number">一</span>
+        <span class="step-title">感官剥离与重塑</span>
+        <span class="step-toggle">&#x25BC;</span>
+      </div>
+      <div class="step-body">
+        <div class="step-source">出处：p.29-TOR「你的感官必须被剥离并裸露」</div>
+        <div class="step-desc">
+          剥离习以为常的感官过滤网，让意识如新生儿般直面世界。七日内每日专注一种感官的重新觉醒，记录每一丝被忽略的知觉颤动。
+        </div>
+
+        <!-- 7-day tracker -->
+        <div style="margin:10px 0;">
+          <div style="font-size:0.8rem;color:#8a7e6a;margin-bottom:6px;letter-spacing:1px;">七日感官修炼记录</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;" id="senseDays">
+            <span class="td-preset-btn" data-sense-day="1">第1天</span>
+            <span class="td-preset-btn" data-sense-day="2">第2天</span>
+            <span class="td-preset-btn" data-sense-day="3">第3天</span>
+            <span class="td-preset-btn" data-sense-day="4">第4天</span>
+            <span class="td-preset-btn" data-sense-day="5">第5天</span>
+            <span class="td-preset-btn" data-sense-day="6">第6天</span>
+            <span class="td-preset-btn" data-sense-day="7">第7天</span>
+          </div>
+        </div>
+
+        <!-- Sense picker -->
+        <div style="font-size:0.8rem;color:#8a7e6a;margin-bottom:6px;letter-spacing:1px;">今日专注的感官：</div>
+        <div class="sense-picker" id="sensePicker">
+          <button class="sense-btn" data-sense="vision">视觉</button>
+          <button class="sense-btn" data-sense="hearing">听觉</button>
+          <button class="sense-btn" data-sense="touch">触觉</button>
+          <button class="sense-btn" data-sense="smell">嗅觉</button>
+          <button class="sense-btn" data-sense="taste">味觉</button>
+          <button class="sense-btn" data-sense="proprioception">本体觉</button>
+        </div>
+        <div class="sense-tip" id="senseTip">选择一个感官开始今日修炼</div>
+
+        <div style="margin-top:10px;">
+          <div style="font-size:0.8rem;color:#8a7e6a;margin-bottom:4px;letter-spacing:1px;">今日觉察记录：</div>
+          <textarea id="senseJournal" placeholder="今天你注意到了什么新的感觉？描述那个被忽略已久的知觉世界..." style="width:100%;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:8px;border-radius:6px;font-family:'Noto Serif SC',serif;font-size:0.82rem;resize:vertical;min-height:60px;"></textarea>
+          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="senseSaveBtn">保存今日记录</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STEP 2 ===== -->
+    <div class="step-card" data-step="2">
+      <div class="step-header" data-toggle="step-2">
+        <span class="step-number">二</span>
+        <span class="step-title">时间吞噬</span>
+        <span class="step-toggle">&#x25BC;</span>
+      </div>
+      <div class="step-body">
+        <div class="step-source">出处：p.30-TEX「时间是你们必须摧毁的东西」</div>
+        <div class="step-desc">
+          时间是意识的牢笼——唯有全然活在当下，才能真正吞噬时间。通过定时觉知练习，打破过去与未来的幻象，体验时间的"溶解"。
+        </div>
+
+        <div class="time-devourer-display">
+          <div class="td-time" id="tdTime">05:00</div>
+          <div style="font-size:0.8rem;color:#8a7e6a;margin-top:4px;" id="tdStatus">准备就绪</div>
+
+          <div class="td-presets">
+            <button class="td-preset-btn active" data-td-min="5">5分钟</button>
+            <button class="td-preset-btn" data-td-min="10">10分钟</button>
+            <button class="td-preset-btn" data-td-min="15">15分钟</button>
+          </div>
+
+          <div class="tracker-controls">
+            <button class="btn" id="tdStartBtn">开始吞噬</button>
+            <button class="btn btn-danger" id="tdStopBtn" style="display:none;">停止</button>
+            <button class="btn" id="tdResetBtn">重置</button>
+          </div>
+        </div>
+
+        <div class="td-log">
+          <span style="font-size:0.8rem;color:#8a7e6a;">感觉时间变慢了吗？</span>
+          <select id="tdFeeling">
+            <option value="slow">明显变慢</option>
+            <option value="slightly">稍微变慢</option>
+            <option value="normal">没有变化</option>
+            <option value="fast">反而变快了</option>
+          </select>
+          <button class="btn" style="font-size:0.8rem;padding:4px 14px;" id="tdLogBtn">记录</button>
+        </div>
+        <div class="td-log-entries" id="tdLogEntries"></div>
+      </div>
+    </div>
+
+    <!-- ===== STEP 3 ===== -->
+    <div class="step-card" data-step="3">
+      <div class="step-header" data-toggle="step-3">
+        <span class="step-number">三</span>
+        <span class="step-title">思想质疑</span>
+        <span class="step-toggle">&#x25BC;</span>
+      </div>
+      <div class="step-body">
+        <div class="step-source">出处：p.24-NIA「质疑每一个想法」</div>
+        <div class="step-desc">
+          每一个念头都是一条锁链。以下十个问题帮你逐一审查思想的真实性，拆解自动化的思维模式，回归意识的清明。
+        </div>
+
+        <div class="thought-q-list" id="thoughtQList">
+          <div class="thought-q-item" data-tq="0">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">这个想法是真实的吗？我能百分之百确定它是真的吗？</span>
+          </div>
+          <div class="thought-q-item" data-tq="1">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">如果没有这个想法，我会是谁？我会有什么感受？</span>
+          </div>
+          <div class="thought-q-item" data-tq="2">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">这个想法是来自我内在的智慧，还是外在的灌输？</span>
+          </div>
+          <div class="thought-q-item" data-tq="3">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">这个想法服务于我的进化，还是限制了我的可能性？</span>
+          </div>
+          <div class="thought-q-item" data-tq="4">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">如果把这个想法倒过来，是否同样成立——甚至更加真实？</span>
+          </div>
+          <div class="thought-q-item" data-tq="5">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">这个想法中哪些部分是事实，哪些是我添加的故事？</span>
+          </div>
+          <div class="thought-q-item" data-tq="6">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">如果我爱的人有这个想法，我会如何引导他们？</span>
+          </div>
+          <div class="thought-q-item" data-tq="7">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">这个想法产生的情绪是清晰度的来源还是迷雾？</span>
+          </div>
+          <div class="thought-q-item" data-tq="8">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">这个想法出现在我生命中是为了教会我什么？</span>
+          </div>
+          <div class="thought-q-item" data-tq="9">
+            <span class="tq-check">&#x2713;</span>
+            <span class="tq-text">放下这个想法后，我选择相信什么新的真相？</span>
+          </div>
+        </div>
+        <div style="font-size:0.8rem;color:#6a5e4e;text-align:center;margin:4px 0 8px;">
+          已完成: <span id="tqCount">0</span> / 10
+        </div>
+
+        <div style="margin-top:10px;">
+          <div style="font-size:0.8rem;color:#8a7e6a;margin-bottom:4px;letter-spacing:1px;">洞察日志：</div>
+          <textarea id="tqJournal" placeholder="在质疑的过程中，你发现了哪些深层的信念模式？写下你的洞察..." style="width:100%;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:8px;border-radius:6px;font-family:'Noto Serif SC',serif;font-size:0.82rem;resize:vertical;min-height:60px;"></textarea>
+          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="tqSaveBtn">保存洞察</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STEP 4 ===== -->
+    <div class="step-card" data-step="4">
+      <div class="step-header" data-toggle="step-4">
+        <span class="step-number">四</span>
+        <span class="step-title">欲望之火</span>
+        <span class="step-toggle">&#x25BC;</span>
+      </div>
+      <div class="step-body">
+        <div class="step-source">出处：p.18-ZEN「欲望的炽热火焰」</div>
+        <div class="step-desc">
+          欲望不是敌人——它是驱动一切显化的原始火焰。关键在于辨识你的核心欲望而非表层的想望，让它成为炼金术的炉火。
+        </div>
+
+        <div class="desire-input-area">
+          <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;display:block;margin-bottom:4px;">你内心深处最核心的欲望是什么？</label>
+          <input type="text" id="desireCore" placeholder="例如：我想体验真正的自由...">
+
+          <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;display:block;margin-bottom:4px;margin-top:10px;">可视化引导</label>
+          <div class="step-desc" style="font-style:italic;color:#a89880;padding:10px;background:rgba(212,168,67,0.03);border-radius:6px;margin-bottom:10px;">
+            "闭上双眼，呼吸三次。在胸口的正中央，发现一团微弱的火焰。它不会灼伤你——它是你存在核心的欲望之火。
+            观察它的颜色、温度和舞动的方式。不要评判它，只需注视它。让它慢慢扩大，直到它的光芒充满你的整个身体。
+            现在，问这团火焰：'你最真实的形态是什么？' 等待答案从火焰中浮现，不要用思维去构造——只是接收。"
+          </div>
+
+          <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;display:block;margin-bottom:4px;">可视化后记录你的感受：</label>
+          <textarea id="desireVisualization" placeholder="火焰是什么颜色？它告诉了你什么？你感受到什么情绪？"></textarea>
+
+          <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;display:block;margin-bottom:4px;">行动规划 — 为了实现这个欲望，你将在下面三项中采取的行动：</label>
+          <textarea id="desireActionPlan" placeholder="1. 明天起我将...&#x0a;2. 这周内我将...&#x0a;3. 这个月我将..." style="min-height:80px;"></textarea>
+
+          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="desireSaveBtn">保存欲望之火记录</button>
+          <div style="font-size:0.75rem;color:#6a5e4e;margin-top:4px;" id="desireSaveStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STEP 5 ===== -->
+    <div class="step-card" data-step="5">
+      <div class="step-header" data-toggle="step-5">
+        <span class="step-number">五</span>
+        <span class="step-title">再显化螺旋</span>
+        <span class="step-toggle">&#x25BC;</span>
+      </div>
+      <div class="step-body">
+        <div class="step-source">出处：p.25-VTI「再显化的魔法秘密」</div>
+        <div class="step-desc">
+          每一个显化周期结束后，都有一段"螺旋回返"的时刻——审视过去一循环中哪些应当被摧毁，哪些应当被赋予新的力量。这不是结束，而是上升的螺旋。
+        </div>
+
+        <div style="margin:10px 0;">
+          <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;display:block;margin-bottom:4px;">反思一：上一个周期中，哪些模式/习惯/信念需要被你摧毁？</label>
+          <textarea id="rmDestroy" placeholder="写下来那些不再服务于你的旧模式..." style="width:100%;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:8px;border-radius:6px;font-family:'Noto Serif SC',serif;font-size:0.82rem;resize:vertical;min-height:50px;"></textarea>
+        </div>
+        <div style="margin:10px 0;">
+          <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;display:block;margin-bottom:4px;">反思二：哪些品质/力量/智慧应当被赋予更大的能量？</label>
+          <textarea id="rmEmpower" placeholder="写下来那些你想要增强的部分..." style="width:100%;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:8px;border-radius:6px;font-family:'Noto Serif SC',serif;font-size:0.82rem;resize:vertical;min-height:50px;"></textarea>
+        </div>
+
+        <div style="margin:12px 0;">
+          <div style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;margin-bottom:6px;">选择你将从上一周期释放的内容（可多选）：</div>
+          <div class="release-tags" id="releaseTags">
+            <span class="release-tag" data-release="fear">恐惧</span>
+            <span class="release-tag" data-release="doubt">怀疑</span>
+            <span class="release-tag" data-release="attachment">执着</span>
+            <span class="release-tag" data-release="victim">受害者心态</span>
+            <span class="release-tag" data-release="perfection">完美主义</span>
+            <span class="release-tag" data-release="control">控制欲</span>
+            <span class="release-tag" data-release="comparison">比较心</span>
+            <span class="release-tag" data-release="resistance">抗拒</span>
+          </div>
+        </div>
+
+        <button class="btn" style="font-size:0.85rem;padding:4px 16px;" id="rmSaveBtn">保存螺旋反思</button>
+        <div style="font-size:0.75rem;color:#6a5e4e;margin-top:4px;" id="rmSaveStatus"></div>
+      </div>
+    </div>
+
+    <!-- ===== STEP 6 ===== -->
+    <div class="step-card" data-step="6">
+      <div class="step-header" data-toggle="step-6">
+        <span class="step-number">六</span>
+        <span class="step-title">以太层之旅</span>
+        <span class="step-toggle">&#x25BC;</span>
+      </div>
+      <div class="step-body">
+        <div class="step-source">出处：30 Aethyrs: TEX → ICH（p.30-TEX 至 p.1-ICH）</div>
+        <div class="step-desc">
+          三十个以太层是意识进化的阶梯，从第一层到第三十层逐步攀升。每一层都有其独特的关键词与能量特质。标记你当前修炼的层级，并记录每一层的体验。
+        </div>
+
+        <!-- Current Aethyr Tracker -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+          <span style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;">当前修炼层级：</span>
+          <select id="currentAethyr" style="background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:4px 10px;border-radius:6px;font-size:0.82rem;font-family:'Noto Serif SC',serif;"></select>
+          <span style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;">状态：</span>
+          <span style="font-size:0.8rem;color:#d4a843;" id="aethyrStatusDisplay">未选择</span>
+        </div>
+
+        <div class="aethyr-grid" id="aethyrGrid"></div>
+
+        <div class="aethyr-notes" style="margin-top:10px;">
+          <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;display:block;margin-bottom:4px;">当前层级修炼笔记：</label>
+          <textarea id="aethyrNotes" placeholder="记录你在这层的体验、视觉、感悟..."></textarea>
+          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="aethyrSaveBtn">保存笔记</button>
+          <div style="font-size:0.75rem;color:#6a5e4e;margin-top:4px;" id="aethyrSaveStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STEP 7 ===== -->
+    <div class="step-card" data-step="7">
+      <div class="step-header" data-toggle="step-7">
+        <span class="step-number">七</span>
+        <span class="step-title">巨蛇之眼</span>
+        <span class="step-toggle">&#x25BC;</span>
+      </div>
+      <div class="step-body">
+        <div class="step-source">出处：p.28-BAG「它是古老巨蛇的眼睛」</div>
+        <div class="step-desc">
+          七步之巅的整合仪式。巨蛇之眼是同时从内部和外部观看的能力——既全然沉浸于体验之中，又同时从高处俯瞰自己。这是阿波菲斯修炼的最高秘密。
+        </div>
+
+        <!-- Dual Perspective Exercise -->
+        <h4 style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;letter-spacing:2px;font-size:1rem;margin-bottom:8px;">双重视角练习</h4>
+        <div class="dual-perspective-grid">
+          <div class="dp-card">
+            <h4>内在之眼</h4>
+            <p>完全沉浸在当下体验中，感受每一个细微的知觉、情绪和能量波动。不做任何评判，只是全然在此。</p>
+          </div>
+          <div class="dp-card">
+            <h4>外在之眼</h4>
+            <p>将意识提升到身体之外，从上方俯瞰正在体验的自己。观察者与被观察者同时存在，如同一体两面。</p>
+          </div>
+        </div>
+
+        <div style="margin:10px 0;">
+          <div style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;margin-bottom:6px;">练习日志：</div>
+          <textarea id="serpentDualJournal" placeholder="尝试双重视角后，你看到了什么？当内在和外在之眼同时打开时，发生了什么？" style="width:100%;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:8px;border-radius:6px;font-family:'Noto Serif SC',serif;font-size:0.82rem;resize:vertical;min-height:60px;"></textarea>
+        </div>
+
+        <!-- Guided Meditation -->
+        <h4 style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;letter-spacing:2px;font-size:1rem;margin:14px 0 8px;">巨蛇之眼引导冥想</h4>
+        <div class="serpent-meditation-text">
+          <p>找一个安静的地方坐下，脊柱挺直，双手放在膝盖上。深呼吸三次——每一次呼气都比前一次更长、更深、更完全。</p>
+          <p>想象一条巨大的古老蛇正在你面前缓缓睁开它的眼睛。那眼睛不是普通的眼睛——它是一面镜子，映照出你所有的过去、现在和可能的未来。在这只眼睛里，没有秘密可言。</p>
+          <p>你看到蛇的瞳孔中有一个小小的身影——那是你。但奇怪的是，你同时也能感受到蛇的视角——你正在从蛇的眼睛里向外看，看着那个坐在地上的自己。</p>
+          <p>两种视角同时存在：你是一个正在仰望巨蛇的人类，你同时是那条正在俯视人类的巨蛇。没有矛盾，没有分裂——这就是合一的眼睛。</p>
+          <p>从内在之眼看：感受你的心跳、呼吸的温度、地板的硬度、空气里的气味。全然在人。</p>
+          <p>从外在之眼看：看到你自己的姿态、你头顶的灯光、你周围的能量场。全然在神。</p>
+          <p>现在，让两个视角重叠。你不是人类，也不是蛇——你是那个同时看见两者的意识本身。你是那只眼睛。</p>
+          <p>停留在这个状态中，越长越好。当你想回来时，慢慢将意识收回到身体里，轻轻活动手指和脚趾，深呼吸三次，然后缓缓睁开眼睛。</p>
+        </div>
+
+        <div style="margin-top:10px;">
+          <div style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;margin-bottom:4px;">冥想后的整合记录：</div>
+          <textarea id="serpentMedJournal" placeholder="冥想结束后，你有什么领悟？双重视角是如何融合的？" style="width:100%;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:8px;border-radius:6px;font-family:'Noto Serif SC',serif;font-size:0.82rem;resize:vertical;min-height:60px;"></textarea>
+          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="serpentSaveBtn">保存整合记录</button>
+          <div style="font-size:0.75rem;color:#6a5e4e;margin-top:4px;" id="serpentSaveStatus"></div>
+        </div>
+
+        <!-- Mark step 7 complete -->
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(212,168,67,0.08);text-align:center;">
+          <button class="btn" id="sevenCompleteBtn" style="font-size:0.85rem;padding:6px 20px;">标记七步修炼完成</button>
+          <div style="font-size:0.75rem;color:#d4a843;margin-top:4px;min-height:1.2em;" id="sevenCompleteStatus"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </div><!-- /container -->
 
 <script>
@@ -1534,7 +2317,8 @@ body {
     meditation: document.getElementById('panel-meditation'),
     ritual: document.getElementById('panel-ritual'),
     elemental: document.getElementById('panel-elemental'),
-    journal: document.getElementById('panel-journal')
+    journal: document.getElementById('panel-journal'),
+    apophis_steps: document.getElementById('panel-apophis_steps')
   };
 
   tabBtns.forEach(function(btn) {
@@ -1643,10 +2427,13 @@ body {
 
     if (state.running) {
       statusEl.textContent = '正在禁食中...';
+      timerEl.classList.add('running');
     } else if (state.elapsed > 0) {
       statusEl.textContent = '已结束 - 共禁食 ' + h + ' 小时 ' + m + ' 分钟';
+      timerEl.classList.remove('running');
     } else {
       statusEl.textContent = '未开始';
+      timerEl.classList.remove('running');
     }
 
     // Phase progress
@@ -1870,37 +2657,42 @@ body {
     return parseInt(medCustomMin.value) || defaults[idx] || 10;
   }
 
-  // Breathing animation cycle
+  // Breathing animation cycle - 4-7-8 pattern
   var breathPhase = 'inhale';
   var breathTimer = null;
+  var breathPhaseDurations = { inhale: 4000, hold: 7000, exhale: 8000 };
+
+  function runBreathPhase(phase) {
+    breathCircle.style.setProperty('--breath-transition', (breathPhaseDurations[phase] || 4000) + 'ms');
+    breathCircle.className = 'breathing-circle ' + phase;
+    if (phase === 'inhale') breathLabel.textContent = '吸气...';
+    else if (phase === 'hold') breathLabel.textContent = '屏息...';
+    else if (phase === 'exhale') breathLabel.textContent = '呼气...';
+  }
 
   function startBreathing() {
-    var phaseDuration = 4000;
+    var phases = ['inhale', 'hold', 'exhale'];
+    var phaseIdx = 0;
     breathPhase = 'inhale';
-    breathCircle.className = 'breathing-circle inhale';
-    breathLabel.textContent = '吸气';
+    runBreathPhase('inhale');
 
     if (breathTimer) clearInterval(breathTimer);
-    breathTimer = setInterval(function() {
-      if (breathPhase === 'inhale') {
-        breathCircle.className = 'breathing-circle hold';
-        breathLabel.textContent = '屏息';
-        breathPhase = 'hold';
-      } else if (breathPhase === 'hold') {
-        breathCircle.className = 'breathing-circle exhale';
-        breathLabel.textContent = '呼气';
-        breathPhase = 'exhale';
-      } else {
-        breathCircle.className = 'breathing-circle inhale';
-        breathLabel.textContent = '吸气';
-        breathPhase = 'inhale';
-      }
-    }, phaseDuration);
+
+    function nextPhase() {
+      phaseIdx = (phaseIdx + 1) % phases.length;
+      var phase = phases[phaseIdx];
+      breathPhase = phase;
+      runBreathPhase(phase);
+      breathTimer = setTimeout(nextPhase, breathPhaseDurations[phase] || 4000);
+    }
+
+    var firstDuration = breathPhaseDurations['inhale'];
+    breathTimer = setTimeout(nextPhase, firstDuration);
   }
 
   function stopBreathing() {
     if (breathTimer) {
-      clearInterval(breathTimer);
+      clearTimeout(breathTimer);
       breathTimer = null;
     }
     breathCircle.className = 'breathing-circle';
@@ -2283,6 +3075,586 @@ body {
   }
 
   renderAll();
+})();
+
+/* ================================================================ */
+/* SECTION 6: APOPHIS SEVEN STEPS TRAINING METHOD                    */
+/* ================================================================ */
+(function() {
+  // ---- Step accordion toggle ----
+  var stepHeaders = document.querySelectorAll('.step-header[data-toggle]');
+  stepHeaders.forEach(function(hdr) {
+    hdr.addEventListener('click', function() {
+      var card = this.closest('.step-card');
+      card.classList.toggle('expanded');
+      updateStepsProgress();
+    });
+  });
+
+  // ---- Step 1: Sensory Stripping ----
+  (function() {
+    var senseDays = document.querySelectorAll('[data-sense-day]');
+    var senseBtns = document.querySelectorAll('.sense-btn');
+    var senseTip = document.getElementById('senseTip');
+    var senseJournal = document.getElementById('senseJournal');
+    var senseSaveBtn = document.getElementById('senseSaveBtn');
+    var senseDayState = {};
+
+    // Load saved state
+    try {
+      var saved = JSON.parse(localStorage.getItem('af_sense_days') || '{}');
+      senseDayState = saved;
+    } catch(e) {}
+
+    // Load sense day status
+    senseDays.forEach(function(btn) {
+      var day = btn.getAttribute('data-sense-day');
+      if (senseDayState[day]) {
+        btn.classList.add('active');
+      }
+    });
+
+    senseDays.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var day = this.getAttribute('data-sense-day');
+        senseDayState[day] = !senseDayState[day];
+        this.classList.toggle('active', senseDayState[day]);
+        localStorage.setItem('af_sense_days', JSON.stringify(senseDayState));
+      });
+    });
+
+    // Sense picker
+    senseBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        senseBtns.forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        var sense = this.getAttribute('data-sense');
+        var senseNames = { vision: '视觉', hearing: '听觉', touch: '触觉', smell: '嗅觉', taste: '味觉', proprioception: '本体觉' };
+        senseTip.textContent = '今日专注：' + (senseNames[sense] || sense) + ' — 请用全部注意力重新发现这个世界';
+        // Save to localStorage
+        localStorage.setItem('af_sense_today', sense);
+        // Update progress
+        updateStepsProgress();
+      });
+
+      // Load saved sense
+      try {
+        var savedSense = localStorage.getItem('af_sense_today');
+        if (savedSense && btn.getAttribute('data-sense') === savedSense) {
+          btn.click();
+        }
+      } catch(e) {}
+    });
+
+    // Save journal
+    senseSaveBtn.addEventListener('click', function() {
+      localStorage.setItem('af_sense_journal', senseJournal.value);
+      this.textContent = '已保存';
+      setTimeout(function() { senseSaveBtn.textContent = '保存今日记录'; }, 1500);
+    });
+
+    // Load saved journal
+    try {
+      var sj = localStorage.getItem('af_sense_journal');
+      if (sj) senseJournal.value = sj;
+    } catch(e) {}
+  })();
+
+  // ---- Step 2: Time Devourer ----
+  (function() {
+    var tdTime = document.getElementById('tdTime');
+    var tdStatus = document.getElementById('tdStatus');
+    var tdStartBtn = document.getElementById('tdStartBtn');
+    var tdStopBtn = document.getElementById('tdStopBtn');
+    var tdResetBtn = document.getElementById('tdResetBtn');
+    var tdPresets = document.querySelectorAll('.td-preset-btn');
+    var tdFeeling = document.getElementById('tdFeeling');
+    var tdLogBtn = document.getElementById('tdLogBtn');
+    var tdLogEntries = document.getElementById('tdLogEntries');
+
+    var tdState = { running: false, remaining: 0, total: 0, duration: 5, interval: null };
+    var tdLogs = [];
+
+    // Load logs
+    try { tdLogs = JSON.parse(localStorage.getItem('af_td_logs') || '[]'); } catch(e) {}
+
+    function renderTdLogs() {
+      tdLogEntries.innerHTML = '';
+      tdLogs.slice(-10).reverse().forEach(function(log) {
+        var div = document.createElement('div');
+        div.className = 'td-log-entry';
+        div.innerHTML = '<span class="tdle-date">' + log.date + '</span><span class="tdle-duration">' + log.duration + '分</span><span class="tdle-feeling">' + log.feeling + '</span>';
+        tdLogEntries.appendChild(div);
+      });
+    }
+    renderTdLogs();
+
+    tdPresets.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (tdState.running) return;
+        tdPresets.forEach(function(b) { b.classList.remove('active'); });
+        this.classList.add('active');
+        tdState.duration = parseInt(this.getAttribute('data-td-min'));
+        tdTime.textContent = String(tdState.duration).padStart(2, '0') + ':00';
+        tdState.remaining = tdState.duration * 60;
+      });
+    });
+
+    function tdUpdateDisplay() {
+      var m = Math.floor(tdState.remaining / 60);
+      var s = tdState.remaining % 60;
+      tdTime.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      if (tdState.running) {
+        tdTime.classList.add('running');
+        tdStatus.textContent = '正在吞噬时间...';
+      } else {
+        tdTime.classList.remove('running');
+        tdStatus.textContent = '准备就绪';
+      }
+    }
+
+    function tdStart() {
+      if (tdState.running) return;
+      if (tdState.remaining <= 0) tdState.remaining = tdState.duration * 60;
+      tdState.total = tdState.remaining;
+      tdState.running = true;
+      tdStartBtn.style.display = 'none';
+      tdStopBtn.style.display = '';
+      tdTime.classList.add('running');
+      tdStatus.textContent = '正在吞噬时间...';
+
+      var startTime = Date.now();
+      var totalSec = tdState.total;
+
+      tdState.interval = setInterval(function() {
+        var elapsed = Math.floor((Date.now() - startTime) / 1000);
+        tdState.remaining = Math.max(0, totalSec - elapsed);
+        tdUpdateDisplay();
+
+        if (tdState.remaining <= 0) {
+          clearInterval(tdState.interval);
+          tdState.interval = null;
+          tdState.running = false;
+          tdTime.classList.remove('running');
+          tdStatus.textContent = '时间吞噬完成！';
+          tdStartBtn.style.display = '';
+          tdStopBtn.style.display = 'none';
+        }
+      }, 100);
+    }
+
+    function tdStop() {
+      if (tdState.interval) {
+        clearInterval(tdState.interval);
+        tdState.interval = null;
+      }
+      tdState.running = false;
+      tdTime.classList.remove('running');
+      tdStartBtn.style.display = '';
+      tdStopBtn.style.display = 'none';
+      tdStatus.textContent = '已暂停 - 剩余 ' + String(Math.floor(tdState.remaining / 60)).padStart(2, '0') + ':' + String(tdState.remaining % 60).padStart(2, '0');
+    }
+
+    function tdReset() {
+      tdStop();
+      tdState.remaining = tdState.duration * 60;
+      tdUpdateDisplay();
+    }
+
+    tdStartBtn.addEventListener('click', tdStart);
+    tdStopBtn.addEventListener('click', tdStop);
+    tdResetBtn.addEventListener('click', tdReset);
+
+    tdLogBtn.addEventListener('click', function() {
+      var feeling = tdFeeling.value;
+      var feelingNames = { slow: '明显变慢', slightly: '稍微变慢', normal: '没有变化', fast: '反而变快了' };
+      var logEntry = {
+        date: new Date().toISOString().split('T')[0],
+        duration: tdState.duration,
+        feeling: feelingNames[feeling] || feeling
+      };
+      tdLogs.push(logEntry);
+      localStorage.setItem('af_td_logs', JSON.stringify(tdLogs));
+      renderTdLogs();
+      tdLogBtn.textContent = '已记录';
+      setTimeout(function() { tdLogBtn.textContent = '记录'; }, 1500);
+    });
+  })();
+
+  // ---- Step 3: Thought Questioning ----
+  (function() {
+    var tqItems = document.querySelectorAll('.thought-q-item');
+    var tqCount = document.getElementById('tqCount');
+    var tqJournal = document.getElementById('tqJournal');
+    var tqSaveBtn = document.getElementById('tqSaveBtn');
+    var tqState = {};
+
+    try { tqState = JSON.parse(localStorage.getItem('af_tq_state') || '{}'); } catch(e) {}
+
+    function updateTq() {
+      var done = 0;
+      tqItems.forEach(function(item) {
+        var key = item.getAttribute('data-tq');
+        if (tqState[key]) {
+          item.classList.add('done');
+          done++;
+        } else {
+          item.classList.remove('done');
+        }
+      });
+      tqCount.textContent = done;
+      localStorage.setItem('af_tq_state', JSON.stringify(tqState));
+      updateStepsProgress();
+    }
+
+    tqItems.forEach(function(item) {
+      item.addEventListener('click', function() {
+        var key = this.getAttribute('data-tq');
+        tqState[key] = !tqState[key];
+        updateTq();
+      });
+    });
+
+    updateTq();
+
+    try {
+      var tj = localStorage.getItem('af_tq_journal');
+      if (tj) tqJournal.value = tj;
+    } catch(e) {}
+
+    tqSaveBtn.addEventListener('click', function() {
+      localStorage.setItem('af_tq_journal', tqJournal.value);
+      this.textContent = '已保存';
+      setTimeout(function() { tqSaveBtn.textContent = '保存洞察'; }, 1500);
+    });
+  })();
+
+  // ---- Step 4: Desire Fire ----
+  (function() {
+    var desireCore = document.getElementById('desireCore');
+    var desireVis = document.getElementById('desireVisualization');
+    var desireAction = document.getElementById('desireActionPlan');
+    var desireSaveBtn = document.getElementById('desireSaveBtn');
+    var desireStatus = document.getElementById('desireSaveStatus');
+
+    try {
+      var saved = JSON.parse(localStorage.getItem('af_desire_fire') || '{}');
+      if (saved.core) desireCore.value = saved.core;
+      if (saved.vis) desireVis.value = saved.vis;
+      if (saved.action) desireAction.value = saved.action;
+    } catch(e) {}
+
+    desireSaveBtn.addEventListener('click', function() {
+      var data = { core: desireCore.value, vis: desireVis.value, action: desireAction.value };
+      localStorage.setItem('af_desire_fire', JSON.stringify(data));
+      desireStatus.textContent = '欲望之火记录已保存';
+      updateStepsProgress();
+      setTimeout(function() { desireStatus.textContent = ''; }, 2000);
+    });
+  })();
+
+  // ---- Step 5: Re-Manifestation Spiral ----
+  (function() {
+    var rmDestroy = document.getElementById('rmDestroy');
+    var rmEmpower = document.getElementById('rmEmpower');
+    var releaseTags = document.querySelectorAll('.release-tag');
+    var rmSaveBtn = document.getElementById('rmSaveBtn');
+    var rmStatus = document.getElementById('rmSaveStatus');
+
+    try {
+      var saved = JSON.parse(localStorage.getItem('af_re_manifest') || '{}');
+      if (saved.destroy) rmDestroy.value = saved.destroy;
+      if (saved.empower) rmEmpower.value = saved.empower;
+
+      if (saved.released) {
+        saved.released.forEach(function(r) {
+          releaseTags.forEach(function(tag) {
+            if (tag.getAttribute('data-release') === r) {
+              tag.classList.add('released');
+            }
+          });
+        });
+      }
+    } catch(e) {}
+
+    releaseTags.forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        this.classList.toggle('released');
+      });
+    });
+
+    rmSaveBtn.addEventListener('click', function() {
+      var released = [];
+      releaseTags.forEach(function(tag) {
+        if (tag.classList.contains('released')) {
+          released.push(tag.getAttribute('data-release'));
+        }
+      });
+      var data = { destroy: rmDestroy.value, empower: rmEmpower.value, released: released };
+      localStorage.setItem('af_re_manifest', JSON.stringify(data));
+      rmStatus.textContent = '螺旋反思已保存';
+      updateStepsProgress();
+      setTimeout(function() { rmStatus.textContent = ''; }, 2000);
+    });
+  })();
+
+  // ---- Step 6: Etheric Journey (30 Aethyrs) ----
+  (function() {
+    var aethyrData = [
+      { num: 30, name: 'TEX', keyword: '混沌之初' },
+      { num: 29, name: 'RII', keyword: '二元觉醒' },
+      { num: 28, name: 'BAG', keyword: '巨蛇之视' },
+      { num: 27, name: 'ZAA', keyword: '火焰之门' },
+      { num: 26, name: 'BAB', keyword: '门户守护' },
+      { num: 25, name: 'VTI', keyword: '再显化' },
+      { num: 24, name: 'NIA', keyword: '思想质疑' },
+      { num: 23, name: 'TOR', keyword: '感官剥离' },
+      { num: 22, name: 'LIN', keyword: '线性突破' },
+      { num: 21, name: 'ASP', keyword: '星辰低语' },
+      { num: 20, name: 'KHR', keyword: '意志锻造' },
+      { num: 19, name: 'POP', keyword: '群体意识' },
+      { num: 18, name: 'ZEN', keyword: '欲望之火' },
+      { num: 17, name: 'TAN', keyword: '暗影整合' },
+      { num: 16, name: 'TAB', keyword: '元素平衡' },
+      { num: 15, name: 'AXO', keyword: '声音之秘' },
+      { num: 14, name: 'KHI', keyword: '能量转化' },
+      { num: 13, name: 'LEO', keyword: '力量显现' },
+      { num: 12, name: 'ORO', keyword: '光明之源' },
+      { num: 11, name: 'LAU', keyword: '月亮之门' },
+      { num: 10, name: 'NAN', keyword: '深渊回响' },
+      { num: 9, name: 'ZIM', keyword: '水晶意识' },
+      { num: 8, name: 'NIM', keyword: '记忆之海' },
+      { num: 7, name: 'DAN', keyword: '审判之门' },
+      { num: 6, name: 'GIM', keyword: '炼金之炉' },
+      { num: 5, name: 'UTA', keyword: '形态消融' },
+      { num: 4, name: 'PAZ', keyword: '超越之桥' },
+      { num: 3, name: 'ZOM', keyword: '时间尽头' },
+      { num: 2, name: 'LON', keyword: '虚空之核' },
+      { num: 1, name: 'ICH', keyword: '合一' }
+    ];
+
+    var aethyrGrid = document.getElementById('aethyrGrid');
+    var currentAethyr = document.getElementById('currentAethyr');
+    var aethyrStatusDisplay = document.getElementById('aethyrStatusDisplay');
+    var aethyrNotes = document.getElementById('aethyrNotes');
+    var aethyrSaveBtn = document.getElementById('aethyrSaveBtn');
+    var aethyrSaveStatus = document.getElementById('aethyrSaveStatus');
+
+    var aethyrState = {};
+    try { aethyrState = JSON.parse(localStorage.getItem('af_aethyr_state') || '{}'); } catch(e) {}
+
+    // Populate grid
+    aethyrData.forEach(function(a) {
+      var item = document.createElement('div');
+      item.className = 'aethyr-item';
+      item.setAttribute('data-aethyr-num', a.num);
+      item.innerHTML = '<span class="aethyr-num">' + a.num + '</span> ' + a.name + ' — ' + a.keyword;
+      item.addEventListener('click', function() {
+        currentAethyr.value = a.num;
+        updateAethyrDisplay();
+        // Load notes for this aethyr
+        var notes = aethyrState[a.num] || '';
+        aethyrNotes.value = notes;
+        aethyrStatusDisplay.textContent = a.name + ' (' + a.keyword + ')';
+        // Highlight in grid
+        document.querySelectorAll('.aethyr-item').forEach(function(el) { el.classList.remove('active-aethyr'); });
+        this.classList.add('active-aethyr');
+      });
+      aethyrGrid.appendChild(item);
+
+      // Add option to select
+      var opt = document.createElement('option');
+      opt.value = a.num;
+      opt.textContent = a.num + '. ' + a.name + ' — ' + a.keyword;
+      currentAethyr.appendChild(opt);
+    });
+
+    function updateAethyrDisplay() {
+      var num = parseInt(currentAethyr.value);
+      aethyrData.forEach(function(a) {
+        if (a.num === num) {
+          aethyrStatusDisplay.textContent = a.name + ' (' + a.keyword + ')';
+        }
+      });
+      // Restore notes
+      aethyrNotes.value = aethyrState[num] || '';
+      // Update grid highlighting
+      document.querySelectorAll('.aethyr-item').forEach(function(el) {
+        var elNum = parseInt(el.getAttribute('data-aethyr-num'));
+        el.classList.remove('active-aethyr');
+        if (elNum === num) el.classList.add('active-aethyr');
+        if (elNum < num) el.classList.add('completed-aethyr');
+        else el.classList.remove('completed-aethyr');
+      });
+    }
+
+    currentAethyr.addEventListener('change', updateAethyrDisplay);
+
+    aethyrSaveBtn.addEventListener('click', function() {
+      var num = parseInt(currentAethyr.value);
+      aethyrState[num] = aethyrNotes.value;
+      localStorage.setItem('af_aethyr_state', JSON.stringify(aethyrState));
+      aethyrSaveStatus.textContent = '以太层笔记已保存';
+      updateStepsProgress();
+      setTimeout(function() { aethyrSaveStatus.textContent = ''; }, 2000);
+    });
+
+    // Set default to first uncompleted
+    var firstUncompleted = aethyrData[aethyrData.length - 1].num;
+    for (var i = aethyrData.length - 1; i >= 0; i--) {
+      if (!aethyrState[aethyrData[i].num] || aethyrState[aethyrData[i].num].trim() === '') {
+        firstUncompleted = aethyrData[i].num;
+      } else {
+        break;
+      }
+    }
+    currentAethyr.value = firstUncompleted;
+    updateAethyrDisplay();
+  })();
+
+  // ---- Step 7: Eye of the Serpent ----
+  (function() {
+    var serpentDualJournal = document.getElementById('serpentDualJournal');
+    var serpentMedJournal = document.getElementById('serpentMedJournal');
+    var serpentSaveBtn = document.getElementById('serpentSaveBtn');
+    var serpentSaveStatus = document.getElementById('serpentSaveStatus');
+    var sevenCompleteBtn = document.getElementById('sevenCompleteBtn');
+    var sevenCompleteStatus = document.getElementById('sevenCompleteStatus');
+
+    try {
+      var saved = JSON.parse(localStorage.getItem('af_serpent_records') || '{}');
+      if (saved.dual) serpentDualJournal.value = saved.dual;
+      if (saved.med) serpentMedJournal.value = saved.med;
+    } catch(e) {}
+
+    serpentSaveBtn.addEventListener('click', function() {
+      var data = { dual: serpentDualJournal.value, med: serpentMedJournal.value };
+      localStorage.setItem('af_serpent_records', JSON.stringify(data));
+      serpentSaveStatus.textContent = '整合记录已保存';
+      updateStepsProgress();
+      setTimeout(function() { serpentSaveStatus.textContent = ''; }, 2000);
+    });
+
+    var sevenComplete = localStorage.getItem('af_seven_complete') === 'true';
+
+    if (sevenComplete) {
+      sevenCompleteStatus.textContent = '七步修炼已完成！';
+      sevenCompleteBtn.textContent = '已完成';
+      sevenCompleteBtn.disabled = true;
+      sevenCompleteBtn.style.opacity = '0.5';
+    }
+
+    sevenCompleteBtn.addEventListener('click', function() {
+      if (this.disabled) return;
+      localStorage.setItem('af_seven_complete', 'true');
+      sevenCompleteStatus.textContent = '七步修炼已完成！恭喜你完成了阿波菲斯修炼七步法！';
+      this.textContent = '已完成';
+      this.disabled = true;
+      this.style.opacity = '0.5';
+      updateStepsProgress();
+    });
+  })();
+
+  // ---- Steps Progress (overall tracker) ----
+  function updateStepsProgress() {
+    var completed = 0;
+    var total = 7;
+
+    // Check each step for completion signals
+    // Step 1: sense day completed or sense chosen
+    var senseDays = document.querySelectorAll('[data-sense-day]');
+    var anySenseDay = false;
+    senseDays.forEach(function(d) { if (d.classList.contains('active')) anySenseDay = true; });
+    var senseChosen = localStorage.getItem('af_sense_today');
+    if (anySenseDay || senseChosen) completed++;
+
+    // Step 2: at least one log entry
+    var tdLogs = [];
+    try { tdLogs = JSON.parse(localStorage.getItem('af_td_logs') || '[]'); } catch(e) {}
+    if (tdLogs.length > 0) completed++;
+
+    // Step 3: at least 5 thought questions done
+    var tqState = {};
+    try { tqState = JSON.parse(localStorage.getItem('af_tq_state') || '{}'); } catch(e) {}
+    var tqDone = 0;
+    for (var k in tqState) { if (tqState[k]) tqDone++; }
+    if (tqDone >= 5) completed++;
+
+    // Step 4: desire fire saved
+    var desireFire = null;
+    try { desireFire = JSON.parse(localStorage.getItem('af_desire_fire') || '{}'); } catch(e) {}
+    if (desireFire && desireFire.core && desireFire.core.trim() !== '') completed++;
+
+    // Step 5: re-manifest saved
+    var reManifest = null;
+    try { reManifest = JSON.parse(localStorage.getItem('af_re_manifest') || '{}'); } catch(e) {}
+    if (reManifest && (reManifest.destroy || reManifest.empower)) completed++;
+
+    // Step 6: at least one aethyr note
+    var aethyrState = {};
+    try { aethyrState = JSON.parse(localStorage.getItem('af_aethyr_state') || '{}'); } catch(e) {}
+    var aethyrNotesDone = false;
+    for (var ak in aethyrState) { if (aethyrState[ak] && aethyrState[ak].trim() !== '') aethyrNotesDone = true; }
+    if (aethyrNotesDone) completed++;
+
+    // Step 7: seven complete flag
+    if (localStorage.getItem('af_seven_complete') === 'true') completed++;
+
+    var pct = Math.round((completed / total) * 100);
+    document.getElementById('stepsProgressText').textContent = completed + ' / ' + total;
+    document.getElementById('stepsProgressBar').style.width = pct + '%';
+
+    // Update dots
+    var dotsContainer = document.getElementById('stepsDots');
+    dotsContainer.innerHTML = '';
+    for (var i = 1; i <= total; i++) {
+      var dot = document.createElement('span');
+      dot.className = 'steps-dot';
+      var stepCompleted = false;
+      // Check individual step
+      if (i === 1) {
+        var sd = false;
+        document.querySelectorAll('[data-sense-day]').forEach(function(d) { if (d.classList.contains('active')) sd = true; });
+        var sc = localStorage.getItem('af_sense_today');
+        if (sd || sc) stepCompleted = true;
+      } else if (i === 2) {
+        var logs = [];
+        try { logs = JSON.parse(localStorage.getItem('af_td_logs') || '[]'); } catch(e) {}
+        if (logs.length > 0) stepCompleted = true;
+      } else if (i === 3) {
+        var ts = {};
+        try { ts = JSON.parse(localStorage.getItem('af_tq_state') || '{}'); } catch(e) {}
+        var td = 0;
+        for (var kk in ts) { if (ts[kk]) td++; }
+        if (td >= 5) stepCompleted = true;
+      } else if (i === 4) {
+        var df = null;
+        try { df = JSON.parse(localStorage.getItem('af_desire_fire') || '{}'); } catch(e) {}
+        if (df && df.core && df.core.trim() !== '') stepCompleted = true;
+      } else if (i === 5) {
+        var rm = null;
+        try { rm = JSON.parse(localStorage.getItem('af_re_manifest') || '{}'); } catch(e) {}
+        if (rm && (rm.destroy || rm.empower)) stepCompleted = true;
+      } else if (i === 6) {
+        var as = {};
+        try { as = JSON.parse(localStorage.getItem('af_aethyr_state') || '{}'); } catch(e) {}
+        var and = false;
+        for (var akk in as) { if (as[akk] && as[akk].trim() !== '') and = true; }
+        if (and) stepCompleted = true;
+      } else if (i === 7) {
+        if (localStorage.getItem('af_seven_complete') === 'true') stepCompleted = true;
+      }
+
+      if (stepCompleted) {
+        dot.classList.add('completed');
+      } else if (i === completed + 1) {
+        dot.classList.add('current');
+      }
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  updateStepsProgress();
 })();
 
 </script>

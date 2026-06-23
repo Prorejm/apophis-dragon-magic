@@ -116,6 +116,11 @@
 | 🌀 奇门遁甲 | [qimen-dunjia.html](https://prorejm.github.io/apophis-dragon-magic/qimen-dunjia.html) |
 | 📐 河图洛书 | [hetu-luoshu.html](https://prorejm.github.io/apophis-dragon-magic/hetu-luoshu.html) |
 | 🧘 魔法修炼 | [magic-training.html](https://prorejm.github.io/apophis-dragon-magic/magic-training.html) |
+| ⭐ 紫微斗数 | [ziwei-dou-shu.html](https://prorejm.github.io/apophis-dragon-magic/ziwei-dou-shu.html) |
+| 🌸 梅花易数 | [meihua-yijing.html](https://prorejm.github.io/apophis-dragon-magic/meihua-yijing.html) |
+| 📊 八字排盘 | [bazi-chart.html](https://prorejm.github.io/apophis-dragon-magic/bazi-chart.html) |
+| 🔢 六爻排盘 | [liuyao-divination.html](https://prorejm.github.io/apophis-dragon-magic/liuyao-divination.html) |
+| 💭 梦境日记 | [dream-diary.html](https://prorejm.github.io/apophis-dragon-magic/dream-diary.html) |
 ## 💻 本地运行
 
 直接用浏览器打开 `index.html` 即可，无需服务器。
