@@ -125,6 +125,7 @@
 | 🔮 星占术 | [chinese-astrology-divination.html](https://prorejm.github.io/apophis-dragon-magic/chinese-astrology-divination.html) |
 | 🌿 魔法植物 | [magical-botany.html](https://prorejm.github.io/apophis-dragon-magic/magical-botany.html) |
 | 🌀 太乙神数 | [taiyi-divination.html](https://prorejm.github.io/apophis-dragon-magic/taiyi-divination.html) |
+| ⚔️ 左路魔法 | [left-hand-path.html](https://prorejm.github.io/apophis-dragon-magic/left-hand-path.html) |
 ## 💻 本地运行
 
 直接用浏览器打开 `index.html` 即可，无需服务器。

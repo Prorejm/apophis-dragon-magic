@@ -1,0 +1,2523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>左路魔法 - 阿波菲斯龙之魔法</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg2: #1a1a1a;
+  --bg3: #121212;
+  --ink: #e8e0d4;
+  --muted: #8a7e6e;
+  --accent: #c41e3a;
+  --accent2: #d4a843;
+  --gold: #d4a843;
+  --crimson: #c41e3a;
+  --rule: #2a2a2a;
+  --card-bg: #111;
+  --font: 'Noto Serif SC', 'Songti SC', serif;
+  --font-display: 'Ma Shan Zheng', cursive;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--ink);
+  line-height: 1.8;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Progress bar */
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  z-index: 1000; transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(196,30,58,0.5);
+}
+
+/* Nav */
+.nav-bar {
+  position: fixed; top: 3px; left: 0; right: 0;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  z-index: 999; padding: 0.6rem 1.5rem;
+  display: flex; align-items: center; gap: 1.2rem;
+  overflow-x: auto; scrollbar-width: none;
+}
+.nav-bar::-webkit-scrollbar { display:none; }
+.nav-brand {
+  color: var(--accent2); font-weight: 700; font-size: 0.85rem;
+  white-space: nowrap; letter-spacing: 0.1em;
+}
+.nav-link {
+  color: var(--muted); text-decoration: none; font-size: 0.8rem;
+  white-space: nowrap; padding: 0.3rem 0.6rem;
+  border-radius: 4px; transition: all 0.3s ease;
+}
+.nav-link:hover, .nav-link.active { color: var(--accent2); background: rgba(212,168,67,0.1); }
+
+/* Starfield */
+.starfield {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.star {
+  position: absolute; width: 2px; height: 2px;
+  background: var(--accent2); border-radius: 50%;
+  animation: twinkle var(--d,3s) ease-in-out infinite alternate; opacity: 0;
+}
+@keyframes twinkle { 0%{opacity:0} 50%{opacity:0.8} 100%{opacity:0} }
+
+/* Particle field */
+#particleCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* Container */
+.container {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto;
+  padding: 80px 24px 40px;
+}
+
+/* Header */
+.page-header {
+  text-align: center; padding: 40px 20px 30px;
+  border-bottom: 1px solid rgba(212,168,67,0.15); margin-bottom: 30px;
+}
+.page-header h1 {
+  font-family: var(--font-display); font-size: clamp(2rem,5vw,3.5rem);
+  color: var(--accent2); letter-spacing: 8px;
+  text-shadow: 0 0 40px rgba(212,168,67,0.2);
+}
+.page-header .subtitle {
+  font-size: 0.95rem; color: var(--muted); letter-spacing: 3px; margin-top: 8px;
+}
+.page-header .divider {
+  width: 80px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  margin: 16px auto;
+}
+
+/* Tabs */
+.tab-nav {
+  display: flex; gap: 4px; margin-bottom: 30px;
+  border-bottom: 1px solid var(--rule); overflow-x: auto;
+  scrollbar-width: none; flex-wrap: wrap;
+}
+.tab-nav::-webkit-scrollbar { display:none; }
+.tab-btn {
+  padding: 10px 18px; border: none; background: transparent;
+  color: var(--muted); font-family: var(--font); font-size: 0.85rem;
+  cursor: pointer; transition: all 0.3s; white-space: nowrap;
+  border-bottom: 2px solid transparent; letter-spacing: 1px;
+}
+.tab-btn:hover { color: var(--accent2); }
+.tab-btn.active {
+  color: var(--accent2); border-bottom-color: var(--accent2);
+  background: rgba(212,168,67,0.05);
+}
+.tab-content { display: none; animation: fadeIn 0.5s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* Cards */
+.card {
+  background: var(--card-bg); border: 1px solid var(--rule);
+  border-radius: 8px; padding: 24px; margin-bottom: 20px;
+  transition: all 0.3s;
+}
+.card:hover { border-color: rgba(212,168,67,0.2); }
+.card-title {
+  font-family: var(--font-display); font-size: 1.3rem;
+  color: var(--accent2); margin-bottom: 12px; letter-spacing: 2px;
+}
+.card-title .num { color: var(--crimson); font-family: var(--font); }
+.card-subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 12px; }
+
+/* Buttons */
+.btn {
+  display: inline-block; padding: 8px 20px; border: 1px solid var(--accent2);
+  background: transparent; color: var(--accent2); font-family: var(--font);
+  font-size: 0.85rem; cursor: pointer; transition: all 0.3s;
+  letter-spacing: 1px; border-radius: 4px; text-decoration: none;
+}
+.btn:hover { background: rgba(212,168,67,0.1); box-shadow: 0 0 20px rgba(212,168,67,0.1); }
+.btn-crimson {
+  border-color: var(--crimson); color: var(--crimson);
+}
+.btn-crimson:hover { background: rgba(196,30,58,0.1); box-shadow: 0 0 20px rgba(196,30,58,0.1); }
+.btn-sm { padding: 5px 12px; font-size: 0.8rem; }
+.btn-block { display: block; width: 100%; text-align: center; }
+
+/* Inputs */
+input, textarea, select {
+  background: var(--bg3); border: 1px solid var(--rule); color: var(--ink);
+  padding: 10px 14px; font-family: var(--font); font-size: 0.9rem;
+  border-radius: 4px; width: 100%; transition: border-color 0.3s;
+  outline: none;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--accent2); }
+textarea { resize: vertical; min-height: 80px; }
+label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; }
+.form-group { margin-bottom: 16px; }
+
+/* Grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4 { grid-template-columns: 1fr; }
+}
+
+/* Progress bar component */
+.progress-track {
+  width: 100%; height: 6px; background: var(--bg3); border-radius: 3px; margin: 8px 0; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--crimson), var(--accent2));
+  border-radius: 3px; transition: width 0.5s ease; width: 0%;
+}
+
+/* Comparison Table */
+.comp-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.comp-table th, .comp-table td {
+  padding: 12px 16px; border: 1px solid var(--rule); text-align: left; font-size: 0.9rem;
+}
+.comp-table th { background: var(--bg3); color: var(--accent2); font-weight: 700; letter-spacing: 1px; }
+.comp-table td { color: var(--ink); }
+.comp-table .lhp-cell { border-left: 3px solid var(--crimson); }
+.comp-table .rhp-cell { border-left: 3px solid var(--accent2); }
+
+/* Stats */
+.stat-row {
+  display: flex; gap: 20px; flex-wrap: wrap; margin: 16px 0;
+}
+.stat-box {
+  flex: 1; min-width: 120px; text-align: center; padding: 16px;
+  background: var(--bg3); border: 1px solid var(--rule); border-radius: 8px;
+}
+.stat-box .num { font-family: var(--font-display); font-size: 1.8rem; color: var(--accent2); }
+.stat-box .label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+/* Canvas */
+.canvas-container {
+  position: relative; width: 100%; max-width: 600px; margin: 16px auto;
+}
+.canvas-container canvas {
+  width: 100%; height: auto; border: 1px solid var(--rule);
+  border-radius: 8px; background: var(--bg3);
+}
+
+/* Collapsible cards */
+.collapsible .card-body { display: none; padding-top: 16px; }
+.collapsible.open .card-body { display: block; }
+.collapsible .card-header {
+  display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+}
+.collapsible .card-header::after {
+  content: '+'; font-size: 1.2rem; color: var(--accent2); transition: transform 0.3s;
+}
+.collapsible.open .card-header::after { content: '−'; }
+
+/* Quiz */
+.quiz-question {
+  padding: 16px; margin-bottom: 12px;
+  background: var(--bg3); border: 1px solid var(--rule); border-radius: 8px;
+}
+.quiz-question .q-text { font-size: 0.95rem; margin-bottom: 10px; }
+.quiz-option {
+  display: block; padding: 8px 12px; margin: 4px 0;
+  border: 1px solid var(--rule); border-radius: 4px; cursor: pointer;
+  transition: all 0.3s; font-size: 0.85rem;
+}
+.quiz-option:hover { border-color: var(--accent2); }
+.quiz-option.selected { border-color: var(--accent2); background: rgba(212,168,67,0.1); }
+
+/* Dragon Diagram */
+.dragon-canvas-wrap {
+  position: relative; width: 100%; max-width: 700px; margin: 20px auto;
+}
+
+/* Meditation Timer */
+.timer-display {
+  font-family: var(--font-display); font-size: 4rem; color: var(--accent2);
+  text-align: center; padding: 30px; letter-spacing: 4px;
+  text-shadow: 0 0 30px rgba(212,168,67,0.2);
+}
+.timer-controls { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.timer-presets { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+.timer-preset {
+  padding: 6px 16px; border: 1px solid var(--rule); background: transparent;
+  color: var(--muted); cursor: pointer; border-radius: 4px; font-family: var(--font);
+  font-size: 0.85rem; transition: all 0.3s;
+}
+.timer-preset:hover, .timer-preset.active { border-color: var(--accent2); color: var(--accent2); }
+
+/* Sigil Canvas */
+.sigil-tools {
+  display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0;
+}
+
+/* Journal */
+.journal-entry {
+  background: var(--bg3); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 16px; margin-bottom: 12px;
+}
+.journal-entry .entry-date { color: var(--accent2); font-size: 0.9rem; font-weight: 600; }
+.journal-entry .entry-preview { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+.journal-entry .entry-delete {
+  float: right; color: var(--crimson); cursor: pointer; font-size: 0.85rem;
+  border: none; background: none; font-family: var(--font);
+}
+
+/* Bar chart canvas */
+.chart-canvas-wrap { max-width: 500px; margin: 16px auto; }
+
+/* Scroll hints */
+.scroll-hint { text-align: center; color: var(--muted); font-size: 0.75rem; margin: 8px 0; }
+
+/* Badge */
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 3px;
+  font-size: 0.75rem; letter-spacing: 1px;
+}
+.badge-gold { background: rgba(212,168,67,0.15); color: var(--accent2); }
+.badge-red { background: rgba(196,30,58,0.15); color: var(--crimson); }
+
+/* Tag */
+.tag {
+  display: inline-block; padding: 2px 10px; margin: 2px;
+  background: var(--bg3); border: 1px solid var(--rule);
+  border-radius: 12px; font-size: 0.8rem; color: var(--muted);
+}
+
+/* Modal */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 2000; justify-content: center; align-items: center;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: var(--bg2); border: 1px solid var(--rule);
+  border-radius: 12px; padding: 30px; max-width: 500px; width: 90%;
+  max-height: 80vh; overflow-y: auto;
+}
+.modal-box h3 { font-family: var(--font-display); color: var(--accent2); margin-bottom: 16px; }
+
+/* Misc */
+.text-center { text-align: center; }
+.text-gold { color: var(--accent2); }
+.text-crimson { color: var(--crimson); }
+.text-muted { color: var(--muted); }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.flex-center { display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+.section-title {
+  font-family: var(--font-display); font-size: clamp(1.5rem,3vw,2.2rem);
+  color: var(--accent2); text-align: center; margin-bottom: 24px;
+  letter-spacing: 4px; position: relative;
+}
+.section-title::after {
+  content: ''; display: block; width: 60px; height: 2px;
+  background: linear-gradient(90deg, var(--crimson), var(--accent2));
+  margin: 12px auto 0;
+}
+
+/* 19 Practices specific */
+.practice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media(max-width:768px){ .practice-grid { grid-template-columns: 1fr; } }
+
+/* 7 Heads specific */
+.head-icon { font-size: 2rem; color: var(--accent2); text-align: center; margin-bottom: 8px; }
+.head-name { font-family: var(--font-display); font-size: 1.2rem; color: var(--crimson); letter-spacing: 2px; }
+
+/* Initiation Path */
+.path-vis { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; padding: 20px 0; }
+.path-step {
+  width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 1.1rem; color: var(--muted);
+  transition: all 0.3s; position: relative;
+}
+.path-step .step-label {
+  position: absolute; bottom: -24px; font-size: 0.7rem; color: var(--muted);
+  white-space: nowrap;
+}
+.path-step.completed { border-color: var(--accent2); color: var(--accent2); background: rgba(212,168,67,0.05); }
+.path-step.current { border-color: var(--crimson); color: var(--crimson); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(196,30,58,0.4)} 50%{box-shadow:0 0 0 10px rgba(196,30,58,0)} }
+.path-connector { width: 30px; height: 2px; background: var(--rule); }
+
+/* Score meter */
+.score-meter {
+  width: 100%; height: 20px; background: var(--bg3); border-radius: 10px;
+  overflow: hidden; margin: 12px 0; position: relative;
+}
+.score-meter-fill {
+  height: 100%; border-radius: 10px; transition: width 1s ease;
+  background: linear-gradient(90deg, var(--crimson), var(--accent2));
+}
+.score-meter-label {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  font-size: 0.75rem; color: #fff; font-weight: 600;
+}
+
+/* Tooltip */
+[data-tip] { position: relative; cursor: help; }
+[data-tip]:hover::after {
+  content: attr(data-tip); position: absolute; bottom: 120%; left: 50%;
+  transform: translateX(-50%); background: var(--bg2); color: var(--ink);
+  padding: 6px 12px; border: 1px solid var(--rule); border-radius: 4px;
+  font-size: 0.8rem; white-space: nowrap; z-index: 100;
+}
+
+/* Lunar phase */
+.lunar-display { text-align: center; padding: 20px; }
+.lunar-phase-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
+
+/* Page-specific color variants */
+.page-header .crimson-accent { color: var(--crimson); }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Nav Bar -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link active">左路魔法</a>
+</nav>
+
+<!-- Starfield -->
+<canvas id="particleCanvas"></canvas>
+
+<div class="container">
+
+  <!-- Header -->
+  <header class="page-header">
+    <h1>&#x2622; 左路魔法</h1>
+    <div class="subtitle">LEFT-HAND PATH — 自我神化的觉醒之路</div>
+    <div class="divider"></div>
+    <p style="max-width:700px;margin:12px auto 0;font-size:0.9rem;color:var(--muted);">
+      基于 Don Webb《赛特纳肯叔叔的左手路径必备指南》与 Michael Kelly《阿波菲斯》的完整修炼体系
+    </p>
+  </header>
+
+  <!-- Tab Navigation -->
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="tab1">左路哲学</button>
+    <button class="tab-btn" data-tab="tab2">十九修炼法</button>
+    <button class="tab-btn" data-tab="tab3">七首修炼</button>
+    <button class="tab-btn" data-tab="tab4">黑魔法实践</button>
+    <button class="tab-btn" data-tab="tab5">启蒙之路</button>
+    <button class="tab-btn" data-tab="tab6">仪式与冥想</button>
+    <button class="tab-btn" data-tab="tab7">魔法日记</button>
+    <button class="tab-btn" data-tab="tab8">年度盘点</button>
+  </nav>
+
+  <!-- ==================== TAB 1: 左路哲学 ==================== -->
+  <div class="tab-content active" id="tab1">
+    <h2 class="section-title">左路哲学</h2>
+
+    <!-- LHP vs RHP -->
+    <div class="card">
+      <h3 class="card-title">左路 vs 右路</h3>
+      <div style="overflow-x:auto">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th style="width:25%">维度</th>
+              <th class="lhp-cell">左路魔法 (LHP)</th>
+              <th class="rhp-cell">右路魔法 (RHP)</th>
+            </tr>
+          </thead>
+          <tbody id="lhpRhpTable">
+            <tr>
+              <td><strong>终极目标</strong></td>
+              <td>自我神化——成为独立的神</td>
+              <td>与神合一——融入宇宙秩序</td>
+            </tr>
+            <tr>
+              <td><strong>神性观</strong></td>
+              <td>神是可以成为的存在</td>
+              <td>神是应当崇拜的对象</td>
+            </tr>
+            <tr>
+              <td><strong>道德观</strong></td>
+              <td>超越善恶二元，以意志为准则</td>
+              <td>遵循既定的道德律法</td>
+            </tr>
+            <tr>
+              <td><strong>自我观</strong></td>
+              <td>自我是应当强化的核心</td>
+              <td>自我是应当消解的幻象</td>
+            </tr>
+            <tr>
+              <td><strong>社会关系</strong></td>
+              <td>个体主义，精英结构</td>
+              <td>集体主义，平等结构</td>
+            </tr>
+            <tr>
+              <td><strong>仪式目的</strong></td>
+              <td>改变自我以改变现实</td>
+              <td>与宇宙和谐以维持秩序</td>
+            </tr>
+            <tr>
+              <td><strong>时间观</strong></td>
+              <td>线性进化，永恒成为</td>
+              <td>循环回归，永恒回归</td>
+            </tr>
+            <tr>
+              <td><strong>代表人物</strong></td>
+              <td>赛特、阿波菲斯、该隐</td>
+              <td>奥西里斯、荷鲁斯、基督</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Core Principles -->
+    <div class="card">
+      <h3 class="card-title">核心原则</h3>
+      <div class="grid-2" style="margin-top:16px">
+        <div class="stat-box">
+          <div class="num" style="font-size:1rem">&#x1F30C;</div>
+          <div class="label" style="font-size:0.95rem;color:var(--ink)"><strong>自由</strong></div>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:4px">
+            绝对的自由意志——你的选择定义了你的存在。左路魔法不承认任何外在权威对个体的终极约束。
+          </p>
+        </div>
+        <div class="stat-box">
+          <div class="num" style="font-size:1rem">&#x1F4DA;</div>
+          <div class="label" style="font-size:0.95rem;color:var(--ink)"><strong>知识获取</strong></div>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:4px">
+            知识是力量的源泉。通过直接体验（灵知）获取的知识，超越书本和教条的限制。
+          </p>
+        </div>
+        <div class="stat-box">
+          <div class="num" style="font-size:1rem">&#x267B;</div>
+          <div class="label" style="font-size:0.95rem;color:var(--ink)"><strong>机会范围</strong></div>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:4px">
+            扩展你的可能性空间。每一次选择都打开新的路径，限制只存在于你的认知边界之内。
+          </p>
+        </div>
+        <div class="stat-box">
+          <div class="num" style="font-size:1rem">&#x2728;</div>
+          <div class="label" style="font-size:0.95rem;color:var(--ink)"><strong>环境之美</strong></div>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:4px">
+            在混沌与秩序之间发现美学。左路魔法师欣赏存在本身的壮丽，即使在最黑暗的角落。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="card">
+      <h3 class="card-title">历史演变</h3>
+      <div style="overflow-x:auto">
+        <table class="comp-table">
+          <thead>
+            <tr><th>时期</th><th>特征</th><th>代表</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>古典时期</strong></td><td>以埃及赛特崇拜为代表，与秩序神荷鲁斯对立</td><td>赛特教团、阿波菲斯神话</td></tr>
+            <tr><td><strong>中世纪</strong></td><td>被基督教压制，转化为巫术与异教传统</td><td>所罗门魔法、巫魔会</td></tr>
+            <tr><td><strong>启蒙时期</strong></td><td>神秘学复兴，左路概念正式形成</td><td>布拉瓦茨基、金色黎明</td></tr>
+            <tr><td><strong>现代时期</strong></td><td>制度化左路组织出现</td><td>赛特神殿（1975）、Temple of Set</td></tr>
+            <tr><td><strong>后现代/永世时期</strong></td><td>个人化实践，去中心化，数字魔法</td><td>个人体系、网络教团</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Four Political Dimensions -->
+    <div class="card">
+      <h3 class="card-title">四重政治维度</h3>
+      <div class="grid-2">
+        <div style="padding:12px;border-left:3px solid var(--crimson)">
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">内在维度</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:4px">个体心灵中的抗争——克服自身的恐惧、无知与惰性，实现自我的主权。</p>
+        </div>
+        <div style="padding:12px;border-left:3px solid var(--accent2)">
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">人际维度</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:4px">在社会关系中保持独立性，不被他人的意志所奴役或定义。</p>
+        </div>
+        <div style="padding:12px;border-left:3px solid var(--crimson)">
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">社会维度</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:4px">在集体文化中坚持个体意志，不盲目从众，创造自己的价值体系。</p>
+        </div>
+        <div style="padding:12px;border-left:3px solid var(--accent2)">
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">宇宙维度</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:4px">在宇宙秩序中宣告个体的存在意义——即使面对无限，也不退缩。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LHP Test -->
+    <div class="card">
+      <h3 class="card-title">左手路径倾向测试</h3>
+      <p class="text-muted" style="font-size:0.9rem;margin-bottom:16px">
+        回答以下10个问题，测试你的左路/右路倾向。每个问题选择最符合你的选项。
+      </p>
+      <div id="lhpTestQuestions"></div>
+      <div class="text-center mt-16">
+        <button class="btn" onclick="calculateLHPTendency()">计算我的倾向</button>
+        <button class="btn btn-crimson" onclick="resetLHPTendency()" style="margin-left:8px">重新测试</button>
+      </div>
+      <div id="lhpTestResult" style="display:none;margin-top:20px;padding:20px;background:var(--bg3);border:1px solid var(--rule);border-radius:8px;text-align:center">
+        <div id="lhpResultTitle" style="font-family:var(--font-display);font-size:1.5rem;color:var(--accent2);margin-bottom:8px"></div>
+        <div class="score-meter" style="max-width:400px;margin:12px auto">
+          <div class="score-meter-fill" id="lhpScoreFill" style="width:0%"></div>
+          <span class="score-meter-label" id="lhpScoreLabel">0% 左路</span>
+        </div>
+        <p id="lhpResultDesc" style="font-size:0.9rem;color:var(--muted);max-width:500px;margin:0 auto"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 2: 十九修炼法 ==================== -->
+  <div class="tab-content" id="tab2">
+    <h2 class="section-title">十九修炼法</h2>
+    <p class="text-center text-muted" style="font-size:0.9rem;margin-bottom:20px">
+      基于 Don Webb 的19种左手路径修炼方法，点击展开每个模块的交互练习
+    </p>
+
+    <div class="practice-grid" id="practicesContainer"></div>
+  </div>
+
+  <!-- ==================== TAB 3: 七首修炼 ==================== -->
+  <div class="tab-content" id="tab3">
+    <h2 class="section-title">七首修炼</h2>
+    <p class="text-center text-muted" style="font-size:0.9rem;margin-bottom:20px">
+      基于 Michael Kelly《阿波菲斯》的七首龙之魔法体系
+    </p>
+
+    <div class="card">
+      <h3 class="card-title">七首之龙 — 可视化</h3>
+      <p class="text-muted" style="font-size:0.85rem;margin-bottom:12px">
+        鼠标悬停在龙头查看详情 | 点击龙头切换修炼状态
+      </p>
+      <div class="dragon-canvas-wrap">
+        <canvas id="dragonCanvas" width="700" height="500"></canvas>
+      </div>
+    </div>
+
+    <div class="grid-3" id="headsContainer"></div>
+  </div>
+
+  <!-- ==================== TAB 4: 黑魔法实践 ==================== -->
+  <div class="tab-content" id="tab4">
+    <h2 class="section-title">黑魔法实践</h2>
+
+    <!-- Sigil Tool -->
+    <div class="card">
+      <h3 class="card-title">印记魔法工具</h3>
+      <p class="text-muted" style="font-size:0.85rem;margin-bottom:12px">
+        在画布上绘制你的意图印记。绘制完成后命名并保存。
+      </p>
+      <div class="sigil-tools">
+        <button class="btn btn-sm" onclick="setSigilColor('#d4a843')" style="background:#d4a843;color:#000">金</button>
+        <button class="btn btn-sm" onclick="setSigilColor('#c41e3a')" style="background:#c41e3a;color:#fff">红</button>
+        <button class="btn btn-sm" onclick="setSigilColor('#e8e0d4')" style="background:#e8e0d4;color:#000">白</button>
+        <span style="color:var(--muted);font-size:0.85rem">|</span>
+        <button class="btn btn-sm" onclick="setSigilSize(2)">细</button>
+        <button class="btn btn-sm" onclick="setSigilSize(4)">中</button>
+        <button class="btn btn-sm" onclick="setSigilSize(6)">粗</button>
+        <span style="color:var(--muted);font-size:0.85rem">|</span>
+        <button class="btn btn-sm btn-crimson" onclick="clearSigil()">清除</button>
+        <button class="btn btn-sm" onclick="saveSigil()">保存印记</button>
+      </div>
+      <div class="canvas-container">
+        <canvas id="sigilCanvas" width="500" height="400"></canvas>
+      </div>
+      <div class="form-group" style="max-width:300px">
+        <label>印记名称</label>
+        <input type="text" id="sigilName" placeholder="为你的印记命名...">
+      </div>
+      <div id="savedSigils" style="margin-top:12px">
+        <p class="text-muted" style="font-size:0.85rem">已保存印记：</p>
+        <div id="savedSigilsList" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
+      </div>
+    </div>
+
+    <!-- Spell Crafting -->
+    <div class="card">
+      <h3 class="card-title">咒语构建</h3>
+      <p class="text-muted" style="font-size:0.85rem;margin-bottom:12px">
+        组合以下元素构建你的个人咒语
+      </p>
+      <div class="grid-2">
+        <div>
+          <div class="form-group">
+            <label>意图</label>
+            <input type="text" id="spellIntent" placeholder="你的魔法意图...">
+          </div>
+          <div class="form-group">
+            <label>对应元素</label>
+            <select id="spellElement">
+              <option value="火">火 — 转化与能量</option>
+              <option value="水">水 — 情感与潜意识</option>
+              <option value="风">风 — 智慧与沟通</option>
+              <option value="土">土 — 稳定与物质</option>
+              <option value="灵">灵 — 超越与整合</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>对应行星</label>
+            <select id="spellPlanet">
+              <option value="太阳">太阳 — 成功与活力</option>
+              <option value="月亮">月亮 — 直觉与梦境</option>
+              <option value="水星">水星 — 沟通与思维</option>
+              <option value="金星">金星 — 爱与美感</option>
+              <option value="火星">火星 — 力量与冲突</option>
+              <option value="木星">木星 — 扩张与幸运</option>
+              <option value="土星">土星 — 限制与结构</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="form-group">
+            <label>仪式时间</label>
+            <select id="spellTime">
+              <option value="日出">日出 — 新的开始</option>
+              <option value="正午">正午 — 力量巅峰</option>
+              <option value="日落">日落 — 过渡与变化</option>
+              <option value="午夜">午夜 — 神秘与灵性</option>
+              <option value="月升">月升 — 直觉增强</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>蜡烛颜色</label>
+            <select id="spellCandle">
+              <option value="红色">红色 — 激情与力量</option>
+              <option value="金色">金色 — 成功与太阳</option>
+              <option value="银色">银色 — 月亮与直觉</option>
+              <option value="黑色">黑色 — 吸收与保护</option>
+              <option value="紫色">紫色 — 灵性与权力</option>
+              <option value="白色">白色 — 纯净与真理</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>香料/熏香</label>
+            <select id="spellIncense">
+              <option value="乳香">乳香 — 灵性净化</option>
+              <option value="没药">没药 — 保护与智慧</option>
+              <option value="肉桂">肉桂 — 加速与成功</option>
+              <option value="檀香">檀香 — 冥想与根基</option>
+              <option value="龙血">龙血 — 力量与保护</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-block mt-8" onclick="craftSpell()">构建咒语</button>
+      <div id="spellResult" style="display:none;margin-top:16px;padding:16px;background:var(--bg3);border:1px solid var(--rule);border-radius:8px"></div>
+    </div>
+
+    <!-- Three Knowledge Types -->
+    <div class="card">
+      <h3 class="card-title">三种知识类型</h3>
+      <div class="grid-3">
+        <div style="padding:16px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:2rem;color:var(--accent2);margin-bottom:8px">&#x1F4A1;</div>
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">信念</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:8px">
+            接受权威或传统所传授的知识。这是最初级的知识形式，但为更深层的探索奠定基础。
+          </p>
+        </div>
+        <div style="padding:16px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:2rem;color:var(--accent2);margin-bottom:8px">&#x2696;</div>
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">推理</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:8px">
+            通过逻辑分析和理性思考获得的知识。质疑一切，只接受经得起检验的真理。
+          </p>
+        </div>
+        <div style="padding:16px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:2rem;color:var(--accent2);margin-bottom:8px">&#x1F52E;</div>
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">灵知 (Gnosis)</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin-top:8px">
+            通过直接体验获得的知识。超越语言和概念的最高知识形式，是左路魔法的核心追求。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practical vs Initiation -->
+    <div class="card">
+      <h3 class="card-title">实用魔法 vs 启蒙魔法</h3>
+      <div class="grid-2">
+        <div style="padding:16px;border-left:3px solid var(--accent2);background:var(--bg3);border-radius:0 8px 8px 0">
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px;margin-bottom:8px">实用魔法</h4>
+          <p style="font-size:0.85rem;color:var(--muted)">
+            为达成具体世俗目标而施展的魔法。如获得财富、保护、爱情等。关注即时效果和可验证的结果。这是大多数初学者的切入点。
+          </p>
+        </div>
+        <div style="padding:16px;border-left:3px solid var(--crimson);background:var(--bg3);border-radius:0 8px 8px 0">
+          <h4 style="color:var(--crimson);font-family:var(--font-display);letter-spacing:2px;margin-bottom:8px">启蒙魔法</h4>
+          <p style="font-size:0.85rem;color:var(--muted)">
+            以自我转化和神化為终极目标的魔法。每一次操作都是对存在本质的探索。关注长期的精神进化，而非短期利益。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 5: 启蒙之路 ==================== -->
+  <div class="tab-content" id="tab5">
+    <h2 class="section-title">启蒙之路</h2>
+
+    <div class="card">
+      <h3 class="card-title">赛特神殿等级体系</h3>
+      <p class="text-muted" style="font-size:0.85rem;margin-bottom:16px">
+        点击各个等级查看详细描述
+      </p>
+      <div class="path-vis" id="initPathVis"></div>
+      <div id="initDegreeDetail" style="margin-top:30px;padding:20px;background:var(--bg3);border:1px solid var(--rule);border-radius:8px;text-align:center">
+        <p class="text-muted">点击上方等级查看详情</p>
+      </div>
+    </div>
+
+    <!-- Tower Gate System -->
+    <div class="card">
+      <h3 class="card-title">塔门系统</h3>
+      <p style="font-size:0.9rem;color:var(--ink);margin-bottom:12px">
+        塔门（Pylon）是赛特神殿的地方性团体组织，通常由至少三名I°及以上成员组成。每个塔门有自己的特色和专注领域，但都遵循赛特神殿的核心教义。
+      </p>
+      <div class="grid-2">
+        <div style="padding:12px;border:1px solid var(--rule);border-radius:8px">
+          <h4 style="color:var(--accent2);font-size:1rem;margin-bottom:6px">塔门功能</h4>
+          <ul style="font-size:0.85rem;color:var(--muted);padding-left:20px;line-height:2">
+            <li>地方性仪式集会</li>
+            <li>成员间的教学与交流</li>
+            <li>社区外展与信息传播</li>
+            <li>特定魔法传统的深入研究</li>
+          </ul>
+        </div>
+        <div style="padding:12px;border:1px solid var(--rule);border-radius:8px">
+          <h4 style="color:var(--accent2);font-size:1rem;margin-bottom:6px">成立条件</h4>
+          <ul style="font-size:0.85rem;color:var(--muted);padding-left:20px;line-height:2">
+            <li>至少三名I°成员</li>
+            <li>获得神殿理事会批准</li>
+            <li>明确的团体目标和章程</li>
+            <li>定期向神殿汇报活动</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order System -->
+    <div class="card">
+      <h3 class="card-title">教团系统</h3>
+      <p style="font-size:0.9rem;color:var(--ink);margin-bottom:12px">
+        教团（Order）是赛特神殿内部的专业化团体，专注于特定魔法领域或主题。
+      </p>
+      <div class="grid-3" style="margin-top:16px">
+        <div style="padding:12px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:4px">&#x1F3F3;</div>
+          <h4 style="color:var(--accent2);font-size:0.95rem">符文教团</h4>
+          <p style="font-size:0.8rem;color:var(--muted);margin-top:4px">专注北欧符文魔法</p>
+        </div>
+        <div style="padding:12px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:4px">&#x2606;</div>
+          <h4 style="color:var(--accent2);font-size:0.95rem">星体教团</h4>
+          <p style="font-size:0.8rem;color:var(--muted);margin-top:4px">专注星体投射与旅行</p>
+        </div>
+        <div style="padding:12px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:4px">&#x1F315;</div>
+          <h4 style="color:var(--accent2);font-size:0.95rem">梦境教团</h4>
+          <p style="font-size:0.8rem;color:var(--muted);margin-top:4px">专注梦境魔法与清醒梦</p>
+        </div>
+        <div style="padding:12px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:4px">&#x1F9D9;</div>
+          <h4 style="color:var(--accent2);font-size:0.95rem">巫术教团</h4>
+          <p style="font-size:0.8rem;color:var(--muted);margin-top:4px">专注传统巫术实践</p>
+        </div>
+        <div style="padding:12px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:4px">&#x1F52E;</div>
+          <h4 style="color:var(--accent2);font-size:0.95rem">灵知教团</h4>
+          <p style="font-size:0.8rem;color:var(--muted);margin-top:4px">专注灵知体验的获取</p>
+        </div>
+        <div style="padding:12px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:4px">&#x1F3AD;</div>
+          <h4 style="color:var(--accent2);font-size:0.95rem">仪式教团</h4>
+          <p style="font-size:0.8rem;color:var(--muted);margin-top:4px">专注仪式设计与执行</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 6: 仪式与冥想 ==================== -->
+  <div class="tab-content" id="tab6">
+    <h2 class="section-title">仪式与冥想</h2>
+
+    <!-- Timer -->
+    <div class="card">
+      <h3 class="card-title">冥想计时器</h3>
+      <div class="timer-presets">
+        <button class="timer-preset active" onclick="setTimer(5,this)">5分钟</button>
+        <button class="timer-preset" onclick="setTimer(10,this)">10分钟</button>
+        <button class="timer-preset" onclick="setTimer(15,this)">15分钟</button>
+        <button class="timer-preset" onclick="setTimer(20,this)">20分钟</button>
+        <button class="timer-preset" onclick="setTimer(30,this)">30分钟</button>
+      </div>
+      <div class="timer-display" id="timerDisplay">05:00</div>
+      <div class="timer-controls">
+        <button class="btn" id="timerStartBtn" onclick="startTimer()">&#x25B6; 开始</button>
+        <button class="btn btn-crimson" onclick="resetTimer()">&#x21BA; 重置</button>
+      </div>
+      <div class="form-group" style="max-width:200px;margin:12px auto">
+        <label>自定义分钟</label>
+        <input type="number" id="timerCustom" value="5" min="1" max="120">
+      </div>
+    </div>
+
+    <!-- Meditation Modes -->
+    <div class="card">
+      <h3 class="card-title">冥想模式</h3>
+      <div class="grid-3">
+        <div style="padding:16px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:2rem;color:var(--accent2);margin-bottom:8px">&#x1F31F;</div>
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">Xeper 聚焦</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin:8px 0">
+            聚焦于"成为"（Xeper）的本质——体验自我在当下的完全存在。
+          </p>
+          <button class="btn btn-sm" onclick="setMeditationMode('xeper')">选择此模式</button>
+        </div>
+        <div style="padding:16px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:2rem;color:var(--accent2);margin-bottom:8px">&#x2728;</div>
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">灵知觉醒</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin:8px 0">
+            通过深度冥想进入灵知状态，体验超越语言的知识。
+          </p>
+          <button class="btn btn-sm" onclick="setMeditationMode('gnosis')">选择此模式</button>
+        </div>
+        <div style="padding:16px;border:1px solid var(--rule);border-radius:8px;text-align:center">
+          <div style="font-size:2rem;color:var(--accent2);margin-bottom:8px">&#x1F30C;</div>
+          <h4 style="color:var(--accent2);font-family:var(--font-display);letter-spacing:2px">虚空可视化</h4>
+          <p style="font-size:0.85rem;color:var(--muted);margin:8px 0">
+            可视化自身融入虚空——混沌的原始状态，从中汲取力量。
+          </p>
+          <button class="btn btn-sm" onclick="setMeditationMode('void')">选择此模式</button>
+        </div>
+      </div>
+      <div id="medModeStatus" class="text-center text-muted mt-8" style="font-size:0.9rem">
+        当前模式：Xeper 聚焦
+      </div>
+    </div>
+
+    <!-- Lunar Phase -->
+    <div class="card">
+      <h3 class="card-title">月相计算器</h3>
+      <p class="text-muted" style="font-size:0.85rem;margin-bottom:12px">
+        选择日期查询对应月相及其仪式建议
+      </p>
+      <div class="grid-2">
+        <div class="form-group">
+          <label>选择日期</label>
+          <input type="date" id="lunarDate">
+        </div>
+        <div class="form-group">
+          <button class="btn" onclick="calcLunarPhase()" style="margin-top:24px">查询月相</button>
+        </div>
+      </div>
+      <div id="lunarResult" class="lunar-display" style="display:none">
+        <span class="lunar-phase-icon" id="lunarIcon">&#x1F311;</span>
+        <div id="lunarPhaseName" style="font-family:var(--font-display);font-size:1.3rem;color:var(--accent2)"></div>
+        <div id="lunarPhaseDesc" style="font-size:0.85rem;color:var(--muted);margin-top:8px"></div>
+      </div>
+    </div>
+
+    <!-- Correspondences -->
+    <div class="card">
+      <h3 class="card-title">熏香与蜡烛对应表</h3>
+      <div style="overflow-x:auto">
+        <table class="comp-table">
+          <thead>
+            <tr><th>目的</th><th>蜡烛颜色</th><th>熏香</th><th>最佳时间</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>保护</td><td>黑色</td><td>龙血</td><td>新月</td></tr>
+            <tr><td>财富</td><td>金色</td><td>肉桂</td><td>盈月</td></tr>
+            <tr><td>爱情</td><td>红色</td><td>玫瑰</td><td>满月</td></tr>
+            <tr><td>智慧</td><td>紫色</td><td>没药</td><td>亏月</td></tr>
+            <tr><td>净化</td><td>白色</td><td>乳香</td><td>新月</td></tr>
+            <tr><td>力量</td><td>红色</td><td>檀香</td><td>满月</td></tr>
+            <tr><td>灵性</td><td>银色</td><td>乳香+没药</td><td>暗月</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 7: 魔法日记 ==================== -->
+  <div class="tab-content" id="tab7">
+    <h2 class="section-title">魔法日记</h2>
+
+    <div class="stat-row" id="diaryStats">
+      <div class="stat-box">
+        <div class="num" id="diaryTotalCount">0</div>
+        <div class="label">总日记数</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="diaryStreak">0</div>
+        <div class="label">连续天数</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="diaryMonthlyCount">0</div>
+        <div class="label">本月记录</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">撰写新日记</h3>
+      <form id="diaryForm" onsubmit="saveDiaryEntry(event)">
+        <div class="grid-2">
+          <div class="form-group">
+            <label>日期</label>
+            <input type="date" id="diaryDate" required>
+          </div>
+          <div class="form-group">
+            <label>月相</label>
+            <select id="diaryMoon">
+              <option value="新月">新月</option>
+              <option value="蛾眉月">蛾眉月</option>
+              <option value="上弦月">上弦月</option>
+              <option value="盈凸月">盈凸月</option>
+              <option value="满月">满月</option>
+              <option value="亏凸月">亏凸月</option>
+              <option value="下弦月">下弦月</option>
+              <option value="残月">残月</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>今日行动（目标进展）</label>
+          <textarea id="diaryActions" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>最佳洞察/突破</label>
+          <textarea id="diaryInsight" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>消除坏习惯的步骤</label>
+          <textarea id="diaryBadHabits" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>下一步计划</label>
+          <textarea id="diaryNextActions" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>魔法操作记录</label>
+          <textarea id="diaryMagicalOps" rows="2" placeholder="今天进行了哪些魔法操作？"></textarea>
+        </div>
+        <div class="form-group">
+          <label>梦境记录</label>
+          <textarea id="diaryDreams" rows="3" placeholder="记录今早的梦境..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-block">&#x1F4DD; 保存日记</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <h3 class="card-title" style="margin-bottom:0">日记历史</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="date" id="diarySearchDate" style="width:160px;font-size:0.8rem;padding:6px 10px">
+          <button class="btn btn-sm" onclick="searchDiaryByDate()">搜索</button>
+          <button class="btn btn-sm btn-crimson" onclick="clearDiarySearch()">显示全部</button>
+          <button class="btn btn-sm" onclick="exportDiary()">导出</button>
+        </div>
+      </div>
+      <div id="diaryEntriesList" style="margin-top:16px"></div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 8: 年度盘点 ==================== -->
+  <div class="tab-content" id="tab8">
+    <h2 class="section-title">年度盘点</h2>
+    <p class="text-center text-muted" style="font-size:0.9rem;margin-bottom:20px">
+      基于 Don Webb 修炼法 VIII 的年终回顾工具
+    </p>
+
+    <div class="card">
+      <h3 class="card-title">选择年份</h3>
+      <div class="form-group" style="max-width:200px">
+        <select id="reviewYear"></select>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">年度回顾</h3>
+      <form id="reviewForm" onsubmit="saveAnnualReview(event)">
+        <div class="form-group">
+          <label>年度成就（列出本年最重要的成就）</label>
+          <textarea id="reviewAchievements" rows="4" placeholder="详细记录你在今年取得的成就..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>失败与教训</label>
+          <textarea id="reviewFailures" rows="4" placeholder="坦诚面对今年的失败及其带来的教训..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>关键洞察</label>
+          <textarea id="reviewInsights" rows="4" placeholder="今年最重要的觉醒和领悟..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>明年计划</label>
+          <textarea id="reviewNextPlan" rows="4" placeholder="为明年设定的目标和计划..."></textarea>
+        </div>
+        <div class="grid-4">
+          <div class="form-group">
+            <label>修炼完成度 (%)</label>
+            <input type="number" id="reviewProgress" min="0" max="100" value="0">
+          </div>
+          <div class="form-group">
+            <label>阅读书籍数</label>
+            <input type="number" id="reviewBooks" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>仪式次数</label>
+            <input type="number" id="reviewRituals" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label>冥想小时数</label>
+            <input type="number" id="reviewMeditation" min="0" value="0" step="0.5">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-block mt-8">保存年度盘点</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">历年进度图表</h3>
+      <div class="chart-canvas-wrap">
+        <canvas id="progressChart" width="500" height="300"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">已保存的盘点</h3>
+      <div id="reviewEntriesList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// INITIALIZATION
+// ============================================================
+document.addEventListener('DOMContentLoaded', function(){
+  initStarfield();
+  initParticles();
+  initTabs();
+  initLHPTTest();
+  initPractices();
+  initHeads();
+  initSigilCanvas();
+  initPathVis();
+  initTimer();
+  initDiary();
+  initReview();
+  initLunar();
+  setDefaultDate();
+  window.addEventListener('scroll', updateProgressBar);
+  updateProgressBar();
+});
+
+function setDefaultDate(){
+  var d = document.getElementById('diaryDate');
+  if(d){ d.value = new Date().toISOString().split('T')[0]; }
+}
+
+// ============================================================
+// PROGRESS BAR
+// ============================================================
+function updateProgressBar(){
+  var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+// ============================================================
+// STARFIELD (Canvas Particles)
+// ============================================================
+function initParticles(){
+  var canvas = document.getElementById('particleCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var stars = [];
+  var count = 100;
+  var w, h;
+
+  function resize(){
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for(var i=0; i<count; i++){
+    stars.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 1.5 + 0.3,
+      dx: (Math.random() - 0.5) * 0.15,
+      dy: (Math.random() - 0.5) * 0.15,
+      o: Math.random() * 0.8 + 0.2,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0, 0, w, h);
+    var time = Date.now() / 1000;
+    for(var i=0; i<stars.length; i++){
+      var s = stars[i];
+      s.x += s.dx;
+      s.y += s.dy;
+      if(s.x < 0) s.x = w;
+      if(s.x > w) s.x = 0;
+      if(s.y < 0) s.y = h;
+      if(s.y > h) s.y = 0;
+      var alpha = s.o * (0.6 + 0.4 * Math.sin(time + s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(212, 168, 67, ' + alpha + ')';
+      ctx.fill();
+    }
+    // connections
+    for(var i=0; i<stars.length; i++){
+      for(var j=i+1; j<stars.length; j++){
+        var dx = stars[i].x - stars[j].x;
+        var dy = stars[i].y - stars[j].y;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 150){
+          ctx.beginPath();
+          ctx.moveTo(stars[i].x, stars[i].y);
+          ctx.lineTo(stars[j].x, stars[j].y);
+          ctx.strokeStyle = 'rgba(212, 168, 67, ' + (0.08 * (1 - dist/150)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function initTabs(){
+  var btns = document.querySelectorAll('.tab-btn');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var tabId = this.getAttribute('data-tab');
+      document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+      this.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+      updateProgressBar();
+      // Redraw canvases if needed
+      if(tabId === 'tab3') drawDragon();
+      if(tabId === 'tab8') drawProgressChart();
+    });
+  });
+}
+
+// ============================================================
+// STARFIELD (CSS) - initializes CSS star field
+// ============================================================
+function initStarfield(){
+  var container = document.querySelector('.starfield') || document.body;
+  for(var i=0; i<60; i++){
+    var star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--duration', (2 + Math.random() * 4) + 's');
+    star.style.animationDelay = Math.random() * 5 + 's';
+    star.style.width = (1 + Math.random() * 2) + 'px';
+    star.style.height = star.style.width;
+    container.appendChild(star);
+   }
+ }
+
+// ============================================================
+// LHP TEST (Tab 1)
+// ============================================================
+var lhpTestData = [
+  { q:'你如何看待"命运"这个概念？', opts:[
+    {t:'命运是不存在的，我自己创造一切', s:2},
+    {t:'命运是框架，但在框架内我可以自由选择', s:1},
+    {t:'命运是宇宙的安排，我应当顺应它', s:0},
+    {t:'命运是对无知者的安慰', s:2}
+  ]},
+  { q:'在团体中，你通常扮演什么角色？', opts:[
+    {t:'领导者或独立行动者', s:2},
+    {t:'积极参与者，但保持独立性', s:1},
+    {t:'团队合作者，重视和谐', s:0},
+    {t:'旁观者，不喜欢被约束', s:2}
+  ]},
+  { q:'你对传统道德规范的态度是？', opts:[
+    {t:'完全超越，以自己的意志为准则', s:2},
+    {t:'选择性遵守，根据情况判断', s:1},
+    {t:'基本遵守，认为道德是社会基石', s:0},
+    {t:'质疑一切，重建自己的道德体系', s:2}
+  ]},
+  { q:'你对"自我"的理解是？', opts:[
+    {t:'自我是应当不断强化的核心', s:2},
+    {t:'自我需要平衡发展与超越', s:1},
+    {t:'自我是幻象，应当超越', s:0},
+    {t:'自我是工具，用于达成目标', s:2}
+  ]},
+  { q:'你对权威（宗教、政府、传统）的态度？', opts:[
+    {t:'拒绝一切外在权威', s:2},
+    {t:'只接受经过理性检验的权威', s:1},
+    {t:'尊重合理的权威体系', s:0},
+    {t:'权威是可以利用的资源', s:2}
+  ]},
+  { q:'你在面对禁忌时的反应是？', opts:[
+    {t:'主动探索禁忌，突破界限', s:2},
+    {t:'谨慎试探，评估后果', s:1},
+    {t:'尊重禁忌的存在意义', s:0},
+    {t:'无视禁忌，只关注自己的目标', s:2}
+  ]},
+  { q:'你如何看待痛苦和挑战？', opts:[
+    {t:'痛苦的磨砺是自我强大的必要途径', s:2},
+    {t:'适度的挑战有助于成长', s:1},
+    {t:'应当尽量减少痛苦，追求平和', s:0},
+    {t:'拥抱痛苦，它是觉醒的催化剂', s:2}
+  ]},
+  { q:'你对"力量"的理解是？', opts:[
+    {t:'力量是个体意志的体现，应当追求', s:2},
+    {t:'力量需要与智慧平衡', s:1},
+    {t:'真正的力量来自放下自我', s:0},
+    {t:'力量是达成目标的工具', s:2}
+  ]},
+  { q:'你如何看待死亡？', opts:[
+    {t:'死亡是最终的挑战，可以被超越', s:2},
+    {t:'死亡是自然规律，应当接受', s:1},
+    {t:'死亡是回归整体的一部分', s:0},
+    {t:'死亡是转变，不是终结', s:2}
+  ]},
+  { q:'你追求的人生终极目标是？', opts:[
+    {t:'成为自己命运的主宰，自我神化', s:2},
+    {t:'在世界上留下自己的印记', s:1},
+    {t:'与宇宙和谐共存，达到内心平静', s:0},
+    {t:'突破一切限制，体验存在的极致', s:2}
+  ]}
+];
+
+function initLHPTTest(){
+  var container = document.getElementById('lhpTestQuestions');
+  if(!container) return;
+  var html = '';
+  for(var i=0; i<lhpTestData.length; i++){
+    html += '<div class="quiz-question" data-q="' + i + '">';
+    html += '<div class="q-text"><strong>' + (i+1) + '.</strong> ' + lhpTestData[i].q + '</div>';
+    for(var j=0; j<lhpTestData[i].opts.length; j++){
+      html += '<div class="quiz-option" data-q="' + i + '" data-o="' + j + '" onclick="selectLHPOption(' + i + ',' + j + ')">' + lhpTestData[i].opts[j].t + '</div>';
+    }
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function selectLHPOption(qIdx, oIdx){
+  var opts = document.querySelectorAll('.quiz-question[data-q="' + qIdx + '"] .quiz-option');
+  opts.forEach(function(o){ o.classList.remove('selected'); });
+  opts[oIdx].classList.add('selected');
+}
+
+function calculateLHPTendency(){
+  var total = 0;
+  var answered = 0;
+  for(var i=0; i<lhpTestData.length; i++){
+    var selected = document.querySelector('.quiz-question[data-q="' + i + '"] .quiz-option.selected');
+    if(selected){
+      var oIdx = parseInt(selected.getAttribute('data-o'));
+      total += lhpTestData[i].opts[oIdx].s;
+      answered++;
+    }
+  }
+  if(answered < 10){
+    alert('请回答所有10个问题后再计算。已回答：' + answered + '/10');
+    return;
+  }
+  var maxScore = 20;
+  var pct = (total / maxScore) * 100;
+  var result = document.getElementById('lhpTestResult');
+  var title = document.getElementById('lhpResultTitle');
+  var fill = document.getElementById('lhpScoreFill');
+  var label = document.getElementById('lhpScoreLabel');
+  var desc = document.getElementById('lhpResultDesc');
+
+  result.style.display = 'block';
+  fill.style.width = pct + '%';
+  label.textContent = Math.round(pct) + '% 左路倾向';
+
+  if(pct >= 75){
+    title.textContent = '坚定的左路行者 (LHP)';
+    desc.textContent = '你具有强烈的左路魔法倾向。你追求自我主权、个体意志的绝对表达，不畏惧突破界限和挑战权威。你的道路是成为自己的神——这正是左路魔法的核心精神。建议深入学习 Don Webb 的十九修炼法。';
+  } else if(pct >= 50){
+    title.textContent = '左路倾向者';
+    desc.textContent = '你具有明显的左路倾向，但仍然保留了部分右路思维。你在个体主义和集体价值之间寻求平衡。建议探索左路魔法的核心实践，找到最适合自己的道路。';
+  } else if(pct >= 25){
+    title.textContent = '右路倾向者';
+    desc.textContent = '你的思维更偏向右路路径。你重视和谐、秩序和传统价值。但这并不意味着你与左路无缘——左路魔法也欢迎那些希望通过自我超越来探索未知的勇者。';
+  } else {
+    title.textContent = '坚定的右路行者 (RHP)';
+    desc.textContent = '你具有强烈的右路倾向。你追求与宇宙的和谐统一，尊重传统和秩序。左路魔法对你来说可能是一个有趣的了解对象，但并非你的本性之道。';
+  }
+}
+
+function resetLHPTendency(){
+  document.querySelectorAll('.quiz-option').forEach(function(o){ o.classList.remove('selected'); });
+  document.getElementById('lhpTestResult').style.display = 'none';
+}
+
+// ============================================================
+// 19 PRACTICES (Tab 2)
+// ============================================================
+var practicesData = [
+  { id:1, name:'日记修炼', desc:'每日记录思想、感受和魔法体验。培养自我觉知和反思能力。',
+    icon:'&#x1F4D3;', guide:'写日记是左路魔法的基础。每天花15分钟记录：你今天做了什么？学到了什么？感受到了什么？你的目标是什么？保持诚实和深入。',
+    action:'prompt', prompt:'今天你最大的自我发现是什么？写下至少100字。' },
+  { id:2, name:'身体修炼', desc:'通过抗毒素饮食、规律运动和死亡日期计算来强化肉身载体。',
+    icon:'&#x1F4AA;', guide:'身体是意志的庙宇。包括：1)抗毒素饮食——减少加工食品；2)规律运动——每周至少3次；3)死亡日期冥想——面对自身有限性。',
+    action:'interactive', 
+    fields:[
+      {id:'diet_tracker', label:'今日饮食记录', type:'text'},
+      {id:'exercise_today', label:'今日运动（分钟）', type:'number'},
+      {id:'death_date', label:'你的预期寿命年龄', type:'number', placeholder:'如：85'}
+    ] },
+  { id:3, name:'掌握传统魔法', desc:'学习一个或多个传统魔法体系，如所罗门魔法、赫尔墨斯主义等。',
+    icon:'&#x1F52E;', guide:'选择一门传统魔法体系系统学习。推荐：所罗门的大钥匙、金色黎明体系、泰勒玛魔法。每个体系都提供了完整的宇宙观和实践方法。',
+    action:'selector',
+    options:[
+      {v:'所罗门魔法', label:'所罗门魔法'},
+      {v:'赫尔墨斯主义', label:'赫尔墨斯主义'},
+      {v:'金色黎明', label:'金色黎明体系'},
+      {v:'泰勒玛', label:'泰勒玛魔法'},
+      {v:'诺斯替主义', label:'诺斯替主义'}
+    ] },
+  { id:4, name:'创建个人体系', desc:'在掌握传统体系后，创造属于你自己的魔法系统。',
+    icon:'&#x1F3AD;', guide:'这是左路魔法的核心——成为一个独立的魔法师。融合你学到的各个体系的精华，去除不适合你的部分，创造属于你自己的符号、仪式和世界观。',
+    action:'text', prompt:'描述你个人魔法体系的核心原则和独特之处：' },
+  { id:5, name:'撰写魔法自传', desc:'撰写《自由之书》和《秘密之书》——记录你的魔法旅程。',
+    icon:'&#x1F4D6;', guide:'自由之书记录你的成就和突破；秘密之书记录你最深处的洞见和力量。这两本书是自我神化的见证。',
+    action:'dual_text',
+    prompts:[
+      {id:'book_freedom', label:'《自由之书》——你的成就与突破', placeholder:'写下你最重要的成就...'},
+      {id:'book_secrets', label:'《秘密之书》——你的内在力量', placeholder:'记录你最深的洞见...'}
+    ] },
+  { id:6, name:'建立魔法关系', desc:'与其他左路行者建立有意义的魔法联系和盟约。',
+    icon:'&#x1F91D;', guide:'寻找志同道合的同行者。左路魔法不意味着孤独——有意义的魔法盟约可以加速双方的成长。注意选择真正理解左路本质的伙伴。',
+    action:'text', prompt:'描述你理想中的魔法盟约关系：' },
+  { id:7, name:'仪式精通', desc:'掌握仪式魔法的核心技巧，包括圈、召唤和驱逐。',
+    icon:'&#x1F9D9;', guide:'仪式是意志的集中表达。学习：1)正确绘制魔法圈；2)召唤与驱逐仪式；3)仪式工具的制作与净化。每周至少进行一次完整仪式。',
+    action:'counter', label:'已完成仪式次数', max:100 },
+  { id:8, name:'年度盘点', desc:'每年进行全面的自我评估和下一年的规划。',
+    icon:'&#x1F4CA;', guide:'年终回顾是左路魔法师最重要的习惯之一。回顾成就、失败和学到教训，为来年设定新的目标。这也是调整个人魔法的关键时刻。',
+    action:'link', target:'tab8', linkText:'前往年度盘点工具 >>' },
+  { id:9, name:'沉默修炼', desc:'定期保持沉默，在静默中聆听内在的声音。',
+    icon:'&#x1F507;', guide:'沉默是力量的蓄积。每周至少安排一天的部分时间保持完全沉默。不说话、不书写、不阅读。纯粹地存在于当下，观察内在的流动。',
+    action:'counter', label:'已完成沉默修炼天数', max:365 },
+  { id:10, name:'梦境工作', desc:'记录和分析梦境，发展清醒梦能力。',
+    icon:'&#x1F31C;', guide:'梦境是潜意识的门户。每天早晨记录梦境，寻找其中的符号和讯息。通过现实检查练习发展清醒梦能力。在清醒梦中可以进行强大的魔法操作。',
+    action:'text', prompt:'记录你最近的梦境并分析其象征意义：' },
+  { id:11, name:'元素平衡', desc:'调和体内四大元素（火水风土），达到内在平衡。',
+    icon:'&#x1F3F4;', guide:'每个元素代表一种能量：火=意志与转化，水=情感与直觉，风=智慧与沟通，土=稳定与物质。通过对应的仪式和冥想保持元素平衡。',
+    action:'selector',
+    options:[
+      {v:'火', label:'火元素强化——能量与意志'},
+      {v:'水', label:'水元素强化——情感与直觉'},
+      {v:'风', label:'风元素强化——智慧与思维'},
+      {v:'土', label:'土元素强化——稳定与根基'}
+    ] },
+  { id:12, name:'星体投射', desc:'学习有意识地离开肉身，在星体层面探索和操作。',
+    icon:'&#x2606;', guide:'星体投射是意识脱离肉体的技术。在深度放松状态下，可视化自己离开身体。先从小范围探索开始，逐步扩展到更远的星体层面。',
+    action:'counter', label:'成功投射次数', max:100 },
+  { id:13, name:'时间感知', desc:'训练对时间的不同感知方式，扩展意识的时间维度。',
+    icon:'&#x23F0;', guide:'时间不是线性的。通过深度冥想体验"当下"的永恒性。练习回溯过去和预知未来的能力。记录时间感知异常的经历。',
+    action:'text', prompt:'描述你最近一次时间感知异常的经历：' },
+  { id:14, name:'阴影整合', desc:'面对和整合自身的阴影面——被压抑的部分自我。',
+    icon:'&#x1F464;', guide:'阴影是未被承认的自我部分。通过冥想、仪式和艺术表达与阴影对话。目标是整合而非消除——让阴影成为力量的源泉。',
+    action:'text', prompt:'你发现自己的哪些阴影面？准备如何整合它们？' },
+  { id:15, name:'语言力量', desc:'探索魔法语言的威力，包括咒语、真言和语言创造。',
+    icon:'&#x1F4AC;', guide:'语言是创造的工貝。学习使用咒语和真言来聚焦意志。高级阶段可以创造属于你自己的魔法语言——这是个人力量的最高表达之一。',
+    action:'text', prompt:'创造一句属于你的力量宣言（咒语）：' },
+  { id:16, name:'自然连接', desc:'与自然界建立深层连接，从自然中汲取力量。',
+    icon:'&#x1F33F;', guide:'自然是力量的源泉之一。定期在自然中行走、冥想。学习植物和动物的魔法属性。在自然中寻找对应你内在状态的象征。',
+    action:'text', prompt:'描述你在自然中的一次强大体验：' },
+  { id:17, name:'能量工作', desc:'学习和操控微细能量（气/生命能量），用于治疗和强化。',
+    icon:'&#x1F4A0;', guide:'能量是所有魔法操作的基础。学习感知、引导和储存能量的技术。练习能量自我治疗、充能物体和空间净化。',
+    action:'counter', label:'能量工作练习次数', max:100 },
+  { id:18, name:'历史研究', desc:'深入研究魔法史和左路传统的历史根源。',
+    icon:'&#x1F4DA;', guide:'理解历史是理解力量的基础。研究：古埃及赛特崇拜、中世纪巫术、文艺复兴魔法、现代左路组织。每个时期的左路实践都有独特的智慧。',
+    action:'selector',
+    options:[
+      {v:'古埃及', label:'古埃及赛特与阿波菲斯'},
+      {v:'中世纪', label:'中世纪巫术传统'},
+      {v:'文艺复兴', label:'文艺复兴魔法'},
+      {v:'现代', label:'现代左路组织'}
+    ] },
+  { id:19, name:'终极修炼', desc:'整合以上所有修炼，达到自我神化的最终阶段。',
+    icon:'&#x2727;', guide:'这是所有修炼的顶峰。在前18项修炼的基础上，创造出属于你自己的终极仪式。这个仪式宣告你作为独立神祇的诞生。没有固定的方法——因为这是你个人的独特表达。',
+    action:'text', prompt:'描述你设想的自我神化仪式：' }
+];
+
+function initPractices(){
+  var container = document.getElementById('practicesContainer');
+  if(!container) return;
+  var html = '';
+  for(var i=0; i<practicesData.length; i++){
+    var p = practicesData[i];
+    html += '<div class="card collapsible" id="practice-' + p.id + '">';
+    html += '<div class="card-header" onclick="togglePractice(' + p.id + ')">';
+    html += '<div><span class="num" style="color:var(--crimson);font-size:0.9rem">修炼 ' + p.id + '</span> ';
+    html += '<span class="card-title" style="font-size:1.1rem">' + p.icon + ' ' + p.name + '</span></div>';
+    html += '</div>';
+    html += '<div class="card-body">';
+    html += '<p class="text-muted" style="font-size:0.9rem">' + p.desc + '</p>';
+    html += '<div style="padding:12px;background:var(--bg3);border-left:3px solid var(--accent2);margin:12px 0;border-radius:0 4px 4px 0">';
+    html += '<p style="font-size:0.85rem;color:var(--ink)">' + p.guide + '</p></div>';
+    html += '<div id="practiceContent-' + p.id + '"></div>';
+    html += '<div class="progress-track" style="margin-top:12px"><div class="progress-fill" id="practiceProgress-' + p.id + '" style="width:0%"></div></div>';
+    html += '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">';
+    html += '<button class="btn btn-sm" onclick="updatePracticeProgress(' + p.id + ',10)">+10%</button>';
+    html += '<button class="btn btn-sm" onclick="updatePracticeProgress(' + p.id + ',25)">+25%</button>';
+    html += '<button class="btn btn-sm btn-crimson" onclick="updatePracticeProgress(' + p.id + ',-10)">-10%</button>';
+    html += '<span style="color:var(--muted);font-size:0.85rem;margin-left:auto" id="practicePct-' + p.id + '">0%</span>';
+    html += '</div></div></div>';
+  }
+  container.innerHTML = html;
+
+  // Load saved progress and content
+  for(var i=0; i<practicesData.length; i++){
+    var p = practicesData[i];
+    var saved = JSON.parse(localStorage.getItem('practice_' + p.id) || '{}');
+    if(saved.progress) {
+      document.getElementById('practiceProgress-' + p.id).style.width = saved.progress + '%';
+      document.getElementById('practicePct-' + p.id).textContent = saved.progress + '%';
+    }
+    renderPracticeContent(p);
+    if(saved.open) document.getElementById('practice-' + p.id).classList.add('open');
+  }
+}
+
+function togglePractice(id){
+  var el = document.getElementById('practice-' + id);
+  el.classList.toggle('open');
+  var saved = JSON.parse(localStorage.getItem('practice_' + id) || '{}');
+  saved.open = el.classList.contains('open');
+  localStorage.setItem('practice_' + id, JSON.stringify(saved));
+  setTimeout(function(){ updateProgressBar(); }, 100);
+}
+
+function renderPracticeContent(p){
+  var container = document.getElementById('practiceContent-' + p.id);
+  if(!container) return;
+  var saved = JSON.parse(localStorage.getItem('practice_' + p.id) || '{}');
+  var html = '';
+  if(p.action === 'prompt'){
+    html += '<div class="form-group"><label for="ptext-' + p.id + '">' + p.prompt + '</label>';
+    html += '<textarea id="ptext-' + p.id + '" rows="3">' + (saved.text || '') + '</textarea></div>';
+    html += '<button class="btn btn-sm" onclick="savePracticeText(' + p.id + ')">保存记录</button>';
+  } else if(p.action === 'interactive' && p.fields){
+    for(var f=0; f<p.fields.length; f++){
+      var field = p.fields[f];
+      html += '<div class="form-group"><label for="pfield-' + p.id + '-' + field.id + '">' + field.label + '</label>';
+      var val = (saved.fields && saved.fields[field.id]) || '';
+      if(field.type === 'text'){
+        html += '<input type="text" id="pfield-' + p.id + '-' + field.id + '" value="' + val + '" placeholder="' + (field.placeholder||'') + '">';
+      } else if(field.type === 'number'){
+        html += '<input type="number" id="pfield-' + p.id + '-' + field.id + '" value="' + (val||'0') + '" placeholder="' + (field.placeholder||'') + '">';
+      }
+      html += '</div>';
+    }
+    html += '<button class="btn btn-sm" onclick="savePracticeFields(' + p.id + ')">保存</button>';
+  } else if(p.action === 'selector' && p.options){
+    html += '<div class="form-group"><label>选择体系：</label><select id="psel-' + p.id + '">';
+    for(var o=0; o<p.options.length; o++){
+      html += '<option value="' + p.options[o].v + '" ' + (saved.selected === p.options[o].v ? 'selected' : '') + '>' + p.options[o].label + '</option>';
+    }
+    html += '</select></div>';
+    html += '<button class="btn btn-sm" onclick="savePracticeSelect(' + p.id + ')">确认选择</button>';
+    if(saved.selected) html += '<p class="text-muted mt-8" style="font-size:0.85rem">当前专注：<span class="badge badge-gold">' + saved.selected + '</span></p>';
+  } else if(p.action === 'text'){
+    html += '<div class="form-group"><label>' + p.prompt + '</label>';
+    html += '<textarea id="ptext-' + p.id + '" rows="3">' + (saved.text || '') + '</textarea></div>';
+    html += '<button class="btn btn-sm" onclick="savePracticeText(' + p.id + ')">保存</button>';
+  } else if(p.action === 'dual_text'){
+    for(var d=0; d<p.prompts.length; d++){
+      html += '<div class="form-group"><label for="pdual-' + p.id + '-' + d + '">' + p.prompts[d].label + '</label>';
+      html += '<textarea id="pdual-' + p.id + '-' + d + '" rows="3" placeholder="' + (p.prompts[d].placeholder||'') + '">' + ((saved.dual && saved.dual[d]) || '') + '</textarea></div>';
+    }
+    html += '<button class="btn btn-sm" onclick="savePracticeDual(' + p.id + ')">保存</button>';
+  } else if(p.action === 'counter'){
+    html += '<div class="flex-center" style="justify-content:flex-start">';
+    html += '<button class="btn btn-sm" onclick="practiceCounter(' + p.id + ',false)">-1</button>';
+    html += '<span style="color:var(--accent2);font-size:1.2rem;margin:0 12px" id="pcounter-' + p.id + '">' + (saved.counter || 0) + '</span>';
+    html += '<button class="btn btn-sm" onclick="practiceCounter(' + p.id + ',true)">+1</button>';
+    html += '<span class="text-muted" style="font-size:0.85rem;margin-left:8px">/ ' + p.max + '</span>';
+    html += '</div>';
+  } else if(p.action === 'link'){
+    html += '<button class="btn btn-sm" onclick="switchToTab(\'' + p.target + '\')">' + p.linkText + '</button>';
+  }
+  container.innerHTML = html;
+}
+
+function savePracticeText(id){
+  var val = document.getElementById('ptext-' + id).value;
+  var saved = JSON.parse(localStorage.getItem('practice_' + id) || '{}');
+  saved.text = val;
+  localStorage.setItem('practice_' + id, JSON.stringify(saved));
+  alert('已保存！');
+}
+
+function savePracticeFields(id){
+  var p = practicesData.find(function(x){ return x.id === id; });
+  if(!p || !p.fields) return;
+  var saved = JSON.parse(localStorage.getItem('practice_' + id) || '{}');
+  if(!saved.fields) saved.fields = {};
+  for(var f=0; f<p.fields.length; f++){
+    var el = document.getElementById('pfield-' + id + '-' + p.fields[f].id);
+    if(el) saved.fields[p.fields[f].id] = el.value;
+  }
+  localStorage.setItem('practice_' + id, JSON.stringify(saved));
+  alert('已保存！');
+}
+
+function savePracticeSelect(id){
+  var val = document.getElementById('psel-' + id).value;
+  var saved = JSON.parse(localStorage.getItem('practice_' + id) || '{}');
+  saved.selected = val;
+  localStorage.setItem('practice_' + id, JSON.stringify(saved));
+  alert('已选择：' + val);
+}
+
+function savePracticeDual(id){
+  var p = practicesData.find(function(x){ return x.id === id; });
+  if(!p || !p.prompts) return;
+  var saved = JSON.parse(localStorage.getItem('practice_' + id) || '{}');
+  if(!saved.dual) saved.dual = [];
+  for(var d=0; d<p.prompts.length; d++){
+    var el = document.getElementById('pdual-' + id + '-' + d);
+    if(el) saved.dual[d] = el.value;
+  }
+  localStorage.setItem('practice_' + id, JSON.stringify(saved));
+  alert('已保存！');
+}
+
+function practiceCounter(id, inc){
+  var saved = JSON.parse(localStorage.getItem('practice_' + id) || '{}');
+  saved.counter = (saved.counter || 0) + (inc ? 1 : -1);
+  if(saved.counter < 0) saved.counter = 0;
+  localStorage.setItem('practice_' + id, JSON.stringify(saved));
+  document.getElementById('pcounter-' + id).textContent = saved.counter;
+  var pct = Math.min(100, Math.round((saved.counter / (practicesData.find(function(x){return x.id===id;}).max)) * 100));
+  document.getElementById('practiceProgress-' + id).style.width = pct + '%';
+  document.getElementById('practicePct-' + id).textContent = pct + '%';
+}
+
+function updatePracticeProgress(id, delta){
+  var saved = JSON.parse(localStorage.getItem('practice_' + id) || '{}');
+  var current = saved.progress || 0;
+  current = Math.max(0, Math.min(100, current + delta));
+  saved.progress = current;
+  localStorage.setItem('practice_' + id, JSON.stringify(saved));
+  document.getElementById('practiceProgress-' + id).style.width = current + '%';
+  document.getElementById('practicePct-' + id).textContent = current + '%';
+}
+
+function switchToTab(tabId){
+  var btn = document.querySelector('.tab-btn[data-tab="' + tabId + '"]');
+  if(btn) btn.click();
+}
+
+// ============================================================
+// 7 HEADS OF DRAGON (Tab 3)
+// ============================================================
+var headsData = [
+  { id:0, name:'毒蛇 (Viper)', icon:'&#x1F40D;', color:'#2ecc71',
+    desc:'毒蛇代表混沌中最初的觉醒——意识的萌芽。它是七首中最小的头，也是第一个出现在阿波菲斯身上的头。毒蛇的咬伤带来觉醒的痛苦与转化的开始。',
+    meditation:'闭眼，可视化一条金色的毒蛇在脊柱底部盘旋。感受它在你的尾椎处唤醒的能量。随着呼吸让这股能量沿脊柱上升。' },
+  { id:1, name:'狮子 (Lion)', icon:'&#x1F981;', color:'#f39c12',
+    desc:'狮子代表力量、勇气和个体意志的确立。它怒吼着宣告个体的存在。狮子头赋予左路行者面对恐惧和挑战的勇气。',
+    meditation:'可视化一头燃烧着黑色火焰的雄狮站在你面前。吸入它的力量，感受勇气在胸腔中膨胀。你与狮子合为一体。' },
+  { id:2, name:'蛇 (Serpent)', icon:'&#x1F40D;', color:'#3498db',
+    desc:'与毒蛇不同，蛇代表智慧和知识的追求。它缠绕在世界树上，偷取神的知识。蛇是左路魔法师对知识永不满足的渴望的象征。',
+    meditation:'可视化一条巨大的蛇缠绕在一棵银色的世界树上。它向你吐信，传递古老的知识。伸出你的手，接受它的智慧。' },
+  { id:3, name:'利维坦 (Leviathan)', icon:'&#x1F419;', color:'#9b59b6',
+    desc:'利维坦代表深渊的力量——潜意识的海洋。它是潜藏在水底的巨兽，象征着未被发现的自我潜能。克服利维坦意味着潜入自己的潜意识深处。',
+    meditation:'想象你站在一片黑暗无边的海洋前。利维坦从水中升起。跳入水中，与它一起潜入最深处。在那里你会发现隐藏的力量。' },
+  { id:4, name:'怒吼之狮 (Roaring Lion)', icon:'&#x1F98A;', color:'#e74c3c',
+    desc:'怒吼之狮是狮子面对宇宙混沌时的终极表达。它的怒吼震动现实的结构。这代表着左路行者对现实的重新定义——用意志改写存在。',
+    meditation:'站在宇宙的虚空中，面对混沌的洪流。深呼吸，发出一声从灵魂深处涌出的怒吼。感受你的声音重塑周围的现实。' },
+  { id:5, name:'叛逆巨人 (Giant Rebel)', icon:'&#x1F9CC;', color:'#1abc9c',
+    desc:'叛逆巨人是反抗宇宙秩序的终极象征。它拒绝接受既定的规则，以自己的意志创造新的秩序。这是左路魔法师最终阶段的化身。',
+    meditation:'可视化你变成一个巨人，双脚踩在大地上，头顶着星空。你伸手推开压迫性的天空，在宇宙中开辟属于你自己的空间。' },
+  { id:6, name:'致命之风 (Angel of Death)', icon:'&#x1F4A8;', color:'#8e44ad',
+    desc:'致命之风代表终极的转化——死亡与重生。它是七首中最后的头，完成阿波菲斯的完整形态。通过面对死亡，左路行者达到不朽。',
+    meditation:'感受一阵冰冷的风吹过你的身体。它带走了你所有不必要的部分。在风中你感到轻盈——只剩下本质的自我，不朽而纯粹。' }
+];
+
+function initHeads(){
+  var container = document.getElementById('headsContainer');
+  if(!container) return;
+  var html = '';
+  for(var i=0; i<headsData.length; i++){
+    var h = headsData[i];
+    var saved = JSON.parse(localStorage.getItem('head_' + h.id) || '{}');
+    html += '<div class="card" style="text-align:center">';
+    html += '<div class="head-icon">' + h.icon + '</div>';
+    html += '<div class="head-name">' + h.name + '</div>';
+    html += '<p class="text-muted" style="font-size:0.85rem;margin:8px 0">' + h.desc + '</p>';
+    html += '<div class="progress-track"><div class="progress-fill" id="headProgress-' + h.id + '" style="width:' + (saved.progress||0) + '%;background:' + h.color + '"></div></div>';
+    html += '<div style="font-size:0.8rem;color:var(--muted)">修炼进度：<span id="headPct-' + h.id + '">' + (saved.progress||0) + '</span>%</div>';
+    html += '<div style="display:flex;gap:4px;justify-content:center;margin-top:8px;flex-wrap:wrap">';
+    html += '<button class="btn btn-sm" onclick="updateHeadProgress(' + h.id + ',10)">+10%</button>';
+    html += '<button class="btn btn-sm btn-crimson" onclick="resetHeadProgress(' + h.id + ')">重置</button>';
+    html += '</div></div>';
+  }
+  container.innerHTML = html;
+  drawDragon();
+}
+
+function updateHeadProgress(id, delta){
+  var saved = JSON.parse(localStorage.getItem('head_' + id) || '{}');
+  var current = saved.progress || 0;
+  current = Math.max(0, Math.min(100, current + delta));
+  saved.progress = current;
+  localStorage.setItem('head_' + id, JSON.stringify(saved));
+  document.getElementById('headProgress-' + id).style.width = current + '%';
+  document.getElementById('headPct-' + id).textContent = current;
+  drawDragon();
+}
+
+function resetHeadProgress(id){
+  localStorage.setItem('head_' + id, JSON.stringify({progress:0}));
+  document.getElementById('headProgress-' + id).style.width = '0%';
+  document.getElementById('headPct-' + id).textContent = '0';
+  drawDragon();
+}
+
+function drawDragon(){
+  var canvas = document.getElementById('dragonCanvas');
+  if(!canvas || canvas.offsetParent === null) return;
+  var ctx = canvas.getContext('2d');
+  var w = 700, h = 500;
+  canvas.width = w; canvas.height = h;
+  ctx.clearRect(0,0,w,h);
+
+  // Body (serpentine)
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(212,168,67,0.3)';
+  ctx.lineWidth = 12;
+  ctx.moveTo(50, 250);
+  ctx.bezierCurveTo(150, 100, 250, 400, 350, 250);
+  ctx.bezierCurveTo(450, 100, 550, 400, 650, 250);
+  ctx.stroke();
+
+  // Scales
+  ctx.strokeStyle = 'rgba(212,168,67,0.08)';
+  ctx.lineWidth = 1;
+  for(var i=0; i<40; i++){
+    var t = i/40;
+    var x = 50 + t*600;
+    var y = 250 + 100 * Math.sin(t * Math.PI * 4);
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, Math.PI*2);
+    ctx.stroke();
+  }
+
+  // 7 heads positions
+  var headPositions = [
+    {x:100, y:180}, {x:200, y:130}, {x:300, y:170},
+    {x:400, y:130}, {x:500, y:170}, {x:570, y:130}, {x:640, y:180}
+  ];
+
+  for(var i=0; i<headsData.length; i++){
+    var h = headsData[i];
+    var pos = headPositions[i];
+    var saved = JSON.parse(localStorage.getItem('head_' + h.id) || '{}');
+    var progress = saved.progress || 0;
+
+    // Glow
+    var glow = ctx.createRadialGradient(pos.x, pos.y, 5, pos.x, pos.y, 40 + progress);
+    glow.addColorStop(0, h.color + '88');
+    glow.addColorStop(0.5, h.color + '33');
+    glow.addColorStop(1, 'transparent');
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, 40 + progress, 0, Math.PI*2);
+    ctx.fillStyle = glow;
+    ctx.fill();
+
+    // Head circle
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, 18 + progress/8, 0, Math.PI*2);
+    var headColor = progress > 0 ? h.color : 'rgba(100,100,100,0.4)';
+    ctx.fillStyle = headColor;
+    ctx.fill();
+    ctx.strokeStyle = progress > 50 ? h.color : 'rgba(212,168,67,0.3)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Eyes (glowing if progress > 0)
+    if(progress > 20){
+      ctx.beginPath();
+      ctx.arc(pos.x-6, pos.y-3, 3, 0, Math.PI*2);
+      ctx.fillStyle = '#fff';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(pos.x+6, pos.y-3, 3, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // Label
+    ctx.font = '11px "Noto Serif SC", serif';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = progress > 0 ? h.color : '#666';
+    ctx.fillText(h.name, pos.x, pos.y + 35 + progress/5);
+
+    // Progress ring
+    if(progress > 0){
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 26 + progress/8, -Math.PI/2, -Math.PI/2 + (progress/100)*Math.PI*2);
+      ctx.strokeStyle = h.color;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  }
+
+  // Center label
+  ctx.font = '16px "Ma Shan Zheng", cursive';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(212,168,67,0.5)';
+  ctx.fillText('阿波菲斯 · 七首之龙', 350, 480);
+}
+
+// ============================================================
+// SIGIL CANVAS (Tab 4)
+// ============================================================
+var sigilColor = '#d4a843';
+var sigilSize = 4;
+var sigilDrawing = false;
+var sigilCanvas = null;
+var sigilCtx = null;
+
+function initSigilCanvas(){
+  var canvas = document.getElementById('sigilCanvas');
+  if(!canvas) return;
+  sigilCanvas = canvas;
+  sigilCtx = canvas.getContext('2d');
+  sigilCtx.fillStyle = '#121212';
+  sigilCtx.fillRect(0,0,500,400);
+
+  canvas.addEventListener('mousedown', sigilStartDraw);
+  canvas.addEventListener('mousemove', sigilDraw);
+  canvas.addEventListener('mouseup', sigilEndDraw);
+  canvas.addEventListener('mouseleave', sigilEndDraw);
+  // Touch support
+  canvas.addEventListener('touchstart', function(e){ e.preventDefault(); var rect=canvas.getBoundingClientRect(); sigilStartDraw({offsetX:e.touches[0].clientX-rect.left, offsetY:e.touches[0].clientY-rect.top}); });
+  canvas.addEventListener('touchmove', function(e){ e.preventDefault(); var rect=canvas.getBoundingClientRect(); sigilDraw({offsetX:e.touches[0].clientX-rect.left, offsetY:e.touches[0].clientY-rect.top}); });
+  canvas.addEventListener('touchend', sigilEndDraw);
+
+  loadSavedSigils();
+}
+
+function sigilStartDraw(e){
+  sigilDrawing = true;
+  var rect = sigilCanvas.getBoundingClientRect();
+  var x = (e.offsetX || e.clientX - rect.left) * (500 / rect.width);
+  var y = (e.offsetY || e.clientY - rect.top) * (400 / rect.height);
+  sigilCtx.beginPath();
+  sigilCtx.moveTo(x, y);
+}
+
+function sigilDraw(e){
+  if(!sigilDrawing) return;
+  var rect = sigilCanvas.getBoundingClientRect();
+  var x = (e.offsetX || e.clientX - rect.left) * (500 / rect.width);
+  var y = (e.offsetY || e.clientY - rect.top) * (400 / rect.height);
+  sigilCtx.lineTo(x, y);
+  sigilCtx.strokeStyle = sigilColor;
+  sigilCtx.lineWidth = sigilSize;
+  sigilCtx.lineCap = 'round';
+  sigilCtx.lineJoin = 'round';
+  sigilCtx.stroke();
+}
+
+function sigilEndDraw(){ sigilDrawing = false; }
+
+function setSigilColor(color){ sigilColor = color; }
+function setSigilSize(size){ sigilSize = size; }
+
+function clearSigil(){
+  if(!sigilCtx) return;
+  sigilCtx.fillStyle = '#121212';
+  sigilCtx.fillRect(0,0,500,400);
+}
+
+function saveSigil(){
+  if(!sigilCanvas) return;
+  var name = document.getElementById('sigilName').value.trim();
+  if(!name){ alert('请为印记命名！'); return; }
+  var dataUrl = sigilCanvas.toDataURL();
+  var sigils = JSON.parse(localStorage.getItem('savedSigils') || '[]');
+  sigils.push({name:name, data:dataUrl, date:new Date().toISOString().split('T')[0]});
+  localStorage.setItem('savedSigils', JSON.stringify(sigils));
+  document.getElementById('sigilName').value = '';
+  loadSavedSigils();
+  alert('印记 "' + name + '" 已保存！');
+}
+
+function loadSavedSigils(){
+  var container = document.getElementById('savedSigilsList');
+  if(!container) return;
+  var sigils = JSON.parse(localStorage.getItem('savedSigils') || '[]');
+  if(sigils.length === 0){
+    container.innerHTML = '<span class="text-muted" style="font-size:0.8rem">暂无保存的印记</span>';
+    return;
+  }
+  var html = '';
+  for(var i=0; i<sigils.length; i++){
+    html += '<div style="text-align:center;border:1px solid var(--rule);border-radius:4px;padding:4px">';
+    html += '<img src="' + sigils[i].data + '" style="width:60px;height:48px;object-fit:contain;display:block" alt="' + sigils[i].name + '">';
+    html += '<span style="font-size:0.7rem;color:var(--muted)">' + sigils[i].name + '</span>';
+    html += '<button class="btn btn-sm" style="font-size:0.65rem;padding:2px 6px;margin-top:2px" onclick="deleteSigil(' + i + ')">x</button>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function deleteSigil(idx){
+  var sigils = JSON.parse(localStorage.getItem('savedSigils') || '[]');
+  sigils.splice(idx, 1);
+  localStorage.setItem('savedSigils', JSON.stringify(sigils));
+  loadSavedSigils();
+}
+
+// ============================================================
+// SPELL CRAFTING (Tab 4)
+// ============================================================
+function craftSpell(){
+  var intent = document.getElementById('spellIntent').value.trim();
+  if(!intent){ alert('请输入魔法意图！'); return; }
+  var element = document.getElementById('spellElement').value;
+  var planet = document.getElementById('spellPlanet').value;
+  var time = document.getElementById('spellTime').value;
+  var candle = document.getElementById('spellCandle').value;
+  var incense = document.getElementById('spellIncense').value;
+
+  var spell = '【' + intent + '】之咒';
+  var result = document.getElementById('spellResult');
+  result.style.display = 'block';
+  result.innerHTML = '<h4 style="font-family:var(--font-display);color:var(--accent2);letter-spacing:2px;margin-bottom:12px">' + spell + '</h4>' +
+    '<div style="font-size:0.85rem;color:var(--ink);line-height:2">' +
+    '<p><strong>意图：</strong>' + intent + '</p>' +
+    '<p><strong>元素：</strong>' + element + '</p>' +
+    '<p><strong>行星：</strong>' + planet + '</p>' +
+    '<p><strong>仪式时间：</strong>' + time + '</p>' +
+    '<p><strong>蜡烛颜色：</strong>' + candle + '</p>' +
+    '<p><strong>熏香：</strong>' + incense + '</p>' +
+    '<hr style="border-color:var(--rule);margin:12px 0">' +
+    '<p style="color:var(--muted)"><strong>仪式指引：</strong>在' + time + '时分，布置' + element + '元素的祭坛，点燃' + candle + '蜡烛，焚烧' + incense + '熏香。在' + planet + '的能量加持下，集中意念于你的意图，大声念出咒语三遍。</p>' +
+    '</div>';
+}
+
+// ============================================================
+// INITIATION PATH (Tab 5)
+// ============================================================
+var degreesData = [
+  { id:0, label:'0°', name:'预备者 (Probationer)', desc:'初步接触赛特哲学。为期约6个月至1年。学习基础魔法理论、赛特历史、冥想基础。此阶段不需要任何承诺，纯粹是探索和了解。' },
+  { id:1, label:'I°', name:'赛特之子/女 (Setian)', desc:'正式入门者。承认赛特作为意识赋予者的原型。开始系统学习左路哲学、基础仪式和魔法实践。可以参加塔门活动。' },
+  { id:2, label:'II°', name:'高级赛特之子/女 (Adept)', desc:'掌握基本仪式技能。能够独立设计和执行仪式。开始进行个人魔法研究项目。可以参与教团活动。' },
+  { id:3, label:'III°', name:'导师 (Priest/Priestess)', desc:'能够教授和指导低级会员。在特定魔法领域展现出深度专长。可以领导塔门或教团。对赛特哲学有深入理解。' },
+  { id:4, label:'IV°', name:'大导师 (Magister/Magistra)', desc:'在魔法理论和实践上都有卓越成就。能够创造新的魔法体系。对左路魔法有原创性贡献。可以参与神殿的核心决策。' },
+  { id:5, label:'V°', name:'大祭司 (High Priest/High Priestess)', desc:'神殿的最高领导层。具有卓越的魔法力量和智慧。负责指引整个组织的方向。极少有人达到此等级。' },
+  { id:6, label:'VI°', name:'永生者 (Immortal)', desc:'理论上可达到的最高级别。代表完全自我神化的境界——个体已经成为独立的神。这一级别仅存在于理论中。' }
+];
+
+function initPathVis(){
+  var container = document.getElementById('initPathVis');
+  if(!container) return;
+  var html = '';
+  for(var i=0; i<degreesData.length; i++){
+    var d = degreesData[i];
+    html += '<div class="path-step" onclick="showDegreeDetail(' + i + ')" id="degStep-' + i + '">';
+    html += '<span>' + d.label + '</span>';
+    html += '<span class="step-label">' + d.name.split('(')[0].trim() + '</span>';
+    html += '</div>';
+    if(i < degreesData.length - 1){
+      html += '<div class="path-connector"></div>';
+    }
+  }
+  container.innerHTML = html;
+
+  // Load saved current degree
+  var currentDegree = parseInt(localStorage.getItem('currentDegree') || '0');
+  for(var i=0; i<degreesData.length; i++){
+    if(i < currentDegree) document.getElementById('degStep-' + i).classList.add('completed');
+    if(i === currentDegree) document.getElementById('degStep-' + i).classList.add('current');
+  }
+}
+
+function showDegreeDetail(idx){
+  var d = degreesData[idx];
+  var detail = document.getElementById('initDegreeDetail');
+  detail.innerHTML = '<h4 style="font-family:var(--font-display);color:var(--accent2);font-size:1.2rem;letter-spacing:2px;margin-bottom:8px">' + d.label + ' ' + d.name + '</h4>' +
+    '<p style="color:var(--ink);font-size:0.9rem;max-width:500px;margin:0 auto">' + d.desc + '</p>' +
+    '<div style="margin-top:12px;display:flex;gap:8px;justify-content:center">' +
+    '<button class="btn btn-sm" onclick="setCurrentDegree(' + idx + ')">设为当前等级</button>' +
+    '</div>';
+}
+
+function setCurrentDegree(idx){
+  for(var i=0; i<degreesData.length; i++){
+    var el = document.getElementById('degStep-' + i);
+    el.classList.remove('completed', 'current');
+    if(i < idx) el.classList.add('completed');
+    if(i === idx) el.classList.add('current');
+  }
+  localStorage.setItem('currentDegree', idx);
+  showDegreeDetail(idx);
+}
+
+// ============================================================
+// TIMER (Tab 6)
+// ============================================================
+var timerSeconds = 300;
+var timerRemaining = 300;
+var timerRunning = false;
+var timerInterval = null;
+var currentMedMode = 'xeper';
+
+function setTimer(minutes, btn){
+  document.querySelectorAll('.timer-preset').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  timerSeconds = minutes * 60;
+  timerRemaining = timerSeconds;
+  updateTimerDisplay();
+  timerRunning = false;
+  document.getElementById('timerStartBtn').textContent = '\u25B6 开始';
+}
+
+function updateTimerDisplay(){
+  var m = Math.floor(timerRemaining / 60);
+  var s = timerRemaining % 60;
+  document.getElementById('timerDisplay').textContent =
+    (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function startTimer(){
+  if(timerRunning){
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timerStartBtn').textContent = '\u25B6 继续';
+    return;
+  }
+  if(timerRemaining <= 0){
+    timerRemaining = timerSeconds;
+    updateTimerDisplay();
+  }
+  timerRunning = true;
+  document.getElementById('timerStartBtn').textContent = '\u23F8 暂停';
+  timerInterval = setInterval(function(){
+    timerRemaining--;
+    updateTimerDisplay();
+    if(timerRemaining <= 0){
+      clearInterval(timerInterval);
+      timerRunning = false;
+      document.getElementById('timerStartBtn').textContent = '\u25B6 完成';
+      // Flash display
+      var display = document.getElementById('timerDisplay');
+      display.style.color = '#c41e3a';
+      setTimeout(function(){ display.style.color = ''; }, 2000);
+    }
+  }, 1000);
+}
+
+function resetTimer(){
+  clearInterval(timerInterval);
+  timerRunning = false;
+  var custom = parseInt(document.getElementById('timerCustom').value) || 5;
+  timerSeconds = custom * 60;
+  timerRemaining = timerSeconds;
+  updateTimerDisplay();
+  document.getElementById('timerStartBtn').textContent = '\u25B6 开始';
+  document.getElementById('timerDisplay').style.color = '';
+}
+
+function setMeditationMode(mode){
+  var labels = {xeper:'Xeper 聚焦', gnosis:'灵知觉醒', void:'虚空可视化'};
+  currentMedMode = mode;
+  document.getElementById('medModeStatus').textContent = '当前模式：' + (labels[mode] || mode);
+}
+
+// ============================================================
+// LUNAR PHASE (Tab 6)
+// ============================================================
+function initLunar(){
+  var d = document.getElementById('lunarDate');
+  if(d) d.value = new Date().toISOString().split('T')[0];
+}
+
+function calcLunarPhase(){
+  var dateStr = document.getElementById('lunarDate').value;
+  if(!dateStr){ alert('请选择日期！'); return; }
+  var date = new Date(dateStr);
+  // Simplified lunar phase calculation using known new moon reference
+  var knownNewMoon = new Date('2000-01-06'); // Known new moon
+  var daysSince = (date - knownNewMoon) / (1000 * 60 * 60 * 24);
+  var lunarAge = ((daysSince % 29.53058867) + 29.53058867) % 29.53058867;
+
+  var phaseNames = ['新月', '蛾眉月', '上弦月', '盈凸月', '满月', '亏凸月', '下弦月', '残月'];
+  var icons = ['&#x1F311;', '&#x1F312;', '&#x1F313;', '&#x1F314;', '&#x1F315;', '&#x1F316;', '&#x1F317;', '&#x1F318;'];
+  var phaseDescs = [
+    '新月的能量适合新开始、净化和设定意图。是开启新魔法项目的理想时机。',
+    '蛾眉月象征希望和成长。适合进行吸引型魔法和设定短期目标。',
+    '上弦月是行动和决策的时刻。适合执行需要力量和决断的仪式。',
+    '盈凸月接近满月，能量逐渐达到峰值。适合完成项目和加强现有工作。',
+    '满月是魔法力量的巅峰。适合任何类型的魔法操作，尤其是爱情、财富和转化仪式。',
+    '亏凸月能量开始衰退。适合驱逐和减少型魔法，如戒除坏习惯。',
+    '下弦月适合反思和释放。进行整理、清理和结束的仪式。',
+    '残月是隐退和休息的时期。适合梦境工作、冥想和内在探索。'
+  ];
+  var phaseDescriptions = [
+    '新月是月亮周期的开始，象征新生和新的可能性。', '蛾眉月是一弯细月，象征希望和新的起点。',
+    '上弦月是月亮的一半，象征决定和行动。', '盈凸月接近满月，能量充盈。',
+    '满月是月亮最完整的时刻，象征圆满和力量巅峰。', '亏凸月开始消退，适合释放。',
+    '下弦月是另一半月亮，适合反思。', '残月是月亮最后的可见阶段，适合结束和放下。'
+  ];
+
+  // Map lunar age to phase (8 phases)
+  var phaseIdx = 0;
+  var dayInPhase = lunarAge / 29.53058867;
+  if(dayInPhase < 0.03) phaseIdx = 0;
+  else if(dayInPhase < 0.15) phaseIdx = 1;
+  else if(dayInPhase < 0.25) phaseIdx = 2;
+  else if(dayInPhase < 0.37) phaseIdx = 3;
+  else if(dayInPhase < 0.48) phaseIdx = 4;
+  else if(dayInPhase < 0.60) phaseIdx = 5;
+  else if(dayInPhase < 0.70) phaseIdx = 6;
+  else if(dayInPhase < 0.85) phaseIdx = 7;
+  else phaseIdx = 0;
+
+  var result = document.getElementById('lunarResult');
+  result.style.display = 'block';
+  document.getElementById('lunarIcon').innerHTML = icons[phaseIdx];
+  document.getElementById('lunarPhaseName').textContent = phaseNames[phaseIdx];
+  document.getElementById('lunarPhaseDesc').innerHTML =
+    '<p>' + phaseDescriptions[phaseIdx] + '</p>' +
+    '<p class="mt-8"><strong>仪式建议：</strong>' + phaseDescs[phaseIdx] + '</p>' +
+    '<p class="mt-8 text-muted" style="font-size:0.8rem">月龄：' + lunarAge.toFixed(1) + '天 / 29.5天</p>';
+}
+
+// ============================================================
+// MAGIC DIARY (Tab 7) — localStorage
+// ============================================================
+function initDiary(){
+  renderDiaryEntries();
+  updateDiaryStats();
+}
+
+function saveDiaryEntry(e){
+  e.preventDefault();
+  var entry = {
+    id: Date.now(),
+    date: document.getElementById('diaryDate').value,
+    moon: document.getElementById('diaryMoon').value,
+    actions: document.getElementById('diaryActions').value.trim(),
+    insight: document.getElementById('diaryInsight').value.trim(),
+    badHabits: document.getElementById('diaryBadHabits').value.trim(),
+    nextActions: document.getElementById('diaryNextActions').value.trim(),
+    magicalOps: document.getElementById('diaryMagicalOps').value.trim(),
+    dreams: document.getElementById('diaryDreams').value.trim(),
+    createdAt: new Date().toISOString()
+  };
+
+  if(!entry.actions && !entry.insight && !entry.dreams){
+    alert('请至少填写一个字段！');
+    return;
+  }
+
+  var entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+  // Check if date already exists — update
+  var existingIdx = entries.findIndex(function(e){ return e.date === entry.date; });
+  if(existingIdx >= 0){
+    entries[existingIdx] = entry;
+  } else {
+    entries.push(entry);
+  }
+  entries.sort(function(a,b){ return a.date < b.date ? 1 : -1; });
+  localStorage.setItem('diaryEntries', JSON.stringify(entries));
+  document.getElementById('diaryForm').reset();
+  document.getElementById('diaryDate').value = new Date().toISOString().split('T')[0];
+  renderDiaryEntries();
+  updateDiaryStats();
+  alert('日记已保存！');
+}
+
+function renderDiaryEntries(filterDate){
+  var container = document.getElementById('diaryEntriesList');
+  if(!container) return;
+  var entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+  if(filterDate){
+    entries = entries.filter(function(e){ return e.date === filterDate; });
+  }
+  if(entries.length === 0){
+    container.innerHTML = '<p class="text-muted text-center" style="padding:20px">暂无日记记录</p>';
+    return;
+  }
+  var html = '';
+  for(var i=0; i<Math.min(entries.length, 20); i++){
+    var e = entries[i];
+    html += '<div class="journal-entry">';
+    html += '<button class="entry-delete" onclick="deleteDiaryEntry(' + e.id + ')">&#x2715; 删除</button>';
+    html += '<div class="entry-date">' + e.date + ' | ' + e.moon + '</div>';
+    if(e.actions) html += '<div class="entry-preview"><strong>行动:</strong> ' + e.actions.substring(0, 80) + (e.actions.length > 80 ? '...' : '') + '</div>';
+    if(e.insight) html += '<div class="entry-preview"><strong>洞察:</strong> ' + e.insight.substring(0, 80) + (e.insight.length > 80 ? '...' : '') + '</div>';
+    if(e.magicalOps) html += '<div class="entry-preview"><strong>魔法操作:</strong> ' + e.magicalOps.substring(0, 80) + (e.magicalOps.length > 80 ? '...' : '') + '</div>';
+    if(e.dreams) html += '<div class="entry-preview"><strong>梦境:</strong> ' + e.dreams.substring(0, 80) + (e.dreams.length > 80 ? '...' : '') + '</div>';
+    html += '<div style="margin-top:4px"><button class="btn btn-sm" style="font-size:0.7rem;padding:2px 8px" onclick="viewDiaryEntry(' + e.id + ')">查看完整</button></div>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function deleteDiaryEntry(id){
+  if(!confirm('确认删除此日记？')) return;
+  var entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+  entries = entries.filter(function(e){ return e.id !== id; });
+  localStorage.setItem('diaryEntries', JSON.stringify(entries));
+  renderDiaryEntries();
+  updateDiaryStats();
+}
+
+function viewDiaryEntry(id){
+  var entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+  var e = entries.find(function(entry){ return entry.id === id; });
+  if(!e) return;
+  var html = '<div style="padding:20px">';
+  html += '<div class="entry-date" style="font-size:1rem;margin-bottom:12px">' + e.date + ' | ' + e.moon + '</div>';
+  if(e.actions) html += '<div class="form-group"><label>今日行动</label><div style="background:var(--bg3);padding:12px;border-radius:4px;font-size:0.9rem">' + e.actions + '</div></div>';
+  if(e.insight) html += '<div class="form-group"><label>最佳洞察</label><div style="background:var(--bg3);padding:12px;border-radius:4px;font-size:0.9rem">' + e.insight + '</div></div>';
+  if(e.badHabits) html += '<div class="form-group"><label>消除坏习惯的步骤</label><div style="background:var(--bg3);padding:12px;border-radius:4px;font-size:0.9rem">' + e.badHabits + '</div></div>';
+  if(e.nextActions) html += '<div class="form-group"><label>下一步计划</label><div style="background:var(--bg3);padding:12px;border-radius:4px;font-size:0.9rem">' + e.nextActions + '</div></div>';
+  if(e.magicalOps) html += '<div class="form-group"><label>魔法操作</label><div style="background:var(--bg3);padding:12px;border-radius:4px;font-size:0.9rem">' + e.magicalOps + '</div></div>';
+  if(e.dreams) html += '<div class="form-group"><label>梦境记录</label><div style="background:var(--bg3);padding:12px;border-radius:4px;font-size:0.9rem">' + e.dreams + '</div></div>';
+  html += '</div>';
+
+  // Show in modal
+  showModal(e.date + ' 的日记', html);
+}
+
+function showModal(title, content){
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay show';
+  overlay.innerHTML = '<div class="modal-box">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">' +
+    '<h3 style="margin:0">' + title + '</h3>' +
+    '<button class="btn btn-sm btn-crimson" onclick="closeModal(this)">关闭</button>' +
+    '</div>' +
+    content +
+    '</div>';
+  overlay.addEventListener('click', function(e){ if(e.target === this) closeModal(this.querySelector('.btn-crimson')); });
+  document.body.appendChild(overlay);
+}
+
+function closeModal(btn){
+  var overlay = btn.closest('.modal-overlay');
+  if(overlay) overlay.remove();
+}
+
+function searchDiaryByDate(){
+  var date = document.getElementById('diarySearchDate').value;
+  if(!date){ alert('请选择日期！'); return; }
+  renderDiaryEntries(date);
+}
+
+function clearDiarySearch(){
+  document.getElementById('diarySearchDate').value = '';
+  renderDiaryEntries();
+}
+
+function exportDiary(){
+  var entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+  if(entries.length === 0){ alert('暂无日记可导出'); return; }
+  var text = '=== 魔法日记导出 ===\n';
+  text += '导出时间：' + new Date().toLocaleString('zh-CN') + '\n';
+  text += '总条目：' + entries.length + '\n\n';
+  for(var i=0; i<entries.length; i++){
+    var e = entries[i];
+    text += '--- ' + e.date + ' ---\n';
+    text += '月相：' + e.moon + '\n';
+    if(e.actions) text += '行动：' + e.actions + '\n';
+    if(e.insight) text += '洞察：' + e.insight + '\n';
+    if(e.badHabits) text += '坏习惯：' + e.badHabits + '\n';
+    if(e.nextActions) text += '计划：' + e.nextActions + '\n';
+    if(e.magicalOps) text += '魔法：' + e.magicalOps + '\n';
+    if(e.dreams) text += '梦境：' + e.dreams + '\n';
+    text += '\n';
+  }
+  var blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '魔法日记_' + new Date().toISOString().split('T')[0] + '.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function updateDiaryStats(){
+  var entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+  document.getElementById('diaryTotalCount').textContent = entries.length;
+
+  // Streak
+  if(entries.length > 0){
+    var dates = entries.map(function(e){ return e.date; }).sort().reverse();
+    var streak = 0;
+    var today = new Date();
+    var checkDate = new Date(today);
+    for(var i=0; i<365; i++){
+      var dateStr = checkDate.toISOString().split('T')[0];
+      if(dates.indexOf(dateStr) >= 0){
+        streak++;
+      } else {
+        break;
+      }
+      checkDate.setDate(checkDate.getDate() - 1);
+    }
+    // Don't break streak if today hasn't been written yet
+    if(dates[0] !== today.toISOString().split('T')[0] && dates.indexOf(today.toISOString().split('T')[0]) < 0){
+      // Check if yesterday is in
+      var yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+      if(dates.indexOf(yesterday.toISOString().split('T')[0]) >= 0){
+        streak = 1;
+      } else {
+        streak = 0;
+      }
+    }
+    document.getElementById('diaryStreak').textContent = streak;
+
+    // Monthly count
+    var currentMonth = today.toISOString().substring(0, 7);
+    var monthly = entries.filter(function(e){ return e.date.substring(0,7) === currentMonth; });
+    document.getElementById('diaryMonthlyCount').textContent = monthly.length;
+  } else {
+    document.getElementById('diaryStreak').textContent = '0';
+    document.getElementById('diaryMonthlyCount').textContent = '0';
+  }
+}
+
+// ============================================================
+// ANNUAL REVIEW (Tab 8) — localStorage
+// ============================================================
+function initReview(){
+  var yearSelect = document.getElementById('reviewYear');
+  if(!yearSelect) return;
+  var currentYear = new Date().getFullYear();
+  for(var y = currentYear - 5; y <= currentYear + 1; y++){
+    var opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y + '年';
+    if(y === currentYear) opt.selected = true;
+    yearSelect.appendChild(opt);
+  }
+  yearSelect.addEventListener('change', loadReviewForYear);
+  loadReviewForYear();
+  renderReviewEntries();
+}
+
+function loadReviewForYear(){
+  var year = document.getElementById('reviewYear').value;
+  var saved = JSON.parse(localStorage.getItem('annualReview_' + year) || '{}');
+  document.getElementById('reviewAchievements').value = saved.achievements || '';
+  document.getElementById('reviewFailures').value = saved.failures || '';
+  document.getElementById('reviewInsights').value = saved.insights || '';
+  document.getElementById('reviewNextPlan').value = saved.nextPlan || '';
+  document.getElementById('reviewProgress').value = saved.progress || 0;
+  document.getElementById('reviewBooks').value = saved.books || 0;
+  document.getElementById('reviewRituals').value = saved.rituals || 0;
+  document.getElementById('reviewMeditation').value = saved.meditation || 0;
+  drawProgressChart();
+}
+
+function saveAnnualReview(e){
+  e.preventDefault();
+  var year = document.getElementById('reviewYear').value;
+  var data = {
+    achievements: document.getElementById('reviewAchievements').value.trim(),
+    failures: document.getElementById('reviewFailures').value.trim(),
+    insights: document.getElementById('reviewInsights').value.trim(),
+    nextPlan: document.getElementById('reviewNextPlan').value.trim(),
+    progress: parseInt(document.getElementById('reviewProgress').value) || 0,
+    books: parseInt(document.getElementById('reviewBooks').value) || 0,
+    rituals: parseInt(document.getElementById('reviewRituals').value) || 0,
+    meditation: parseFloat(document.getElementById('reviewMeditation').value) || 0,
+    updatedAt: new Date().toISOString()
+  };
+  localStorage.setItem('annualReview_' + year, JSON.stringify(data));
+  renderReviewEntries();
+  drawProgressChart();
+  alert(year + '年的盘点已保存！');
+}
+
+function renderReviewEntries(){
+  var container = document.getElementById('reviewEntriesList');
+  if(!container) return;
+  var currentYear = new Date().getFullYear();
+  var html = '';
+  for(var y = currentYear - 5; y <= currentYear; y++){
+    var saved = JSON.parse(localStorage.getItem('annualReview_' + y) || '{}');
+    if(saved.achievements || saved.progress > 0){
+      html += '<div class="journal-entry">';
+      html += '<div class="entry-date">' + y + '年盘点</div>';
+      html += '<div class="entry-preview">完成度：' + (saved.progress || 0) + '% | 阅读：' + (saved.books || 0) + '本 | 仪式：' + (saved.rituals || 0) + '次 | 冥想：' + (saved.meditation || 0) + '小时</div>';
+      if(saved.insights) html += '<div class="entry-preview">关键洞察：' + saved.insights.substring(0, 100) + (saved.insights.length > 100 ? '...' : '') + '</div>';
+      html += '<button class="btn btn-sm" style="font-size:0.7rem;padding:2px 8px;margin-top:4px" onclick="loadReview(' + y + ')">加载此年</button>';
+      html += '</div>';
+    }
+  }
+  if(!html) html = '<p class="text-muted text-center" style="padding:20px">暂无年度盘点记录</p>';
+  container.innerHTML = html;
+}
+
+function loadReview(year){
+  var sel = document.getElementById('reviewYear');
+  if(sel) sel.value = year;
+  loadReviewForYear();
+}
+
+function drawProgressChart(){
+  var canvas = document.getElementById('progressChart');
+  if(!canvas || canvas.offsetParent === null) return;
+  var ctx = canvas.getContext('2d');
+  var w = 500, h = 300;
+  canvas.width = w; canvas.height = h;
+  ctx.clearRect(0,0,w,h);
+
+  var currentYear = new Date().getFullYear();
+  var years = [];
+  var data = [];
+  for(var y = currentYear - 4; y <= currentYear; y++){
+    years.push(y + '');
+    var saved = JSON.parse(localStorage.getItem('annualReview_' + y) || '{}');
+    data.push(saved.progress || 0);
+  }
+
+  // Draw grid
+  ctx.strokeStyle = 'rgba(212,168,67,0.1)';
+  ctx.lineWidth = 1;
+  for(var i=0; i<=4; i++){
+    var gy = 250 - (i * 50);
+    ctx.beginPath();
+    ctx.moveTo(60, gy);
+    ctx.lineTo(470, gy);
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(142,126,110,0.5)';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText((i*25) + '%', 55, gy+4);
+  }
+
+  // Draw bars
+  var barWidth = 60;
+  var gap = 20;
+  var startX = 80;
+  for(var i=0; i<data.length; i++){
+    var x = startX + i * (barWidth + gap);
+    var barH = (data[i] / 100) * 200;
+    var y = 250 - barH;
+
+    // Bar
+    var grad = ctx.createLinearGradient(x, 250, x, y);
+    grad.addColorStop(0, '#c41e3a');
+    grad.addColorStop(1, '#d4a843');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.roundRect(x, y, barWidth, barH, [4,4,0,0]);
+    ctx.fill();
+
+    // Value
+    ctx.fillStyle = '#d4a843';
+    ctx.font = '12px "Ma Shan Zheng", cursive';
+    ctx.textAlign = 'center';
+    ctx.fillText(data[i] + '%', x + barWidth/2, y - 8);
+
+    // Label
+    ctx.fillStyle = 'rgba(142,126,110,0.7)';
+    ctx.font = '11px "Noto Serif SC", serif';
+    ctx.fillText(years[i], x + barWidth/2, 270);
+  }
+
+  // Title
+  ctx.fillStyle = 'rgba(212,168,67,0.4)';
+  ctx.font = '12px "Ma Shan Zheng", cursive';
+  ctx.textAlign = 'center';
+  ctx.fillText('修炼完成度趋势', 250, 20);
+}
+
+// Polyfill for roundRect
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+    if(r.length === undefined) r = [r,r,r,r];
+    this.moveTo(x+r[0], y);
+    this.lineTo(x+w-r[1], y);
+    this.quadraticCurveTo(x+w, y, x+w, y+r[1]);
+    this.lineTo(x+w, y+h-r[2]);
+    this.quadraticCurveTo(x+w, y+h, x+w-r[2], y+h);
+    this.lineTo(x+r[3], y+h);
+    this.quadraticCurveTo(x, y+h, x, y+h-r[3]);
+    this.lineTo(x, y+r[0]);
+    this.quadraticCurveTo(x, y, x+r[0], y);
+    this.closePath();
+  };
+}
+
+</script>
+</body>
+</html>
