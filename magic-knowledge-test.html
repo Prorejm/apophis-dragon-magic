@@ -181,6 +181,82 @@ body {
 .fade-in { animation:fadeInUp 0.5s ease forwards; }
 @keyframes cardReveal { 0%{opacity:0;transform:rotateY(15deg) scale(0.97)} 100%{opacity:1;transform:rotateY(0) scale(1)} }
 .card-animate { animation:cardReveal 0.4s ease forwards; }
+
+/* ====== ENHANCED ANIMATION SYSTEM ====== */
+@keyframes floatGlow {
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 5px rgba(212,168,67,0.3));}
+  50%{transform:translateY(-6px);filter:drop-shadow(0 0 20px rgba(212,168,67,0.6));}
+}
+@keyframes spinGlow {
+  0%{transform:rotate(0deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+  50%{filter:drop-shadow(0 0 30px rgba(212,168,67,0.7));}
+  100%{transform:rotate(360deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+}
+@keyframes borderPulse {
+  0%,100%{border-color:rgba(212,168,67,0.3);box-shadow:0 0 5px rgba(212,168,67,0.05);}
+  50%{border-color:rgba(212,168,67,0.7);box-shadow:0 0 25px rgba(212,168,67,0.2);}
+}
+@keyframes shimmerText {
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+@keyframes breatheScale {
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+}
+@keyframes slideUpReveal {
+  0%{opacity:0;transform:translateY(30px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes goldSparkle {
+  0%,100%{opacity:0;transform:scale(0) rotate(0deg);}
+  50%{opacity:1;transform:scale(1) rotate(180deg);}
+}
+@keyframes rippleIn {
+  0%{transform:scale(0);opacity:0.8;}
+  100%{transform:scale(2);opacity:0;}
+}
+@keyframes rotateIn3D {
+  0%{transform:perspective(800px) rotateY(90deg);opacity:0;}
+  100%{transform:perspective(800px) rotateY(0deg);opacity:1;}
+}
+.gold-shimmer-text{
+  background:linear-gradient(90deg, #d4a843, #fff8dc, #d4a843, #b8912e, #d4a843);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmerText 3s ease-in-out infinite;
+}
+.gold-border-anim{border:1px solid rgba(212,168,67,0.3);animation:borderPulse 3s ease-in-out infinite;}
+.gold-border-anim:hover{animation:borderPulse 1s ease-in-out infinite;}
+.float-anim{animation:floatGlow 4s ease-in-out infinite;}
+.float-anim-delayed{animation:floatGlow 5s ease-in-out 1s infinite;}
+.scale-anim{animation:breatheScale 6s ease-in-out infinite;}
+.rotate-anim{animation:spinGlow 8s linear infinite;}
+.reveal-anim{animation:slideUpReveal 0.6s ease-out;}
+.reveal-delay-1{animation:slideUpReveal 0.6s ease-out 0.1s both;}
+.reveal-delay-2{animation:slideUpReveal 0.6s ease-out 0.2s both;}
+.reveal-delay-3{animation:slideUpReveal 0.6s ease-out 0.3s both;}
+.reveal-delay-4{animation:slideUpReveal 0.6s ease-out 0.4s both;}
+
+
+/* Interactive card tilt effect */
+.card-tilt{transition:transform 0.3s ease, box-shadow 0.3s ease;}
+.card-tilt:hover{transform:perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);box-shadow:0 15px 40px rgba(212,168,67,0.15);}
+.btn-ripple{position:relative;overflow:hidden;}
+.btn-ripple::after{content:'';position:absolute;width:100%;padding-top:100%;border-radius:50%;background:rgba(255,255,255,0.15);transform:scale(0);left:var(--x,50%);top:var(--y,50%);transform-origin:center;transition:transform 0.5s;pointer-events:none;}
+.btn-ripple:active::after{transform:scale(3);}
+.star-twinkle{animation:twinkle 2s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.glow-hover{transition:all 0.3s;}
+.glow-hover:hover{filter:drop-shadow(0 0 15px rgba(212,168,67,0.5));transform:scale(1.05);}
+.fade-in-section{animation:slideUpReveal 0.6s ease-out both;}
+.fade-in-section:nth-child(2){animation-delay:0.1s;}
+.fade-in-section:nth-child(3){animation-delay:0.2s;}
+.fade-in-section:nth-child(4){animation-delay:0.3s;}
+.fade-in-section:nth-child(5){animation-delay:0.4s;}
+
 </style>
 </head>
 <body>
@@ -216,7 +292,7 @@ body {
   <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
 </nav>
 <div class="main-container" id="app">
-  <h1 class="page-title">魔法知识测验</h1>
+  <h1 class="gold-shimmer-text page-title">魔法知识测验</h1>
   <p class="page-subtitle">基于《阿波菲斯龙之魔法》与《所罗门的小钥匙》</p>
   <div class="page-stats" id="pageStats"></div>
   <div class="control-panel" id="controlPanel">
@@ -408,9 +484,9 @@ function dLabel(d){ return {A1:'入门',A2:'初级',B1:'中级',A3:'高级',A4:'
 function renderPageStats(){ const all=QUESTION_BANK, cnt={}; all.forEach(q=>{ cnt[q.difficulty]=(cnt[q.difficulty]||0)+1; }); let h='<span class="stat-pill">全部 <strong>'+all.length+'</strong> 题</span>'; ['A1','A2','B1','A3','A4'].forEach(d=>{ h+='<span class="stat-pill">'+d+' <strong>'+(cnt[d]||0)+'</strong> 题</span>'; }); C.pageStats.innerHTML=h; }
 function applyFilter(diff){ document.querySelectorAll('.filter-btn').forEach(b=>{ b.className='filter-btn'; if(b.dataset.diff===diff) b.classList.add('active','active-'+diff); }); S.filteredQuestions=diff==='all'?[...QUESTION_BANK]:QUESTION_BANK.filter(q=>q.difficulty===diff); if(!S.isExamMode) renderAll(); }
 function renderAll(){ S.isExamMode=false; S.isReviewMode=false; stopTimer(); C.examStatus.style.display='none'; C.progressContainer.style.display='none'; C.timerBar.classList.remove('active'); C.resultPanel.classList.remove('show'); C.reviewList.classList.remove('show'); const qs=S.filteredQuestions; if(!qs.length){ C.container.innerHTML='<div class="empty-state"><div class="icon">&#128214;</div><p>该分类下暂无题目</p></div>'; return; } let h=''; qs.forEach(q=>{ h+=rCard(q,false); }); C.container.innerHTML=h; }
-function rCard(q,sc){ const lt=['A','B','C','D']; let oh=''; q.options.forEach((o,i)=>{ let c='option-item disabled'; if(sc&&i===q.correct)c+=' correct'; oh+='<div class="'+c+'"><span class="radio-circle"></span><span class="option-letter">'+lt[i]+'.</span><span>'+o+'</span></div>'; }); const eh=sc?'<div class="explanation-box show"><div class="exp-label">&#128220; 解析</div>'+q.explanation+'</div>':''; const badge='<span class="difficulty-badge">'+q.difficulty+' '+dLabel(q.difficulty)+'</span>'; return '<div class="question-card card-animate diff-'+q.difficulty+'"><div class="question-header"><span class="question-number">#'+q.id+' &middot; <span class="category-tag">'+q.category+'</span></span>'+badge+'</div><div class="question-text">'+q.question+'</div><div class="options-list">'+oh+'</div>'+eh+'</div>'; }
+function rCard(q,sc){ const lt=['A','B','C','D']; let oh=''; q.options.forEach((o,i)=>{ let c='option-item disabled'; if(sc&&i===q.correct)c+=' correct'; oh+='<div class="'+c+'"><span class="radio-circle"></span><span class="option-letter">'+lt[i]+'.</span><span>'+o+'</span></div>'; }); const eh=sc?'<div class="explanation-box show"><div class="exp-label">&#128220; 解析</div>'+q.explanation+'</div>':''; const badge='<span class="difficulty-badge">'+q.difficulty+' '+dLabel(q.difficulty)+'</span>'; return '<div class="question-card card card-tilt-animate diff-'+q.difficulty+'"><div class="question-header"><span class="question-number">#'+q.id+' &middot; <span class="category-tag">'+q.category+'</span></span>'+badge+'</div><div class="question-text">'+q.question+'</div><div class="options-list">'+oh+'</div>'+eh+'</div>'; }
 function startExam(count){ if(S.isExamMode)return; const pool=S.filteredQuestions; if(!pool.length){alert('当前筛选条件下没有题目。');return;} let sel=count==='all'?shuffle(pool):shuffle(pool).slice(0,Math.min(parseInt(count),pool.length)); S.currentQuestions=sel; S.currentIndex=0; S.answers=sel.map(()=>({selected:null,correct:false})); S.isExamMode=true; S.isReviewMode=false; S.isTimed=C.timedCheckbox.checked; C.resultPanel.classList.remove('show'); C.reviewList.classList.remove('show'); C.examStatus.style.display='flex'; C.progressContainer.style.display='block'; upStatus(); showQ(); }
-function showQ(){ stopTimer(); const q=S.currentQuestions[S.currentIndex], a=S.answers[S.currentIndex]; const lt=['A','B','C','D']; let oh=''; q.options.forEach((o,i)=>{ let c='option-item'; if(a.selected!==null){c+=' disabled';if(i===q.correct)c+=' correct';if(i===a.selected&&i!==q.correct)c+=' wrong';} if(a.selected===i)c+=' selected'; oh+='<div class="'+c+'" data-opt="'+i+'" onclick="selOpt('+i+')"><span class="radio-circle"></span><span class="option-letter">'+lt[i]+'.</span><span>'+o+'</span></div>'; }); const eh=a.selected!==null?'<div class="explanation-box show"><div class="exp-label">&#128220; 解析</div>'+q.explanation+'</div>':''; const badge='<span class="difficulty-badge">'+q.difficulty+' '+dLabel(q.difficulty)+'</span>'; const sh=a.selected===null?'<div class="submit-row"><button class="submit-btn primary" onclick="cfmAns()">确认答案</button></div>':'<div class="submit-row"><button class="submit-btn" onclick="nxtQ()">'+(S.currentIndex<S.currentQuestions.length-1?'下一题':'查看结果')+'</button></div>'; C.container.innerHTML='<div class="question-card card-animate diff-'+q.difficulty+'"><div class="question-header"><span class="question-number">第'+(S.currentIndex+1)+'/'+S.currentQuestions.length+'题 &middot; <span class="category-tag">'+q.category+'</span></span>'+badge+'</div><div class="question-text">'+q.question+'</div><div class="options-list">'+oh+'</div>'+eh+sh+'</div>'; upStatus(); if(S.isTimed&&a.selected===null)startTimer(); }
+function showQ(){ stopTimer(); const q=S.currentQuestions[S.currentIndex], a=S.answers[S.currentIndex]; const lt=['A','B','C','D']; let oh=''; q.options.forEach((o,i)=>{ let c='option-item'; if(a.selected!==null){c+=' disabled';if(i===q.correct)c+=' correct';if(i===a.selected&&i!==q.correct)c+=' wrong';} if(a.selected===i)c+=' selected'; oh+='<div class="'+c+'" data-opt="'+i+'" onclick="selOpt('+i+')"><span class="radio-circle"></span><span class="option-letter">'+lt[i]+'.</span><span>'+o+'</span></div>'; }); const eh=a.selected!==null?'<div class="explanation-box show"><div class="exp-label">&#128220; 解析</div>'+q.explanation+'</div>':''; const badge='<span class="difficulty-badge">'+q.difficulty+' '+dLabel(q.difficulty)+'</span>'; const sh=a.selected===null?'<div class="submit-row"><button class="submit-btn primary" onclick="cfmAns()">确认答案</button></div>':'<div class="submit-row"><button class="submit-btn" onclick="nxtQ()">'+(S.currentIndex<S.currentQuestions.length-1?'下一题':'查看结果')+'</button></div>'; C.container.innerHTML='<div class="question-card card card-tilt-animate diff-'+q.difficulty+'"><div class="question-header"><span class="question-number">第'+(S.currentIndex+1)+'/'+S.currentQuestions.length+'题 &middot; <span class="category-tag">'+q.category+'</span></span>'+badge+'</div><div class="question-text">'+q.question+'</div><div class="options-list">'+oh+'</div>'+eh+sh+'</div>'; upStatus(); if(S.isTimed&&a.selected===null)startTimer(); }
 function selOpt(idx){ const a=S.answers[S.currentIndex]; if(a.selected!==null)return; document.querySelectorAll('.option-item').forEach(el=>{el.classList.toggle('selected',parseInt(el.dataset.opt)===idx);}); }
 function cfmAns(){ let sel=null; document.querySelectorAll('.option-item').forEach(el=>{if(el.classList.contains('selected'))sel=parseInt(el.dataset.opt);}); if(sel===null){alert('请先选择一个选项');return;} const a=S.answers[S.currentIndex]; a.selected=sel; a.correct=(sel===S.currentQuestions[S.currentIndex].correct); stopTimer();showQ();upStatus(); }
 function nxtQ(){ S.currentIndex<S.currentQuestions.length-1?(S.currentIndex++,showQ()):finish(); }
@@ -419,7 +495,7 @@ function stopTimer(){if(S.timerInterval){clearInterval(S.timerInterval);S.timerI
 function autoSbm(){const a=S.answers[S.currentIndex];if(a.selected===null){a.selected=-1;a.correct=false;}showQ();upStatus();}
 function upStatus(){const t=S.currentQuestions.length,ans=S.answers.filter(x=>x.selected!==null).length,cr=S.answers.filter(x=>x.selected!==null&&x.correct).length,wr=ans-cr,p=ans>0?Math.round((cr/ans)*100):0; C.progressText.textContent=ans+'/'+t; C.correctCount.textContent=cr; C.wrongCount.textContent=wr; C.scoreText.textContent=p+'%'; C.progressFill.style.width=(t>0?(ans/t)*100:0)+'%'; }
 function finish(){ stopTimer();S.isExamMode=false;const t=S.currentQuestions.length,cr=S.answers.filter(a=>a.correct).length,wr=t-cr,p=t>0?Math.round((cr/t)*100):0; let g,gc,gd; if(p>=90){g='S';gc='grade-S';gd='超凡入圣 — 你已掌握龙之魔法的精髓。';}else if(p>=80){g='A';gc='grade-A';gd='卓越非凡 — 你对魔法知识有深刻理解。';}else if(p>=70){g='B';gc='grade-B';gd='扎实稳健 — 继续努力学习更高深的奥秘。';}else if(p>=60){g='C';gc='grade-C';gd='初窥门径 — 仍需加深对基础的理解。';}else{g='F';gc='grade-F';gd='尚需磨砺 — 回到书本，重新出发。';} C.gradeDisplay.textContent=g; C.gradeDisplay.className='grade-display '+gc; C.gradeText.textContent=gd; C.scoreStats.innerHTML='<div class="stat-box"><div class="stat-number gold">'+p+'%</div><div class="stat-desc">得分</div></div><div class="stat-box"><div class="stat-number green">'+cr+'</div><div class="stat-desc">正确</div></div><div class="stat-box"><div class="stat-number red">'+wr+'</div><div class="stat-desc">错误</div></div><div class="stat-box"><div class="stat-number muted">'+t+'</div><div class="stat-desc">总题</div></div>'; const dd={}; S.currentQuestions.forEach((q,i)=>{const d=q.difficulty;if(!dd[d])dd[d]={total:0,correct:0};dd[d].total++;if(S.answers[i].correct)dd[d].correct++;}); let dh=''; Object.keys(dd).sort().forEach(d=>{dh+='<div class="diff-stat"><span class="label">'+d+':</span><span class="value correct">'+dd[d].correct+'</span><span class="value muted">/</span><span class="value total">'+dd[d].total+'</span></div>';}); C.diffStats.innerHTML=dh; C.resultPanel.classList.add('show'); C.reviewList.classList.remove('show'); C.examStatus.style.display='none'; C.progressContainer.style.display='none'; C.container.innerHTML=''; }
-function showReview(){ C.reviewList.classList.toggle('show'); if(!C.reviewList.classList.contains('show'))return; const lt=['A','B','C','D']; let h=''; S.currentQuestions.forEach((q,i)=>{const a=S.answers[i],crt=a.correct; let oh=''; q.options.forEach((o,j)=>{let c='option-item disabled';if(j===q.correct)c+=' correct';if(j===a.selected&&j!==q.correct)c+=' wrong';oh+='<div class="'+c+'"><span class="radio-circle"></span><span class="option-letter">'+lt[j]+'.</span><span>'+o+'</span></div>';}); const si=crt?'<span style="color:var(--correct);font-weight:700;">&#10004; 正确</span>':'<span style="color:var(--accent);font-weight:700;">&#10008; 错误</span>'; const badge='<span class="difficulty-badge">'+q.difficulty+'</span>'; h+='<div class="question-card card-animate diff-'+q.difficulty+'"><div class="question-header"><span class="question-number">#'+q.id+' &middot; <span class="category-tag">'+q.category+'</span> '+si+'</span>'+badge+'</div><div class="question-text">'+q.question+'</div><div class="options-list">'+oh+'</div><div class="explanation-box show"><div class="exp-label">&#128220; 解析</div>'+q.explanation+'</div></div>';}); C.reviewContent.innerHTML=h; }
+function showReview(){ C.reviewList.classList.toggle('show'); if(!C.reviewList.classList.contains('show'))return; const lt=['A','B','C','D']; let h=''; S.currentQuestions.forEach((q,i)=>{const a=S.answers[i],crt=a.correct; let oh=''; q.options.forEach((o,j)=>{let c='option-item disabled';if(j===q.correct)c+=' correct';if(j===a.selected&&j!==q.correct)c+=' wrong';oh+='<div class="'+c+'"><span class="radio-circle"></span><span class="option-letter">'+lt[j]+'.</span><span>'+o+'</span></div>';}); const si=crt?'<span style="color:var(--correct);font-weight:700;">&#10004; 正确</span>':'<span style="color:var(--accent);font-weight:700;">&#10008; 错误</span>'; const badge='<span class="difficulty-badge">'+q.difficulty+'</span>'; h+='<div class="question-card card card-tilt-animate diff-'+q.difficulty+'"><div class="question-header"><span class="question-number">#'+q.id+' &middot; <span class="category-tag">'+q.category+'</span> '+si+'</span>'+badge+'</div><div class="question-text">'+q.question+'</div><div class="options-list">'+oh+'</div><div class="explanation-box show"><div class="exp-label">&#128220; 解析</div>'+q.explanation+'</div></div>';}); C.reviewContent.innerHTML=h; }
 function resetAll(){ stopTimer(); S.isExamMode=S.isReviewMode=false; S.currentQuestions=[]; S.currentIndex=0; S.answers=[]; C.timedCheckbox.checked=false; C.examStatus.style.display='none'; C.progressContainer.style.display='none'; C.timerBar.classList.remove('active'); C.resultPanel.classList.remove('show'); C.reviewList.classList.remove('show'); C.container.innerHTML=''; renderAll(); }
 C.filterGroup.addEventListener('click',e=>{const btn=e.target.closest('.filter-btn');if(!btn||S.isExamMode)return;applyFilter(btn.dataset.diff);});
 document.querySelectorAll('.exam-btn[data-exam]').forEach(b=>{b.addEventListener('click',()=>{startExam(b.dataset.exam);});});

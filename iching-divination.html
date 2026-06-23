@@ -187,6 +187,82 @@ a:hover{color:#f0d070}
   .yao-line-item .yao-line-vis .yl.yl-yin span{width:16px}
   .yao-relationship{grid-template-columns:1fr 1fr}
 }
+
+/* ====== ENHANCED ANIMATION SYSTEM ====== */
+@keyframes floatGlow {
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 5px rgba(212,168,67,0.3));}
+  50%{transform:translateY(-6px);filter:drop-shadow(0 0 20px rgba(212,168,67,0.6));}
+}
+@keyframes spinGlow {
+  0%{transform:rotate(0deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+  50%{filter:drop-shadow(0 0 30px rgba(212,168,67,0.7));}
+  100%{transform:rotate(360deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+}
+@keyframes borderPulse {
+  0%,100%{border-color:rgba(212,168,67,0.3);box-shadow:0 0 5px rgba(212,168,67,0.05);}
+  50%{border-color:rgba(212,168,67,0.7);box-shadow:0 0 25px rgba(212,168,67,0.2);}
+}
+@keyframes shimmerText {
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+@keyframes breatheScale {
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+}
+@keyframes slideUpReveal {
+  0%{opacity:0;transform:translateY(30px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes goldSparkle {
+  0%,100%{opacity:0;transform:scale(0) rotate(0deg);}
+  50%{opacity:1;transform:scale(1) rotate(180deg);}
+}
+@keyframes rippleIn {
+  0%{transform:scale(0);opacity:0.8;}
+  100%{transform:scale(2);opacity:0;}
+}
+@keyframes rotateIn3D {
+  0%{transform:perspective(800px) rotateY(90deg);opacity:0;}
+  100%{transform:perspective(800px) rotateY(0deg);opacity:1;}
+}
+.gold-shimmer-text{
+  background:linear-gradient(90deg, #d4a843, #fff8dc, #d4a843, #b8912e, #d4a843);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmerText 3s ease-in-out infinite;
+}
+.gold-border-anim{border:1px solid rgba(212,168,67,0.3);animation:borderPulse 3s ease-in-out infinite;}
+.gold-border-anim:hover{animation:borderPulse 1s ease-in-out infinite;}
+.float-anim{animation:floatGlow 4s ease-in-out infinite;}
+.float-anim-delayed{animation:floatGlow 5s ease-in-out 1s infinite;}
+.scale-anim{animation:breatheScale 6s ease-in-out infinite;}
+.rotate-anim{animation:spinGlow 8s linear infinite;}
+.reveal-anim{animation:slideUpReveal 0.6s ease-out;}
+.reveal-delay-1{animation:slideUpReveal 0.6s ease-out 0.1s both;}
+.reveal-delay-2{animation:slideUpReveal 0.6s ease-out 0.2s both;}
+.reveal-delay-3{animation:slideUpReveal 0.6s ease-out 0.3s both;}
+.reveal-delay-4{animation:slideUpReveal 0.6s ease-out 0.4s both;}
+
+
+/* Interactive card tilt effect */
+.card-tilt{transition:transform 0.3s ease, box-shadow 0.3s ease;}
+.card-tilt:hover{transform:perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);box-shadow:0 15px 40px rgba(212,168,67,0.15);}
+.btn-ripple{position:relative;overflow:hidden;}
+.btn-ripple::after{content:'';position:absolute;width:100%;padding-top:100%;border-radius:50%;background:rgba(255,255,255,0.15);transform:scale(0);left:var(--x,50%);top:var(--y,50%);transform-origin:center;transition:transform 0.5s;pointer-events:none;}
+.btn-ripple:active::after{transform:scale(3);}
+.star-twinkle{animation:twinkle 2s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.glow-hover{transition:all 0.3s;}
+.glow-hover:hover{filter:drop-shadow(0 0 15px rgba(212,168,67,0.5));transform:scale(1.05);}
+.fade-in-section{animation:slideUpReveal 0.6s ease-out both;}
+.fade-in-section:nth-child(2){animation-delay:0.1s;}
+.fade-in-section:nth-child(3){animation-delay:0.2s;}
+.fade-in-section:nth-child(4){animation-delay:0.3s;}
+.fade-in-section:nth-child(5){animation-delay:0.4s;}
+
 </style>
 </head>
 <body>
@@ -306,18 +382,18 @@ a:hover{color:#f0d070}
           <div class="yao-line-list" id="yaoLineList"></div>
           <div class="yao-changing-info" id="yaoChangingInfo"></div>
           <div class="yao-relationship" id="yaoRelationship" style="display:none">
-            <div class="yao-relation-card rel-primary" id="relOriginal">
+            <div class="yao-relation-card card-tilt rel-primary" id="relOriginal">
               <div class="rel-label">本卦（主卦）</div>
               <div class="rel-name"></div>
               <div class="rel-desc"></div>
             </div>
             <div class="yao-change-arrow" id="relArrow">&#9660;</div>
-            <div class="yao-relation-card rel-changed" id="relChanged">
+            <div class="yao-relation-card card-tilt rel-changed" id="relChanged">
               <div class="rel-label">之卦（变卦）</div>
               <div class="rel-name"></div>
               <div class="rel-desc"></div>
             </div>
-            <div class="yao-relation-card" id="relHidden">
+            <div class="yao-relation-card card-tilt" id="relHidden">
               <div class="rel-label">体卦（互卦）</div>
               <div class="rel-name"></div>
               <div class="rel-desc"></div>
@@ -1110,11 +1186,11 @@ function hexCardHTML(h){
       linesHtml+='<div class="cl yin"><span></span><span></span></div>';
     }
   }
-  return '<div class="hexagram-card" onclick="openDetail('+h.n+')">'+
-    '<div class="card-number">#'+h.n+'</div>'+
-    '<div class="card-chinese">'+h.ch+'</div>'+
-    '<div class="card-english">'+h.en+'</div>'+
-    '<div class="card-lines">'+linesHtml+'</div></div>';
+  return '<div class="hexagram-card card-tilt" onclick="openDetail('+h.n+')">'+
+    '<div class="card card-tilt-number">#'+h.n+'</div>'+
+    '<div class="card card-tilt-chinese">'+h.ch+'</div>'+
+    '<div class="card card-tilt-english">'+h.en+'</div>'+
+    '<div class="card card-tilt-lines">'+linesHtml+'</div></div>';
 }
 
 // ============================ BROWSE ============================
@@ -1360,10 +1436,10 @@ function openDetail(n){
   
   const interpDiv=document.getElementById('modalInterpretation');
   interpDiv.innerHTML='<h4>卦象解读</h4><div class="interpretation-grid">'+
-    '<div class="interp-card"><h5>事业</h5><p>'+h.interp.career+'</p></div>'+
-    '<div class="interp-card"><h5>商业</h5><p>'+h.interp.business+'</p></div>'+
-    '<div class="interp-card"><h5>感情</h5><p>'+h.interp.love+'</p></div>'+
-    '<div class="interp-card"><h5>决策</h5><p>'+h.interp.decision+'</p></div></div>';
+    '<div class="interp-card card-tilt"><h5>事业</h5><p>'+h.interp.career+'</p></div>'+
+    '<div class="interp-card card-tilt"><h5>商业</h5><p>'+h.interp.business+'</p></div>'+
+    '<div class="interp-card card-tilt"><h5>感情</h5><p>'+h.interp.love+'</p></div>'+
+    '<div class="interp-card card-tilt"><h5>决策</h5><p>'+h.interp.decision+'</p></div></div>';
   
   drawHexagram('hexagramCanvas',h.lines,null);
   document.getElementById('detailModal').classList.add('open');

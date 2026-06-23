@@ -926,6 +926,82 @@ body {
     align-items: flex-start;
   }
 }
+
+/* ====== ENHANCED ANIMATION SYSTEM ====== */
+@keyframes floatGlow {
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 5px rgba(212,168,67,0.3));}
+  50%{transform:translateY(-6px);filter:drop-shadow(0 0 20px rgba(212,168,67,0.6));}
+}
+@keyframes spinGlow {
+  0%{transform:rotate(0deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+  50%{filter:drop-shadow(0 0 30px rgba(212,168,67,0.7));}
+  100%{transform:rotate(360deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+}
+@keyframes borderPulse {
+  0%,100%{border-color:rgba(212,168,67,0.3);box-shadow:0 0 5px rgba(212,168,67,0.05);}
+  50%{border-color:rgba(212,168,67,0.7);box-shadow:0 0 25px rgba(212,168,67,0.2);}
+}
+@keyframes shimmerText {
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+@keyframes breatheScale {
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+}
+@keyframes slideUpReveal {
+  0%{opacity:0;transform:translateY(30px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes goldSparkle {
+  0%,100%{opacity:0;transform:scale(0) rotate(0deg);}
+  50%{opacity:1;transform:scale(1) rotate(180deg);}
+}
+@keyframes rippleIn {
+  0%{transform:scale(0);opacity:0.8;}
+  100%{transform:scale(2);opacity:0;}
+}
+@keyframes rotateIn3D {
+  0%{transform:perspective(800px) rotateY(90deg);opacity:0;}
+  100%{transform:perspective(800px) rotateY(0deg);opacity:1;}
+}
+.gold-shimmer-text{
+  background:linear-gradient(90deg, #d4a843, #fff8dc, #d4a843, #b8912e, #d4a843);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmerText 3s ease-in-out infinite;
+}
+.gold-border-anim{border:1px solid rgba(212,168,67,0.3);animation:borderPulse 3s ease-in-out infinite;}
+.gold-border-anim:hover{animation:borderPulse 1s ease-in-out infinite;}
+.float-anim{animation:floatGlow 4s ease-in-out infinite;}
+.float-anim-delayed{animation:floatGlow 5s ease-in-out 1s infinite;}
+.scale-anim{animation:breatheScale 6s ease-in-out infinite;}
+.rotate-anim{animation:spinGlow 8s linear infinite;}
+.reveal-anim{animation:slideUpReveal 0.6s ease-out;}
+.reveal-delay-1{animation:slideUpReveal 0.6s ease-out 0.1s both;}
+.reveal-delay-2{animation:slideUpReveal 0.6s ease-out 0.2s both;}
+.reveal-delay-3{animation:slideUpReveal 0.6s ease-out 0.3s both;}
+.reveal-delay-4{animation:slideUpReveal 0.6s ease-out 0.4s both;}
+
+
+/* Interactive card tilt effect */
+.card-tilt{transition:transform 0.3s ease, box-shadow 0.3s ease;}
+.card-tilt:hover{transform:perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);box-shadow:0 15px 40px rgba(212,168,67,0.15);}
+.btn-ripple{position:relative;overflow:hidden;}
+.btn-ripple::after{content:'';position:absolute;width:100%;padding-top:100%;border-radius:50%;background:rgba(255,255,255,0.15);transform:scale(0);left:var(--x,50%);top:var(--y,50%);transform-origin:center;transition:transform 0.5s;pointer-events:none;}
+.btn-ripple:active::after{transform:scale(3);}
+.star-twinkle{animation:twinkle 2s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.glow-hover{transition:all 0.3s;}
+.glow-hover:hover{filter:drop-shadow(0 0 15px rgba(212,168,67,0.5));transform:scale(1.05);}
+.fade-in-section{animation:slideUpReveal 0.6s ease-out both;}
+.fade-in-section:nth-child(2){animation-delay:0.1s;}
+.fade-in-section:nth-child(3){animation-delay:0.2s;}
+.fade-in-section:nth-child(4){animation-delay:0.3s;}
+.fade-in-section:nth-child(5){animation-delay:0.4s;}
+
 </style>
 </head>
 <body>
@@ -998,8 +1074,8 @@ body {
     </div>
 
     <!-- 新建梦境表单 -->
-    <div class="card">
-      <div class="card-title">记录新梦</div>
+    <div class="card card-tilt">
+      <div class="card card-tilt-title">记录新梦</div>
       <div class="form-group">
         <label class="form-label">日期</label>
         <input type="date" class="form-input" id="dreamDate">
@@ -1059,8 +1135,8 @@ body {
         <input type="checkbox" id="dreamLucidity">
         <label for="dreamLucidity">是否意识到自己在做梦</label>
       </div>
-      <div class="btn-group">
-        <button class="btn btn-primary" onclick="saveDream()">记录梦境</button>
+      <div class="btn btn-ripple-group">
+        <button class="btn btn-ripple btn-primary" onclick="saveDream()">记录梦境</button>
       </div>
     </div>
 
@@ -1088,24 +1164,24 @@ body {
       <div id="calendarHeatmap"></div>
     </div>
 
-    <div class="card">
-      <div class="card-title">常见梦境符号</div>
+    <div class="card card-tilt">
+      <div class="card card-tilt-title">常见梦境符号</div>
       <div class="symbol-list" id="symbolStatsList"></div>
     </div>
   </div>
 
   <!-- ==================== 解梦 Tab ==================== -->
   <div class="tab-panel" id="tab-interpret">
-    <div class="card">
-      <div class="card-title">梦境解读</div>
+    <div class="card card-tilt">
+      <div class="card card-tilt-title">梦境解读</div>
       <div class="form-group">
         <label class="form-label">选择要解读的梦境</label>
         <select class="form-select interpretation-dream-select" id="interpretDreamSelect">
           <option value="">-- 请选择 --</option>
         </select>
       </div>
-      <div class="btn-group">
-        <button class="btn btn-primary" onclick="interpretDream()">解梦</button>
+      <div class="btn btn-ripple-group">
+        <button class="btn btn-ripple btn-primary" onclick="interpretDream()">解梦</button>
       </div>
       <div id="interpretationResult"></div>
     </div>
@@ -1113,8 +1189,8 @@ body {
 
   <!-- ==================== 孵化 Tab ==================== -->
   <div class="tab-panel" id="tab-incubate">
-    <div class="card">
-      <div class="card-title">梦境孵化</div>
+    <div class="card card-tilt">
+      <div class="card card-tilt-title">梦境孵化</div>
       <div class="form-group">
         <label class="form-label">今晚我想梦见...</label>
         <textarea class="form-textarea" id="incubateIntent" placeholder="写下你的意图..." style="min-height:80px"></textarea>
@@ -1128,22 +1204,22 @@ body {
           <option value="获得灵感">获得灵感</option>
         </select>
       </div>
-      <div class="btn-group">
-        <button class="btn btn-primary" onclick="generateRitual()">生成睡前仪式</button>
+      <div class="btn btn-ripple-group">
+        <button class="btn btn-ripple btn-primary" onclick="generateRitual()">生成睡前仪式</button>
       </div>
       <div id="ritualResult"></div>
     </div>
 
-    <div class="card">
-      <div class="card-title">孵化记录</div>
+    <div class="card card-tilt">
+      <div class="card card-tilt-title">孵化记录</div>
       <div id="incubationLog"></div>
     </div>
   </div>
 
   <!-- 工具栏（导出/导入） -->
   <div class="toolbar">
-    <button class="btn" onclick="exportDreams()">导出所有梦境 (JSON)</button>
-    <button class="btn" onclick="document.getElementById('importFile').click()">从 JSON 导入</button>
+    <button class="btn btn-ripple" onclick="exportDreams()">导出所有梦境 (JSON)</button>
+    <button class="btn btn-ripple" onclick="document.getElementById('importFile').click()">从 JSON 导入</button>
     <input type="file" class="hidden-input" id="importFile" accept=".json" onchange="importDreams(event)">
   </div>
 
@@ -1449,7 +1525,7 @@ function renderTimeline() {
       '<p>' + escapeHtml(d.content).replace(/\n/g, '<br>') + '</p>' +
       symbolsHtml +
       '<div class="entry-actions">' +
-      '<button class="btn btn-small btn-danger" onclick="event.stopPropagation();deleteDream(\'' + d.id + '\')">删除</button>' +
+      '<button class="btn btn-ripple btn-small btn-danger" onclick="event.stopPropagation();deleteDream(\'' + d.id + '\')">删除</button>' +
       '</div>' +
       '</div>' +
       '</div>';
@@ -1483,10 +1559,10 @@ function renderStats() {
   var lucidityCount = dreams.filter(function(d) { return d.lucidity; }).length;
 
   document.getElementById('statsGrid').innerHTML =
-    '<div class="stat-card"><div class="stat-value">' + total + '</div><div class="stat-label">总梦境数</div></div>' +
-    '<div class="stat-card"><div class="stat-value">' + streak + '</div><div class="stat-label">当前连续天数</div></div>' +
-    '<div class="stat-card"><div class="stat-value">' + longest + '</div><div class="stat-label">最长连续天数</div></div>' +
-    '<div class="stat-card"><div class="stat-value">' + lucidityCount + '</div><div class="stat-label">清醒梦次数</div></div>';
+    '<div class="stat-card card-tilt"><div class="stat-value">' + total + '</div><div class="stat-label">总梦境数</div></div>' +
+    '<div class="stat-card card-tilt"><div class="stat-value">' + streak + '</div><div class="stat-label">当前连续天数</div></div>' +
+    '<div class="stat-card card-tilt"><div class="stat-value">' + longest + '</div><div class="stat-label">最长连续天数</div></div>' +
+    '<div class="stat-card card-tilt"><div class="stat-value">' + lucidityCount + '</div><div class="stat-label">清醒梦次数</div></div>';
 
   // 类型图表
   renderTypeChart();

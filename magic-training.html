@@ -1385,6 +1385,87 @@ body {
   .meditation-timer { font-size: 1.4rem; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+@keyframes fadeIn {
+  0%{opacity:0;}
+  100%{opacity:1;}
+}
+
+/* ====== ENHANCED ANIMATION SYSTEM ====== */
+@keyframes floatGlow {
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 5px rgba(212,168,67,0.3));}
+  50%{transform:translateY(-6px);filter:drop-shadow(0 0 20px rgba(212,168,67,0.6));}
+}
+@keyframes spinGlow {
+  0%{transform:rotate(0deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+  50%{filter:drop-shadow(0 0 30px rgba(212,168,67,0.7));}
+  100%{transform:rotate(360deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+}
+@keyframes borderPulse {
+  0%,100%{border-color:rgba(212,168,67,0.3);box-shadow:0 0 5px rgba(212,168,67,0.05);}
+  50%{border-color:rgba(212,168,67,0.7);box-shadow:0 0 25px rgba(212,168,67,0.2);}
+}
+@keyframes shimmerText {
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+@keyframes breatheScale {
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+}
+@keyframes slideUpReveal {
+  0%{opacity:0;transform:translateY(30px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes goldSparkle {
+  0%,100%{opacity:0;transform:scale(0) rotate(0deg);}
+  50%{opacity:1;transform:scale(1) rotate(180deg);}
+}
+@keyframes rippleIn {
+  0%{transform:scale(0);opacity:0.8;}
+  100%{transform:scale(2);opacity:0;}
+}
+@keyframes rotateIn3D {
+  0%{transform:perspective(800px) rotateY(90deg);opacity:0;}
+  100%{transform:perspective(800px) rotateY(0deg);opacity:1;}
+}
+.gold-shimmer-text{
+  background:linear-gradient(90deg, #d4a843, #fff8dc, #d4a843, #b8912e, #d4a843);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmerText 3s ease-in-out infinite;
+}
+.gold-border-anim{border:1px solid rgba(212,168,67,0.3);animation:borderPulse 3s ease-in-out infinite;}
+.gold-border-anim:hover{animation:borderPulse 1s ease-in-out infinite;}
+.float-anim{animation:floatGlow 4s ease-in-out infinite;}
+.float-anim-delayed{animation:floatGlow 5s ease-in-out 1s infinite;}
+.scale-anim{animation:breatheScale 6s ease-in-out infinite;}
+.rotate-anim{animation:spinGlow 8s linear infinite;}
+.reveal-anim{animation:slideUpReveal 0.6s ease-out;}
+.reveal-delay-1{animation:slideUpReveal 0.6s ease-out 0.1s both;}
+.reveal-delay-2{animation:slideUpReveal 0.6s ease-out 0.2s both;}
+.reveal-delay-3{animation:slideUpReveal 0.6s ease-out 0.3s both;}
+.reveal-delay-4{animation:slideUpReveal 0.6s ease-out 0.4s both;}
+
+
+/* Interactive card tilt effect */
+.card-tilt{transition:transform 0.3s ease, box-shadow 0.3s ease;}
+.card-tilt:hover{transform:perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);box-shadow:0 15px 40px rgba(212,168,67,0.15);}
+.btn-ripple{position:relative;overflow:hidden;}
+.btn-ripple::after{content:'';position:absolute;width:100%;padding-top:100%;border-radius:50%;background:rgba(255,255,255,0.15);transform:scale(0);left:var(--x,50%);top:var(--y,50%);transform-origin:center;transition:transform 0.5s;pointer-events:none;}
+.btn-ripple:active::after{transform:scale(3);}
+.star-twinkle{animation:twinkle 2s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.glow-hover{transition:all 0.3s;}
+.glow-hover:hover{filter:drop-shadow(0 0 15px rgba(212,168,67,0.5));transform:scale(1.05);}
+.fade-in-section{animation:slideUpReveal 0.6s ease-out both;}
+.fade-in-section:nth-child(2){animation-delay:0.1s;}
+.fade-in-section:nth-child(3){animation-delay:0.2s;}
+.fade-in-section:nth-child(4){animation-delay:0.3s;}
+.fade-in-section:nth-child(5){animation-delay:0.4s;}
+
 </style>
 </head>
 <body>
@@ -1430,7 +1511,7 @@ body {
 
   <!-- ===== HEADER ===== -->
   <div class="page-header">
-    <h1>龙之修炼与禁食指南</h1>
+    <h1 class="gold-shimmer-text">龙之修炼与禁食指南</h1>
     <div class="divider"></div>
     <p class="subtitle">禁食 · 冥想 · 仪式 · 元素 · 日志</p>
   </div>
@@ -1454,19 +1535,19 @@ body {
 
     <!-- Fasting Types -->
     <div class="fasting-types">
-      <div class="fasting-type-card">
+      <div class="fasting-type-card card-tilt">
         <div class="ft-title">清水禁食</div>
         <div class="ft-info">仅饮用纯净水，持续1-7天。最适合仪式前的深度净化。需充分休息，避免剧烈活动。</div>
       </div>
-      <div class="fasting-type-card">
+      <div class="fasting-type-card card-tilt">
         <div class="ft-title">果汁禁食</div>
         <div class="ft-info">新鲜果蔬汁搭配水，持续3-10天。适合初学禁食者，保留部分营养同时进行排毒。</div>
       </div>
-      <div class="fasting-type-card">
+      <div class="fasting-type-card card-tilt">
         <div class="ft-title">部分禁食</div>
         <div class="ft-info">每日一餐清淡素食，持续7-21天。适合长期修炼期间保持能量平衡。</div>
       </div>
-      <div class="fasting-type-card">
+      <div class="fasting-type-card card-tilt">
         <div class="ft-title">间歇禁食</div>
         <div class="ft-info">16:8或20:4时间窗口进食，持续进行。适合日常修炼配合，灵活可持续。</div>
       </div>
@@ -1475,15 +1556,15 @@ body {
     <!-- Fasting Phases -->
     <h3 style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;letter-spacing:2px;text-align:center;margin:20px 0 12px;">龙之魔法禁食三阶段</h3>
     <div class="fasting-phases">
-      <div class="phase-card">
+      <div class="phase-card card-tilt">
         <div class="phase-title">第一阶段 · 准备期</div>
         <div class="phase-detail">仪式前3天开始清淡饮食，逐步减少食量。避免红肉、奶制品和加工食品。大量饮水，记录梦境和身体反应。为能量调整做准备。</div>
       </div>
-      <div class="phase-card">
+      <div class="phase-card card-tilt">
         <div class="phase-title">第二阶段 · 净化期</div>
         <div class="phase-detail">1-3天的清水禁食，在关键仪式期间进行。通过禁食提升灵性感知力，配合冥想和龙息法。注意监测体力，每日不超过3天。</div>
       </div>
-      <div class="phase-card">
+      <div class="phase-card card-tilt">
         <div class="phase-title">第三阶段 · 复食期</div>
         <div class="phase-detail">循序渐进的复食过程，从稀粥和蒸蔬菜开始。首日避开盐和油，次日加入软质蛋白质，第三天恢复正常饮食。观察身体信号。</div>
       </div>
@@ -1508,9 +1589,9 @@ body {
       </div>
 
       <div class="tracker-controls">
-        <button class="btn" id="fastStartBtn">开始禁食</button>
-        <button class="btn btn-danger" id="fastStopBtn" style="display:none;">结束禁食</button>
-        <button class="btn" id="fastResetBtn">重置</button>
+        <button class="btn btn-ripple" id="fastStartBtn">开始禁食</button>
+        <button class="btn btn-ripple btn-danger" id="fastStopBtn" style="display:none;">结束禁食</button>
+        <button class="btn btn-ripple" id="fastResetBtn">重置</button>
       </div>
 
       <!-- Phase Progress -->
@@ -1530,8 +1611,8 @@ body {
       <div class="water-reminder" id="waterReminder">
         <span class="water-msg" id="waterMsg">&#x1F6B0; 请记得补充水分 — 每次饮200-300ml纯净水</span>
         <div style="display:flex;gap:6px;justify-content:center;margin-top:6px;flex-wrap:wrap;">
-          <button class="btn" style="font-size:0.8rem;padding:4px 14px;" id="waterLogBtn">记录饮水</button>
-          <button class="btn" style="font-size:0.8rem;padding:4px 14px;" id="waterSnoozeBtn">稍后提醒</button>
+          <button class="btn btn-ripple" style="font-size:0.8rem;padding:4px 14px;" id="waterLogBtn">记录饮水</button>
+          <button class="btn btn-ripple" style="font-size:0.8rem;padding:4px 14px;" id="waterSnoozeBtn">稍后提醒</button>
         </div>
         <div style="font-size:0.75rem;color:#4a9e6a;margin-top:4px;" id="waterCountDisplay">今日已饮水：0 次</div>
       </div>
@@ -1547,7 +1628,7 @@ body {
       <div class="tracker-journal">
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;">禁食日记</label>
-          <button class="btn" style="font-size:0.8rem;padding:4px 14px;" id="saveFastingJournal">保存</button>
+          <button class="btn btn-ripple" style="font-size:0.8rem;padding:4px 14px;" id="saveFastingJournal">保存</button>
         </div>
         <textarea id="fastJournalText" placeholder="记录你禁食期间的感受、梦境、灵性体验..."></textarea>
       </div>
@@ -1600,9 +1681,9 @@ body {
       </div>
 
       <div class="tracker-controls" style="margin-top:12px;">
-        <button class="btn" id="medStartBtn">开始冥想</button>
-        <button class="btn btn-danger" id="medStopBtn" style="display:none;">停止</button>
-        <button class="btn" id="medResetBtn">重置</button>
+        <button class="btn btn-ripple" id="medStartBtn">开始冥想</button>
+        <button class="btn btn-ripple btn-danger" id="medStopBtn" style="display:none;">停止</button>
+        <button class="btn btn-ripple" id="medResetBtn">重置</button>
       </div>
     </div>
   </div>
@@ -1655,7 +1736,7 @@ body {
       </div>
     </div>
 
-    <button class="btn reset-btn" id="checklistResetBtn">重置清单</button>
+    <button class="btn btn-ripple reset-btn" id="checklistResetBtn">重置清单</button>
   </div>
 
   <!-- ================================================================ -->
@@ -1824,19 +1905,19 @@ body {
 
     <!-- Statistics -->
     <div class="stats-grid" id="statsGrid">
-      <div class="stat-card">
+      <div class="stat-card card-tilt">
         <div class="stat-num" id="statTotalHours">0</div>
         <div class="stat-label">总修炼时长(小时)</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card card-tilt">
         <div class="stat-num" id="statLongestStreak">0</div>
         <div class="stat-label">最长连续(天)</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card card-tilt">
         <div class="stat-num" id="statCurrentStreak">0</div>
         <div class="stat-label">当前连续(天)</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card card-tilt">
         <div class="stat-num" id="statTotalEntries">0</div>
         <div class="stat-label">总记录数</div>
       </div>
@@ -1895,7 +1976,7 @@ body {
       <div class="form-row">
         <textarea id="journalNotes" placeholder="记录修炼体验、感悟、梦境..."></textarea>
       </div>
-      <button class="btn" id="journalSaveBtn">保存记录</button>
+      <button class="btn btn-ripple" id="journalSaveBtn">保存记录</button>
     </div>
 
     <!-- Recent Entries -->
@@ -1926,7 +2007,7 @@ body {
     </div>
 
     <!-- ===== STEP 1 ===== -->
-    <div class="step-card" data-step="1">
+    <div class="step-card card-tilt" data-step="1">
       <div class="step-header" data-toggle="step-1">
         <span class="step-number">一</span>
         <span class="step-title">感官剥离与重塑</span>
@@ -1967,13 +2048,13 @@ body {
         <div style="margin-top:10px;">
           <div style="font-size:0.8rem;color:#8a7e6a;margin-bottom:4px;letter-spacing:1px;">今日觉察记录：</div>
           <textarea id="senseJournal" placeholder="今天你注意到了什么新的感觉？描述那个被忽略已久的知觉世界..." style="width:100%;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:8px;border-radius:6px;font-family:'Noto Serif SC',serif;font-size:0.82rem;resize:vertical;min-height:60px;"></textarea>
-          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="senseSaveBtn">保存今日记录</button>
+          <button class="btn btn-ripple" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="senseSaveBtn">保存今日记录</button>
         </div>
       </div>
     </div>
 
     <!-- ===== STEP 2 ===== -->
-    <div class="step-card" data-step="2">
+    <div class="step-card card-tilt" data-step="2">
       <div class="step-header" data-toggle="step-2">
         <span class="step-number">二</span>
         <span class="step-title">时间吞噬</span>
@@ -1996,9 +2077,9 @@ body {
           </div>
 
           <div class="tracker-controls">
-            <button class="btn" id="tdStartBtn">开始吞噬</button>
-            <button class="btn btn-danger" id="tdStopBtn" style="display:none;">停止</button>
-            <button class="btn" id="tdResetBtn">重置</button>
+            <button class="btn btn-ripple" id="tdStartBtn">开始吞噬</button>
+            <button class="btn btn-ripple btn-danger" id="tdStopBtn" style="display:none;">停止</button>
+            <button class="btn btn-ripple" id="tdResetBtn">重置</button>
           </div>
         </div>
 
@@ -2010,14 +2091,14 @@ body {
             <option value="normal">没有变化</option>
             <option value="fast">反而变快了</option>
           </select>
-          <button class="btn" style="font-size:0.8rem;padding:4px 14px;" id="tdLogBtn">记录</button>
+          <button class="btn btn-ripple" style="font-size:0.8rem;padding:4px 14px;" id="tdLogBtn">记录</button>
         </div>
         <div class="td-log-entries" id="tdLogEntries"></div>
       </div>
     </div>
 
     <!-- ===== STEP 3 ===== -->
-    <div class="step-card" data-step="3">
+    <div class="step-card card-tilt" data-step="3">
       <div class="step-header" data-toggle="step-3">
         <span class="step-number">三</span>
         <span class="step-title">思想质疑</span>
@@ -2078,13 +2159,13 @@ body {
         <div style="margin-top:10px;">
           <div style="font-size:0.8rem;color:#8a7e6a;margin-bottom:4px;letter-spacing:1px;">洞察日志：</div>
           <textarea id="tqJournal" placeholder="在质疑的过程中，你发现了哪些深层的信念模式？写下你的洞察..." style="width:100%;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:8px;border-radius:6px;font-family:'Noto Serif SC',serif;font-size:0.82rem;resize:vertical;min-height:60px;"></textarea>
-          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="tqSaveBtn">保存洞察</button>
+          <button class="btn btn-ripple" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="tqSaveBtn">保存洞察</button>
         </div>
       </div>
     </div>
 
     <!-- ===== STEP 4 ===== -->
-    <div class="step-card" data-step="4">
+    <div class="step-card card-tilt" data-step="4">
       <div class="step-header" data-toggle="step-4">
         <span class="step-number">四</span>
         <span class="step-title">欲望之火</span>
@@ -2113,14 +2194,14 @@ body {
           <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;display:block;margin-bottom:4px;">行动规划 — 为了实现这个欲望，你将在下面三项中采取的行动：</label>
           <textarea id="desireActionPlan" placeholder="1. 明天起我将...&#x0a;2. 这周内我将...&#x0a;3. 这个月我将..." style="min-height:80px;"></textarea>
 
-          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="desireSaveBtn">保存欲望之火记录</button>
+          <button class="btn btn-ripple" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="desireSaveBtn">保存欲望之火记录</button>
           <div style="font-size:0.75rem;color:#6a5e4e;margin-top:4px;" id="desireSaveStatus"></div>
         </div>
       </div>
     </div>
 
     <!-- ===== STEP 5 ===== -->
-    <div class="step-card" data-step="5">
+    <div class="step-card card-tilt" data-step="5">
       <div class="step-header" data-toggle="step-5">
         <span class="step-number">五</span>
         <span class="step-title">再显化螺旋</span>
@@ -2155,13 +2236,13 @@ body {
           </div>
         </div>
 
-        <button class="btn" style="font-size:0.85rem;padding:4px 16px;" id="rmSaveBtn">保存螺旋反思</button>
+        <button class="btn btn-ripple" style="font-size:0.85rem;padding:4px 16px;" id="rmSaveBtn">保存螺旋反思</button>
         <div style="font-size:0.75rem;color:#6a5e4e;margin-top:4px;" id="rmSaveStatus"></div>
       </div>
     </div>
 
     <!-- ===== STEP 6 ===== -->
-    <div class="step-card" data-step="6">
+    <div class="step-card card-tilt" data-step="6">
       <div class="step-header" data-toggle="step-6">
         <span class="step-number">六</span>
         <span class="step-title">以太层之旅</span>
@@ -2186,14 +2267,14 @@ body {
         <div class="aethyr-notes" style="margin-top:10px;">
           <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;display:block;margin-bottom:4px;">当前层级修炼笔记：</label>
           <textarea id="aethyrNotes" placeholder="记录你在这层的体验、视觉、感悟..."></textarea>
-          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="aethyrSaveBtn">保存笔记</button>
+          <button class="btn btn-ripple" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="aethyrSaveBtn">保存笔记</button>
           <div style="font-size:0.75rem;color:#6a5e4e;margin-top:4px;" id="aethyrSaveStatus"></div>
         </div>
       </div>
     </div>
 
     <!-- ===== STEP 7 ===== -->
-    <div class="step-card" data-step="7">
+    <div class="step-card card-tilt" data-step="7">
       <div class="step-header" data-toggle="step-7">
         <span class="step-number">七</span>
         <span class="step-title">巨蛇之眼</span>
@@ -2208,11 +2289,11 @@ body {
         <!-- Dual Perspective Exercise -->
         <h4 style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;letter-spacing:2px;font-size:1rem;margin-bottom:8px;">双重视角练习</h4>
         <div class="dual-perspective-grid">
-          <div class="dp-card">
+          <div class="dp-card card-tilt">
             <h4>内在之眼</h4>
             <p>完全沉浸在当下体验中，感受每一个细微的知觉、情绪和能量波动。不做任何评判，只是全然在此。</p>
           </div>
-          <div class="dp-card">
+          <div class="dp-card card-tilt">
             <h4>外在之眼</h4>
             <p>将意识提升到身体之外，从上方俯瞰正在体验的自己。观察者与被观察者同时存在，如同一体两面。</p>
           </div>
@@ -2239,13 +2320,13 @@ body {
         <div style="margin-top:10px;">
           <div style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;margin-bottom:4px;">冥想后的整合记录：</div>
           <textarea id="serpentMedJournal" placeholder="冥想结束后，你有什么领悟？双重视角是如何融合的？" style="width:100%;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:8px;border-radius:6px;font-family:'Noto Serif SC',serif;font-size:0.82rem;resize:vertical;min-height:60px;"></textarea>
-          <button class="btn" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="serpentSaveBtn">保存整合记录</button>
+          <button class="btn btn-ripple" style="margin-top:6px;font-size:0.85rem;padding:4px 16px;" id="serpentSaveBtn">保存整合记录</button>
           <div style="font-size:0.75rem;color:#6a5e4e;margin-top:4px;" id="serpentSaveStatus"></div>
         </div>
 
         <!-- Mark step 7 complete -->
         <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(212,168,67,0.08);text-align:center;">
-          <button class="btn" id="sevenCompleteBtn" style="font-size:0.85rem;padding:6px 20px;">标记七步修炼完成</button>
+          <button class="btn btn-ripple" id="sevenCompleteBtn" style="font-size:0.85rem;padding:6px 20px;">标记七步修炼完成</button>
           <div style="font-size:0.75rem;color:#d4a843;margin-top:4px;min-height:1.2em;" id="sevenCompleteStatus"></div>
         </div>
       </div>

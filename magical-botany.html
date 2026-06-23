@@ -139,6 +139,82 @@ body{background:#0a0a0a;color:#c8b89a;font-family:'Noto Serif SC',serif;min-heig
 .celtic-table th{color:#d4a843;font-weight:700;border-bottom:2px solid #d4a843}
 .celtic-table td{color:#8a7e6a}
 .celtic-table tr:hover td{color:#c8b89a;background:rgba(212,168,67,0.05)}
+
+/* ====== ENHANCED ANIMATION SYSTEM ====== */
+@keyframes floatGlow {
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 5px rgba(212,168,67,0.3));}
+  50%{transform:translateY(-6px);filter:drop-shadow(0 0 20px rgba(212,168,67,0.6));}
+}
+@keyframes spinGlow {
+  0%{transform:rotate(0deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+  50%{filter:drop-shadow(0 0 30px rgba(212,168,67,0.7));}
+  100%{transform:rotate(360deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+}
+@keyframes borderPulse {
+  0%,100%{border-color:rgba(212,168,67,0.3);box-shadow:0 0 5px rgba(212,168,67,0.05);}
+  50%{border-color:rgba(212,168,67,0.7);box-shadow:0 0 25px rgba(212,168,67,0.2);}
+}
+@keyframes shimmerText {
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+@keyframes breatheScale {
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+}
+@keyframes slideUpReveal {
+  0%{opacity:0;transform:translateY(30px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes goldSparkle {
+  0%,100%{opacity:0;transform:scale(0) rotate(0deg);}
+  50%{opacity:1;transform:scale(1) rotate(180deg);}
+}
+@keyframes rippleIn {
+  0%{transform:scale(0);opacity:0.8;}
+  100%{transform:scale(2);opacity:0;}
+}
+@keyframes rotateIn3D {
+  0%{transform:perspective(800px) rotateY(90deg);opacity:0;}
+  100%{transform:perspective(800px) rotateY(0deg);opacity:1;}
+}
+.gold-shimmer-text{
+  background:linear-gradient(90deg, #d4a843, #fff8dc, #d4a843, #b8912e, #d4a843);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmerText 3s ease-in-out infinite;
+}
+.gold-border-anim{border:1px solid rgba(212,168,67,0.3);animation:borderPulse 3s ease-in-out infinite;}
+.gold-border-anim:hover{animation:borderPulse 1s ease-in-out infinite;}
+.float-anim{animation:floatGlow 4s ease-in-out infinite;}
+.float-anim-delayed{animation:floatGlow 5s ease-in-out 1s infinite;}
+.scale-anim{animation:breatheScale 6s ease-in-out infinite;}
+.rotate-anim{animation:spinGlow 8s linear infinite;}
+.reveal-anim{animation:slideUpReveal 0.6s ease-out;}
+.reveal-delay-1{animation:slideUpReveal 0.6s ease-out 0.1s both;}
+.reveal-delay-2{animation:slideUpReveal 0.6s ease-out 0.2s both;}
+.reveal-delay-3{animation:slideUpReveal 0.6s ease-out 0.3s both;}
+.reveal-delay-4{animation:slideUpReveal 0.6s ease-out 0.4s both;}
+
+
+/* Interactive card tilt effect */
+.card-tilt{transition:transform 0.3s ease, box-shadow 0.3s ease;}
+.card-tilt:hover{transform:perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);box-shadow:0 15px 40px rgba(212,168,67,0.15);}
+.btn-ripple{position:relative;overflow:hidden;}
+.btn-ripple::after{content:'';position:absolute;width:100%;padding-top:100%;border-radius:50%;background:rgba(255,255,255,0.15);transform:scale(0);left:var(--x,50%);top:var(--y,50%);transform-origin:center;transition:transform 0.5s;pointer-events:none;}
+.btn-ripple:active::after{transform:scale(3);}
+.star-twinkle{animation:twinkle 2s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.glow-hover{transition:all 0.3s;}
+.glow-hover:hover{filter:drop-shadow(0 0 15px rgba(212,168,67,0.5));transform:scale(1.05);}
+.fade-in-section{animation:slideUpReveal 0.6s ease-out both;}
+.fade-in-section:nth-child(2){animation-delay:0.1s;}
+.fade-in-section:nth-child(3){animation-delay:0.2s;}
+.fade-in-section:nth-child(4){animation-delay:0.3s;}
+.fade-in-section:nth-child(5){animation-delay:0.4s;}
+
 </style>
 </head>
 <body>
@@ -179,7 +255,7 @@ body{background:#0a0a0a;color:#c8b89a;font-family:'Noto Serif SC',serif;min-heig
 
 <!-- Header -->
 <header class="header">
-  <h1>魔法植物学</h1>
+  <h1 class="gold-shimmer-text">魔法植物学</h1>
   <div class="subtitle">Magical Botany</div>
   <div class="quote">"存在于每一片叶子、每一朵花、每一棵草木之中的古老魔法与智慧" — 基于 Gerina Dunwich《Herbal Magick》</div>
 </header>
@@ -286,84 +362,84 @@ body{background:#0a0a0a;color:#c8b89a;font-family:'Noto Serif SC',serif;min-heig
 <!-- TAB 3: HERBAL SPELL RECIPES -->
 <!-- ============================================================ -->
 <div class="tab-content" id="tab-spells">
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>爱情魔法 — 幸运之手招爱咒</h3>
     <div class="ingredients">材料：<span>幸运手根（兰花根）、玫瑰油、带盖小罐</span></div>
     <div class="instructions">在周五（金星之日），月亮处于盈相且在金星时刻，将幸运手根放入装满玫瑰油的小罐中。盖上盖子，念诵咒语三次："盈月金星时，注此根以神秘之力。令其无阻运作，吸引真爱降临。"让根在玫瑰油中浸泡七天七夜。接下来的周五，在金星时刻取出根，每日每夜贴身佩戴。</div>
     <div class="timing">最佳时间：周五、盈月、金星时刻</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>爱情魔法 — 长生草招爱咒</h3>
     <div class="ingredients">材料：<span>新鲜长生草（Houseleek）、玫瑰油或爱情魔法油、魔法袋</span></div>
     <div class="instructions">在魔法袋中装满新鲜长生草，同时心中满怀对心上人的浪漫思念。用三滴玫瑰油或爱情魔法油涂抹袋子，然后每日每夜贴身佩戴。每三天更换新鲜草药并重新涂油。</div>
     <div class="timing">最佳时间：新月开始效果最佳</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>爱情魔法 — 吉普赛洋葱爱情咒</h3>
     <div class="ingredients">材料：<span>一个洋葱或郁金香球茎、干净的新花盆、新土</span></div>
     <div class="instructions">将洋葱或郁金香球茎种植在干净的未使用过的花盆中，同时念诵心上人的名字。每天日出和日落时分对着花盆念诵："如此根生长，如此花绽放，愿他/她的心，转向我！"随着时间的推移，你心爱之人将越来越倾向于你。</div>
     <div class="timing">最佳时间：日出和日落时分</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>爱情魔法 — 莳萝忠诚占卜</h3>
     <div class="ingredients">材料：<span>圣约翰草、门框和窗框</span></div>
     <div class="instructions">在圣约翰日（6月24日）采摘圣约翰草，将其悬挂在房屋和谷仓的门窗上方，可防止邪恶精灵进入。随身携带或在魔法袋中携带圣约翰草，可抵御最邪恶的幽灵和恶魔实体。</div>
     <div class="timing">最佳时间：圣约翰日（6月24日）</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>招财魔法 — 海角约翰招财符</h3>
     <div class="ingredients">材料：<span>海角约翰根（High John the Conqueror）、2美元闰年纸币、银色水星10美分硬币、绿色法兰绒魔法袋、海角约翰油</span></div>
     <div class="instructions">将2美元闰年纸币包裹海角约翰根和银色水星10分硬币（注意朝自己方向折叠，不可朝外）。放入绿色法兰绒魔法袋中，每日滴三滴海角约翰油或招财魔法油。无论睡眠时都必须随身携带。</div>
     <div class="timing">最佳时间：周三水星时刻制作</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>招财魔法 — 中国招财咒</h3>
     <div class="ingredients">材料：<span>三枚硬币、红纸、一盆圆叶植物</span></div>
     <div class="instructions">将三枚硬币用红纸包裹，埋在圆叶盆栽的土壤中。植物越大，咒语效力越强。务必保持植物健康快乐，及时移除枯萎或死亡叶片，否则咒语的正面效果可能逆转。</div>
     <div class="timing">最佳时间：新月之时</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>招财魔法 — 啤酒花好运咒</h3>
     <div class="ingredients">材料：<span>干啤酒花</span></div>
     <div class="instructions">用干啤酒花编织花环，悬挂在壁炉架或炉膛上方，可吸引好运并驱散厄运。每年啤酒花采摘季节更换新花环，防止好运耗尽。此外，将干啤酒花塞入枕套可治疗失眠和驱散噩梦。</div>
     <div class="timing">每年采摘季节更换</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>保护魔法 — 护身花园</h3>
     <div class="ingredients">材料：<span>以下任选植物：茴香、圣约翰草、迷迭香、杜松、罗勒、大蒜、芸香、艾草、茴芹、牛膝草</span></div>
     <div class="instructions">在房屋周围种植这些被认为具有神秘保护力量的植物。可以辟邪、抵御敌人和不幸。也可制作魔法袋随身携带：将茴香籽装袋；在门窗上悬挂茴香；佩戴魔鬼鞋带根项链；在房屋周围种植冬青；用鼠尾草烟熏棒净化空间。</div>
     <div class="timing">盈月或满月时种植</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>保护魔法 — 幸运13草药花园</h3>
     <div class="ingredients">材料：<span>从以下任选13种好运草药：芦荟、竹子、蓝铃花、卷心菜、菖蒲、苦木、水仙、魔鬼草、蕨类、天堂谷、榛树、石楠、冬青、长生草、越橘、爱尔兰苔、薏苡、幸运手、橡树、石榴、罂粟、马齿苋、玫瑰、蛇根、八角、草莓、香根草、紫罗兰、木玫瑰</span></div>
     <div class="instructions">在周四（木星之日），月相盈或满时种植13种好运草药。切记不要在月亏时种植，否则会招致好运衰退。</div>
     <div class="timing">周四、盈月或满月</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>吉普赛魔法 — 母性 fertility 护符</h3>
     <div class="ingredients">材料：<span>曼德拉草根、小丝袋</span></div>
     <div class="instructions">将曼德拉草根放入小丝袋中，在整个孕期日夜随身携带。这是吉普赛女巫（chovihani）传统使用的生育护符。</div>
     <div class="timing">怀孕全程</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>胡毒魔法 — 幸运手赌博符</h3>
     <div class="ingredients">材料：<span>幸运手根粉、钞票</span></div>
     <div class="instructions">在下注前，将少量幸运手根粉秘密撒在钞票上，称为"标记金钱"。许多赌徒坚信这能让幸运女神常伴左右。也可用幸运手根油搓手后再开始赌博。</div>
     <div class="timing">下注前进行</div>
   </div>
 
-  <div class="recipe-card">
+  <div class="recipe-card card-tilt">
     <h3>治疗魔法 — 啤酒花安眠枕</h3>
     <div class="ingredients">材料：<span>干啤酒花、枕套</span></div>
     <div class="instructions">用已被观想和咒语加持过的干啤酒花塞满枕套。将草药枕垫在头下入睡，可享受整夜安眠，驱散失眠和噩梦。</div>
@@ -903,7 +979,7 @@ const plants = [
 function renderHerbs(list) {
   const grid = document.getElementById('herbGrid');
   grid.innerHTML = list.map(p => `
-    <div class="plant-card">
+    <div class="plant-card card-tilt">
       <div class="cn-name">${p.cn}</div>
       <div class="en-name">${p.en} (${p.enFull})</div>
       <div class="badges">
@@ -1148,7 +1224,7 @@ const sabbats = [
 function renderSabbats() {
   const g = document.getElementById('sabbatGrid');
   g.innerHTML = sabbats.map(s => `
-    <div class="sabbat-card">
+    <div class="sabbat-card card-tilt">
       <h4>${s.name}</h4>
       <div class="date">${s.date}</div>
       <div class="herbs"><strong>草药：</strong>${s.herbs}</div>
@@ -1276,7 +1352,7 @@ const calendarData = {
 function renderCalendar() {
   const g = document.getElementById('calendarGrid');
   g.innerHTML = Object.entries(calendarData).map(([month, entries]) => `
-    <div class="month-card">
+    <div class="month-card card-tilt">
       <h3>${month}</h3>
       ${entries.map(e => `<div class="entry">${e}</div>`).join('')}
     </div>

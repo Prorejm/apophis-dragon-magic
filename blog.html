@@ -501,6 +501,87 @@ body.light-mode .filter-btn.active { color: #fff; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+@keyframes fadeIn {
+  0%{opacity:0;}
+  100%{opacity:1;}
+}
+
+/* ====== ENHANCED ANIMATION SYSTEM ====== */
+@keyframes floatGlow {
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 5px rgba(212,168,67,0.3));}
+  50%{transform:translateY(-6px);filter:drop-shadow(0 0 20px rgba(212,168,67,0.6));}
+}
+@keyframes spinGlow {
+  0%{transform:rotate(0deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+  50%{filter:drop-shadow(0 0 30px rgba(212,168,67,0.7));}
+  100%{transform:rotate(360deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+}
+@keyframes borderPulse {
+  0%,100%{border-color:rgba(212,168,67,0.3);box-shadow:0 0 5px rgba(212,168,67,0.05);}
+  50%{border-color:rgba(212,168,67,0.7);box-shadow:0 0 25px rgba(212,168,67,0.2);}
+}
+@keyframes shimmerText {
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+@keyframes breatheScale {
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+}
+@keyframes slideUpReveal {
+  0%{opacity:0;transform:translateY(30px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes goldSparkle {
+  0%,100%{opacity:0;transform:scale(0) rotate(0deg);}
+  50%{opacity:1;transform:scale(1) rotate(180deg);}
+}
+@keyframes rippleIn {
+  0%{transform:scale(0);opacity:0.8;}
+  100%{transform:scale(2);opacity:0;}
+}
+@keyframes rotateIn3D {
+  0%{transform:perspective(800px) rotateY(90deg);opacity:0;}
+  100%{transform:perspective(800px) rotateY(0deg);opacity:1;}
+}
+.gold-shimmer-text{
+  background:linear-gradient(90deg, #d4a843, #fff8dc, #d4a843, #b8912e, #d4a843);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmerText 3s ease-in-out infinite;
+}
+.gold-border-anim{border:1px solid rgba(212,168,67,0.3);animation:borderPulse 3s ease-in-out infinite;}
+.gold-border-anim:hover{animation:borderPulse 1s ease-in-out infinite;}
+.float-anim{animation:floatGlow 4s ease-in-out infinite;}
+.float-anim-delayed{animation:floatGlow 5s ease-in-out 1s infinite;}
+.scale-anim{animation:breatheScale 6s ease-in-out infinite;}
+.rotate-anim{animation:spinGlow 8s linear infinite;}
+.reveal-anim{animation:slideUpReveal 0.6s ease-out;}
+.reveal-delay-1{animation:slideUpReveal 0.6s ease-out 0.1s both;}
+.reveal-delay-2{animation:slideUpReveal 0.6s ease-out 0.2s both;}
+.reveal-delay-3{animation:slideUpReveal 0.6s ease-out 0.3s both;}
+.reveal-delay-4{animation:slideUpReveal 0.6s ease-out 0.4s both;}
+
+
+/* Interactive card tilt effect */
+.card-tilt{transition:transform 0.3s ease, box-shadow 0.3s ease;}
+.card-tilt:hover{transform:perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);box-shadow:0 15px 40px rgba(212,168,67,0.15);}
+.btn-ripple{position:relative;overflow:hidden;}
+.btn-ripple::after{content:'';position:absolute;width:100%;padding-top:100%;border-radius:50%;background:rgba(255,255,255,0.15);transform:scale(0);left:var(--x,50%);top:var(--y,50%);transform-origin:center;transition:transform 0.5s;pointer-events:none;}
+.btn-ripple:active::after{transform:scale(3);}
+.star-twinkle{animation:twinkle 2s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.glow-hover{transition:all 0.3s;}
+.glow-hover:hover{filter:drop-shadow(0 0 15px rgba(212,168,67,0.5));transform:scale(1.05);}
+.fade-in-section{animation:slideUpReveal 0.6s ease-out both;}
+.fade-in-section:nth-child(2){animation-delay:0.1s;}
+.fade-in-section:nth-child(3){animation-delay:0.2s;}
+.fade-in-section:nth-child(4){animation-delay:0.3s;}
+.fade-in-section:nth-child(5){animation-delay:0.4s;}
+
 </style>
 </head>
 <body>
@@ -576,15 +657,15 @@ body.light-mode .filter-btn.active { color: #fff; }
 <div class="blog-grid" id="blogGrid">
 
   <!-- ==================== 文章1 ==================== -->
-  <div class="article-card" data-category="历史" data-id="art1">
-    <div class="card-header">
-      <span class="card-badge badge-历史">历史</span>
-      <button class="card-bookmark" data-id="art1" title="收藏">☆</button>
+  <div class="article-card card-tilt" data-category="历史" data-id="art1">
+    <div class="card card-tilt-header">
+      <span class="card card-tilt-badge badge-历史">历史</span>
+      <button class="card card-tilt-bookmark" data-id="art1" title="收藏">☆</button>
     </div>
-    <div class="card-title">龙之魔法的历史渊源</div>
-    <div class="card-excerpt">从古埃及的混沌之龙阿波菲斯，到希腊神话的巨蟒皮同，再到赫尔墨斯主义中的衔尾蛇——龙之魔法横跨数千年文明，是一条隐秘而璀璨的传承之链。</div>
-    <div class="card-footer">
-      <span class="card-read-time">📖 阅读约 12 分钟</span>
+    <div class="card card-tilt-title">龙之魔法的历史渊源</div>
+    <div class="card card-tilt-excerpt">从古埃及的混沌之龙阿波菲斯，到希腊神话的巨蟒皮同，再到赫尔墨斯主义中的衔尾蛇——龙之魔法横跨数千年文明，是一条隐秘而璀璨的传承之链。</div>
+    <div class="card card-tilt-footer">
+      <span class="card card-tilt-read-time">📖 阅读约 12 分钟</span>
       <span>2025.06.15</span>
     </div>
     <div class="article-body">
@@ -616,15 +697,15 @@ body.light-mode .filter-btn.active { color: #fff; }
   </div>
 
   <!-- ==================== 文章2 ==================== -->
-  <div class="article-card" data-category="理论" data-id="art2">
-    <div class="card-header">
-      <span class="card-badge badge-理论">理论</span>
-      <button class="card-bookmark" data-id="art2" title="收藏">☆</button>
+  <div class="article-card card-tilt" data-category="理论" data-id="art2">
+    <div class="card card-tilt-header">
+      <span class="card card-tilt-badge badge-理论">理论</span>
+      <button class="card card-tilt-bookmark" data-id="art2" title="收藏">☆</button>
     </div>
-    <div class="card-title">阿佩普七首的象征意义</div>
-    <div class="card-excerpt">阿佩普（阿波菲斯）作为混沌巨龙，其七首在神秘学文献中占有独特地位。每首各自对应一种人类心灵的阴暗面——亦是对立的魔法力量。</div>
-    <div class="card-footer">
-      <span class="card-read-time">📖 阅读约 10 分钟</span>
+    <div class="card card-tilt-title">阿佩普七首的象征意义</div>
+    <div class="card card-tilt-excerpt">阿佩普（阿波菲斯）作为混沌巨龙，其七首在神秘学文献中占有独特地位。每首各自对应一种人类心灵的阴暗面——亦是对立的魔法力量。</div>
+    <div class="card card-tilt-footer">
+      <span class="card card-tilt-read-time">📖 阅读约 10 分钟</span>
       <span>2025.06.16</span>
     </div>
     <div class="article-body">
@@ -668,15 +749,15 @@ body.light-mode .filter-btn.active { color: #fff; }
   </div>
 
   <!-- ==================== 文章3 ==================== -->
-  <div class="article-card" data-category="实践" data-id="art3">
-    <div class="card-header">
-      <span class="card-badge badge-实践">实践</span>
-      <button class="card-bookmark" data-id="art3" title="收藏">☆</button>
+  <div class="article-card card-tilt" data-category="实践" data-id="art3">
+    <div class="card card-tilt-header">
+      <span class="card card-tilt-badge badge-实践">实践</span>
+      <button class="card card-tilt-bookmark" data-id="art3" title="收藏">☆</button>
     </div>
-    <div class="card-title">符印魔法的基本原理</div>
-    <div class="card-excerpt">奥斯汀·斯佩尔（Austin Osman Spare）创立的符印魔法是现代混沌魔法的核心技法之一。它将欲望转化为符号，再通过仪式性的遗忘释放至潜意识深处。</div>
-    <div class="card-footer">
-      <span class="card-read-time">📖 阅读约 11 分钟</span>
+    <div class="card card-tilt-title">符印魔法的基本原理</div>
+    <div class="card card-tilt-excerpt">奥斯汀·斯佩尔（Austin Osman Spare）创立的符印魔法是现代混沌魔法的核心技法之一。它将欲望转化为符号，再通过仪式性的遗忘释放至潜意识深处。</div>
+    <div class="card card-tilt-footer">
+      <span class="card card-tilt-read-time">📖 阅读约 11 分钟</span>
       <span>2025.06.18</span>
     </div>
     <div class="article-body">
@@ -728,15 +809,15 @@ body.light-mode .filter-btn.active { color: #fff; }
   </div>
 
   <!-- ==================== 文章4 ==================== -->
-  <div class="article-card" data-category="比较研究" data-id="art4">
-    <div class="card-header">
-      <span class="card-badge badge-比较研究">比较研究</span>
-      <button class="card-bookmark" data-id="art4" title="收藏">☆</button>
+  <div class="article-card card-tilt" data-category="比较研究" data-id="art4">
+    <div class="card card-tilt-header">
+      <span class="card card-tilt-badge badge-比较研究">比较研究</span>
+      <button class="card card-tilt-bookmark" data-id="art4" title="收藏">☆</button>
     </div>
-    <div class="card-title">大六壬与西方占星术的比较</div>
-    <div class="card-excerpt">东方最高深的天人感应术与西方古老的星辰之学，虽源自不同的文明土壤，却在符号结构、预测逻辑与哲学基础上展现出惊人的深层呼应。</div>
-    <div class="card-footer">
-      <span class="card-read-time">📖 阅读约 14 分钟</span>
+    <div class="card card-tilt-title">大六壬与西方占星术的比较</div>
+    <div class="card card-tilt-excerpt">东方最高深的天人感应术与西方古老的星辰之学，虽源自不同的文明土壤，却在符号结构、预测逻辑与哲学基础上展现出惊人的深层呼应。</div>
+    <div class="card card-tilt-footer">
+      <span class="card card-tilt-read-time">📖 阅读约 14 分钟</span>
       <span>2025.06.20</span>
     </div>
     <div class="article-body">
@@ -789,15 +870,15 @@ body.light-mode .filter-btn.active { color: #fff; }
   </div>
 
   <!-- ==================== 文章5 ==================== -->
-  <div class="article-card" data-category="实践" data-id="art5">
-    <div class="card-header">
-      <span class="card-badge badge-实践">实践</span>
-      <button class="card-bookmark" data-id="art5" title="收藏">☆</button>
+  <div class="article-card card-tilt" data-category="实践" data-id="art5">
+    <div class="card card-tilt-header">
+      <span class="card card-tilt-badge badge-实践">实践</span>
+      <button class="card card-tilt-bookmark" data-id="art5" title="收藏">☆</button>
     </div>
-    <div class="card-title">所罗门之钥的仪式体系</div>
-    <div class="card-excerpt">《所罗门之钥》是西方仪式魔法的根本经典之一。其复杂的仪式体系——包括圣化、净化、召请与驱逐——至今仍是魔法实践的核心参考。</div>
-    <div class="card-footer">
-      <span class="card-read-time">📖 阅读约 13 分钟</span>
+    <div class="card card-tilt-title">所罗门之钥的仪式体系</div>
+    <div class="card card-tilt-excerpt">《所罗门之钥》是西方仪式魔法的根本经典之一。其复杂的仪式体系——包括圣化、净化、召请与驱逐——至今仍是魔法实践的核心参考。</div>
+    <div class="card card-tilt-footer">
+      <span class="card card-tilt-read-time">📖 阅读约 13 分钟</span>
       <span>2025.06.22</span>
     </div>
     <div class="article-body">
@@ -847,15 +928,15 @@ body.light-mode .filter-btn.active { color: #fff; }
   </div>
 
   <!-- ==================== 文章6 ==================== -->
-  <div class="article-card" data-category="历史" data-id="art6">
-    <div class="card-header">
-      <span class="card-badge badge-历史">历史</span>
-      <button class="card-bookmark" data-id="art6" title="收藏">☆</button>
+  <div class="article-card card-tilt" data-category="历史" data-id="art6">
+    <div class="card card-tilt-header">
+      <span class="card card-tilt-badge badge-历史">历史</span>
+      <button class="card card-tilt-bookmark" data-id="art6" title="收藏">☆</button>
     </div>
-    <div class="card-title">七十二柱魔神的历史考据</div>
-    <div class="card-excerpt">从《所罗门小钥匙》到现代恶魔学，七十二柱魔神并非凭空捏造。它们大多数源于古代近东地区的异教神祇、被基督教化的旧神，以及民间传说中的精怪。</div>
-    <div class="card-footer">
-      <span class="card-read-time">📖 阅读约 15 分钟</span>
+    <div class="card card-tilt-title">七十二柱魔神的历史考据</div>
+    <div class="card card-tilt-excerpt">从《所罗门小钥匙》到现代恶魔学，七十二柱魔神并非凭空捏造。它们大多数源于古代近东地区的异教神祇、被基督教化的旧神，以及民间传说中的精怪。</div>
+    <div class="card card-tilt-footer">
+      <span class="card card-tilt-read-time">📖 阅读约 15 分钟</span>
       <span>2025.06.24</span>
     </div>
     <div class="article-body">
@@ -900,15 +981,15 @@ body.light-mode .filter-btn.active { color: #fff; }
   </div>
 
   <!-- ==================== 文章7 ==================== -->
-  <div class="article-card" data-category="理论" data-id="art7">
-    <div class="card-header">
-      <span class="card-badge badge-理论">理论</span>
-      <button class="card-bookmark" data-id="art7" title="收藏">☆</button>
+  <div class="article-card card-tilt" data-category="理论" data-id="art7">
+    <div class="card card-tilt-header">
+      <span class="card card-tilt-badge badge-理论">理论</span>
+      <button class="card card-tilt-bookmark" data-id="art7" title="收藏">☆</button>
     </div>
-    <div class="card-title">周易与魔法哲学的融合</div>
-    <div class="card-excerpt">《周易》作为东方智慧的最高经典，其爻象体系与西方魔法哲学的对应关系长期被忽视。阴阳八卦与四元素、卡巴拉生命之树之间，潜藏着一个跨文化的宇宙模型。</div>
-    <div class="card-footer">
-      <span class="card-read-time">📖 阅读约 13 分钟</span>
+    <div class="card card-tilt-title">周易与魔法哲学的融合</div>
+    <div class="card card-tilt-excerpt">《周易》作为东方智慧的最高经典，其爻象体系与西方魔法哲学的对应关系长期被忽视。阴阳八卦与四元素、卡巴拉生命之树之间，潜藏着一个跨文化的宇宙模型。</div>
+    <div class="card card-tilt-footer">
+      <span class="card card-tilt-read-time">📖 阅读约 13 分钟</span>
       <span>2025.06.26</span>
     </div>
     <div class="article-body">
@@ -950,15 +1031,15 @@ body.light-mode .filter-btn.active { color: #fff; }
   </div>
 
   <!-- ==================== 文章8 ==================== -->
-  <div class="article-card" data-category="实践" data-id="art8">
-    <div class="card-header">
-      <span class="card-badge badge-实践">实践</span>
-      <button class="card-bookmark" data-id="art8" title="收藏">☆</button>
+  <div class="article-card card-tilt" data-category="实践" data-id="art8">
+    <div class="card card-tilt-header">
+      <span class="card card-tilt-badge badge-实践">实践</span>
+      <button class="card card-tilt-bookmark" data-id="art8" title="收藏">☆</button>
     </div>
-    <div class="card-title">行星时的奥秘与应用</div>
-    <div class="card-excerpt">行星时系统是西方仪式魔法中不可或缺的时间映射技术。它将行星的能量流精确对应到每一天的每一小时，是魔法师安排仪式的最佳参照。</div>
-    <div class="card-footer">
-      <span class="card-read-time">📖 阅读约 12 分钟</span>
+    <div class="card card-tilt-title">行星时的奥秘与应用</div>
+    <div class="card card-tilt-excerpt">行星时系统是西方仪式魔法中不可或缺的时间映射技术。它将行星的能量流精确对应到每一天的每一小时，是魔法师安排仪式的最佳参照。</div>
+    <div class="card card-tilt-footer">
+      <span class="card card-tilt-read-time">📖 阅读约 12 分钟</span>
       <span>2025.06.28</span>
     </div>
     <div class="article-body">

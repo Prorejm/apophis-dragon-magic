@@ -535,6 +535,82 @@ tr:hover td{background:rgba(212,168,67,.03)}
 .book-title{color:#d4a843;font-weight:600;}
 .book-author{color:#888;font-size:0.85rem;}
 
+
+/* ====== ENHANCED ANIMATION SYSTEM ====== */
+@keyframes floatGlow {
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 5px rgba(212,168,67,0.3));}
+  50%{transform:translateY(-6px);filter:drop-shadow(0 0 20px rgba(212,168,67,0.6));}
+}
+@keyframes spinGlow {
+  0%{transform:rotate(0deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+  50%{filter:drop-shadow(0 0 30px rgba(212,168,67,0.7));}
+  100%{transform:rotate(360deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+}
+@keyframes borderPulse {
+  0%,100%{border-color:rgba(212,168,67,0.3);box-shadow:0 0 5px rgba(212,168,67,0.05);}
+  50%{border-color:rgba(212,168,67,0.7);box-shadow:0 0 25px rgba(212,168,67,0.2);}
+}
+@keyframes shimmerText {
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+@keyframes breatheScale {
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+}
+@keyframes slideUpReveal {
+  0%{opacity:0;transform:translateY(30px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes goldSparkle {
+  0%,100%{opacity:0;transform:scale(0) rotate(0deg);}
+  50%{opacity:1;transform:scale(1) rotate(180deg);}
+}
+@keyframes rippleIn {
+  0%{transform:scale(0);opacity:0.8;}
+  100%{transform:scale(2);opacity:0;}
+}
+@keyframes rotateIn3D {
+  0%{transform:perspective(800px) rotateY(90deg);opacity:0;}
+  100%{transform:perspective(800px) rotateY(0deg);opacity:1;}
+}
+.gold-shimmer-text{
+  background:linear-gradient(90deg, #d4a843, #fff8dc, #d4a843, #b8912e, #d4a843);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmerText 3s ease-in-out infinite;
+}
+.gold-border-anim{border:1px solid rgba(212,168,67,0.3);animation:borderPulse 3s ease-in-out infinite;}
+.gold-border-anim:hover{animation:borderPulse 1s ease-in-out infinite;}
+.float-anim{animation:floatGlow 4s ease-in-out infinite;}
+.float-anim-delayed{animation:floatGlow 5s ease-in-out 1s infinite;}
+.scale-anim{animation:breatheScale 6s ease-in-out infinite;}
+.rotate-anim{animation:spinGlow 8s linear infinite;}
+.reveal-anim{animation:slideUpReveal 0.6s ease-out;}
+.reveal-delay-1{animation:slideUpReveal 0.6s ease-out 0.1s both;}
+.reveal-delay-2{animation:slideUpReveal 0.6s ease-out 0.2s both;}
+.reveal-delay-3{animation:slideUpReveal 0.6s ease-out 0.3s both;}
+.reveal-delay-4{animation:slideUpReveal 0.6s ease-out 0.4s both;}
+
+
+/* Interactive card tilt effect */
+.card-tilt{transition:transform 0.3s ease, box-shadow 0.3s ease;}
+.card-tilt:hover{transform:perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);box-shadow:0 15px 40px rgba(212,168,67,0.15);}
+.btn-ripple{position:relative;overflow:hidden;}
+.btn-ripple::after{content:'';position:absolute;width:100%;padding-top:100%;border-radius:50%;background:rgba(255,255,255,0.15);transform:scale(0);left:var(--x,50%);top:var(--y,50%);transform-origin:center;transition:transform 0.5s;pointer-events:none;}
+.btn-ripple:active::after{transform:scale(3);}
+.star-twinkle{animation:twinkle 2s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.glow-hover{transition:all 0.3s;}
+.glow-hover:hover{filter:drop-shadow(0 0 15px rgba(212,168,67,0.5));transform:scale(1.05);}
+.fade-in-section{animation:slideUpReveal 0.6s ease-out both;}
+.fade-in-section:nth-child(2){animation-delay:0.1s;}
+.fade-in-section:nth-child(3){animation-delay:0.2s;}
+.fade-in-section:nth-child(4){animation-delay:0.3s;}
+.fade-in-section:nth-child(5){animation-delay:0.4s;}
+
 </style>
 </head>
 <body>
@@ -578,7 +654,7 @@ tr:hover td{background:rgba(212,168,67,.03)}
 <section class="hero">
   <div class="hero-content">
     <div class="hero-badge">★ 三式之首 · 天机之枢 ★</div>
-    <h1 class="hero-title">太乙神数</h1>
+    <h1 class="gold-shimmer-text hero-title">太乙神数</h1>
     <p class="hero-subtitle">Tai Yi Shen Shu — The Supreme Divine Number</p>
     <div class="hero-divider"></div>
     <p class="hero-desc">
@@ -595,7 +671,7 @@ tr:hover td{background:rgba(212,168,67,.03)}
   <div class="section-divider"></div>
   <p class="section-subtitle">自太乙历元以来所积之年，推步天地运化之基。始于上古甲子元，积年至今以推演天机。</p>
 
-  <div class="card" style="max-width:700px;margin:0 auto">
+  <div class="card card-tilt" style="max-width:700px;margin:0 auto">
     <div class="controls-row">
       <div class="field">
         <label>公历年份</label>
@@ -656,8 +732,8 @@ tr:hover td{background:rgba(212,168,67,.03)}
   <p class="section-subtitle">太乙游九宫 · 不入中五 · 周流不息 · 以断吉凶</p>
 
   <div class="grid-2">
-    <div class="card">
-      <h3 class="card-header">九宫式盘 · 太乙星图</h3>
+    <div class="card card-tilt">
+      <h3 class="card card-tilt-header">九宫式盘 · 太乙星图</h3>
       <div class="canvas-wrap">
         <canvas id="taiyi-board-canvas" width="420" height="420"></canvas>
       </div>
@@ -669,8 +745,8 @@ tr:hover td{background:rgba(212,168,67,.03)}
         <span class="star-legend-item"><span class="star-legend-dot dingmu"></span>定目</span>
       </div>
     </div>
-    <div class="card">
-      <h3 class="card-header">九宫排列</h3>
+    <div class="card card-tilt">
+      <h3 class="card card-tilt-header">九宫排列</h3>
       <div class="palace-grid" id="palaceGrid"></div>
       <div class="result-box" style="margin-top:1rem">
         <div class="label">太乙所在宫位</div>
@@ -693,42 +769,42 @@ tr:hover td{background:rgba(212,168,67,.03)}
   <p class="section-subtitle">太乙神数之五位主星：太乙、计神、文昌(客目)、始击(主目)、定目</p>
 
   <div class="grid-3" id="starsDetail">
-    <div class="spirit-card governing" id="starCardTaiyi">
+    <div class="spirit-card card-tilt governing" id="starCardTaiyi">
       <span class="spirit-icon">★</span>
       <div class="spirit-name">太乙</div>
       <div class="spirit-elem">天帝之神 · 主北斗</div>
       <div class="spirit-dir" id="starTaiyiDir">--</div>
       <div class="spirit-meaning">太乙为诸星之首，居紫微垣，掌天地运化。所临之宫主大运所向，吉凶由此而定。</div>
     </div>
-    <div class="spirit-card" id="starCardJishen">
+    <div class="spirit-card card-tilt" id="starCardJishen">
       <span class="spirit-icon">☆</span>
       <div class="spirit-name">计神</div>
       <div class="spirit-elem">岁星之精 · 主时运</div>
       <div class="spirit-dir" id="starJishenDir">--</div>
       <div class="spirit-meaning">计神为太乙之辅，掌岁时之变。其所临之位主当年之机运，与太乙相合则为吉。</div>
     </div>
-    <div class="spirit-card" id="starCardKemu">
+    <div class="spirit-card card-tilt" id="starCardKemu">
       <span class="spirit-icon">☆</span>
       <div class="spirit-name">客目 · 文昌</div>
       <div class="spirit-elem">文曲之星 · 主外事</div>
       <div class="spirit-dir" id="starKemuDir">--</div>
       <div class="spirit-meaning">文昌为客目，代表外部因素、客方、外来影响。与主目相合则内外协调，反之则冲突。</div>
     </div>
-    <div class="spirit-card" id="starCardZhumu">
+    <div class="spirit-card card-tilt" id="starCardZhumu">
       <span class="spirit-icon">☆</span>
       <div class="spirit-name">主目 · 始击</div>
       <div class="spirit-elem">武曲之星 · 主内事</div>
       <div class="spirit-dir" id="starZhumuDir">--</div>
       <div class="spirit-meaning">始击为主目，代表内部因素、主方、自身力量。与客目的关系决定最终的吉凶判断。</div>
     </div>
-    <div class="spirit-card" id="starCardDingmu">
+    <div class="spirit-card card-tilt" id="starCardDingmu">
       <span class="spirit-icon">☆</span>
       <div class="spirit-name">定目</div>
       <div class="spirit-elem">定盘之星 · 主根基</div>
       <div class="spirit-dir" id="starDingmuDir">--</div>
       <div class="spirit-meaning">定目为不变量，代表根基与宿命因素。在变局中寻找不变之根本，为占断之锚。</div>
     </div>
-    <div class="spirit-card" id="starCardRelation">
+    <div class="spirit-card card-tilt" id="starCardRelation">
       <span class="spirit-icon">⟡</span>
       <div class="spirit-name">主客关系</div>
       <div class="spirit-elem">和战之机</div>
@@ -745,8 +821,8 @@ tr:hover td{background:rgba(212,168,67,.03)}
   <p class="section-subtitle">通过主算与客算之数，判定太乙局之吉凶祸福</p>
 
   <div class="grid-2">
-    <div class="card">
-      <h3 class="card-header">主算</h3>
+    <div class="card card-tilt">
+      <h3 class="card card-tilt-header">主算</h3>
       <div style="text-align:center;padding:1rem 0">
         <div style="font-size:3rem;color:var(--accent2);font-family:var(--font-display)" id="zhuSuNum">--</div>
         <div class="label" style="margin-top:.5rem">主算之数</div>
@@ -755,8 +831,8 @@ tr:hover td{background:rgba(212,168,67,.03)}
         等待推演...
       </div>
     </div>
-    <div class="card">
-      <h3 class="card-header">客算</h3>
+    <div class="card card-tilt">
+      <h3 class="card card-tilt-header">客算</h3>
       <div style="text-align:center;padding:1rem 0">
         <div style="font-size:3rem;color:#4a9eff;font-family:var(--font-display)" id="keSuNum">--</div>
         <div class="label" style="margin-top:.5rem">客算之数</div>
@@ -767,8 +843,8 @@ tr:hover td{background:rgba(212,168,67,.03)}
     </div>
   </div>
 
-  <div class="card mt-2 text-center">
-    <h3 class="card-header">总断 · 吉凶判定</h3>
+  <div class="card card-tilt mt-2 text-center">
+    <h3 class="card card-tilt-header">总断 · 吉凶判定</h3>
     <div style="font-size:1.2rem;color:var(--muted);margin-bottom:1rem;line-height:2">
       <span id="overallVerdictBadge"></span>
     </div>
@@ -785,22 +861,22 @@ tr:hover td{background:rgba(212,168,67,.03)}
   <p class="section-subtitle">太乙座下十六神将，各司其职，巡游八方</p>
 
   <div class="grid-4" id="spiritGrid">
-    <div class="spirit-card"><span class="spirit-icon">☰</span><div class="spirit-name">天乙</div><div class="spirit-elem">天一之尊</div><div class="spirit-meaning">统御诸神，为太乙之左辅</div></div>
-    <div class="spirit-card"><span class="spirit-icon">☷</span><div class="spirit-name">地乙</div><div class="spirit-elem">坤元之精</div><div class="spirit-meaning">承载万物，为太乙之右弼</div></div>
-    <div class="spirit-card"><span class="spirit-icon">☵</span><div class="spirit-name">水乙</div><div class="spirit-elem">玄冥之精</div><div class="spirit-meaning">主北方水事，掌智谋机变</div></div>
-    <div class="spirit-card"><span class="spirit-icon">☲</span><div class="spirit-name">火乙</div><div class="spirit-elem">荧惑之精</div><div class="spirit-meaning">主南方火事，掌礼乐文明</div></div>
-    <div class="spirit-card"><span class="spirit-icon">☳</span><div class="spirit-name">雷乙</div><div class="spirit-elem">雷霆之精</div><div class="spirit-meaning">主东方雷事，掌生发之机</div></div>
-    <div class="spirit-card"><span class="spirit-icon">☴</span><div class="spirit-name">风乙</div><div class="spirit-elem">巽风之精</div><div class="spirit-meaning">主东南风事，掌教化传播</div></div>
-    <div class="spirit-card"><span class="spirit-icon">☶</span><div class="spirit-name">山乙</div><div class="spirit-elem">艮岳之精</div><div class="spirit-meaning">主东北山事，掌止守积蓄</div></div>
-    <div class="spirit-card"><span class="spirit-icon">☱</span><div class="spirit-name">泽乙</div><div class="spirit-elem">兑泽之精</div><div class="spirit-meaning">主西方泽事，掌悦纳交流</div></div>
-    <div class="spirit-card"><span class="spirit-icon">✦</span><div class="spirit-name">日乙</div><div class="spirit-elem">太阳之精</div><div class="spirit-meaning">主光明普照，掌显赫功名</div></div>
-    <div class="spirit-card"><span class="spirit-icon">✦</span><div class="spirit-name">月乙</div><div class="spirit-elem">太阴之精</div><div class="spirit-meaning">主阴晴圆缺，掌潜藏隐伏</div></div>
-    <div class="spirit-card"><span class="spirit-icon">✦</span><div class="spirit-name">星乙</div><div class="spirit-elem">列宿之精</div><div class="spirit-meaning">主星象变化，掌机运流转</div></div>
-    <div class="spirit-card"><span class="spirit-icon">✦</span><div class="spirit-name">辰乙</div><div class="spirit-elem">星辰之精</div><div class="spirit-meaning">主时辰更替，掌时机把握</div></div>
-    <div class="spirit-card"><span class="spirit-icon">✦</span><div class="spirit-name">金乙</div><div class="spirit-elem">太白之精</div><div class="spirit-meaning">主西方金事，掌裁断决裂</div></div>
-    <div class="spirit-card"><span class="spirit-icon">✦</span><div class="spirit-name">木乙</div><div class="spirit-elem">岁星之精</div><div class="spirit-meaning">主东方木事，掌生长仁德</div></div>
-    <div class="spirit-card"><span class="spirit-icon">✦</span><div class="spirit-name">土乙</div><div class="spirit-elem">镇星之精</div><div class="spirit-meaning">主中央土事，掌中和稳定</div></div>
-    <div class="spirit-card"><span class="spirit-icon">✦</span><div class="spirit-name">神乙</div><div class="spirit-elem">变化之精</div><div class="spirit-meaning">主变化莫测，掌非常之变</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">☰</span><div class="spirit-name">天乙</div><div class="spirit-elem">天一之尊</div><div class="spirit-meaning">统御诸神，为太乙之左辅</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">☷</span><div class="spirit-name">地乙</div><div class="spirit-elem">坤元之精</div><div class="spirit-meaning">承载万物，为太乙之右弼</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">☵</span><div class="spirit-name">水乙</div><div class="spirit-elem">玄冥之精</div><div class="spirit-meaning">主北方水事，掌智谋机变</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">☲</span><div class="spirit-name">火乙</div><div class="spirit-elem">荧惑之精</div><div class="spirit-meaning">主南方火事，掌礼乐文明</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">☳</span><div class="spirit-name">雷乙</div><div class="spirit-elem">雷霆之精</div><div class="spirit-meaning">主东方雷事，掌生发之机</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">☴</span><div class="spirit-name">风乙</div><div class="spirit-elem">巽风之精</div><div class="spirit-meaning">主东南风事，掌教化传播</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">☶</span><div class="spirit-name">山乙</div><div class="spirit-elem">艮岳之精</div><div class="spirit-meaning">主东北山事，掌止守积蓄</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">☱</span><div class="spirit-name">泽乙</div><div class="spirit-elem">兑泽之精</div><div class="spirit-meaning">主西方泽事，掌悦纳交流</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">✦</span><div class="spirit-name">日乙</div><div class="spirit-elem">太阳之精</div><div class="spirit-meaning">主光明普照，掌显赫功名</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">✦</span><div class="spirit-name">月乙</div><div class="spirit-elem">太阴之精</div><div class="spirit-meaning">主阴晴圆缺，掌潜藏隐伏</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">✦</span><div class="spirit-name">星乙</div><div class="spirit-elem">列宿之精</div><div class="spirit-meaning">主星象变化，掌机运流转</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">✦</span><div class="spirit-name">辰乙</div><div class="spirit-elem">星辰之精</div><div class="spirit-meaning">主时辰更替，掌时机把握</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">✦</span><div class="spirit-name">金乙</div><div class="spirit-elem">太白之精</div><div class="spirit-meaning">主西方金事，掌裁断决裂</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">✦</span><div class="spirit-name">木乙</div><div class="spirit-elem">岁星之精</div><div class="spirit-meaning">主东方木事，掌生长仁德</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">✦</span><div class="spirit-name">土乙</div><div class="spirit-elem">镇星之精</div><div class="spirit-meaning">主中央土事，掌中和稳定</div></div>
+    <div class="spirit-card card-tilt"><span class="spirit-icon">✦</span><div class="spirit-name">神乙</div><div class="spirit-elem">变化之精</div><div class="spirit-meaning">主变化莫测，掌非常之变</div></div>
   </div>
 </section>
 
@@ -810,40 +886,40 @@ tr:hover td{background:rgba(212,168,67,.03)}
   <div class="section-divider"></div>
   <p class="section-subtitle">据太乙所临宫位与主客关系，详断吉凶之兆</p>
 
-  <div class="card card-glow mb-2">
-    <h3 class="card-header">太乙临宫之断</h3>
+  <div class="card card card-tilt-glow mb-2">
+    <h3 class="card card-tilt-header">太乙临宫之断</h3>
     <div id="palaceInterpretation" class="divination-text" style="min-height:150px">
       <p style="text-align:center;color:var(--muted2)">等待推演...</p>
     </div>
   </div>
 
-  <div class="card card-glow mb-2">
-    <h3 class="card-header">主客关系之断</h3>
+  <div class="card card card-tilt-glow mb-2">
+    <h3 class="card card-tilt-header">主客关系之断</h3>
     <div id="relationInterpretation" class="divination-text" style="min-height:150px">
       <p style="text-align:center;color:var(--muted2)">等待推演...</p>
     </div>
   </div>
 
-  <div class="card card-glow">
-    <h3 class="card-header">综合判词</h3>
+  <div class="card card card-tilt-glow">
+    <h3 class="card card-tilt-header">综合判词</h3>
     <div id="comprehensiveInterpretation" class="divination-text" style="min-height:150px">
       <p style="text-align:center;color:var(--muted2)">点击「推演天机」以获取完整的太乙神数推算结果与占断判词。</p>
     </div>
     <div style="text-align:center;margin-top:1rem">
       <button id="cardFlipBtn" class="secondary">翻牌解断</button>
     </div>
-    <div class="card-flip-container" id="cardFlipContainer" style="display:none">
-      <div class="card-flip-inner" id="cardFlipInner">
-        <div class="card-flip-front" onclick="document.getElementById('cardFlipInner').classList.toggle('flipped')">
+    <div class="card card-tilt-flip-container" id="cardFlipContainer" style="display:none">
+      <div class="card card-tilt-flip-inner" id="cardFlipInner">
+        <div class="card card-tilt-flip-front" onclick="document.getElementById('cardFlipInner').classList.toggle('flipped')">
           <span style="font-size:3rem;color:var(--accent2);font-family:var(--font-display)">太乙</span>
           <p style="color:var(--muted2);font-size:.8rem;margin-top:.5rem">点击翻转</p>
         </div>
-        <div class="card-flip-back" id="cardFlipBack">
+        <div class="card card-tilt-flip-back" id="cardFlipBack">
           <span style="font-size:2.5rem;color:var(--accent2);font-family:var(--font-display)" id="flipResultTitle">--</span>
           <p style="color:var(--muted);font-size:.82rem;margin-top:.5rem;line-height:1.8;text-align:center" id="flipResultText">--</p>
         </div>
       </div>
-      <p class="card-flip-hint text-center">点击卡片翻转查看结果</p>
+      <p class="card card-tilt-flip-hint text-center">点击卡片翻转查看结果</p>
     </div>
   </div>
 </section>
@@ -854,7 +930,7 @@ tr:hover td{background:rgba(212,168,67,.03)}
   <div class="section-divider"></div>
   <p class="section-subtitle">太乙七十二局，阳遁三十六局、阴遁三十六局，合为七十二局</p>
 
-  <div class="card">
+  <div class="card card-tilt">
     <div class="tabs" id="juTabs">
       <button class="tab-btn active" data-tab="yang-ju">阳遁三十六局</button>
       <button class="tab-btn" data-tab="yin-ju">阴遁三十六局</button>
@@ -902,9 +978,9 @@ tr:hover td{background:rgba(212,168,67,.03)}
             <p>"天目行申、酉、戌、乾、亥、子、丑、艮、寅、卯、辰、巽、巳、午、未、坤十六位。十精则天皇、帝符、天时、太尊、飞鸟、五行、八风、五风、三风及太一九法。以周法除之，或行十六神，或行九宫。"</p>
           </div>
           <div class="grid-3" style="margin:1rem 0;">
-            <div class="info-card" style="background:rgba(20,18,12,0.9);border:1px solid #333;border-radius:8px;padding:1rem;"><span style="color:#d4a843;font-family:var(--font-display);font-size:1.3rem;">上元</span><p style="color:#aaa;font-size:0.85rem;line-height:1.6;margin-top:0.5rem;">甲子年起始，一宫起算。每三年一移，不入中五。主天地之始，万物之源。</p></div>
-            <div class="info-card" style="background:rgba(20,18,12,0.9);border:1px solid #333;border-radius:8px;padding:1rem;"><span style="color:#d4a843;font-family:var(--font-display);font-size:1.3rem;">中元</span><p style="color:#aaa;font-size:0.85rem;line-height:1.6;margin-top:0.5rem;">甲子六十年后，三宫起算。主人事兴衰，国家运数。三年一移，不入中五。</p></div>
-            <div class="info-card" style="background:rgba(20,18,12,0.9);border:1px solid #333;border-radius:8px;padding:1rem;"><span style="color:#d4a843;font-family:var(--font-display);font-size:1.3rem;">下元</span><p style="color:#aaa;font-size:0.85rem;line-height:1.6;margin-top:0.5rem;">又六十年后，七宫起算。主民生休咎，万物终始。三甲子一百八十年一周。</p></div>
+            <div class="info-card card-tilt" style="background:rgba(20,18,12,0.9);border:1px solid #333;border-radius:8px;padding:1rem;"><span style="color:#d4a843;font-family:var(--font-display);font-size:1.3rem;">上元</span><p style="color:#aaa;font-size:0.85rem;line-height:1.6;margin-top:0.5rem;">甲子年起始，一宫起算。每三年一移，不入中五。主天地之始，万物之源。</p></div>
+            <div class="info-card card-tilt" style="background:rgba(20,18,12,0.9);border:1px solid #333;border-radius:8px;padding:1rem;"><span style="color:#d4a843;font-family:var(--font-display);font-size:1.3rem;">中元</span><p style="color:#aaa;font-size:0.85rem;line-height:1.6;margin-top:0.5rem;">甲子六十年后，三宫起算。主人事兴衰，国家运数。三年一移，不入中五。</p></div>
+            <div class="info-card card-tilt" style="background:rgba(20,18,12,0.9);border:1px solid #333;border-radius:8px;padding:1rem;"><span style="color:#d4a843;font-family:var(--font-display);font-size:1.3rem;">下元</span><p style="color:#aaa;font-size:0.85rem;line-height:1.6;margin-top:0.5rem;">又六十年后，七宫起算。主民生休咎，万物终始。三甲子一百八十年一周。</p></div>
           </div>
           <h4 style="color:var(--accent2);font-family:var(--font-display);margin-top:1rem;">十精太一</h4>
           <div class="grid-auto" style="margin:0.5rem 0;">
@@ -979,16 +1055,16 @@ tr:hover td{background:rgba(212,168,67,.03)}
   <p class="section-subtitle">太乙神数之历史沿革与经典要义</p>
 
   <div class="grid-2">
-    <div class="card">
-      <h3 class="card-header">历史源流</h3>
+    <div class="card card-tilt">
+      <h3 class="card card-tilt-header">历史源流</h3>
       <div style="font-size:.85rem;color:var(--muted);line-height:2">
         <p>太乙神数起源于上古黄帝时期，传说黄帝命大挠作甲子，容成造历，以求天道。至战国时期，太乙术已臻成熟，《易纬·乾凿度》中即有太乙行九宫的记载。</p>
         <p style="margin-top:.6rem">汉代《太乙金镜式经》为现存最早的系统性太乙著作，由王希明所著。唐宋时期，太乙神数与六壬、奇门并称为"三式"，为皇家秘传之术，专用于军国大计。</p>
         <p style="margin-top:.6rem">宋代杨维德《景祐太乙福应经》进一步系统化太乙理论。明清以降，太乙渐传民间，但仍被视为最高深之术数之一，素有"太乙通神，六壬通人，奇门通地"之说。</p>
       </div>
     </div>
-    <div class="card">
-      <h3 class="card-header">经典要义</h3>
+    <div class="card card-tilt">
+      <h3 class="card card-tilt-header">经典要义</h3>
       <div style="font-size:.85rem;color:var(--muted);line-height:2">
         <p><strong style="color:var(--accent2)">太乙积年：</strong>以太乙历元为起点，积年至今。历元始于上古甲子年甲子月甲子日甲子时，天地混沌初开，阴阳未分之际。积年之法为推步之根本。</p>
         <p style="margin-top:.5rem"><strong style="color:var(--accent2)">太乙不入中五：</strong>太乙游宫九野，但永不入中宫（第五宫）。中宫为太极之位，太乙为天帝之神，居于太极之上，故不入中五。</p>
@@ -1819,7 +1895,7 @@ function generate36Gong() {
     const info = PALACE_INFO[palace];
     const isActive = (i === 0) ? ' governing' : '';
     html += `
-      <div class="spirit-card${isActive}">
+      <div class="spirit-card card-tilt${isActive}">
         <div class="spirit-name">${dun === '阳遁' ? '阳' : '阴'}${ju}</div>
         <div class="spirit-elem">${info.name}·${info.trigram}</div>
         <div class="spirit-dir">${info.direction}·${info.element}</div>
@@ -2813,7 +2889,7 @@ function generate36Gong() {
     const info = PALACE_INFO[palace];
     const isActive = (i === 0) ? ' governing' : '';
     html += `
-      <div class="spirit-card${isActive}">
+      <div class="spirit-card card-tilt${isActive}">
         <div class="spirit-name">${dun === '阳遁' ? '阳' : '阴'}${ju}</div>
         <div class="spirit-elem">${info.name}·${info.trigram}</div>
         <div class="spirit-dir">${info.direction}·${info.element}</div>

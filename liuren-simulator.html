@@ -1163,6 +1163,82 @@ body::before {
   color: #cc3333;
   border: 1px solid rgba(204, 51, 51, 0.15);
 }
+
+/* ====== ENHANCED ANIMATION SYSTEM ====== */
+@keyframes floatGlow {
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 5px rgba(212,168,67,0.3));}
+  50%{transform:translateY(-6px);filter:drop-shadow(0 0 20px rgba(212,168,67,0.6));}
+}
+@keyframes spinGlow {
+  0%{transform:rotate(0deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+  50%{filter:drop-shadow(0 0 30px rgba(212,168,67,0.7));}
+  100%{transform:rotate(360deg);filter:drop-shadow(0 0 8px rgba(212,168,67,0.3));}
+}
+@keyframes borderPulse {
+  0%,100%{border-color:rgba(212,168,67,0.3);box-shadow:0 0 5px rgba(212,168,67,0.05);}
+  50%{border-color:rgba(212,168,67,0.7);box-shadow:0 0 25px rgba(212,168,67,0.2);}
+}
+@keyframes shimmerText {
+  0%{background-position:-200% center;}
+  100%{background-position:200% center;}
+}
+@keyframes breatheScale {
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+}
+@keyframes slideUpReveal {
+  0%{opacity:0;transform:translateY(30px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes goldSparkle {
+  0%,100%{opacity:0;transform:scale(0) rotate(0deg);}
+  50%{opacity:1;transform:scale(1) rotate(180deg);}
+}
+@keyframes rippleIn {
+  0%{transform:scale(0);opacity:0.8;}
+  100%{transform:scale(2);opacity:0;}
+}
+@keyframes rotateIn3D {
+  0%{transform:perspective(800px) rotateY(90deg);opacity:0;}
+  100%{transform:perspective(800px) rotateY(0deg);opacity:1;}
+}
+.gold-shimmer-text{
+  background:linear-gradient(90deg, #d4a843, #fff8dc, #d4a843, #b8912e, #d4a843);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmerText 3s ease-in-out infinite;
+}
+.gold-border-anim{border:1px solid rgba(212,168,67,0.3);animation:borderPulse 3s ease-in-out infinite;}
+.gold-border-anim:hover{animation:borderPulse 1s ease-in-out infinite;}
+.float-anim{animation:floatGlow 4s ease-in-out infinite;}
+.float-anim-delayed{animation:floatGlow 5s ease-in-out 1s infinite;}
+.scale-anim{animation:breatheScale 6s ease-in-out infinite;}
+.rotate-anim{animation:spinGlow 8s linear infinite;}
+.reveal-anim{animation:slideUpReveal 0.6s ease-out;}
+.reveal-delay-1{animation:slideUpReveal 0.6s ease-out 0.1s both;}
+.reveal-delay-2{animation:slideUpReveal 0.6s ease-out 0.2s both;}
+.reveal-delay-3{animation:slideUpReveal 0.6s ease-out 0.3s both;}
+.reveal-delay-4{animation:slideUpReveal 0.6s ease-out 0.4s both;}
+
+
+/* Interactive card tilt effect */
+.card-tilt{transition:transform 0.3s ease, box-shadow 0.3s ease;}
+.card-tilt:hover{transform:perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);box-shadow:0 15px 40px rgba(212,168,67,0.15);}
+.btn-ripple{position:relative;overflow:hidden;}
+.btn-ripple::after{content:'';position:absolute;width:100%;padding-top:100%;border-radius:50%;background:rgba(255,255,255,0.15);transform:scale(0);left:var(--x,50%);top:var(--y,50%);transform-origin:center;transition:transform 0.5s;pointer-events:none;}
+.btn-ripple:active::after{transform:scale(3);}
+.star-twinkle{animation:twinkle 2s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.glow-hover{transition:all 0.3s;}
+.glow-hover:hover{filter:drop-shadow(0 0 15px rgba(212,168,67,0.5));transform:scale(1.05);}
+.fade-in-section{animation:slideUpReveal 0.6s ease-out both;}
+.fade-in-section:nth-child(2){animation-delay:0.1s;}
+.fade-in-section:nth-child(3){animation-delay:0.2s;}
+.fade-in-section:nth-child(4){animation-delay:0.3s;}
+.fade-in-section:nth-child(5){animation-delay:0.4s;}
+
 </style>
 </head>
 <body>
@@ -1205,7 +1281,7 @@ body::before {
 
   <!-- 标题 -->
   <div class="main-title">
-    <h1>大六壬</h1>
+    <h1 class="gold-shimmer-text">大六壬</h1>
     <div class="subtitle">太乙·奇门·六壬 · 古传三式之一</div>
   </div>
   <div class="divider">— — — — — — — — —</div>
@@ -1219,7 +1295,7 @@ body::before {
         <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
           <input type="date" id="gregorian-date" style="flex:1;min-width:150px;padding:8px 12px;background:#1a1a1a;color:#e8e0d4;border:1px solid #2a2a2a;border-radius:4px;font-size:0.95rem;">
           <input type="time" id="gregorian-time" value="12:00" style="padding:8px 12px;background:#1a1a1a;color:#e8e0d4;border:1px solid #2a2a2a;border-radius:4px;font-size:0.95rem;">
-          <button class="btn btn-secondary" onclick="fillFromGregorian()" style="padding:8px 16px;">&#x2192; 转换干支</button>
+          <button class="btn btn-ripple btn-secondary" onclick="fillFromGregorian()" style="padding:8px 16px;">&#x2192; 转换干支</button>
         </div>
       </div>
       <div class="input-group">
@@ -1239,10 +1315,10 @@ body::before {
         <select id="sel-hour"></select>
       </div>
     </div>
-    <div class="btn-group">
-      <button class="btn btn-primary" onclick="performDivination()">&#x2716; 起课推演</button>
-      <button class="btn btn-secondary" onclick="fillCurrentDateTime()">&#x25C9; 当前时辰</button>
-      <button class="btn btn-danger" onclick="resetForm()">&#x2718; 清空重设</button>
+    <div class="btn btn-ripple-group">
+      <button class="btn btn-ripple btn-primary" onclick="performDivination()">&#x2716; 起课推演</button>
+      <button class="btn btn-ripple btn-secondary" onclick="fillCurrentDateTime()">&#x25C9; 当前时辰</button>
+      <button class="btn btn-ripple btn-danger" onclick="resetForm()">&#x2718; 清空重设</button>
     </div>
   </div>
 
@@ -1284,11 +1360,11 @@ body::before {
 
     <!-- 日月盘 -->
     <div class="panels-container">
-      <div class="panel-card">
+      <div class="panel-card card-tilt">
         <h3>&#x25C8; 地盘 &#x25C7;</h3>
         <div class="di-pan-grid" id="di-pan"></div>
       </div>
-      <div class="panel-card">
+      <div class="panel-card card-tilt">
         <h3>&#x25C8; 天盘 &#x25C7;</h3>
         <div class="di-pan-grid" id="tian-pan"></div>
       </div>
