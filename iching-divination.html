@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周易六十四卦 - 阿波菲斯占卜</title>
+<meta name="description" content="完整周易六十四卦占卜系统 - 阿波菲斯龙之魔法">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg2: #121212;
+  --bg3: #1a1a1a;
+  --bg4: #222222;
+  --ink: #e8e0d4;
+  --ink2: #c4b8a8;
+  --muted: #8a7e6e;
+  --accent: #c41e3a;
+  --accent2: #d4a843;
+  --accent3: #b8943a;
+  --rule: #2a2a2a;
+  --rule2: #333;
+  --font: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --font-display: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
+  --font-mono: 'IBM Plex Mono', 'Consolas', monospace;
+  --gold-grad: linear-gradient(135deg, #d4a843, #f0d070, #b8943a);
+  --crimson-grad: linear-gradient(135deg, #c41e3a, #8b0000);
+  --shadow-gold: 0 0 20px rgba(212,168,67,0.3);
+  --shadow-crimson: 0 0 20px rgba(196,30,58,0.3);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.8;overflow-x:hidden;min-height:100vh}
+a{color:var(--accent2);text-decoration:none;transition:color .3s}
+a:hover{color:#f0d070}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--gold-grad);z-index:1000;transition:width .1s linear;box-shadow:0 0 10px rgba(212,168,67,0.5)}
+.nav-bar{position:fixed;top:3px;left:0;right:0;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:999;padding:.5rem 1rem;display:flex;align-items:center;gap:.8rem;overflow-x:auto;scrollbar-width:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:.8rem;white-space:nowrap;letter-spacing:.1em;font-family:var(--font-display)}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.75rem;white-space:nowrap;padding:.25rem .5rem;border-radius:4px;transition:all .3s}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,0.1)}
+#particleCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.3}
+.main-content{position:relative;z-index:1;padding-top:4rem;max-width:1400px;margin:0 auto;padding-bottom:4rem}
+.hero{text-align:center;padding:3rem 1.5rem;position:relative}
+.hero-title{font-family:var(--font-display);font-size:clamp(2.5rem,6vw,4.5rem);color:var(--accent2);letter-spacing:.15em;text-shadow:0 0 40px rgba(212,168,67,0.3),0 0 80px rgba(196,30,58,0.15);margin-bottom:.5rem}
+.hero-subtitle{font-size:clamp(1rem,2vw,1.3rem);color:var(--muted);letter-spacing:.2em;margin-bottom:1.5rem}
+.hero-desc{color:var(--ink2);max-width:700px;margin:0 auto 2rem;font-size:.95rem;line-height:2}
+.tab-bar{display:flex;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem;padding:0 1rem}
+.tab-btn{padding:.6rem 1.5rem;background:var(--bg3);border:1px solid var(--rule);color:var(--muted);border-radius:8px;cursor:pointer;font-family:var(--font);font-size:.85rem;transition:all .3s}
+.tab-btn:hover{color:var(--accent2);border-color:var(--accent2)}
+.tab-btn.active{background:rgba(212,168,67,0.15);color:var(--accent2);border-color:var(--accent2);box-shadow:var(--shadow-gold)}
+.tab-content{display:none;animation:fadeIn .5s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.divination-container{max-width:800px;margin:0 auto;padding:0 1.5rem}
+.divination-method{background:var(--bg2);border:1px solid var(--rule);border-radius:12px;padding:2rem;margin-bottom:2rem}
+.divination-method h3{font-family:var(--font-display);color:var(--accent2);font-size:1.5rem;text-align:center;margin-bottom:1rem;letter-spacing:.1em}
+.method-desc{color:var(--ink2);text-align:center;margin-bottom:1.5rem;font-size:.9rem}
+.coin-area{display:flex;justify-content:center;gap:1rem;margin-bottom:1.5rem;min-height:80px;perspective:800px}
+.coin{width:70px;height:70px;border-radius:50%;background:var(--gold-grad);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:var(--bg);cursor:pointer;transition:transform .1s;box-shadow:0 4px 15px rgba(212,168,67,0.4);position:relative;transform-style:preserve-3d}
+.coin.flipping{animation:coinFlip .6s ease-in-out}
+@keyframes coinFlip{0%{transform:rotateY(0) scale(1)}25%{transform:rotateY(180deg) scale(.8)}50%{transform:rotateY(360deg) scale(1.1)}75%{transform:rotateY(540deg) scale(.9)}100%{transform:rotateY(720deg) scale(1)}}
+.coin .coin-inner{position:absolute;width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;backface-visibility:hidden}
+.coin .coin-front{background:var(--gold-grad)}
+.coin .coin-back{background:var(--crimson-grad);transform:rotateY(180deg);color:var(--accent2)}
+.line-builder{display:flex;flex-direction:column;align-items:center;gap:6px;margin:1.5rem 0;padding:1rem;background:var(--bg3);border-radius:8px;min-height:200px;justify-content:center}
+.line-builder .hexagram-line{display:flex;justify-content:center;align-items:center;height:20px;width:180px;opacity:0;animation:lineAppear .3s forwards}
+@keyframes lineAppear{from{opacity:0;transform:scaleY(0)}to{opacity:1;transform:scaleY(1)}}
+.line-builder .hexagram-line .yang-line{height:6px;width:120px;background:var(--accent2);border-radius:3px;box-shadow:0 0 8px rgba(212,168,67,0.3)}
+.line-builder .hexagram-line .yin-line{display:flex;gap:30px;justify-content:center;width:120px}
+.line-builder .hexagram-line .yin-line span{display:block;height:6px;width:45px;background:var(--accent2);border-radius:3px;opacity:.7}
+.line-builder .hexagram-line .changing-mark{width:8px;height:8px;border-radius:50%;background:var(--accent);margin-left:10px;box-shadow:0 0 6px rgba(196,30,58,0.6)}
+.toss-btn{display:block;margin:1.5rem auto 0;padding:.8rem 2.5rem;background:var(--gold-grad);border:none;border-radius:8px;color:var(--bg);font-family:var(--font-display);font-size:1.2rem;cursor:pointer;transition:all .3s;letter-spacing:.1em}
+.toss-btn:hover{box-shadow:var(--shadow-gold);transform:translateY(-2px)}
+.toss-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.reading-btn{display:block;margin:.8rem auto 0;padding:.6rem 2rem;background:transparent;border:1px solid var(--accent2);border-radius:8px;color:var(--accent2);font-family:var(--font);font-size:.9rem;cursor:pointer;transition:all .3s}
+.reading-btn:hover{background:rgba(212,168,67,0.1)}
+.yarrow-area{text-align:center;min-height:200px}
+.stalk-container{display:flex;justify-content:center;gap:3px;margin-bottom:1.5rem;position:relative;height:200px}
+.stalk{width:6px;border-radius:3px 3px 0 0;transition:all .8s cubic-bezier(.4,0,.2,1);position:relative;transform-origin:bottom center}
+.stalk.left-hand{background:var(--accent2)}
+.stalk.right-hand{background:var(--muted)}
+.stalk.discarded{opacity:.15;transform:scaleY(.3)}
+.stack-info{color:var(--ink2);font-size:.85rem;margin-bottom:1rem;font-family:var(--font-mono)}
+.yarrow-step-text{color:var(--muted);font-size:.85rem;min-height:1.5rem;margin-bottom:1rem}
+.browse-container{padding:0 1.5rem}
+.search-bar{display:flex;gap:.8rem;margin-bottom:1.5rem;flex-wrap:wrap;justify-content:center}
+.search-input{padding:.7rem 1rem;background:var(--bg3);border:1px solid var(--rule);border-radius:8px;color:var(--ink);font-family:var(--font);font-size:.9rem;width:280px;transition:border-color .3s}
+.search-input:focus{outline:none;border-color:var(--accent2)}
+.filter-btns{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center}
+.filter-btn{padding:.4rem .8rem;background:var(--bg3);border:1px solid var(--rule);border-radius:6px;color:var(--muted);cursor:pointer;font-family:var(--font);font-size:.75rem;transition:all .3s}
+.filter-btn:hover{color:var(--accent2);border-color:var(--accent2)}
+.filter-btn.active{background:rgba(212,168,67,0.15);color:var(--accent2);border-color:var(--accent2)}
+.hexagram-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;padding:.5rem 0}
+.hexagram-card{background:var(--bg2);border:1px solid var(--rule);border-radius:10px;padding:1.2rem;cursor:pointer;transition:all .3s;text-align:center}
+.hexagram-card:hover{border-color:var(--accent2);transform:translateY(-4px);box-shadow:var(--shadow-gold)}
+.hexagram-card .card-number{color:var(--muted);font-size:.75rem;font-family:var(--font-mono);margin-bottom:.3rem}
+.hexagram-card .card-chinese{font-family:var(--font-display);font-size:1.6rem;color:var(--accent2);margin-bottom:.2rem}
+.hexagram-card .card-english{color:var(--ink2);font-size:.8rem;margin-bottom:.5rem}
+.hexagram-card .card-lines{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:.5rem}
+.hexagram-card .card-lines .cl{height:4px;border-radius:2px}
+.hexagram-card .card-lines .cl.yang{width:70px;background:var(--accent2)}
+.hexagram-card .card-lines .cl.yin{width:70px;background:transparent;display:flex;gap:18px;justify-content:center}
+.hexagram-card .card-lines .cl.yin span{display:block;height:4px;width:26px;background:var(--accent2);border-radius:2px;opacity:.7}
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:2000;display:none;justify-content:center;align-items:center;padding:1.5rem;backdrop-filter:blur(8px)}
+.modal-overlay.open{display:flex}
+.modal-content{background:var(--bg2);border:1px solid var(--rule);border-radius:16px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:2.5rem;position:relative;animation:modalIn .4s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;background:var(--bg4);border:1px solid var(--rule);color:var(--muted);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.modal-close:hover{color:var(--accent);border-color:var(--accent)}
+.modal-header{text-align:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--rule)}
+.modal-header .modal-number{color:var(--muted);font-family:var(--font-mono);font-size:.85rem;margin-bottom:.3rem}
+.modal-header .modal-chinese{font-family:var(--font-display);font-size:2.8rem;color:var(--accent2);margin-bottom:.3rem}
+.modal-header .modal-english{color:var(--ink2);font-size:1rem}
+.hexagram-canvas-wrap{display:flex;justify-content:center;margin-bottom:2rem}
+#hexagramCanvas{border-radius:8px}
+.judgment-section{background:var(--bg3);border-radius:10px;padding:1.5rem;margin-bottom:1.5rem;border-left:3px solid var(--accent2)}
+.judgment-section h4{color:var(--accent2);font-family:var(--font-display);font-size:1.2rem;margin-bottom:.8rem}
+.judgment-section .judgment-text{color:var(--ink);font-size:1rem;line-height:2;text-align:justify}
+.interpretation-section h4{color:var(--accent2);font-family:var(--font-display);font-size:1.15rem;margin:1.5rem 0 1rem;padding-bottom:.3rem;border-bottom:1px solid var(--rule)}
+.interpretation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+.interp-card{background:var(--bg3);border-radius:10px;padding:1.2rem;border:1px solid var(--rule);transition:all .3s}
+.interp-card:hover{border-color:var(--accent2)}
+.interp-card h5{color:var(--accent2);font-size:.95rem;margin-bottom:.5rem}
+.interp-card p{color:var(--ink2);font-size:.85rem;line-height:1.8}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--rule2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+.glow-orb{position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;z-index:0;opacity:.06;filter:blur(80px)}
+.glow-orb.g1{background:var(--accent2);top:-100px;right:-100px;animation:orbFloat 12s ease-in-out infinite alternate}
+.glow-orb.g2{background:var(--accent);bottom:-100px;left:-100px;animation:orbFloat 15s ease-in-out infinite alternate-reverse}
+@keyframes orbFloat{0%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,20px) scale(1.1)}100%{transform:translate(-20px,-30px) scale(.9)}}
+@media(max-width:768px){
+  .nav-bar{gap:.4rem;padding:.4rem .6rem}
+  .nav-link{font-size:.7rem;padding:.2rem .4rem}
+  .hero{padding:2rem 1rem}
+  .hexagram-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .modal-content{padding:1.5rem;margin:.5rem}
+  .interpretation-grid{grid-template-columns:1fr}
+  .coin{width:55px;height:55px;font-size:1.3rem}
+  .toss-btn{font-size:1rem;padding:.7rem 2rem}
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<div class="glow-orb g1"></div>
+<div class="glow-orb g2"></div>
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link active">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+</nav>
+
+<div class="main-content">
+  <section class="hero">
+    <h1 class="hero-title">周易六十四卦</h1>
+    <p class="hero-subtitle">I Ching — 变化之书</p>
+    <p class="hero-desc">《周易》乃群经之首，大道之源。六十四卦囊括天地万物变化之理，以下为完整的占卜与研习系统。可选择抛硬币或蓍草起卦，亦可浏览全部卦象深入研读。</p>
+  </section>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="coin">抛硬币占卜</button>
+    <button class="tab-btn" data-tab="yarrow">蓍草起卦</button>
+    <button class="tab-btn" data-tab="browse">浏览六十四卦</button>
+  </div>
+
+  <div class="tab-content active" id="tab-coin">
+    <div class="divination-container">
+      <div class="divination-method">
+        <h3>抛硬币起卦</h3>
+        <p class="method-desc">心中默念所问之事，点击"抛硬币"按钮。每次抛三枚硬币，共抛六次，从下往上生成一卦。</p>
+        <p class="method-desc" style="font-size:.8rem;color:var(--muted)">三正为老阳(9)○ 两正为少阴(8) 一正为少阳(7) 三反为老阴(6)×</p>
+        <div class="coin-area" id="coinArea">
+          <div class="coin" id="coin1"><div class="coin-inner coin-front">乾</div><div class="coin-inner coin-back">坤</div></div>
+          <div class="coin" id="coin2"><div class="coin-inner coin-front">乾</div><div class="coin-inner coin-back">坤</div></div>
+          <div class="coin" id="coin3"><div class="coin-inner coin-front">乾</div><div class="coin-inner coin-back">坤</div></div>
+        </div>
+        <div class="line-builder" id="lineBuilder"><div class="placeholder" style="color:var(--muted);font-size:.85rem">等待起卦...</div></div>
+        <div style="text-align:center;color:var(--ink2);font-size:.85rem;min-height:1.5rem" id="coinStatus">第 0 / 6 爻</div>
+        <button class="toss-btn" id="tossBtn">抛硬币</button>
+        <button class="reading-btn" id="coinReadingBtn" style="display:none">查看卦象详解</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-yarrow">
+    <div class="divination-container">
+      <div class="divination-method">
+        <h3>蓍草起卦</h3>
+        <p class="method-desc">模拟古代蓍草占卜法。三变得一爻，十八变得六爻。</p>
+        <div class="yarrow-area" id="yarrowArea">
+          <div class="stalk-container" id="stalkContainer"></div>
+          <div class="stack-info" id="stackInfo"></div>
+          <div class="yarrow-step-text" id="yarrowStepText">点击下方按钮开始起卦</div>
+          <div class="line-builder" id="yarrowLineBuilder" style="min-height:100px"><div class="placeholder" style="color:var(--muted);font-size:.85rem">等待起卦...</div></div>
+          <button class="toss-btn" id="yarrowBtn">分蓍</button>
+          <button class="reading-btn" id="yarrowReadingBtn" style="display:none">查看卦象详解</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-browse">
+    <div class="browse-container">
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="搜索卦名、编号或关键词...">
+        <div class="filter-btns" id="filterBtns">
+          <button class="filter-btn active" data-filter="all">全部</button>
+          <button class="filter-btn" data-filter="upper">上经 (1-30)</button>
+          <button class="filter-btn" data-filter="lower">下经 (31-64)</button>
+        </div>
+      </div>
+      <div class="hexagram-grid" id="hexagramGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <div class="modal-header">
+      <div class="modal-number" id="modalNumber"></div>
+      <div class="modal-chinese" id="modalChinese"></div>
+      <div class="modal-english" id="modalEnglish"></div>
+    </div>
+    <div class="hexagram-canvas-wrap"><canvas id="hexagramCanvas" width="260" height="200"></canvas></div>
+    <div class="judgment-section">
+      <h4>卦辞</h4>
+      <div class="judgment-text" id="modalJudgment"></div>
+    </div>
+    <div class="interpretation-section" id="modalInterpretation"></div>
+  </div>
+</div>
+
+<script>
+// ============================ DATA ============================
+const hexagrams = [
+  {n:1,ch:"乾为天",en:"The Creative — Heaven",p:"Qián",lines:[1,1,1,1,1,1],
+   judgment:"乾：元亨利贞。",
+   interp:{career:"天行健，君子以自强不息。事业上处于鼎盛时期，运势强劲，如日中天。宜积极进取，开拓创新，大有可为。但须戒骄戒躁，保持谦逊，方能长盛不衰。适宜创业、升职、扩大规模。",business:"市场如天，运行不息。当前商业运势极佳，适合扩张业务、开拓新市场、推出新产品。但需谨记亢龙有悔，不可过度扩张，应审慎评估风险，稳扎稳打。",love:"感情如天，光明正大。单身者易遇良缘，对方气质出众、能力卓越。已有伴侣者感情稳固，彼此信任。但刚强易折，适当示弱反而能让感情更融洽。",decision:"元亨利贞，四德俱全。此时决策可大胆前行，顺应天道。只要方向正确、方法得当，必能获得成功。宜做长远规划，奠定百年基业。"}},
+  {n:2,ch:"坤为地",en:"The Receptive — Earth",p:"Kūn",lines:[0,0,0,0,0,0],
+   judgment:"坤：元亨，利牝马之贞。君子有攸往，先迷后得主，利。西南得朋，东北丧朋。安贞吉。",
+   interp:{career:"地势坤，君子以厚德载物。事业发展平稳，宜守不宜攻。此时应以积累为主，培养实力，不宜冒进。适合从事教育、服务、管理等需要耐心的行业。顺天应时，厚积薄发。",business:"商机在大地深处。当前宜稳健经营，不宜冒进投资。适合深耕现有业务，提升品质和服务。可考虑与西南方向的伙伴合作。耐心等待，终有收获。",love:"感情如大地般包容。已有伴侣者感情稳定，彼此包容理解。单身者不宜强求，顺其自然。对方可能是性格温和、踏实可靠之人。感情需要时间沉淀。",decision:"主静不主动。此时决策应以守成为主，不宜大动干戈。先观察后行动，先跟随后主导。只要保持柔顺、谦逊的态度，最终必有所成。"}},
+  {n:3,ch:"水雷屯",en:"Difficulty at the Beginning",p:"Zhǔn",lines:[1,0,0,0,0,1],
+   judgment:"屯：元亨利贞。勿用有攸往，利建侯。",
+   interp:{career:"万事开头难。此时正处于事业的起步阶段，困难重重，前途未卜。但这正是建功立业的好时机，只要坚持奋斗，必能打开局面。宜寻求贵人相助，积累人脉资源。",business:"创业之初，荆棘满途。此时不宜大规模投资，应以小规模试水为主。关键是要找对方向，站稳脚跟。适合与有经验的伙伴合作，共同开创事业。",love:"感情初始，充满不确定性。单身者可能遇到让自己心动的人，但关系发展缓慢，需要耐心培养。已有伴侣者可能面临磨合期，需要互相理解包容。",decision:"时机未到，不宜轻举妄动。此时应以建立基础为主，先安定内部，再图发展。可考虑在小范围内先行试点，积累经验后再扩大。"}},
+  {n:4,ch:"山水蒙",en:"Youthful Folly",p:"Méng",lines:[0,0,0,1,0,0],
+   judgment:"蒙：亨。匪我求童蒙，童蒙求我。初筮告，再三渎，渎则不告。利贞。",
+   interp:{career:"蒙以养正。事业上需要学习和积累的阶段。不宜妄自尊大，应以谦虚的态度向他人请教。此时的困惑和迷茫是正常的，正说明需要提升自己。适合培训、学习、充电。",business:"市场如蒙昧未开。此时不宜贸然进入不熟悉的领域。应该先做充分的市场调研和学习，了解行业规律。可以寻求导师或有经验者的指导。",love:"感情上处于懵懂状态。单身者可能在感情中比较天真，容易被表面现象迷惑。已有伴侣者需要更多沟通，避免因误会产生矛盾。",decision:"初筮告，再三渎。决策时第一次直觉往往是对的，反复犹豫反而会错失良机。应该相信专业意见，不要反复更改决定。"}},
+  {n:5,ch:"水天需",en:"Waiting — Nourishment",p:"Xū",lines:[1,1,1,0,1,0],
+   judgment:"需：有孚，光亨，贞吉。利涉大川。",
+   interp:{career:"需者，待也。事业上处于等待时机阶段。此时不宜冲动行事，应该养精蓄锐，等待最佳时机。只要心怀诚信，光明终将到来。适合做长期规划和准备工作。",business:"商机需要耐心等待。此时市场可能处于观望期，不宜盲目跟进。应该储备资金和资源，等到时机成熟再出手。诚信经营是度过等待期的关键。",love:"感情需要时间沉淀。单身者不必急于寻找，缘分自会在合适的时机出现。已有伴侣者需要给彼此一些空间，等待感情自然升温。",decision:"等待是明智的选择。此时决策应以观望为主，不宜贸然行动。只要保持诚信和耐心，最终能够渡过难关，达到彼岸。"}},
+  {n:6,ch:"天水讼",en:"Conflict",p:"Sòng",lines:[0,1,0,1,1,1],
+   judgment:"讼：有孚窒惕，中吉，终凶。利见大人，不利涉大川。",
+   interp:{career:"事业上可能面临争议或诉讼。此时宜保持冷静，避免正面冲突。如果能通过沟通化解矛盾，则有利；如果坚持对抗，最终结果不利。适合寻求上级或权威人士调解。",business:"商业纠纷可能出现。此时不宜扩大事态，应尽量通过协商解决。打官司虽然可能胜诉，但耗费精力物力，最终得不偿失。和气生财是上策。",love:"感情中出现争执。双方各执己见，互不相让。此时需要第三方调解或各自冷静。争执中没有赢家，适可而止才是明智之举。",decision:"中吉，终凶。此时决策要见好就收，不要追求完胜。适度的让步反而能获得更好的结果。不适合做冒险性的重大决策。"}},
+  {n:7,ch:"地水师",en:"The Army",p:"Shī",lines:[0,1,0,0,0,0],
+   judgment:"师：贞，丈人吉，无咎。",
+   interp:{career:"师出有名。事业上可能需要采取竞争或对抗策略。此时宜以正义之名行事，依靠有经验的长者或前辈指导。适合团结团队力量，共同对外。",business:"市场竞争激烈。需要有强大的团队和明确的战略。不宜单打独斗，应该集结优势力量。选择有经验的领导者至关重要。适合行业整合或市场争夺。",love:"感情如行军打仗，需要策略。单身者追求心仪对象需要讲究方法，直接表白可能适得其反。已有伴侣者可能需要面对外部挑战，需要同心协力。",decision:"用人不疑，疑人不用。此时决策应依靠德高望重之人的意见。适合做出与竞争、扩张相关的决策，但必须师出有名，理由正当。"}},
+  {n:8,ch:"水地比",en:"Union — Holding Together",p:"Bǐ",lines:[0,0,0,0,1,0],
+   judgment:"比：吉。原筮元永贞，无咎。不宁方来，后夫凶。",
+   interp:{career:"比者，亲附也。事业上适合与人合作，建立联盟。此时人际关系和谐，适合团队协作。应该主动亲近领导和同事，建立良好关系。忌讳独立独行。",business:"商业合作的好时机。适合寻找合作伙伴，建立战略联盟。与上下游企业保持良好的合作关系，共同发展。不宜单打独斗。",love:"感情上适合亲密关系。单身者容易遇到情投意合之人。已有伴侣者感情更加亲密和谐。适合谈婚论嫁。但要注意不要过于依赖对方。",decision:"亲贤臣，远小人。决策时应该广泛征求意见，特别是亲近可信之人的建议。适合做出与联盟、合作相关的决策。不宜独断专行。"}},
+  {n:9,ch:"风天小畜",en:"Small Taming Force",p:"Xiǎo Chù",lines:[1,1,1,0,1,1],
+   judgment:"小畜：亨。密云不雨，自我西郊。",
+   interp:{career:"小畜者，小有积蓄。事业上处于积累阶段，虽然有所收获，但尚未到爆发的时机。就像密云不雨，蓄势待发。此时应该继续积累，充实自己。",business:"小有盈利，但利润不大。此时不宜大规模扩张，应该精打细算，积少成多。市场就像密云，虽然看似机会很多，但真正能落地的还不多。",love:"感情上处于温和发展阶段。单身者可能遇到还不错的人，但感情尚未成熟，需要时间培养。已有伴侣者生活平淡温馨，但缺少激情。",decision:"蓄势待发。此时决策以稳为主，不宜冒进。虽然有小成，但大器晚成。应该继续积累实力，等待更好的时机。"}},
+  {n:10,ch:"天泽履",en:"Treading — Conduct",p:"Lǚ",lines:[1,1,0,1,1,1],
+   judgment:"履：履虎尾，不咥人，亨。",
+   interp:{career:"履者，行也。事业上如履虎尾，虽然危险但谨慎行事可化险为夷。此时应该谨言慎行，遵守规则。适合按部就班地推进工作，不宜标新立异。",business:"市场如虎口，充满风险。但只要遵循市场规律，谨慎经营，也能安全度过。此时不宜投机取巧，应该踏踏实实做好本职工作。",love:"感情如履薄冰。单身者在追求感情时需要小心翼翼，过于急切可能会吓跑对方。已有伴侣者需要注意言行，避免冒犯对方。尊重是感情的基石。",decision:"履虎尾，不咥人。虽然形势危险，但只要谨慎行事，按规矩来，就能安全通过。适合做出稳健的、有章可循的决策。"}},
+  {n:11,ch:"地天泰",en:"Peace — Prosperity",p:"Tài",lines:[1,1,1,0,0,0],
+   judgment:"泰：小往大来，吉亨。",
+   interp:{career:"泰者，通也。事业上一片大好，万事亨通。天地交泰，万物通达。此时宜积极进取，开拓局面。适合推进重大项目、开展合作、扩大影响力。",business:"商业繁荣期。市场形势一片大好，适合扩大投资、开拓新市场、推出新产品。天地交泰，上下沟通顺畅，合作愉快。",love:"感情和谐美满。单身者桃花运旺盛，容易遇到心意相通之人。已有伴侣者感情甜蜜，相互理解支持。适合结婚、同居等关系进展。",decision:"小往大来。付出少而收获多，是决策的黄金时期。此时做出的决策往往能够顺利实施，取得良好效果。适合做积极的、进取的决策。"}},
+  {n:12,ch:"天地否",en:"Standstill — Stagnation",p:"Pǐ",lines:[0,0,0,1,1,1],
+   judgment:"否：否之匪人，不利君子贞，大往小来。",
+   interp:{career:"否者，塞也。事业上处于停滞或低迷期。天地不交，万物不通。此时不宜强行推进，应该明哲保身，韬光养晦。适合内部整顿、学习提升。",business:"市场低迷，生意难做。此时不宜扩大投资，应该收缩战线，保存实力。不适合开展新项目或进入新市场。静待时机，等待否极泰来。",love:"感情上遇到困难。单身者可能遇到不合适的人，或追求受挫。已有伴侣者可能出现沟通障碍、冷战等情况。需要耐心等待转机。",decision:"大往小来。付出多而收获少，此时不宜做重大决策。应该保守为主，避免损失。坚守正道，等待时机转好。"}},
+  {n:13,ch:"天火同人",en:"Fellowship with Others",p:"Tóng Rén",lines:[1,0,1,1,1,1],
+   judgment:"同人：同人于野，亨。利涉大川，利君子贞。",
+   interp:{career:"同人者，与人同心。事业上适合与人合作，集思广益。不要局限于小圈子，应该在更广阔的范围内寻求志同道合之人。适合团队项目、联盟合作。",business:"商业合作的大好时机。可以走出舒适区，与不同背景的伙伴合作。在广阔的市场中寻找商机。适合跨国合作、跨行业联盟。",love:"同心之人。单身者容易在社交场合遇到志趣相投的人。已有伴侣者感情默契，心有灵犀。",decision:"同人于野。决策应该广泛征求意见，集众人之智。适合做出与联盟、合作、团队建设相关的决策。不宜独断专行。"}},
+  {n:14,ch:"火天大有",en:"Great Possession",p:"Dà Yǒu",lines:[1,1,1,1,0,1],
+   judgment:"大有：元亨。",
+   interp:{career:"大有者，大丰收也。事业上收获丰盛，功成名就。此时宜居安思危，富而好礼。适合回馈社会、培养新人。但须戒骄戒躁，保持谦逊。",business:"财富丰盈。商业上获利丰厚，市场占有率高。此时应该考虑如何保持优势，持续发展。适合投资长期项目、慈善事业。",love:"感情丰盛美满。单身者魅力四射，容易吸引优质对象。已有伴侣者生活富足和谐。需要注意不要因为物质而忽略了感情的经营。",decision:"元亨。此时决策顺风顺水，容易成功。但越是顺境越要谨慎，避免因得意忘形而犯错。适合做积极的投资和发展决策。"}},
+  {n:15,ch:"地山谦",en:"Modesty",p:"Qiān",lines:[0,0,0,1,0,0],
+   judgment:"谦：亨，君子有终。",
+   interp:{career:"谦者，卑下也。事业上虽有成就，但应保持谦虚。谦虚使人进步，骄傲使人落后。此时应该继续保持谦逊的态度，学习进取。适合做幕后工作或辅助性工作。",business:"谦和致祥。商业上不宜张扬，应该低调做事。谦虚的态度能赢得客户和合作伙伴的信任。适合稳扎稳打，不追求短期暴利。",love:"谦谦君子。单身者的谦逊态度会吸引异性好感。已有伴侣者懂得互相谦让，感情和睦。",decision:"谦受益，满招损。决策时应保持谦虚，多听取他人意见。即使有成就也不可傲慢。适合做出低调务实、稳中求进的决策。"}},
+  {n:16,ch:"雷地豫",en:"Enthusiasm",p:"Yù",lines:[1,0,0,0,0,0],
+   judgment:"豫：利建侯行师。",
+   interp:{career:"豫者，悦也。事业上充满热情和活力。此时适合发挥领导才能，组织团队活动。适合创业、改革、推行新方案。但要注意不要过分乐观。",business:"市场热情高涨。适合推出新品、举办活动、扩大宣传。但需要谨慎规划，避免盲目跟风。娱乐、文化、创意产业尤其有利。",love:"感情热烈欢快。单身者容易在社交活动中遇到心仪对象。已有伴侣者感情升温，生活丰富多彩。适合约会、旅行。",decision:"利建侯行师。适合做出激进的、积极的决策。但需要做好充分准备，不要被热情冲昏头脑。"}},
+  {n:17,ch:"泽雷随",en:"Following",p:"Suí",lines:[0,0,1,0,1,1],
+   judgment:"随：元亨利贞，无咎。",
+   interp:{career:"随者，从也。事业上适合跟随大势，顺势而为。此时不宜标新立异，应该顺应时势和领导意图。适合做执行者而非开创者。",business:"随行就市。商业上应该顺应市场需求，不要逆势操作。跟着行业领导者走，可以降低风险。适合做跟随型、模仿型的业务。",love:"随缘而安。单身者不必强求，缘分到了自然会有。已有伴侣者随和相处，不强求改变对方。",decision:"元亨利贞。顺应时势，随遇而安。决策时不要固执己见，应该灵活应变。"}},
+  {n:18,ch:"山风蛊",en:"Decay — Rectification",p:"Gǔ",lines:[0,1,1,0,0,1],
+   judgment:"蛊：元亨。利涉大川。先甲三日，后甲三日。",
+   interp:{career:"蛊者，弊也。事业上可能面临积弊或腐败问题。此时需要对现有的问题进行彻底的整顿和改革。虽然过程艰难，但结果是好的。适合革新除弊。",business:"企业可能面临内部问题。需要进行制度改革、流程优化。虽然短期内会有阵痛，但长期来看有利于健康发展。",love:"感情中的旧问题需要解决。可能是长期的误会或矛盾累积。需要坦诚沟通，彻底解决问题。",decision:"先甲三日，后甲三日。决策前要充分调查研究，决策后要持续跟进落实。适合做出改革、整顿相关的决策。"}},
+  {n:19,ch:"地泽临",en:"Approach — Overseeing",p:"Lín",lines:[0,1,1,0,0,0],
+   judgment:"临：元亨利贞。至于八月有凶。",
+   interp:{career:"临者，监督也。事业上可能面临晋升或管理职责。此时适合发挥领导才能，管理团队。但要居安思危，八月有凶，预示着好景不长。",business:"市场形势好转，适合扩大经营。但要警惕周期性风险。可以在旺季加大投入，但要为淡季做好准备。",love:"感情进入新阶段。单身者可能有新的恋情开始。已有伴侣者关系更进一步，可能考虑结婚或同居。但要注意感情也会有起伏。",decision:"元亨利贞。现在适合做积极的决策，但要有风险意识。不要被眼前的顺利冲昏头脑。"}},
+  {n:20,ch:"风地观",en:"Contemplation — Viewing",p:"Guān",lines:[0,0,0,0,1,1],
+   judgment:"观：盥而不荐，有孚颙若。",
+   interp:{career:"观者，观察也。事业上适合观察和学习，不宜急于行动。通过观察可以了解形势，把握机会。适合做调研、分析、咨询类工作。",business:"市场需要仔细观察。不要急于投资，应该先了解市场动态和竞争对手。适合做市场调研和可行性分析。",love:"观其行而知其人。单身者应该多观察对方，不要急于确定关系。已有伴侣者需要反思和观察感情中的问题。",decision:"盥而不荐。决策前要充分观察和思考，不要急于行动。先看清形势再行动。"}},
+  {n:21,ch:"火雷噬嗑",en:"Biting Through",p:"Shì Kè",lines:[1,0,0,1,0,1],
+   judgment:"噬嗑：亨。利用狱。",
+   interp:{career:"噬嗑者，咬合也。事业上可能会遇到障碍或阻力。需要像咬碎硬物一样克服困难。适合处理难题、解决纠纷、推进受阻项目。",business:"市场竞争激烈，需要啃硬骨头。可能会遇到法律纠纷或行政障碍。需要坚决果断地解决问题。适合从事法律、仲裁、谈判等行业。",love:"感情中遇到阻碍。可能来自第三者或家庭压力。需要坚定决心，排除万难。",decision:"利用狱。适合做出与法律、裁决相关的决策。需要果断行事，不留情面。"}},
+  {n:22,ch:"山火贲",en:"Grace — Elegance",p:"Bì",lines:[1,0,1,0,0,1],
+   judgment:"贲：亨。小利有攸往。",
+   interp:{career:"贲者，装饰也。事业上注重形象和包装。此时适合做品牌建设、形象提升、装修升级等。但要注意不要只重外表忽视内在。适合设计、艺术、传媒行业。",business:"产品包装和品牌形象很重要。适合做宣传推广、品牌升级。但要避免过度包装，货真价实才是根本。适合消费品、奢侈品行业。",love:"感情需要浪漫和仪式感。单身者可以通过提升形象来吸引异性。已有伴侣者需要给感情增添新鲜感和浪漫。",decision:"小利有攸往。决策上可以做小的调整和改进，但不宜做大变革。"}},
+  {n:23,ch:"山地剥",en:"Splitting Apart — Stripping",p:"Bō",lines:[0,0,0,0,0,1],
+   judgment:"剥：不利有攸往。",
+   interp:{career:"剥者，剥落也。事业上可能面临衰退或流失。下属或团队成员可能离去，资源可能减少。此时不宜进取，应该保守。适合收缩战线，保存核心力量。",business:"市场萎缩，生意难做。客户流失，利润下降。此时不宜投资扩张，应该精简机构，保存实力。",love:"感情在消逝。可能出现分手、冷淡等情况。与其强撑不如体面放手。",decision:"不利有攸往。此时不宜做任何进取性的决策。应该以守为主，尽量减少损失。"}},
+  {n:24,ch:"地雷复",en:"Return — Turning Point",p:"Fù",lines:[1,0,0,0,0,0],
+   judgment:"复：亨。出入无疾，朋来无咎。反复其道，七日来复，利有攸往。",
+   interp:{career:"复者，反复也。事业上经历低谷后开始复苏。此为一阳来复，生机初现。适合重新开始、回归本行。不宜操之过急，要循序渐进。",business:"市场开始回暖。经过前期的萧条，现在出现了转机。适合重新进入市场、恢复生产。与老朋友合作有利。",love:"失而复得。冷战或分手后可能和好如初。单身者可能旧情人回头。感情上迎来了新的转机。",decision:"利有攸往。经过一段时间的低谷，现在适合重新开始行动。但要循序渐进，不要操之过急。"}},
+  {n:25,ch:"天雷无妄",en:"Innocence — Unexpected",p:"Wú Wàng",lines:[1,0,0,1,1,1],
+   judgment:"无妄：元亨利贞。其匪正有眚，不利有攸往。",
+   interp:{career:"无妄者，不妄为也。事业上应该顺其自然，不要强求。只要保持正直，不求而自得。如果动机不纯，反而会有灾祸。",business:"不要投机取巧。商业上应该诚实经营，不要有非分之想。意外的机会可能会来，但不能强求。",love:"真诚最可贵。单身者不需要刻意表现自己，真诚自然能吸引对的人。已有伴侣者坦诚相待最重要。",decision:"元亨利贞。只要保持正直，不求自得。如果动机不纯，就会有灾祸。适合做出正直的、不妄为的决策。"}},
+  {n:26,ch:"山天大畜",en:"Great Taming Force",p:"Dà Chù",lines:[1,1,1,0,0,1],
+   judgment:"大畜：利贞。不家食吉，利涉大川。",
+   interp:{career:"大畜者，大积蓄也。事业上经过长期积累，现在储备充足，可以大展拳脚。适合走出舒适区，到更广阔的天地发展。利于出行、出国、异地发展。",business:"实力雄厚，可以出手了。之前的积累现在可以发挥作用。适合大规模投资、跨区域扩张。不局限于本地市场，应该走出去。",love:"感情经过长期培养，现在可以更进一步。单身者应该走出家门，多参加社交活动。异地恋有望修成正果。",decision:"利涉大川。此时决策应该大胆一些，不要满足于现状。适合做出扩张、出行、跨界的决策。"}},
+  {n:27,ch:"山雷颐",en:"Nourishment — Jaws",p:"Yí",lines:[1,0,0,0,0,1],
+   judgment:"颐：贞吉。观颐，自求口实。",
+   interp:{career:"颐者，养也。事业上需要关注自身的成长和修养。此时适合学习充电、休养生息。不要过分依赖他人，要自力更生。适合养生、教育、培训行业。",business:"自求口实。商业上要靠自己的努力，不要依赖他人。适合自主创业、个体经营。关注健康、食品、养生领域的商机。",love:"感情需要用心经营。单身者要先学会爱自己，才能爱别人。已有伴侣者要关注对方的身心健康。",decision:"观颐，自求口实。决策要靠自己，不要依赖他人。适合做出与修养、学习、健康相关的决策。"}},
+  {n:28,ch:"泽风大过",en:"Great Exceeding",p:"Dà Guò",lines:[0,1,1,1,1,0],
+   judgment:"大过：栋桡。利有攸往，亨。",
+   interp:{career:"大过者，过度也。事业上可能出现过度扩张或压力过大的情况。就像房梁弯曲，需要及时调整。此时不宜继续加压，应该适当放松。",business:"企业可能过度扩张，负债率过高。需要及时调整战略，降杠杆、减负债。过犹不及，适可而止。",love:"感情中可能存在不平衡。一方付出过多或要求过多。需要调整心态，找到平衡点。过分的爱也是一种负担。",decision:"栋桡。房屋的栋梁弯曲了，需要及时修理。此时决策应以调整、修正为主，不宜继续加码。"}},
+  {n:29,ch:"坎为水",en:"The Abyss — Water",p:"Kǎn",lines:[0,1,0,0,1,0],
+   judgment:"坎：习坎，有孚，维心亨。行有尚。",
+   interp:{career:"坎者，险也。事业上面临重重困难，如临深渊。但只要保持诚信和坚定的信念，就能化险为夷。适合从事水利、物流、交通等行业。",business:"市场风险很大，如同涉水行舟。需要谨慎经营，储备足够的资金。虽然有危险，但风险中也蕴含着机会。",love:"感情经历考验。可能面临分离、误会等困难。但只要双方心意相通，就能共渡难关。",decision:"维心亨。只要内心坚定，就能度过难关。适合做出应对危机、化解风险的决策。保持信念，必有收获。"}},
+  {n:30,ch:"离为火",en:"The Clinging — Fire",p:"Lí",lines:[1,0,1,1,0,1],
+   judgment:"离：利贞，亨。畜牝牛吉。",
+   interp:{career:"离者，附丽也。事业上需要依附于光明正大的事物。适合从事文化、教育、传媒、科技等光明的行业。要保持中正之心，利贞则亨。",business:"火象征文明和光明。适合文化创意、科技互联网、能源等行业。要依附于正道，不要走歪门邪道。",love:"热情似火。单身者容易遇到热情开朗的对象。已有伴侣者感情炽热，但要注意不要因热情而失去理智。",decision:"利贞，亨。依附光明，保持中正。适合做出与文化、教育、科技相关的决策。"}},
+  {n:31,ch:"泽山咸",en:"Influence — Mutual Attraction",p:"Xián",lines:[0,0,1,1,1,0],
+   judgment:"咸：亨，利贞。取女吉。",
+   interp:{career:"咸者，感也。事业上需要与外界产生互动和感应。此时适合沟通、交流、谈判。人际关系是关键，通过感化他人来推动工作。",business:"市场互动频繁。适合做销售、公关、市场推广等需要与人打交道的工作。合作洽谈顺利。",love:"两情相悦。咸卦专门讲感情，单身者容易遇到互相吸引的对象。已有伴侣者感情融洽，心意相通。取女吉，适合求婚或结婚。",decision:"亨利贞。通过感化和沟通来达成目标。适合做出与人际关系、感情、合作相关的决策。"}},
+  {n:32,ch:"雷风恒",en:"Duration — Perseverance",p:"Héng",lines:[0,1,1,1,0,0],
+   judgment:"恒：亨，无咎，利贞。利有攸往。",
+   interp:{career:"恒者，久也。事业上贵在坚持。此时应该保持稳定的发展节奏，不要轻易改变方向。持之以恒必有所成。适合长期项目、稳健型投资。",business:"生意的关键在于持续经营。不要追求短期的暴利，而要着眼于长期发展。品牌建设需要时间。",love:"感情贵在持久。平淡才是真，细水长流的感情最可贵。不要因为一时的新鲜感而放弃长久的感情。",decision:"利有攸往。坚持就是胜利。适合做出与长期发展、持续经营相关的决策。不要轻易改变既定方针。"}},
+  {n:33,ch:"天山遁",en:"Retreat — Withdrawing",p:"Dùn",lines:[0,0,1,1,1,1],
+   judgment:"遁：亨，小利贞。",
+   interp:{career:"遁者，退也。事业上需要适时退避。不是退缩，而是战略性撤退。此时不宜正面交锋，应该暂避锋芒。适合转换跑道、调整方向。",business:"市场环境不利，需要暂时退守。不要与强大的竞争对手正面冲突，应该找自己的细分市场。保存实力，以待时机。",love:"感情需要空间。单身者如果追求受挫，不妨暂时放下，转移注意力。已有伴侣者需要给彼此一些独处的空间。",decision:"小利贞。此时退让是明智的选择。适合做出调整、收缩、转移的决策。退一步海阔天空。"}},
+  {n:34,ch:"雷天大壮",en:"Great Power",p:"Dà Zhuàng",lines:[1,1,1,1,0,0],
+   judgment:"大壮：利贞。",
+   interp:{career:"大壮者，强盛也。事业上实力雄厚，声势浩大。此时可以大展拳脚，但也要注意不要滥用权力。适合领导团队、推进大型项目。",business:"企业实力强大，市场影响力大。但要注意不要恃强凌弱，不要过度扩张。强盛之时更要谨慎。",love:"感情热烈而强势。单身者主动出击容易成功。已有伴侣者可能在关系中比较强势，需要注意对方的感受。",decision:"利贞。力量越大，责任越大。适合做出强势的、领导性的决策，但要坚守正道。"}},
+  {n:35,ch:"火地晋",en:"Progress — Advancing",p:"Jìn",lines:[0,0,0,1,0,1],
+   judgment:"晋：康侯用锡马蕃庶，昼日三接。",
+   interp:{career:"晋者，进也。事业上蒸蒸日上，如旭日东升。适合积极进取，争取晋升。会受到领导的赏识和重用。适合展示才华，争取机会。",business:"业务蒸蒸日上。市场认可度高，客户络绎不绝。适合扩大规模、增加产量。品牌知名度不断提升。",love:"感情进展顺利。单身者与心仪对象的关系快速升温。已有伴侣者感情生活美满幸福。",decision:"昼日三接。受到多次接见和认可。此时决策容易得到支持，适合做出积极的、进取的决策。"}},
+  {n:36,ch:"地火明夷",en:"Darkening of the Light",p:"Míng Yí",lines:[1,0,1,0,0,0],
+   judgment:"明夷：利艰贞。",
+   interp:{career:"明夷者，光明受伤。事业上可能遇到小人当道、怀才不遇的情况。此时不宜强出头，应该韬光养晦，在艰难中坚守正道。适合做幕后工作。",business:"市场环境黑暗，竞争不正当。此时不宜正面竞争，应该低调经营。坚守商业道德，等待光明重现。",love:"感情黯淡期。可能遇到误解或背叛。单身者可能会遇到不太靠谱的对象。已有伴侣者需要共同面对困境。",decision:"利艰贞。在黑暗中坚守正道。适合做出保守的、坚守的决策。不要因为困境而放弃原则。"}},
+  {n:37,ch:"风火家人",en:"The Family — Clan",p:"Jiā Rén",lines:[1,0,1,0,1,1],
+   judgment:"家人：利女贞。",
+   interp:{career:"家人者，一家之人。事业上适合团队协作，像家人一样互相支持。适合家族企业、团队创业。要注意内部管理，先齐家后治国。",business:"企业如家庭，和谐最重要。适合做与家庭消费相关的行业，如家居、日用品、食品等。内部管理要人性化。",love:"家庭和睦。单身者容易遇到顾家型对象。已有伴侣者家庭生活幸福美满，适合结婚生子。",decision:"利女贞。适合做出与家庭、内部管理相关的决策。注重情感和凝聚力。"}},
+  {n:38,ch:"火泽睽",en:"Divergence — Opposition",p:"Kuí",lines:[1,1,0,1,0,1],
+   judgment:"睽：小事吉。",
+   interp:{career:"睽者，乖离也。事业上可能出现分歧和矛盾。意见不合，难以统一。此时不宜做大事，做小事反而吉利。适合独立工作，减少合作。",business:"合作伙伴之间出现分歧。可能理念不合或利益冲突。此时不适合大的合作项目，小事各自为政反而有利。",love:"感情出现裂痕。双方观点不同，争吵增多。单身者可能会遇到性格不合的人。小事可以迁就，大事难以调和。",decision:"小事吉。大事不吉。适合做出小的、局部的决策。不宜做重大决定或长期规划。"}},
+  {n:39,ch:"水山蹇",en:"Obstruction — Difficulty",p:"Jiǎn",lines:[0,0,1,0,1,0],
+   judgment:"蹇：利西南，不利东北。利见大人，贞吉。",
+   interp:{career:"蹇者，难也。事业上面临重重阻碍，寸步难行。此时不宜强行前进，应该寻找其他出路。往西南方向有利，适合求见贵人相助。",business:"市场形势艰难。前有险阻，后有追兵。不适合正面突破，应该考虑转型或换方向。寻求行业前辈的指导。",love:"感情之路坎坷。可能面临家庭反对、异地等困难。需要耐心和智慧来解决问题。寻求长辈的帮助可能有利。",decision:"利西南，不利东北。不要在困难的方向上硬闯。适合做出调整方向、寻求帮助的决策。"}},
+  {n:40,ch:"雷水解",en:"Release — Deliverance",p:"Jiě",lines:[0,1,0,1,0,0],
+   judgment:"解：利西南。无所往，其来复吉。有攸往，夙吉。",
+   interp:{career:"解者，解脱也。事业上终于摆脱了困境，重获自由。之前的困难已经过去，适合重新出发。往西南方向有利。宜早不宜迟。",business:"市场压力缓解。之前的危机已经解除，可以重新开始运营。适合快速行动，抓住机遇。",love:"误会解除。之前的矛盾已经化解，感情重归于好。单身者终于从上一段感情中解脱出来，可以开始新恋情。",decision:"夙吉。宜早不宜迟。现在适合快速做出反应，抓住解脱的机会。不要犹豫不决。"}},
+  {n:41,ch:"山泽损",en:"Decrease — Loss",p:"Sǔn",lines:[0,1,1,0,0,1],
+   judgment:"损：有孚，元吉，无咎，可贞。利有攸往。曷之用？二簋可用享。",
+   interp:{career:"损者，减损也。事业上可能需要做出牺牲或让步。表面上看是损失，但实际上是为了更大的收获。此时宜精兵简政，减少开支。",business:"减员增效。可能需要裁员或减少投资，短期内会有阵痛，但长期利好。节约成本，轻装上阵。",love:"感情中需要学会付出和妥协。暂时的让步是为了关系的长久。单身者可能需要降低标准。",decision:"有孚元吉。只要心怀诚信，减损反而是好事。适合做出精简、优化、节流的决策。"}},
+  {n:42,ch:"风雷益",en:"Increase — Augmentation",p:"Yì",lines:[1,0,0,0,1,1],
+   judgment:"益：利有攸往，利涉大川。",
+   interp:{career:"益者，增益也。事业上得到增益，蒸蒸日上。适合积极进取，扩大规模。有利于投资、扩张、招募新人。风雷相益，顺势而为。",business:"商业上获利丰厚。适合扩大投资、增加产能、开拓市场。风雷激荡，变革中蕴含着巨大机会。科技、创新领域尤其有利。",love:"感情不断升温。单身者容易遇到让自己成长的对象。已有伴侣者互相促进，共同进步。",decision:"利有攸往。此时决策要积极进取，不要错过机会。适合做出投资、扩张、发展的决策。"}},
+  {n:43,ch:"泽天夬",en:"Breakthrough — Resolution",p:"Guài",lines:[1,1,1,1,1,0],
+   judgment:"夬：扬于王庭，孚号有厉。告自邑，不利即戎。利有攸往。",
+   interp:{career:"夬者，决也。事业上面临决断时刻。需要果断做出决定，就像决堤一样势不可挡。适合做重大决策、清除障碍。但要注意方法，不宜武力解决。",business:"到了需要做决断的时刻。可能面临拆分、剥离或关闭某些业务。要果断决策，但也要注意方式方法。适合去旧迎新。",love:"感情需要做个了断。单身者需要在多个追求者中做出选择。已有伴侣者可能需要结束一段不健康的关系。",decision:"扬于王庭。适合做出公开的、果断的决策。但不宜使用武力或强硬手段。以理服人，以德服人。"}},
+  {n:44,ch:"天风姤",en:"Coming to Meet — Encounter",p:"Gòu",lines:[0,1,1,1,1,1],
+   judgment:"姤：女壮，勿用取女。",
+   interp:{career:"姤者，遇也。事业上可能遇到意想不到的机会或挑战。天上刮风，风云际会。适合抓住偶然的机会。但要注意，过于强势的对手或合作者需要谨慎对待。",business:"偶遇商机。不经意间可能遇到好的商业机会。但要小心，看似美好的机会背后可能隐藏风险。适合做短期的、灵活的投资。",love:"不期而遇。单身者可能在偶然的场合遇到缘分。但对方可能比较强势，需要慎重考虑。已有伴侣者警惕第三者的出现。",decision:"女壮，勿用取女。遇到强大的对手或机会时，要谨慎行事。适合做出灵活的、应变的决策。"}},
+  {n:45,ch:"泽地萃",en:"Gathering — Together",p:"Cuì",lines:[0,0,0,1,1,0],
+   judgment:"萃：亨。王假有庙。利见大人，亨，利贞。用大牲吉，利有攸往。",
+   interp:{career:"萃者，聚也。事业上人才汇聚，资源集中。适合团队建设、人才招聘、资源整合。众志成城，可以成就大事。适合举办大型活动或会议。",business:"资源整合的好时机。可以收购兼并、组建联盟。人才市场活跃，适合招聘优秀人才。适合做平台型、聚合型的业务。",love:"缘分聚集。单身者桃花运旺盛，可能同时有多个人追求。已有伴侣者朋友圈扩大，社交生活丰富。",decision:"王假有庙。适合做出与聚集、整合、团队建设相关的决策。汇聚众人之力，可成大事。"}},
+  {n:46,ch:"地风升",en:"Ascending — Pushing Upward",p:"Shēng",lines:[0,1,1,0,0,0],
+   judgment:"升：元亨。用见大人，勿恤。南征吉。",
+   interp:{career:"升者，进也。事业上步步高升，前程似锦。适合争取晋升、跳槽、求学深造。南方有利。不要忧虑，大胆前行。",business:"业绩不断攀升。市场占有率提高，品牌影响力扩大。适合向南方市场拓展。企业发展势头良好。",love:"感情不断升温。单身者容易遇到条件不错的对象，感情发展迅速。已有伴侣者关系更进一步，可能谈婚论嫁。",decision:"南征吉。适合做出积极的、向上的决策。不必忧虑，勇往直前必有所成。"}},
+  {n:47,ch:"泽水困",en:"Exhaustion — Distress",p:"Kùn",lines:[0,1,0,1,1,0],
+   judgment:"困：亨。贞，大人吉，无咎。有言不信。",
+   interp:{career:"困者，穷也。事业上处于困境之中，进退两难。但困境中坚守正道，反而能彰显品格。此时不宜多说话，言多必失。适合静心忍耐。",business:"企业经营困难。资金链紧张，市场萎缩。此时不宜多言，应该扎实做事。坚守商业道德，等待转机。",love:"感情陷入困境。沟通不畅，说了对方也不信。单身者可能在感情中感到疲惫。需要沉默是金，用行动证明。",decision:"有言不信。说的话没人相信。此时不宜多做解释，应该用行动证明自己。适合做出坚守、忍耐的决策。"}},
+  {n:48,ch:"水风井",en:"The Well — Nourishing",p:"Jǐng",lines:[0,1,1,0,1,0],
+   judgment:"井：改邑不改井，无丧无得。往来井井。汔至，亦未繘井，羸其瓶，凶。",
+   interp:{career:"井者，养也。事业上就像一口井，稳定地提供价值。不管外界如何变化，自己的核心竞争力不变。适合从事稳定的、基础性的行业。不要频繁更换工作。",business:"井水象征着稳定的收益来源。商业模式成熟稳定，不需要大的改变。但要注意维护，不能坐吃山空。适合资源型、公用事业类行业。",love:"感情稳定如井水。虽然平淡但不可或缺。单身者可能通过熟人介绍认识对象。已有伴侣者感情稳定长久。",decision:"改邑不改井。不要轻易改变核心业务。适合做出维护、稳定、深耕的决策。核心价值不能丢。"}},
+  {n:49,ch:"泽火革",en:"Revolution — Changing",p:"Gé",lines:[1,0,1,1,1,0],
+   judgment:"革：巳日乃孚。元亨利贞，悔亡。",
+   interp:{career:"革者，变也。事业上面临重大变革。到了必须改变的时候，不改不行。变革虽然有风险，但结果是好的。适合改革、转型、创新。",business:"企业需要转型升级。传统的经营模式已经不适应当前市场，必须变革。虽然短期有阵痛，但长期利好。",love:"感情需要改变。可能到了倦怠期，需要给关系注入新的活力。单身者需要改变自己的择偶观念或社交方式。",decision:"巳日乃孚。变革需要选择恰当的时机。适合做出改革、创新、转型的决策。与其不变，不如求变。"}},
+  {n:50,ch:"火风鼎",en:"The Cauldron — Establishing the New",p:"Dǐng",lines:[0,1,1,1,0,1],
+   judgment:"鼎：元吉，亨。",
+   interp:{career:"鼎者，立新也。事业上需要建立新的秩序和制度。就像鼎是国家权力的象征，现在适合建立权威、制定规则。适合创立新公司、建立新体系。",business:"品牌建设的好时机。鼎象征着品牌和声誉。适合打造品牌、建立标准。餐饮、文化、制造业有利。",love:"感情需要建立稳固的基础。单身者适合寻找可以共度一生的伴侣。已有伴侣者关系稳固如鼎。",decision:"元吉，亨。建立新秩序的时候到了。适合做出创立、建设、制度化的决策。"}},
+  {n:51,ch:"震为雷",en:"The Arousing — Thunder",p:"Zhèn",lines:[1,0,0,1,0,0],
+   judgment:"震：亨。震来虩虩，笑言哑哑。震惊百里，不丧匕鬯。",
+   interp:{career:"震者，动也。事业上可能面临突然的变动或震惊。雷声虽然可怕，但只要镇定自若，就不会有实质损失。适合从事需要快速反应的行业。",business:"市场突然波动。可能有利好或利空消息突然出现。需要保持冷静，不要被市场的波动所左右。",love:"感情经历考验。可能突然出现变故或惊吓。但只要双方真诚相待，就能安然度过。",decision:"震来虩虩，笑言哑哑。虽然情况突然，但只要保持冷静，最终会没事的。适合做出应变的、快速的决策。"}},
+  {n:52,ch:"艮为山",en:"Keeping Still — Mountain",p:"Gèn",lines:[0,0,1,0,0,1],
+   judgment:"艮：艮其背，不获其身。行其庭，不见其人。无咎。",
+   interp:{career:"艮者，止也。事业上需要适时停止。就像山一样稳重不动。此时不宜行动，应该静观其变。适合停止某些项目，或者暂时休整。",business:"停止扩张。市场需要冷却，不宜继续投资。应该停下来反思和调整。不动产、山地相关行业有利。",love:"感情需要冷静。与其继续纠缠，不如暂时停下来。单身者不宜主动追求，顺其自然。已有伴侣者需要各自冷静。",decision:"艮其背。适可而止。适合做出停止、休整、反思的决策。知道何时停止比知道何时开始更重要。"}},
+  {n:53,ch:"风山渐",en:"Gradual Progress",p:"Jiàn",lines:[0,0,1,1,0,1],
+   judgment:"渐：女归吉，利贞。",
+   interp:{career:"渐者，进也。事业上需要循序渐进，不能急于求成。就像大雁南飞，一步一步来。适合做长期规划，慢慢积累。不宜速成。",business:"稳步发展。不适合快速扩张，应该小步快跑，逐步推进。适合做长线投资。",love:"感情循序渐进。单身者不宜闪婚，应该慢慢了解。已有伴侣者关系稳定发展，适合谈婚论嫁。女归吉，适合结婚。",decision:"女归吉，利贞。循序渐进，稳步前进。适合做出渐进的、长期的决策。欲速则不达。"}},
+  {n:54,ch:"雷泽归妹",en:"The Marrying Maiden",p:"Guī Mèi",lines:[0,1,1,0,0,1],
+   judgment:"归妹：征凶，无攸利。",
+   interp:{career:"归妹者，不当位也。事业上可能位置不当或名不正言不顺。此时不宜强行推进，否则凶险。适合调整位置或寻找更适合自己的岗位。",business:"市场定位不准。产品或服务与市场需求不匹配。需要调整定位或改变策略。",love:"名不正则言不顺。可能是不被祝福的感情。单身者可能遇到有家室的对象或其它不合适的恋情。已有伴侣者关系名不正言不顺。",decision:"征凶，无攸利。此时不宜行动。适合做出调整、反思的决策。不要在不合适的方向上继续投入。"}},
+  {n:55,ch:"雷火丰",en:"Abundance — Fullness",p:"Fēng",lines:[1,0,1,0,0,1],
+   judgment:"丰：亨。王假之，勿忧，宜日中。",
+   interp:{career:"丰者，大也。事业上如日中天，丰盛富足。此时适合大展宏图，把握盛世的机遇。但要警惕盛极必衰，居安思危。宜日中，在最好的时机行动。",business:"市场繁荣，生意兴隆。销售额和利润都达到高峰。适合加大投入，但要开始考虑风险控制。",love:"感情丰盛热烈。单身者桃花运极旺。已有伴侣者感情生活丰富多彩。但要注意不要因繁忙而忽略对方。",decision:"宜日中。在最好的时机做出决策。适合做大刀阔斧的进取性决策，但要有风险意识。"}},
+  {n:56,ch:"火山旅",en:"The Wanderer — Traveling",p:"Lǚ",lines:[0,0,1,1,0,1],
+   judgment:"旅：小亨。旅贞吉。",
+   interp:{career:"旅者，客也。事业上处于漂泊或旅行的状态。可能经常出差、外派或变换工作地点。适合从事与旅行、国际业务相关的行业。小有收获，不宜大投资。",business:"适合做与旅游、酒店、交通相关的行业。异地经商有利。但不宜在本地大举投资。适合做小本生意。",love:"旅途中的邂逅。单身者可能在旅行或出差中遇到缘分。异地恋可能发生。已有伴侣者可能面临聚少离多的状况。",decision:"旅贞吉。适合做出与出行、旅行、异地发展相关的决策。保持正直和谨慎，小有收获。"}},
+  {n:57,ch:"巽为风",en:"The Gentle — Wind",p:"Xùn",lines:[0,1,1,0,1,1],
+   judgment:"巽：小亨。利有攸往，利见大人。",
+   interp:{career:"巽者，入也。事业上需要像风一样渗透和适应。适合从事销售、公关、外交等需要沟通和协调的工作。随风潜入夜，润物细无声。",business:"市场渗透策略。适合做市场推广、渠道建设。像风一样无孔不入。适合做服务业、咨询业。",love:"温柔体贴。单身者温柔的态度容易打动对方。已有伴侣者需要像风一样包容和体贴。",decision:"小亨，利有攸往。适合做出温和的、渐进的决策。通过沟通和协调来达成目标。"}},
+  {n:58,ch:"兑为泽",en:"The Joyous — Lake",p:"Duì",lines:[0,1,1,0,1,1],
+   judgment:"兑：亨，利贞。",
+   interp:{career:"兑者，悦也。事业上充满喜悦和满足。适合从事与人打交道的工作，如销售、服务、娱乐。口才和沟通能力是成功的关键。",business:"和气生财。客户满意，员工开心。适合做与娱乐、餐饮、社交相关的行业。口碑传播效果显著。",love:"喜悦之情溢于言表。单身者容易遇到开朗乐观的对象。已有伴侣者感情甜蜜，充满欢声笑语。",decision:"亨，利贞。保持喜悦和开放的心态。适合做出与沟通、表达、社交相关的决策。"}},
+  {n:59,ch:"风水涣",en:"Dispersion — Dissolving",p:"Huàn",lines:[0,1,0,0,1,1],
+   judgment:"涣：亨。王假有庙。利涉大川，利贞。",
+   interp:{career:"涣者，散也。事业上可能需要分散风险或分散经营。聚则成形，散则成气。适合做多元化经营，或者将团队分散到不同区域。",business:"市场分散。不适合集中经营，应该多点多面布局。风生水起，物流、贸易、旅游行业有利。",love:"感情可能因距离而变淡。异地恋需要特别用心维系。单身者可能在旅途中遇到短暂的情缘。",decision:"利涉大川。适合做出分散、多元化、出行的决策。涣散之后重新凝聚，力量更大。"}},
+  {n:60,ch:"水泽节",en:"Limitation — Regulation",p:"Jié",lines:[0,1,1,0,1,0],
+   judgment:"节：亨。苦节不可贞。",
+   interp:{career:"节者，制也。事业上需要节制和规范。制定合理的制度和流程，可以提高效率。但过于苛刻的制度反而有害。适合做规范管理、制度建设。",business:"控制成本，规范经营。需要制定预算和计划。但节制过度会影响发展。适合精打细算的行业。",love:"感情需要适度的节制。太黏人或太冷淡都不好。保持适当的距离和空间。单身者要适度控制自己的情感。",decision:"节，亨。苦节不可贞。适合做出规范、节制的决策。但要注意不要过度，过犹不及。"}},
+  {n:61,ch:"风泽中孚",en:"Inner Truth — Sincerity",p:"Zhōng Fú",lines:[0,1,1,0,1,1],
+   judgment:"中孚：豚鱼吉。利涉大川，利贞。",
+   interp:{career:"中孚者，信也。事业上诚信是最大的资本。只要内心真诚，连猪和鱼都能感动。适合从事需要信任的行业，如金融、法律、咨询。",business:"诚信经营是企业最大的无形资产。真诚对待客户和合作伙伴，生意自然兴隆。适合做品牌、信誉相关的业务。",love:"真心换真情。单身者用真诚打动对方。已有伴侣者互相信任，感情稳固。猜疑是感情最大的敌人。",decision:"豚鱼吉。诚信可以感动一切。适合做出诚信的、真诚的决策。诚信是最好的策略。"}},
+  {n:62,ch:"雷山小过",en:"Small Exceeding",p:"Xiǎo Guò",lines:[0,0,1,1,0,0],
+   judgment:"小过：亨，利贞。可小事，不可大事。飞鸟遗之音，不宜上，宜下，大吉。",
+   interp:{career:"小过者，小有过失。事业上可以犯小错误，但不能有大失误。适合做小事，不宜做大事。飞鸟遗音，应该向下发展，不宜好高骛远。",business:"小本经营可以，大规模投资不宜。宜深耕细分市场，不宜盲目扩张。适合做小生意、微创业。",love:"小事可以迁就，原则问题不能让步。单身者不宜要求太高，适合从朋友做起。已有伴侣者在小事上互相包容。",decision:"可小事，不可大事。适宜做出小的、稳妥的决策。不宜冒进。宜下不宜上，低调行事。"}},
+  {n:63,ch:"水火既济",en:"After Completion — Already Fulfilled",p:"Jì Jì",lines:[1,0,1,0,1,0],
+   judgment:"既济：亨，小利贞。初吉终乱。",
+   interp:{career:"既济者，已成也。事业上大功告成，目标已经实现。但要注意初吉终乱，成功之后容易松懈而出现问题。适合收尾、总结、庆祝。",business:"项目已经完成，目标已经达成。但市场变化无常，成功之后更要警惕。适合做收尾工作，不宜立即开始新项目。",love:"修成正果。单身者可能终于遇到对的人。已有伴侣者功德圆满，适合结婚。但要注意婚后的经营。",decision:"初吉终乱。成功之后要保持警惕。适合做出收尾、巩固的决策。不宜立即开始新的冒险。"}},
+  {n:64,ch:"火水未济",en:"Before Completion — Yet Unfulfilled",p:"Wèi Jì",lines:[0,1,0,1,0,1],
+   judgment:"未济：亨。小狐汔济，濡其尾，无攸利。",
+   interp:{career:"未济者，未成也。事业上尚未完成，还需继续努力。就像小狐狸过河，尾巴湿了，还没有完全成功。此时不宜松懈，应该继续前进。",business:"项目尚未完成，还有最后一段路要走。此时放弃或松懈都会前功尽弃。坚持到最后就是胜利。",love:"感情尚未圆满。单身者还在寻找的路上。已有伴侣者还需要继续经营，不能松懈。好事多磨。",decision:"小狐汔济。快要成功了，但还不能松气。适合做出继续努力、坚持到底的决策。不要功亏一篑。"}}
+];
+
+// ============================ UTILITY ============================
+function getHexByNum(n){return hexagrams.find(h=>h.n===n)}
+ function linesFromValues(vals){return vals.map(v=>v%2===0?0:1)}
+
+// ============================ CANVAS HEXAGRAM ============================
+function drawHexagram(canvasId, lines, changing){
+  const c=document.getElementById(canvasId);if(!c)return;
+  const ctx=c.getContext('2d');const w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);
+  const yStart=20,lineH=24,lineW=160,xCenter=(w-lineW)/2;
+  for(let i=0;i<6;i++){
+    const y=yStart+i*lineH;
+    const isYang=lines[i]===1;
+    ctx.strokeStyle='#d4a843';
+    ctx.shadowColor='rgba(212,168,67,0.4)';
+    ctx.shadowBlur=6;
+    ctx.lineWidth=5;
+    ctx.lineCap='round';
+    if(isYang){
+      ctx.beginPath();ctx.moveTo(xCenter,y);ctx.lineTo(xCenter+lineW,y);ctx.stroke();
+    }else{
+      const gap=40,segW=(lineW-gap)/2;
+      ctx.beginPath();ctx.moveTo(xCenter,y);ctx.lineTo(xCenter+segW,y);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(xCenter+segW+gap,y);ctx.lineTo(xCenter+lineW,y);ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+    if(changing&&changing[i]){
+      ctx.fillStyle='#c41e3a';ctx.shadowColor='rgba(196,30,58,0.6)';ctx.shadowBlur=8;
+      ctx.beginPath();ctx.arc(xCenter+lineW+18,y,5,0,Math.PI*2);ctx.fill();
+      ctx.shadowBlur=0;
+    }
+  }
+  ctx.fillStyle='#8a7e6e';ctx.font='12px IBM Plex Mono, monospace';
+  ctx.textAlign='center';
+  ctx.fillText(lines.slice(0,3).join(''),w/2+70,35);
+  ctx.fillText(lines.slice(3,6).join(''),w/2+70,35+3*lineH);
+}
+
+// ============================ HEXAGRAM CARD HTML ============================
+function hexCardHTML(h){
+  let linesHtml='';
+  for(let i=0;i<6;i++){
+    if(h.lines[i]===1){
+      linesHtml+='<div class="cl yang"></div>';
+    }else{
+      linesHtml+='<div class="cl yin"><span></span><span></span></div>';
+    }
+  }
+  return '<div class="hexagram-card" onclick="openDetail('+h.n+')">'+
+    '<div class="card-number">#'+h.n+'</div>'+
+    '<div class="card-chinese">'+h.ch+'</div>'+
+    '<div class="card-english">'+h.en+'</div>'+
+    '<div class="card-lines">'+linesHtml+'</div></div>';
+}
+
+// ============================ BROWSE ============================
+function renderGrid(filter,query){
+  const grid=document.getElementById('hexagramGrid');grid.innerHTML='';
+  let list=hexagrams;
+  if(filter==='upper')list=list.filter(h=>h.n<=30);
+  else if(filter==='lower')list=list.filter(h=>h.n>30);
+  if(query){
+    const q=query.toLowerCase();
+    list=list.filter(h=>h.ch.includes(q)||h.en.toLowerCase().includes(q)||h.n.toString()===q||h.p.toLowerCase().includes(q));
+  }
+  list.forEach(h=>{grid.innerHTML+=hexCardHTML(h)});
+}
+document.getElementById('searchInput').addEventListener('input',function(){
+  const active=document.querySelector('.filter-btn.active');
+  renderGrid(active?active.dataset.filter:'all',this.value);
+});
+document.querySelectorAll('.filter-btn').forEach(b=>{
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+    const q=document.getElementById('searchInput').value;
+    renderGrid(this.dataset.filter,q);
+  });
+});
+
+// ============================ TAB SWITCHING ============================
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('tab-'+this.dataset.tab).classList.add('active');
+  });
+});
+
+// ============================ COIN TOSS ============================
+let coinTossStep=0,coinValues=[],coinChanging=[];
+const coinEls=[document.getElementById('coin1'),document.getElementById('coin2'),document.getElementById('coin3')];
+
+function resetCoinToss(){
+  coinTossStep=0;coinValues=[];coinChanging=[];
+  document.getElementById('coinStatus').textContent='第 0 / 6 爻';
+  document.getElementById('coinReadingBtn').style.display='none';
+  document.getElementById('lineBuilder').innerHTML='<div class="placeholder" style="color:var(--muted);font-size:.85rem">等待起卦...</div>';
+}
+
+document.getElementById('tossBtn').addEventListener('click',function(){
+  if(coinTossStep>=6){resetCoinToss();}
+  const btn=this;btn.disabled=true;
+  coinEls.forEach(c=>{c.classList.remove('lands-heads','lands-tails','result-heads','result-tails');c.classList.add('flipping');});
+  
+  setTimeout(()=>{
+    const results=[];
+    for(let i=0;i<3;i++){
+      const r=Math.random()<0.5?2:3;
+      results.push(r);
+    }
+    const total=results.reduce((a,b)=>a+b,0);
+    let lineValue,isChanging,display;
+    if(total===9){lineValue=1;isChanging=true;display='老阳 ○';}
+    else if(total===8){lineValue=0;isChanging=false;display='少阴';}
+    else if(total===7){lineValue=1;isChanging=false;display='少阳';}
+    else{lineValue=0;isChanging=true;display='老阴 ×';}
+
+    coinEls.forEach((c,i)=>{
+      c.classList.remove('flipping');
+      if(results[i]===3){c.classList.add('lands-heads','result-heads');c.textContent='乾';}
+      else{c.classList.add('lands-tails','result-tails');c.textContent='坤';}
+    });
+
+    const builder=document.getElementById('lineBuilder');
+    if(coinTossStep===0)builder.innerHTML='';
+    const lineDiv=document.createElement('div');lineDiv.className='hexagram-line';
+    lineDiv.style.animationDelay='0s';
+    if(lineValue===1){
+      lineDiv.innerHTML='<div class="yang-line"></div>'+(isChanging?'<div class="changing-mark"></div>':'');
+    }else{
+      lineDiv.innerHTML='<div class="yin-line"><span></span><span></span></div>'+(isChanging?'<div class="changing-mark"></div>':'');
+    }
+    builder.insertBefore(lineDiv,builder.firstChild);
+
+    coinValues.push(lineValue);
+    coinChanging.push(isChanging);
+    coinTossStep++;
+    document.getElementById('coinStatus').textContent='第 '+coinTossStep+' / 6 爻 ('+display+')';
+
+    if(coinTossStep>=6){
+      const idx=linesFromValues(coinValues).reduce((s,b,i)=>s+b*Math.pow(2,5-i),0)-1;
+      const h=getHexByNum(idx+1);
+      if(h){
+        const resultDiv=document.createElement('div');resultDiv.style.cssText='text-align:center;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--rule)';
+        resultDiv.innerHTML='<div class="result-hexagram">'+h.ch+'</div><div class="result-name">第'+h.n+'卦 · '+h.en+'</div>';
+        builder.appendChild(resultDiv);
+        coinTossStep=6;
+        document.getElementById('coinReadingBtn').style.display='block';
+        document.getElementById('coinReadingBtn').dataset.hexNum=h.n;
+        document.getElementById('tossBtn').textContent='重新占卜';
+      }
+    }else{
+      btn.disabled=false;
+    }
+  },700);
+});
+
+document.getElementById('coinReadingBtn').addEventListener('click',function(){
+  openDetail(parseInt(this.dataset.hexNum));
+});
+
+// ============================ YARROW STALK ============================
+let yarrowState={step:0,lineStep:0,lines:[],changing:[],total:50,leftHand:0,rightHand:0,phase:0};
+function resetYarrow(){
+  yarrowState={step:0,lineStep:0,lines:[],changing:[],total:50,leftHand:0,rightHand:0,phase:0};
+  document.getElementById('yarrowLineBuilder').innerHTML='<div class="placeholder" style="color:var(--muted);font-size:.85rem">等待起卦...</div>';
+  document.getElementById('yarrowReadingBtn').style.display='none';
+  document.getElementById('yarrowBtn').textContent='分蓍';
+  document.getElementById('yarrowStepText').textContent='点击下方按钮开始起卦';
+  renderStalks(50,'');
+}
+
+function renderStalks(total,highlight){
+  const c=document.getElementById('stalkContainer');c.innerHTML='';
+  const show=Math.min(total,50);
+  for(let i=0;i<show;i++){
+    const s=document.createElement('div');s.className='stalk';
+    const h=Math.random()*60+80;
+    s.style.height=h+'px';
+    if(highlight==='left'&&i<yarrowState.leftHand)s.classList.add('left-hand');
+    else if(highlight==='right'&&i>=yarrowState.leftHand)s.classList.add('right-hand');
+    else s.style.background='var(--accent2)';
+    s.style.opacity=0.2+Math.random()*0.6;
+    c.appendChild(s);
+  }
+}
+
+document.getElementById('yarrowBtn').addEventListener('click',function(){
+  const btn=this;let state=yarrowState;
+  
+  if(state.lineStep>=6){
+    resetYarrow();state=yarrowState;
+  }
+
+  if(state.step===0){
+    state.total=50;state.phase=0;
+    document.getElementById('yarrowStepText').textContent='第一步：取50根蓍草，象征太极。取出一根备用，实际用49根。';
+    state.total=49;
+    state.step=1;
+    renderStalks(49,'');
+    document.getElementById('stackInfo').textContent='蓍草: 49 根';
+    btn.textContent='分二';
+    return;
+  }
+
+  if(state.step===1){
+    const split=Math.floor(Math.random()*(state.total-4))+2;
+    state.leftHand=split;state.rightHand=state.total-split;
+    document.getElementById('yarrowStepText').textContent='第二步：将49根蓍草随机分为两堆（左为天，右为地）。';
+    state.step=2;
+    renderStalks(state.total,'left');
+    document.getElementById('stackInfo').textContent='左手: '+state.leftHand+' 根 | 右手: '+state.rightHand+' 根';
+    btn.textContent='挂一';
+    return;
+  }
+
+  if(state.step===2){
+    state.leftHand-=1;
+    document.getElementById('yarrowStepText').textContent='第三步：从左手取1根置于小指间（象征人）。三才具备。';
+    state.step=3;
+    document.getElementById('stackInfo').textContent='左手: '+state.leftHand+' 根 (+1挂)';
+    btn.textContent='揲四';
+    return;
+  }
+
+  if(state.step===3){
+    const leftMod=state.leftHand%4||4;
+    const rightMod=state.rightHand%4||4;
+    const discard=leftMod+rightMod+1;
+    state.total-=discard;
+    document.getElementById('yarrowStepText').textContent='左余'+leftMod+'根，右余'+rightMod+'根，加上挂一的1根，共去掉'+discard+'根。剩余'+state.total+'根。';
+    state.phase++;
+    if(state.phase<3){
+      state.step=1;state.leftHand=0;state.rightHand=0;
+      renderStalks(state.total,'');
+      document.getElementById('stackInfo').textContent='剩余蓍草: '+state.total+' 根 (第'+(state.phase+1)+'变)';
+      btn.textContent='分二';
+    }else{
+      let lineVal=Math.floor(state.total/4);
+      if(lineVal>9)lineVal=9;
+      if(lineVal<6)lineVal=6;
+      const isYang=(lineVal===7||lineVal===9);
+      const isChanging=(lineVal===6||lineVal===9);
+      state.lines.push(isYang?1:0);
+      state.changing.push(isChanging);
+
+      document.getElementById('yarrowStepText').textContent='三变完成！得数'+lineVal+'，'+(isYang?(isChanging?'老阳(9)○':'少阳(7)'):(isChanging?'老阴(6)×':'少阴(8)'))+'。第'+(state.lineStep+1)+'爻。';
+
+      const builder=document.getElementById('yarrowLineBuilder');
+      if(state.lineStep===0)builder.innerHTML='';
+      const lineDiv=document.createElement('div');lineDiv.className='hexagram-line';
+      if(isYang){
+        lineDiv.innerHTML='<div class="yang-line"></div>'+(isChanging?'<div class="changing-mark"></div>':'');
+      }else{
+        lineDiv.innerHTML='<div class="yin-line"><span></span><span></span></div>'+(isChanging?'<div class="changing-mark"></div>':'');
+      }
+      builder.insertBefore(lineDiv,builder.firstChild);
+
+      state.lineStep++;
+      state.phase=0;state.step=0;
+      renderStalks(50,'');
+
+      if(state.lineStep>=6){
+        const idx=state.lines.reduce((s,b,i)=>s+b*Math.pow(2,5-i),0);
+        const h=getHexByNum(idx);
+        if(h){
+          const resultDiv=document.createElement('div');resultDiv.style.cssText='text-align:center;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--rule)';
+          resultDiv.innerHTML='<div class="result-hexagram">'+h.ch+'</div><div class="result-name">第'+h.n+'卦 · '+h.en+'</div>';
+          builder.appendChild(resultDiv);
+          document.getElementById('yarrowReadingBtn').style.display='block';
+          document.getElementById('yarrowReadingBtn').dataset.hexNum=h.n;
+          document.getElementById('stackInfo').textContent='起卦完成！';
+        }
+        btn.textContent='重新起卦';
+      }else{
+        document.getElementById('stackInfo').textContent='已完成 '+(state.lineStep)+' / 6 爻';
+        btn.textContent='下一爻 — 分蓍';
+      }
+    }
+  }
+});
+
+document.getElementById('yarrowReadingBtn').addEventListener('click',function(){
+  openDetail(parseInt(this.dataset.hexNum));
+});
+
+// ============================ DETAIL MODAL ============================
+function openDetail(n){
+  const h=getHexByNum(n);if(!h)return;
+  document.getElementById('modalNumber').textContent='第 '+h.n+' 卦 · '+h.p;
+  document.getElementById('modalChinese').textContent=h.ch;
+  document.getElementById('modalEnglish').textContent=h.en;
+  document.getElementById('modalJudgment').textContent=h.judgment;
+  
+  const interpDiv=document.getElementById('modalInterpretation');
+  interpDiv.innerHTML='<h4>卦象解读</h4><div class="interpretation-grid">'+
+    '<div class="interp-card"><h5>事业</h5><p>'+h.interp.career+'</p></div>'+
+    '<div class="interp-card"><h5>商业</h5><p>'+h.interp.business+'</p></div>'+
+    '<div class="interp-card"><h5>感情</h5><p>'+h.interp.love+'</p></div>'+
+    '<div class="interp-card"><h5>决策</h5><p>'+h.interp.decision+'</p></div></div>';
+  
+  drawHexagram('hexagramCanvas',h.lines,null);
+  document.getElementById('detailModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+document.getElementById('modalClose').addEventListener('click',()=>{
+  document.getElementById('detailModal').classList.remove('open');
+  document.body.style.overflow='';
+});
+document.getElementById('detailModal').addEventListener('click',function(e){
+  if(e.target===this){this.classList.remove('open');document.body.style.overflow='';}
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){document.getElementById('detailModal').classList.remove('open');document.body.style.overflow='';}
+});
+
+// ============================ PARTICLES ============================
+(function initParticles(){
+  const c=document.getElementById('particleCanvas');if(!c)return;
+  const ctx=c.getContext('2d');let w,h,particles=[];
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<60;i++){
+    particles.push({
+      x:Math.random()*w,y:Math.random()*h,
+      vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5,
+      r:Math.random()*2+1,
+      a:Math.random()*0.3+0.1
+    });
+  }
+  function animate(){
+    ctx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=w;if(p.x>w)p.x=0;
+      if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(212,168,67,'+p.a+')';
+      ctx.fill();
+    });
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<180){
+          ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle='rgba(212,168,67,'+(1-dist/180)*0.15+')';
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ============================ PROGRESS BAR ============================
+window.addEventListener('scroll',function(){
+  const scrollTop=window.scrollY;
+  const docHeight=document.documentElement.scrollHeight-window.innerHeight;
+  const progress=docHeight?Math.min(scrollTop/docHeight*100,100):0;
+  document.getElementById('progressBar').style.width=progress+'%';
+});
+
+// ============================ INIT ============================
+renderGrid('all','');
+</script>
+</body>
+</html>

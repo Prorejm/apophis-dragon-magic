@@ -284,15 +284,10 @@ p strong {
   align-items: center;
   justify-content: center;
   margin: 3rem 0;
-  opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.dragon-separator.visible {
   opacity: 1;
   transform: scale(1);
 }
+
 
 .separator-svg {
   width: 100%;
@@ -316,7 +311,7 @@ p strong {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
+  opacity: 1;
   transform: translateY(20px);
   transition: all 0.3s ease;
   z-index: 998;
@@ -615,26 +610,12 @@ body::before {
 }
 
 /* Chapter entrance animations */
-.chapter-section {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.chapter-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* chapter-section: always visible */
 
 /* Chapter animations removed */
 
 
 /* Stagger children within sections */
-
-
-.dragon-separator.visible .separator-svg path {
-  animation: drawPath 2s ease forwards;
-}
 
 
 /* Floating TOC Sidebar */
@@ -650,7 +631,7 @@ body::before {
   border: 1px solid rgba(212, 168, 67, 0.15);
   border-radius: 12px;
   padding: 1rem 0.8rem;
-  opacity: 0;
+  opacity: 0.8;
   transition: all 0.5s ease;
 }
 
@@ -720,7 +701,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
+  opacity: 1;
   transform: translateY(20px) scale(0.8);
   transition: all 0.4s ease;
   box-shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -1000,6 +981,37 @@ html {
   animation: pulseNode 2s ease-in-out infinite;
 }
 
+
+/* ====== 全局可见性保证 ====== */
+.intro-section, .chapter-section,
+.intro-section p, .chapter-section p,
+.intro-section h2, .chapter-section h2,
+.intro-section h3, .chapter-section h3,
+.intro-section .subheading, .chapter-section .subheading,
+.intro-section .section-title, .chapter-section .section-title {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #e8e0d4 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+.chapter-section .sigil-figure,
+.chapter-section .fig-caption,
+.chapter-section .heads-table-wrapper,
+.chapter-section .mindmap-container {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.dragon-separator,
+.dragon-separator.visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+}
+
 </style>
 
 <!-- ====== ENHANCED ANIMATIONS & TYPOGRAPHY ====== -->
@@ -1021,7 +1033,7 @@ html {
   height: 2px;
   background: var(--accent2);
   border-radius: 50%;
-  opacity: 0;
+  opacity: 1;
   animation: particleFloat 15s infinite;
 }
 
@@ -1061,7 +1073,7 @@ html {
   background-size: 200% 200%;
   animation: gradientShift 3s ease infinite;
   z-index: -1;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease;
 }
 
@@ -1088,8 +1100,6 @@ html {
 }
 
 
-@keyframes blink-caret {
-  from, to { border-color: transparent; }
   50% { border-color: var(--accent2); }
 }
 
@@ -1263,8 +1273,7 @@ html {
   z-index: -2;
 }
 
-@keyframes glitch-1 {
-  0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 0); }
+
   20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 0); }
   40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 0); }
   60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, 0); }
@@ -1272,8 +1281,7 @@ html {
   100% { clip-path: inset(30% 0 50% 0); transform: translate(2px, 0); }
 }
 
-@keyframes glitch-2 {
-  0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 0); }
+
   20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 0); }
   40% { clip-path: inset(30% 0 20% 0); transform: translate(2px, 0); }
   60% { clip-path: inset(15% 0 80% 0); transform: translate(-2px, 0); }
@@ -1323,7 +1331,7 @@ html {
   background-repeat: no-repeat;
   background-position: 50%;
   transform: scale(10, 10);
-  opacity: 0;
+  opacity: 1;
   transition: transform 0.5s, opacity 1s;
 }
 
@@ -1723,6 +1731,37 @@ html {
   animation: pulseNode 2s ease-in-out infinite;
 }
 
+
+/* ====== 全局可见性保证 ====== */
+.intro-section, .chapter-section,
+.intro-section p, .chapter-section p,
+.intro-section h2, .chapter-section h2,
+.intro-section h3, .chapter-section h3,
+.intro-section .subheading, .chapter-section .subheading,
+.intro-section .section-title, .chapter-section .section-title {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #e8e0d4 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+.chapter-section .sigil-figure,
+.chapter-section .fig-caption,
+.chapter-section .heads-table-wrapper,
+.chapter-section .mindmap-container {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.dragon-separator,
+.dragon-separator.visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+}
+
 </style>
 
 </head>
@@ -1743,16 +1782,15 @@ html {
 <!-- 导航栏 -->
 <nav class="nav-bar" id="navBar">
   <span class="nav-brand">阿波菲斯</span>
-  <a href="#intro" class="nav-link">引言</a>
-<a href="#ch1" class="nav-link">第一章</a>
-<a href="#ch2" class="nav-link">第二章</a>
-<a href="#ch3" class="nav-link">第三章</a>
-<a href="#ch4" class="nav-link">第四章</a>
-<a href="#ch5" class="nav-link">第五章</a>
-<a href="#ch6" class="nav-link">第六章</a>
-<a href="#ch7" class="nav-link">第七章</a>
-<a href="#ch8" class="nav-link">第八章</a>
-<a href="#ch9" class="nav-link">第九章</a>
+  <a href="index.html" class="nav-link active">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
 </nav>
 
 <!-- 英雄区域 -->
@@ -1773,6 +1811,9 @@ html {
   <a href="sigil-game.html" class="site-link-btn">
     <span class="icon">⚜</span> 符印工坊
   </a>
+  <a href="iching-divination.html" class="site-link-btn">
+    <span class="icon">☰</span> 周易占卜
+  </a>
   <a href="liuren-simulator.html" class="site-link-btn">
     <span class="icon">☯</span> 大六壬模拟器
   </a>
@@ -1787,6 +1828,10 @@ html {
   </a>
   <a href="lhp-test.html" class="site-link-btn">
     <span class="icon">🔮</span> 魔法测试
+  </a>
+
+  <a href="dragon-ritual.html" class="site-link-btn">
+    <span class="icon">🐉</span> 龙之仪式
   </a>
 </div>
 

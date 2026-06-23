@@ -27,9 +27,8 @@
 - 🖼️ **原版符印插图** — 包含 PDF 渲染的 FAIR WEATHER 符印、阿佩普符印和魔法方阵图
 - 📊 **七首对比表** — 暗面/明面/行星/力量/品质对照表
 - 🧠 **龙之七首思维导图** — SVG 交互式结构图
-- 🔥 **滚动渐入动画** — 流畅的阅读体验
 
-## 🛠️ 辅助页面
+## 🛠️ 交互工具
 
 ### 🎮 符印工坊 (`sigil-game.html`)
 交互式符印铸造工具，基于 Austin Spare 的印记魔法原理：
@@ -38,20 +37,59 @@
 - 符印充能动画（粒子系统 + 脉冲光晕）
 - 详细的中文操作说明
 
+### ☰ 周易六十四卦占卜 (`iching-divination.html`)
+易经占卜交互工具：
+- 三枚硬币占卜模拟（逐爻动画翻转）
+- 蓍草起卦法（大衍之数五十模拟）
+- 全部六十四卦数据嵌入，支持搜索浏览
+- 卦象Canvas绘制，卦辞详解读
+- 分类筛选（上经/下经）
+
 ### ☯ 大六壬模拟器 (`liuren-simulator.html`)
 中国传统大六壬占卜模拟器：
 - 自动或手动输入年月日时（天干地支）
+- 公历日期自动转换干支
 - 月将推算与天盘构建
 - 四课三传计算（贼克法起课）
 - 十二天将排布与神煞查照
 - 课象综合解读
 
-### 🧪 左路魔法心理测试 (`lhp-test.html`)
+### 🪐 行星时计算器 (`planetary-hours.html`)
+西方魔法传统择时工具：
+- 内置全国25+城市经纬度
+- 日出日落时间自动计算（NOAA算法）
+- 当天24个行星时完整排列表
+- 实时显示当前行星时
+- 七行星魔法意义详解
+
+### 👹 七十二魔神全鉴 (`goetia-demons.html`)
+所罗门七十二柱魔神图鉴：
+- 72柱魔神完整数据（名号、等级、外观、力量）
+- 搜索/筛选/排序功能
+- Canvas 封印绘制
+- 详细的中文介绍
+
+### ✦ 天文星象枢纽 (`astrology-hub.html`)
+中国天文星象知识中心：
+- 二十八宿环形可视化图
+- 五星聚历史时间线
+- 步天歌星官图
+- 干支节气转换器
+
+### 🔮 左路魔法心理测试 (`lhp-test.html`)
 "你是否适合左路魔法？"心理测评工具：
 - 15 道专业心理测试题目
 - 5 个等级的结果评定（不适合/探索者/学徒/入门者/行家）
 - 6 维人格特质雷达图分析
 - localStorage 自动保存进度
+
+### 🐉 龙之魔法仪式工具 (`dragon-ritual.html`)
+基于阿波菲斯七首的交互式魔法仪式辅助工具：
+- 七首选择器（蝎子/雷霆/鬣狗/蛇/狮子/巨人/提丰）
+- 每首独有Canvas符印绘制
+- 行星魔法方阵（Kamea）计算显示
+- 仪式时间与咒文引导
+- 引导冥想计时器（呼吸引导动画）
 
 ## 🚀 在线访问
 
@@ -62,11 +100,13 @@
 |------|------|
 | 📖 主书 | [index.html](https://prorejm.github.io/apophis-dragon-magic/) |
 | 🎮 符印工坊 | [sigil-game.html](https://prorejm.github.io/apophis-dragon-magic/sigil-game.html) |
+| ☰ 周易占卜 | [iching-divination.html](https://prorejm.github.io/apophis-dragon-magic/iching-divination.html) |
 | ☯ 大六壬 | [liuren-simulator.html](https://prorejm.github.io/apophis-dragon-magic/liuren-simulator.html) |
 | 🪐 行星时计算 | [planetary-hours.html](https://prorejm.github.io/apophis-dragon-magic/planetary-hours.html) |
 | 👹 七十二魔神 | [goetia-demons.html](https://prorejm.github.io/apophis-dragon-magic/goetia-demons.html) |
 | ✦ 天文星象 | [astrology-hub.html](https://prorejm.github.io/apophis-dragon-magic/astrology-hub.html) |
 | 🔮 魔法测试 | [lhp-test.html](https://prorejm.github.io/apophis-dragon-magic/lhp-test.html) |
+| 🐉 龙之仪式 | [dragon-ritual.html](https://prorejm.github.io/apophis-dragon-magic/dragon-ritual.html) |
 
 ## 💻 本地运行
 
@@ -76,8 +116,9 @@
 
 - 纯静态 HTML/CSS/JavaScript
 - 字体：Ma Shan Zheng (马善政体) + Noto Serif SC — Google Fonts
-- 符印绘图：Canvas API
+- 交互绘图：Canvas API
 - 大六壬引擎：纯 JavaScript 计算
+- 周易起卦：三硬币/蓍草法 JavaScript 实现
 - 部署：GitHub Pages
 
 ## 📜 版权声明
