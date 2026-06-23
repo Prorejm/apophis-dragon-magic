@@ -131,6 +131,7 @@ h1 {
   gap: 32px;
   padding: 16px 0;
   margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .nav-link {
@@ -167,6 +168,61 @@ h1 {
 
 .nav-link.active::after {
   width: 100%;
+}
+
+/* ===== SET SELECTOR ===== */
+.set-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.set-selector-label {
+  font-size: 0.85rem;
+  color: #8a7e6a;
+  letter-spacing: 1px;
+  margin-right: 8px;
+}
+
+.set-btn {
+  padding: 6px 16px;
+  border: 1px solid rgba(212, 168, 67, 0.15);
+  background: transparent;
+  color: #8a7e6a;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.35s;
+  letter-spacing: 1px;
+}
+
+.set-btn:hover {
+  border-color: rgba(212, 168, 67, 0.35);
+  color: #b0a48e;
+}
+
+.set-btn.active {
+  border-color: #d4a843;
+  color: #d4a843;
+  background: rgba(212, 168, 67, 0.08);
+  box-shadow: 0 0 20px rgba(212, 168, 67, 0.1);
+}
+
+.set-btn.active::before {
+  content: '\27C0 ';
+  font-size: 0.7rem;
+}
+
+@keyframes setSwitchIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.set-switch-anim {
+  animation: setSwitchIn 0.35s ease;
 }
 
 /* ===== START SCREEN ===== */
@@ -350,7 +406,7 @@ h1 {
   box-shadow: 0 0 8px rgba(212, 168, 67, 0.6);
 }
 
-/* =====QUESTION AREA ===== */
+/* ===== QUESTION AREA ===== */
 .question-area {
   min-height: 400px;
 }
@@ -368,6 +424,16 @@ h1 {
   color: #c41e3a;
   margin-bottom: 8px;
   letter-spacing: 2px;
+}
+
+.question-category {
+  font-size: 0.75rem;
+  color: #5a5040;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  display: inline-block;
+  padding: 2px 12px;
+  border: 1px solid rgba(212, 168, 67, 0.08);
 }
 
 .question-text {
@@ -457,6 +523,17 @@ h1 {
 
 .option.selected .option-text {
   color: #d4c5a9;
+}
+
+.option-score {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: #5a5040;
+  letter-spacing: 1px;
+}
+
+.option.selected .option-score {
+  color: #8a7e6a;
 }
 
 /* ===== NAVIGATION BUTTONS ===== */
@@ -551,12 +628,37 @@ h1 {
 }
 
 .result-card .trait-list li::before {
-  content: '◆';
+  content: '\25C6';
   position: absolute;
   left: 0;
   color: #c41e3a;
   font-size: 0.6rem;
   top: 10px;
+}
+
+/* ===== RADAR CHART ===== */
+.radar-section {
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.radar-section h3 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.2rem;
+  color: #d4a843;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.radar-canvas-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.radar-canvas-wrapper canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 /* ===== RESULT BREAKDOWN ===== */
@@ -576,7 +678,7 @@ h1 {
 
 .breakdown-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
 }
 
@@ -602,9 +704,20 @@ h1 {
   display: block;
 }
 
-.breakdown-max {
-  font-size: 0.7rem;
-  color: #5a5040;
+.breakdown-bar-bg {
+  width: 100%;
+  height: 4px;
+  background: rgba(212, 168, 67, 0.08);
+  margin-top: 8px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.breakdown-bar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
+  background: linear-gradient(90deg, #c41e3a, #d4a843);
 }
 
 /* ===== RESULT ACTIONS ===== */
@@ -695,8 +808,9 @@ h1 {
   .nav-buttons { flex-wrap: wrap; justify-content: center; }
   .nav-buttons .btn:first-child { margin-right: 0; }
   .result-actions { flex-direction: column; align-items: center; }
-  .nav-bar { gap: 20px; flex-wrap: wrap; }
+  .nav-bar { gap: 20px; }
   .breakdown-grid { grid-template-columns: repeat(3, 1fr); }
+  .radar-canvas-wrapper canvas { width: 280px; height: 280px; }
 }
 
 /* ===== QUOTE ===== */
@@ -766,11 +880,20 @@ h1 {
   <a href="astrology-hub.html" class="nav-link">天文星象</a>
   <a href="lhp-test.html" class="nav-link active">魔法测试</a>
   <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
 </nav>
 
   <!-- Header -->
   <header class="header">
-    <span class="header-icon"></span>
+    <span class="header-icon">&#xE255;</span>
     <h1>左路魔法心理测试</h1>
     <p class="header-subtitle">你是否适合左路魔法之路</p>
   </header>
@@ -791,11 +914,19 @@ h1 {
         <strong>左路魔法</strong>（Left-Hand Path）并非适合所有人。<br>
         它适合一种特殊的思想者——一个逃避舒适顺从的外来者，<br>
         接受自己的本质作为其存在的唯一理由。<br><br>
-        这份测试将评估你在 <strong class="highlight-crimson">个人主义</strong>、<strong class="highlight-crimson">反权威倾向</strong>、<strong class="highlight-crimson">自我依赖</strong>、<br>
-        <strong class="highlight-crimson">对黑暗与越界的接纳度</strong> 以及 <strong class="highlight-crimson">自我神化渴望</strong> 等维度的倾向。<br><br>
+        这份测试将评估你在 <strong class="highlight-crimson">权力与野心</strong>、<strong class="highlight-crimson">禁忌知识</strong>、<strong class="highlight-crimson">个人主义</strong>、<br>
+        <strong class="highlight-crimson">黑暗美学</strong>、<strong class="highlight-crimson">仪式实践</strong>、<strong class="highlight-crimson">自我超越</strong> 以及 <strong class="highlight-crimson">神秘体验</strong> 等维度的倾向。<br><br>
         请诚实地回答每一道题——<br>
         这里没有对错之分，只有真实与否。
       </p>
+
+      <div class="set-selector" id="setSelector">
+        <span class="set-selector-label">选择题量</span>
+        <button class="set-btn active" data-set="15" onclick="switchSet(15)">15题</button>
+        <button class="set-btn" data-set="30" onclick="switchSet(30)">30题</button>
+        <button class="set-btn" data-set="50" onclick="switchSet(50)">50题</button>
+        <button class="set-btn" data-set="100" onclick="switchSet(100)">100题</button>
+      </div>
 
       <div class="test-stats">
         <div class="stat-item">
@@ -803,12 +934,12 @@ h1 {
           <span class="stat-label">道题目</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number">~8</span>
+          <span class="stat-number" id="timeEstimateDisplay">~8</span>
           <span class="stat-label">分钟</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number">5</span>
-          <span class="stat-label">个等级</span>
+          <span class="stat-number">7</span>
+          <span class="stat-label">个维度</span>
         </div>
       </div>
 
@@ -842,171 +973,149 @@ h1 {
 
   <!-- Footer -->
   <footer class="footer">
-    <p>▼ 阿佩普龙之魔法 · 左路路径心理评估</p>
+    <p>&#x25BC; 阿佩普龙之魔法 &middot; 左路路径心理评估</p>
   </footer>
 
 </div>
 
 <script>
-// ===== QUESTIONS DATA =====
-const questions = [
-  {
-    id: 1,
-    text: '面对一个权威指令，你的第一反应是什么？',
-    options: [
-      { text: '毫不犹豫地遵守', score: 0 },
-      { text: '先质疑合理性，再决定是否遵守', score: 1 },
-      { text: '只遵守我认为合理的部分', score: 2 },
-      { text: '倾向于质疑和反抗', score: 3 }
-    ]
-  },
-  {
-    id: 2,
-    text: '独自一人长时间自省或冥想，你感到？',
-    options: [
-      { text: '不安和孤独，渴望有人陪伴', score: 0 },
-      { text: '可以接受，但不会太久', score: 1 },
-      { text: '享受独处，这是充电的方式', score: 2 },
-      { text: '这是我最渴望的精神状态', score: 3 }
-    ]
-  },
-  {
-    id: 3,
-    text: '关于人生的终极目标，你更倾向于？',
-    options: [
-      { text: '融入更大的整体，与之合一', score: 0 },
-      { text: '在集体中找到自己的位置', score: 1 },
-      { text: '实现个人成长，同时保持联结', score: 2 },
-      { text: '成为完全独立自主的神性存在', score: 3 }
-    ]
-  },
-  {
-    id: 4,
-    text: '面对被社会禁忌或被禁止的知识，你的态度是？',
-    options: [
-      { text: '避而远之，存在即有其道理', score: 0 },
-      { text: '谨慎接触，需确认无害', score: 1 },
-      { text: '感到好奇，想要一探究竟', score: 2 },
-      { text: '被强烈吸引，越是禁忌越有价值', score: 3 }
-    ]
-  },
-  {
-    id: 5,
-    text: '你对死亡的看法是？',
-    options: [
-      { text: '恐惧和回避，不愿讨论', score: 0 },
-      { text: '自然的终点，接受但不多想', score: 1 },
-      { text: '一种深刻的转变和必经之路', score: 2 },
-      { text: '通往更高存在的必要门户，甚至令人向往', score: 3 }
-    ]
-  },
-  {
-    id: 6,
-    text: '社会规则和传统道德对你而言意味着？',
-    options: [
-      { text: '维系文明的必要准则', score: 0 },
-      { text: '值得尊重的框架，但可灵活调整', score: 1 },
-      { text: '多数是过时的约束性枷锁', score: 2 },
-      { text: '个人成长的障碍，应被主动超越', score: 3 }
-    ]
-  },
-  {
-    id: 7,
-    text: '为了追求个人力量与成长，你愿意付出何种代价？',
-    options: [
-      { text: '不愿意付出任何代价', score: 0 },
-      { text: '可以付出少量舒适和安逸', score: 1 },
-      { text: '愿意付出相当程度的牺牲', score: 2 },
-      { text: '不惜一切代价，包括承受孤立与恐惧', score: 3 }
-    ]
-  },
-  {
-    id: 8,
-    text: '你对黑暗美学、恐怖或哥特式题材的感受是？',
-    options: [
-      { text: '厌恶和排斥', score: 0 },
-      { text: '不太喜欢，感到不适', score: 1 },
-      { text: '有一定兴趣和欣赏', score: 2 },
-      { text: '深深着迷，从中感受到美与力量', score: 3 }
-    ]
-  },
-  {
-    id: 9,
-    text: '你的自律和意志力水平如何？',
-    options: [
-      { text: '较差，难以坚持长期计划', score: 0 },
-      { text: '一般，偶尔能坚持重要事项', score: 1 },
-      { text: '较好，在关键事务上能持之以恒', score: 2 },
-      { text: '极强，自律是我的核心品质', score: 3 }
-    ]
-  },
-  {
-    id: 10,
-    text: '在集体中，你通常扮演什么角色？',
-    options: [
-      { text: '跟随者——服从多数决议', score: 0 },
-      { text: '协作成员——平衡各方意见', score: 1 },
-      { text: '独立贡献者——按自己方式做事', score: 2 },
-      { text: '异类或引领者——走自己的路，不在乎认同', score: 3 }
-    ]
-  },
-  {
-    id: 11,
-    text: '当你的深层欲望与社会规范发生冲突时，你通常？',
-    options: [
-      { text: '压抑欲望，遵守规范', score: 0 },
-      { text: '尽量寻求妥协方案', score: 1 },
-      { text: '在暗中追随欲望', score: 2 },
-      { text: '公开追随欲望，不在乎社会评判', score: 3 }
-    ]
-  },
-  {
-    id: 12,
-    text: '你对"自我神化"——即通过修炼使自我升华为神性存在的概念——的看法是？',
-    options: [
-      { text: '傲慢和亵渎的想法', score: 0 },
-      { text: '不切实际的幻想', score: 1 },
-      { text: '一个有趣的哲学思辨概念', score: 2 },
-      { text: '我人生的终极目标和意义所在', score: 3 }
-    ]
-  },
-  {
-    id: 13,
-    text: '面对生活中的重大变革或身份转变，你倾向于？',
-    options: [
-      { text: '极力回避，维持现状', score: 0 },
-      { text: '谨慎接受，缓慢适应', score: 1 },
-      { text: '愿意主动尝试新方向', score: 2 },
-      { text: '主动寻求破坏与重建的契机', score: 3 }
-    ]
-  },
-  {
-    id: 14,
-    text: '关于善恶二元论，你的立场是？',
-    options: [
-      { text: '善就是善，恶就是恶，界限分明', score: 0 },
-      { text: '大部分情况可以分清', score: 1 },
-      { text: '道德是相对的，取决于视角', score: 2 },
-      { text: '善恶是人为构造——我超越这种划分', score: 3 }
-    ]
-  },
-  {
-    id: 15,
-    text: '当你独自面对重大困境时，你倾向于？',
-    options: [
-      { text: '立即寻求他人的帮助和支持', score: 0 },
-      { text: '先自行尝试，无效再求助', score: 1 },
-      { text: '主要依靠自己解决', score: 2 },
-      { text: '完全独立面对，视求助为放弃自主', score: 3 }
-    ]
-  }
+// ===== LIKERT OPTIONS (shared across all questions) =====
+const LIKERT_OPTIONS = [
+  { text: '非常不同意', score: 1 },
+  { text: '不同意', score: 2 },
+  { text: '中立', score: 3 },
+  { text: '同意', score: 4 },
+  { text: '非常同意', score: 5 }
 ];
 
-// ===== RESULT DATA =====
+const CATEGORY_NAMES = ['权力与野心', '禁忌知识', '个人主义', '黑暗美学', '仪式实践', '自我超越', '神秘体验'];
+
+// ===== ALL 100 QUESTIONS =====
+// First 15 are the original core questions (converted to Likert format)
+const allQuestions = [
+  // ---- Original 15 (preserved content, Likert format) ----
+  { id: 1,  category: '个人主义',   text: '面对权威指令时，我的本能反应是质疑和反抗。' },
+  { id: 2,  category: '神秘体验',   text: '长时间的独处自省让我感到充实和愉悦。' },
+  { id: 3,  category: '自我超越',   text: '我的终极目标是成为完全独立自主的神性存在。' },
+  { id: 4,  category: '禁忌知识',   text: '被禁忌的知识对我有强烈的吸引力。' },
+  { id: 5,  category: '神秘体验',   text: '死亡是通往更高存在的必要门户。' },
+  { id: 6,  category: '个人主义',   text: '社会规则和传统道德是个体成长的障碍。' },
+  { id: 7,  category: '权力与野心', text: '为了追求个人力量，我愿意付出一切代价。' },
+  { id: 8,  category: '黑暗美学',   text: '黑暗美学和哥特式题材让我深深着迷。' },
+  { id: 9,  category: '自我超越',   text: '我拥有钢铁般的自律和意志力。' },
+  { id: 10, category: '个人主义',   text: '在集体中，我宁愿走自己的路，不在乎他人是否认同。' },
+  { id: 11, category: '权力与野心', text: '当欲望与社会规范冲突时，我会追随欲望。' },
+  { id: 12, category: '自我超越',   text: '我相信通过修炼可以使自我升华为神性存在。' },
+  { id: 13, category: '仪式实践',   text: '我主动寻求人生中的破坏与重建式变革。' },
+  { id: 14, category: '禁忌知识',   text: '善恶是人为构造的概念，我超越这种二元划分。' },
+  { id: 15, category: '个人主义',   text: '面对困境时我完全依靠自己，视求助为放弃自主。' },
+
+  // ---- Power & Ambition (13 new) ----
+  { id: 16, category: '权力与野心', text: '权力是我人生追求的核心价值之一。' },
+  { id: 17, category: '禁忌知识',   text: '越是禁止的知识，我越想探索其真相。' },
+  { id: 18, category: '个人主义',   text: '我的价值观由我自己定义，不需要社会认可。' },
+  { id: 19, category: '黑暗美学',   text: '黑暗比光明更能引发我深层的情感共鸣。' },
+  { id: 20, category: '仪式实践',   text: '仪式对我来说是连接深层自我的重要方式。' },
+  { id: 21, category: '自我超越',   text: '人的潜力远超我们目前所认知的极限。' },
+  { id: 22, category: '神秘体验',   text: '我曾经历过难以用语言描述的超越性体验。' },
+
+  { id: 23, category: '权力与野心', text: '我渴望获得影响他人和局势的能力。' },
+  { id: 24, category: '禁忌知识',   text: '传统的道德观念往往是认知的牢笼。' },
+  { id: 25, category: '个人主义',   text: '集体共识往往是平庸的妥协。' },
+  { id: 26, category: '黑暗美学',   text: '哥特式建筑和艺术让我感到一种崇高的美。' },
+  { id: 27, category: '仪式实践',   text: '我经常进行某种形式的个人仪式或冥想练习。' },
+  { id: 28, category: '自我超越',   text: '我愿意为了自我进化承受极大的痛苦和挑战。' },
+  { id: 29, category: '神秘体验',   text: '在特定的精神状态下，我感觉与宇宙万物相连。' },
+
+  { id: 30, category: '权力与野心', text: '在竞争中获胜比维持表面和谐更重要。' },
+  { id: 31, category: '禁忌知识',   text: '探索黑暗面是理解完整真相的必要途径。' },
+  { id: 32, category: '个人主义',   text: '我宁愿孤独地正确，也不愿合群地错误。' },
+  { id: 33, category: '黑暗美学',   text: '骷髅、乌鸦和废墟等意象让我感到奇异的美感。' },
+  { id: 34, category: '仪式实践',   text: '象征性行为可以有效改变我的意识状态。' },
+  { id: 35, category: '自我超越',   text: '突破自我的边界是我生命的主要驱动力。' },
+  { id: 36, category: '神秘体验',   text: '梦境对我而言具有深刻的象征意义和指引作用。' },
+
+  { id: 37, category: '权力与野心', text: '我愿意为了实现雄心而牺牲舒适的人际关系。' },
+  { id: 38, category: '禁忌知识',   text: '我不相信有什么知识是人类不该知道的。' },
+  { id: 39, category: '个人主义',   text: '成为主流之外的人并不会让我感到不安。' },
+  { id: 40, category: '黑暗美学',   text: '暗色调和阴影比明亮色彩更吸引我的注意力。' },
+  { id: 41, category: '仪式实践',   text: '我拥有或愿意建立一个个人祭坛或仪式空间。' },
+  { id: 42, category: '自我超越',   text: '我认为人类可以通过修炼超越目前的形态。' },
+  { id: 43, category: '神秘体验',   text: '我曾感受到某种超越日常现实的存在或力量。' },
+
+  { id: 44, category: '权力与野心', text: '掌控局面让我感受到真正的满足和力量。' },
+  { id: 45, category: '禁忌知识',   text: '所谓"危险的知识"往往蕴含着最深刻的真理。' },
+  { id: 46, category: '个人主义',   text: '真正的成长发生在你摆脱外部期待之后。' },
+  { id: 47, category: '黑暗美学',   text: '月光下的风景比阳光下的更让我沉醉。' },
+  { id: 48, category: '仪式实践',   text: '遵循特定的仪式步骤能增强我的精神专注力。' },
+  { id: 49, category: '自我超越',   text: '自律是通往更高存在层次的必经之路。' },
+  { id: 50, category: '神秘体验',   text: '黑暗虚空的状态对我有神秘的吸引力。' },
+
+  { id: 51, category: '权力与野心', text: '强大的力量比金钱或社会地位更有价值。' },
+  { id: 52, category: '禁忌知识',   text: '我热衷于研究被主流社会排斥的学说和理论。' },
+  { id: 53, category: '个人主义',   text: '我重视个人自由高于一切社会义务和责任。' },
+  { id: 54, category: '黑暗美学',   text: '腐烂与衰败中蕴含着独特的美学价值。' },
+  { id: 55, category: '仪式实践',   text: '我曾在仪式中体验到强烈的能量流动。' },
+  { id: 56, category: '自我超越',   text: '我相信凡人与神性之间的界限是可以跨越的。' },
+  { id: 57, category: '神秘体验',   text: '极限体验能打开意识的新维度。' },
+
+  { id: 58, category: '权力与野心', text: '我崇拜那些通过自身努力获得巨大权力的人。' },
+  { id: 59, category: '禁忌知识',   text: '真理不需要获得任何权威机构的认可。' },
+  { id: 60, category: '个人主义',   text: '独立思考比和谐融入社会更重要。' },
+  { id: 61, category: '黑暗美学',   text: '黑暗浪漫主义比盲目乐观主义更符合我的世界观。' },
+  { id: 62, category: '仪式实践',   text: '书写或诵念咒文对我有实际的心理效果。' },
+  { id: 63, category: '自我超越',   text: '自我转化需要经历彻底的解构和重建。' },
+  { id: 64, category: '神秘体验',   text: '我认为某些知识只能通过直接的灵性体验获得。' },
+
+  { id: 65, category: '权力与野心', text: '我不介意他人因我的力量而对我产生畏惧。' },
+  { id: 66, category: '禁忌知识',   text: '禁忌和越界是智慧成长的重要催化剂。' },
+  { id: 67, category: '个人主义',   text: '我不需要任何团体来定义我的身份和价值。' },
+  { id: 68, category: '黑暗美学',   text: '我喜欢带有黑暗氛围的音乐和视觉艺术作品。' },
+  { id: 69, category: '仪式实践',   text: '月相和天体运行对我的仪式效果有影响。' },
+  { id: 70, category: '自我超越',   text: '我渴望突破肉体和意识的极限边界。' },
+  { id: 71, category: '神秘体验',   text: '神秘体验改变了我看待现实和自我的方式。' },
+
+  { id: 72, category: '权力与野心', text: '弱者的规则不应该束缚强者的意志。' },
+  { id: 73, category: '禁忌知识',   text: '我经常思考那些大多数人刻意回避的哲学问题。' },
+  { id: 74, category: '个人主义',   text: '权威机构对我的评判和看法毫无意义。' },
+  { id: 75, category: '黑暗美学',   text: '夜晚是我最具灵感和创造力的时间段。' },
+  { id: 76, category: '仪式实践',   text: '我感觉与某些传统魔法符号有深层的联结。' },
+  { id: 77, category: '自我超越',   text: '持续的自我提升比任何世俗成就都重要。' },
+
+  { id: 78, category: '权力与野心', text: '拥有权力让我感受到生命的完整和意义。' },
+  { id: 79, category: '禁忌知识',   text: '挖掘被隐藏的历史比学习公开的知识更有价值。' },
+  { id: 80, category: '个人主义',   text: '我为自己制定道德准则，而非遵循传统道德。' },
+  { id: 81, category: '黑暗美学',   text: '葬礼氛围和哀悼美学对我有特殊的吸引力。' },
+  { id: 82, category: '仪式实践',   text: '日常仪式帮助我培养纪律和意志力。' },
+  { id: 83, category: '自我超越',   text: '超越死亡是我认真思考并愿意追求的目标。' },
+
+  { id: 84, category: '权力与野心', text: '我愿意运用策略和计谋来达成自己的目标。' },
+  { id: 85, category: '禁忌知识',   text: '黑暗与光明的二元划分过于简单化了。' },
+  { id: 86, category: '个人主义',   text: '个人意志应该凌驾于集体意志之上。' },
+  { id: 87, category: '黑暗美学',   text: '深渊和虚空的概念引发我深刻的审美体验。' },
+  { id: 88, category: '仪式实践',   text: '我曾在仪式中感受到与未知力量的连接。' },
+  { id: 89, category: '自我超越',   text: '成为更好的自己意味着不断打破旧有的自我。' },
+
+  { id: 90, category: '权力与野心', text: '权力本身就是最纯粹的回报和奖赏。' },
+  { id: 91, category: '禁忌知识',   text: '知识的价值与其被禁忌的程度成正比。' },
+  { id: 92, category: '黑暗美学',   text: '我欣赏那些探索人性黑暗面的艺术表达。' },
+  { id: 93, category: '仪式实践',   text: '熏香、蜡烛和特定颜色能改变我的精神状态。' },
+  { id: 94, category: '自我超越',   text: '我相信意识可以进化到超越人类当前理解的层次。' },
+
+  { id: 95, category: '权力与野心', text: '实现个人雄心是生命最崇高和真实的意义。' },
+  { id: 96, category: '禁忌知识',   text: '打破认知边界是我探索知识的核心驱动力。' },
+  { id: 97, category: '黑暗美学',   text: '哥特式服装和暗黑风格是我审美表达的一部分。' },
+  { id: 98, category: '仪式实践',   text: '仪式后的记录和分析对我而言非常重要。' },
+  { id: 99, category: '仪式实践',   text: '我渴望通过修炼达到自我神化的境界。' },
+
+  { id: 100, category: '黑暗美学',   text: '黑暗美学让我感受到一种超越日常现实层面的真实。' }
+];
+
+// ===== RESULT DATA (5 levels, percentage-based) =====
 const results = [
   {
     level: '不适合',
-    maxScore: 10,
+    maxPct: 25,
     title: '不适合左路魔法',
     subtitle: '传统之道更适合你',
     svgPath: 'M50 20 L55 35 L70 35 L58 45 L63 60 L50 50 L37 60 L42 45 L30 35 L45 35 Z',
@@ -1023,7 +1132,7 @@ const results = [
   },
   {
     level: '探索者',
-    maxScore: 20,
+    maxPct: 50,
     title: '左路探索者',
     subtitle: '心怀好奇的观察者',
     svgPath: 'M50 18 L53 38 L73 42 L58 55 L63 75 L50 62 L37 75 L42 55 L27 42 L47 38 Z',
@@ -1040,7 +1149,7 @@ const results = [
   },
   {
     level: '学徒',
-    maxScore: 30,
+    maxPct: 70,
     title: '左路学徒',
     subtitle: '走在边缘的追寻者',
     svgPath: 'M50 15 L54 38 L78 42 L60 57 L66 80 L50 65 L34 80 L40 57 L22 42 L46 38 Z',
@@ -1057,7 +1166,7 @@ const results = [
   },
   {
     level: '入门者',
-    maxScore: 40,
+    maxPct: 85,
     title: '左路入门者',
     subtitle: '踏上龙之道路',
     svgPath: 'M50 12 L55 36 L80 40 L62 56 L68 82 L50 66 L32 82 L38 56 L20 40 L45 36 Z',
@@ -1074,7 +1183,7 @@ const results = [
   },
   {
     level: '行家',
-    maxScore: 45,
+    maxPct: 100,
     title: '左路行家',
     subtitle: 'Xeper·我已生成',
     svgPath: 'M50 10 L56 34 L82 38 L64 55 L70 84 L50 66 L30 84 L36 55 L18 38 L44 34 Z',
@@ -1097,24 +1206,10 @@ let state = {
   currentQuestion: 0,
   answers: {},
   started: false,
-  completed: false
+  completed: false,
+  questionCount: 15,  // default: 15 questions
+  activeQIds: []      // IDs of questions in the active set
 };
-
-// ===== INIT =====
-function init() {
-  createStars();
-  loadState();
-  if (state.started && !state.completed) {
-    showScreen('screen-quiz');
-    renderQuestion();
-  } else if (state.completed) {
-    showScreen('screen-result');
-    renderResult();
-  } else {
-    showScreen('screen-start');
-  }
-  document.getElementById('questionCountDisplay').textContent = questions.length;
-}
 
 // ===== STARFIELD =====
 function createStars() {
@@ -1138,8 +1233,31 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
 }
 
-// ===== TEST CONTROL =====
+// ===== SET SWITCHING =====
+function switchSet(count) {
+  state.questionCount = count;
+  // Update button states
+  document.querySelectorAll('.set-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.set-btn[data-set="' + count + '"]').classList.add('active');
+  // Update stats
+  document.getElementById('questionCountDisplay').textContent = count;
+  document.getElementById('timeEstimateDisplay').textContent = '~' + Math.round(count / 2);
+  // Add animation
+  const stats = document.querySelector('.test-stats');
+  stats.classList.remove('set-switch-anim');
+  void stats.offsetWidth;
+  stats.classList.add('set-switch-anim');
+}
+
+// ===== START TEST =====
 function startTest() {
+  // Build the active question set (first N questions)
+  state.activeQIds = [];
+  const count = Math.min(state.questionCount, allQuestions.length);
+  for (let i = 0; i < count; i++) {
+    state.activeQIds.push(allQuestions[i].id);
+  }
+
   state.started = true;
   state.currentQuestion = 0;
   state.answers = {};
@@ -1149,13 +1267,19 @@ function startTest() {
   renderQuestion();
 }
 
+// ===== GET ACTIVE QUESTIONS =====
+function getActiveQuestions() {
+  return state.activeQIds.map(id => allQuestions.find(q => q.id === id));
+}
+
 // ===== RENDER QUESTION =====
 function renderQuestion() {
-  const q = questions[state.currentQuestion];
-  const total = questions.length;
+  const qs = getActiveQuestions();
+  const total = qs.length;
+  const q = qs[state.currentQuestion];
   const num = state.currentQuestion + 1;
 
-  document.getElementById('progressLabel').textContent = `第 ${num} / ${total} 题`;
+  document.getElementById('progressLabel').textContent = '第 ' + num + ' / ' + total + ' 题';
   const pct = Math.round((num / total) * 100);
   document.getElementById('progressPercent').textContent = pct + '%';
   document.getElementById('progressFill').style.width = pct + '%';
@@ -1163,16 +1287,18 @@ function renderQuestion() {
   const area = document.getElementById('questionArea');
 
   let html = '<div class="question-card">';
-  html += `<div class="question-number">问题 ${num} / ${total}</div>`;
-  html += `<div class="question-text">${q.text}</div>`;
+  html += '<div class="question-number">问题 ' + num + ' / ' + total + '</div>';
+  html += '<div class="question-category">' + q.category + '</div>';
+  html += '<div class="question-text">' + q.text + '</div>';
   html += '<div class="options">';
 
-  q.options.forEach((opt, idx) => {
+  LIKERT_OPTIONS.forEach((opt, idx) => {
     const selected = state.answers[q.id] === idx;
-    html += `<label class="option${selected ? ' selected' : ''}" data-qid="${q.id}" data-oidx="${idx}">`;
-    html += `<input type="radio" name="q${q.id}" value="${idx}" ${selected ? 'checked' : ''}>`;
-    html += `<span class="option-marker"></span>`;
-    html += `<span class="option-text">${opt.text}</span>`;
+    html += '<label class="option' + (selected ? ' selected' : '') + '" data-qid="' + q.id + '" data-oidx="' + idx + '">';
+    html += '<input type="radio" name="q' + q.id + '" value="' + idx + '" ' + (selected ? 'checked' : '') + '>';
+    html += '<span class="option-marker"></span>';
+    html += '<span class="option-text">' + opt.text + '</span>';
+    html += '<span class="option-score">(' + opt.score + ')</span>';
     html += '</label>';
   });
 
@@ -1180,16 +1306,16 @@ function renderQuestion() {
 
   html += '<div class="nav-buttons">';
   if (num > 1) {
-    html += '<button class="btn btn-small" onclick="prevQuestion()">← 上一题</button>';
+    html += '<button class="btn btn-small" onclick="prevQuestion()">\u2190 上一题</button>';
   } else {
-    html += '<button class="btn btn-small" onclick="prevQuestion()" disabled>← 上一题</button>';
+    html += '<button class="btn btn-small" disabled>\u2190 上一题</button>';
   }
   if (num < total) {
     const canNext = state.answers[q.id] !== undefined;
-    html += `<button class="btn btn-small ${canNext ? '' : 'btn-muted'}" onclick="nextQuestion()" ${canNext ? '' : 'disabled'}>下一题 →</button>`;
+    html += '<button class="btn btn-small' + (canNext ? '' : ' btn-muted') + '" onclick="nextQuestion()"' + (canNext ? '' : ' disabled') + '>下一题 \u2192</button>';
   } else {
     const canSubmit = state.answers[q.id] !== undefined;
-    html += `<button class="btn btn-small ${canSubmit ? '' : 'btn-muted'}" onclick="submitTest()" ${canSubmit ? '' : 'disabled'}>查看结果</button>`;
+    html += '<button class="btn btn-small' + (canSubmit ? '' : ' btn-muted') + '" onclick="submitTest()"' + (canSubmit ? '' : ' disabled') + '>查看结果</button>';
   }
   html += '</div>';
   html += '</div>';
@@ -1197,7 +1323,7 @@ function renderQuestion() {
   area.innerHTML = html;
 
   // Add event listeners to options
-  area.querySelectorAll('.option').forEach(el => {
+  area.querySelectorAll('.option').forEach(function(el) {
     el.addEventListener('click', function() {
       const qid = parseInt(this.dataset.qid);
       const oidx = parseInt(this.dataset.oidx);
@@ -1213,7 +1339,7 @@ function selectOption(qid, oidx) {
 
   // Update UI
   const card = document.querySelector('.question-card');
-  card.querySelectorAll('.option').forEach(el => {
+  card.querySelectorAll('.option').forEach(function(el) {
     const eqid = parseInt(el.dataset.qid);
     const eoidx = parseInt(el.dataset.oidx);
     el.classList.toggle('selected', eqid === qid && eoidx === oidx);
@@ -1223,28 +1349,27 @@ function selectOption(qid, oidx) {
   });
 
   // Update nav buttons
-  const total = questions.length;
-  const num = state.currentQuestion + 1;
+  const qs = getActiveQuestions();
+  const total = qs.length;
   const navDiv = card.querySelector('.nav-buttons');
-  if (num < total || num === total) {
-    const nextBtn = navDiv.querySelector('button:last-child');
-    if (num < total) {
-      nextBtn.textContent = '下一题 →';
-      nextBtn.onclick = nextQuestion;
-      nextBtn.className = 'btn btn-small';
-      nextBtn.disabled = false;
-    } else {
-      nextBtn.textContent = '查看结果';
-      nextBtn.onclick = submitTest;
-      nextBtn.className = 'btn btn-small';
-      nextBtn.disabled = false;
-    }
+  const nextBtn = navDiv.querySelector('button:last-child');
+  if (state.currentQuestion + 1 < total) {
+    nextBtn.textContent = '下一题 \u2192';
+    nextBtn.onclick = nextQuestion;
+    nextBtn.className = 'btn btn-small';
+    nextBtn.disabled = false;
+  } else {
+    nextBtn.textContent = '查看结果';
+    nextBtn.onclick = submitTest;
+    nextBtn.className = 'btn btn-small';
+    nextBtn.disabled = false;
   }
 }
 
 // ===== NAVIGATION =====
 function nextQuestion() {
-  if (state.currentQuestion < questions.length - 1) {
+  const qs = getActiveQuestions();
+  if (state.currentQuestion < qs.length - 1) {
     state.currentQuestion++;
     renderQuestion();
   }
@@ -1259,10 +1384,11 @@ function prevQuestion() {
 
 // ===== SUBMIT =====
 function submitTest() {
-  const total = questions.length;
+  const qs = getActiveQuestions();
+  const total = qs.length;
   const answered = Object.keys(state.answers).length;
   if (answered < total) {
-    showToast(`还有 ${total - answered} 道题未回答`);
+    showToast('还有 ' + (total - answered) + ' 道题未回答');
     return;
   }
 
@@ -1272,57 +1398,174 @@ function submitTest() {
   renderResult();
 }
 
-// ===== CALCULATE RESULT =====
+// ===== CALCULATE RESULT (percentage-based) =====
 function calculateResult() {
+  const qs = getActiveQuestions();
   let totalScore = 0;
-  const maxPossible = questions.length * 3;
+  const maxPossible = qs.length * 5; // Likert 1-5, max 5 per question
 
-  questions.forEach(q => {
+  qs.forEach(function(q) {
     const ansIdx = state.answers[q.id];
     if (ansIdx !== undefined) {
-      totalScore += q.options[ansIdx].score;
+      totalScore += LIKERT_OPTIONS[ansIdx].score;
     }
   });
 
+  const pct = Math.round((totalScore / maxPossible) * 100);
+
+  // Find result level
   let resultIndex = results.length - 1;
   for (let i = 0; i < results.length; i++) {
-    if (totalScore <= results[i].maxScore) {
+    if (pct <= results[i].maxPct) {
       resultIndex = i;
       break;
     }
   }
 
   // Category breakdown
-  const categories = [
-    { label: '反权威', questions: [0, 5] },
-    { label: '独处自省', questions: [1, 8] },
-    { label: '个人力量', questions: [2, 6, 11] },
-    { label: '死亡转变', questions: [4, 12] },
-    { label: '禁忌接纳', questions: [3, 7] },
-    { label: '个人主义', questions: [9, 13, 14] }
-  ];
-
-  const breakdown = categories.map(cat => {
+  const breakdown = CATEGORY_NAMES.map(function(catName) {
+    const catQs = qs.filter(function(q) { return q.category === catName; });
     let sum = 0;
-    let max = 0;
-    cat.questions.forEach(qIdx => {
-      const q = questions[qIdx];
+    let max = catQs.length * 5;
+    catQs.forEach(function(q) {
       const ansIdx = state.answers[q.id];
       if (ansIdx !== undefined) {
-        sum += q.options[ansIdx].score;
+        sum += LIKERT_OPTIONS[ansIdx].score;
       }
-      max += 3;
     });
-    return { label: cat.label, value: sum, max: max };
+    return { label: catName, value: sum, max: max, pct: max > 0 ? Math.round((sum / max) * 100) : 0 };
   });
 
   return {
     score: totalScore,
     maxScore: maxPossible,
+    percent: pct,
     result: results[resultIndex],
     index: resultIndex,
     breakdown: breakdown
   };
+}
+
+// ===== RADAR CHART =====
+function drawRadarChart(breakdown) {
+  const canvas = document.getElementById('radarCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  // Handle high-DPI displays
+  const dpr = window.devicePixelRatio || 1;
+  const displaySize = Math.min(340, window.innerWidth - 60);
+
+  canvas.style.width = displaySize + 'px';
+  canvas.style.height = displaySize + 'px';
+  canvas.width = displaySize * dpr;
+  canvas.height = displaySize * dpr;
+  ctx.scale(dpr, dpr);
+
+  const cx = displaySize / 2;
+  const cy = displaySize / 2;
+  const radius = displaySize * 0.32;
+  const levels = 5;
+  const count = breakdown.length;
+  const angleStep = (Math.PI * 2) / count;
+
+  // Background
+  ctx.clearRect(0, 0, displaySize, displaySize);
+
+  // Grid levels
+  for (let l = 1; l <= levels; l++) {
+    const r = (radius / levels) * l;
+    ctx.beginPath();
+    for (let i = 0; i < count; i++) {
+      const angle = -Math.PI / 2 + i * angleStep;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = l === levels ? 'rgba(212, 168, 67, 0.15)' : 'rgba(212, 168, 67, 0.06)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  }
+
+  // Axis lines
+  for (let i = 0; i < count; i++) {
+    const angle = -Math.PI / 2 + i * angleStep;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + radius * Math.cos(angle), cy + radius * Math.sin(angle));
+    ctx.strokeStyle = 'rgba(212, 168, 67, 0.08)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  }
+
+  // Data polygon
+  ctx.beginPath();
+  for (let i = 0; i < count; i++) {
+    const pct = breakdown[i].pct / 100;
+    const r = pct * radius;
+    const angle = -Math.PI / 2 + i * angleStep;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(212, 168, 67, 0.08)';
+  ctx.fill();
+  ctx.strokeStyle = '#d4a843';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Data points
+  for (let i = 0; i < count; i++) {
+    const pct = breakdown[i].pct / 100;
+    const r = pct * radius;
+    const angle = -Math.PI / 2 + i * angleStep;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#c41e3a';
+    ctx.fill();
+    ctx.strokeStyle = '#d4a843';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Labels
+  ctx.font = '11px "Noto Serif SC", serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  for (let i = 0; i < count; i++) {
+    const angle = -Math.PI / 2 + i * angleStep;
+    const labelR = radius + 28;
+    const x = cx + labelR * Math.cos(angle);
+    const y = cy + labelR * Math.sin(angle);
+    ctx.fillStyle = '#8a7e6a';
+
+    // Shorter label version
+    let label = breakdown[i].label;
+    if (label.length > 4) {
+      label = label.substring(0, 4) + '..';
+      // Try 3-char
+    }
+    // Write full label with smaller font
+    ctx.font = '10px "Noto Serif SC", serif';
+    // Split into two lines for long labels
+    const fullLabel = breakdown[i].label;
+    if (fullLabel.length > 4) {
+      const first = fullLabel.substring(0, 4);
+      const second = fullLabel.substring(4);
+      ctx.fillStyle = '#5a5040';
+      ctx.fillText(first, x, y - 6);
+      ctx.fillText(second, x, y + 6);
+    } else {
+      ctx.fillText(fullLabel, x, y);
+    }
+  }
 }
 
 // ===== RENDER RESULT =====
@@ -1334,44 +1577,52 @@ function renderResult() {
 
   // Badge
   html += '<div class="level-badge">';
-  html += `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">`;
-  html += `<circle cx="50" cy="50" r="45" stroke="#d4a843" stroke-width="0.5" opacity="0.3"/>`;
-  html += `<path d="${r.svgPath}" fill="none" stroke="#d4a843" stroke-width="1.5" opacity="0.8"/>`;
-  html += `<circle cx="50" cy="50" r="3" fill="#c41e3a"/>`;
+  html += '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">';
+  html += '<circle cx="50" cy="50" r="45" stroke="#d4a843" stroke-width="0.5" opacity="0.3"/>';
+  html += '<path d="' + r.svgPath + '" fill="none" stroke="#d4a843" stroke-width="1.5" opacity="0.8"/>';
+  html += '<circle cx="50" cy="50" r="3" fill="#c41e3a"/>';
   html += '</svg>';
   html += '</div>';
 
   // Level
   html += '<div class="result-header">';
-  html += `<span class="result-level">${r.level}</span>`;
-  html += `<span class="result-score">得分 <span>${data.score}</span> / ${data.maxScore}</span>`;
+  html += '<span class="result-level">' + r.level + '</span>';
+  html += '<span class="result-score">得分 <span>' + data.score + '</span> / ' + data.maxScore + ' &nbsp;(' + data.percent + '%)</span>';
   html += '</div>';
 
   // Result card
   html += '<div class="result-card">';
-  html += `<h3>${r.title} · ${r.subtitle}</h3>`;
-  html += `<p>${r.description}</p>`;
-  html += `<p>${r.interpretation}</p>`;
+  html += '<h3>' + r.title + ' \u00B7 ' + r.subtitle + '</h3>';
+  html += '<p>' + r.description + '</p>';
+  html += '<p>' + r.interpretation + '</p>';
 
   html += '<ul class="trait-list">';
-  r.traits.forEach(t => {
-    html += `<li>${t}</li>`;
+  r.traits.forEach(function(t) {
+    html += '<li>' + t + '</li>';
   });
   html += '</ul>';
 
-  html += `<p><strong style="color:#d4a843;">建议：</strong>${r.advice}</p>`;
+  html += '<p><strong style="color:#d4a843;">建议：</strong>' + r.advice + '</p>';
+  html += '</div>';
+
+  // Radar chart
+  html += '<div class="radar-section">';
+  html += '<h3>七维雷达图</h3>';
+  html += '<div class="radar-canvas-wrapper">';
+  html += '<canvas id="radarCanvas"></canvas>';
+  html += '</div>';
   html += '</div>';
 
   // Breakdown
   html += '<div class="breakdown-section">';
   html += '<h3>特质维度分析</h3>';
   html += '<div class="breakdown-grid">';
-  data.breakdown.forEach(b => {
-    const pct = Math.round((b.value / b.max) * 100);
+  data.breakdown.forEach(function(b) {
     html += '<div class="breakdown-item">';
-    html += `<span class="breakdown-label">${b.label}</span>`;
-    html += `<span class="breakdown-value">${b.value}</span>`;
-    html += `<span class="breakdown-max">/ ${b.max} (${pct}%)</span>`;
+    html += '<span class="breakdown-label">' + b.label + '</span>';
+    html += '<span class="breakdown-value">' + b.value + '</span>';
+    html += '<span class="breakdown-max">/ ' + b.max + ' (' + b.pct + '%)</span>';
+    html += '<div class="breakdown-bar-bg"><div class="breakdown-bar" style="width:' + b.pct + '%;"></div></div>';
     html += '</div>';
   });
   html += '</div>';
@@ -1379,15 +1630,15 @@ function renderResult() {
 
   // Quote
   const quotes = [
-    '"将自己从宇宙子宫中撕裂出来是一项意志和英雄主义的实践，这些品质只有通过激烈的斗争才能获得。" —— 《阿波菲斯——龙之魔法》',
-    '"Xeper：我已生成。" —— 塞特之格言',
-    '"爱是律法，爱受意志引导。" —— 阿莱斯特·克劳利',
-    '"龙之魔法毫无疑问是左手路径的一个学派。它教导个体心灵的永生化和神化。" —— 《阿波菲斯——龙之魔法》',
-    '"每个男人和每个女人都是一颗星。" —— 阿莱斯特·克劳利'
+    '"将自己从宇宙子宫中撕裂出来是一项意志和英雄主义的实践，这些品质只有通过激烈的斗争才能获得。" \u2014\u2014 《阿波菲斯\u2014\u2014龙之魔法》',
+    '"Xeper：我已生成。" \u2014\u2014 塞特之格言',
+    '"爱是律法，爱受意志引导。" \u2014\u2014 阿莱斯特\u00B7克劳利',
+    '"龙之魔法毫无疑问是左手路径的一个学派。它教导个体心灵的永生化和神化。" \u2014\u2014 《阿波菲斯\u2014\u2014龙之魔法》',
+    '"每个男人和每个女人都是一颗星。" \u2014\u2014 阿莱斯特\u00B7克劳利'
   ];
   const quote = quotes[data.index % quotes.length];
   html += '<div class="quote-block">';
-  html += `<p>${quote}</p>`;
+  html += '<p>' + quote + '</p>';
   html += '</div>';
 
   // Actions
@@ -1398,6 +1649,11 @@ function renderResult() {
   html += '</div>';
 
   document.getElementById('resultContent').innerHTML = html;
+
+  // Draw radar chart after DOM update
+  setTimeout(function() {
+    drawRadarChart(data.breakdown);
+  }, 100);
 }
 
 // ===== ACTIONS =====
@@ -1406,7 +1662,7 @@ function retakeTest() {
   state.currentQuestion = 0;
   state.answers = {};
   state.completed = false;
-  localStorage.removeItem('lhp_test_state');
+  localStorage.removeItem('lhp_test_state_v2');
   showScreen('screen-start');
 }
 
@@ -1415,32 +1671,29 @@ function shareResult() {
   const r = data.result;
 
   const text = [
-    '═══ 左路魔法心理测试 ═══',
+    '\u2550\u2550\u2550 \u5DE6\u8DEF\u9B54\u6CD5\u5FC3\u7406\u6D4B\u8BD5 \u2550\u2550\u2550',
     '',
-    `等级：${r.level}（${r.title}）`,
-    `得分：${data.score} / ${data.maxScore}`,
+    '\u7B49\u7EA7\uFF1A' + r.level + '\uFF08' + r.title + '\uFF09',
+    '\u5F97\u5206\uFF1A' + data.score + ' / ' + data.maxScore + ' (' + data.percent + '%)',
     '',
-    `"${r.subtitle}"`,
+    '"' + r.subtitle + '"',
     '',
-    '在 apophis-dragon-magic/lhp-test.html 测试'
+    '\u5728 apophis-dragon-magic/lhp-test.html \u6D4B\u8BD5'
   ].join('\n');
 
-  // Try Web Share API
   if (navigator.share) {
-    navigator.share({ text: text }).catch(() => {});
+    navigator.share({ text: text }).catch(function() {});
   } else {
-    // Fallback: copy to clipboard
-    navigator.clipboard.writeText(text).then(() => {
-      showToast('结果已复制到剪贴板');
-    }).catch(() => {
-      // Final fallback
+    navigator.clipboard.writeText(text).then(function() {
+      showToast('\u7ED3\u679C\u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F');
+    }).catch(function() {
       const textarea = document.createElement('textarea');
       textarea.value = text;
       document.body.appendChild(textarea);
       textarea.select();
       document.execCommand('copy');
       document.body.removeChild(textarea);
-      showToast('结果已复制到剪贴板');
+      showToast('\u7ED3\u679C\u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F');
     });
   }
 }
@@ -1454,7 +1707,7 @@ function showToast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2500);
+  setTimeout(function() { el.classList.remove('show'); }, 2500);
 }
 
 // ===== KEYBOARD SUPPORT =====
@@ -1462,9 +1715,11 @@ document.addEventListener('keydown', function(e) {
   const quizScreen = document.getElementById('screen-quiz');
   if (!quizScreen.classList.contains('active')) return;
 
+  const qs = getActiveQuestions();
+  const total = qs.length;
+  const num = state.currentQuestion + 1;
+
   if (e.key === 'ArrowRight' || e.key === 'Enter') {
-    const total = questions.length;
-    const num = state.currentQuestion + 1;
     if (num < total) {
       nextQuestion();
     } else {
@@ -1472,10 +1727,10 @@ document.addEventListener('keydown', function(e) {
     }
   } else if (e.key === 'ArrowLeft') {
     prevQuestion();
-  } else if (e.key >= '1' && e.key <= '4') {
+  } else if (e.key >= '1' && e.key <= '5') {
     const idx = parseInt(e.key) - 1;
-    const q = questions[state.currentQuestion];
-    if (idx < q.options.length) {
+    const q = qs[state.currentQuestion];
+    if (idx < LIKERT_OPTIONS.length) {
       selectOption(q.id, idx);
     }
   }
@@ -1484,22 +1739,57 @@ document.addEventListener('keydown', function(e) {
 // ===== LOCAL STORAGE =====
 function saveState() {
   try {
-    localStorage.setItem('lhp_test_state', JSON.stringify(state));
+    localStorage.setItem('lhp_test_state_v2', JSON.stringify(state));
   } catch (e) {}
 }
 
 function loadState() {
   try {
-    const saved = localStorage.getItem('lhp_test_state');
+    const saved = localStorage.getItem('lhp_test_state_v2');
     if (saved) {
       const parsed = JSON.parse(saved);
       state.currentQuestion = parsed.currentQuestion || 0;
       state.answers = parsed.answers || {};
       state.started = parsed.started || false;
       state.completed = parsed.completed || false;
+      state.questionCount = parsed.questionCount || 15;
+      state.activeQIds = parsed.activeQIds || [];
     }
   } catch (e) {}
 }
+
+// ===== INIT =====
+function init() {
+  createStars();
+  loadState();
+  if (state.started && !state.completed) {
+    showScreen('screen-quiz');
+    renderQuestion();
+  } else if (state.completed) {
+    showScreen('screen-result');
+    renderResult();
+  } else {
+    showScreen('screen-start');
+  }
+  document.getElementById('questionCountDisplay').textContent = state.questionCount || 15;
+  // Sync set button
+  const qc = state.questionCount || 15;
+  document.querySelectorAll('.set-btn').forEach(function(b) {
+    b.classList.toggle('active', parseInt(b.dataset.set) === qc);
+  });
+  document.getElementById('timeEstimateDisplay').textContent = '~' + Math.round(qc / 2);
+}
+
+// ===== WINDOW RESIZE (redraw radar) =====
+window.addEventListener('resize', function() {
+  if (state.completed) {
+    const canvas = document.getElementById('radarCanvas');
+    if (canvas) {
+      const data = calculateResult();
+      drawRadarChart(data.breakdown);
+    }
+  }
+});
 
 // ===== INIT ON LOAD =====
 document.addEventListener('DOMContentLoaded', init);

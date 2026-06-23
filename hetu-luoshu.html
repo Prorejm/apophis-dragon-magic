@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿波菲斯 - 河图洛书</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Noto Serif SC',serif;
+  background:#0a0a0a;
+  color:#d4c5a9;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.8;
+}
+a{text-decoration:none}
+
+/* ===== ANIMATED BG ===== */
+.occult-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.occult-bg::before{
+  content:'';position:absolute;width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,168,67,0.04) 0%,transparent 70%);
+  top:-200px;right:-200px;animation:glowPulse 10s ease-in-out infinite;
+}
+.occult-bg::after{
+  content:'';position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(196,30,58,0.04) 0%,transparent 70%);
+  bottom:-180px;left:-180px;animation:glowPulse 12s ease-in-out infinite reverse;
+}
+@keyframes glowPulse{
+  0%,100%{opacity:0.3;transform:scale(1)}
+  50%{opacity:0.8;transform:scale(1.2)}
+}
+
+/* ===== PARTICLE CANVAS ===== */
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ===== CONTAINER ===== */
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:24px 24px 80px}
+
+/* ===== NAVIGATION ===== */
+.nav-bar{
+  display:flex;justify-content:center;gap:10px;padding:16px 12px 10px;
+  margin-bottom:8px;flex-wrap:wrap;border-bottom:1px solid rgba(212,168,67,0.08);
+}
+.nav-brand{
+  color:#d4a843;font-family:'Ma Shan Zheng',cursive;
+  font-size:1.05rem;letter-spacing:3px;white-space:nowrap;
+}
+.nav-link{
+  color:#8a7e6a;font-size:0.73rem;letter-spacing:1px;transition:color 0.3s;
+  position:relative;white-space:nowrap;padding:2px 4px;
+}
+.nav-link::after{
+  content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;
+  background:#d4a843;transition:width 0.3s;
+}
+.nav-link:hover,.nav-link.active{color:#d4a843}
+.nav-link:hover::after,.nav-link.active::after{width:100%}
+
+/* ===== HEADER ===== */
+.page-header{text-align:center;padding:30px 20px 10px}
+.page-header h1{
+  font-family:'Ma Shan Zheng',cursive;
+  font-size:clamp(2rem,5vw,3.2rem);color:#d4a843;
+  letter-spacing:8px;text-shadow:0 0 40px rgba(212,168,67,0.15);
+}
+.page-header .subtitle{
+  font-size:0.85rem;color:#8a7e6a;letter-spacing:3px;margin-top:4px;
+}
+.divider{
+  width:80px;height:1px;
+  background:linear-gradient(90deg,transparent,#d4a843,transparent);
+  margin:8px auto;
+}
+
+/* ===== TABS ===== */
+.tab-bar{
+  display:flex;justify-content:center;gap:3px;margin:16px 0 20px;flex-wrap:wrap;
+}
+.tab-btn{
+  background:transparent;border:1px solid rgba(212,168,67,0.15);
+  color:#8a7e6a;padding:7px 22px;border-radius:4px;cursor:pointer;
+  font-family:'Ma Shan Zheng',cursive;font-size:1.05rem;
+  letter-spacing:3px;transition:all 0.3s;
+}
+.tab-btn:hover{border-color:rgba(212,168,67,0.4);color:#d4a843}
+.tab-btn.active{
+  border-color:#d4a843;color:#d4a843;
+  background:rgba(212,168,67,0.08);box-shadow:0 0 20px rgba(212,168,67,0.1);
+}
+.tab-content{display:none;animation:fadeIn 0.6s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== CANVAS SECTION ===== */
+.canvas-section{
+  text-align:center;padding:20px;
+  background:rgba(26,26,26,0.6);
+  border:1px solid rgba(212,168,67,0.08);border-radius:16px;margin-bottom:20px;
+}
+.canvas-section h2{
+  font-family:'Ma Shan Zheng',cursive;color:#d4a843;
+  font-size:1.4rem;letter-spacing:6px;margin-bottom:12px;
+}
+.canvas-section canvas{
+  border-radius:12px;max-width:100%;height:auto;
+}
+.canvas-desc{
+  margin-top:14px;font-size:0.82rem;color:#8a7e6a;
+  line-height:1.9;max-width:600px;margin-left:auto;margin-right:auto;
+}
+
+/* ===== HOVER INFO BOX ===== */
+.hetu-info-box{
+  margin-top:12px;padding:12px 16px;
+  background:rgba(212,168,67,0.06);
+  border:1px solid rgba(212,168,67,0.12);border-radius:8px;
+  font-size:0.82rem;color:#d4c5a9;min-height:52px;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+}
+.hetu-info-box .highlight{color:#d4a843;font-weight:600}
+
+/* ===== LUOSHU ELEMENTS ===== */
+.square-info{margin-top:14px;font-size:0.82rem;color:#d4c5a9;line-height:2}
+.square-info .highlight{color:#d4a843;font-weight:600}
+.summary-msg{
+  margin-top:10px;padding:8px 16px;
+  background:rgba(212,168,67,0.08);
+  border:1px solid rgba(212,168,67,0.15);border-radius:8px;
+  font-size:0.82rem;color:#d4a843;display:inline-block;
+}
+
+/* ===== SCROLL QUOTE ===== */
+.scroll-quote{
+  position:relative;margin:20px auto;max-width:620px;
+  padding:24px 30px;
+  background:linear-gradient(135deg,rgba(40,35,25,0.7),rgba(26,24,20,0.8));
+  border:1px solid rgba(212,168,67,0.15);
+  border-radius:4px;font-style:italic;text-align:center;
+}
+.scroll-quote::before{
+  content:'「';position:absolute;top:4px;left:10px;
+  font-size:2rem;color:rgba(212,168,67,0.2);font-family:'Ma Shan Zheng',cursive;
+}
+.scroll-quote::after{
+  content:'」';position:absolute;bottom:4px;right:10px;
+  font-size:2rem;color:rgba(212,168,67,0.2);font-family:'Ma Shan Zheng',cursive;
+}
+.scroll-quote p{font-size:0.9rem;color:#d4c5a9;line-height:2}
+.scroll-quote .source{
+  margin-top:8px;font-size:0.78rem;color:#6a5e4e;font-style:normal;
+}
+
+/* ===== RELATIONSHIP SECTION ===== */
+.rel-section{
+  padding:20px;margin-bottom:20px;
+  background:rgba(26,26,26,0.5);
+  border:1px solid rgba(212,168,67,0.08);border-radius:16px;
+}
+.rel-section h2{
+  font-family:'Ma Shan Zheng',cursive;color:#d4a843;
+  font-size:1.3rem;letter-spacing:6px;text-align:center;margin-bottom:16px;
+}
+.rel-section h3{
+  font-family:'Ma Shan Zheng',cursive;color:#d4a843;
+  font-size:1.1rem;letter-spacing:4px;margin:16px 0 8px;
+  padding-left:12px;border-left:2px solid rgba(212,168,67,0.3);
+}
+.rel-section p{font-size:0.85rem;color:#d4c5a9;margin-bottom:10px;text-indent:2em}
+.rel-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;
+}
+@media(max-width:640px){.rel-grid{grid-template-columns:1fr}}
+.rel-card{
+  padding:14px;background:rgba(26,26,26,0.6);
+  border:1px solid rgba(212,168,67,0.1);border-radius:10px;text-align:center;
+}
+.rel-card .num{font-size:1.8rem;color:#d4a843;font-weight:700;}
+.rel-card .label{font-size:0.78rem;color:#6a5e4e;margin-top:2px;}
+.rel-card .desc{font-size:0.78rem;color:#d4c5a9;margin-top:4px;}
+
+/* ===== ELEMENT DIAGRAM ===== */
+.elem-section{
+  text-align:center;padding:20px;
+  background:rgba(26,26,26,0.5);
+  border:1px solid rgba(212,168,67,0.08);border-radius:16px;margin-bottom:20px;
+}
+.elem-section h2{
+  font-family:'Ma Shan Zheng',cursive;color:#d4a843;
+  font-size:1.3rem;letter-spacing:6px;margin-bottom:8px;
+}
+.elem-toggle-group{
+  display:flex;justify-content:center;gap:8px;margin-bottom:14px;
+}
+.elem-toggle-btn{
+  padding:6px 20px;border:1px solid rgba(212,168,67,0.15);border-radius:4px;
+  background:transparent;color:#8a7e6a;cursor:pointer;
+  font-family:'Ma Shan Zheng',cursive;font-size:1rem;
+  letter-spacing:3px;transition:all 0.3s;
+}
+.elem-toggle-btn:hover{border-color:rgba(212,168,67,0.4);color:#d4a843}
+.elem-toggle-btn.active{border-color:#d4a843;color:#d4a843;background:rgba(212,168,67,0.08)}
+.elem-info{
+  margin-top:10px;padding:10px 16px;
+  background:rgba(212,168,67,0.05);border-radius:8px;
+  font-size:0.82rem;color:#d4c5a9;min-height:44px;
+}
+.elem-table{
+  max-width:500px;margin:14px auto 0;
+  border-collapse:collapse;font-size:0.8rem;
+}
+.elem-table td{
+  padding:8px 12px;border:1px solid rgba(212,168,67,0.1);
+  text-align:center;
+}
+.elem-table th{
+  padding:8px 12px;border:1px solid rgba(212,168,67,0.15);
+  background:rgba(212,168,67,0.08);color:#d4a843;
+  font-family:'Ma Shan Zheng',cursive;font-weight:400;letter-spacing:2px;
+}
+
+/* ===== DIVINATION MODULE ===== */
+.div-section{
+  padding:24px;margin-bottom:20px;
+  background:rgba(26,26,26,0.5);
+  border:1px solid rgba(212,168,67,0.08);border-radius:16px;text-align:center;
+}
+.div-section h2{
+  font-family:'Ma Shan Zheng',cursive;color:#d4a843;
+  font-size:1.3rem;letter-spacing:6px;margin-bottom:6px;
+}
+.div-section .sub{
+  font-size:0.78rem;color:#6a5e4e;letter-spacing:2px;margin-bottom:16px;
+}
+.div-input-group{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:16px;
+}
+.div-input-group input{
+  padding:10px 16px;border:1px solid rgba(212,168,67,0.2);border-radius:6px;
+  background:rgba(26,26,26,0.8);color:#d4c5a9;font-size:0.9rem;
+  font-family:'Noto Serif SC',serif;min-width:260px;outline:none;
+  transition:border-color 0.3s;
+}
+.div-input-group input:focus{border-color:#d4a843}
+.div-input-group input::placeholder{color:#5a4e3e}
+.div-btn{
+  padding:10px 32px;border:1px solid #d4a843;border-radius:6px;
+  background:rgba(212,168,67,0.1);color:#d4a843;cursor:pointer;
+  font-family:'Ma Shan Zheng',cursive;font-size:1.2rem;letter-spacing:6px;
+  transition:all 0.3s;white-space:nowrap;
+}
+.div-btn:hover{background:rgba(212,168,67,0.2);box-shadow:0 0 30px rgba(212,168,67,0.15);}
+.div-btn:disabled{opacity:0.4;cursor:not-allowed}
+.div-result{
+  display:none;margin-top:16px;animation:fadeIn 0.6s ease;
+}
+.div-result.show{display:block}
+.div-canvas-wrap{position:relative;display:inline-block}
+#divinationCanvas{border-radius:12px;max-width:100%}
+.div-result-card{
+  margin-top:16px;padding:20px;border-radius:12px;
+  background:rgba(26,20,16,0.8);
+  border:1px solid rgba(212,168,67,0.15);text-align:left;
+}
+.div-result-card h3{
+  font-family:'Ma Shan Zheng',cursive;color:#d4a843;
+  font-size:1.15rem;letter-spacing:4px;margin-bottom:10px;text-align:center;
+}
+.sancai-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0;
+}
+.sancai-card{
+  padding:14px 10px;text-align:center;border-radius:8px;
+  background:rgba(26,26,26,0.6);border:1px solid rgba(212,168,67,0.08);
+}
+.sancai-card .sc-label{
+  font-size:0.75rem;color:#6a5e4e;letter-spacing:2px;
+}
+.sancai-card .sc-value{
+  font-family:'Ma Shan Zheng',cursive;font-size:1.3rem;color:#d4a843;margin:4px 0;
+}
+.sancai-card .sc-desc{font-size:0.75rem;color:#d4c5a9}
+.sancai-card.heaven{border-color:rgba(212,168,67,0.25)}
+.sancai-card.earth{border-color:rgba(196,30,58,0.25)}
+.sancai-card.human{border-color:rgba(100,180,200,0.25)}
+.div-interp{
+  margin-top:12px;padding:14px;border-radius:8px;
+  background:rgba(212,168,67,0.04);
+  border:1px solid rgba(212,168,67,0.08);text-align:center;
+}
+.div-interp p{font-size:0.85rem;color:#d4c5a9;line-height:1.9}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:640px){
+  .nav-bar{gap:6px;padding:12px 6px 6px}
+  .nav-link{font-size:0.65rem}
+  .nav-brand{font-size:0.9rem}
+  .tab-btn{padding:6px 14px;font-size:0.95rem;letter-spacing:2px}
+  .scroll-quote{padding:18px 20px}
+}
+
+/* ===== INK BORDER ===== */
+.ink-border{position:relative}
+.ink-border::before{
+  content:'';position:absolute;inset:-4px;
+  border:1px solid rgba(212,168,67,0.06);border-radius:18px;pointer-events:none;
+}
+
+/* ===== FLYING STAR PATH ===== */
+.flying-star-info{
+  margin-top:10px;padding:8px 12px;border-radius:8px;
+  background:rgba(196,30,58,0.06);
+  border:1px solid rgba(196,30,58,0.12);font-size:0.82rem;color:#d4c5a9;
+  display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;
+}
+.flying-star-info .path-step{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(212,168,67,0.1);color:#d4a843;
+  font-size:0.75rem;font-weight:700;transition:all 0.3s;
+}
+.flying-star-info .path-step.active{
+  background:#d4a843;color:#0a0a0a;transform:scale(1.2);
+}
+.flying-star-info .path-arrow{color:#6a5e4e;font-size:0.7rem}
+
+/* ===== TURTLE STORY ===== */
+.turtle-story{
+  margin-top:12px;padding:16px 20px;
+  background:rgba(26,35,20,0.3);
+  border:1px solid rgba(100,160,60,0.1);border-radius:8px;
+  text-align:left;font-size:0.8rem;color:#b0a890;line-height:2;
+}
+.turtle-story .story-title{
+  font-family:'Ma Shan Zheng',cursive;color:#8ab86a;
+  font-size:1.05rem;letter-spacing:4px;text-align:center;margin-bottom:6px;
+}
+
+/* ===== ELEMENT COLOR REFS ===== */
+.elem-water{color:#4a8cbf}
+.elem-fire{color:#c41e3a}
+.elem-wood{color:#5a9a5a}
+.elem-metal{color:#d4a843}
+.elem-earth{color:#b08050}
+.bg-water{background:rgba(40,80,130,0.2)}
+.bg-fire{background:rgba(180,30,50,0.2)}
+.bg-wood{background:rgba(60,130,60,0.2)}
+.bg-metal{background:rgba(180,140,50,0.2)}
+.bg-earth{background:rgba(140,100,60,0.2)}
+.bdr-water{border-color:rgba(60,120,180,0.3)!important}
+.bdr-fire{border-color:rgba(180,40,60,0.3)!important}
+.bdr-wood{border-color:rgba(80,150,80,0.3)!important}
+.bdr-metal{border-color:rgba(200,160,60,0.3)!important}
+.bdr-earth{border-color:rgba(160,120,70,0.3)!important}
+</style>
+</head>
+<body>
+<div class="occult-bg"></div>
+<canvas id="particleCanvas"></canvas>
+
+<div class="container">
+  <!-- Navigation -->
+  <nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link active">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+</nav>
+
+  <!-- Header -->
+  <header class="page-header">
+    <h1>河图洛书</h1>
+    <div class="divider"></div>
+    <p class="subtitle">河出图，洛出书，圣人则之 ——《易经·系辞》</p>
+  </header>
+
+  <!-- Tab Navigation -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="hetu">河图</button>
+    <button class="tab-btn" data-tab="luoshu">洛书</button>
+    <button class="tab-btn" data-tab="relation">河洛关系</button>
+    <button class="tab-btn" data-tab="elements">河洛与五行</button>
+    <button class="tab-btn" data-tab="divination">河洛占卜</button>
+  </div>
+
+  <!-- ========== TAB 1: 河图 ========== -->
+  <div class="tab-content active" id="tab-hetu">
+    <div class="canvas-section ink-border">
+      <h2>—— 河图 ——</h2>
+      <canvas id="hetuCanvas" width="560" height="560"></canvas>
+      <div class="hetu-info-box" id="hetuInfo">
+        <span>悬停于任意方位查看详解</span>
+      </div>
+      <div class="canvas-desc">
+        <p>河图以十数合五方、五行、阴阳、天地之象。<strong style="color:#f0e8d8;">白点为阳</strong>（天数/奇数），<strong style="color:#6a5e4e;">黑点为阴</strong>（地数/偶数）。</p>
+        <p style="margin-top:6px;font-size:0.78rem;color:#6a5e4e;">
+          天一生水，地六成之 &nbsp;·&nbsp; 地二生火，天七成之 &nbsp;·&nbsp;
+          天三生木，地八成之 &nbsp;·&nbsp; 地四生金，天九成之 &nbsp;·&nbsp;
+          天五生土，地十成之
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TAB 2: 洛书 ========== -->
+  <div class="tab-content" id="tab-luoshu">
+    <div class="canvas-section ink-border">
+      <h2>—— 洛书 ——</h2>
+      <canvas id="luoshuCanvas" width="560" height="560"></canvas>
+
+      <div class="flying-star-info" id="flyingStarInfo">
+        <span style="color:#8a7e6a;font-size:0.75rem;">飞星轨迹：</span>
+        <span class="path-step" data-step="0">5</span><span class="path-arrow">→</span>
+        <span class="path-step" data-step="1">6</span><span class="path-arrow">→</span>
+        <span class="path-step" data-step="2">7</span><span class="path-arrow">→</span>
+        <span class="path-step" data-step="3">8</span><span class="path-arrow">→</span>
+        <span class="path-step" data-step="4">9</span><span class="path-arrow">→</span>
+        <span class="path-step" data-step="5">1</span><span class="path-arrow">→</span>
+        <span class="path-step" data-step="6">2</span><span class="path-arrow">→</span>
+        <span class="path-step" data-step="7">3</span><span class="path-arrow">→</span>
+        <span class="path-step" data-step="8">4</span>
+        <button id="flyToggle" style="margin-left:8px;padding:2px 10px;border:1px solid rgba(212,168,67,0.2);border-radius:4px;background:transparent;color:#8a7e6a;cursor:pointer;font-size:0.7rem;font-family:inherit;">播放</button>
+      </div>
+
+      <div class="square-info" id="luoshuInfo">
+        <p>戴九履一，左三右七，二四为肩，六八为足，五居中央</p>
+        <p class="highlight">每行、每列、对角线之和皆为 <span style="color:#d4a843;font-size:1.3rem;font-weight:700;">15</span></p>
+        <div class="summary-msg" id="magicSummary">点击任意格子查看详情</div>
+      </div>
+
+      <div class="turtle-story">
+        <div class="story-title">◇ 神龟负书 ◇</div>
+        <p>相传大禹治水时，洛阳西洛水中浮出一只神龟，龟背上排列着黑白圈点，构成九宫之数——戴九履一，左三右七，二四为肩，六八为足，五居中央。大禹据此作《洪范》九畴，治理天下。此即"洛书"之由来。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TAB 3: 河洛关系 ========== -->
+  <div class="tab-content" id="tab-relation">
+    <div class="rel-section">
+      <h2>—— 河洛关系 ——</h2>
+
+      <div class="scroll-quote">
+        <p>河出图，洛出书，圣人则之。易有四象，所以示也；系辞焉，所以告也；定之以吉凶，所以断也。</p>
+        <div class="source">——《易经·系辞上》</div>
+      </div>
+
+      <h3>生成数之理</h3>
+      <p>河图之数分"生数"与"成数"。生数为 1、2、3、4、5，代表万物的初始萌发；成数为 6、7、8、9、10，代表万物的完成显现。生数居内圈，成数居外圈，内外相合，阴阳匹配。</p>
+      <p>每一对生成数均为相差五的关系：1→6、2→7、3→8、4→9、5→10，五为中央土数，故曰"土生万物，万物归土"。</p>
+
+      <div class="rel-grid">
+        <div class="rel-card"><div class="num">1 → 6</div><div class="label">北 · 水</div><div class="desc">天一生水，地六成之</div></div>
+        <div class="rel-card"><div class="num">2 → 7</div><div class="label">南 · 火</div><div class="desc">地二生火，天七成之</div></div>
+        <div class="rel-card"><div class="num">3 → 8</div><div class="label">东 · 木</div><div class="desc">天三生木，地八成之</div></div>
+        <div class="rel-card"><div class="num">4 → 9</div><div class="label">西 · 金</div><div class="desc">地四生金，天九成之</div></div>
+        <div class="rel-card" style="grid-column:1/-1;max-width:240px;margin:0 auto;"><div class="num">5 → 10</div><div class="label">中 · 土</div><div class="desc">天五生土，地十成之</div></div>
+      </div>
+
+      <h3>河洛与八卦</h3>
+      <p>河图定八卦之体，洛书定八卦之用。河图之数演化为先天八卦方位：乾南（9）、坤北（1）、离东（3）、坎西（7）、兑东南（4）、震东北（8）、巽西南（2）、艮西北（6）。</p>
+      <p>洛书之数演化为后天八卦方位：离南（9）、坎北（1）、震东（3）、兑西（7）、巽东南（4）、乾西北（6）、艮东北（8）、坤西南（2）。</p>
+      <p>故曰："河图为体，洛书为用；河图为常，洛书为变。"</p>
+
+      <h3>天地之数</h3>
+      <p>河图总数为五十五（1+2+3+4+5+6+7+8+9+10=55），此为"天地之数"。天数（奇数）之和为二十五（1+3+5+7+9=25），地数（偶数）之和为三十（2+4+6+8+10=30）。天数二十五、地数三十，合之五十五，象征天地交泰、万物化生。</p>
+      <p>洛书总数为四十五（1+2+3+4+5+6+7+8+9=45），每行/每列/对角线之和皆为十五，三行之和四十五。十五为三五之合，代表天地人三才各得其五。</p>
+    </div>
+  </div>
+
+  <!-- ========== TAB 4: 河洛与五行 ========== -->
+  <div class="tab-content" id="tab-elements">
+    <div class="elem-section ink-border">
+      <h2>—— 河洛与五行 ——</h2>
+      <div class="elem-toggle-group">
+        <button class="elem-toggle-btn active" data-elem-view="sheng">相生</button>
+        <button class="elem-toggle-btn" data-elem-view="ke">相克</button>
+      </div>
+      <canvas id="elemCanvas" width="480" height="400"></canvas>
+      <div class="elem-info" id="elemInfo">河图之序为相生：水→木→火→土→金→水</div>
+
+      <table class="elem-table">
+        <thead><tr><th>方位</th><th>五行</th><th>河图数</th><th>洛书数</th><th>生成关系</th></tr></thead>
+        <tbody>
+          <tr><td>北</td><td class="elem-water">水</td><td>1 · 6</td><td>1</td><td>水生木</td></tr>
+          <tr><td>南</td><td class="elem-fire">火</td><td>2 · 7</td><td>9</td><td>火生土</td></tr>
+          <tr><td>东</td><td class="elem-wood">木</td><td>3 · 8</td><td>3</td><td>木生火</td></tr>
+          <tr><td>西</td><td class="elem-metal">金</td><td>4 · 9</td><td>7</td><td>金生水</td></tr>
+          <tr><td>中</td><td class="elem-earth">土</td><td>5 · 10</td><td>5</td><td>土生金</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== TAB 5: 河洛占卜 ========== -->
+  <div class="tab-content" id="tab-divination">
+    <div class="div-section ink-border">
+      <h2>—— 河洛占卜 ——</h2>
+      <p class="sub">以河图之体、洛书之用，合天地人三才，断吉凶休咎</p>
+
+      <div class="div-input-group">
+        <input type="text" id="divQuestion" placeholder="请输入您所问之事..." maxlength="60">
+        <button class="div-btn" id="divBtn">起卦</button>
+      </div>
+
+      <div class="div-result" id="divResult">
+        <div class="div-canvas-wrap">
+          <canvas id="divinationCanvas" width="400" height="300"></canvas>
+        </div>
+        <div class="div-result-card" id="divResultCard">
+          <h3>⚲ 卦象解读</h3>
+          <div class="sancai-grid" id="sancaiGrid"></div>
+          <div class="div-interp" id="divInterp"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== PARTICLE BACKGROUND =====
+(function(){
+  const c=document.getElementById('particleCanvas');
+  const ctx=c.getContext('2d');
+  let w,h,particles=[];
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight}
+  resize();
+  window.addEventListener('resize',resize);
+  for(let i=0;i<60;i++){
+    particles.push({
+      x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+0.5,
+      vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.3,
+      a:Math.random()*0.4+0.1
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=w;if(p.x>w)p.x=0;
+      if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(212,168,67,${p.a})`;ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ===== TABS =====
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab==='hetu')drawHetu();
+    if(btn.dataset.tab==='luoshu'){drawLuoshu();resetFlyingStar();}
+    if(btn.dataset.tab==='elements')drawElemDiagram('sheng');
+    if(btn.dataset.tab==='divination'&&document.getElementById('divResult').classList.contains('show')){
+      drawDivResult();
+    }
+  });
+});
+
+// ============================================================
+// SECTION 1: 河图 (He Tu)
+// ============================================================
+const hetuData={
+  north:{label:'北 · 水',element:'水',sheng:1,cheng:6,shengText:'天一生水，地六成之',desc:'北方属水，其数一六。水性润下，主智、主藏、主冬。一为阳水，六为阴水。',color:'#4a8cbf'},
+  south:{label:'南 · 火',element:'火',sheng:2,cheng:7,shengText:'地二生火，天七成之',desc:'南方属火，其数二七。火性炎上，主礼、主明、主夏。二为阴火，七为阳火。',color:'#c41e3a'},
+  east:{label:'东 · 木',element:'木',sheng:3,cheng:8,shengText:'天三生木，地八成之',desc:'东方属木，其数三八。木性生发，主仁、主生、主春。三为阳木，八为阴木。',color:'#5a9a5a'},
+  west:{label:'西 · 金',element:'金',sheng:4,cheng:9,shengText:'地四生金，天九成之',desc:'西方属金，其数四九。金性肃杀，主义、主收、主秋。四为阴金，九为阳金。',color:'#d4a843'},
+  center:{label:'中 · 土',element:'土',sheng:5,cheng:10,shengText:'天五生土，地十成之',desc:'中央属土，其数五十。土性中和，主信、主化、主四季。五为阳土，十为阴土。',color:'#b08050'}
+};
+
+function drawHetu(){
+  const canvas=document.getElementById('hetuCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const cx=W/2,cy=H/2;
+  const innerR=70,outerR=165;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0f0f0e';ctx.fillRect(0,0,W,H);
+
+  // Decorative circles
+  ctx.beginPath();ctx.arc(cx,cy,outerR+50,0,Math.PI*2);
+  ctx.strokeStyle='rgba(212,168,67,0.05)';ctx.lineWidth=1;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,outerR+28,0,Math.PI*2);
+  ctx.strokeStyle='rgba(212,168,67,0.03)';ctx.lineWidth=1;ctx.setLineDash([4,8]);ctx.stroke();ctx.setLineDash([]);
+
+  // Cardinal lines
+  ctx.strokeStyle='rgba(212,168,67,0.06)';ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.moveTo(cx-outerR-40,cy);ctx.lineTo(cx+outerR+40,cy);
+  ctx.moveTo(cx,cy-outerR-40);ctx.lineTo(cx,cy+outerR+40);
+  ctx.stroke();
+
+  function drawDot(x,y,isWhite){
+    ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);
+    if(isWhite){
+      ctx.fillStyle='#f0e8d8';ctx.shadowColor='rgba(240,232,216,0.3)';
+    }else{
+      ctx.fillStyle='#1a1a1a';ctx.strokeStyle='#8a7e6e';ctx.lineWidth=1.5;
+      ctx.shadowColor='rgba(138,126,110,0.2)';
+    }
+    ctx.shadowBlur=8;ctx.fill();
+    if(!isWhite)ctx.stroke();
+    ctx.shadowBlur=0;
+  }
+
+  function drawDirDots(baseX,baseY,shengNum,chengNum,dx,dy){
+    // inner dots (generating number) - closer to center
+    const shengOdd=shengNum%2===1;
+    for(let i=0;i<shengNum;i++){
+      const angle=Math.PI*2*i/shengNum-Math.PI/2;
+      const rx=12*Math.cos(angle),ry=12*Math.sin(angle);
+      drawDot(baseX-dx*18+rx,baseY-dy*18+ry,shengOdd);
+    }
+    // outer dots (completing number) - further from center
+    const chengOdd=chengNum%2===1;
+    for(let i=0;i<chengNum;i++){
+      const angle=Math.PI*2*i/chengNum;
+      const rx=14*Math.cos(angle),ry=14*Math.sin(angle);
+      drawDot(baseX+dx*22+rx,baseY+dy*22+ry,chengOdd);
+    }
+    // Label
+    ctx.font='12px "Noto Serif SC",serif';
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(212,168,67,0.4)';
+    const lx=baseX+(dx*34),ly=baseY+(dy*34);
+    ctx.fillText(shengNum+' · '+chengNum,lx,ly+(dy===0?8:(dy>0?6:-6)));
+  }
+
+  // South (top): 2(inner black) + 7(outer white) = 火
+  drawDirDots(cx,cy-innerR,2,7,0,-1);
+  // North (bottom): 1(inner white) + 6(outer black) = 水
+  drawDirDots(cx,cy+innerR,1,6,0,1);
+  // East (left): 3(inner white) + 8(outer black) = 木
+  drawDirDots(cx-innerR,cy,3,8,-1,0);
+  // West (right): 4(inner black) + 9(outer white) = 金
+  drawDirDots(cx+innerR,cy,4,9,1,0);
+  // Center: 5(white) + 10(black)
+  for(let i=0;i<5;i++){
+    const angle=Math.PI*2*i/5-Math.PI/2;
+    drawDot(cx+12*Math.cos(angle),cy+12*Math.sin(angle),true);
+  }
+  for(let i=0;i<10;i++){
+    const angle=Math.PI*2*i/10;
+    drawDot(cx+26*Math.cos(angle),cy+26*Math.sin(angle),false);
+  }
+
+  // Direction labels
+  const dirs=[
+    {x:cx,y:cy-innerR-48,text:'南·火',color:'#c41e3a'},
+    {x:cx,y:cy+innerR+48,text:'北·水',color:'#4a8cbf'},
+    {x:cx-innerR-48,y:cy,text:'东·木',color:'#5a9a5a'},
+    {x:cx+innerR+48,y:cy,text:'西·金',color:'#d4a843'},
+    {x:cx,y:cy+56,text:'中·土',color:'#b08050'}
+  ];
+  dirs.forEach(d=>{
+    ctx.font='14px "Ma Shan Zheng",cursive';ctx.textAlign='center';
+    ctx.textBaseline='middle';ctx.fillStyle=d.color;
+    ctx.shadowColor=d.color+'40';ctx.shadowBlur=12;
+    ctx.fillText(d.text,d.x,d.y);
+    ctx.shadowBlur=0;
+  });
+
+  // Title
+  ctx.font='11px "Noto Serif SC",serif';
+  ctx.fillStyle='rgba(138,126,106,0.25)';ctx.textAlign='center';ctx.textBaseline='bottom';
+  ctx.fillText('河 出 图',cx,H-8);
+}
+
+// He Tu hover interaction
+(function(){
+  const canvas=document.getElementById('hetuCanvas');
+  const info=document.getElementById('hetuInfo');
+  canvas.addEventListener('mousemove',(e)=>{
+    const rect=canvas.getBoundingClientRect();
+    const scale=canvas.width/rect.width;
+    const mx=(e.clientX-rect.left)*scale,my=(e.clientY-rect.top)*scale;
+    const cx=canvas.width/2,cy=canvas.height/2;
+    const dx=mx-cx,dy=my-cy;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    let key=null;
+    if(dist<40){key='center';}
+    else if(dist<200){
+      const angle=Math.atan2(dy,dx);
+      const a180=angle*180/Math.PI;
+      if(a180>-45&&a180<=45)key='west';
+      else if(a180>45&&a180<=135)key='south';
+      else if(a180>135||a180<=-135)key='east';
+      else key='north';
+    }
+    if(key&&hetuData[key]){
+      const d=hetuData[key];
+      info.innerHTML=`<span class="highlight">【${d.label}】</span> ${d.shengText} | ${d.desc}`;
+    }else{
+      info.innerHTML=`<span>悬停于任意方位查看详解</span>`;
+    }
+  });
+  canvas.addEventListener('mouseleave',()=>{
+    info.innerHTML=`<span>悬停于任意方位查看详解</span>`;
+  });
+})();
+
+drawHetu();
+
+// ============================================================
+// SECTION 2: 洛书 (Luo Shu)
+// ============================================================
+const luoshuNums=[
+  [4,9,2],
+  [3,5,7],
+  [8,1,6]
+];
+const luoshuLabels=[
+  ['四','九','二'],
+  ['三','五','七'],
+  ['八','一','六']
+];
+const elementMap={
+  1:{elem:'水',color:'#4a8cbf',bg:'rgba(40,80,130,0.25)',dir:'北',gua:'坎'},
+  2:{elem:'土',color:'#b08050',bg:'rgba(140,100,60,0.25)',dir:'西南',gua:'坤'},
+  3:{elem:'木',color:'#5a9a5a',bg:'rgba(60,130,60,0.25)',dir:'东',gua:'震'},
+  4:{elem:'木',color:'#5a9a5a',bg:'rgba(60,130,60,0.25)',dir:'东南',gua:'巽'},
+  5:{elem:'土',color:'#b08050',bg:'rgba(140,100,60,0.25)',dir:'中',gua:'中'},
+  6:{elem:'金',color:'#d4a843',bg:'rgba(180,140,50,0.25)',dir:'西北',gua:'乾'},
+  7:{elem:'金',color:'#d4a843',bg:'rgba(180,140,50,0.25)',dir:'西',gua:'兑'},
+  8:{elem:'土',color:'#b08050',bg:'rgba(140,100,60,0.25)',dir:'东北',gua:'艮'},
+  9:{elem:'火',color:'#c41e3a',bg:'rgba(180,30,50,0.25)',dir:'南',gua:'离'}
+};
+let selectedLuoshuCell=null;
+let flyStep=-1;
+
+function drawLuoshu(hRow,hCol){
+  const canvas=document.getElementById('luoshuCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const cellSize=130;
+  const ox=(W-cellSize*3)/2,oy=(H-cellSize*3)/2-16;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0f0f0e';ctx.fillRect(0,0,W,H);
+
+  const flyPath=[5,6,7,8,9,1,2,3,4];
+  const flyPos={};
+  for(let r=0;r<3;r++)for(let c=0;c<3;c++){
+    flyPos[luoshuNums[r][c]]=[r,c];
+  }
+
+  for(let r=0;r<3;r++){
+    for(let c=0;c<3;c++){
+      const num=luoshuNums[r][c];
+      const em=elementMap[num];
+      const isHL=hRow===r&&hCol===c;
+      const isSel=selectedLuoshuCell&&selectedLuoshuCell[0]===r&&selectedLuoshuCell[1]===c;
+      const isFly=flyStep>=0&&flyPath[flyStep]===num;
+
+      // Cell background
+      ctx.fillStyle=isFly?em.bg.replace('0.25','0.45'):(isHL?em.bg:(isSel?em.bg:'rgba(26,26,26,0.4)'));
+      ctx.fillRect(ox+c*cellSize+2,oy+r*cellSize+2,cellSize-4,cellSize-4);
+
+      // Border
+      ctx.strokeStyle=isFly?em.color:(isHL?em.color:(isSel?em.color:'rgba(212,168,67,0.06)'));
+      ctx.lineWidth=isFly?3:(isHL?2:1);
+      if(isFly)ctx.shadowColor=em.color;ctx.shadowBlur=isFly?16:0;
+      ctx.strokeRect(ox+c*cellSize+2,oy+r*cellSize+2,cellSize-4,cellSize-4);
+      ctx.shadowBlur=0;
+
+      const ccx=ox+c*cellSize+cellSize/2,ccy=oy+r*cellSize+cellSize/2;
+
+      // Draw number dots
+      const dotPos=[
+        [],
+        [[0,0]],
+        [[-10,-10],[10,10]],
+        [[-10,-10],[0,0],[10,10]],
+        [[-10,-10],[10,-10],[-10,10],[10,10]],
+        [[-10,-10],[10,-10],[0,0],[-10,10],[10,10]],
+        [[-10,-16],[10,-16],[-16,0],[16,0],[-10,16],[10,16]],
+        [[-12,-18],[12,-18],[-18,0],[0,0],[18,0],[-12,18],[12,18]],
+        [[-12,-18],[12,-18],[-18,0],[0,-6],[18,0],[-12,18],[12,18],[0,10]],
+        [[-12,-20],[12,-20],[-20,0],[0,-8],[20,0],[-12,20],[12,20],[-4,-20],[4,20]]
+      ];
+      const pts=dotPos[num]||[[0,0]];
+      const dotScale=isFly?1.3:1;
+      pts.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(ccx+p[0]*dotScale,ccy+p[1]*dotScale,5*dotScale,0,Math.PI*2);
+        ctx.fillStyle=isFly?'#fff':em.color;
+        ctx.shadowColor=em.color;ctx.shadowBlur=isFly?12:6;
+        ctx.fill();ctx.shadowBlur=0;
+      });
+
+      // Chinese label
+      ctx.font='9px "Noto Serif SC",serif';
+      ctx.fillStyle='rgba(138,126,106,0.4)';ctx.textAlign='center';
+      ctx.textBaseline='bottom';ctx.fillText(luoshuLabels[r][c],ccx,ccy-28);
+      // Number
+      ctx.font='bold 13px "Noto Serif SC",serif';
+      ctx.fillStyle=em.color;ctx.textBaseline='top';
+      ctx.fillText(num,ccx,ccy+26);
+      // Element + direction
+      ctx.font='8px "Noto Serif SC",serif';
+      ctx.fillStyle='rgba(138,126,106,0.3)';ctx.textBaseline='top';
+      ctx.fillText(em.elem+' · '+em.dir,ccx,ccy+42);
+    }
+  }
+
+  // Grid lines
+  ctx.strokeStyle='rgba(212,168,67,0.04)';ctx.lineWidth=1;
+  for(let i=0;i<=3;i++){
+    ctx.beginPath();ctx.moveTo(ox+i*cellSize,oy);ctx.lineTo(ox+i*cellSize,oy+cellSize*3);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(ox,oy+i*cellSize);ctx.lineTo(ox+cellSize*3,oy+i*cellSize);ctx.stroke();
+  }
+
+  if(hRow!==undefined&&hCol!==undefined){
+    const num=luoshuNums[hRow][hCol];
+    let rowSum=0,colSum=0;
+    for(let i=0;i<3;i++){rowSum+=luoshuNums[hRow][i];colSum+=luoshuNums[i][hCol];}
+    const d1=luoshuNums[0][0]+luoshuNums[1][1]+luoshuNums[2][2];
+    const d2=luoshuNums[0][2]+luoshuNums[1][1]+luoshuNums[2][0];
+    let msg=`【${luoshuLabels[hRow][hCol]}】=${num} | 行:${rowSum} 列:${colSum}`;
+    if(hRow===hCol)msg+=` 主对角:${d1}`;
+    if(hRow+hCol===2)msg+=` 副对角:${d2}`;
+    document.getElementById('magicSummary').textContent=msg;
+  }
+}
+
+// Luoshu click
+document.getElementById('luoshuCanvas').addEventListener('click',(e)=>{
+  const canvas=document.getElementById('luoshuCanvas');
+  const rect=canvas.getBoundingClientRect();
+  const scale=canvas.width/rect.width;
+  const mx=(e.clientX-rect.left)*scale,my=(e.clientY-rect.top)*scale;
+  const cellSize=130,ox=(canvas.width-cellSize*3)/2,oy=(canvas.height-cellSize*3)/2-16;
+  const col=Math.floor((mx-ox)/cellSize),row=Math.floor((my-oy)/cellSize);
+  if(row>=0&&row<3&&col>=0&&col<3){
+    selectedLuoshuCell=[row,col];
+    drawLuoshu(row,col);
+  }
+});
+drawLuoshu();
+
+// ===== Flying Star Animation =====
+let flyTimer=null;
+function resetFlyingStar(){
+  clearInterval(flyTimer);flyTimer=null;flyStep=-1;
+  document.querySelectorAll('.path-step').forEach(el=>el.classList.remove('active'));
+  document.getElementById('flyToggle').textContent='播放';
+}
+document.getElementById('flyToggle').addEventListener('click',function(){
+  if(flyTimer!==null){
+    resetFlyingStar();
+    drawLuoshu();
+    return;
+  }
+  this.textContent='停止';
+  flyStep=0;
+  const steps=document.querySelectorAll('.path-step');
+  const flyPath=[5,6,7,8,9,1,2,3,4];
+  drawLuoshu();
+  steps.forEach(el=>el.classList.remove('active'));
+  if(steps[flyStep])steps[flyStep].classList.add('active');
+
+  flyTimer=setInterval(()=>{
+    flyStep++;
+    if(flyStep>=9){
+      clearInterval(flyTimer);flyTimer=null;
+      flyStep=-1;document.getElementById('flyToggle').textContent='播放';
+      drawLuoshu();
+      return;
+    }
+    steps.forEach(el=>el.classList.remove('active'));
+    if(steps[flyStep])steps[flyStep].classList.add('active');
+    drawLuoshu();
+  },900);
+});
+
+// ============================================================
+// SECTION 4: 河洛与五行 (Element Diagram)
+// ============================================================
+let currentElemView='sheng';
+
+function drawElemDiagram(view){
+  currentElemView=view;
+  const canvas=document.getElementById('elemCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0f0f0e';ctx.fillRect(0,0,W,H);
+
+  const cx=W/2,cy=H/2;
+  const radius=125;
+  const labelR=155;
+
+  const elements=[
+    {name:'水',color:'#4a8cbf',angle:-90},
+    {name:'木',color:'#5a9a5a',angle:18},
+    {name:'火',color:'#c41e3a',angle:126},
+    {name:'土',color:'#b08050',angle:198},
+    {name:'金',color:'#d4a843',angle:306}
+  ];
+
+  // Draw pentagon
+  ctx.beginPath();
+  elements.forEach((e,i)=>{
+    const a=e.angle*Math.PI/180;
+    const x=cx+radius*Math.cos(a),y=cy+radius*Math.sin(a);
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.strokeStyle='rgba(212,168,67,0.08)';ctx.lineWidth=1;ctx.stroke();
+
+  // Draw cycle arrows
+  const cycle=view==='sheng'
+    ?[0,1,2,3,4]
+    :[[0,2],[2,4],[4,1],[1,3],[3,0]];
+
+  const arrows=view==='sheng'
+    ?cycle.map((_,i)=>[i,(i+1)%5])
+    :[[0,2],[2,4],[4,1],[1,3],[3,0]];
+
+  arrows.forEach(([from,to])=>{
+    const ef=elements[from],et=elements[to];
+    const af=ef.angle*Math.PI/180,at=et.angle*Math.PI/180;
+    const x1=cx+radius*Math.cos(af),y1=cy+radius*Math.sin(af);
+    const x2=cx+radius*Math.cos(at),y2=cy+radius*Math.sin(at);
+    const mx=(x1+x2)/2,my=(y1+y2)/2;
+    const midA=Math.atan2(my-cy,mx-cx);
+    const arrowR=radius-20;
+
+    // Arc arrow
+    ctx.beginPath();
+    const startA=Math.atan2(y1-cy,x1-cx);
+    const endA=Math.atan2(y2-cy,x2-cx);
+    const clockwise=view==='sheng';
+    let sa=startA,ea=endA;
+    if(!clockwise){
+      // For ke (controlling), draw inner arcs
+      ctx.strokeStyle='rgba(196,30,58,0.35)';
+    }else{
+      ctx.strokeStyle='rgba(100,180,120,0.4)';
+    }
+    // compute arc
+    let a1=sa,a2=ea;
+    if(view==='sheng'){
+      // outer arc - clockwise
+      if(a2<a1)a2+=Math.PI*2;
+      ctx.arc(cx,cy,arrowR,a1,a2);
+    }else{
+      // inner arc - counterclockwise
+      if(a1<a2)a1+=Math.PI*2;
+      ctx.arc(cx,cy,arrowR-15,a1,a2,true);
+    }
+    ctx.lineWidth=2;
+    ctx.stroke();
+
+    // Arrow head
+    const tipAngle=view==='sheng'?endA:endA;
+    const tipX=cx+arrowR*Math.cos(tipAngle);
+    const tipY=cy+arrowR*Math.sin(tipAngle);
+    const headA=tipAngle+(view==='sheng'?Math.PI*0.85:Math.PI*0.65);
+    ctx.beginPath();
+    ctx.moveTo(tipX,tipY);
+    ctx.lineTo(tipX+10*Math.cos(headA+0.3),tipY+10*Math.sin(headA+0.3));
+    ctx.moveTo(tipX,tipY);
+    ctx.lineTo(tipX+10*Math.cos(headA-0.3),tipY+10*Math.sin(headA-0.3));
+    ctx.stroke();
+  });
+
+  // Draw element circles and labels
+  elements.forEach((e,i)=>{
+    const a=e.angle*Math.PI/180;
+    const x=cx+radius*Math.cos(a),y=cy+radius*Math.sin(a);
+    // Glow
+    const grad=ctx.createRadialGradient(x,y,0,x,y,28);
+    grad.addColorStop(0,e.color+'60');
+    grad.addColorStop(1,'transparent');
+    ctx.fillStyle=grad;
+    ctx.beginPath();ctx.arc(x,y,28,0,Math.PI*2);ctx.fill();
+
+    // Circle
+    ctx.beginPath();ctx.arc(x,y,20,0,Math.PI*2);
+    ctx.fillStyle='rgba(15,15,14,0.8)';ctx.fill();
+    ctx.strokeStyle=e.color;ctx.lineWidth=2;
+    ctx.shadowColor=e.color;ctx.shadowBlur=10;
+    ctx.stroke();ctx.shadowBlur=0;
+
+    // Element name
+    ctx.font='bold 18px "Ma Shan Zheng",cursive';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillStyle='#fff';ctx.shadowColor=e.color;ctx.shadowBlur=8;
+    ctx.fillText(e.name,x,y);ctx.shadowBlur=0;
+
+    // Label
+    const lx=cx+labelR*Math.cos(a),ly=cy+labelR*Math.sin(a);
+    const heTuNum=[1,3,2,5,4];
+    const luoShuNum=[1,3,9,5,7];
+    ctx.fillStyle='rgba(138,126,106,0.4)';
+    ctx.font='9px "Noto Serif SC",serif';
+    ctx.textBaseline='middle';
+    ctx.fillText('河图'+(view==='sheng'?'生':'')+' · '+(view==='sheng'?'顺':'逆'),lx,ly+(ly>cy?16:-16));
+  });
+
+  // Legend
+  ctx.font='10px "Noto Serif SC",serif';
+  ctx.fillStyle='rgba(138,126,106,0.3)';
+  ctx.textAlign='center';ctx.textBaseline='bottom';
+  ctx.fillText(view==='sheng'?'河图五行相生 · 左旋相生':'洛书五行相克 · 右旋相克',cx,H-6);
+
+  // Info text
+  const infoEl=document.getElementById('elemInfo');
+  if(view==='sheng'){
+    infoEl.innerHTML='<span class="highlight">河图相生：</span>水（北）→ 木（东）→ 火（南）→ 土（中）→ 金（西）→ 水 — 左旋相生';
+  }else{
+    infoEl.innerHTML='<span class="highlight">洛书相克：</span>水（1）→ 火（9）→ 金（7）→ 木（3）→ 土（5）→ 水 — 右旋相克';
+  }
+}
+
+// Element toggle
+document.querySelectorAll('.elem-toggle-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.elem-toggle-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    drawElemDiagram(this.dataset.elemView);
+  });
+});
+drawElemDiagram('sheng');
+
+// ============================================================
+// SECTION 5: 河洛占卜 (Divination)
+// ============================================================
+function performDivination(){
+  const input=document.getElementById('divQuestion');
+  const question=input.value.trim();
+  if(!question){input.focus();input.style.borderColor='#c41e3a';return;}
+  input.style.borderColor='';
+
+  const btn=document.getElementById('divBtn');
+  btn.disabled=true;btn.textContent='起卦中...';
+  const result=document.getElementById('divResult');
+  result.classList.remove('show');
+
+  // Generate numbers based on He Tu + Luo Shu principles
+  const now=new Date();
+  const seed=now.getTime()%100000+question.length*7;
+  let s=seed;
+  function rnd(){s=(s*9301+49297)%233280;return s/233280;}
+
+  // Heaven number: from He Tu yang numbers {1,3,5,7,9}
+  const heYang=[1,3,5,7,9];
+  const heavenNum=heYang[Math.floor(rnd()*5)];
+
+  // Earth number: from He Tu yin numbers {2,4,6,8,10}
+  const heYin=[2,4,6,8,10];
+  const earthNum=heYin[Math.floor(rnd()*5)];
+
+  // Human number: from Luo Shu {1-9}
+  const humanNum=Math.floor(rnd()*9)+1;
+
+  // Derived trigram
+  const trigramMap=[
+    {name:'乾',symbol:'☰',gua:'䷀',nature:'天',attr:'刚健',desc:'天行健，君子以自强不息。此卦刚健中正，运势亨通，宜积极进取。'},
+    {name:'兑',symbol:'☱',gua:'䷉',nature:'泽',attr:'喜悦',desc:'丽泽兑，君子以朋友讲习。此卦喜悦通达，利于社交、谈判、表达。'},
+    {name:'离',symbol:'☲',gua:'䷝',nature:'火',attr:'光明',desc:'明两作，离。大人以继明照于四方。此卦光明磊落，宜展示才华。'},
+    {name:'震',symbol:'☳',gua:'䷲',nature:'雷',attr:'震动',desc:'洊雷，震。君子以恐惧修省。此卦变动激烈，宜果断行动。'},
+    {name:'巽',symbol:'☴',gua:'䷸',nature:'风',attr:'入顺',desc:'随风，巽。君子以申命行事。此卦柔顺渐进，宜顺势而为。'},
+    {name:'坎',symbol:'☵',gua:'䷜',nature:'水',attr:'险陷',desc:'水洊至，习坎。君子以常德行，习教事。此卦险中有机，宜谨慎。'},
+    {name:'艮',symbol:'☶',gua:'䷳',nature:'山',attr:'静止',desc:'兼山，艮。君子以思不出其位。此卦静止稳固，宜守不宜攻。'},
+    {name:'坤',symbol:'☷',gua:'䷁',nature:'地',attr:'柔顺',desc:'地势坤，君子以厚德载物。此卦柔顺包容，宜积累守成。'}
+  ];
+
+  const trigIdx=Math.floor(rnd()*8);
+  const trigram=trigramMap[trigIdx];
+
+  const elementNames=['水','火','木','金','土'];
+  const heavenElemIdx=Math.floor(rnd()*5);
+  const earthElemIdx=Math.floor(rnd()*5);
+  const humanElemIdx=Math.floor(rnd()*5);
+
+  const sancaiInterpretations={
+    heaven:[
+      '天势刚健，阳气充沛。天道酬勤，宜积极主动，顺势而为。此乃天时之利，谋事可成。',
+      '天气清朗，光明普照。天时地利，正大光明，宜行正道、举大义。',
+      '天行有常，不为尧存，不为桀亡。宜顺天应时，不可逆势强求。',
+      '天道亏盈而益谦。宜持盈保泰，谦逊自守，方能得天庇佑。',
+      '天垂象，见吉凶。宜审时度势，观天之道，执天之行。'
+    ],
+    earth:[
+      '地势厚重，承载万物。宜脚踏实地，稳重行事，不可浮躁冒进。地利在稳。',
+      '地载万物，厚德载物。宜积累根基，稳步发展，不求速成。',
+      '坤厚载物，德合无疆。宜包容大度，以柔克刚，以静制动。',
+      '地道卑而上行。宜谦卑自牧，虚心学习，方能不断上升。',
+      '地中有山，谦。宜内高外卑，藏锋守拙，不动声色中成事。'
+    ],
+    human:[
+      '人和为贵，阴阳合德。人际和谐，万事可成。宜广结善缘，以和为贵。',
+      '人文教化，明德新民。宜学习进取，修身养性，以智取胜。',
+      '人道敏政，地道敏树。宜积极作为，把握良机，不可坐失。',
+      '仁者爱人，有礼者敬人。宜以诚待人，以德服人。',
+      '君子和而不同。宜求同存异，包容多元，方能成大事。'
+    ]
+  };
+
+  const elementColors={水:'#4a8cbf',火:'#c41e3a',木:'#5a9a5a',金:'#d4a843',土:'#b08050'};
+
+  // Draw divination animation on canvas
+  function drawDivResult(){
+    const canvas=document.getElementById('divinationCanvas');
+    const ctx=canvas.getContext('2d');
+    const W=canvas.width,H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0f0f0e';ctx.fillRect(0,0,W,H);
+
+    // Draw central trigram
+    ctx.font='64px serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillStyle='rgba(212,168,67,0.12)';
+    ctx.fillText(trigram.symbol,W/2,H/2-10);
+
+    // Draw three numbers
+    const nums=[
+      {val:heavenNum,label:'天',y:50,color:'#d4a843'},
+      {val:humanNum,label:'人',y:H/2,color:'#6aa8c8'},
+      {val:earthNum,label:'地',y:H-50,color:'#b08050'}
+    ];
+    nums.forEach((n,i)=>{
+      // Connection lines
+      ctx.strokeStyle='rgba(212,168,67,0.06)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(W/2,n.y+12);ctx.lineTo(W/2+100,n.y+12);ctx.stroke();
+
+      // Circle
+      ctx.beginPath();ctx.arc(W/2-60,n.y,22,0,Math.PI*2);
+      ctx.fillStyle='rgba(26,26,26,0.7)';ctx.fill();
+      ctx.strokeStyle=n.color;ctx.lineWidth=2;
+      ctx.shadowColor=n.color;ctx.shadowBlur=10;ctx.stroke();ctx.shadowBlur=0;
+
+      // Number
+      ctx.font='bold 18px "Noto Serif SC",serif';
+      ctx.fillStyle=n.color;ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(n.val,W/2-60,n.y);
+
+      // Label
+      ctx.font='11px "Ma Shan Zheng",cursive';
+      ctx.fillStyle=n.color+'80';ctx.textAlign='left';
+      ctx.fillText(n.label+' · '+n.val,W/2-35,n.y);
+
+      // Element
+      const elemName= i===0?elementNames[heavenElemIdx]:(i===1?elementNames[humanElemIdx]:elementNames[earthElemIdx]);
+      ctx.font='9px "Noto Serif SC",serif';
+      ctx.fillStyle='rgba(138,126,106,0.4)';ctx.textAlign='right';
+      ctx.fillText(elementNames[i===0?heavenElemIdx:(i===1?humanElemIdx:earthElemIdx)],W/2-85,n.y+1);
+
+      // Right side trigram info
+      if(i===1){
+        ctx.font='11px "Noto Serif SC",serif';
+        ctx.fillStyle='rgba(212,168,67,0.2)';ctx.textAlign='left';
+        ctx.fillText(trigram.name+'卦 · '+trigram.attr,W/2+15,n.y);
+      }
+    });
+
+    // Title
+    ctx.font='9px "Noto Serif SC",serif';
+    ctx.fillStyle='rgba(138,126,106,0.2)';ctx.textAlign='center';ctx.textBaseline='bottom';
+    ctx.fillText('河洛占卜 · 天地人三才',W/2,H-4);
+  }
+
+  // Show result after a brief animation delay
+  setTimeout(()=>{
+    btn.disabled=false;btn.textContent='起卦';
+
+    // Render sancai cards
+    const sancaiGrid=document.getElementById('sancaiGrid');
+    sancaiGrid.innerHTML=`
+      <div class="sancai-card heaven">
+        <div class="sc-label">天 数</div>
+        <div class="sc-value">${heavenNum}</div>
+        <div class="sc-desc">${elementNames[heavenElemIdx]} · 阳 · ${trigram.nature}</div>
+      </div>
+      <div class="sancai-card human">
+        <div class="sc-label">人 数</div>
+        <div class="sc-value">${humanNum}</div>
+        <div class="sc-desc">${elementNames[humanElemIdx]} · 洛书 · ${trigram.attr}</div>
+      </div>
+      <div class="sancai-card earth">
+        <div class="sc-label">地 数</div>
+        <div class="sc-value">${earthNum}</div>
+        <div class="sc-desc">${elementNames[earthElemIdx]} · 阴 · 坤德</div>
+      </div>
+    `;
+
+    // Interpretation
+    const hInt=sancaiInterpretations.heaven[heavenElemIdx];
+    const eInt=sancaiInterpretations.earth[earthElemIdx];
+    const huInt=sancaiInterpretations.human[humanElemIdx];
+    document.getElementById('divInterp').innerHTML=
+      `<p style="margin-bottom:8px;"><strong style="color:#d4a843;">【本卦：${trigram.name}为${trigram.nature} · ${trigram.attr}】</strong></p>
+      <p>${trigram.desc}</p>
+      <p style="margin-top:10px;color:#6a5e4e;font-size:0.78rem;">
+        天<strong style="color:#d4a843;">${heavenNum}</strong>（${elementNames[heavenElemIdx]}）：
+        ${hInt.replace('。','。')}
+      </p>
+      <p style="color:#6a5e4e;font-size:0.78rem;">
+        人<strong style="color:#6aa8c8;">${humanNum}</strong>（${elementNames[humanElemIdx]}）：
+        ${huInt.replace('。','。')}
+      </p>
+      <p style="color:#6a5e4e;font-size:0.78rem;">
+        地<strong style="color:#b08050;">${earthNum}</strong>（${elementNames[earthElemIdx]}）：
+        ${eInt.replace('。','。')}
+      </p>
+      <p style="margin-top:10px;color:#d4a843;font-size:0.85rem;">
+        ${['大吉','吉','中平','小凶','凶'][Math.floor(Math.random()*5)]}
+      </p>`;
+
+    drawDivResult();
+    result.classList.add('show');
+  },800);
+}
+
+// Bind divination button
+document.getElementById('divBtn').addEventListener('click',performDivination);
+document.getElementById('divQuestion').addEventListener('keydown',(e)=>{
+  if(e.key==='Enter')performDivination();
+});
+</script>
+</body>
+</html>

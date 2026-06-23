@@ -1,0 +1,2290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿波菲斯 - 修炼与禁食指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Serif SC', serif;
+  background: #0a0a0a;
+  color: #d4c5a9;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.8;
+}
+
+/* ===== ANIMATED BG ===== */
+.occult-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.occult-bg::before {
+  content: '';
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,168,67,0.04) 0%, transparent 70%);
+  top: -200px; right: -200px;
+  animation: glowPulse 10s ease-in-out infinite;
+}
+.occult-bg::after {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,30,58,0.04) 0%, transparent 70%);
+  bottom: -180px; left: -180px;
+  animation: glowPulse 12s ease-in-out infinite reverse;
+}
+@keyframes glowPulse {
+  0%,100%{opacity:0.3;transform:scale(1)}
+  50%{opacity:0.8;transform:scale(1.2)}
+}
+
+/* ===== STAR PARTICLE CANVAS ===== */
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 24px 80px;
+}
+
+/* ===== NAVIGATION ===== */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #2a2a2a;
+  z-index: 999;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.nav-bar::-webkit-scrollbar { display: none; }
+.nav-brand {
+  color: #d4a843;
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+}
+.nav-link {
+  color: #8a7e6a;
+  text-decoration: none;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.nav-link:hover,
+.nav-link.active {
+  color: #d4a843;
+  background: rgba(212,168,67,0.1);
+}
+
+/* ===== PAGE HEADER ===== */
+.page-header {
+  text-align: center;
+  padding: 80px 20px 20px;
+}
+.page-header h1 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  color: #d4a843;
+  letter-spacing: 8px;
+  text-shadow: 0 0 40px rgba(212,168,67,0.15);
+}
+.page-header .subtitle {
+  font-size: 0.9rem;
+  color: #8a7e6a;
+  letter-spacing: 3px;
+  margin-top: 6px;
+}
+.divider {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4a843, transparent);
+  margin: 10px auto;
+}
+
+/* ===== TAB NAVIGATION ===== */
+.tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 24px 0 30px;
+  flex-wrap: wrap;
+}
+.tab-btn {
+  font-family: 'Ma Shan Zheng', cursive;
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.12);
+  color: #8a7e6a;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 8px;
+  letter-spacing: 2px;
+}
+.tab-btn:hover {
+  border-color: rgba(212,168,67,0.3);
+  color: #d4c5a9;
+}
+.tab-btn.active {
+  border-color: #d4a843;
+  color: #d4a843;
+  background: rgba(212,168,67,0.1);
+  box-shadow: 0 0 20px rgba(212,168,67,0.08);
+}
+
+/* ===== TAB PANELS ===== */
+.tab-panel {
+  display: none;
+  animation: fadeSlideIn 0.5s ease;
+}
+.tab-panel.active { display: block; }
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== COMMON CARDS ===== */
+.section-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.6rem;
+  color: #d4a843;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.card {
+  background: rgba(26,26,26,0.7);
+  border: 1px solid rgba(212,168,67,0.1);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  transition: all 0.3s;
+}
+.card:hover {
+  border-color: rgba(212,168,67,0.2);
+}
+.card h3 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.15rem;
+  color: #d4a843;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.card h4 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1rem;
+  color: #d4c5a9;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.label {
+  font-size: 0.7rem;
+  color: #6a5e4e;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-wrap {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  height: 10px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c41e3a, #d4a843);
+  border-radius: 10px;
+  transition: width 0.6s ease;
+  width: 0%;
+}
+
+/* ===== SECTION 1: FASTING ===== */
+.fasting-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.fasting-type-card {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.1);
+  border-radius: 10px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.fasting-type-card:hover {
+  border-color: rgba(212,168,67,0.3);
+  transform: translateY(-2px);
+}
+.fasting-type-card .ft-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: #d4a843;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+.fasting-type-card .ft-info {
+  font-size: 0.8rem;
+  color: #8a7e6a;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.fasting-phases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.phase-card {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.1);
+  border-radius: 10px;
+  padding: 14px;
+  border-left: 3px solid #d4a843;
+}
+.phase-card:nth-child(2) { border-left-color: #c41e3a; }
+.phase-card:nth-child(3) { border-left-color: #4a9e6a; }
+.phase-card .phase-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: #d4a843;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+.phase-card .phase-detail {
+  font-size: 0.82rem;
+  color: #8a7e6a;
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+/* ===== FASTING TRACKER ===== */
+.tracker-panel {
+  background: rgba(26,26,26,0.7);
+  border: 1px solid rgba(212,168,67,0.15);
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 16px;
+}
+.tracker-display {
+  text-align: center;
+  padding: 20px;
+}
+.tracker-time {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #d4a843;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 4px;
+  text-shadow: 0 0 30px rgba(212,168,67,0.2);
+}
+.tracker-status {
+  font-size: 0.85rem;
+  color: #8a7e6a;
+  margin-top: 4px;
+  letter-spacing: 2px;
+}
+.tracker-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.btn {
+  background: rgba(212,168,67,0.1);
+  border: 1px solid rgba(212,168,67,0.25);
+  color: #d4a843;
+  padding: 8px 20px;
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn:hover {
+  background: rgba(212,168,67,0.2);
+  border-color: #d4a843;
+  box-shadow: 0 0 15px rgba(212,168,67,0.1);
+}
+.btn-danger {
+  border-color: rgba(196,30,58,0.3);
+  color: #c41e3a;
+}
+.btn-danger:hover {
+  background: rgba(196,30,58,0.15);
+  border-color: #c41e3a;
+}
+.tracker-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.tracker-input-row input {
+  background: rgba(10,10,10,0.8);
+  border: 1px solid rgba(212,168,67,0.15);
+  color: #d4c5a9;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  width: 80px;
+  text-align: center;
+}
+.tracker-input-row input:focus {
+  outline: none;
+  border-color: #d4a843;
+}
+.water-reminder {
+  text-align: center;
+  padding: 12px;
+  margin: 10px 0;
+  background: rgba(74,158,106,0.08);
+  border: 1px solid rgba(74,158,106,0.2);
+  border-radius: 8px;
+}
+.water-reminder .water-msg {
+  color: #4a9e6a;
+  font-size: 0.85rem;
+}
+.energy-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+  justify-content: center;
+}
+.energy-slider-wrap input[type="range"] {
+  width: 200px;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(212,168,67,0.2);
+  border-radius: 2px;
+  outline: none;
+}
+.energy-slider-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #d4a843;
+  cursor: pointer;
+}
+.energy-val {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: #d4a843;
+  font-size: 1rem;
+  min-width: 24px;
+  text-align: center;
+}
+.tracker-journal {
+  margin-top: 12px;
+}
+.tracker-journal textarea {
+  width: 100%;
+  background: rgba(10,10,10,0.8);
+  border: 1px solid rgba(212,168,67,0.15);
+  color: #d4c5a9;
+  padding: 10px;
+  border-radius: 6px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.85rem;
+  resize: vertical;
+  min-height: 80px;
+}
+.tracker-journal textarea:focus {
+  outline: none;
+  border-color: #d4a843;
+}
+
+/* ===== SECTION 2: MEDITATION ===== */
+.breath-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.breath-card {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.1);
+  border-radius: 10px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.breath-card:hover {
+  border-color: rgba(212,168,67,0.3);
+  transform: translateY(-2px);
+}
+.breath-card .b-number {
+  display: inline-block;
+  width: 28px; height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid rgba(212,168,67,0.3);
+  color: #d4a843;
+  font-size: 0.75rem;
+  margin-right: 8px;
+}
+.breath-card .b-title {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: #d4a843;
+  font-size: 1.05rem;
+  letter-spacing: 2px;
+}
+.breath-card .b-duration {
+  font-size: 0.75rem;
+  color: #6a5e4e;
+  letter-spacing: 1px;
+}
+.breath-card .b-desc {
+  font-size: 0.82rem;
+  color: #8a7e6a;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.breath-card .b-steps {
+  margin-top: 8px;
+  padding-left: 16px;
+  font-size: 0.8rem;
+  color: #8a7e6a;
+  line-height: 1.7;
+}
+.breath-card .b-steps li {
+  margin-bottom: 2px;
+}
+.breath-card.expanded {
+  border-color: rgba(212,168,67,0.3);
+  box-shadow: 0 0 20px rgba(212,168,67,0.06);
+}
+
+/* ===== MEDITATION TIMER ===== */
+.meditation-panel {
+  background: rgba(26,26,26,0.7);
+  border: 1px solid rgba(212,168,67,0.15);
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 16px;
+  text-align: center;
+}
+.breathing-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid rgba(212,168,67,0.2);
+  margin: 16px auto;
+  position: relative;
+  transition: transform 4s ease-in-out, border-color 0.3s;
+}
+.breathing-circle.inhale {
+  transform: scale(1.3);
+  border-color: rgba(212,168,67,0.6);
+  box-shadow: 0 0 40px rgba(212,168,67,0.1);
+}
+.breathing-circle.exhale {
+  transform: scale(0.8);
+  border-color: rgba(212,168,67,0.15);
+}
+.breathing-circle.hold {
+  transform: scale(1.3);
+  border-color: #d4a843;
+  box-shadow: 0 0 50px rgba(212,168,67,0.15);
+}
+.breath-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Ma Shan Zheng', cursive;
+  color: #d4a843;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+.meditation-select-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.meditation-select-row select {
+  background: rgba(10,10,10,0.8);
+  border: 1px solid rgba(212,168,67,0.15);
+  color: #d4c5a9;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: 'Noto Serif SC', serif;
+}
+.meditation-select-row select:focus {
+  outline: none;
+  border-color: #d4a843;
+}
+.meditation-timer {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #d4a843;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px rgba(212,168,67,0.15);
+}
+.meditation-bells {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 8px;
+}
+.bell-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(212,168,67,0.15);
+  transition: all 0.3s;
+}
+.bell-dot.active {
+  background: #d4a843;
+  box-shadow: 0 0 10px rgba(212,168,67,0.4);
+  animation: bellRing 0.5s ease;
+}
+@keyframes bellRing {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+}
+
+/* ===== SECTION 3: RITUAL PREP ===== */
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 10px;
+}
+.checklist-item {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.1);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.checklist-item:hover {
+  border-color: rgba(212,168,67,0.25);
+}
+.checklist-item.done {
+  border-color: rgba(74,158,106,0.3);
+  background: rgba(74,158,106,0.04);
+}
+.checklist-check {
+  width: 22px; height: 22px;
+  border: 2px solid rgba(212,168,67,0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s;
+  font-size: 0.7rem;
+  color: transparent;
+}
+.checklist-item.done .checklist-check {
+  border-color: #4a9e6a;
+  background: rgba(74,158,106,0.15);
+  color: #4a9e6a;
+}
+.checklist-text {
+  font-size: 0.9rem;
+  color: #d4c5a9;
+  flex: 1;
+}
+.checklist-item.done .checklist-text {
+  color: #6a5e4e;
+  text-decoration: line-through;
+}
+.checklist-progress-text {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #8a7e6a;
+  margin: 6px 0;
+  letter-spacing: 1px;
+}
+.reset-btn {
+  display: block;
+  margin: 12px auto 0;
+}
+
+/* ===== SECTION 4: ELEMENTAL TRAINING ===== */
+.element-tabs {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.element-tab {
+  font-family: 'Ma Shan Zheng', cursive;
+  background: rgba(26,26,26,0.5);
+  border: 1px solid rgba(212,168,67,0.1);
+  color: #8a7e6a;
+  padding: 10px 22px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 8px;
+  letter-spacing: 2px;
+}
+.element-tab:hover {
+  border-color: rgba(212,168,67,0.25);
+  color: #d4c5a9;
+}
+.element-tab.active {
+  border-color: #d4a843;
+  color: #d4a843;
+  background: rgba(212,168,67,0.08);
+}
+.element-panel {
+  display: none;
+  animation: fadeSlideIn 0.4s ease;
+}
+.element-panel.active { display: block; }
+
+.element-level {
+  text-align: center;
+  margin-bottom: 14px;
+}
+.element-level .level-badge {
+  display: inline-block;
+  font-family: 'Ma Shan Zheng', cursive;
+  padding: 4px 18px;
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 20px;
+  color: #d4a843;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+.exercise-item {
+  background: rgba(26,26,26,0.5);
+  border: 1px solid rgba(212,168,67,0.08);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  transition: all 0.3s;
+}
+.exercise-item:hover {
+  border-color: rgba(212,168,67,0.18);
+}
+.exercise-check {
+  width: 20px; height: 20px;
+  border: 2px solid rgba(212,168,67,0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s;
+  font-size: 0.65rem;
+  color: transparent;
+}
+.exercise-item.done .exercise-check {
+  border-color: #4a9e6a;
+  background: rgba(74,158,106,0.12);
+  color: #4a9e6a;
+}
+.exercise-name {
+  font-size: 0.85rem;
+  color: #d4c5a9;
+  flex: 1;
+}
+.exercise-item.done .exercise-name {
+  color: #6a5e4e;
+  text-decoration: line-through;
+}
+.exercise-level-req {
+  font-size: 0.7rem;
+  color: #6a5e4e;
+  letter-spacing: 1px;
+}
+.element-progress-info {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #8a7e6a;
+  margin: 8px 0 14px;
+}
+
+/* ===== SECTION 5: JOURNAL ===== */
+.journal-form {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.12);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+.form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.form-row label {
+  font-size: 0.8rem;
+  color: #8a7e6a;
+  letter-spacing: 1px;
+  min-width: 60px;
+}
+.form-row input,
+.form-row select {
+  background: rgba(10,10,10,0.8);
+  border: 1px solid rgba(212,168,67,0.15);
+  color: #d4c5a9;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: 'Noto Serif SC', serif;
+}
+.form-row input:focus,
+.form-row select:focus {
+  outline: none;
+  border-color: #d4a843;
+}
+.form-row textarea {
+  width: 100%;
+  background: rgba(10,10,10,0.8);
+  border: 1px solid rgba(212,168,67,0.15);
+  color: #d4c5a9;
+  padding: 8px;
+  border-radius: 6px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.82rem;
+  resize: vertical;
+  min-height: 60px;
+}
+.form-row textarea:focus {
+  outline: none;
+  border-color: #d4a843;
+}
+
+/* ===== HEATMAP ===== */
+.heatmap-wrap {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.1);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(30, 1fr);
+  gap: 3px;
+  min-width: 300px;
+}
+.heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.03);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.heatmap-cell:hover {
+  transform: scale(1.4);
+  z-index: 2;
+}
+.heatmap-cell.trained {
+  background: rgba(74,158,106,0.5);
+}
+.heatmap-cell.trained-strong {
+  background: rgba(74,158,106,0.8);
+}
+.heatmap-cell .heat-tip {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a1a;
+  border: 1px solid rgba(212,168,67,0.2);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  color: #d4c5a9;
+  z-index: 10;
+}
+.heatmap-cell:hover .heat-tip {
+  display: block;
+}
+.heatmap-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #6a5e4e;
+  margin-top: 6px;
+  letter-spacing: 1px;
+}
+
+/* ===== STATISTICS ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.stat-card {
+  background: rgba(26,26,26,0.6);
+  border: 1px solid rgba(212,168,67,0.1);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.stat-card .stat-num {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.6rem;
+  color: #d4a843;
+  letter-spacing: 2px;
+}
+.stat-card .stat-label {
+  font-size: 0.75rem;
+  color: #6a5e4e;
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+/* ===== JOURNAL ENTRIES ===== */
+.journal-entries {
+  margin-top: 12px;
+}
+.journal-entry {
+  background: rgba(26,26,26,0.4);
+  border: 1px solid rgba(212,168,67,0.08);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.journal-entry .je-date {
+  font-size: 0.75rem;
+  color: #6a5e4e;
+  min-width: 70px;
+  letter-spacing: 1px;
+}
+.journal-entry .je-type {
+  font-size: 0.75rem;
+  color: #d4a843;
+  min-width: 60px;
+  letter-spacing: 1px;
+}
+.journal-entry .je-dur {
+  font-size: 0.75rem;
+  color: #8a7e6a;
+  min-width: 50px;
+}
+.journal-entry .je-energy {
+  font-size: 0.75rem;
+  color: #c41e3a;
+  min-width: 30px;
+}
+.journal-entry .je-notes {
+  font-size: 0.8rem;
+  color: #8a7e6a;
+  flex: 1;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .container { padding: 16px 12px 60px; }
+  .tracker-time { font-size: 2rem; }
+  .meditation-timer { font-size: 1.8rem; }
+  .breathing-circle { width: 90px; height: 90px; }
+  .heatmap-grid { gap: 2px; }
+  .nav-bar { padding: 0.4rem 0.8rem; gap: 0.6rem; }
+  .nav-brand { font-size: 0.75rem; }
+  .nav-link { font-size: 0.7rem; padding: 0.2rem 0.4rem; }
+  .tab-btn { font-size: 0.85rem; padding: 8px 14px; }
+  .fasting-phases { grid-template-columns: 1fr; }
+  .breath-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .tracker-time { font-size: 1.6rem; }
+  .meditation-timer { font-size: 1.4rem; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== ANIMATED BG ===== -->
+<div class="occult-bg"></div>
+<canvas id="particleCanvas"></canvas>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link active">魔法修炼</a>
+</nav>
+
+<!-- ===== PAGE CONTENT ===== -->
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <div class="page-header">
+    <h1>龙之修炼与禁食指南</h1>
+    <div class="divider"></div>
+    <p class="subtitle">禁食 · 冥想 · 仪式 · 元素 · 日志</p>
+  </div>
+
+  <!-- ===== TAB NAVIGATION ===== -->
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="fasting">禁食修炼</button>
+    <button class="tab-btn" data-tab="meditation">冥想训练</button>
+    <button class="tab-btn" data-tab="ritual">仪式准备</button>
+    <button class="tab-btn" data-tab="elemental">元素训练</button>
+    <button class="tab-btn" data-tab="journal">修炼日志</button>
+  </nav>
+
+  <!-- ================================================================ -->
+  <!-- TAB 1: FASTING TRAINING -->
+  <!-- ================================================================ -->
+  <div class="tab-panel active" id="panel-fasting">
+
+    <h2 class="section-title">禁食修炼</h2>
+
+    <!-- Fasting Types -->
+    <div class="fasting-types">
+      <div class="fasting-type-card">
+        <div class="ft-title">清水禁食</div>
+        <div class="ft-info">仅饮用纯净水，持续1-7天。最适合仪式前的深度净化。需充分休息，避免剧烈活动。</div>
+      </div>
+      <div class="fasting-type-card">
+        <div class="ft-title">果汁禁食</div>
+        <div class="ft-info">新鲜果蔬汁搭配水，持续3-10天。适合初学禁食者，保留部分营养同时进行排毒。</div>
+      </div>
+      <div class="fasting-type-card">
+        <div class="ft-title">部分禁食</div>
+        <div class="ft-info">每日一餐清淡素食，持续7-21天。适合长期修炼期间保持能量平衡。</div>
+      </div>
+      <div class="fasting-type-card">
+        <div class="ft-title">间歇禁食</div>
+        <div class="ft-info">16:8或20:4时间窗口进食，持续进行。适合日常修炼配合，灵活可持续。</div>
+      </div>
+    </div>
+
+    <!-- Fasting Phases -->
+    <h3 style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;letter-spacing:2px;text-align:center;margin:20px 0 12px;">龙之魔法禁食三阶段</h3>
+    <div class="fasting-phases">
+      <div class="phase-card">
+        <div class="phase-title">第一阶段 · 准备期</div>
+        <div class="phase-detail">仪式前3天开始清淡饮食，逐步减少食量。避免红肉、奶制品和加工食品。大量饮水，记录梦境和身体反应。为能量调整做准备。</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-title">第二阶段 · 净化期</div>
+        <div class="phase-detail">1-3天的清水禁食，在关键仪式期间进行。通过禁食提升灵性感知力，配合冥想和龙息法。注意监测体力，每日不超过3天。</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-title">第三阶段 · 复食期</div>
+        <div class="phase-detail">循序渐进的复食过程，从稀粥和蒸蔬菜开始。首日避开盐和油，次日加入软质蛋白质，第三天恢复正常饮食。观察身体信号。</div>
+      </div>
+    </div>
+
+    <!-- Interactive Fasting Tracker -->
+    <div class="tracker-panel">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;font-size:1.1rem;letter-spacing:2px;">禁食计时器</span>
+        <span style="font-size:0.75rem;color:#6a5e4e;">记录你的禁食进程</span>
+      </div>
+
+      <div class="tracker-display">
+        <div class="tracker-time" id="fastTimer">00:00:00</div>
+        <div class="tracker-status" id="fastStatus">未开始</div>
+      </div>
+
+      <div class="tracker-input-row">
+        <span style="font-size:0.8rem;color:#8a7e6a;">已禁食小时数：</span>
+        <input type="number" id="fastInputHours" value="0" min="0" max="168">
+        <span style="font-size:0.8rem;color:#8a7e6a;">小时</span>
+      </div>
+
+      <div class="tracker-controls">
+        <button class="btn" id="fastStartBtn">开始禁食</button>
+        <button class="btn btn-danger" id="fastStopBtn" style="display:none;">结束禁食</button>
+        <button class="btn" id="fastResetBtn">重置</button>
+      </div>
+
+      <!-- Phase Progress -->
+      <div style="margin:12px 0;">
+        <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:#6a5e4e;margin-bottom:4px;">
+          <span>准备期 (3天)</span>
+          <span>净化期 (1-3天)</span>
+          <span>复食期 (3天)</span>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-fill" id="fastPhaseProgress" style="width:0%;"></div>
+        </div>
+        <div style="text-align:center;font-size:0.75rem;color:#8a7e6a;margin-top:4px;" id="fastPhaseLabel">尚未开始禁食</div>
+      </div>
+
+      <!-- Water Reminder -->
+      <div class="water-reminder" id="waterReminder">
+        <span class="water-msg" id="waterMsg">&#x1F6B0; 请记得补充水分 — 每次饮200-300ml纯净水</span>
+        <div style="display:flex;gap:6px;justify-content:center;margin-top:6px;flex-wrap:wrap;">
+          <button class="btn" style="font-size:0.8rem;padding:4px 14px;" id="waterLogBtn">记录饮水</button>
+          <button class="btn" style="font-size:0.8rem;padding:4px 14px;" id="waterSnoozeBtn">稍后提醒</button>
+        </div>
+        <div style="font-size:0.75rem;color:#4a9e6a;margin-top:4px;" id="waterCountDisplay">今日已饮水：0 次</div>
+      </div>
+
+      <!-- Energy Level -->
+      <div class="energy-slider-wrap">
+        <span style="font-size:0.75rem;color:#8a7e6a;letter-spacing:1px;">能量水平</span>
+        <input type="range" id="energySlider" min="1" max="10" value="5">
+        <span class="energy-val" id="energyDisplay">5</span>
+      </div>
+
+      <!-- Journal -->
+      <div class="tracker-journal">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <label style="font-size:0.8rem;color:#8a7e6a;letter-spacing:1px;">禁食日记</label>
+          <button class="btn" style="font-size:0.8rem;padding:4px 14px;" id="saveFastingJournal">保存</button>
+        </div>
+        <textarea id="fastJournalText" placeholder="记录你禁食期间的感受、梦境、灵性体验..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- TAB 2: MEDITATION TRAINING -->
+  <!-- ================================================================ -->
+  <div class="tab-panel" id="panel-meditation">
+
+    <h2 class="section-title">龙之七息法</h2>
+    <p style="text-align:center;color:#8a7e6a;font-size:0.85rem;margin-bottom:16px;">点击技法卡片查看详细步骤</p>
+
+    <div class="breath-grid" id="breathGrid">
+      <!-- Technique cards will be populated by JS -->
+    </div>
+
+    <!-- Meditation Timer -->
+    <div class="meditation-panel" id="meditationPanel">
+      <h3 style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;letter-spacing:2px;font-size:1.15rem;">冥想计时器</h3>
+
+      <div class="meditation-select-row">
+        <span style="font-size:0.8rem;color:#8a7e6a;">技法：</span>
+        <select id="medTechSelect">
+          <option value="0">基础腹式呼吸 - 5分钟</option>
+          <option value="1">龙息法 - 10分钟</option>
+          <option value="2">火焰呼吸 - 3分钟</option>
+          <option value="3">星光呼吸 - 15分钟</option>
+          <option value="4">元素调和 - 20分钟</option>
+          <option value="5">七首冥想 - 33分钟</option>
+          <option value="6">虚空冥想 - 30分钟</option>
+        </select>
+        <span style="font-size:0.8rem;color:#8a7e6a;">时长：</span>
+        <input type="number" id="medCustomMin" value="10" min="1" max="120" style="width:60px;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15);color:#d4c5a9;padding:4px 8px;border-radius:6px;text-align:center;font-size:0.85rem;">
+        <span style="font-size:0.8rem;color:#8a7e6a;">分钟</span>
+      </div>
+
+      <div class="breathing-circle" id="breathCircle">
+        <div class="breath-label" id="breathLabel">准备</div>
+      </div>
+
+      <div class="meditation-timer" id="medTimer">00:00</div>
+
+      <div class="meditation-bells" id="bellDots">
+        <span class="bell-dot" data-bell="start"></span>
+        <span class="bell-dot" data-bell="mid"></span>
+        <span class="bell-dot" data-bell="end"></span>
+      </div>
+
+      <div class="tracker-controls" style="margin-top:12px;">
+        <button class="btn" id="medStartBtn">开始冥想</button>
+        <button class="btn btn-danger" id="medStopBtn" style="display:none;">停止</button>
+        <button class="btn" id="medResetBtn">重置</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- TAB 3: RITUAL PREPARATION -->
+  <!-- ================================================================ -->
+  <div class="tab-panel" id="panel-ritual">
+
+    <h2 class="section-title">仪式准备清单</h2>
+    <p style="text-align:center;color:#8a7e6a;font-size:0.85rem;margin-bottom:16px;">逐项完成，确保仪式顺利进行</p>
+
+    <div class="checklist-progress-text" id="checklistProgressText">完成进度：0%</div>
+    <div class="progress-wrap" style="margin-bottom:16px;">
+      <div class="progress-fill" id="checklistProgress" style="width:0%;"></div>
+    </div>
+
+    <div class="checklist-grid" id="checklistGrid">
+      <div class="checklist-item" data-item="bath">
+        <div class="checklist-check">&#x2713;</div>
+        <span class="checklist-text">沐浴净化 — 以纯净水沐浴，加入海盐和鼠尾草</span>
+      </div>
+      <div class="checklist-item" data-item="garments">
+        <div class="checklist-check">&#x2713;</div>
+        <span class="checklist-text">穿着仪式服 — 黑袍或白色仪式长袍，避免合成纤维</span>
+      </div>
+      <div class="checklist-item" data-item="altar">
+        <div class="checklist-check">&#x2713;</div>
+        <span class="checklist-text">准备祭坛 — 布置七角星阵，摆放对应元素器物</span>
+      </div>
+      <div class="checklist-item" data-item="incense">
+        <div class="checklist-check">&#x2713;</div>
+        <span class="checklist-text">点燃熏香 — 七首各对应一种熏香：乳香/没药/檀香/肉桂/茉莉/松脂/龙血</span>
+      </div>
+      <div class="checklist-item" data-item="circle">
+        <div class="checklist-check">&#x2713;</div>
+        <span class="checklist-text">绘制魔法圆 — 以龙血墨绘制九尺圆，标记四方元素</span>
+      </div>
+      <div class="checklist-item" data-item="sigil">
+        <div class="checklist-check">&#x2713;</div>
+        <span class="checklist-text">佩戴符印 — 阿波菲斯龙符挂于胸前，七首印记刻于手腕</span>
+      </div>
+      <div class="checklist-item" data-item="offerings">
+        <div class="checklist-check">&#x2713;</div>
+        <span class="checklist-text">准备祭品 — 红葡萄酒、石榴、黑面包、蜂蜜</span>
+      </div>
+      <div class="checklist-item" data-item="time">
+        <div class="checklist-check">&#x2713;</div>
+        <span class="checklist-text">时间确认 — 确认当前行星时与仪式目标相合</span>
+      </div>
+    </div>
+
+    <button class="btn reset-btn" id="checklistResetBtn">重置清单</button>
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- TAB 4: ELEMENTAL TRAINING -->
+  <!-- ================================================================ -->
+  <div class="tab-panel" id="panel-elemental">
+
+    <h2 class="section-title">元素训练</h2>
+    <p style="text-align:center;color:#8a7e6a;font-size:0.85rem;margin-bottom:16px;">完成各元素的修炼练习，提升等级</p>
+
+    <!-- Element Level System -->
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;">
+      <span style="font-size:0.75rem;color:#6a5e4e;border:1px solid rgba(212,168,67,0.1);padding:3px 10px;border-radius:12px;">0-4 学徒</span>
+      <span style="font-size:0.75rem;color:#6a5e4e;border:1px solid rgba(212,168,67,0.1);padding:3px 10px;border-radius:12px;">5-9 入门</span>
+      <span style="font-size:0.75rem;color:#6a5e4e;border:1px solid rgba(212,168,67,0.1);padding:3px 10px;border-radius:12px;">10-14 行者</span>
+      <span style="font-size:0.75rem;color:#6a5e4e;border:1px solid rgba(212,168,67,0.1);padding:3px 10px;border-radius:12px;">15-20 大师</span>
+    </div>
+
+    <div class="element-tabs" id="elementTabs">
+      <button class="element-tab active" data-elem="fire">火</button>
+      <button class="element-tab" data-elem="water">水</button>
+      <button class="element-tab" data-elem="earth">土</button>
+      <button class="element-tab" data-elem="air">风</button>
+    </div>
+
+    <!-- Fire -->
+    <div class="element-panel active" id="elem-fire">
+      <div class="element-level">
+        <span class="level-badge" id="level-fire">学徒</span>
+      </div>
+      <div class="element-progress-info" id="prog-fire">练习进度：0/5</div>
+      <div class="progress-wrap" style="margin-bottom:10px;">
+        <div class="progress-fill" id="pbar-fire" style="width:0%;"></div>
+      </div>
+      <div class="exercises-list" data-elem="fire">
+        <div class="exercise-item" data-ex="fire-0">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">蜡烛凝视 — 以火焰为焦点训练专注力</span>
+        </div>
+        <div class="exercise-item" data-ex="fire-1">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">火焰呼吸 — 快速有力的呼吸激发内在火焰</span>
+        </div>
+        <div class="exercise-item" data-ex="fire-2">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">太阳凝视(安全提示) — 日出/日落时分，不超过30秒</span>
+        </div>
+        <div class="exercise-item" data-ex="fire-3">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">火山冥想 — 观想地心熔岩的毁灭与重生之力</span>
+        </div>
+        <div class="exercise-item" data-ex="fire-4">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">热量感受 — 通过意念提升身体局部温度</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Water -->
+    <div class="element-panel" id="elem-water">
+      <div class="element-level">
+        <span class="level-badge" id="level-water">学徒</span>
+      </div>
+      <div class="element-progress-info" id="prog-water">练习进度：0/5</div>
+      <div class="progress-wrap" style="margin-bottom:10px;">
+        <div class="progress-fill" id="pbar-water" style="width:0%;"></div>
+      </div>
+      <div class="exercises-list" data-elem="water">
+        <div class="exercise-item" data-ex="water-0">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">水流冥想 — 随河流的流动引导意识深潜</span>
+        </div>
+        <div class="exercise-item" data-ex="water-1">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">冰水挑战 — 冷浴锻炼意志力和能量控制</span>
+        </div>
+        <div class="exercise-item" data-ex="water-2">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">潮汐呼吸 — 以4-8-8模式模拟潮汐涨落</span>
+        </div>
+        <div class="exercise-item" data-ex="water-3">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">镜子凝视 — 透过镜像探索深层自我</span>
+        </div>
+        <div class="exercise-item" data-ex="water-4">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">雨声聆听 — 以雨水之声锚定心神</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Earth -->
+    <div class="element-panel" id="elem-earth">
+      <div class="element-level">
+        <span class="level-badge" id="level-earth">学徒</span>
+      </div>
+      <div class="element-progress-info" id="prog-earth">练习进度：0/5</div>
+      <div class="progress-wrap" style="margin-bottom:10px;">
+        <div class="progress-fill" id="pbar-earth" style="width:0%;"></div>
+      </div>
+      <div class="exercises-list" data-elem="earth">
+        <div class="exercise-item" data-ex="earth-0">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">根植冥想 — 想象树根从脚下深入大地</span>
+        </div>
+        <div class="exercise-item" data-ex="earth-1">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">矿物感受 — 手持水晶感受大地能量振动</span>
+        </div>
+        <div class="exercise-item" data-ex="earth-2">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">大地连接 — 赤足行于泥土或草地</span>
+        </div>
+        <div class="exercise-item" data-ex="earth-3">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">身体扫描 — 逐部位觉察并释放紧张</span>
+        </div>
+        <div class="exercise-item" data-ex="earth-4">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">树木拥抱 — 与古树建立能量交流</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Air -->
+    <div class="element-panel" id="elem-air">
+      <div class="element-level">
+        <span class="level-badge" id="level-air">学徒</span>
+      </div>
+      <div class="element-progress-info" id="prog-air">练习进度：0/5</div>
+      <div class="progress-wrap" style="margin-bottom:10px;">
+        <div class="progress-fill" id="pbar-air" style="width:0%;"></div>
+      </div>
+      <div class="exercises-list" data-elem="air">
+        <div class="exercise-item" data-ex="air-0">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">风感练习 — 在自然风中扩展感知边界</span>
+        </div>
+        <div class="exercise-item" data-ex="air-1">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">羽毛漂浮 — 以意念控制轻物悬浮</span>
+        </div>
+        <div class="exercise-item" data-ex="air-2">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">声音冥想 — 以风铃或颂钵锁定意识焦点</span>
+        </div>
+        <div class="exercise-item" data-ex="air-3">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">香薰仪式 — 通过烟雾形态学习能量读取</span>
+        </div>
+        <div class="exercise-item" data-ex="air-4">
+          <div class="exercise-check">&#x2713;</div>
+          <span class="exercise-name">空间扩展 — 将意识扩展到整个房间的边界</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================================================================ -->
+  <!-- TAB 5: TRAINING JOURNAL -->
+  <!-- ================================================================ -->
+  <div class="tab-panel" id="panel-journal">
+
+    <h2 class="section-title">修炼日志</h2>
+
+    <!-- Statistics -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <div class="stat-num" id="statTotalHours">0</div>
+        <div class="stat-label">总修炼时长(小时)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statLongestStreak">0</div>
+        <div class="stat-label">最长连续(天)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statCurrentStreak">0</div>
+        <div class="stat-label">当前连续(天)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="statTotalEntries">0</div>
+        <div class="stat-label">总记录数</div>
+      </div>
+    </div>
+
+    <!-- Heatmap -->
+    <div class="heatmap-wrap">
+      <h3 style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;letter-spacing:2px;font-size:1rem;margin-bottom:10px;">近30天修炼热力图</h3>
+      <div class="heatmap-grid" id="heatmapGrid"></div>
+      <div class="heatmap-labels">
+        <span>30天前</span>
+        <span>今天</span>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;font-size:0.7rem;color:#6a5e4e;justify-content:flex-end;">
+        <span>少</span>
+        <span style="width:12px;height:12px;display:inline-block;background:rgba(255,255,255,0.03);border-radius:2px;"></span>
+        <span style="width:12px;height:12px;display:inline-block;background:rgba(74,158,106,0.3);border-radius:2px;"></span>
+        <span style="width:12px;height:12px;display:inline-block;background:rgba(74,158,106,0.5);border-radius:2px;"></span>
+        <span style="width:12px;height:12px;display:inline-block;background:rgba(74,158,106,0.8);border-radius:2px;"></span>
+        <span>多</span>
+      </div>
+    </div>
+
+    <!-- Add Entry Form -->
+    <div class="journal-form">
+      <h3 style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;letter-spacing:2px;font-size:1rem;margin-bottom:10px;">记录今日修炼</h3>
+      <div class="form-row">
+        <label>日期</label>
+        <input type="date" id="journalDate">
+        <label>类型</label>
+        <select id="journalType">
+          <option value="fasting">禁食</option>
+          <option value="meditation">冥想</option>
+          <option value="ritual">仪式</option>
+          <option value="elemental">元素训练</option>
+          <option value="other">其他</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>时长(分)</label>
+        <input type="number" id="journalDuration" value="30" min="1" max="600">
+        <label>能量</label>
+        <select id="journalEnergy">
+          <option value="1">1 - 极低</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5" selected>5 - 中等</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10 - 饱满</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <textarea id="journalNotes" placeholder="记录修炼体验、感悟、梦境..."></textarea>
+      </div>
+      <button class="btn" id="journalSaveBtn">保存记录</button>
+    </div>
+
+    <!-- Recent Entries -->
+    <div class="journal-entries" id="journalEntries">
+      <h3 style="font-family:'Ma Shan Zheng',cursive;color:#d4a843;letter-spacing:2px;font-size:1rem;margin-bottom:10px;">历史记录</h3>
+      <!-- Entries rendered by JS -->
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+/* ================================================================ */
+/* PARTICLE BACKGROUND                                                */
+/* ================================================================ */
+(function() {
+  var canvas = document.getElementById('particleCanvas');
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var w, h;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function createParticles() {
+    particles = [];
+    for (var i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 1.5 + 0.3,
+        dx: (Math.random() - 0.5) * 0.3,
+        dy: (Math.random() - 0.5) * 0.3,
+        o: Math.random() * 0.5 + 0.1
+      });
+    }
+  }
+  createParticles();
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0) p.x = w;
+      if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h;
+      if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212,168,67,' + p.o + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  window.addEventListener('resize', function() {
+    createParticles();
+  });
+})();
+
+/* ================================================================ */
+/* TAB NAVIGATION                                                    */
+/* ================================================================ */
+(function() {
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  var panels = {
+    fasting: document.getElementById('panel-fasting'),
+    meditation: document.getElementById('panel-meditation'),
+    ritual: document.getElementById('panel-ritual'),
+    elemental: document.getElementById('panel-elemental'),
+    journal: document.getElementById('panel-journal')
+  };
+
+  tabBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      tabBtns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var tab = btn.getAttribute('data-tab');
+      for (var key in panels) {
+        panels[key].classList.toggle('active', key === tab);
+      }
+    });
+  });
+})();
+
+/* ================================================================ */
+/* SECTION 1: FASTING TRACKER                                        */
+/* ================================================================ */
+(function() {
+  var timerEl = document.getElementById('fastTimer');
+  var statusEl = document.getElementById('fastStatus');
+  var inputHours = document.getElementById('fastInputHours');
+  var startBtn = document.getElementById('fastStartBtn');
+  var stopBtn = document.getElementById('fastStopBtn');
+  var resetBtn = document.getElementById('fastResetBtn');
+  var phaseProgress = document.getElementById('fastPhaseProgress');
+  var phaseLabel = document.getElementById('fastPhaseLabel');
+  var energySlider = document.getElementById('energySlider');
+  var energyDisplay = document.getElementById('energyDisplay');
+  var fastJournalText = document.getElementById('fastJournalText');
+  var saveJournalBtn = document.getElementById('saveFastingJournal');
+  var waterLogBtn = document.getElementById('waterLogBtn');
+  var waterSnoozeBtn = document.getElementById('waterSnoozeBtn');
+  var waterCountDisplay = document.getElementById('waterCountDisplay');
+
+  var state = {
+    running: false,
+    startTime: null,
+    elapsed: 0,
+    lastSave: null
+  };
+
+  // Load from localStorage
+  function loadFasting() {
+    try {
+      var saved = JSON.parse(localStorage.getItem('af_fasting_state'));
+      if (saved) {
+        state.running = saved.running;
+        state.startTime = saved.startTime;
+        state.elapsed = saved.elapsed;
+        if (state.running && state.startTime) {
+          var now = Date.now();
+          var extra = Math.floor((now - state.startTime) / 1000);
+          state.elapsed += extra;
+          state.startTime = now;
+        }
+        updateDisplay();
+        if (state.running) {
+          startBtn.style.display = 'none';
+          stopBtn.style.display = '';
+        }
+      }
+    } catch(e) {}
+    // Load energy
+    try {
+      var eng = localStorage.getItem('af_fasting_energy');
+      if (eng !== null) {
+        energySlider.value = eng;
+        energyDisplay.textContent = eng;
+      }
+    } catch(e) {}
+    // Load journal
+    try {
+      var j = localStorage.getItem('af_fasting_journal');
+      if (j !== null) fastJournalText.value = j;
+    } catch(e) {}
+    // Load water count
+    try {
+      var wc = localStorage.getItem('af_water_count');
+      if (wc !== null) {
+        waterCountDisplay.textContent = '今日已饮水：' + wc + ' 次';
+      }
+    } catch(e) {}
+  }
+  loadFasting();
+
+  // Save state
+  function saveState() {
+    var toSave = {
+      running: state.running,
+      startTime: state.startTime,
+      elapsed: state.elapsed
+    };
+    localStorage.setItem('af_fasting_state', JSON.stringify(toSave));
+  }
+
+  // Update display
+  function updateDisplay() {
+    var totalSec = state.elapsed;
+    var h = Math.floor(totalSec / 3600);
+    var m = Math.floor((totalSec % 3600) / 60);
+    var s = totalSec % 60;
+    timerEl.textContent =
+      String(h).padStart(2, '0') + ':' +
+      String(m).padStart(2, '0') + ':' +
+      String(s).padStart(2, '0');
+
+    if (state.running) {
+      statusEl.textContent = '正在禁食中...';
+    } else if (state.elapsed > 0) {
+      statusEl.textContent = '已结束 - 共禁食 ' + h + ' 小时 ' + m + ' 分钟';
+    } else {
+      statusEl.textContent = '未开始';
+    }
+
+    // Phase progress
+    var hours = state.elapsed / 3600;
+    if (hours === 0) {
+      phaseProgress.style.width = '0%';
+      phaseLabel.textContent = '尚未开始禁食';
+    } else if (hours <= 72) {
+      var pct = (hours / 72) * 33;
+      phaseProgress.style.width = pct + '%';
+      phaseLabel.textContent = '准备期 - 已禁食 ' + Math.floor(hours) + ' 小时';
+    } else if (hours <= 144) {
+      var pct2 = 33 + ((hours - 72) / 72) * 33;
+      phaseProgress.style.width = Math.min(pct2, 66) + '%';
+      phaseLabel.textContent = '净化期 - 已禁食 ' + Math.floor(hours) + ' 小时';
+    } else {
+      var pct3 = 66 + ((hours - 144) / 72) * 34;
+      phaseProgress.style.width = Math.min(pct3, 100) + '%';
+      phaseLabel.textContent = '复食期 - 已禁食 ' + Math.floor(hours) + ' 小时';
+    }
+  }
+
+  // Timer loop
+  var fastInterval = null;
+
+  function startTimer() {
+    if (fastInterval) return;
+    state.running = true;
+    state.startTime = Date.now();
+    saveState();
+    startBtn.style.display = 'none';
+    stopBtn.style.display = '';
+    fastInterval = setInterval(function() {
+      var now = Date.now();
+      var extra = Math.floor((now - state.startTime) / 1000);
+      state.elapsed += extra;
+      state.startTime = now;
+      saveState();
+      updateDisplay();
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (fastInterval) {
+      clearInterval(fastInterval);
+      fastInterval = null;
+    }
+    state.running = false;
+    saveState();
+    startBtn.style.display = '';
+    stopBtn.style.display = 'none';
+    updateDisplay();
+  }
+
+  function resetTimer() {
+    if (fastInterval) {
+      clearInterval(fastInterval);
+      fastInterval = null;
+    }
+    state.running = false;
+    state.startTime = null;
+    state.elapsed = 0;
+    saveState();
+    startBtn.style.display = '';
+    stopBtn.style.display = 'none';
+    updateDisplay();
+  }
+
+  startBtn.addEventListener('click', function() {
+    var hours = parseInt(inputHours.value) || 0;
+    if (hours > 0) {
+      state.elapsed = hours * 3600;
+      updateDisplay();
+    }
+    startTimer();
+  });
+
+  stopBtn.addEventListener('click', stopTimer);
+  resetBtn.addEventListener('click', resetTimer);
+
+  // Energy slider
+  energySlider.addEventListener('input', function() {
+    energyDisplay.textContent = this.value;
+    localStorage.setItem('af_fasting_energy', this.value);
+  });
+
+  // Journal save
+  saveJournalBtn.addEventListener('click', function() {
+    localStorage.setItem('af_fasting_journal', fastJournalText.value);
+    saveJournalBtn.textContent = '已保存';
+    setTimeout(function() { saveJournalBtn.textContent = '保存'; }, 1500);
+  });
+
+  // Water reminder
+  var waterCount = parseInt(localStorage.getItem('af_water_count')) || 0;
+  var waterInterval = setInterval(function() {
+    if (state.running) {
+      document.getElementById('waterMsg').textContent = '请记得补充水分 -- 每次饮200-300ml纯净水';
+    }
+  }, 7200000); // every 2 hours
+
+  waterLogBtn.addEventListener('click', function() {
+    waterCount++;
+    localStorage.setItem('af_water_count', waterCount);
+    waterCountDisplay.textContent = '今日已饮水：' + waterCount + ' 次';
+  });
+
+  waterSnoozeBtn.addEventListener('click', function() {
+    document.getElementById('waterMsg').textContent = '30分钟后再次提醒';
+    setTimeout(function() {
+      if (state.running) {
+        document.getElementById('waterMsg').textContent = '请记得补充水分 -- 每次饮200-300ml纯净水';
+      }
+    }, 1800000);
+  });
+
+  // Check running state on load
+  if (state.running) {
+    startTimer();
+  }
+})();
+
+/* ================================================================ */
+/* SECTION 2: MEDITATION TRAINING                                    */
+/* ================================================================ */
+(function() {
+  var breathData = [
+    {
+      title: '基础腹式呼吸',
+      duration: '5分钟',
+      desc: '最基础的呼吸法，通过腹部起伏引导气息深入，为后续技法奠基。',
+      steps: ['舒适坐姿，脊柱挺直', '一手放腹部，一手放胸部', '用鼻深吸气，感受腹部隆起', '用嘴缓慢呼气，腹部回落', '保持胸部不动，重复5分钟']
+    },
+    {
+      title: '龙息法',
+      duration: '10分钟',
+      desc: '以4-7-8节奏呼吸，模仿古龙吐息韵律，平衡自主神经系统。',
+      steps: ['用鼻吸气4秒', '屏息7秒', '用嘴缓慢呼气8秒', '重复循环10分钟', '感受能量沿脊椎流动']
+    },
+    {
+      title: '火焰呼吸',
+      duration: '3分钟',
+      desc: '快速有力的呼吸技法，激发内在火焰能量，提升灵性感知力。',
+      steps: ['快速用鼻吸气', '短促有力地从嘴呼气', '每秒2-3次呼吸节奏', '持续3分钟,感受腹腔运动', '如感头晕立即停止']
+    },
+    {
+      title: '星光呼吸',
+      duration: '15分钟',
+      desc: '结合视觉化的深层呼吸法，将星光能量吸入体内各脉轮。',
+      steps: ['闭眼，观想头顶有星光', '吸气时将星光从头至脚贯穿', '呼气时光芒从脚底扩散', '观想星光聚于丹田', '保持15分钟']
+    },
+    {
+      title: '元素调和',
+      duration: '20分钟',
+      desc: '轮转四大元素的呼吸冥想，逐一感受火水土风的能量特质。',
+      steps: ['5分钟火元素：观想红光热流', '5分钟水元素：观想蓝光流动', '5分钟土元素：观想黄光稳固', '5分钟风元素：观想绿光轻盈', '感受元素在你体内循环']
+    },
+    {
+      title: '七首冥想',
+      duration: '33分钟',
+      desc: '专注于阿波菲斯七首的能量，每首约5分钟，逐一连接。',
+      steps: ['每首专注约5分钟', '依次连接：太阳/月亮/火星/水星/木星/金星/土星', '每首观想对应的颜色和能量', '感受七首在你意识中苏醒', '全程保持脊椎挺直']
+    },
+    {
+      title: '虚空冥想',
+      duration: '30+分钟',
+      desc: '超越形式的终极冥想，放空所有念头，回归原始虚空。',
+      steps: ['舒适坐姿或躺姿', '逐渐放慢呼吸', '放下所有意念和观想', '只是存在，不做任何努力', '如果走神，温柔地回到虚空']
+    }
+  ];
+
+  var grid = document.getElementById('breathGrid');
+  breathData.forEach(function(b, i) {
+    var card = document.createElement('div');
+    card.className = 'breath-card';
+    var stepsHtml = b.steps.map(function(s) { return '<li>' + s + '</li>'; }).join('');
+    card.innerHTML =
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">' +
+        '<span class="b-number">' + (i + 1) + '</span>' +
+        '<span class="b-title">' + b.title + '</span>' +
+        '<span class="b-duration" style="margin-left:auto;">' + b.duration + '</span>' +
+      '</div>' +
+      '<div class="b-desc">' + b.desc + '</div>' +
+      '<ol class="b-steps" style="display:none;">' + stepsHtml + '</ol>';
+    card.addEventListener('click', function() {
+      this.classList.toggle('expanded');
+      var steps = this.querySelector('.b-steps');
+      steps.style.display = steps.style.display === 'none' ? 'block' : 'none';
+    });
+    grid.appendChild(card);
+  });
+
+  // Meditation Timer
+  var medTimerEl = document.getElementById('medTimer');
+  var medStartBtn = document.getElementById('medStartBtn');
+  var medStopBtn = document.getElementById('medStopBtn');
+  var medResetBtn = document.getElementById('medResetBtn');
+  var medTechSelect = document.getElementById('medTechSelect');
+  var medCustomMin = document.getElementById('medCustomMin');
+  var breathCircle = document.getElementById('breathCircle');
+  var breathLabel = document.getElementById('breathLabel');
+  var bellDots = document.querySelectorAll('.bell-dot');
+  var sessionLog = JSON.parse(localStorage.getItem('af_med_sessions') || '[]');
+
+  var medState = {
+    running: false,
+    remaining: 0,
+    total: 0,
+    interval: null
+  };
+
+  function updateMedDisplay() {
+    var m = Math.floor(medState.remaining / 60);
+    var s = medState.remaining % 60;
+    medTimerEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+
+  function getDuration() {
+    var idx = parseInt(medTechSelect.value);
+    var defaults = [5, 10, 3, 15, 20, 33, 30];
+    return parseInt(medCustomMin.value) || defaults[idx] || 10;
+  }
+
+  // Breathing animation cycle
+  var breathPhase = 'inhale';
+  var breathTimer = null;
+
+  function startBreathing() {
+    var phaseDuration = 4000;
+    breathPhase = 'inhale';
+    breathCircle.className = 'breathing-circle inhale';
+    breathLabel.textContent = '吸气';
+
+    if (breathTimer) clearInterval(breathTimer);
+    breathTimer = setInterval(function() {
+      if (breathPhase === 'inhale') {
+        breathCircle.className = 'breathing-circle hold';
+        breathLabel.textContent = '屏息';
+        breathPhase = 'hold';
+      } else if (breathPhase === 'hold') {
+        breathCircle.className = 'breathing-circle exhale';
+        breathLabel.textContent = '呼气';
+        breathPhase = 'exhale';
+      } else {
+        breathCircle.className = 'breathing-circle inhale';
+        breathLabel.textContent = '吸气';
+        breathPhase = 'inhale';
+      }
+    }, phaseDuration);
+  }
+
+  function stopBreathing() {
+    if (breathTimer) {
+      clearInterval(breathTimer);
+      breathTimer = null;
+    }
+    breathCircle.className = 'breathing-circle';
+    breathLabel.textContent = '准备';
+  }
+
+  function ringBell(dotIndex) {
+    bellDots.forEach(function(d) { d.classList.remove('active'); });
+    if (dotIndex >= 0 && dotIndex < bellDots.length) {
+      bellDots[dotIndex].classList.add('active');
+      // CSS bell animation
+    }
+  }
+
+  function startMeditation() {
+    if (medState.running) return;
+    var dur = getDuration();
+    medState.total = dur * 60;
+    medState.remaining = medState.total;
+    medState.running = true;
+    updateMedDisplay();
+    medStartBtn.style.display = 'none';
+    medStopBtn.style.display = '';
+    ringBell(0);
+
+    var startTime = Date.now();
+    var totalSec = medState.total;
+
+    startBreathing();
+
+    // bell at mid
+    var midTimeout = setTimeout(function() {
+      ringBell(1);
+    }, totalSec * 500);
+
+    medState.interval = setInterval(function() {
+      var elapsed = Math.floor((Date.now() - startTime) / 1000);
+      medState.remaining = Math.max(0, totalSec - elapsed);
+      updateMedDisplay();
+
+      if (medState.remaining <= 0) {
+        clearInterval(medState.interval);
+        medState.interval = null;
+        stopBreathing();
+        ringBell(2);
+        medState.running = false;
+        medStartBtn.style.display = '';
+        medStopBtn.style.display = 'none';
+        medTimerEl.textContent = '00:00';
+        breathLabel.textContent = '完成';
+
+        // Log session
+        var logEntry = {
+          date: new Date().toISOString().split('T')[0],
+          technique: medTechSelect.options[medTechSelect.selectedIndex].text,
+          duration: Math.round(totalSec / 60),
+          timestamp: Date.now()
+        };
+        sessionLog.push(logEntry);
+        localStorage.setItem('af_med_sessions', JSON.stringify(sessionLog));
+      }
+    }, 100);
+  }
+
+  function stopMeditation() {
+    if (medState.interval) {
+      clearInterval(medState.interval);
+      medState.interval = null;
+    }
+    stopBreathing();
+    medState.running = false;
+    medStartBtn.style.display = '';
+    medStopBtn.style.display = 'none';
+    ringBell(-1);
+  }
+
+  function resetMeditation() {
+    stopMeditation();
+    medState.remaining = 0;
+    medState.total = 0;
+    medTimerEl.textContent = '00:00';
+    breathLabel.textContent = '准备';
+    breathCircle.className = 'breathing-circle';
+  }
+
+  medStartBtn.addEventListener('click', startMeditation);
+  medStopBtn.addEventListener('click', stopMeditation);
+  medResetBtn.addEventListener('click', resetMeditation);
+
+  medTechSelect.addEventListener('change', function() {
+    var idx = parseInt(this.value);
+    var defaults = [5, 10, 3, 15, 20, 33, 30];
+    medCustomMin.value = defaults[idx] || 10;
+  });
+})();
+
+/* ================================================================ */
+/* SECTION 3: RITUAL PREPARATION CHECKLIST                           */
+/* ================================================================ */
+(function() {
+  var items = document.querySelectorAll('.checklist-item');
+  var progressBar = document.getElementById('checklistProgress');
+  var progressText = document.getElementById('checklistProgressText');
+  var resetBtn = document.getElementById('checklistResetBtn');
+
+  // Load saved state
+  var checklistState = JSON.parse(localStorage.getItem('af_checklist') || '{}');
+
+  function updateChecklist() {
+    var done = 0;
+    items.forEach(function(item) {
+      var key = item.getAttribute('data-item');
+      if (checklistState[key]) {
+        item.classList.add('done');
+        done++;
+      } else {
+        item.classList.remove('done');
+      }
+    });
+    var pct = Math.round((done / items.length) * 100);
+    progressBar.style.width = pct + '%';
+    progressText.textContent = '完成进度：' + pct + '%';
+    localStorage.setItem('af_checklist', JSON.stringify(checklistState));
+  }
+
+  items.forEach(function(item) {
+    item.addEventListener('click', function() {
+      var key = this.getAttribute('data-item');
+      checklistState[key] = !checklistState[key];
+      updateChecklist();
+    });
+  });
+
+  resetBtn.addEventListener('click', function() {
+    checklistState = {};
+    updateChecklist();
+  });
+
+  updateChecklist();
+})();
+
+/* ================================================================ */
+/* SECTION 4: ELEMENTAL TRAINING                                     */
+/* ================================================================ */
+(function() {
+  var elements = ['fire', 'water', 'earth', 'air'];
+  var elementNames = { fire: '火', water: '水', earth: '土', air: '风' };
+  var levelNames = ['学徒', '入门', '行者', '大师'];
+
+  // Tab switching
+  var elemTabs = document.querySelectorAll('.element-tab');
+  var elemPanels = {};
+  elements.forEach(function(e) {
+    elemPanels[e] = document.getElementById('elem-' + e);
+  });
+
+  elemTabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      elemTabs.forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+      var elem = this.getAttribute('data-elem');
+      for (var key in elemPanels) {
+        elemPanels[key].classList.toggle('active', key === elem);
+      }
+    });
+  });
+
+  // Exercise checkboxes
+  function getLevel(completed) {
+    if (completed >= 15) return 3;
+    if (completed >= 10) return 2;
+    if (completed >= 5) return 1;
+    return 0;
+  }
+
+  function getLevelName(completed) {
+    return levelNames[getLevel(completed)];
+  }
+
+  function updateElement(elem) {
+    var exercises = document.querySelectorAll('#elem-' + elem + ' .exercise-item');
+    var done = 0;
+    var state = JSON.parse(localStorage.getItem('af_elemental_' + elem) || '{}');
+    exercises.forEach(function(ex) {
+      var key = ex.getAttribute('data-ex');
+      if (state[key]) {
+        ex.classList.add('done');
+        done++;
+      } else {
+        ex.classList.remove('done');
+      }
+    });
+    var total = exercises.length;
+    var pct = Math.round((done / total) * 100);
+    document.getElementById('pbar-' + elem).style.width = pct + '%';
+    document.getElementById('prog-' + elem).textContent = '练习进度：' + done + '/' + total;
+    document.getElementById('level-' + elem).textContent = getLevelName(done);
+    localStorage.setItem('af_elemental_' + elem, JSON.stringify(state));
+  }
+
+  elements.forEach(function(elem) {
+    updateElement(elem);
+    var exercises = document.querySelectorAll('#elem-' + elem + ' .exercise-item');
+    exercises.forEach(function(ex) {
+      ex.addEventListener('click', function() {
+        var key = this.getAttribute('data-ex');
+        var state = JSON.parse(localStorage.getItem('af_elemental_' + elem) || '{}');
+        state[key] = !state[key];
+        localStorage.setItem('af_elemental_' + elem, JSON.stringify(state));
+        updateElement(elem);
+      });
+    });
+  });
+})();
+
+/* ================================================================ */
+/* SECTION 5: TRAINING JOURNAL                                       */
+/* ================================================================ */
+(function() {
+  var entries = JSON.parse(localStorage.getItem('af_journal_entries') || '[]');
+  var journalDate = document.getElementById('journalDate');
+  var journalType = document.getElementById('journalType');
+  var journalDuration = document.getElementById('journalDuration');
+  var journalEnergy = document.getElementById('journalEnergy');
+  var journalNotes = document.getElementById('journalNotes');
+  var journalSaveBtn = document.getElementById('journalSaveBtn');
+  var journalEntriesEl = document.getElementById('journalEntries');
+  var heatmapGrid = document.getElementById('heatmapGrid');
+  var statTotalHours = document.getElementById('statTotalHours');
+  var statLongestStreak = document.getElementById('statLongestStreak');
+  var statCurrentStreak = document.getElementById('statCurrentStreak');
+  var statTotalEntries = document.getElementById('statTotalEntries');
+
+  // Set default date to today
+  var today = new Date();
+  journalDate.value = today.toISOString().split('T')[0];
+
+  function saveEntry() {
+    var entry = {
+      date: journalDate.value,
+      type: journalType.value,
+      duration: parseInt(journalDuration.value) || 30,
+      energy: parseInt(journalEnergy.value) || 5,
+      notes: journalNotes.value,
+      timestamp: Date.now()
+    };
+    entries.push(entry);
+    localStorage.setItem('af_journal_entries', JSON.stringify(entries));
+    journalNotes.value = '';
+    renderAll();
+  }
+
+  journalSaveBtn.addEventListener('click', saveEntry);
+
+  function computeStats() {
+    if (entries.length === 0) {
+      statTotalHours.textContent = '0';
+      statLongestStreak.textContent = '0';
+      statCurrentStreak.textContent = '0';
+      statTotalEntries.textContent = '0';
+      return;
+    }
+
+    var totalMin = 0;
+    entries.forEach(function(e) { totalMin += e.duration; });
+    statTotalHours.textContent = Math.round(totalMin / 60 * 10) / 10;
+
+    // Get unique dates sorted
+    var dateSet = {};
+    entries.forEach(function(e) {
+      dateSet[e.date] = true;
+    });
+    var dates = Object.keys(dateSet).sort();
+    statTotalEntries.textContent = entries.length;
+
+    if (dates.length === 0) {
+      statLongestStreak.textContent = '0';
+      statCurrentStreak.textContent = '0';
+      return;
+    }
+
+    // Compute streaks
+    var longest = 1;
+    var current = 1;
+    var streak = 1;
+
+    for (var i = 1; i < dates.length; i++) {
+      var prev = new Date(dates[i - 1]);
+      var curr = new Date(dates[i]);
+      var diffDays = Math.round((curr - prev) / (24 * 60 * 60 * 1000));
+      if (diffDays === 1) {
+        streak++;
+        if (streak > longest) longest = streak;
+      } else {
+        streak = 1;
+      }
+    }
+    if (dates.length === 1) {
+      longest = 1;
+    }
+
+    // Current streak: count backwards from today
+    var todayStr = today.toISOString().split('T')[0];
+    current = 0;
+    var checkDate = new Date(todayStr);
+    for (var d = dates.length - 1; d >= 0; d--) {
+      var expected = checkDate.toISOString().split('T')[0];
+      if (dates[d] === expected) {
+        current++;
+        checkDate.setDate(checkDate.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+
+    statLongestStreak.textContent = longest;
+    statCurrentStreak.textContent = current;
+  }
+
+  function renderHeatmap() {
+    heatmapGrid.innerHTML = '';
+    var dateSet = {};
+    entries.forEach(function(e) { dateSet[e.date] = true; });
+
+    for (var i = 29; i >= 0; i--) {
+      var d = new Date(today);
+      d.setDate(d.getDate() - i);
+      var dateStr = d.toISOString().split('T')[0];
+      var cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+
+      // Count entries for this day
+      var dayEntries = entries.filter(function(e) { return e.date === dateStr; });
+      var totalMin = 0;
+      dayEntries.forEach(function(e) { totalMin += e.duration; });
+
+      if (dayEntries.length > 0) {
+        if (totalMin >= 60) {
+          cell.classList.add('trained-strong');
+        } else {
+          cell.classList.add('trained');
+        }
+      }
+
+      var tip = document.createElement('div');
+      tip.className = 'heat-tip';
+      tip.textContent = dateStr + (dayEntries.length > 0 ? ' (修炼 ' + totalMin + '分钟)' : ' (休息)');
+      cell.appendChild(tip);
+      heatmapGrid.appendChild(cell);
+    }
+  }
+
+  function renderEntries() {
+    // Show last 10 entries
+    var recent = entries.slice(-10).reverse();
+    var existingEntries = journalEntriesEl.querySelectorAll('.journal-entry');
+    existingEntries.forEach(function(el) { el.remove(); });
+
+    recent.forEach(function(e) {
+      var typeNames = {
+        fasting: '禁食', meditation: '冥想', ritual: '仪式',
+        elemental: '元素', other: '其他'
+      };
+      var div = document.createElement('div');
+      div.className = 'journal-entry';
+      div.innerHTML =
+        '<span class="je-date">' + e.date.slice(5) + '</span>' +
+        '<span class="je-type">' + (typeNames[e.type] || e.type) + '</span>' +
+        '<span class="je-dur">' + e.duration + '分</span>' +
+        '<span class="je-energy">' + e.energy + '</span>' +
+        '<span class="je-notes">' + (e.notes || '') + '</span>';
+      journalEntriesEl.appendChild(div);
+    });
+  }
+
+  function renderAll() {
+    computeStats();
+    renderHeatmap();
+    renderEntries();
+  }
+
+  renderAll();
+})();
+
+</script>
+</body>
+</html>

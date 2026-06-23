@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿佩普之龙 - Apophis Dragon Adventure</title>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Georgia', 'SimSun', serif;
+  background: #0a0a0f;
+  color: #d4d4d0;
+  overflow: hidden;
+  height: 100vh;
+  user-select: none;
+}
+
+/* ===== NAV ===== */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 48px;
+  background: linear-gradient(180deg, #1a1a24 0%, #121218 100%);
+  border-bottom: 1px solid #2a2a3a;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+  gap: 4px;
+}
+.nav-bar a {
+  color: #888;
+  text-decoration: none;
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 4px;
+  transition: all .2s;
+}
+.nav-bar a:hover { color: #d4a843; background: rgba(212,168,67,0.1); }
+.nav-bar a.active { color: #d4a843; background: rgba(212,168,67,0.15); border-bottom: 2px solid #d4a843; }
+.nav-spacer { flex: 1; }
+.nav-title { color: #d4a843; font-size: 14px; font-weight: bold; letter-spacing: 2px; }
+
+/* ===== GAME CONTAINER ===== */
+#game-container {
+  position: fixed;
+  top: 48px; left: 0; right: 0; bottom: 0;
+  background: #0a0a0f;
+  overflow: hidden;
+}
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  top: 48px; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+  background: linear-gradient(135deg, #1a1a24 0%, #0e0e14 100%);
+  border: 1px solid #d4a84344;
+  border-radius: 12px;
+  padding: 30px 40px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 0 60px rgba(212,168,67,0.1);
+  position: relative;
+}
+.modal-box h2 {
+  color: #d4a843;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+  letter-spacing: 3px;
+}
+.modal-box p, .modal-box li {
+  color: #b0b0b0;
+  line-height: 1.7;
+  font-size: 14px;
+}
+.modal-box ul { list-style: none; padding: 0; }
+.modal-box li { padding: 4px 0; border-bottom: 1px solid #1a1a2a; }
+.modal-box li:last-child { border-bottom: none; }
+.modal-close {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 30px;
+  background: #d4a843;
+  color: #0a0a0f;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all .2s;
+}
+.modal-close:hover { background: #e4b853; transform: scale(1.03); }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-thumb { background: #d4a84344; border-radius: 2px; }
+
+/* ===== GAME OVER ===== */
+.game-over-title { color: #c41e3a; font-size: 28px; text-align: center; margin-bottom: 10px; }
+.game-win-title { color: #d4a843; font-size: 28px; text-align: center; margin-bottom: 10px; }
+.stat-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1a1a2a; }
+.stat-row:last-child { border-bottom: none; }
+.stat-label { color: #888; }
+.stat-value { color: #d4a843; font-weight: bold; }
+
+/* ===== CARD REWARD ===== */
+.reward-cards {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+.reward-card-slot {
+  width: 140px;
+  height: 200px;
+  border: 2px solid #d4a84333;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+  background: #12121a;
+}
+.reward-card-slot:hover {
+  border-color: #d4a843;
+  transform: translateY(-8px);
+  box-shadow: 0 8px 30px rgba(212,168,67,0.2);
+}
+.reward-card-slot canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.reward-info {
+  text-align: center;
+  color: #d4a843;
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+/* ===== SHOP ===== */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 15px 0;
+}
+.shop-item {
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  background: #12121a;
+}
+.shop-item:hover {
+  border-color: #d4a843;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(212,168,67,0.15);
+}
+.shop-item-name { color: #d4a843; font-size: 13px; margin-bottom: 4px; }
+.shop-item-desc { color: #888; font-size: 11px; margin-bottom: 6px; }
+.shop-item-price { color: #e4b853; font-size: 14px; font-weight: bold; }
+.shop-item-sold { color: #666; font-style: italic; }
+.shop-gold { text-align: center; color: #e4b853; font-size: 16px; margin-bottom: 10px; }
+
+/* ===== SIGIL FORGE ===== */
+.forge-grid {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+.forge-card-slot {
+  width: 120px;
+  height: 170px;
+  border: 2px solid #2a2a3a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+  background: #12121a;
+}
+.forge-card-slot:hover {
+  border-color: #a855f7;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(168,85,247,0.2);
+}
+.forge-card-slot canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.forge-info { text-align: center; color: #a855f7; margin: 10px 0; font-size: 14px; }
+
+/* ===== MAP NODES ===== */
+.map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px 0;
+}
+.map-floor {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  position: relative;
+}
+.map-node {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .3s;
+  border: 2px solid #2a2a3a;
+  background: #12121a;
+  font-size: 11px;
+  text-align: center;
+  position: relative;
+}
+.map-node:hover:not(.completed):not(.locked) {
+  transform: scale(1.15);
+  box-shadow: 0 0 30px rgba(212,168,67,0.3);
+}
+.map-node.enemy { border-color: #c41e3a; }
+.map-node.elite { border-color: #a855f7; }
+.map-node.rest { border-color: #22c55e; }
+.map-node.shop { border-color: #e4b853; }
+.map-node.sigil { border-color: #a855f7; }
+.map-node.boss { border-color: #ff4444; width: 100px; height: 100px; font-size: 13px; }
+.map-node.completed { opacity: 0.5; cursor: default; }
+.map-node.locked { opacity: 0.3; cursor: default; }
+.map-node.current { animation: pulse-node 1.5s infinite; border-color: #d4a843; }
+@keyframes pulse-node {
+  0%, 100% { box-shadow: 0 0 10px rgba(212,168,67,0.3); }
+  50% { box-shadow: 0 0 30px rgba(212,168,67,0.6); }
+}
+.map-connector {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 50px;
+  height: 2px;
+  background: #2a2a3a;
+}
+.map-node-icon { font-size: 20px; line-height: 1; }
+.map-node-label { font-size: 10px; color: #888; margin-top: 2px; }
+.map-floor-label {
+  color: #d4a843;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .modal-box { padding: 20px; max-width: 95%; }
+  .reward-card-slot { width: 110px; height: 160px; }
+  .shop-item { padding: 8px; }
+  .forge-card-slot { width: 100px; height: 140px; }
+  .map-node { width: 60px; height: 60px; font-size: 10px; }
+  .map-node.boss { width: 80px; height: 80px; }
+  .map-floor { gap: 25px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link active">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+</nav>
+
+<!-- Game Container -->
+<div id="game-container">
+  <canvas id="game-canvas"></canvas>
+</div>
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box" id="modal-box">
+    <!-- Dynamic content -->
+  </div>
+</div>
+
+<script>
+// ============================================================
+// APOPHIS DRAGON ADVENTURE - Full Game Engine
+// ============================================================
+
+// ---- Canvas Setup ----
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
+const modalOverlay = document.getElementById('modal-overlay');
+const modalBox = document.getElementById('modal-box');
+
+function resizeCanvas() {
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// ---- Utility ----
+function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function randf(min, max) { return Math.random() * (max - min) + min; }
+function shuffle(arr) { for(let i=arr.length-1;i>0;i--){const j=rand(0,i);[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+function pick(arr) { return arr[rand(0,arr.length-1)]; }
+function clamp(v,min,max) { return Math.max(min,Math.min(max,v)); }
+
+// ---- Audio Context for particle effects ----
+// (No audio needed, just visual)
+
+// ============================================================
+// CARD DEFINITIONS
+// ============================================================
+const CARD_DB = {
+  // === STARTER (8) ===
+  'dragon_strike_1': { id:'dragon_strike_1', name:'龙击', name_en:'Dragon Strike', cost:1, type:'attack', damage:4, block:0, desc:'造成 4 点伤害', starter:true },
+  'dragon_strike_2': { id:'dragon_strike_2', name:'龙击', name_en:'Dragon Strike', cost:1, type:'attack', damage:4, block:0, desc:'造成 4 点伤害', starter:true },
+  'dragon_strike_3': { id:'dragon_strike_3', name:'龙击', name_en:'Dragon Strike', cost:1, type:'attack', damage:4, block:0, desc:'造成 4 点伤害', starter:true },
+  'defend_1': { id:'defend_1', name:'防御', name_en:'Defend', cost:1, type:'skill', damage:0, block:3, desc:'获得 3 点格挡', starter:true },
+  'defend_2': { id:'defend_2', name:'防御', name_en:'Defend', cost:1, type:'skill', damage:0, block:3, desc:'获得 3 点格挡', starter:true },
+  'snake_move': { id:'snake_move', name:'蛇行', name_en:'Snake Move', cost:1, type:'skill', damage:0, block:2, desc:'获得 2 格挡，抽 1 张牌', extras:{draw:1}, starter:true },
+  'chaos_touch': { id:'chaos_touch', name:'混沌之触', name_en:'Chaos Touch', cost:1, type:'attack', damage:3, block:0, desc:'造成 3 伤害，施加 1 层易伤', extras:{vulnerable:1}, starter:true },
+  'seven_heads_power': { id:'seven_heads_power', name:'七首之力', name_en:'Seven Heads Power', cost:2, type:'attack', damage:5, block:0, desc:'造成 5 点伤害', starter:true },
+
+  // === ATTACK (10) ===
+  'scorpion_sting': { id:'scorpion_sting', name:'蝎刺', name_en:'Scorpion Sting', cost:1, type:'attack', damage:3, block:0, desc:'造成 3 伤害，施加 2 层毒', extras:{poison:2} },
+  'thunder_strike': { id:'thunder_strike', name:'雷霆轰击', name_en:'Thunder Strike', cost:2, type:'attack', damage:8, block:0, desc:'造成 8 点伤害' },
+  'hyena_bite': { id:'hyena_bite', name:'鬣狗撕咬', name_en:'Hyena Bite', cost:1, type:'attack', damage:5, block:0, desc:'造成 5 伤害，回复 2 HP', extras:{heal:2} },
+  'serpent_coil': { id:'serpent_coil', name:'蛇缠', name_en:'Serpent Coil', cost:1, type:'attack', damage:2, block:0, desc:'造成 2 伤害 x3', extras:{multihit:3} },
+  'lion_roar': { id:'lion_roar', name:'狮吼', name_en:"Lion's Roar", cost:2, type:'attack', damage:6, block:0, desc:'造成 6 伤害，施加 2 层易伤', extras:{vulnerable:2} },
+  'giant_hammer': { id:'giant_hammer', name:'巨人之锤', name_en:"Giant's Hammer", cost:3, type:'attack', damage:12, block:0, desc:'造成 12 点伤害' },
+  'typhon_wrath': { id:'typhon_wrath', name:'提丰之怒', name_en:"Typhon's Wrath", cost:3, type:'attack', damage:15, block:0, desc:'造成 15 伤害，失去 2 HP', extras:{selfDamage:2} },
+  'apophis_breath': { id:'apophis_breath', name:'阿佩普之息', name_en:'Apophis Breath', cost:2, type:'attack', damage:4, block:0, desc:'对所有敌人造成 4 伤害', extras:{aoe:true} },
+  'shadow_strike': { id:'shadow_strike', name:'暗影突袭', name_en:'Shadow Strike', cost:1, type:'attack', damage:7, block:0, desc:'造成 7 伤害，抽 1 张牌', extras:{draw:1} },
+  'chaos_blast': { id:'chaos_blast', name:'混沌爆破', name_en:'Chaos Blast', cost:2, type:'attack', damage:0, block:0, desc:'造成等于你的格挡的伤害', extras:{blockDamage:true} },
+
+  // === SKILL (8) ===
+  'sigil_barrier': { id:'sigil_barrier', name:'符印屏障', name_en:'Sigil Barrier', cost:1, type:'skill', damage:0, block:6, desc:'获得 6 点格挡' },
+  'element_shield': { id:'element_shield', name:'元素护盾', name_en:'Element Shield', cost:1, type:'skill', damage:0, block:4, desc:'获得 4 格挡，下回合再得 2', extras:{nextBlock:2} },
+  'blood_pact': { id:'blood_pact', name:'血之契约', name_en:'Blood Pact', cost:0, type:'skill', damage:0, block:0, desc:'失去 1 HP，获得 2 能量', extras:{energyGain:2,selfDamage:1} },
+  'meditation': { id:'meditation', name:'冥想', name_en:'Meditation', cost:1, type:'skill', damage:0, block:0, desc:'回复 3 HP', extras:{heal:3} },
+  'relic_awaken': { id:'relic_awaken', name:'遗物苏醒', name_en:'Relic Awaken', cost:1, type:'skill', damage:0, block:0, desc:'抽 2 张牌', extras:{draw:2} },
+  'star_guidance': { id:'star_guidance', name:'星辰指引', name_en:'Star Guidance', cost:0, type:'skill', damage:0, block:0, desc:'获得 1 能量，抽 1 张牌', extras:{energyGain:1,draw:1} },
+  'dragon_scale': { id:'dragon_scale', name:'龙鳞甲', name_en:'Dragon Scale', cost:2, type:'skill', damage:0, block:8, desc:'获得 8 点格挡' },
+  'sacrifice': { id:'sacrifice', name:'献祭', name_en:'Sacrifice', cost:1, type:'attack', damage:8, block:0, desc:'失去 2 HP，造成 8 伤害', extras:{selfDamage:2} },
+
+  // === POWER (4) ===
+  'dragon_fury': { id:'dragon_fury', name:'龙之狂怒', name_en:'Dragon Fury', cost:2, type:'power', damage:0, block:0, desc:'本场战斗攻击+2', extras:{strengthBuff:2} },
+  'undying_will': { id:'undying_will', name:'不灭意志', name_en:'Undying Will', cost:1, type:'power', damage:0, block:0, desc:'每回合开始获得 3 格挡', extras:{endBlock:3} },
+  'seven_heads_descend': { id:'seven_heads_descend', name:'七首降临', name_en:'Seven Heads Descend', cost:2, type:'power', damage:0, block:0, desc:'回合结束时每张卡造成 1 伤', extras:{headDamage:true} },
+  'chaos_incarnate': { id:'chaos_incarnate', name:'混沌化身', name_en:'Chaos Incarnate', cost:3, type:'power', damage:0, block:0, desc:'力量翻倍', extras:{doubleStrength:true} },
+};
+
+// Helper to create a card instance
+function createCard(cardId, upgraded=false) {
+  const base = CARD_DB[cardId];
+  if (!base) return null;
+  const card = { ...base, uid: CardUID++, upgraded };
+  // Apply upgrade
+  if (upgraded) {
+    card.damage = Math.floor((card.damage || 0) * 2);
+    card.block = Math.floor((card.block || 0) * 2);
+    if (card.extras) {
+      const ex = card.extras;
+      if (ex.poison) ex.poison *= 2;
+      if (ex.vulnerable) ex.vulnerable *= 2;
+      if (ex.weak) ex.weak *= 2;
+      if (ex.heal) ex.heal *= 2;
+      if (ex.draw) ex.draw *= 2;
+      if (ex.energyGain) ex.energyGain *= 2;
+      if (ex.multihit) ex.multihit *= 2;
+      if (ex.strengthBuff) ex.strengthBuff *= 2;
+      if (ex.endBlock) ex.endBlock *= 2;
+      if (ex.selfDamage) ex.selfDamage *= 2;
+      if (ex.nextBlock) ex.nextBlock *= 2;
+    }
+  }
+  return card;
+}
+
+function cloneCard(card) {
+  return { ...card, extras: card.extras ? { ...card.extras } : undefined, uid: CardUID++ };
+}
+
+let CardUID = 0;
+
+// All non-starter card IDs for rewards
+const ATTACK_CARD_IDS = ['scorpion_sting','thunder_strike','hyena_bite','serpent_coil','lion_roar','giant_hammer','typhon_wrath','apophis_breath','shadow_strike','chaos_blast'];
+const SKILL_CARD_IDS = ['sigil_barrier','element_shield','blood_pact','meditation','relic_awaken','star_guidance','dragon_scale','sacrifice'];
+const POWER_CARD_IDS = ['dragon_fury','undying_will','seven_heads_descend','chaos_incarnate'];
+const ALL_NON_STARTER = [...ATTACK_CARD_IDS, ...SKILL_CARD_IDS, ...POWER_CARD_IDS];
+
+// ============================================================
+// RELIC DEFINITIONS
+// ============================================================
+const RELIC_DB = {
+  dragon_heart_stone: { id:'dragon_heart_stone', name:'龙心石', desc:'战斗开始时最大HP+2', effect:'maxHp', value:2 },
+  apophis_eye: { id:'apophis_eye', name:'阿佩普之眼', desc:'首次攻击伤害翻倍', effect:'firstDouble', value:1 },
+  snake_scale_cloak: { id:'snake_scale_cloak', name:'蛇鳞披风', desc:'每回合开始获得 1 格挡', effect:'perTurnBlock', value:1 },
+  seven_heads_crown: { id:'seven_heads_crown', name:'七首王冠', desc:'攻击卡伤害+1', effect:'attackPlus', value:1 },
+  dark_altar: { id:'dark_altar', name:'黑暗祭坛', desc:'战斗后回复 2 HP', effect:'postHeal', value:2 },
+  chaos_orb: { id:'chaos_orb', name:'混沌宝珠', desc:'战斗开始时获得 1 能量', effect:'startEnergy', value:1 },
+  sigil_stone: { id:'sigil_stone', name:'符印石', desc:'0费卡伤害+2', effect:'zeroCostPlus', value:2 },
+  dragon_blood_vial: { id:'dragon_blood_vial', name:'龙血瓶', desc:'HP≤3时回复 5 HP（每场战斗一次）', effect:'emergencyHeal', value:5 },
+  star_fragment: { id:'star_fragment', name:'星辰碎片', desc:'每用一张卡获得 1 金币', effect:'goldPerCard', value:1 },
+  void_mirror: { id:'void_mirror', name:'虚空之镜', desc:'战斗开始多抽 1 张牌', effect:'startDraw', value:1 },
+  time_hourglass: { id:'time_hourglass', name:'时间沙漏', desc:'每3回合获得 1 能量', effect:'timeEnergy', value:1 },
+  destruction_core: { id:'destruction_core', name:'毁灭核心', desc:'战斗开始时对所有敌人造成 5 伤害', effect:'startDamage', value:5 },
+};
+
+// ============================================================
+// ENEMY DEFINITIONS
+// ============================================================
+const ENEMY_DB = {
+  small_snake: {
+    id:'small_snake', name:'小蛇怪', hp:2, maxHp:2, type:'enemy',
+    pattern: [
+      { damage:2, block:0, weak:0, vulnerable:0, desc:'攻击 2' }
+    ]
+  },
+  shadow_bat: {
+    id:'shadow_bat', name:'暗影蝙蝠', hp:3, maxHp:3, type:'enemy',
+    pattern: [
+      { damage:3, block:0, weak:0, vulnerable:0, desc:'攻击 3' }
+    ]
+  },
+  chaos_servant: {
+    id:'chaos_servant', name:'混沌仆从', hp:3, maxHp:3, type:'enemy',
+    pattern: [
+      { damage:2, block:2, weak:0, vulnerable:0, desc:'攻击 2 + 格挡 2' }
+    ]
+  },
+  hell_hound: {
+    id:'hell_hound', name:'地狱犬', hp:4, maxHp:4, type:'enemy',
+    pattern: [
+      { damage:4, block:0, weak:0, vulnerable:0, desc:'攻击 4' }
+    ]
+  },
+  wizard_apprentice: {
+    id:'wizard_apprentice', name:'巫师学徒', hp:3, maxHp:3, type:'enemy',
+    pattern: [
+      { damage:3, block:0, weak:1, vulnerable:0, desc:'攻击 3 + 虚弱 1' }
+    ]
+  },
+  thorn_golem: {
+    id:'thorn_golem', name:'荆棘魔像', hp:5, maxHp:5, type:'enemy',
+    pattern: [
+      { damage:3, block:3, weak:0, vulnerable:0, desc:'攻击 3 + 格挡 3' }
+    ]
+  },
+  fallen_knight: {
+    id:'fallen_knight', name:'堕落骑士', hp:6, maxHp:6, type:'enemy',
+    pattern: [
+      { damage:5, block:0, weak:0, vulnerable:0, desc:'攻击 5' }
+    ]
+  },
+  void_lord: {
+    id:'void_lord', name:'虚空领主', hp:7, maxHp:7, type:'enemy',
+    pattern: [
+      { damage:4, block:0, weak:2, vulnerable:0, desc:'攻击 4 + 虚弱 2' }
+    ]
+  },
+  elemental_giant: {
+    id:'elemental_giant', name:'元素巨人', hp:8, maxHp:8, type:'elite',
+    pattern: [
+      { damage:6, block:0, weak:0, vulnerable:0, desc:'攻击 6' }
+    ]
+  },
+  // Boss - Apophis
+  apophis_boss: {
+    id:'apophis_boss', name:'阿波菲斯', hp:15, maxHp:15, type:'boss',
+    // Pattern cycles: 4 turns
+    pattern: [
+      { damage:4, block:0, weak:2, vulnerable:0, desc:'攻击 4 + 虚弱 2' },
+      { damage:6, block:0, weak:0, vulnerable:2, desc:'攻击 6 + 易伤 2' },
+      { damage:3, block:0, weak:0, vulnerable:0, desc:'攻击 3 x2', multihit:2 },
+      { damage:3, block:0, weak:0, vulnerable:0, desc:'回复 3 + 攻击 3', heal:3 }
+    ]
+  }
+};
+
+const COMMON_ENEMY_IDS = ['small_snake','shadow_bat','chaos_servant','hell_hound','wizard_apprentice','thorn_golem','fallen_knight','void_lord','elemental_giant'];
+
+// ============================================================
+// ENCOUNTER TYPES
+// ============================================================
+const ENCOUNTER_TYPES = ['enemy','enemy','elite','rest','shop','sigil'];
+
+// ============================================================
+// GAME STATE
+// ============================================================
+let G = {};
+
+function initGame() {
+  G = {
+    phase: 'intro', // intro, map, combat, reward, shop, sigil, victory, gameover
+    floor: 0,
+    maxFloor: 3,
+    nodesPerFloor: 3,
+    encounters: [], // 2D array [floor][node]
+    currentNode: 0,
+    completedNodes: [], // ['0-0','0-1',...]
+
+    // Player
+    hp: 5,
+    maxHp: 5,
+    gold: 10,
+    deck: [],
+    relics: [],
+    strength: 0,
+    // Temp combat state
+    combat: null,
+    turn: 0,
+    energy: 3,
+    maxEnergy: 3,
+    block: 0,
+    hand: [],
+    drawPile: [],
+    discardPile: [],
+    powers: {}, // {dragon_fury: true, ...}
+    poison: 0,
+    weak: 0,
+    vulnerable: 0,
+    // Combat counts
+    cardsPlayedThisTurn: 0,
+    cardsPlayedThisCombat: 0,
+    turnCount: 0,
+    emergencyHealUsed: false,
+    timeHourglassCounter: 0,
+    firstAttackUsed: false,
+    goldEarned: 0,
+    enemiesDefeated: 0,
+    damageDealt: 0,
+    damageTaken: 0,
+    // Shop
+    shopCards: [],
+    shopRelics: [],
+    // Forge
+    forgeUpgraded: false,
+    // Reward
+    rewardCards: [],
+    rewardGold: 0,
+  };
+
+  // Build starter deck
+  const starterIds = ['dragon_strike_1','dragon_strike_2','dragon_strike_3','defend_1','defend_2','snake_move','chaos_touch','seven_heads_power'];
+  starterIds.forEach(id => G.deck.push(createCard(id, false)));
+
+  // Generate map
+  generateMap();
+
+  // Add starting relic
+  G.relics.push({ ...RELIC_DB.dragon_heart_stone });
+  G.maxHp = 5 + 2;
+  G.hp = G.maxHp;
+}
+
+// ============================================================
+// MAP GENERATION
+// ============================================================
+function generateMap() {
+  G.encounters = [];
+  for (let f = 0; f < G.maxFloor; f++) {
+    const floor = [];
+    const isLast = f === G.maxFloor - 1;
+    for (let n = 0; n < G.nodesPerFloor; n++) {
+      if (isLast && n === 1) {
+        floor.push({ type:'boss', enemyId:'apophis_boss', completed:false });
+      } else {
+        const type = pick(ENCOUNTER_TYPES);
+        floor.push({ type, enemyId: type === 'enemy' ? pick(COMMON_ENEMY_IDS) : (type === 'elite' ? pick(['elemental_giant','fallen_knight','void_lord']) : null), completed:false });
+      }
+    }
+    G.encounters.push(floor);
+  }
+  G.floor = 0;
+  G.currentNode = 0;
+  G.completedNodes = [];
+}
+
+// ============================================================
+// COMBAT ENGINE
+// ============================================================
+function startCombat(encounter) {
+  const isBoss = encounter.type === 'boss';
+  let enemyDef;
+  if (isBoss) {
+    enemyDef = { ...ENEMY_DB.apophis_boss, hp:15, maxHp:15 };
+  } else {
+    const base = ENEMY_DB[encounter.enemyId];
+    enemyDef = base ? { ...base } : { ...ENEMY_DB.small_snake };
+  }
+  enemyDef.block = 0;
+  enemyDef.weak = 0;
+  enemyDef.vulnerable = 0;
+  enemyDef.poison = 0;
+  enemyDef.strength = 0;
+
+  G.combat = {
+    enemy: enemyDef,
+    turnCount: 0,
+    isBoss,
+    ended: false,
+  };
+  G.turnCount = 0;
+  G.block = 0;
+  G.energy = 3;
+  G.maxEnergy = 3;
+  G.strength = 0;
+  G.powers = {};
+  G.poison = 0;
+  G.weak = 0;
+  G.vulnerable = 0;
+  G.cardsPlayedThisTurn = 0;
+  G.cardsPlayedThisCombat = 0;
+  G.emergencyHealUsed = false;
+  G.timeHourglassCounter = 0;
+  G.firstAttackUsed = false;
+
+  // Apply relics
+  G.relics.forEach(r => {
+    if (r.effect === 'startEnergy') G.maxEnergy = 3 + r.value;
+    if (r.effect === 'startDamage') {
+      G.combat.enemy.hp -= r.value;
+    }
+  });
+
+  // Build draw pile
+  G.drawPile = [];
+  G.discardPile = [];
+  G.hand = [];
+  G.deck.forEach(c => G.drawPile.push(cloneCard(c)));
+  shuffle(G.drawPile);
+
+  // Start draw
+  let startDraw = 5;
+  G.relics.forEach(r => { if (r.effect === 'startDraw') startDraw += r.value; });
+  drawCards(startDraw);
+
+  G.phase = 'combat';
+  G.energy = G.maxEnergy;
+  G.turnCount = 0;
+
+  // Start of combat relics
+  applyStartOfCombatRelics();
+
+  closeModal();
+}
+
+function applyStartOfCombatRelics() {
+  G.relics.forEach(r => {
+    if (r.effect === 'perTurnBlock') G.block += r.value;
+  });
+}
+
+function drawCards(n) {
+  for (let i = 0; i < n; i++) {
+    if (G.drawPile.length === 0) {
+      if (G.discardPile.length === 0) break;
+      G.drawPile = shuffle(G.discardPile);
+      G.discardPile = [];
+    }
+    if (G.drawPile.length > 0) {
+      G.hand.push(G.drawPile.pop());
+    }
+  }
+  if (G.hand.length > 10) {
+    // Discard excess (keep 10)
+    while (G.hand.length > 10) {
+      G.discardPile.push(G.hand.pop());
+    }
+  }
+}
+
+function startPlayerTurn() {
+  G.turnCount++;
+  G.block = 0;
+  G.energy = G.maxEnergy;
+  G.cardsPlayedThisTurn = 0;
+  G.weak = Math.max(0, G.weak - 1);
+  G.vulnerable = Math.max(0, G.vulnerable - 1);
+  G.poison = Math.max(0, G.poison - 1);
+
+  // Apply poison damage to player
+  if (G.poison > 0) {
+    G.hp -= G.poison;
+  }
+
+  // Relic: perTurnBlock
+  G.relics.forEach(r => {
+    if (r.effect === 'perTurnBlock') G.block += r.value;
+  });
+
+  // Power: undying_will
+  if (G.powers['undying_will']) {
+    G.block += 3;
+  }
+
+  // Relic: time_hourglass
+  G.timeHourglassCounter++;
+  if (G.timeHourglassCounter >= 3) {
+    G.energy += 1;
+    G.timeHourglassCounter = 0;
+  }
+
+  drawCards(5);
+  checkGameOver();
+}
+
+function endPlayerTurn() {
+  // Discard hand
+  while (G.hand.length > 0) {
+    G.discardPile.push(G.hand.pop());
+  }
+  // Resolve end-of-turn effects
+  if (G.powers['seven_heads_descend']) {
+    const dmg = G.cardsPlayedThisTurn;
+    if (G.combat && G.combat.enemy && G.combat.enemy.hp > 0) {
+      const finalDmg = dmg + G.strength;
+      G.combat.enemy.hp -= Math.max(0, finalDmg);
+      G.damageDealt += finalDmg;
+    }
+  }
+  // Enemy turn
+  enemyTurn();
+}
+
+function enemyTurn() {
+  const enemy = G.combat.enemy;
+  if (!enemy || enemy.hp <= 0) return;
+
+  const pattern = enemy.pattern;
+  const idx = (G.turnCount - 1) % pattern.length;
+  const action = pattern[idx];
+
+  // Enemy turn count
+  if (enemy.poison > 0) {
+    enemy.hp -= enemy.poison;
+    if (enemy.hp <= 0) { onEnemyDefeated(); return; }
+  }
+  if (enemy.weak > 0) enemy.weak--;
+  if (enemy.vulnerable > 0) enemy.vulnerable--;
+
+  // Enemy action
+  let dmg = action.damage || 0;
+  if (action.multihit) dmg = dmg * action.multihit;
+  if (enemy.weak > 0) dmg = Math.max(0, Math.floor(dmg * 0.75));
+  if (enemy.vulnerable > 0) dmg = Math.floor(dmg * 1.5);
+  dmg += enemy.strength || 0;
+
+  if (action.heal) enemy.hp += action.heal;
+
+  // Apply damage to player
+  let playerDmg = dmg;
+  if (G.block > 0) {
+    const blocked = Math.min(G.block, playerDmg);
+    G.block -= blocked;
+    playerDmg -= blocked;
+  }
+  if (playerDmg > 0) {
+    G.hp -= playerDmg;
+    G.damageTaken += playerDmg;
+  }
+
+  // Apply debuffs from enemy
+  if (action.weak) G.weak += action.weak;
+  if (action.vulnerable) G.vulnerable += action.vulnerable;
+
+  // Weak/Vulnerable decay for enemy
+  if (enemy.weak > 0) enemy.weak = Math.max(0, enemy.weak - 1);
+  if (enemy.vulnerable > 0) enemy.vulnerable = Math.max(0, enemy.vulnerable - 1);
+
+  checkGameOver();
+  if (G.phase === 'combat') {
+    startPlayerTurn();
+  }
+}
+
+function checkGameOver() {
+  if (G.hp <= 0) {
+    G.hp = 0;
+    // Emergency heal relic
+    if (!G.emergencyHealUsed) {
+      G.relics.forEach(r => {
+        if (r.effect === 'emergencyHeal' && G.hp <= 3 && !G.emergencyHealUsed) {
+          G.hp += r.value;
+          G.emergencyHealUsed = true;
+        }
+      });
+      if (G.hp > 0) return; // Saved!
+    }
+    // Game over
+    G.phase = 'gameover';
+    showGameOver();
+    return;
+  }
+  if (G.combat && G.combat.enemy && G.combat.enemy.hp <= 0) {
+    onEnemyDefeated();
+  }
+}
+
+function onEnemyDefeated() {
+  G.enemiesDefeated++;
+  G.combat.ended = true;
+
+  // Post-combat relic heal
+  G.relics.forEach(r => {
+    if (r.effect === 'postHeal') G.hp = Math.min(G.maxHp, G.hp + r.value);
+  });
+
+  if (G.combat.isBoss) {
+    G.phase = 'victory';
+    showVictory();
+  } else {
+    // Reward phase
+    const goldReward = rand(5, 12);
+    G.gold += goldReward;
+    G.rewardGold = goldReward;
+
+    // Generate 3 random cards
+    G.rewardCards = [];
+    const pool = shuffle([...ALL_NON_STARTER]);
+    for (let i = 0; i < 3 && i < pool.length; i++) {
+      G.rewardCards.push(createCard(pool[i], false));
+    }
+    showCardReward();
+  }
+}
+
+// ============================================================
+// PLAY CARD
+// ============================================================
+function playCard(cardIndex) {
+  if (G.phase !== 'combat') return;
+  if (!G.combat || G.combat.ended) return;
+  if (G.hand.length <= cardIndex) return;
+
+  const card = G.hand[cardIndex];
+  if (G.energy < card.cost) return;
+
+  G.energy -= card.cost;
+  G.cardsPlayedThisTurn++;
+  G.cardsPlayedThisCombat++;
+
+  // Remove from hand
+  G.hand.splice(cardIndex, 1);
+
+  // Apply card effects
+  let dmg = card.damage || 0;
+  let blk = card.block || 0;
+  const extras = card.extras || {};
+
+  // Block damage (混沌爆破) - convert block to damage first
+  if (extras.blockDamage) {
+    dmg = G.block;
+  }
+
+  // Strength
+  dmg += G.strength;
+
+  // Relic: attackPlus
+  if (card.type === 'attack') {
+    G.relics.forEach(r => { if (r.effect === 'attackPlus') dmg += r.value; });
+  }
+
+  // Relic: zeroCostPlus
+  if (card.cost === 0) {
+    G.relics.forEach(r => { if (r.effect === 'zeroCostPlus') dmg += r.value; });
+  }
+
+  // Relic: firstDouble
+  if (!G.firstAttackUsed && card.type === 'attack' && dmg > 0) {
+    G.relics.forEach(r => {
+      if (r.effect === 'firstDouble') {
+        dmg *= 2;
+        G.firstAttackUsed = true;
+      }
+    });
+  }
+
+  // Multihit
+  const hits = extras.multihit || 1;
+
+  // Self damage
+  if (extras.selfDamage) {
+    G.hp -= extras.selfDamage;
+  }
+
+  // Heal
+  if (extras.heal) {
+    G.hp = Math.min(G.maxHp, G.hp + extras.heal);
+  }
+
+  // Energy gain
+  if (extras.energyGain) {
+    G.energy += extras.energyGain;
+  }
+
+  // Draw
+  if (extras.draw) {
+    drawCards(extras.draw);
+  }
+
+  // Apply damage to enemy
+  if (extras.aoe) {
+    // AOE: just damage to the single enemy (in our case always single enemy)
+    for (let h = 0; h < hits; h++) {
+      const finalDmg = Math.max(0, dmg);
+      G.combat.enemy.hp -= finalDmg;
+      G.damageDealt += finalDmg;
+    }
+  } else {
+    for (let h = 0; h < hits; h++) {
+      let hitDmg = dmg;
+      if (G.vulnerable > 0) hitDmg = Math.floor(hitDmg * 1.5);
+      hitDmg = Math.max(0, hitDmg);
+      G.combat.enemy.hp -= hitDmg;
+      G.damageDealt += hitDmg;
+    }
+  }
+
+  // Apply block
+  if (blk > 0) {
+    G.block += blk;
+  }
+
+  // Apply debuffs
+  if (extras.poison) {
+    G.combat.enemy.poison = (G.combat.enemy.poison || 0) + extras.poison;
+  }
+  if (extras.vulnerable) {
+    G.combat.enemy.vulnerable = (G.combat.enemy.vulnerable || 0) + extras.vulnerable;
+  }
+  if (extras.weak) {
+    G.combat.enemy.weak = (G.combat.enemy.weak || 0) + extras.weak;
+  }
+
+  // Power cards
+  if (card.type === 'power') {
+    if (extras.strengthBuff) G.strength += extras.strengthBuff;
+    if (extras.doubleStrength) G.strength *= 2;
+    if (extras.endBlock) G.powers['undying_will'] = true;
+    if (extras.headDamage) G.powers['seven_heads_descend'] = true;
+    // Dragon Fury
+    if (extras.strengthBuff) G.powers['dragon_fury'] = true;
+  }
+
+  // Next turn block
+  if (extras.nextBlock) {
+    // Simplified: add to current block
+    G.block += extras.nextBlock;
+  }
+
+  // Put card in discard
+  G.discardPile.push(card);
+
+  // Check enemy death
+  checkGameOver();
+
+  // Relic: goldPerCard
+  G.relics.forEach(r => {
+    if (r.effect === 'goldPerCard') G.gold += r.value;
+  });
+}
+
+// ============================================================
+// END TURN / ENEMY TURN TIMER
+// ============================================================
+let enemyTimer = null;
+
+function doEndTurn() {
+  if (enemyTimer) { clearTimeout(enemyTimer); enemyTimer = null; }
+  endPlayerTurn();
+}
+
+// ============================================================
+// MODAL HELPERS
+// ============================================================
+function openModal(html) {
+  modalBox.innerHTML = html;
+  modalOverlay.classList.add('active');
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('active');
+}
+
+// ============================================================
+// SHOW FUNCTIONS
+// ============================================================
+function showIntro() {
+  openModal(`
+    <h2>阿佩普之龙</h2>
+    <p style="text-align:center;color:#d4a843;margin-bottom:15px;font-size:13px;">Apophis Dragon Adventure</p>
+    <p style="margin-bottom:12px;">在古老的神话中，混沌之蛇阿波菲斯企图吞噬太阳，毁灭世界。你将扮演一位龙之勇士，深入黑暗迷宫，击败阿波菲斯，拯救世界。</p>
+    <p style="margin-bottom:12px;"><b style="color:#d4a843;">玩法说明：</b></p>
+    <ul>
+      <li>你拥有 5 HP 和一副基础卡组</li>
+      <li>穿越 3 层迷宫，每层 3 个遭遇点</li>
+      <li>战胜敌人获得卡牌奖励和金币</li>
+      <li>在商店购买卡牌/遗物，在符印铁匠铺升级</li>
+      <li>在第 3 层击败 BOSS 阿波菲斯获得胜利</li>
+    </ul>
+    <button class="modal-close" onclick="startGame()">开始冒险</button>
+  `);
+}
+
+function startGame() {
+  initGame();
+  closeModal();
+  showMap();
+}
+
+function showMap() {
+  G.phase = 'map';
+  let html = '<h2>冒险地图</h2>';
+  html += '<div class="map-container">';
+  for (let f = 0; f < G.encounters.length; f++) {
+    html += `<div class="map-floor-label">第 ${f+1} 层</div><div class="map-floor">`;
+    for (let n = 0; n < G.encounters[f].length; n++) {
+      const enc = G.encounters[f][n];
+      const key = `${f}-${n}`;
+      const completed = enc.completed;
+      const isCurrent = f === G.floor && n === G.currentNode && !completed;
+      const locked = f > G.floor || (f === G.floor && n > G.currentNode) || completed;
+
+      let cls = 'map-node';
+      if (enc.type === 'enemy') cls += ' enemy';
+      else if (enc.type === 'elite') cls += ' elite';
+      else if (enc.type === 'rest') cls += ' rest';
+      else if (enc.type === 'shop') cls += ' shop';
+      else if (enc.type === 'sigil') cls += ' sigil';
+      else if (enc.type === 'boss') cls += ' boss';
+      if (completed) cls += ' completed';
+      if (locked && !completed) cls += ' locked';
+      if (isCurrent) cls += ' current';
+
+      let icon = '';
+      let label = '';
+      if (enc.type === 'enemy' || enc.type === 'elite') {
+        const eid = enc.enemyId;
+        if (eid === 'small_snake') { icon = '🐍'; label = '小蛇怪'; }
+        else if (eid === 'shadow_bat') { icon = '🦇'; label = '暗影蝙蝠'; }
+        else if (eid === 'chaos_servant') { icon = '👤'; label = '混沌仆从'; }
+        else if (eid === 'hell_hound') { icon = '🐕'; label = '地狱犬'; }
+        else if (eid === 'wizard_apprentice') { icon = '🧙'; label = '巫师学徒'; }
+        else if (eid === 'thorn_golem') { icon = '🗿'; label = '荆棘魔像'; }
+        else if (eid === 'fallen_knight') { icon = '⚔️'; label = '堕落骑士'; }
+        else if (eid === 'void_lord') { icon = '👁️'; label = '虚空领主'; }
+        else if (eid === 'elemental_giant') { icon = '🌋'; label = '元素巨人'; }
+        else { icon = '👾'; label = '敌人'; }
+      } else if (enc.type === 'rest') { icon = '🔥'; label = '休息'; }
+      else if (enc.type === 'shop') { icon = '🛒'; label = '商店'; }
+      else if (enc.type === 'sigil') { icon = '🔮'; label = '符印铁匠铺'; }
+      else if (enc.type === 'boss') { icon = '🐉'; label = '阿波菲斯'; }
+      if (completed) label += ' ✓';
+
+      html += `<div class="${cls}" onclick="enterNode(${f},${n})">
+        <div class="map-node-icon">${icon}</div>
+        <div class="map-node-label">${label}</div>
+      </div>`;
+    }
+    html += '</div>';
+  }
+  html += '</div>';
+
+  html += `<p style="text-align:center;color:#888;font-size:12px;margin-top:10px;">
+    HP: ${G.hp}/${G.maxHp} | 金币: ${G.gold} | 卡组: ${G.deck.length} 张 | 遗物: ${G.relics.length} 件
+  </p>`;
+
+  openModal(html);
+}
+
+function enterNode(floor, nodeIndex) {
+  if (floor !== G.floor || nodeIndex !== G.currentNode) return;
+  const enc = G.encounters[floor][nodeIndex];
+  if (enc.completed) return;
+
+  enc.completed = true;
+
+  if (enc.type === 'enemy' || enc.type === 'elite' || enc.type === 'boss') {
+    startCombat(enc);
+  } else if (enc.type === 'rest') {
+    G.hp = Math.min(G.maxHp, G.hp + 3);
+    advanceNode();
+    showMap();
+  } else if (enc.type === 'shop') {
+    enterShop();
+  } else if (enc.type === 'sigil') {
+    enterSigilForge();
+  }
+}
+
+function advanceNode() {
+  G.currentNode++;
+  if (G.currentNode >= G.encounters[G.floor].length) {
+    G.currentNode = 0;
+    G.floor++;
+    if (G.floor >= G.maxFloor) {
+      // Victory should have been triggered
+    }
+  }
+}
+
+function enterShop() {
+  G.phase = 'shop';
+  // Generate shop items
+  const availableCards = shuffle([...ALL_NON_STARTER]);
+  G.shopCards = [];
+  for (let i = 0; i < 3 && i < availableCards.length; i++) {
+    G.shopCards.push(createCard(availableCards[i], false));
+  }
+  G.shopRelics = shuffle(Object.keys(RELIC_DB)).slice(0, 2).map(id => ({ ...RELIC_DB[id] }));
+
+  renderShop();
+}
+
+function renderShop() {
+  let html = `<h2>🏪 商店</h2>
+  <div class="shop-gold">金币: ${G.gold}</div>`;
+
+  html += '<h3 style="color:#d4a843;font-size:15px;margin:10px 0 5px;">卡牌 (15-30 金币)</h3><div class="shop-grid">';
+  G.shopCards.forEach((card, i) => {
+    const price = card.cost <= 1 ? 15 : card.cost === 2 ? 20 : 30;
+    const sold = card.sold;
+    html += `<div class="shop-item" onclick="${sold ? '' : `buyCard(${i})`}">
+      <div class="shop-item-name">${card.name}</div>
+      <div class="shop-item-desc">${card.desc}</div>
+      <div class="shop-item-price">${sold ? '已售罄' : price + ' 金币'}</div>
+    </div>`;
+  });
+  html += '</div>';
+
+  html += '<h3 style="color:#d4a843;font-size:15px;margin:15px 0 5px;">遗物 (50-80 金币)</h3><div class="shop-grid">';
+  G.shopRelics.forEach((r, i) => {
+    const price = 50 + i * 15;
+    const sold = r.sold;
+    html += `<div class="shop-item" onclick="${sold ? '' : `buyRelic(${i})`}">
+      <div class="shop-item-name">${r.name}</div>
+      <div class="shop-item-desc">${r.desc}</div>
+      <div class="shop-item-price">${sold ? '已售罄' : price + ' 金币'}</div>
+    </div>`;
+  });
+  html += '</div>';
+
+  html += `<h3 style="color:#d4a843;font-size:15px;margin:15px 0 5px;">服务</h3><div class="shop-grid">
+    <div class="shop-item" onclick="removeCardFromDeck()">
+      <div class="shop-item-name">移除卡牌</div>
+      <div class="shop-item-desc">从卡组中移除一张牌</div>
+      <div class="shop-item-price">25 金币</div>
+    </div>
+  </div>`;
+
+  html += `<button class="modal-close" onclick="leaveShop()" style="margin-top:15px;">离开商店</button>`;
+  openModal(html);
+}
+
+function buyCard(index) {
+  const card = G.shopCards[index];
+  if (!card || card.sold) return;
+  const price = card.cost <= 1 ? 15 : card.cost === 2 ? 20 : 30;
+  if (G.gold < price) { showToast('金币不足！'); return; }
+  G.gold -= price;
+  card.sold = true;
+  G.deck.push(cloneCard(card));
+  renderShop();
+}
+
+function buyRelic(index) {
+  const relic = G.shopRelics[index];
+  if (!relic || relic.sold) return;
+  const price = 50 + index * 15;
+  if (G.gold < price) { showToast('金币不足！'); return; }
+  // Check if already owned
+  if (G.relics.find(r => r.id === relic.id)) { showToast('已拥有该遗物！'); return; }
+  G.gold -= price;
+  relic.sold = true;
+  G.relics.push({ ...relic });
+  // Apply passive relic effects
+  if (relic.effect === 'maxHp') { G.maxHp += relic.value; G.hp += relic.value; }
+  renderShop();
+}
+
+function removeCardFromDeck() {
+  if (G.gold < 25) { showToast('金币不足！'); return; }
+  if (G.deck.length <= 3) { showToast('卡组太少！'); return; }
+  G.gold -= 25;
+  // Show deck to pick which to remove
+  showDeckForRemoval();
+}
+
+function showDeckForRemoval() {
+  let html = '<h2>选择要移除的卡牌</h2>';
+  html += '<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:15px 0;">';
+  G.deck.forEach((card, i) => {
+    const lvl = card.upgraded ? '★' : '';
+    html += `<div class="shop-item" onclick="confirmRemoveCard(${i})" style="width:100px;">
+      <div class="shop-item-name">${card.name}${lvl}</div>
+      <div class="shop-item-desc" style="font-size:10px;">${card.desc}</div>
+    </div>`;
+  });
+  html += '</div>';
+  html += `<button class="modal-close" onclick="enterShop()">取消</button>`;
+  openModal(html);
+}
+
+function confirmRemoveCard(index) {
+  G.deck.splice(index, 1);
+  enterShop();
+}
+
+function leaveShop() {
+  advanceNode();
+  closeModal();
+  showMap();
+}
+
+// ============================================================
+// SIGIL FORGE
+// ============================================================
+function enterSigilForge() {
+  G.phase = 'sigil';
+  renderForge();
+}
+
+function renderForge() {
+  let html = '<h2>🔮 符印铁匠铺</h2>';
+  html += '<div class="forge-info">选择一张卡牌升级（20 金币），效果翻倍</div>';
+  html += `<div class="forge-info">金币: ${G.gold}</div>`;
+  html += '<div class="forge-grid">';
+  G.deck.forEach((card, i) => {
+    const canUpgrade = !card.upgraded;
+    html += `<div class="forge-card-slot" onclick="${canUpgrade && G.gold >= 20 ? `upgradeCard(${i})` : ''}" style="${canUpgrade && G.gold >= 20 ? 'cursor:pointer;' : 'opacity:0.5;cursor:default;'}">
+      <div style="text-align:center;padding-top:10px;color:#d4a843;">${card.name}</div>
+      <div style="text-align:center;font-size:11px;color:#888;padding:2px 4px;">${card.desc}</div>
+      <div style="text-align:center;font-size:10px;color:#666;">${card.upgraded ? '已升级' : (G.gold >= 20 ? '点击升级 20g' : '金币不足')}</div>
+    </div>`;
+  });
+  html += '</div>';
+  html += `<button class="modal-close" onclick="leaveForge()" style="margin-top:15px;">离开铁匠铺</button>`;
+  openModal(html);
+}
+
+function upgradeCard(index) {
+  if (G.gold < 20) return;
+  const card = G.deck[index];
+  if (card.upgraded) return;
+  G.gold -= 20;
+  // Recreate as upgraded
+  G.deck[index] = createCard(card.id, true);
+  renderForge();
+}
+
+function leaveForge() {
+  advanceNode();
+  closeModal();
+  showMap();
+}
+
+// ============================================================
+// CARD REWARD
+// ============================================================
+function showCardReward() {
+  G.phase = 'reward';
+  let html = `<h2>⚔️ 胜利！</h2>`;
+  html += `<div class="reward-info">获得 ${G.rewardGold} 金币</div>`;
+  html += `<div class="reward-info">选择一张卡牌加入卡组：</div>`;
+  html += '<div class="reward-cards">';
+  G.rewardCards.forEach((card, i) => {
+    html += `<div class="reward-card-slot" onclick="chooseRewardCard(${i})">
+      <div style="text-align:center;padding-top:10px;color:#d4a843;font-size:12px;">${card.name}</div>
+      <div style="text-align:center;font-size:11px;color:#888;padding:4px;">${card.desc}</div>
+      <div style="text-align:center;font-size:10px;color:#666;">费用: ${card.cost}</div>
+    </div>`;
+  });
+  html += '</div>';
+  openModal(html);
+}
+
+function chooseRewardCard(index) {
+  const card = G.rewardCards[index];
+  if (!card) return;
+  G.deck.push(cloneCard(card));
+  G.rewardCards = [];
+  closeModal();
+  advanceNode();
+  showMap();
+}
+
+// ============================================================
+// GAME OVER / VICTORY
+// ============================================================
+function showGameOver() {
+  G.phase = 'gameover';
+  const score = G.enemiesDefeated * 50 + G.gold + G.deck.length * 5;
+  openModal(`
+    <div class="game-over-title">💀 陨落</div>
+    <p style="text-align:center;color:#888;margin-bottom:15px;">阿波菲斯的黑暗吞噬了你...</p>
+    <div class="stat-row"><span class="stat-label">击败敌人</span><span class="stat-value">${G.enemiesDefeated}</span></div>
+    <div class="stat-row"><span class="stat-label">金币获得</span><span class="stat-value">${G.gold}</span></div>
+    <div class="stat-row"><span class="stat-label">卡组规模</span><span class="stat-value">${G.deck.length}</span></div>
+    <div class="stat-row"><span class="stat-label">遗物数量</span><span class="stat-value">${G.relics.length}</span></div>
+    <div class="stat-row"><span class="stat-label">总伤害</span><span class="stat-value">${G.damageDealt}</span></div>
+    <div class="stat-row"><span class="stat-label">受到伤害</span><span class="stat-value">${G.damageTaken}</span></div>
+    <div class="stat-row"><span class="stat-label" style="font-size:16px;">最终得分</span><span class="stat-value" style="font-size:16px;color:#c41e3a;">${score}</span></div>
+    <button class="modal-close" onclick="startGame()">重新开始</button>
+  `);
+}
+
+function showVictory() {
+  G.phase = 'victory';
+  const score = G.enemiesDefeated * 50 + G.gold + G.deck.length * 5 + 500;
+  openModal(`
+    <div class="game-win-title">🐉 胜利！</div>
+    <p style="text-align:center;color:#d4a843;margin-bottom:15px;">你击败了混沌之蛇阿波菲斯，龙之勇士！</p>
+    <div class="stat-row"><span class="stat-label">击败敌人</span><span class="stat-value">${G.enemiesDefeated}</span></div>
+    <div class="stat-row"><span class="stat-label">剩余HP</span><span class="stat-value">${G.hp}/${G.maxHp}</span></div>
+    <div class="stat-row"><span class="stat-label">金币</span><span class="stat-value">${G.gold}</span></div>
+    <div class="stat-row"><span class="stat-label">卡组规模</span><span class="stat-value">${G.deck.length}</span></div>
+    <div class="stat-row"><span class="stat-label">遗物数量</span><span class="stat-value">${G.relics.length}</span></div>
+    <div class="stat-row"><span class="stat-label">总伤害</span><span class="stat-value">${G.damageDealt}</span></div>
+    <div class="stat-row"><span class="stat-label" style="font-size:16px;">最终得分</span><span class="stat-value" style="font-size:16px;color:#d4a843;">${score}</span></div>
+    <button class="modal-close" onclick="startGame()">再来一局</button>
+  `);
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+let toastEl = null;
+function showToast(msg) {
+  if (!toastEl) {
+    toastEl = document.createElement('div');
+    toastEl.style.cssText = 'position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#1a1a24;border:1px solid #d4a843;color:#d4a843;padding:10px 24px;border-radius:6px;z-index:2000;font-size:14px;transition:opacity .3s;opacity:0;';
+    document.body.appendChild(toastEl);
+  }
+  toastEl.textContent = msg;
+  toastEl.style.opacity = '1';
+  setTimeout(() => { toastEl.style.opacity = '0'; }, 1500);
+}
+
+// ============================================================
+// CANVAS RENDERING
+// ============================================================
+// Particle system
+let particles = [];
+class Particle {
+  constructor() {
+    this.x = randf(0, canvas.width);
+    this.y = randf(0, canvas.height);
+    this.vx = randf(-0.3, 0.3);
+    this.vy = randf(-0.3, 0.3);
+    this.size = randf(0.5, 2);
+    this.alpha = randf(0.1, 0.4);
+    this.life = randf(100, 300);
+    this.maxLife = this.life;
+  }
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life--;
+    this.alpha = (this.life / this.maxLife) * 0.4;
+    if (this.life <= 0) {
+      this.x = randf(0, canvas.width);
+      this.y = randf(0, canvas.height);
+      this.life = randf(100, 300);
+      this.maxLife = this.life;
+      this.alpha = randf(0.1, 0.4);
+    }
+  }
+  draw() {
+    ctx.fillStyle = `rgba(212,168,67,${this.alpha})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function initParticles(count) {
+  particles = [];
+  for (let i = 0; i < count; i++) particles.push(new Particle());
+}
+
+// ---- Combat Rendering ----
+function renderCombat() {
+  const W = canvas.width, H = canvas.height;
+
+  // Background gradient
+  const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W*0.7);
+  grad.addColorStop(0, '#1a1a2e');
+  grad.addColorStop(0.5, '#0e0e18');
+  grad.addColorStop(1, '#050508');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Particles
+  particles.forEach(p => { p.update(); p.draw(); });
+
+  // === TOP HUD ===
+  const topY = 10;
+
+  // HP bar
+  ctx.fillStyle = '#c41e3a';
+  ctx.font = '13px Georgia, serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('❤', 15, topY + 13);
+  const hpBarW = 150, hpBarH = 12, hpBarX = 35;
+  ctx.fillStyle = '#2a1a1a';
+  ctx.fillRect(hpBarX, topY, hpBarW, hpBarH);
+  const hpPct = G.hp / G.maxHp;
+  ctx.fillStyle = hpPct > 0.5 ? '#22c55e' : hpPct > 0.25 ? '#e4b853' : '#c41e3a';
+  ctx.fillRect(hpBarX, topY, hpBarW * hpPct, hpBarH);
+  ctx.strokeStyle = '#d4a84344';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(hpBarX, topY, hpBarW, hpBarH);
+  ctx.fillStyle = '#fff';
+  ctx.font = '10px Georgia, serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${G.hp}/${G.maxHp}`, hpBarX + hpBarW/2, topY + 10);
+
+  // Energy
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#d4a843';
+  ctx.font = '13px Georgia, serif';
+  ctx.fillText('♦', hpBarX + hpBarW + 20, topY + 13);
+  ctx.fillStyle = '#fff';
+  ctx.font = '12px Georgia, serif';
+  ctx.fillText(`${G.energy}/${G.maxEnergy}`, hpBarX + hpBarW + 36, topY + 13);
+
+  // Gold
+  ctx.fillStyle = '#e4b853';
+  ctx.font = '12px Georgia, serif';
+  ctx.fillText('★', hpBarX + hpBarW + 70, topY + 13);
+  ctx.fillStyle = '#fff';
+  ctx.fillText(G.gold, hpBarX + hpBarW + 85, topY + 13);
+
+  // Block indicator
+  if (G.block > 0) {
+    ctx.fillStyle = '#60a5fa';
+    ctx.font = '12px Georgia, serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(`🛡 ${G.block}`, 15, topY + 32);
+  }
+
+  // Status effects
+  let statusX = 100;
+  if (G.weak > 0) {
+    ctx.fillStyle = '#a855f7';
+    ctx.font = '11px Georgia, serif';
+    ctx.fillText(`虚弱 ${G.weak}`, statusX, topY + 32);
+    statusX += 60;
+  }
+  if (G.vulnerable > 0) {
+    ctx.fillStyle = '#f97316';
+    ctx.font = '11px Georgia, serif';
+    ctx.fillText(`易伤 ${G.vulnerable}`, statusX, topY + 32);
+    statusX += 60;
+  }
+  if (G.poison > 0) {
+    ctx.fillStyle = '#22c55e';
+    ctx.font = '11px Georgia, serif';
+    ctx.fillText(`毒 ${G.poison}`, statusX, topY + 32);
+    statusX += 50;
+  }
+  if (G.strength > 0) {
+    ctx.fillStyle = '#ef4444';
+    ctx.font = '11px Georgia, serif';
+    ctx.fillText(`力量 ${G.strength}`, statusX, topY + 32);
+  }
+
+  // === ENEMY ===
+  const enemy = G.combat.enemy;
+  if (enemy) {
+    const eX = W/2, eY = H * 0.3;
+    // Enemy sprite
+    drawEnemySprite(ctx, enemy, eX, eY, G.combat.isBoss ? 80 : 55);
+
+    // Enemy name and HP
+    ctx.fillStyle = G.combat.isBoss ? '#ff4444' : '#d4a843';
+    ctx.font = G.combat.isBoss ? '18px Georgia, serif' : '15px Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(enemy.name, eX, eY - 55 - (G.combat.isBoss ? 30 : 0));
+
+    // Enemy HP bar
+    const eHpBarW = G.combat.isBoss ? 200 : 140;
+    const eHpBarH = 10;
+    const eHpBarX = eX - eHpBarW/2;
+    const eHpBarY = eY - 40 - (G.combat.isBoss ? 30 : 0);
+    ctx.fillStyle = '#2a1a1a';
+    ctx.fillRect(eHpBarX, eHpBarY, eHpBarW, eHpBarH);
+    const eHpPct = Math.max(0, enemy.hp / enemy.maxHp);
+    ctx.fillStyle = eHpPct > 0.5 ? '#ef4444' : eHpPct > 0.25 ? '#f97316' : '#c41e3a';
+    ctx.fillRect(eHpBarX, eHpBarY, eHpBarW * eHpPct, eHpBarH);
+    ctx.strokeStyle = '#d4a84333';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(eHpBarX, eHpBarY, eHpBarW, eHpBarH);
+    ctx.fillStyle = '#fff';
+    ctx.font = '9px Georgia, serif';
+    ctx.fillText(`${Math.max(0,enemy.hp)}/${enemy.maxHp}`, eX, eHpBarY + 9);
+
+    // Enemy intent
+    const patIdx = (G.turnCount - 1) % enemy.pattern.length;
+    const pat = enemy.pattern[patIdx];
+    if (pat) {
+      let intentText = pat.desc || '';
+      ctx.fillStyle = '#f97316';
+      ctx.font = '11px Georgia, serif';
+      ctx.fillText(`意图: ${intentText}`, eX, eHpBarY - 12);
+    }
+
+    // Enemy status effects
+    let eStatusY = eHpBarY - 25;
+    if (enemy.weak > 0) {
+      ctx.fillStyle = '#a855f7';
+      ctx.font = '10px Georgia, serif';
+      ctx.fillText(`虚弱 ${enemy.weak}`, eX - 40, eStatusY);
+    }
+    if (enemy.vulnerable > 0) {
+      ctx.fillStyle = '#f97316';
+      ctx.font = '10px Georgia, serif';
+      ctx.fillText(`易伤 ${enemy.vulnerable}`, eX + 20, eStatusY);
+    }
+    if (enemy.poison > 0) {
+      ctx.fillStyle = '#22c55e';
+      ctx.font = '10px Georgia, serif';
+      ctx.fillText(`毒 ${enemy.poison}`, eX + 60, eStatusY);
+    }
+  }
+
+  // === DECK & DISCARD INFO ===
+  ctx.fillStyle = '#666';
+  ctx.font = '11px Georgia, serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(`抽牌堆: ${G.drawPile.length}`, 15, H - 140);
+  ctx.fillText(`弃牌堆: ${G.discardPile.length}`, 15, H - 125);
+
+  // === HAND CARDS ===
+  const handY = H - 120;
+  const cardW = 90, cardH = 130;
+  const totalW = G.hand.length * (cardW + 6) - 6;
+  const startX = Math.max(10, (W - totalW) / 2);
+
+  G.hand.forEach((card, i) => {
+    const cx = startX + i * (cardW + 6);
+    const canPlay = G.energy >= card.cost;
+    drawCardFace(ctx, card, cx, handY, cardW, cardH, i, canPlay, i === hoveredCard);
+  });
+
+  // === END TURN BUTTON ===
+  const btnX = W - 110, btnY = H - 100, btnW = 100, btnH = 36;
+  ctx.fillStyle = '#d4a843';
+  ctx.fillRect(btnX, btnY, btnW, btnH);
+  ctx.fillStyle = '#0a0a0f';
+  ctx.font = 'bold 13px Georgia, serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('结束回合', btnX + btnW/2, btnY + btnH/2);
+  ctx.strokeStyle = '#d4a84366';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(btnX, btnY, btnW, btnH);
+
+  // === FLOOR INFO ===
+  ctx.fillStyle = '#444';
+  ctx.font = '10px Georgia, serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(`第 ${G.floor+1} 层`, W - 10, 22);
+
+  ctx.textBaseline = 'alphabetic';
+}
+
+// ---- Enemy Sprite Drawing ----
+function drawEnemySprite(c, enemy, x, y, size) {
+  const s = size;
+  c.save();
+  c.translate(x, y);
+
+  switch (enemy.id) {
+    case 'small_snake':
+      // Snake body - wavy line
+      c.strokeStyle = '#22c55e';
+      c.lineWidth = 4;
+      c.beginPath();
+      for (let i = -s; i <= s; i += 5) {
+        const px = i, py = Math.sin(i * 0.15) * 10;
+        i === -s ? c.moveTo(px, py) : c.lineTo(px, py);
+      }
+      c.stroke();
+      // Head - circle
+      c.fillStyle = '#22c55e';
+      c.beginPath();
+      c.arc(s * 0.6, Math.sin(s * 0.6 * 0.15) * 10, 6, 0, Math.PI * 2);
+      c.fill();
+      c.fillStyle = '#ff4444';
+      c.beginPath();
+      c.arc(s * 0.7, Math.sin(s * 0.7 * 0.15) * 10 - 2, 2, 0, Math.PI * 2);
+      c.fill();
+      break;
+
+    case 'shadow_bat':
+      c.fillStyle = '#a855f7';
+      // Wings
+      c.beginPath();
+      c.moveTo(0, -5);
+      c.quadraticCurveTo(-s, -s*0.5, -s*0.3, 5);
+      c.quadraticCurveTo(0, 0, s*0.3, 5);
+      c.quadraticCurveTo(s, -s*0.5, 0, -5);
+      c.fill();
+      // Body
+      c.fillStyle = '#6b21a8';
+      c.beginPath();
+      c.arc(0, 0, 6, 0, Math.PI * 2);
+      c.fill();
+      // Eyes
+      c.fillStyle = '#ff4444';
+      c.beginPath();
+      c.arc(-3, -2, 2, 0, Math.PI * 2);
+      c.arc(3, -2, 2, 0, Math.PI * 2);
+      c.fill();
+      break;
+
+    case 'chaos_servant':
+      c.fillStyle = '#7c3aed';
+      // Body
+      c.fillRect(-8, -s*0.3, 16, s*0.6);
+      // Head
+      c.beginPath();
+      c.arc(0, -s*0.3 - 8, 8, 0, Math.PI * 2);
+      c.fill();
+      // Eyes
+      c.fillStyle = '#ff4444';
+      c.beginPath();
+      c.arc(-3, -s*0.3 - 8, 2, 0, Math.PI * 2);
+      c.arc(3, -s*0.3 - 8, 2, 0, Math.PI * 2);
+      c.fill();
+      // Shield aura
+      c.strokeStyle = 'rgba(124,58,237,0.3)';
+      c.lineWidth = 2;
+      c.beginPath();
+      c.arc(0, 0, s*0.5, 0, Math.PI * 2);
+      c.stroke();
+      break;
+
+    case 'hell_hound':
+      c.fillStyle = '#ef4444';
+      // Body (oval)
+      c.beginPath();
+      c.ellipse(0, 3, s*0.3, s*0.25, 0, 0, Math.PI * 2);
+      c.fill();
+      // Head
+      c.beginPath();
+      c.arc(s*0.3, -5, 8, 0, Math.PI * 2);
+      c.fill();
+      // Eyes
+      c.fillStyle = '#fbbf24';
+      c.beginPath();
+      c.arc(s*0.33, -7, 2, 0, Math.PI * 2);
+      c.arc(s*0.27, -7, 2, 0, Math.PI * 2);
+      c.fill();
+      // Fire breath
+      c.fillStyle = '#f97316';
+      c.beginPath();
+      c.moveTo(s*0.4, -3);
+      c.lineTo(s*0.7, -8);
+      c.lineTo(s*0.5, -1);
+      c.lineTo(s*0.7, 2);
+      c.fill();
+      break;
+
+    case 'wizard_apprentice':
+      // Robe
+      c.fillStyle = '#3b82f6';
+      c.beginPath();
+      c.moveTo(-10, s*0.4);
+      c.lineTo(-6, -s*0.2);
+      c.lineTo(6, -s*0.2);
+      c.lineTo(10, s*0.4);
+      c.fill();
+      // Head
+      c.fillStyle = '#fbbf24';
+      c.beginPath();
+      c.arc(0, -s*0.2 - 7, 7, 0, Math.PI * 2);
+      c.fill();
+      // Hat
+      c.fillStyle = '#1e40af';
+      c.beginPath();
+      c.moveTo(-8, -s*0.2 - 7);
+      c.lineTo(8, -s*0.2 - 7);
+      c.lineTo(0, -s*0.4 - 15);
+      c.fill();
+      // Magic glow
+      c.fillStyle = 'rgba(59,130,246,0.2)';
+      c.beginPath();
+      c.arc(0, 0, s*0.4, 0, Math.PI * 2);
+      c.fill();
+      break;
+
+    case 'thorn_golem':
+      // Body
+      c.fillStyle = '#78716c';
+      c.fillRect(-10, -s*0.2, 20, s*0.5);
+      // Head
+      c.fillStyle = '#a8a29e';
+      c.beginPath();
+      c.arc(0, -s*0.2 - 8, 9, 0, Math.PI * 2);
+      c.fill();
+      // Thorns
+      c.fillStyle = '#22c55e';
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const tx = Math.cos(angle) * 16;
+        const ty = Math.sin(angle) * 10 - 5;
+        c.beginPath();
+        c.moveTo(tx - 3, ty);
+        c.lineTo(tx, ty - 8);
+        c.lineTo(tx + 3, ty);
+        c.fill();
+      }
+      // Shield
+      c.strokeStyle = '#78716c';
+      c.lineWidth = 2;
+      c.beginPath();
+      c.arc(0, 0, s*0.45, 0, Math.PI * 2);
+      c.stroke();
+      break;
+
+    case 'fallen_knight':
+      // Armor body
+      c.fillStyle = '#6b7280';
+      c.fillRect(-8, -s*0.3, 16, s*0.6);
+      // Helmet
+      c.fillStyle = '#4b5563';
+      c.beginPath();
+      c.arc(0, -s*0.3 - 8, 9, 0, Math.PI * 2);
+      c.fill();
+      // Visor slit
+      c.fillStyle = '#ef4444';
+      c.fillRect(-4, -s*0.3 - 9, 8, 2);
+      // Sword
+      c.strokeStyle = '#9ca3af';
+      c.lineWidth = 2;
+      c.beginPath();
+      c.moveTo(12, -s*0.1);
+      c.lineTo(22, -s*0.35);
+      c.stroke();
+      c.fillStyle = '#d4a843';
+      c.fillRect(10, -s*0.1 - 1, 4, 3);
+      break;
+
+    case 'void_lord':
+      // Dark aura
+      c.fillStyle = 'rgba(88,28,135,0.3)';
+      c.beginPath();
+      c.arc(0, 0, s*0.6, 0, Math.PI * 2);
+      c.fill();
+      // Body
+      c.fillStyle = '#581c87';
+      c.beginPath();
+      c.ellipse(0, 0, s*0.25, s*0.35, 0, 0, Math.PI * 2);
+      c.fill();
+      // Eyes (many)
+      c.fillStyle = '#fbbf24';
+      for (let i = 0; i < 3; i++) {
+        c.beginPath();
+        c.arc(-6 + i*6, -5, 2, 0, Math.PI * 2);
+        c.fill();
+      }
+      break;
+
+    case 'elemental_giant':
+      // Large body
+      c.fillStyle = '#f97316';
+      c.beginPath();
+      c.ellipse(0, 5, s*0.4, s*0.35, 0, 0, Math.PI * 2);
+      c.fill();
+      // Head
+      c.fillStyle = '#ef4444';
+      c.beginPath();
+      c.arc(0, -s*0.25, s*0.3, 0, Math.PI * 2);
+      c.fill();
+      // Eyes
+      c.fillStyle = '#fbbf24';
+      c.beginPath();
+      c.arc(-6, -s*0.28, 3, 0, Math.PI * 2);
+      c.arc(6, -s*0.28, 3, 0, Math.PI * 2);
+      c.fill();
+      // Fire crown
+      c.fillStyle = '#f97316';
+      for (let i = 0; i < 5; i++) {
+        const fx = -12 + i*6;
+        c.beginPath();
+        c.moveTo(fx, -s*0.4);
+        c.lineTo(fx+3, -s*0.5);
+        c.lineTo(fx+6, -s*0.4);
+        c.fill();
+      }
+      break;
+
+    case 'apophis_boss':
+    default:
+      // Boss - Apophis (dragon/serpent)
+      const colors = ['#ef4444', '#dc2626', '#b91c1c', '#991b1b'];
+      // Multiple heads (7 heads)
+      for (let h = 0; h < 5; h++) {
+        const angle = (h / 5) * Math.PI - Math.PI/2;
+        const hx = Math.cos(angle) * s * 0.5;
+        const hy = Math.sin(angle) * s * 0.4 - s * 0.1;
+        const headSize = 12 + h * 2;
+        // Neck
+        c.strokeStyle = colors[h % colors.length];
+        c.lineWidth = 5;
+        c.beginPath();
+        c.moveTo(0, s*0.2);
+        c.quadraticCurveTo(hx*0.5, hy + s*0.2, hx, hy);
+        c.stroke();
+        // Head
+        c.fillStyle = colors[h % colors.length];
+        c.beginPath();
+        c.arc(hx, hy, headSize/2, 0, Math.PI * 2);
+        c.fill();
+        // Eye
+        c.fillStyle = '#fbbf24';
+        c.beginPath();
+        c.arc(hx + (hx > 0 ? 3 : -3), hy - 2, 3, 0, Math.PI * 2);
+        c.fill();
+        // Glow
+        c.shadowColor = '#ef4444';
+        c.shadowBlur = 15;
+        c.fillStyle = 'rgba(239,68,68,0.1)';
+        c.beginPath();
+        c.arc(hx, hy, headSize, 0, Math.PI * 2);
+        c.fill();
+        c.shadowBlur = 0;
+      }
+      // Body
+      c.fillStyle = '#991b1b';
+      c.beginPath();
+      c.ellipse(0, s*0.2, s*0.3, s*0.2, 0, 0, Math.PI * 2);
+      c.fill();
+      // Boss title glow
+      c.shadowColor = '#ef4444';
+      c.shadowBlur = 30;
+      c.fillStyle = 'rgba(239,68,68,0.05)';
+      c.beginPath();
+      c.arc(0, 0, s*0.8, 0, Math.PI * 2);
+      c.fill();
+      c.shadowBlur = 0;
+      break;
+  }
+
+  c.restore();
+}
+
+// ---- Card Face Drawing ----
+function drawCardFace(c, card, x, y, w, h, index, canPlay, hovered) {
+  c.save();
+
+  // Card background
+  const grad = c.createLinearGradient(x, y, x, y + h);
+  if (card.type === 'attack') {
+    grad.addColorStop(0, '#2a1a1a');
+    grad.addColorStop(0.5, '#1a1a22');
+    grad.addColorStop(1, '#1a0e0e');
+  } else if (card.type === 'skill') {
+    grad.addColorStop(0, '#1a1a2e');
+    grad.addColorStop(0.5, '#1a1a22');
+    grad.addColorStop(1, '#0e0e1e');
+  } else if (card.type === 'power') {
+    grad.addColorStop(0, '#2e1a2e');
+    grad.addColorStop(0.5, '#1a1a22');
+    grad.addColorStop(1, '#1a0e1e');
+  } else {
+    grad.addColorStop(0, '#1a1a24');
+    grad.addColorStop(0.5, '#121218');
+    grad.addColorStop(1, '#0a0a0f');
+  }
+  c.fillStyle = grad;
+  c.roundRect(x, y, w, h, 6);
+  c.fill();
+
+  // Border
+  c.strokeStyle = hovered ? '#d4a843' : (canPlay ? '#d4a84366' : '#2a2a3a');
+  c.lineWidth = hovered ? 2 : 1;
+  c.roundRect(x, y, w, h, 6);
+  c.stroke();
+
+  // Glow on hover
+  if (hovered) {
+    c.shadowColor = '#d4a843';
+    c.shadowBlur = 20;
+    c.strokeStyle = 'rgba(212,168,67,0.3)';
+    c.roundRect(x, y, w, h, 6);
+    c.stroke();
+    c.shadowBlur = 0;
+  }
+
+  // Cost crystal (top-left)
+  c.fillStyle = '#d4a843';
+  c.font = 'bold 12px Georgia, serif';
+  c.textAlign = 'center';
+  c.textBaseline = 'middle';
+
+  // Cost background
+  c.fillStyle = card.cost === 0 ? '#22c55e' : '#d4a843';
+  c.beginPath();
+  c.moveTo(x + 14, y + 8);
+  c.lineTo(x + 20, y + 12);
+  c.lineTo(x + 14, y + 16);
+  c.lineTo(x + 8, y + 12);
+  c.closePath();
+  c.fill();
+
+  c.fillStyle = '#0a0a0f';
+  c.font = 'bold 10px Georgia, serif';
+  c.fillText(card.cost, x + 14, y + 13);
+
+  // Card name
+  c.fillStyle = card.upgraded ? '#a855f7' : '#d4a843';
+  c.font = 'bold 10px Georgia, serif';
+  c.textAlign = 'center';
+  c.textBaseline = 'top';
+  c.fillText(card.name + (card.upgraded ? '★' : ''), x + w/2, y + 6);
+
+  // Divider
+  c.strokeStyle = '#d4a84333';
+  c.lineWidth = 0.5;
+  c.beginPath();
+  c.moveTo(x + 8, y + 22);
+  c.lineTo(x + w - 8, y + 22);
+  c.stroke();
+
+  // Card type icon & damage/block indicators
+  let iconY = y + 28;
+  if (card.type === 'attack' && card.damage > 0) {
+    c.fillStyle = '#ef4444';
+    c.font = '11px Georgia, serif';
+    c.textAlign = 'center';
+    c.fillText(`⚔ ${card.damage}`, x + w/2, iconY);
+    iconY += 15;
+  }
+  if (card.block > 0) {
+    c.fillStyle = '#60a5fa';
+    c.font = '11px Georgia, serif';
+    c.textAlign = 'center';
+    c.fillText(`🛡 ${card.block}`, x + w/2, iconY);
+    iconY += 15;
+  }
+
+  // Description
+  c.fillStyle = '#b0b0b0';
+  c.font = '8px Georgia, serif';
+  c.textAlign = 'center';
+  c.textBaseline = 'top';
+
+  // Word wrap description
+  const desc = card.desc || '';
+  const maxChars = 14;
+  let descLine = '';
+  let descY = y + h - 32;
+  for (let i = 0; i < desc.length; i++) {
+    descLine += desc[i];
+    if (descLine.length >= maxChars || i === desc.length - 1) {
+      c.fillText(descLine, x + w/2, descY);
+      descY += 11;
+      descLine = '';
+    }
+  }
+
+  // Sigil decoration (bottom border)
+  c.strokeStyle = '#d4a84322';
+  c.lineWidth = 0.5;
+  const sigilY = y + h - 8;
+  for (let i = 0; i < 5; i++) {
+    const sx = x + 10 + i * (w - 20) / 4;
+    c.beginPath();
+    c.arc(sx, sigilY, 2, 0, Math.PI * 2);
+    c.stroke();
+  }
+
+  c.restore();
+}
+
+// Card selection glow
+function drawCardSelection(c, index) {
+  // Called when drawing the shimmer border for selectable cards
+}
+
+// ---- Mouse Interaction ----
+let hoveredCard = -1;
+let mouseX = 0, mouseY = 0;
+
+function getCardAtPos(mx, my) {
+  const handY = canvas.height - 120;
+  const cardW = 90, cardH = 130;
+  const totalW = G.hand.length * (cardW + 6) - 6;
+  const startX = Math.max(10, (canvas.width - totalW) / 2);
+
+  for (let i = G.hand.length - 1; i >= 0; i--) {
+    const cx = startX + i * (cardW + 6);
+    if (mx >= cx && mx <= cx + cardW && my >= handY && my <= handY + cardH) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function isEndTurnBtn(mx, my) {
+  const W = canvas.width, H = canvas.height;
+  const btnX = W - 110, btnY = H - 100, btnW = 100, btnH = 36;
+  return mx >= btnX && mx <= btnX + btnW && my >= btnY && my <= btnY + btnH;
+}
+
+// ---- Canvas Event Listeners ----
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
+  mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
+  if (G.phase === 'combat') {
+    hoveredCard = getCardAtPos(mouseX, mouseY);
+  } else {
+    hoveredCard = -1;
+  }
+});
+
+canvas.addEventListener('click', (e) => {
+  if (G.phase !== 'combat') return;
+  const rect = canvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+  const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+  // Check end turn button
+  if (isEndTurnBtn(mx, my)) {
+    doEndTurn();
+    return;
+  }
+
+  // Check card click
+  const idx = getCardAtPos(mx, my);
+  if (idx >= 0 && G.energy >= G.hand[idx].cost) {
+    playCard(idx);
+  }
+});
+
+canvas.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  if (G.phase === 'combat') {
+    doEndTurn();
+  }
+});
+
+// ---- Game Loop ----
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.textBaseline = 'alphabetic';
+
+  if (G.phase === 'combat') {
+    renderCombat();
+  } else {
+    // Background with particles for non-combat phases
+    const grad = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width*0.7);
+    grad.addColorStop(0, '#1a1a2e');
+    grad.addColorStop(0.5, '#0e0e18');
+    grad.addColorStop(1, '#050508');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+// ---- Initialize ----
+initParticles(80);
+showIntro();
+gameLoop();
+
+// Handle resize
+window.addEventListener('resize', () => {
+  resizeCanvas();
+});
+
+// Expose functions globally for onclick handlers
+window.startGame = startGame;
+window.enterNode = enterNode;
+window.startCombat = startCombat;
+window.buyCard = buyCard;
+window.buyRelic = buyRelic;
+window.removeCardFromDeck = removeCardFromDeck;
+window.confirmRemoveCard = confirmRemoveCard;
+window.leaveShop = leaveShop;
+window.enterShop = enterShop;
+window.upgradeCard = upgradeCard;
+window.leaveForge = leaveForge;
+window.chooseRewardCard = chooseRewardCard;
+window.doEndTurn = doEndTurn;
+window.showToast = showToast;
+window.closeModal = closeModal;
+
+// roundRect polyfill for Canvas
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    if (r > w/2) r = w/2;
+    if (r > h/2) r = h/2;
+    this.beginPath();
+    this.moveTo(x + r, y);
+    this.lineTo(x + w - r, y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r);
+    this.lineTo(x + w, y + h - r);
+    this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    this.lineTo(x + r, y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r);
+    this.lineTo(x, y + r);
+    this.quadraticCurveTo(x, y, x + r, y);
+    this.closePath();
+    return this;
+  };
+}
+
+console.log('Apophis Dragon Adventure loaded!');
+</script>
+</body>
+</html>

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>龙息 — 算法艺术 | Apophis Dragon Magic</title>
+<meta name="description" content="龙息 — 生成式算法艺术。基于 Perlin 噪声向量场的粒子系统，模拟龙之吐息中混沌火焰的涌现形态。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111;
+  --bg3:#1a1a1a;
+  --ink:#e8e0d4;
+  --muted:#8a7e6e;
+  --accent:#c41e3a;
+  --accent2:#d4a843;
+  --accent3:#f0c860;
+  --ember:#e07030;
+  --rule:#2a2a2a;
+  --rule2:#d4a84333;
+  --font:'Noto Serif SC','Songti SC','SimSun',serif;
+  --font-display:'Ma Shan Zheng','Noto Serif SC',cursive;
+}
+html{height:100%;overflow:hidden}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  height:100%;
+  overflow:hidden;
+  line-height:1.6;
+  user-select:none;
+}
+
+/* ===== NAVIGATION ===== */
+.nav-bar{
+  position:fixed;
+  top:0;left:0;right:0;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+  z-index:999;
+  padding:0.6rem 1.5rem;
+  display:flex;
+  align-items:center;
+  gap:1.2rem;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{
+  color:var(--accent2);
+  font-weight:700;
+  font-size:0.85rem;
+  white-space:nowrap;
+  letter-spacing:0.1em;
+}
+.nav-link{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:0.8rem;
+  white-space:nowrap;
+  padding:0.3rem 0.6rem;
+  border-radius:4px;
+  transition:all 0.3s ease;
+}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,0.1);}
+
+/* ===== P5 CANVAS WRAPPER ===== */
+#p5-wrapper{
+  position:fixed;
+  top:0;left:0;
+  width:100vw;
+  height:100vh;
+  z-index:0;
+}
+
+/* ===== CONTROL SIDEBAR ===== */
+.sidebar{
+  position:fixed;
+  top:0;right:0;
+  width:280px;
+  height:100vh;
+  z-index:100;
+  background:rgba(10,10,10,0.78);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-left:1px solid rgba(212,168,67,0.12);
+  padding:70px 18px 20px;
+  overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:var(--rule) transparent;
+}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:var(--rule);border-radius:2px}
+
+.sidebar-title{
+  font-family:var(--font-display);
+  font-size:1.15rem;
+  color:var(--accent2);
+  letter-spacing:4px;
+  text-align:center;
+  padding-bottom:14px;
+  margin-bottom:14px;
+  border-bottom:1px solid var(--rule2);
+  text-shadow:0 0 20px rgba(212,168,67,0.2);
+}
+
+.ctrl-group{
+  margin-bottom:16px;
+}
+.ctrl-label{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:0.78rem;
+  color:var(--muted);
+  margin-bottom:6px;
+  letter-spacing:1px;
+}
+.ctrl-label .value{
+  color:var(--accent2);
+  font-weight:600;
+  font-size:0.82rem;
+}
+
+/* Seed */
+.seed-display{
+  background:rgba(212,168,67,0.06);
+  border:1px solid var(--rule2);
+  border-radius:6px;
+  padding:6px 12px;
+  text-align:center;
+  font-size:1.1rem;
+  font-weight:700;
+  color:var(--accent2);
+  font-family:monospace;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+.seed-actions{
+  display:flex;
+  gap:6px;
+}
+.seed-btn{
+  flex:1;
+  background:rgba(212,168,67,0.08);
+  border:1px solid var(--rule2);
+  color:var(--muted);
+  padding:4px 0;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:0.72rem;
+  font-family:var(--font);
+  transition:all 0.25s;
+  text-align:center;
+}
+.seed-btn:hover{
+  color:var(--accent2);
+  background:rgba(212,168,67,0.18);
+  border-color:var(--accent2);
+}
+.seed-jump{
+  display:flex;
+  gap:6px;
+  margin-top:6px;
+}
+.seed-jump input{
+  flex:1;
+  background:rgba(10,10,10,0.6);
+  border:1px solid var(--rule);
+  color:var(--ink);
+  padding:4px 8px;
+  border-radius:5px;
+  font-size:0.78rem;
+  font-family:monospace;
+  outline:none;
+  transition:border-color 0.25s;
+}
+.seed-jump input:focus{border-color:var(--accent2)}
+.seed-jump button{
+  background:rgba(212,168,67,0.12);
+  border:1px solid var(--rule2);
+  color:var(--accent2);
+  padding:4px 12px;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:0.72rem;
+  font-family:var(--font);
+  transition:all 0.25s;
+}
+.seed-jump button:hover{
+  background:rgba(212,168,67,0.25);
+}
+
+/* Slider */
+input[type="range"]{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  height:4px;
+  background:var(--rule);
+  border-radius:2px;
+  outline:none;
+  cursor:pointer;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--accent2);
+  border:2px solid var(--bg);
+  cursor:pointer;
+  box-shadow:0 0 8px rgba(212,168,67,0.35);
+  transition:transform 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type="range"]::-moz-range-thumb{
+  width:14px;height:14px;
+  border-radius:50%;
+  background:var(--accent2);
+  border:2px solid var(--bg);
+  cursor:pointer;
+}
+
+/* Select */
+.scheme-select{
+  width:100%;
+  background:rgba(10,10,10,0.6);
+  border:1px solid var(--rule);
+  color:var(--ink);
+  padding:6px 10px;
+  border-radius:5px;
+  font-size:0.82rem;
+  font-family:var(--font);
+  outline:none;
+  cursor:pointer;
+  transition:border-color 0.25s;
+}
+.scheme-select:focus{border-color:var(--accent2)}
+.scheme-select option{
+  background:var(--bg2);
+  color:var(--ink);
+}
+
+/* Capture button */
+.capture-btn{
+  display:block;
+  width:100%;
+  background:linear-gradient(135deg, rgba(196,30,58,0.2), rgba(212,168,67,0.15));
+  border:1px solid var(--accent);
+  color:var(--accent2);
+  padding:10px 0;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:0.85rem;
+  font-family:var(--font);
+  letter-spacing:2px;
+  transition:all 0.3s;
+  margin-top:6px;
+  text-align:center;
+}
+.capture-btn:hover{
+  background:linear-gradient(135deg, rgba(196,30,58,0.35), rgba(212,168,67,0.25));
+  box-shadow:0 0 20px rgba(196,30,58,0.2);
+  transform:translateY(-1px);
+}
+.capture-btn:active{transform:translateY(0)}
+
+/* Info text */
+.sidebar-info{
+  text-align:center;
+  font-size:0.65rem;
+  color:rgba(138,126,106,0.5);
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px solid var(--rule2);
+  line-height:1.7;
+  letter-spacing:0.5px;
+}
+
+/* FPS */
+.fps-display{
+  text-align:center;
+  font-size:0.68rem;
+  color:rgba(138,126,106,0.4);
+  margin-top:4px;
+  font-family:monospace;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:860px){
+  .sidebar{width:240px;padding:66px 14px 16px}
+  .nav-bar{padding:0.4rem 0.8rem;gap:0.6rem}
+  .nav-link{font-size:0.7rem}
+}
+@media(max-width:640px){
+  .sidebar{
+    width:100%;
+    height:auto;
+    max-height:50vh;
+    top:auto;bottom:0;
+    border-left:none;
+    border-top:1px solid rgba(212,168,67,0.12);
+    padding:14px 14px 12px;
+    border-radius:12px 12px 0 0;
+  }
+  .sidebar-title{font-size:1rem;padding-bottom:10px;margin-bottom:10px}
+  .ctrl-group{margin-bottom:10px}
+  .nav-bar{padding:0.35rem 0.6rem;gap:0.4rem}
+  .nav-link{font-size:0.65rem;padding:0.2rem 0.4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link active">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+</nav>
+
+<!-- p5.js Canvas -->
+<div id="p5-wrapper"></div>
+
+<!-- Control Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-title">✦ 龙息 · 控制 ✦</div>
+
+  <!-- Seed -->
+  <div class="ctrl-group">
+    <div class="ctrl-label">种子</div>
+    <div class="seed-display" id="seedDisplay">42</div>
+    <div class="seed-actions">
+      <button class="seed-btn" id="seedPrev">◀ 上一步</button>
+      <button class="seed-btn" id="seedNext">下一步 ▶</button>
+      <button class="seed-btn" id="seedRandom">🎲 随机</button>
+    </div>
+    <div class="seed-jump">
+      <input type="number" id="seedInput" value="42" min="0" max="99999" placeholder="种子">
+      <button id="seedJump">跳转</button>
+    </div>
+  </div>
+
+  <!-- Particle Count -->
+  <div class="ctrl-group">
+    <div class="ctrl-label">
+      <span>粒子数量</span>
+      <span class="value" id="countValue">300</span>
+    </div>
+    <input type="range" id="countSlider" min="100" max="500" value="300" step="10">
+  </div>
+
+  <!-- Noise Scale -->
+  <div class="ctrl-group">
+    <div class="ctrl-label">
+      <span>噪声尺度</span>
+      <span class="value" id="noiseValue">0.003</span>
+    </div>
+    <input type="range" id="noiseSlider" min="1" max="10" value="3" step="1">
+  </div>
+
+  <!-- Speed -->
+  <div class="ctrl-group">
+    <div class="ctrl-label">
+      <span>流动速度</span>
+      <span class="value" id="speedValue">1.5</span>
+    </div>
+    <input type="range" id="speedSlider" min="5" max="30" value="15" step="1">
+  </div>
+
+  <!-- Color Scheme -->
+  <div class="ctrl-group">
+    <div class="ctrl-label">配色方案</div>
+    <select class="scheme-select" id="schemeSelect">
+      <option value="dragon">龙息 — 龙之吐息</option>
+      <option value="abyss">深渊 — 暗渊回响</option>
+      <option value="stellar">星火 — 星辰余烬</option>
+      <option value="nether">幽冥 — 冥界幽光</option>
+    </select>
+  </div>
+
+  <!-- Capture -->
+  <button class="capture-btn" id="captureBtn">✦ 保存当前帧</button>
+
+  <div class="fps-display" id="fpsDisplay">-- FPS</div>
+  <div class="sidebar-info">
+    龙息 · 生成式算法艺术<br>
+    移动鼠标与画布交互
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  Config & State
+// ============================================================
+const cfg = {
+  seed: 42,
+  count: 300,
+  noiseScale: 0.003,
+  speed: 1.5,
+  scheme: 'dragon'
+};
+
+// Colour scheme data
+const SCHEMES = {
+  dragon: {
+    name: '龙息',
+    cols: [[196,30,58],[212,168,67],[224,112,48]],
+    spark: [255,220,150],
+    bg: [8,6,6]
+  },
+  abyss: {
+    name: '深渊',
+    cols: [[10,42,74],[106,58,154],[20,130,140]],
+    spark: [120,200,255],
+    bg: [4,4,14]
+  },
+  stellar: {
+    name: '星火',
+    cols: [[255,255,255],[70,130,255],[255,100,160]],
+    spark: [180,210,255],
+    bg: [8,8,22]
+  },
+  nether: {
+    name: '幽冥',
+    cols: [[0,240,60],[140,0,255],[0,230,230]],
+    spark: [140,255,140],
+    bg: [4,4,4]
+  }
+};
+
+let particles = [];
+let schemeColors = SCHEMES.dragon.cols;
+let schemeSpark = SCHEMES.dragon.spark;
+let bgCol = SCHEMES.dragon.bg;
+let frameCount = 0;
+let mouseInfluence = { x: 0, y: 0, active: false };
+
+// ============================================================
+//  p5.js Sketch (instance mode)
+// ============================================================
+const sketch = function(p) {
+
+  p.setup = function() {
+    const w = p.windowWidth;
+    const h = p.windowHeight;
+    const canvas = p.createCanvas(w, h);
+    canvas.parent('p5-wrapper');
+    canvas.style('position','fixed');
+    canvas.style('top','0');
+    canvas.style('left','0');
+    canvas.style('z-index','0');
+    canvas.style('pointer-events','none');
+
+    p.colorMode(p.RGB, 255);
+    p.noiseSeed(cfg.seed);
+    p.randomSeed(cfg.seed);
+    initParticles();
+    p.background(bgCol[0], bgCol[1], bgCol[2]);
+  };
+
+  p.windowResized = function() {
+    p.resizeCanvas(p.windowWidth, p.windowHeight);
+  };
+
+  function initParticles() {
+    p.noiseSeed(cfg.seed);
+    p.randomSeed(cfg.seed);
+    particles = [];
+    for (let i = 0; i < cfg.count; i++) {
+      particles.push(createParticle(i < cfg.count * 0.35));
+    }
+  }
+
+  function createParticle(isFront) {
+    return {
+      x: p.random(p.width),
+      y: p.random(p.height),
+      vx: 0,
+      vy: 0,
+      life: p.random(0, 1),
+      maxLife: isFront
+        ? p.random(60, 180)
+        : p.random(200, 500),
+      size: isFront ? p.random(1.8, 4.5) : p.random(0.6, 2.2),
+      isFront: isFront,
+      colIdx: Math.floor(p.random(3)),
+      glow: 0
+    };
+  }
+
+  p.draw = function() {
+    frameCount++;
+
+    // ---- fade trail ----
+    p.noStroke();
+    p.fill(bgCol[0], bgCol[1], bgCol[2], 12);
+    p.rect(0, 0, p.width, p.height);
+
+    // ---- update particles ----
+    const ns = cfg.noiseScale;
+    const spd = cfg.speed;
+    const t = frameCount * 0.0004;
+
+    for (let i = 0; i < particles.length; i++) {
+      const pt = particles[i];
+      const speedMult = pt.isFront ? 2.8 : 1.0;
+
+      // flow field
+      const angle = p.noise(pt.x * ns, pt.y * ns, t) * p.TWO_PI * 3;
+      pt.vx += p.cos(angle) * speedMult * spd * 0.04;
+      pt.vy += p.sin(angle) * speedMult * spd * 0.04;
+
+      // mouse influence
+      if (mouseInfluence.active) {
+        const dx = mouseInfluence.x - pt.x;
+        const dy = mouseInfluence.y - pt.y;
+        const dist = p.sqrt(dx*dx + dy*dy);
+        if (dist < 200) {
+          const force = (1 - dist / 200) * 0.3;
+          pt.vx += (dx / dist) * force;
+          pt.vy += (dy / dist) * force;
+        }
+      }
+
+      // damping
+      pt.vx *= 0.97;
+      pt.vy *= 0.97;
+
+      // speed limit
+      const maxSpd = spd * (pt.isFront ? 2.5 : 1.2);
+      const s = p.sqrt(pt.vx*pt.vx + pt.vy*pt.vy);
+      if (s > maxSpd) {
+        pt.vx = (pt.vx / s) * maxSpd;
+        pt.vy = (pt.vy / s) * maxSpd;
+      }
+
+      pt.x += pt.vx;
+      pt.y += pt.vy;
+
+      // wrap
+      if (pt.x < -20) pt.x = p.width + 20;
+      if (pt.x > p.width + 20) pt.x = -20;
+      if (pt.y < -20) pt.y = p.height + 20;
+      if (pt.y > p.height + 20) pt.y = -20;
+
+      pt.life += 0.004;
+
+      // rebirth
+      if (pt.life >= 1) {
+        pt.x = p.random(p.width);
+        pt.y = p.random(p.height);
+        pt.vx = 0;
+        pt.vy = 0;
+        pt.life = 0;
+        pt.maxLife = pt.isFront
+          ? p.random(60, 180)
+          : p.random(200, 500);
+        pt.size = pt.isFront
+          ? p.random(1.8, 4.5)
+          : p.random(0.6, 2.2);
+        pt.colIdx = Math.floor(p.random(3));
+      }
+
+      pt.glow *= 0.92; // decay interaction glow
+    }
+
+    // ---- particle proximity brightening ----
+    const threshold = 35;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = dx*dx + dy*dy;
+        if (dist < threshold * threshold) {
+          const intensity = 1 - p.sqrt(dist) / threshold;
+          a.glow = p.max(a.glow, intensity);
+          b.glow = p.max(b.glow, intensity);
+        }
+      }
+    }
+
+    // ---- draw particles ----
+    const cols = schemeColors;
+    const spark = schemeSpark;
+
+    // back layer first
+    for (const pt of particles) {
+      if (pt.isFront) continue;
+      const c = cols[pt.colIdx];
+      const baseAlpha = 50;
+      const glowAdd = pt.glow * 120;
+      const alpha = p.min(baseAlpha + glowAdd, 220);
+
+      // dim glow ring
+      if (pt.glow > 0.3) {
+        p.fill(spark[0], spark[1], spark[2], pt.glow * 15);
+        p.noStroke();
+        p.circle(pt.x, pt.y, pt.size * 4);
+      }
+
+      p.fill(c[0], c[1], c[2], alpha);
+      p.noStroke();
+      p.circle(pt.x, pt.y, pt.size);
+    }
+
+    // front layer
+    for (const pt of particles) {
+      if (!pt.isFront) continue;
+      const c = cols[pt.colIdx];
+      const baseAlpha = 180;
+      const glowAdd = pt.glow * 75;
+      const alpha = p.min(baseAlpha + glowAdd, 255);
+      const sz = pt.size + pt.glow * 2;
+
+      // outer glow
+      if (pt.glow > 0.15) {
+        p.fill(spark[0], spark[1], spark[2], pt.glow * 25);
+        p.noStroke();
+        p.circle(pt.x, pt.y, sz * 4);
+
+        p.fill(spark[0], spark[1], spark[2], pt.glow * 12);
+        p.circle(pt.x, pt.y, sz * 8);
+      }
+
+      // particle body
+      p.fill(c[0], c[1], c[2], alpha);
+      p.noStroke();
+      p.circle(pt.x, pt.y, sz);
+
+      // bright core
+      if (alpha > 220) {
+        p.fill(255, 255, 240, (alpha - 220) * 2);
+        p.circle(pt.x, pt.y, sz * 0.5);
+      }
+    }
+
+    // ---- FPS ----
+    const fps = Math.round(p.frameRate());
+    document.getElementById('fpsDisplay').textContent = fps + ' FPS';
+  };
+
+}; // end sketch
+
+// ============================================================
+//  Launch p5
+// ============================================================
+const p5Instance = new p5(sketch);
+
+// ============================================================
+//  Controls Binding
+// ============================================================
+function updateSeedUI() {
+  document.getElementById('seedDisplay').textContent = cfg.seed;
+  document.getElementById('seedInput').value = cfg.seed;
+}
+
+// Re-init particles (closure variable)
+function reInitParticles() {
+  p5Instance.noiseSeed(cfg.seed);
+  p5Instance.randomSeed(cfg.seed);
+  particles.length = 0;
+  const scheme = SCHEMES[cfg.scheme];
+  bgCol = scheme.bg;
+  for (let i = 0; i < cfg.count; i++) {
+    particles.push({
+      x: p5Instance.random(p5Instance.width),
+      y: p5Instance.random(p5Instance.height),
+      vx: 0, vy: 0,
+      life: p5Instance.random(0, 1),
+      maxLife: i < cfg.count * 0.35
+        ? p5Instance.random(60, 180)
+        : p5Instance.random(200, 500),
+      size: i < cfg.count * 0.35
+        ? p5Instance.random(1.8, 4.5)
+        : p5Instance.random(0.6, 2.2),
+      isFront: i < cfg.count * 0.35,
+      colIdx: Math.floor(p5Instance.random(3)),
+      glow: 0
+    });
+  }
+  p5Instance.background(bgCol[0], bgCol[1], bgCol[2]);
+}
+
+// ---- Seed controls ----
+document.getElementById('seedPrev').addEventListener('click', function() {
+  cfg.seed = Math.max(0, cfg.seed - 1);
+  updateSeedUI();
+  reInitParticles();
+});
+
+document.getElementById('seedNext').addEventListener('click', function() {
+  cfg.seed = Math.min(99999, cfg.seed + 1);
+  updateSeedUI();
+  reInitParticles();
+});
+
+document.getElementById('seedRandom').addEventListener('click', function() {
+  cfg.seed = Math.floor(Math.random() * 99999);
+  updateSeedUI();
+  reInitParticles();
+});
+
+document.getElementById('seedJump').addEventListener('click', function() {
+  const val = parseInt(document.getElementById('seedInput').value);
+  if (!isNaN(val) && val >= 0 && val <= 99999) {
+    cfg.seed = val;
+    updateSeedUI();
+    reInitParticles();
+  }
+});
+
+document.getElementById('seedInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    document.getElementById('seedJump').click();
+  }
+});
+
+// ---- Count slider ----
+const countSlider = document.getElementById('countSlider');
+countSlider.addEventListener('input', function() {
+  const val = parseInt(this.value);
+  cfg.count = val;
+  document.getElementById('countValue').textContent = val;
+  // Adjust particle count dynamically
+  while (particles.length < val) {
+    const i = particles.length;
+    const isFront = i < val * 0.35;
+    particles.push({
+      x: p5Instance.random(p5Instance.width),
+      y: p5Instance.random(p5Instance.height),
+      vx: 0, vy: 0,
+      life: p5Instance.random(0, 1),
+      maxLife: isFront ? p5Instance.random(60, 180) : p5Instance.random(200, 500),
+      size: isFront ? p5Instance.random(1.8, 4.5) : p5Instance.random(0.6, 2.2),
+      isFront: isFront,
+      colIdx: Math.floor(p5Instance.random(3)),
+      glow: 0
+    });
+  }
+  if (particles.length > val) {
+    particles.length = val;
+    // Rebalance front/back ratio
+    const frontCount = Math.floor(val * 0.35);
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].isFront = i < frontCount;
+    }
+  }
+});
+
+// ---- Noise scale slider ----
+const noiseSlider = document.getElementById('noiseSlider');
+noiseSlider.addEventListener('input', function() {
+  const val = parseFloat(this.value);
+  // map 1-10 to 0.001-0.01
+  cfg.noiseScale = 0.001 + (val - 1) * 0.001;
+  document.getElementById('noiseValue').textContent = cfg.noiseScale.toFixed(3);
+});
+
+// ---- Speed slider ----
+const speedSlider = document.getElementById('speedSlider');
+speedSlider.addEventListener('input', function() {
+  const val = parseFloat(this.value);
+  // map 5-30 to 0.5-3.0
+  cfg.speed = 0.5 + (val - 5) * 0.1;
+  document.getElementById('speedValue').textContent = cfg.speed.toFixed(1);
+});
+
+// ---- Color scheme ----
+document.getElementById('schemeSelect').addEventListener('change', function() {
+  cfg.scheme = this.value;
+  const scheme = SCHEMES[cfg.scheme];
+  schemeColors = scheme.cols;
+  schemeSpark = scheme.spark;
+  bgCol = scheme.bg;
+  // Update particle colors
+  for (const pt of particles) {
+    pt.colIdx = Math.floor(p5Instance.random(3));
+  }
+});
+
+// ---- Capture frame ----
+document.getElementById('captureBtn').addEventListener('click', function() {
+  const seedStr = String(cfg.seed).padStart(4, '0');
+  const schemeName = SCHEMES[cfg.scheme].name;
+  const filename = 'dragon-breath_' + schemeName + '_seed' + seedStr + '_' + Date.now();
+  // Temporarily enable canvas pointer events to save
+  const canvas = document.querySelector('#p5-wrapper canvas');
+  const origPointer = canvas.style.pointerEvents;
+  canvas.style.pointerEvents = 'auto';
+  p5Instance.saveCanvas(filename, 'png');
+  canvas.style.pointerEvents = origPointer;
+});
+
+// ---- Mouse tracking for interaction ----
+document.addEventListener('mousemove', function(e) {
+  mouseInfluence.x = e.clientX;
+  mouseInfluence.y = e.clientY;
+  mouseInfluence.active = true;
+});
+
+document.addEventListener('mouseleave', function() {
+  mouseInfluence.active = false;
+});
+
+// ---- Touch support ----
+document.addEventListener('touchmove', function(e) {
+  const touch = e.touches[0];
+  if (touch) {
+    mouseInfluence.x = touch.clientX;
+    mouseInfluence.y = touch.clientY;
+    mouseInfluence.active = true;
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', function() {
+  mouseInfluence.active = false;
+});
+
+// ---- Init UI ----
+updateSeedUI();
+</script>
+</body>
+</html>

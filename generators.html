@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>魔法生成器工坊 — Apophis Dragon Magic</title>
+<meta name="description" content="魔法生成器工坊 - 魔法名生成、行星符印、咒语生成、占卜随机、仪式时间计算、元素平衡测试">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;
+  --bg2:#111;
+  --bg3:#1a1a1a;
+  --ink:#e8e0d4;
+  --muted:#8a7e6e;
+  --accent:#c41e3a;
+  --accent2:#d4a843;
+  --accent3:#f0c860;
+  --rule:#2a2a2a;
+  --rule2:#d4a84333;
+  --font:'Noto Serif SC','Songti SC','SimSun',serif;
+  --font-display:'Ma Shan Zheng','Noto Serif SC',cursive;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.8;
+  overflow-x:hidden;
+}
+#particleCanvas{
+  position:fixed;
+  top:0;left:0;
+  width:100vw;height:100vh;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* ── Navigation ── */
+.nav-bar{
+  position:fixed;
+  top:0;left:0;right:0;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+  z-index:999;
+  padding:0.6rem 1.5rem;
+  display:flex;
+  align-items:center;
+  gap:1.2rem;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{
+  color:var(--accent2);
+  font-weight:700;
+  font-size:0.85rem;
+  white-space:nowrap;
+  letter-spacing:0.1em;
+}
+.nav-link{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:0.8rem;
+  white-space:nowrap;
+  padding:0.3rem 0.6rem;
+  border-radius:4px;
+  transition:all 0.3s ease;
+}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,0.1);}
+
+/* ── Container ── */
+.container{
+  position:relative;
+  z-index:1;
+  max-width:1200px;
+  margin:0 auto;
+  padding:6rem 1.2rem 4rem;
+}
+
+/* ── Header ── */
+.page-header{text-align:center;margin-bottom:2.5rem}
+.page-header h1{
+  font-family:var(--font-display);
+  font-size:3rem;
+  color:var(--accent2);
+  font-weight:400;
+  text-shadow:0 0 40px rgba(212,168,67,0.3);
+}
+.page-header p{color:var(--muted);font-size:0.95rem;margin-top:0.5rem}
+
+/* ── Tab Navigation ── */
+.tab-nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.4rem;
+  justify-content:center;
+  margin-bottom:2.5rem;
+  border-bottom:1px solid var(--rule2);
+  padding-bottom:0.8rem;
+}
+.tab-btn{
+  background:transparent;
+  border:1px solid var(--rule2);
+  color:var(--muted);
+  padding:0.5rem 1rem;
+  border-radius:8px;
+  cursor:pointer;
+  font-family:var(--font);
+  font-size:0.85rem;
+  transition:all 0.3s ease;
+}
+.tab-btn:hover{color:var(--accent2);border-color:var(--accent2);background:rgba(212,168,67,0.08);}
+.tab-btn.active{color:var(--accent2);border-color:var(--accent2);background:rgba(212,168,67,0.15);box-shadow:0 0 20px rgba(212,168,67,0.1);}
+
+/* ── Generator Sections ── */
+.generator-panel{display:none;animation:fadeIn 0.5s ease}
+.generator-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.gen-card{
+  background:var(--bg2);
+  border:1px solid var(--rule2);
+  border-radius:12px;
+  padding:1.8rem;
+  margin-bottom:1.5rem;
+}
+.gen-card h2{
+  font-family:var(--font-display);
+  font-size:1.8rem;
+  color:var(--accent2);
+  font-weight:400;
+  margin-bottom:0.3rem;
+}
+.gen-card .desc{color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem;}
+
+.controls-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  align-items:flex-end;
+  margin-bottom:1.2rem;
+}
+.ctrl-group{
+  display:flex;
+  flex-direction:column;
+  gap:0.3rem;
+  min-width:140px;
+  flex:1;
+}
+.ctrl-group label{font-size:0.8rem;color:#aaa;font-weight:600;}
+.ctrl-group select,.ctrl-group input[type="text"],.ctrl-group input[type="date"]{
+  background:var(--bg3);
+  border:1px solid #333;
+  color:var(--ink);
+  padding:0.55rem 0.8rem;
+  border-radius:6px;
+  font-family:var(--font);
+  font-size:0.9rem;
+  outline:none;
+  transition:border-color 0.3s;
+}
+.ctrl-group select:focus,.ctrl-group input:focus{border-color:var(--accent2);}
+.ctrl-group select option{background:#222;}
+
+.btn{
+  background:linear-gradient(135deg,var(--accent2),#b8922e);
+  border:none;
+  color:#0a0a0a;
+  font-family:var(--font);
+  font-size:0.9rem;
+  font-weight:600;
+  padding:0.55rem 1.5rem;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  white-space:nowrap;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,168,67,0.3);}
+.btn-sm{padding:0.4rem 1rem;font-size:0.8rem;}
+.btn-secondary{
+  background:transparent;
+  border:1px solid var(--accent2);
+  color:var(--accent2);
+}
+.btn-secondary:hover{background:rgba(212,168,67,0.1);box-shadow:none;}
+
+.result-box{
+  background:var(--bg3);
+  border:1px solid #333;
+  border-radius:8px;
+  padding:1.2rem;
+  margin-top:1rem;
+  min-height:60px;
+  transition:all 0.3s ease;
+}
+.result-box .label{color:var(--muted);font-size:0.8rem;margin-bottom:0.3rem;}
+.result-box .value{font-size:1.1rem;color:var(--accent2);}
+
+/* ── Canvas ── */
+canvas.gen-canvas{
+  display:block;
+  margin:1rem auto;
+  border-radius:8px;
+  max-width:100%;
+}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .page-header h1{font-size:2rem;}
+  .gen-card{padding:1.2rem;}
+  .controls-row{flex-direction:column;}
+  .ctrl-group{min-width:100%;}
+  .tab-btn{font-size:0.75rem;padding:0.4rem 0.7rem;}
+}
+@media(max-width:480px){
+  .nav-bar{padding:0.4rem 0.8rem;gap:0.6rem;}
+  .nav-link{font-size:0.7rem;}
+  .container{padding:5rem 0.8rem 2rem;}
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#555}
+
+/* ── Elemental Test ── */
+.question-card{
+  background:var(--bg3);
+  border:1px solid #333;
+  border-radius:8px;
+  padding:1.2rem;
+  margin-bottom:1rem;
+}
+.question-card .q-title{color:var(--accent2);font-weight:600;margin-bottom:0.8rem;font-size:0.95rem;}
+.elem-option{
+  display:flex;align-items:center;gap:0.8rem;padding:0.5rem 0.8rem;
+  margin-bottom:0.4rem;border-radius:6px;cursor:pointer;
+  transition:all 0.2s;border:1px solid transparent;
+}
+.elem-option:hover{background:rgba(212,168,67,0.08);border-color:var(--rule2);}
+.elem-option.selected{background:rgba(212,168,67,0.15);border-color:var(--accent2);}
+.elem-option input[type="radio"]{accent-color:var(--accent2);}
+.elem-option .elem-label{font-size:0.88rem;}
+
+/* ── Score Bar ── */
+.score-container{display:flex;flex-direction:column;gap:0.8rem;margin:1rem 0;}
+.score-bar-wrap{display:flex;align-items:center;gap:0.8rem;}
+.score-bar-label{width:30px;font-weight:700;text-align:center;font-size:1rem;}
+.score-bar-track{flex:1;height:24px;background:#222;border-radius:4px;overflow:hidden;position:relative;}
+.score-bar-fill{height:100%;border-radius:4px;transition:width 1s ease;position:relative;}
+.score-bar-fill span{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:0.75rem;color:#0a0a0a;font-weight:700;}
+.score-bar-value{width:40px;text-align:right;font-size:0.9rem;color:var(--muted);}
+
+/* ── Sigil Canvas ── */
+.sigil-container{text-align:center;}
+.sigil-container canvas{border:1px solid #333;background:#0a0a0a;}
+
+/* ── Divination ── */
+.divination-display{text-align:center;padding:2rem 1rem;}
+.divination-symbol{font-size:4rem;margin-bottom:1rem;transition:all 0.5s ease;}
+.divination-name{font-size:1.4rem;color:var(--accent2);margin-bottom:0.5rem;}
+.divination-meaning{color:var(--muted);font-size:0.9rem;max-width:500px;margin:0 auto;}
+
+/* ── Reveal Animation ── */
+.reveal-overlay{
+  position:relative;
+  cursor:pointer;
+  user-select:none;
+}
+.reveal-overlay .reveal-cover{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#1a1a2e,#16213e);
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;
+  font-size:2rem;
+  color:var(--accent2);
+  transition:opacity 0.8s ease;
+  z-index:2;
+}
+.reveal-overlay.revealed .reveal-cover{opacity:0;pointer-events:none;}
+
+/* ── Incantation ── */
+.incantation-text{
+  font-size:1.8rem;
+  text-align:center;
+  color:var(--accent2);
+  font-family:var(--font-display);
+  margin:1rem 0;
+  line-height:1.4;
+  text-shadow:0 0 30px rgba(212,168,67,0.2);
+}
+.incantation-phonetic{text-align:center;color:#aaa;font-size:0.9rem;margin-bottom:1rem;font-style:italic;}
+.incantation-meaning{text-align:center;color:var(--ink);font-size:0.95rem;margin-bottom:0.5rem;}
+
+/* ── Ritual Result ── */
+.ritual-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1rem;
+  margin:1rem 0;
+}
+.ritual-item{
+  background:var(--bg3);
+  border:1px solid #333;
+  border-radius:8px;
+  padding:1rem;
+  text-align:center;
+}
+.ritual-item .ri-label{color:var(--muted);font-size:0.8rem;}
+.ritual-item .ri-value{color:var(--accent2);font-size:1.1rem;font-weight:600;margin-top:0.3rem;}
+.ritual-verdict{
+  text-align:center;
+  padding:1rem;
+  border-radius:8px;
+  font-size:1.2rem;
+  font-weight:600;
+  margin-top:1rem;
+}
+.ritual-verdict.auspicious{background:rgba(212,168,67,0.15);border:1px solid var(--accent2);color:var(--accent2);}
+.ritual-verdict.inauspicious{background:rgba(196,30,58,0.15);border:1px solid var(--accent);color:var(--accent);}
+
+/* ── Name Result ── */
+.name-result{text-align:center;padding:1.5rem;}
+.name-title{font-size:0.85rem;color:var(--muted);margin-bottom:0.3rem;}
+.name-generated{font-size:2.2rem;color:var(--accent2);font-family:var(--font-display);margin-bottom:1rem;}
+.name-breakdown{text-align:left;max-width:400px;margin:0 auto;}
+.name-breakdown .nb-item{padding:0.4rem 0;border-bottom:1px solid #222;display:flex;justify-content:space-between;}
+.name-breakdown .nb-item:last-child{border-bottom:none;}
+.name-breakdown .nb-label{color:var(--muted);font-size:0.85rem;}
+.name-breakdown .nb-value{color:var(--ink);font-size:0.9rem;}
+
+/* ── Planetary Seal ── */
+.seal-svg-wrap{text-align:center;margin:1rem 0;}
+.seal-svg-wrap svg{max-width:200px;height:auto;filter:drop-shadow(0 0 10px rgba(212,168,67,0.3));}
+
+/* ── Test complete screen ── */
+.test-complete{text-align:center;padding:1.5rem;}
+.test-complete .result-title{font-size:1.5rem;color:var(--accent2);margin-bottom:1rem;}
+</style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+
+<!-- ── Navigation ── -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link active">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+</nav>
+
+<!-- ── Main Container ── -->
+<div class="container">
+
+  <div class="page-header">
+    <h1>✦ 魔法生成器工坊 ✦</h1>
+    <p>六种神秘工具，助你探索魔法之道</p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="tab-name">魔法名</button>
+    <button class="tab-btn" data-tab="tab-sigil">行星符印</button>
+    <button class="tab-btn" data-tab="tab-incant">咒语</button>
+    <button class="tab-btn" data-tab="tab-divine">占卜</button>
+    <button class="tab-btn" data-tab="tab-ritual">仪式时间</button>
+    <button class="tab-btn" data-tab="tab-element">元素平衡</button>
+  </div>
+
+  <!-- ===================== TAB 1: Name Generator ===================== -->
+  <div class="generator-panel active" id="tab-name">
+    <div class="gen-card">
+      <h2>魔法名生成器</h2>
+      <p class="desc">输入你的名字，选择风格，获得属于你的魔法之名</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>你的名字</label>
+          <input type="text" id="nameInput" placeholder="输入名字..." value="墨">
+        </div>
+        <div class="ctrl-group">
+          <label>风格</label>
+          <select id="nameStyle">
+            <option value="chaos">混沌</option>
+            <option value="star" selected>恒星</option>
+            <option value="moon">月亮</option>
+            <option value="shadow">暗影</option>
+          </select>
+        </div>
+        <button class="btn" onclick="generateName()">✦ 生成魔法名</button>
+      </div>
+      <div id="nameResult" class="result-box name-result"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 2: Sigil Generator ===================== -->
+  <div class="generator-panel" id="tab-sigil">
+    <div class="gen-card">
+      <h2>行星符印生成器</h2>
+      <p class="desc">选择行星，绘制其卡米亚魔方阵，生成传统符印</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>选择行星</label>
+          <select id="planetSelect" onchange="generateSigil()">
+            <option value="saturn">土星 ♄</option>
+            <option value="jupiter">木星 ♃</option>
+            <option value="mars">火星 ♂</option>
+            <option value="sun">太阳 ☉</option>
+            <option value="venus">金星 ♀</option>
+            <option value="mercury">水星 ☿</option>
+            <option value="moon">月亮 ☽</option>
+          </select>
+        </div>
+      </div>
+      <div class="sigil-container">
+        <canvas id="sigilCanvas" class="gen-canvas" width="400" height="400"></canvas>
+      </div>
+      <div id="sealContainer" class="seal-svg-wrap"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 3: Incantation Generator ===================== -->
+  <div class="generator-panel" id="tab-incant">
+    <div class="gen-card">
+      <h2>咒语生成器</h2>
+      <p class="desc">选择意图与风格，生成古老咒语</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>意图</label>
+          <select id="intentSelect">
+            <option value="protection">保护</option>
+            <option value="love">爱情</option>
+            <option value="wealth">财富</option>
+            <option value="wisdom">智慧</option>
+            <option value="strength" selected>力量</option>
+            <option value="healing">治疗</option>
+            <option value="sealing">封印</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <label>风格</label>
+          <select id="styleSelect">
+            <option value="majestic" selected>庄严</option>
+            <option value="ancient">远古</option>
+            <option value="chaos">混沌</option>
+            <option value="dragon">龙语</option>
+          </select>
+        </div>
+        <button class="btn" onclick="generateIncantation()">✦ 咏唱咒语</button>
+        <button class="btn btn-secondary btn-sm" onclick="generateIncantation()">↻ 再生成</button>
+      </div>
+      <div id="incantResult" class="result-box">
+        <div class="incantation-text" id="incantText">点击"咏唱咒语"开始</div>
+        <div class="incantation-phonetic" id="incantPhonetic"></div>
+        <div class="incantation-meaning" id="incantMeaning"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 4: Divination Randomizer ===================== -->
+  <div class="generator-panel" id="tab-divine">
+    <div class="gen-card">
+      <h2>占卜随机器</h2>
+      <p class="desc">随机抽取六爻、八卦或二十八宿，获取天启</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>占卜类型</label>
+          <select id="divineType">
+            <option value="yao" selected>六爻</option>
+            <option value="bagua">八卦</option>
+            <option value="xiu">二十八宿</option>
+          </select>
+        </div>
+        <button class="btn" onclick="performDivination()">✦ 启卜</button>
+      </div>
+      <div id="divineResult" class="result-box">
+        <div class="reveal-overlay" id="revealOverlay">
+          <div class="reveal-cover" id="revealCover">点击启卜</div>
+          <div class="divination-display" id="divineDisplay">
+            <div class="divination-symbol" id="divSymbol">☰</div>
+            <div class="divination-name" id="divName">乾</div>
+            <div class="divination-meaning" id="divMeaning">天行健，君子以自强不息。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 5: Ritual Timeline Calculator ===================== -->
+  <div class="generator-panel" id="tab-ritual">
+    <div class="gen-card">
+      <h2>仪式时间计算器</h2>
+      <p class="desc">输入出生日期与目标日期，计算最佳仪式时机</p>
+      <div class="controls-row">
+        <div class="ctrl-group">
+          <label>出生日期</label>
+          <input type="date" id="birthDate">
+        </div>
+        <div class="ctrl-group">
+          <label>目标日期</label>
+          <input type="date" id="targetDate">
+        </div>
+        <button class="btn" onclick="calculateRitualTime()">✦ 计算吉时</button>
+      </div>
+      <div id="ritualResult" class="result-box"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TAB 6: Elemental Balance Test ===================== -->
+  <div class="generator-panel" id="tab-element">
+    <div class="gen-card">
+      <h2>元素平衡测试</h2>
+      <p class="desc">回答10道问题，揭示你体内的四大元素平衡</p>
+      <div id="testArea">
+        <div id="questionsContainer"></div>
+        <div style="text-align:center;margin-top:1rem;">
+          <button class="btn" id="testSubmitBtn" onclick="submitElementTest()">✦ 揭示结果</button>
+        </div>
+      </div>
+      <div id="testResult" style="display:none;"></div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+/* =====================================================================
+   PARTICLE BACKGROUND
+   ===================================================================== */
+(function(){
+  const c=document.getElementById('particleCanvas');
+  const ctx=c.getContext('2d');
+  let w,h,particles=[];
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight;}
+  window.addEventListener('resize',resize);resize();
+  const count=80;
+  for(let i=0;i<count;i++){
+    particles.push({
+      x:Math.random()*w,y:Math.random()*h,
+      vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5,
+      r:Math.random()*2+0.5,o:Math.random()*0.5+0.1
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(let i=0;i<count;i++){
+      const p=particles[i];
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=w;if(p.x>w)p.x=0;
+      if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(212,168,67,${p.o})`;ctx.fill();
+    }
+    for(let i=0;i<count;i++){
+      for(let j=i+1;j<count;j++){
+        const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<120){
+          ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle=`rgba(212,168,67,${0.06*(1-dist/120)})`;
+          ctx.lineWidth=0.5;ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* =====================================================================
+   TAB SWITCHING
+   ===================================================================== */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('.generator-panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById(this.dataset.tab).classList.add('active');
+  });
+});
+
+/* =====================================================================
+   1. MAGICAL NAME GENERATOR
+   ===================================================================== */
+const nameData={
+  chaos:{
+    prefixes:['虚空','混沌','深渊','黑洞','熵','暗流','漩涡','裂痕','湮灭','无形'],
+    cores:['索恩','克苏','诺斯','札格','尤格','阿萨','托格','米戈','赫拉','科斯'],
+    suffixes:['织者','之子','使徒','领主','行者','之眼','低语','化身'],
+    titles:['混沌编织者','虚空守望者','深渊之主','熵之化身','无形者','暗流支配者']
+  },
+  star:{
+    prefixes:['星辉','银河','恒星','星尘','光晕','日冕','星环','辉光','极星','天穹'],
+    cores:['索尔','莱恩','阿斯特','塞拉','奥瑞','菲克','路米','诺瓦','维加','希利'],
+    suffixes:['之光','使者','之子','之焰','守护','之裔','之辉'],
+    titles:['星辰之子','光之使者','银河守望者','恒星守护者','天穹旅人']
+  },
+  moon:{
+    prefixes:['月影','银月','月光','月华','月晕','潮汐','梦','夜雾','幽月','霜月'],
+    cores:['露娜','塞勒','阿提','弥斯','艾露','宁芙','希尔','蒂亚','拉玛','维拉'],
+    suffixes:['之泪','之舞','低语','之梦','之纱','之潮','之誓'],
+    titles:['月影行者','银月守护','梦境织者','夜雾之女','潮汐使者']
+  },
+  shadow:{
+    prefixes:['暗影','幽暗','暮色','深渊','黑暗','阴影','夜幕','幽魂','迷雾','暗夜'],
+    cores:['莫克','奈特','舒德','哥特','维斯','诺伊','达克','辛斯','布莱','格雷'],
+    suffixes:['编织者','之刃','低语','潜行者','之灵','之裔','之吻'],
+    titles:['阴影编织者','暗夜行者','幽魂领主','暮色守护者','暗影之刃']
+  }
+};
+
+function generateName(){
+  const input=document.getElementById('nameInput').value.trim()||'无名';
+  const style=document.getElementById('nameStyle').value;
+  const data=nameData[style];
+  const p=data.prefixes[Math.floor(Math.random()*data.prefixes.length)];
+  const c=data.cores[Math.floor(Math.random()*data.cores.length)];
+  const s=data.suffixes[Math.floor(Math.random()*data.suffixes.length)];
+  const title=data.titles[Math.floor(Math.random()*data.titles.length)];
+  const fullName=`${p}${c}${s}`;
+  const styleNames={chaos:'混沌',star:'恒星',moon:'月亮',shadow:'暗影'};
+  document.getElementById('nameResult').innerHTML=`
+    <div class="name-title">${styleNames[style]}风格 · ${title}</div>
+    <div class="name-generated">${fullName}·${input}</div>
+    <div class="name-breakdown">
+      <div class="nb-item"><span class="nb-label">根源</span><span class="nb-value">"${p}" — ${getRootMeaning(p,style)}</span></div>
+      <div class="nb-item"><span class="nb-label">核心</span><span class="nb-value">"${c}" — ${getCoreMeaning(c,style)}</span></div>
+      <div class="nb-item"><span class="nb-label">后缀</span><span class="nb-value">"${s}" — ${getSuffixMeaning(s)}</span></div>
+      <div class="nb-item"><span class="nb-label">冠名</span><span class="nb-value">${title}</span></div>
+      <div class="nb-item"><span class="nb-label">灵性链接</span><span class="nb-value">与「${input}」的灵魂共鸣</span></div>
+    </div>
+  `;
+}
+
+function getRootMeaning(p,style){
+  const m={
+    chaos:{'虚空':'虚无之源','混沌':'原初无序','深渊':'无尽深处','黑洞':'吞噬一切','熵':'衰变之力','暗流':'隐藏涌动','漩涡':'扭曲之旋','裂痕':'破碎界限','湮灭':'归无之力','无形':'超越形态'},
+    star:{'星辉':'星辰之光','银河':'宇宙长河','恒星':'永恒之火','星尘':'古老遗骸','光晕':'神圣光环','日冕':'恒星之冠','星环':'环绕之力','辉光':'纯净照耀','极星':'指引之灯','天穹':'无尽穹顶'},
+    moon:{'月影':'倒映之像','银月':'清冷光辉','月光':'温柔照耀','月华':'精华凝结','月晕':'神秘光轮','潮汐':'引力律动','梦':'潜意识海','夜雾':'朦胧之纱','幽月':'隐秘之面','霜月':'寒冷之态'},
+    shadow:{'暗影':'光之缺席','幽暗':'未知之惧','暮色':'交界之境','深渊':'内心黑暗','黑暗':'原始之暗','阴影':'跟随之形','夜幕':'笼罩之时','幽魂':'逝去之忆','迷雾':'蒙蔽之纱','暗夜':'无光之时'}
+  };
+  return m[style]?.[p]||'古老力量';
+}
+
+function getCoreMeaning(c,style){
+  const m={
+    chaos:{'索恩':'雷霆','克苏':'深渊','诺斯':'命运','札格':'原始','尤格':'全知','阿萨':'神性','托格':'力量','米戈':'异界','赫拉':'光辉','科斯':'秩序'},
+    star:{'索尔':'太阳','莱恩':'光芒','阿斯特':'星辰','塞拉':'神圣','奥瑞':'黎明','菲克':'魔法','路米':'光明','诺瓦':'新星','维加':'闪耀','希利':'秘密'},
+    moon:{'露娜':'月光','塞勒':'月神','阿提':'狩猎','弥斯':'智慧','艾露':'精灵','宁芙':'自然','希尔':'隐秘','蒂亚':'神圣','拉玛':'升华','维拉':'真理'},
+    shadow:{'莫克':'黑暗','奈特':'夜晚','舒德':'阴影','哥特':'神秘','维斯':'智慧','诺伊':'虚无','达克':'黑暗','辛斯':'罪恶','布莱':'光芒','格雷':'黎明'}
+  };
+  return m[style]?.[c]||'神秘力量';
+}
+
+function getSuffixMeaning(s){
+  const m={'织者':'编织现实','之子':'传承血脉','使徒':'使命承载','领主':'支配领域','行者':'跨越界限','之眼':'洞察万物','低语':'秘密传递','化身':'力量具现','之光':'照亮黑暗','使者':'传达天意','之焰':'燃烧净化','守护':'坚定保护','之裔':'血脉延续','之辉':'恒久闪耀','之泪':'情感凝结','之舞':'韵律流动','之梦':'幻境编织','之纱':'隐藏真实','之潮':'周期流转','之誓':'永恒承诺','之刃':'锋利决断','潜行者':'暗中行动','之灵':'灵魂形态','之吻':'触碰命运'};
+  return m[s]||'神秘属性';
+}
+
+/* =====================================================================
+   2. PLANETARY SIGIL GENERATOR
+   ===================================================================== */
+const planetaryData={
+  saturn:{name:'土星',symbol:'♄',size:3,color:'#2d5a27',
+    kamea:[[4,9,2],[3,5,7],[8,1,6]],
+    seal:'M15,2L8,18 2,15 10,28 3,25 12,38 18,35 15,42 22,35 25,42 28,35 35,42 32,35 40,38 35,25 42,28 34,15 40,18 32,2 28,15 22,2 18,15Z'
+  },
+  jupiter:{name:'木星',symbol:'♃',size:4,color:'#4a7fb5',
+    kamea:[[4,14,15,1],[9,7,6,12],[5,11,10,8],[16,2,3,13]],
+    seal:'M20,2L12,8 6,14 2,20 6,26 12,32 20,38 28,32 34,26 38,20 34,14 28,8Z M12,8L28,32 M28,8L12,32 M6,14L34,26 M34,14L6,26'
+  },
+  mars:{name:'火星',symbol:'♂',size:5,color:'#c41e3a',
+    kamea:[[11,24,7,20,3],[4,12,25,8,16],[17,5,13,21,9],[10,18,1,14,22],[23,6,19,2,15]],
+    seal:'M25,2L18,8 12,14 8,20 6,26 10,32 16,36 22,38 30,36 36,30 40,24 38,18 34,12 30,8Z M18,8L34,30 M34,8L18,30 M12,14L30,34 M30,14L12,34'
+  },
+  sun:{name:'太阳',symbol:'☉',size:6,color:'#d4a843',
+    kamea:[[6,32,3,34,35,1],[7,11,27,28,8,30],[19,14,16,15,23,24],[18,20,22,21,17,13],[25,29,10,9,26,12],[36,5,33,4,2,31]],
+    seal:'M25,2L10,6 4,15 4,25 10,34 20,40 30,40 40,34 46,25 46,15 40,6ZM16,12L34,30 34,12 16,30'
+  },
+  venus:{name:'金星',symbol:'♀',size:7,color:'#c8a0c8',
+    kamea:[[22,47,16,41,10,35,4],[5,23,48,17,42,11,29],[30,6,24,49,18,36,12],[13,31,7,25,43,19,37],[38,14,32,1,26,44,20],[21,39,8,33,2,27,45],[46,15,40,9,34,3,28]],
+    seal:'M25,2L15,6 6,14 2,25 6,36 15,44 25,48 35,44 44,36 48,25 44,14 35,6Z M15,6L35,44 M35,6L15,44 M6,14L44,36 M44,14L6,36'
+  },
+  mercury:{name:'水星',symbol:'☿',size:8,color:'#b0b0b0',
+    kamea:[[8,58,59,5,4,62,63,1],[49,15,14,52,53,11,10,56],[41,23,22,44,45,19,18,48],[32,34,35,29,28,38,39,25],[40,26,27,37,36,30,31,33],[17,47,46,20,21,43,42,24],[9,55,54,12,13,51,50,16],[64,2,3,61,60,6,7,57]],
+    seal:'M25,2L8,8 2,20 4,32 12,40 25,46 38,40 46,32 48,20 42,8Z M8,8L42,40 M42,8L8,40 M2,20L46,28 M46,20L2,28'
+  },
+  moon:{name:'月亮',symbol:'☽',size:9,color:'#c0c0d0',
+    kamea:[[37,78,29,70,21,62,13,54,5],[6,38,79,30,71,22,63,14,46],[47,7,39,80,31,72,23,55,15],[16,48,8,40,81,32,64,24,56],[57,17,49,9,41,73,33,65,25],[26,58,18,50,1,42,74,34,66],[67,27,59,10,51,2,43,75,35],[36,68,19,60,11,52,3,44,76],[77,28,69,20,61,12,53,4,45]],
+    seal:'M25,2L12,6 4,16 2,28 8,38 18,44 30,46 42,42 48,32 48,20 42,10 32,4Z M12,6L42,42 M42,6L12,42 M4,16L30,46 M30,4L4,34'
+  }
+};
+
+function generateSigil(){
+  const key=document.getElementById('planetSelect').value;
+  const data=planetaryData[key];
+  if(!data)return;
+  const canvas=document.getElementById('sigilCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  const size=data.size;
+  const margin=40;
+  const cellW=(W-margin*2)/size;
+  const cellH=(H-margin*2)/size;
+
+  // Draw Kamea grid
+  ctx.strokeStyle='#333';
+  ctx.lineWidth=1;
+  for(let i=0;i<=size;i++){
+    const x=margin+i*cellW;
+    ctx.beginPath();ctx.moveTo(x,margin);ctx.lineTo(x,H-margin);ctx.stroke();
+  }
+  for(let i=0;i<=size;i++){
+    const y=margin+i*cellH;
+    ctx.beginPath();ctx.moveTo(margin,y);ctx.lineTo(W-margin,y);ctx.stroke();
+  }
+
+  // Draw numbers
+  ctx.fillStyle='#8a7e6e';
+  ctx.font='13px "Noto Serif SC",serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  for(let r=0;r<size;r++){
+    for(let c=0;c<size;c++){
+      const x=margin+c*cellW+cellW/2;
+      const y=margin+r*cellH+cellH/2;
+      ctx.fillText(data.kamea[r][c],x,y);
+    }
+  }
+
+  // Draw sigil from seed (using planet name as seed)
+  const seed=key;
+  const numSeq=[];
+  for(let i=0;i<seed.length;i++){
+    const code=seed.charCodeAt(i);
+    const num=(code%81)+1;
+    if(!numSeq.includes(num))numSeq.push(num);
+  }
+  // Ensure we have enough points
+  while(numSeq.length<4){
+    numSeq.push(Math.floor(Math.random()*81)+1);
+  }
+  // Map numbers to positions on Kamea
+  const positions=[];
+  for(let n of numSeq.slice(0,8)){
+    let found=false;
+    for(let r=0;r<size;r++){
+      for(let c=0;c<size;c++){
+        if(data.kamea[r][c]===n){
+          positions.push({x:margin+c*cellW+cellW/2,y:margin+r*cellH+cellH/2});
+          found=true;break;
+        }
+      }
+      if(found)break;
+    }
+  }
+
+  // Draw sigil lines
+  if(positions.length>1){
+    ctx.strokeStyle='#d4a843';
+    ctx.lineWidth=2.5;
+    ctx.shadowColor='rgba(212,168,67,0.5)';
+    ctx.shadowBlur=10;
+    ctx.beginPath();
+    ctx.moveTo(positions[0].x,positions[0].y);
+    for(let i=1;i<positions.length;i++){
+      ctx.lineTo(positions[i].x,positions[i].y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur=0;
+
+    // Draw nodes
+    for(let p of positions){
+      ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);
+      ctx.fillStyle='#d4a843';
+      ctx.shadowColor='rgba(212,168,67,0.6)';
+      ctx.shadowBlur=8;
+      ctx.fill();
+      ctx.shadowBlur=0;
+    }
+  }
+
+  // Draw border
+  ctx.strokeStyle='#d4a84344';
+  ctx.lineWidth=1;
+  ctx.strokeRect(margin-5,margin-5,W-margin*2+10,H-margin*2+10);
+
+  // Draw Seal SVG
+  drawSeal(data);
+}
+
+function drawSeal(data){
+  const container=document.getElementById('sealContainer');
+  container.innerHTML=`
+    <div style="color:var(--muted);font-size:0.8rem;margin-bottom:0.5rem;">${data.name}·神圣符印 ${data.symbol}</div>
+    <svg viewBox="0 0 50 50" width="180" height="180">
+      <circle cx="25" cy="25" r="23" fill="none" stroke="${data.color}" stroke-width="0.5" opacity="0.3"/>
+      <circle cx="25" cy="25" r="20" fill="none" stroke="${data.color}" stroke-width="0.8"/>
+      <path d="${data.seal}" fill="none" stroke="${data.color}" stroke-width="1.2" opacity="0.8"/>
+      <circle cx="25" cy="25" r="2" fill="${data.color}"/>
+      <text x="25" y="48" text-anchor="middle" fill="${data.color}" font-size="3" opacity="0.5">${data.symbol}</text>
+    </svg>
+  `;
+}
+
+// Initial sigil draw
+setTimeout(generateSigil,100);
+
+/* =====================================================================
+   3. INCANTATION GENERATOR
+   ===================================================================== */
+const incantData={
+  latinSyls:['bar','thor','ak','sha','mal','gor','ven','zul','kar','lum','nox','sor','tag','val','mor','zir','kel','fro','dul','bram','xen','zod','kul','reth','morn','gath','vorn','seth','lorn','farn','quor','zell'],
+  styles:{
+    majestic:{glue:['et','in','per','ad','ex','sub','cum'],suffix:'us'},
+    ancient:{glue:['um','ar','is','os','ae','or'],suffix:'um'},
+    chaos:{glue:[''vok','zath','kth','xul','yog','oth'],suffix:''},
+    dragon:{glue:['dra','vox','ign','fyr','ur','thal'],suffix:'ar'}
+  }
+};
+const intentMap={
+  protection:{prefix:'Proteg',keywords:['守护','护盾','坚壁'],energy:'防护能量'},
+  love:{prefix:'Amor',keywords:['吸引','联结','共鸣'],energy:'爱的频率'},
+  wealth:{prefix:'Aur',keywords:['丰盛','繁荣','增长'],energy:'丰饶之流'},
+  wisdom:{prefix:'Sapi',keywords:['智慧','洞察','启迪'],energy:'智慧之光'},
+  strength:{prefix:'Fort',keywords:['力量','勇气','坚韧'],energy:'力量之柱'},
+  healing:{prefix:'San',keywords:['治愈','复苏','净化'],energy:'疗愈之泉'},
+  sealing:{prefix:'Sigil',keywords:['封印','束缚','禁锢'],energy:'封印之力'}
+};
+
+function generateIncantation(){
+  const intent=document.getElementById('intentSelect').value;
+  const style=document.getElementById('styleSelect').value;
+  const intentInfo=intentMap[intent];
+  const styleInfo=incantData.styles[style];
+
+  // Build incantation phrase
+  const parts=[];
+  const numWords=3+Math.floor(Math.random()*3);
+  for(let i=0;i<numWords;i++){
+    let word='';
+    const sylCount=2+Math.floor(Math.random()*2);
+    for(let j=0;j<sylCount;j++){
+      word+=incantData.latinSyls[Math.floor(Math.random()*incantData.latinSyls.length)];
+    }
+    if(i===0){
+      word=intentInfo.prefix+word.slice(0,3);
+    }
+    if(Math.random()>0.5)word+=styleInfo.suffix;
+    parts.push(word);
+  }
+
+  const glue=styleInfo.glue[Math.floor(Math.random()*styleInfo.glue.length)];
+  const incantation=parts.join(' '+glue+' ');
+
+  // Phonetic pronunciation
+  const phonetic=parts.map(w=>{
+    return w.replace(/([aeiou])/g,'$1 ').trim().split(' ').map(s=>s.toUpperCase()).join('-');
+  }).join(' ‧ ');
+
+  // Meaning
+  const styleNames={majestic:'庄严',ancient:'远古',chaos:'混沌',dragon:'龙语'};
+  const meaning=`${styleNames[style]}风格的${intentInfo.keywords[Math.floor(Math.random()*intentInfo.keywords.length)]}咒语 · 蕴含${intentInfo.energy} · 咏唱时需集中意念于${intentInfo.keywords[Math.floor(Math.random()*intentInfo.keywords.length)]}之意图`;
+
+  document.getElementById('incantText').textContent=incantation;
+  document.getElementById('incantPhonetic').textContent=`发音：${phonetic}`;
+  document.getElementById('incantMeaning').textContent=`释义：${meaning}`;
+}
+
+// Initial incantation
+setTimeout(generateIncantation,200);
+
+/* =====================================================================
+   4. DIVINATION RANDOMIZER
+   ===================================================================== */
+const divinationData={
+  yao:{
+    name:'六爻',
+    items:[
+      {symbol:'━',name:'初爻',meaning:'事之初萌，宜静不宜动。'},
+      {symbol:'━━',name:'二爻',meaning:'渐入佳境，顺势而为。'},
+      {symbol:'━━━',name:'三爻',meaning:'小有波折，守正待时。'},
+      {symbol:'━━━━',name:'四爻',meaning:'进退两难，择善而从。'},
+      {symbol:'━━━━━',name:'五爻',meaning:'居中得正，大吉之兆。'},
+      {symbol:'━━━━━━',name:'上爻',meaning:'物极必反，知止不殆。'}
+    ]
+  },
+  bagua:{
+    name:'八卦',
+    items:[
+      {symbol:'☰',name:'乾',meaning:'天行健，君子以自强不息。'},
+      {symbol:'☱',name:'兑',meaning:'悦而健，亨通利贞。'},
+      {symbol:'☲',name:'离',meaning:'明两作，大人以继明照四方。'},
+      {symbol:'☳',name:'震',meaning:'震惊百里，君子以恐惧修省。'},
+      {symbol:'☴',name:'巽',meaning:'随风巽，君子以申命行事。'},
+      {symbol:'☵',name:'坎',meaning:'习坎重险，君子以常德行。'},
+      {symbol:'☶',name:'艮',meaning:'兼山艮，君子以思不出其位。'},
+      {symbol:'☷',name:'坤',meaning:'地势坤，君子以厚德载物。'}
+    ]
+  },
+  xiu:{
+    name:'二十八宿',
+    items:[
+      {symbol:'角',name:'角宿',meaning:'角木蛟 — 万物始生，东方青龙之首。'},
+      {symbol:'亢',name:'亢宿',meaning:'亢金龙 — 龙颈之宿，主事急速。'},
+      {symbol:'氐',name:'氐宿',meaning:'氐土貉 — 根基稳固，宜守不宜攻。'},
+      {symbol:'房',name:'房宿',meaning:'房日兔 — 天马行空，出行大利。'},
+      {symbol:'心',name:'心宿',meaning:'心月狐 — 心为明堂，主变化。'},
+      {symbol:'尾',name:'尾宿',meaning:'尾火虎 — 尾为尽头，亦为新生。'},
+      {symbol:'箕',name:'箕宿',meaning:'箕水豹 — 好风助势，顺风扬帆。'},
+      {symbol:'斗',name:'斗宿',meaning:'斗木獬 — 北斗之柄，主权衡。'},
+      {symbol:'牛',name:'牛宿',meaning:'牛金牛 — 牵牛星，主祭祀。'},
+      {symbol:'女',name:'女宿',meaning:'女土蝠 — 须女之宿，主巧艺。'},
+      {symbol:'虚',name:'虚宿',meaning:'虚日鼠 — 虚者实之，实者虚之。'},
+      {symbol:'危',name:'危宿',meaning:'危月燕 — 危楼高悬，谨言慎行。'},
+      {symbol:'室',name:'室宿',meaning:'室火猪 — 营室星，主营造。'},
+      {symbol:'壁',name:'壁宿',meaning:'壁水貐 — 东壁图书，主文采。'},
+      {symbol:'奎',name:'奎宿',meaning:'奎木狼 — 天之府库，主收藏。'},
+      {symbol:'娄',name:'娄宿',meaning:'娄金狗 — 聚众之宿，主集会。'},
+      {symbol:'胃',name:'胃宿',meaning:'胃土雉 — 天仓之宿，主食禄。'},
+      {symbol:'昴',name:'昴宿',meaning:'昴日鸡 — 七姊妹星，主光明。'},
+      {symbol:'毕',name:'毕宿',meaning:'毕月乌 — 毕网星，主狩猎。'},
+      {symbol:'觜',name:'觜宿',meaning:'觜火猴 — 虎首之宿，主口舌。'},
+      {symbol:'参',name:'参宿',meaning:'参水猿 — 参商永隔，主离别。'},
+      {symbol:'井',name:'井宿',meaning:'井木犴 — 东井星，主泉水。'},
+      {symbol:'鬼',name:'鬼宿',meaning:'鬼金羊 — 鬼星聚，主阴私。'},
+      {symbol:'柳',name:'柳宿',meaning:'柳土獐 — 柳宿为酒旗，主食宴。'},
+      {symbol:'星',name:'星宿',meaning:'星日马 — 七星宿，主文书。'},
+      {symbol:'张',name:'张宿',meaning:'张月鹿 — 张为弓矢，主远行。'},
+      {symbol:'翼',name:'翼宿',meaning:'翼火蛇 — 翼为羽翼，主飞翔。'},
+      {symbol:'轸',name:'轸宿',meaning:'轸水蚓 — 轸为车驾，主调动。'}
+    ]
+  }
+};
+
+function performDivination(){
+  const type=document.getElementById('divineType').value;
+  const data=divinationData[type];
+  const item=data.items[Math.floor(Math.random()*data.items.length)];
+
+  const overlay=document.getElementById('revealOverlay');
+  const cover=document.getElementById('revealCover');
+  overlay.classList.remove('revealed');
+
+  // Animate reveal
+  cover.textContent='✦ 天机将显 ✦';
+  setTimeout(()=>{
+    document.getElementById('divSymbol').textContent=item.symbol;
+    document.getElementById('divName').textContent=item.name;
+    document.getElementById('divMeaning').textContent=item.meaning;
+    overlay.classList.add('revealed');
+  },600);
+}
+
+/* =====================================================================
+   5. RITUAL TIMELINE CALCULATOR
+   ===================================================================== */
+const dayRulers=['太阳','月亮','火星','水星','木星','金星','土星'];
+const dayRulerZH=['日曜日 — 太阳','月曜日 — 月亮','火曜日 — 火星','水曜日 — 水星','木曜日 — 木星','金曜日 — 金星','土曜日 — 土星'];
+
+function calculateRitualTime(){
+  const birthStr=document.getElementById('birthDate').value;
+  const targetStr=document.getElementById('targetDate').value;
+  if(!birthStr||!targetStr){
+    document.getElementById('ritualResult').innerHTML='<div style="color:var(--accent);text-align:center;">请选择出生日期和目标日期。</div>';
+    return;
+  }
+
+  const birth=new Date(birthStr);
+  const target=new Date(targetStr);
+  const diffDays=Math.floor((target-birth)/86400000);
+  const birthYear=birth.getFullYear();
+
+  // Moon phase calculation (simplified)
+  const knownNewMoon=new Date(2000,0,6,18,14,0);
+  const daysSince=Math.floor((target-knownNewMoon)/86400000);
+  const lunarCycle=29.53058867;
+  const moonAge=((daysSince%lunarCycle)+lunarCycle)%lunarCycle;
+  const moonPhase=moonAge/lunarCycle; // 0=new, 0.5=full
+
+  let phaseName,phaseDesc,phaseFavorable;
+  if(moonPhase<0.0625||moonPhase>0.9375){
+    phaseName='🌑 新月';phaseDesc='新的开始，适合播种与开启新仪式';phaseFavorable=true;
+  }else if(moonPhase<0.1875){
+    phaseName='🌒 蛾眉月';phaseDesc='初生之力，适合成长型魔法';phaseFavorable=true;
+  }else if(moonPhase<0.3125){
+    phaseName='🌓 上弦月';phaseDesc='力量增长，适合建设性仪式';phaseFavorable=true;
+  }else if(moonPhase<0.4375){
+    phaseName='🌔 盈凸月';phaseDesc='力量充沛，适合大多数魔法工作';phaseFavorable=true;
+  }else if(moonPhase<0.5625){
+    phaseName='🌕 满月';phaseDesc='力量巅峰，适合强力仪式与召唤';phaseFavorable=true;
+  }else if(moonPhase<0.6875){
+    phaseName='🌖 亏凸月';phaseDesc='力量衰退，适合驱散与净化';phaseFavorable=false;
+  }else if(moonPhase<0.8125){
+    phaseName='🌗 下弦月';phaseDesc='力量减弱，适合结束与释放';phaseFavorable=false;
+  }else{
+    phaseName='🌘 残月';phaseDesc='黑暗时期，适合深层冥想与封印';phaseFavorable=false;
+  }
+
+  // Day of week ruler
+  const dayOfWeek=target.getDay(); // 0=Sun
+  const ruler=dayRulers[dayOfWeek];
+  const rulerZH=dayRulerZH[dayOfWeek];
+
+  // Planetary hour (simplified - based on day ruler)
+  const hour=target.getHours();
+  const planetaryHours=['土星','木星','火星','太阳','金星','水星','月亮'];
+  const dayStart=dayOfWeek;
+  const planetaryHourIndex=(dayStart+(hour%24))%7;
+  const currentPlanetaryHour=planetaryHours[planetaryHourIndex];
+
+  // Auspicious calculation
+  let score=0;
+  if(phaseFavorable)score+=2;
+  if(dayOfWeek===0||dayOfWeek===4)score+=1; // Sun or Jupiter day
+  if(moonPhase>0.25&&moonPhase<0.75)score+=1;
+  if(planetaryHourIndex===0||planetaryHourIndex===3||planetaryHourIndex===4)score+=1; // Saturn/Sun/Venus hours
+  const auspicious=score>=3;
+
+  // Personal day number
+  const personalDay=((diffDays%9)+9)%9+1;
+  const personalDayMeanings=[
+    '新的开始','合作与平衡','创造力表达','稳定与建设','变化与自由','责任与和谐','灵性探索','力量与成就','完成与释放'
+  ];
+
+  document.getElementById('ritualResult').innerHTML=`
+    <div class="ritual-grid">
+      <div class="ritual-item">
+        <div class="ri-label">月相</div>
+        <div class="ri-value">${phaseName}</div>
+        <div style="color:#aaa;font-size:0.8rem;margin-top:0.3rem;">${phaseDesc}</div>
+      </div>
+      <div class="ritual-item">
+        <div class="ri-label">星期主宰</div>
+        <div class="ri-value">${rulerZH}</div>
+      </div>
+      <div class="ritual-item">
+        <div class="ri-label">当前行星时</div>
+        <div class="ri-value">${currentPlanetaryHour}</div>
+      </div>
+      <div class="ritual-item">
+        <div class="ri-label">个人日数</div>
+        <div class="ri-value">${personalDay}</div>
+        <div style="color:#aaa;font-size:0.8rem;margin-top:0.3rem;">${personalDayMeanings[personalDay-1]}</div>
+      </div>
+      <div class="ritual-item">
+        <div class="ri-label">月龄</div>
+        <div class="ri-value">${moonAge.toFixed(1)}天</div>
+      </div>
+      <div class="ritual-item">
+        <div class="ri-label">出生后天数</div>
+        <div class="ri-value">${diffDays}天</div>
+      </div>
+    </div>
+    <div class="ritual-verdict ${auspicious?'auspicious':'inauspicious'}">
+      ${auspicious?'✦ 此日宜行仪式 — 能量充沛，诸事顺遂 ✦':'✧ 此日宜静修 — 适合冥想与内在工作 ✧'}
+      <div style="font-size:0.85rem;margin-top:0.4rem;font-weight:400;">
+        ${auspicious?'月相有利，行星时契合，建议在'+currentPlanetaryHour+'时进行主要仪式工作。':'能量较为收敛，建议进行净化和冥想类工作。'}
+      </div>
+    </div>
+  `;
+}
+
+// Set default dates
+(function(){
+  const today=new Date();
+  const defBirth=new Date(1990,0,1);
+  document.getElementById('birthDate').value=defBirth.toISOString().split('T')[0];
+  document.getElementById('targetDate').value=today.toISOString().split('T')[0];
+})();
+
+/* =====================================================================
+   6. ELEMENTAL BALANCE TEST
+   ===================================================================== */
+const elementQuestions=[
+  {q:'你最向往哪种自然景象？',opts:[
+    {e:'fire',t:'壮丽的火山喷发'},{e:'water',t:'深邃的海洋'},{e:'earth',t:'巍峨的山脉'},{e:'air',t:'狂野的风暴'}
+  ]},
+  {q:'朋友最常怎样形容你？',opts:[
+    {e:'fire',t:'充满激情'},{e:'water',t:'善解人意'},{e:'earth',t:'可靠踏实'},{e:'air',t:'思维敏捷'}
+  ]},
+  {q:'面对困难时，你通常会？',opts:[
+    {e:'fire',t:'迎难而上'},{e:'water',t:'随遇而安'},{e:'earth',t:'稳扎稳打'},{e:'air',t:'寻找新思路'}
+  ]},
+  {q:'你最喜欢的颜色是？',opts:[
+    {e:'fire',t:'烈焰红'},{e:'water',t:'深海蓝'},{e:'earth',t:'大地棕'},{e:'air',t:'天空银'}
+  ]},
+  {q:'你理想中的休闲方式是？',opts:[
+    {e:'fire',t:'极限运动'},{e:'water',t:'泡温泉/游泳'},{e:'earth',t:'徒步登山'},{e:'air',t:'读书冥想'}
+  ]},
+  {q:'你更擅长哪种能力？',opts:[
+    {e:'fire',t:'领导与激励'},{e:'water',t:'共情与沟通'},{e:'earth',t:'执行与坚持'},{e:'air',t:'分析与创造'}
+  ]},
+  {q:'什么会让你感到最有活力？',opts:[
+    {e:'fire',t:'竞争与挑战'},{e:'water',t:'深度交流'},{e:'earth',t:'接触自然'},{e:'air',t:'学习新事物'}
+  ]},
+  {q:'你的超能力会选择？',opts:[
+    {e:'fire',t:'操控火焰'},{e:'water',t:'操控水流'},{e:'earth',t:'操控大地'},{e:'air',t:'操控风暴'}
+  ]},
+  {q:'你更容易被什么打动？',opts:[
+    {e:'fire',t:'热血的壮举'},{e:'water',t:'感人的故事'},{e:'earth',t:'持久的陪伴'},{e:'air',t:'绝妙的想法'}
+  ]},
+  {q:'你的魔法风格更接近？',opts:[
+    {e:'fire',t:'火焰魔法师'},{e:'water',t:'冰霜女巫'},{e:'earth',t:'大地德鲁伊'},{e:'air',t:'风暴术士'}
+  ]}
+];
+
+const elementInfo={
+  fire:{label:'火',color:'#c41e3a',emoji:'🔥',desc:'火之元素代表激情、能量与变革。你天生具有领导气质，充满创造力与行动力。你如同火焰般热烈而不可阻挡，拥有将想法化为现实的力量。但需注意，火也需要节制，以免烧伤自己。',titles:'火焰使者 · 变革之魂'},
+  water:{label:'水',color:'#4a7fb5',emoji:'💧',desc:'水之元素代表情感、直觉与适应力。你敏感而富有同理心，能如流水般适应各种环境。你拥有深邃的内心世界和强大的直觉力。水能载舟亦能覆舟，你的情绪力量是不可忽视的魔法源泉。',titles:'流水智者 · 情感之海'},
+  earth:{label:'土',color:'#8B6914',emoji:'🌍',desc:'土之元素代表稳定、耐心与丰饶。你是他人可以依靠的坚实后盾，踏实稳重且富有责任感。你与自然有着深厚的联系，拥有让万物生长的能力。记住，大地虽静，却蕴含无穷的力量。',titles:'大地守护 · 永恒之基'},
+  air:{label:'风',color:'#b0b0c8',emoji:'🌪️',desc:'风之元素代表智慧、沟通与自由。你思维敏捷，充满好奇心，总能在不同想法之间建立联系。你渴望自由，厌恶束缚，如同风一般无拘无束。你的智慧是你最强大的魔法武器。',titles:'风语者 · 智慧之翼'}
+};
+
+function renderElementTest(){
+  const container=document.getElementById('questionsContainer');
+  let html='';
+  elementQuestions.forEach((q,qi)=>{
+    html+=`<div class="question-card" data-q="${qi}">
+      <div class="q-title">${qi+1}. ${q.q}</div>`;
+    q.opts.forEach((opt,oi)=>{
+      const id=`q${qi}_${oi}`;
+      html+=`<label class="elem-option" data-q="${qi}" data-e="${opt.e}">
+        <input type="radio" name="q${qi}" value="${opt.e}" data-e="${opt.e}">
+        <span class="elem-label">${opt.t}</span>
+      </label>`;
+    });
+    html+=`</div>`;
+  });
+  container.innerHTML=html;
+
+  // Click handler for options
+  container.querySelectorAll('.elem-option').forEach(el=>{
+    el.addEventListener('click',function(){
+      const qIdx=this.dataset.q;
+      this.closest('.question-card').querySelectorAll('.elem-option').forEach(o=>o.classList.remove('selected'));
+      this.classList.add('selected');
+      this.querySelector('input[type="radio"]').checked=true;
+    });
+  });
+}
+
+function submitElementTest(){
+  const scores={fire:0,water:0,earth:0,air:0};
+  let answered=0;
+  for(let i=0;i<elementQuestions.length;i++){
+    const sel=document.querySelector(`input[name="q${i}"]:checked`);
+    if(sel){scores[sel.value]++;answered++;}
+  }
+  if(answered<elementQuestions.length){
+    alert(`请回答所有问题（已答 ${answered}/${elementQuestions.length} 题）`);
+    return;
+  }
+
+  const maxVal=Math.max(...Object.values(scores));
+  const minVal=Math.min(...Object.values(scores));
+  const dominant=Object.keys(scores).find(k=>scores[k]===maxVal);
+  const weakest=Object.keys(scores).find(k=>scores[k]===minVal);
+  const dominantInfo=elementInfo[dominant];
+  const weakestInfo=elementInfo[weakest];
+
+  // Canvas bar chart
+  const barCanvas=document.createElement('canvas');
+  barCanvas.width=500;barCanvas.height=260;
+  barCanvas.style.maxWidth='100%';
+  barCanvas.style.margin='1rem auto';
+  barCanvas.style.display='block';
+  barCanvas.style.borderRadius='8px';
+  barCanvas.style.background='#111';
+
+  const bctx=barCanvas.getContext('2d');
+  const barData=[
+    {label:'火',score:scores.fire,color:'#c41e3a'},
+    {label:'水',score:scores.water,color:'#4a7fb5'},
+    {label:'土',score:scores.earth,color:'#8B6914'},
+    {label:'风',score:scores.air,color:'#b0b0c8'}
+  ];
+  const maxScore=Math.max(scores.fire,scores.water,scores.earth,scores.air,1);
+  const barW=70;const gap=30;const startX=60;const startY=210;const maxH=160;
+
+  bctx.clearRect(0,0,500,260);
+  bctx.fillStyle='#222';bctx.font='11px "Noto Serif SC",serif';
+  bctx.textAlign='center';
+
+  barData.forEach((item,i)=>{
+    const x=startX+i*(barW+gap);
+    const h=(item.score/maxScore)*maxH;
+    const y=startY-h;
+
+    // Bar shadow
+    bctx.shadowColor=item.color+'44';
+    bctx.shadowBlur=12;
+
+    // Gradient
+    const grad=bctx.createLinearGradient(x,startY,x,y);
+    grad.addColorStop(0,item.color+'88');
+    grad.addColorStop(1,item.color);
+    bctx.fillStyle=grad;
+    bctx.beginPath();
+    const r=4;
+    bctx.moveTo(x+r,startY);
+    bctx.lineTo(x+barW-r,startY);
+    bctx.quadraticCurveTo(x+barW,startY,x+barW,startY-r);
+    bctx.lineTo(x+barW,y+r);
+    bctx.quadraticCurveTo(x+barW,y,x+barW-r,y);
+    bctx.lineTo(x+r,y);
+    bctx.quadraticCurveTo(x,y,x,y+r);
+    bctx.lineTo(x,startY-r);
+    bctx.quadraticCurveTo(x,startY,x+r,startY);
+    bctx.closePath();
+    bctx.fill();
+    bctx.shadowBlur=0;
+
+    // Label
+    bctx.fillStyle='#aaa';
+    bctx.font='13px "Noto Serif SC",serif';
+    bctx.fillText(item.label,x+barW/2,startY+18);
+    bctx.fillStyle=item.color;
+    bctx.font='bold 15px "Noto Serif SC",serif';
+    bctx.fillText(item.score.toFixed(0),x+barW/2,y-8);
+  });
+
+  // Title
+  bctx.fillStyle='#d4a843';
+  bctx.font='14px "Ma Shan Zheng",cursive';
+  bctx.textAlign='center';
+  bctx.fillText('元素平衡',250,25);
+
+  const resultHTML=`
+    <div class="test-complete">
+      <div class="result-title">✦ 元素平衡揭示 ✦</div>
+      ${barCanvas.outerHTML}
+      <div style="margin:1.5rem 0;padding:1rem;background:#1a1a1a;border-radius:8px;border:1px solid #d4a84333;">
+        <div style="font-family:'Ma Shan Zheng',cursive;font-size:1.8rem;color:${dominantInfo.color};">
+          ${dominantInfo.emoji} 主导元素：${dominantInfo.label}
+        </div>
+        <div style="color:#aaa;font-size:0.9rem;margin:0.5rem 0;">${dominantInfo.titles}</div>
+        <div style="color:#ccc;font-size:0.9rem;max-width:500px;margin:0 auto;">${dominantInfo.desc}</div>
+      </div>
+      <div style="padding:1rem;background:#1a1a1a;border-radius:8px;border:1px solid #333;">
+        <div style="font-size:1rem;color:${weakestInfo.color};">薄弱元素：${weakestInfo.label} ${weakestInfo.emoji}</div>
+        <div style="color:#aaa;font-size:0.85rem;margin-top:0.3rem;">
+          ${weakestInfo.label}元素能量较低（${scores[weakest].toFixed(0)}分）。建议通过冥想、接触自然等方式加强此元素的连接。
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;">
+        <button class="btn btn-secondary btn-sm" onclick="renderElementTest();document.getElementById('testResult').style.display='none';document.getElementById('testArea').style.display='block';">↻ 重新测试</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('testArea').style.display='none';
+  const resultDiv=document.getElementById('testResult');
+  resultDiv.innerHTML=resultHTML;
+  resultDiv.style.display='block';
+
+  // Animate bars after insertion
+  setTimeout(()=>{
+    const bars=resultDiv.querySelectorAll('.score-bar-fill');
+    bars.forEach(bar=>{
+      const w=bar.dataset.width;
+      bar.style.width=w+'%';
+    });
+  },100);
+}
+
+// Render test on load
+renderElementTest();
+
+</script>
+</body>
+</html>

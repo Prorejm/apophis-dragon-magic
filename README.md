@@ -102,12 +102,20 @@
 | 🎮 符印工坊 | [sigil-game.html](https://prorejm.github.io/apophis-dragon-magic/sigil-game.html) |
 | ☰ 周易占卜 | [iching-divination.html](https://prorejm.github.io/apophis-dragon-magic/iching-divination.html) |
 | ☯ 大六壬 | [liuren-simulator.html](https://prorejm.github.io/apophis-dragon-magic/liuren-simulator.html) |
-| 🪐 行星时计算 | [planetary-hours.html](https://prorejm.github.io/apophis-dragon-magic/planetary-hours.html) |
+| 🪐 行星时 | [planetary-hours.html](https://prorejm.github.io/apophis-dragon-magic/planetary-hours.html) |
 | 👹 七十二魔神 | [goetia-demons.html](https://prorejm.github.io/apophis-dragon-magic/goetia-demons.html) |
 | ✦ 天文星象 | [astrology-hub.html](https://prorejm.github.io/apophis-dragon-magic/astrology-hub.html) |
 | 🔮 魔法测试 | [lhp-test.html](https://prorejm.github.io/apophis-dragon-magic/lhp-test.html) |
 | 🐉 龙之仪式 | [dragon-ritual.html](https://prorejm.github.io/apophis-dragon-magic/dragon-ritual.html) |
-
+| 📝 知识测验 | [magic-knowledge-test.html](https://prorejm.github.io/apophis-dragon-magic/magic-knowledge-test.html) |
+| 📖 神秘学博客 | [blog.html](https://prorejm.github.io/apophis-dragon-magic/blog.html) |
+| 🔧 生成工坊 | [generators.html](https://prorejm.github.io/apophis-dragon-magic/generators.html) |
+| 🎨 算法艺术 | [algorithmic-art.html](https://prorejm.github.io/apophis-dragon-magic/algorithmic-art.html) |
+| 🎮 迷你游戏 | [mini-games.html](https://prorejm.github.io/apophis-dragon-magic/mini-games.html) |
+| ⚔️ 龙之冒险 | [apophis-adventure.html](https://prorejm.github.io/apophis-dragon-magic/apophis-adventure.html) |
+| 🌀 奇门遁甲 | [qimen-dunjia.html](https://prorejm.github.io/apophis-dragon-magic/qimen-dunjia.html) |
+| 📐 河图洛书 | [hetu-luoshu.html](https://prorejm.github.io/apophis-dragon-magic/hetu-luoshu.html) |
+| 🧘 魔法修炼 | [magic-training.html](https://prorejm.github.io/apophis-dragon-magic/magic-training.html) |
 ## 💻 本地运行
 
 直接用浏览器打开 `index.html` 即可，无需服务器。

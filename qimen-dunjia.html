@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿波菲斯 - 风后奇门图</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Serif SC', serif;
+  background: #0a0a0a;
+  color: #d4c5a9;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.8;
+}
+
+/* ===== ANIMATED BG ===== */
+.occult-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.occult-bg::before {
+  content: '';
+  position: absolute;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,168,67,0.04) 0%, transparent 70%);
+  top: -200px; right: -200px;
+  animation: glowPulse 10s ease-in-out infinite;
+}
+.occult-bg::after {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,30,58,0.04) 0%, transparent 70%);
+  bottom: -180px; left: -180px;
+  animation: glowPulse 12s ease-in-out infinite reverse;
+}
+@keyframes glowPulse {
+  0%,100%{opacity:0.3;transform:scale(1)}
+  50%{opacity:0.8;transform:scale(1.2)}
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 24px 80px;
+}
+
+/* ===== NAVIGATION ===== */
+.nav-bar {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 14px 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(212,168,67,0.08);
+}
+.nav-brand {
+  color: #d4a843;
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  white-space: nowrap;
+}
+.nav-link {
+  color: #8a7e6a;
+  text-decoration: none;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+  position: relative;
+  white-space: nowrap;
+  padding: 2px 4px;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #d4a843;
+  transition: width 0.3s;
+}
+.nav-link:hover, .nav-link.active { color: #d4a843; }
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+/* ===== HEADER ===== */
+.page-header {
+  text-align: center;
+  padding: 30px 20px 20px;
+}
+.page-header h1 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  color: #d4a843;
+  letter-spacing: 8px;
+  text-shadow: 0 0 40px rgba(212,168,67,0.15);
+}
+.page-header .subtitle {
+  font-size: 0.9rem;
+  color: #8a7e6a;
+  letter-spacing: 3px;
+  margin-top: 6px;
+}
+.divider {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4a843, transparent);
+  margin: 8px auto;
+}
+
+/* ===== TIME DISPLAY ===== */
+.time-display {
+  text-align: center;
+  padding: 16px 20px;
+  margin: 10px auto 20px;
+  max-width: 700px;
+  background: rgba(212,168,67,0.04);
+  border: 1px solid rgba(212,168,67,0.1);
+  border-radius: 8px;
+}
+.time-display .qm-time {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.3rem;
+  color: #d4a843;
+  letter-spacing: 2px;
+}
+.time-display .qm-detail {
+  font-size: 0.85rem;
+  color: #8a7e6a;
+  margin-top: 4px;
+}
+
+/* ===== MAIN LAYOUT ===== */
+.main-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ===== CANVAS AREA ===== */
+.canvas-area {
+  position: relative;
+  flex: 0 0 auto;
+}
+#qimenCanvas {
+  display: block;
+  border-radius: 50%;
+  box-shadow: 0 0 60px rgba(212,168,67,0.06), inset 0 0 60px rgba(0,0,0,0.3);
+  cursor: pointer;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== CONTROLS ===== */
+.controls-panel {
+  flex: 0 0 280px;
+  min-width: 240px;
+  max-width: 100%;
+}
+.control-group {
+  background: rgba(212,168,67,0.03);
+  border: 1px solid rgba(212,168,67,0.08);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.control-group h3 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1rem;
+  color: #d4a843;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  border-bottom: 1px solid rgba(212,168,67,0.1);
+  padding-bottom: 6px;
+}
+.control-group label {
+  display: block;
+  font-size: 0.78rem;
+  color: #8a7e6a;
+  margin-bottom: 4px;
+  margin-top: 8px;
+}
+.control-group input[type="datetime-local"] {
+  width: 100%;
+  padding: 6px 8px;
+  background: #111;
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 4px;
+  color: #d4c5a9;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.8rem;
+}
+.control-group input[type="range"] {
+  width: 100%;
+  margin: 6px 0;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: rgba(212,168,67,0.2);
+  border-radius: 2px;
+  outline: none;
+}
+.control-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d4a843;
+  cursor: pointer;
+  border: 2px solid #0a0a0a;
+  box-shadow: 0 0 8px rgba(212,168,67,0.3);
+}
+.control-group input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d4a843;
+  cursor: pointer;
+  border: 2px solid #0a0a0a;
+}
+.btn-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.btn {
+  padding: 5px 12px;
+  border: 1px solid rgba(212,168,67,0.25);
+  background: transparent;
+  color: #d4c5a9;
+  border-radius: 4px;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn:hover {
+  background: rgba(212,168,67,0.1);
+  border-color: #d4a843;
+  color: #d4a843;
+}
+.btn.active {
+  background: rgba(212,168,67,0.15);
+  border-color: #d4a843;
+  color: #d4a843;
+}
+.btn-primary {
+  border-color: #c41e3a;
+  color: #c41e3a;
+}
+.btn-primary:hover {
+  background: rgba(196,30,58,0.1);
+  border-color: #c41e3a;
+  color: #c41e3a;
+}
+.btn-sm {
+  padding: 3px 8px;
+  font-size: 0.7rem;
+}
+.control-value {
+  font-size: 0.85rem;
+  color: #d4a843;
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* ===== INFO PANEL ===== */
+.info-panel {
+  flex: 0 0 280px;
+  min-width: 240px;
+  max-width: 100%;
+}
+.info-card {
+  background: rgba(212,168,67,0.03);
+  border: 1px solid rgba(212,168,67,0.08);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 200px;
+}
+.info-card h3 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.2rem;
+  color: #d4a843;
+  text-align: center;
+  letter-spacing: 3px;
+}
+.info-card .info-placeholder {
+  text-align: center;
+  color: #5a4e3e;
+  font-size: 0.85rem;
+  margin-top: 30px;
+}
+.info-card .info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(212,168,67,0.05);
+  font-size: 0.82rem;
+}
+.info-card .info-row .label {
+  color: #8a7e6a;
+}
+.info-card .info-row .value {
+  color: #d4c5a9;
+}
+.info-card .info-desc {
+  font-size: 0.82rem;
+  color: #8a7e6a;
+  margin-top: 8px;
+  line-height: 1.7;
+}
+.info-card .auspicious-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+}
+.badge-great { background: rgba(46,204,113,0.15); color: #2ecc71; border: 1px solid rgba(46,204,113,0.3); }
+.badge-good { background: rgba(52,152,219,0.15); color: #3498db; border: 1px solid rgba(52,152,219,0.3); }
+.badge-bad { background: rgba(231,76,60,0.15); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
+.badge-minor-bad { background: rgba(230,126,34,0.15); color: #e67e22; border: 1px solid rgba(230,126,34,0.3); }
+.badge-minor-good { background: rgba(46,204,113,0.1); color: #27ae60; border: 1px solid rgba(46,204,113,0.2); }
+
+/* ===== REFERENCE SECTION ===== */
+.ref-section {
+  margin-top: 40px;
+}
+.ref-toggle {
+  text-align: center;
+  padding: 12px;
+  background: rgba(212,168,67,0.03);
+  border: 1px solid rgba(212,168,67,0.08);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.1rem;
+  color: #d4a843;
+  letter-spacing: 3px;
+}
+.ref-toggle:hover {
+  background: rgba(212,168,67,0.08);
+}
+.ref-content {
+  display: none;
+  margin-top: 16px;
+}
+.ref-content.open {
+  display: block;
+}
+.ref-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.ref-table th {
+  background: rgba(212,168,67,0.08);
+  color: #d4a843;
+  padding: 8px 10px;
+  text-align: center;
+  border: 1px solid rgba(212,168,67,0.1);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.ref-table td {
+  padding: 6px 10px;
+  text-align: center;
+  border: 1px solid rgba(212,168,67,0.06);
+  color: #b8a88a;
+}
+.ref-table tr:nth-child(even) td {
+  background: rgba(212,168,67,0.02);
+}
+.ref-table tr:hover td {
+  background: rgba(212,168,67,0.06);
+}
+.section-label {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.3rem;
+  color: #d4a843;
+  letter-spacing: 3px;
+  margin: 24px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(212,168,67,0.1);
+}
+
+/* ===== TOOLTIP ===== */
+.tooltip {
+  position: fixed;
+  background: rgba(10,10,10,0.95);
+  border: 1px solid rgba(212,168,67,0.3);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  color: #d4c5a9;
+  pointer-events: none;
+  z-index: 100;
+  max-width: 200px;
+  display: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .main-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+  .controls-panel, .info-panel {
+    flex: 1 1 100%;
+    max-width: 600px;
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="occult-bg"></div>
+
+<div class="container">
+
+<!-- Navigation -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link active">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+</nav>
+
+<!-- Header -->
+<header class="page-header">
+  <h1>风后奇门图</h1>
+  <p class="subtitle">Feng Hou Qi Men Dun Jia — 奇门遁甲完整四盘系统</p>
+  <div class="divider"></div>
+</header>
+
+<!-- Time Display -->
+<div class="time-display" id="timeDisplay">
+  <div class="qm-time" id="qmTimeText">加载中...</div>
+  <div class="qm-detail" id="qmDetailText">选择时间以计算奇门格局</div>
+</div>
+
+<!-- Main Layout -->
+<div class="main-layout">
+
+  <!-- Controls Panel -->
+  <div class="controls-panel">
+
+    <div class="control-group">
+      <h3>时间设定</h3>
+      <label>公历日期时间</label>
+      <input type="datetime-local" id="datetimeInput">
+      <label>人盘旋转 (度)</label>
+      <input type="range" id="rotationSlider" min="0" max="360" value="0" step="1">
+      <div class="control-value" id="rotationValue">0°</div>
+    </div>
+
+    <div class="control-group">
+      <h3>时辰预设</h3>
+      <div class="btn-row">
+        <button class="btn btn-sm" onclick="setShichen(0)">子时</button>
+        <button class="btn btn-sm" onclick="setShichen(1)">丑时</button>
+        <button class="btn btn-sm" onclick="setShichen(2)">寅时</button>
+        <button class="btn btn-sm" onclick="setShichen(3)">卯时</button>
+        <button class="btn btn-sm" onclick="setShichen(4)">辰时</button>
+        <button class="btn btn-sm" onclick="setShichen(5)">巳时</button>
+        <button class="btn btn-sm" onclick="setShichen(6)">午时</button>
+        <button class="btn btn-sm" onclick="setShichen(7)">未时</button>
+        <button class="btn btn-sm" onclick="setShichen(8)">申时</button>
+        <button class="btn btn-sm" onclick="setShichen(9)">酉时</button>
+        <button class="btn btn-sm" onclick="setShichen(10)">戌时</button>
+        <button class="btn btn-sm" onclick="setShichen(11)">亥时</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <h3>显示控制</h3>
+      <div class="btn-row">
+        <button class="btn btn-sm active" id="toggleLabels" onclick="toggleLabels()">标签</button>
+        <button class="btn btn-sm active" id="toggleLines" onclick="toggleLines()">连线</button>
+        <button class="btn btn-sm" id="toggleAutoRotate" onclick="toggleAutoRotate()">自动旋转</button>
+      </div>
+      <label style="margin-top:8px">动画速度</label>
+      <div class="btn-row">
+        <button class="btn btn-sm" onclick="setAnimSpeed(0.3)">慢</button>
+        <button class="btn btn-sm active" id="speedNormal" onclick="setAnimSpeed(1)">正常</button>
+        <button class="btn btn-sm" onclick="setAnimSpeed(2.5)">快</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Canvas Area -->
+  <div class="canvas-area">
+    <canvas id="qimenCanvas" width="600" height="600"></canvas>
+  </div>
+
+  <!-- Info Panel -->
+  <div class="info-panel">
+    <div class="info-card" id="infoCard">
+      <h3>奇门详解</h3>
+      <div class="info-placeholder" id="infoPlaceholder">
+        点击四盘中的元素<br>查看详细信息
+      </div>
+      <div id="infoContent" style="display:none"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Reference Section -->
+<div class="ref-section">
+  <div class="ref-toggle" onclick="toggleRef()">▼ 参考数据表</div>
+  <div class="ref-content" id="refContent">
+
+    <h3 class="section-label">八卦详解</h3>
+    <div class="ref-table-wrap">
+    <table class="ref-table" id="baguaTable">
+      <thead><tr><th>卦名</th><th>卦符</th><th>方位</th><th>五行</th><th>自然</th><th>意义</th></tr></thead>
+      <tbody id="baguaBody"></tbody>
+    </table>
+    </div>
+
+    <h3 class="section-label">十二地支详解</h3>
+    <div class="ref-table-wrap">
+    <table class="ref-table" id="dizhiTable">
+      <thead><tr><th>地支</th><th>方位</th><th>五行</th><th>生肖</th><th>时辰</th><th>月份</th></tr></thead>
+      <tbody id="dizhiBody"></tbody>
+    </table>
+    </div>
+
+    <h3 class="section-label">九星详解</h3>
+    <div class="ref-table-wrap">
+    <table class="ref-table" id="jiuxingTable">
+      <thead><tr><th>星名</th><th>五行</th><th>吉凶</th><th>含义</th></tr></thead>
+      <tbody id="jiuxingBody"></tbody>
+    </table>
+    </div>
+
+    <h3 class="section-label">八神详解</h3>
+    <div class="ref-table-wrap">
+    <table class="ref-table" id="bashenTable">
+      <thead><tr><th>神名</th><th>属性</th><th>含义</th></tr></thead>
+      <tbody id="bashenBody"></tbody>
+    </table>
+    </div>
+
+    <h3 class="section-label">二十四节气与遁局对照</h3>
+    <div class="ref-table-wrap">
+    <table class="ref-table" id="jieqiTable">
+      <thead><tr><th>节气</th><th>阳遁/阴遁</th><th>局数范围</th></tr></thead>
+      <tbody id="jieqiBody"></tbody>
+    </table>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+// ============================================================
+// DATA TABLES
+// ============================================================
+
+// 八卦 (8 Trigrams) - arranged by position (0=N, starting from top going clockwise)
+// Standard Later Heaven (后天八卦) order: 离(南) 坤(西南) 兑(西) 乾(西北) 坎(北) 艮(东北) 震(东) 巽(东南)
+const baguaData = [
+  { name:'离', full:'离', symbol:'☲', trigram:'离为火', direction:'南', dirEn:'South', element:'火', nature:'火', meaning:'光明、依附、热情', body:'眼睛、心脏' },
+  { name:'坤', full:'坤', symbol:'☷', trigram:'坤为地', direction:'西南', dirEn:'Southwest', element:'土', nature:'地', meaning:'柔顺、包容、养育', body:'腹部、脾胃' },
+  { name:'兑', full:'兑', symbol:'☱', trigram:'兑为泽', direction:'西', dirEn:'West', element:'金', nature:'泽', meaning:'喜悦、交流、缺憾', body:'口、肺' },
+  { name:'乾', full:'乾', symbol:'☰', trigram:'乾为天', direction:'西北', dirEn:'Northwest', element:'金', nature:'天', meaning:'刚健、创造、权威', body:'头、骨骼' },
+  { name:'坎', full:'坎', symbol:'☵', trigram:'坎为水', direction:'北', dirEn:'North', element:'水', nature:'水', meaning:'险陷、流动、智慧', body:'耳朵、肾' },
+  { name:'艮', full:'艮', symbol:'☶', trigram:'艮为山', direction:'东北', dirEn:'Northeast', element:'土', nature:'山', meaning:'静止、阻隔、坚守', body:'手、背部' },
+  { name:'震', full:'震', symbol:'☳', trigram:'震为雷', direction:'东', dirEn:'East', element:'木', nature:'雷', meaning:'震动、行动、开始', body:'足、肝' },
+  { name:'巽', full:'巽', symbol:'☴', trigram:'巽为风', direction:'东南', dirEn:'Southeast', element:'木', nature:'风', meaning:'渗透、谦逊、进退', body:'股、胆' }
+];
+
+// 十二地支 clockwise starting from North (子)
+const dizhiData = [
+  { name:'子', full:'子', element:'水', zodiac:'鼠', hour:'23:00-01:00', month:'十一月', direction:'北', pos:0 },
+  { name:'丑', full:'丑', element:'土', zodiac:'牛', hour:'01:00-03:00', month:'十二月', direction:'北偏东', pos:1 },
+  { name:'寅', full:'寅', element:'木', zodiac:'虎', hour:'03:00-05:00', month:'正月', direction:'东北', pos:2 },
+  { name:'卯', full:'卯', element:'木', zodiac:'兔', hour:'05:00-07:00', month:'二月', direction:'东', pos:3 },
+  { name:'辰', full:'辰', element:'土', zodiac:'龙', hour:'07:00-09:00', month:'三月', direction:'东偏南', pos:4 },
+  { name:'巳', full:'巳', element:'火', zodiac:'蛇', hour:'09:00-11:00', month:'四月', direction:'东南', pos:5 },
+  { name:'午', full:'午', element:'火', zodiac:'马', hour:'11:00-13:00', month:'五月', direction:'南', pos:6 },
+  { name:'未', full:'未', element:'土', zodiac:'羊', hour:'13:00-15:00', month:'六月', direction:'南偏西', pos:7 },
+  { name:'申', full:'申', element:'金', zodiac:'猴', hour:'15:00-17:00', month:'七月', direction:'西南', pos:8 },
+  { name:'酉', full:'酉', element:'金', zodiac:'鸡', hour:'17:00-19:00', month:'八月', direction:'西', pos:9 },
+  { name:'戌', full:'戌', element:'土', zodiac:'狗', hour:'19:00-21:00', month:'九月', direction:'西偏北', pos:10 },
+  { name:'亥', full:'亥', element:'水', zodiac:'猪', hour:'21:00-23:00', month:'十月', direction:'西北', pos:11 }
+];
+
+// 九星 (9 Stars) - arranged in Qi Men order
+const jiuxingData = [
+  { name:'天蓬', element:'水', rating:'大凶', ratingClass:'badge-bad', meaning:'盗贼、破财、争斗、危险之事' },
+  { name:'天芮', element:'土', rating:'大凶', ratingClass:'badge-bad', meaning:'疾病、灾祸、学习、访友' },
+  { name:'天冲', element:'木', rating:'小吉', ratingClass:'badge-minor-good', meaning:'冲击、变动、出征、战斗' },
+  { name:'天辅', element:'木', rating:'大吉', ratingClass:'badge-great', meaning:'教化、辅助、文化、教育' },
+  { name:'天禽', element:'土', rating:'大吉', ratingClass:'badge-great', meaning:'中正、稳重、统帅、调和' },
+  { name:'天心', element:'金', rating:'大吉', ratingClass:'badge-great', meaning:'智慧、医术、谋划、主管' },
+  { name:'天柱', element:'金', rating:'小凶', ratingClass:'badge-minor-bad', meaning:'口舌、破坏、诉讼、毁坏' },
+  { name:'天任', element:'土', rating:'小吉', ratingClass:'badge-minor-good', meaning:'任劳、稳重、耕种、基础' },
+  { name:'天英', element:'火', rating:'小凶', ratingClass:'badge-minor-bad', meaning:'光明、血光、诉讼、火爆' }
+];
+
+// 八神 (8 Spirits) - standard order
+const bashenData = [
+  { name:'值符', element:'木', type:'吉神', meaning:'至尊之神，百事皆宜，万事吉祥' },
+  { name:'腾蛇', element:'火', type:'凶神', meaning:'虚惊怪异之事，纠缠不安' },
+  { name:'太阴', element:'金', type:'吉神', meaning:'暗中相助，谋事可成' },
+  { name:'六合', element:'水', type:'吉神', meaning:'和合之神，婚姻合伙皆宜' },
+  { name:'白虎', element:'金', type:'凶神', meaning:'凶杀之神，血光争斗' },
+  { name:'玄武', element:'水', type:'凶神', meaning:'盗贼欺骗，暧昧不明' },
+  { name:'九地', element:'土', type:'吉神', meaning:'稳固之神，宜守不宜攻' },
+  { name:'九天', element:'火', type:'吉神', meaning:'高远之神，宜动不宜静' }
+];
+
+// 二十四节气 with approximate date and Dun info (based on year 2025 for example)
+const jieqiData = [
+  { name:'立春', approxDate:'2月4日', dun:'阳遁', juMin:8, juMax:8, desc:'春季开始' },
+  { name:'雨水', approxDate:'2月19日', dun:'阳遁', juMin:9, juMax:9, desc:'降雨增多' },
+  { name:'惊蛰', approxDate:'3月6日', dun:'阳遁', juMin:1, juMax:1, desc:'春雷惊动' },
+  { name:'春分', approxDate:'3月21日', dun:'阳遁', juMin:2, juMax:2, desc:'昼夜平分' },
+  { name:'清明', approxDate:'4月5日', dun:'阳遁', juMin:3, juMax:3, desc:'清明时节' },
+  { name:'谷雨', approxDate:'4月20日', dun:'阳遁', juMin:4, juMax:4, desc:'雨生百谷' },
+  { name:'立夏', approxDate:'5月6日', dun:'阳遁', juMin:5, juMax:5, desc:'夏季开始' },
+  { name:'小满', approxDate:'5月21日', dun:'阳遁', juMin:6, juMax:6, desc:'麦粒饱满' },
+  { name:'芒种', approxDate:'6月6日', dun:'阳遁', juMin:7, juMax:7, desc:'芒种时节' },
+  { name:'夏至', approxDate:'6月21日', dun:'阴遁', juMin:9, juMax:9, desc:'白昼最长' },
+  { name:'小暑', approxDate:'7月7日', dun:'阴遁', juMin:8, juMax:8, desc:'小热时节' },
+  { name:'大暑', approxDate:'7月23日', dun:'阴遁', juMin:7, juMax:7, desc:'最热时节' },
+  { name:'立秋', approxDate:'8月7日', dun:'阴遁', juMin:6, juMax:6, desc:'秋季开始' },
+  { name:'处暑', approxDate:'8月23日', dun:'阴遁', juMin:5, juMax:5, desc:'暑气消退' },
+  { name:'白露', approxDate:'9月8日', dun:'阴遁', juMin:4, juMax:4, desc:'露水出现' },
+  { name:'秋分', approxDate:'9月23日', dun:'阴遁', juMin:3, juMax:3, desc:'昼夜平分' },
+  { name:'寒露', approxDate:'10月8日', dun:'阴遁', juMin:2, juMax:2, desc:'露水寒冷' },
+  { name:'霜降', approxDate:'10月23日', dun:'阴遁', juMin:1, juMax:1, desc:'开始结霜' },
+  { name:'立冬', approxDate:'11月7日', dun:'阴遁', juMin:6, juMax:6, desc:'冬季开始' },
+  { name:'小雪', approxDate:'11月22日', dun:'阴遁', juMin:5, juMax:5, desc:'开始降雪' },
+  { name:'大雪', approxDate:'12月7日', dun:'阴遁', juMin:4, juMax:4, desc:'雪量增大' },
+  { name:'冬至', approxDate:'12月22日', dun:'阳遁', juMin:7, juMax:7, desc:'白昼最短' },
+  { name:'小寒', approxDate:'1月6日', dun:'阳遁', juMin:8, juMax:8, desc:'小寒时节' },
+  { name:'大寒', approxDate:'1月20日', dun:'阳遁', juMin:9, juMax:9, desc:'最冷时节' }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+const canvas = document.getElementById('qimenCanvas');
+const ctx = canvas.getContext('2d');
+let W = 600, H = 600;
+let CX = W/2, CY = H/2;
+
+// Configuration
+let showLabels = true;
+let showLines = true;
+let autoRotate = false;
+let animSpeed = 1;
+let rotationAngle = 0; // manual rotation of 人盘
+let autoAngle = 0; // auto-rotation accumulation
+
+// Interaction
+let hoveredElement = null;
+let selectedElement = null;
+
+// Time
+let currentDate = new Date();
+
+// ============================================================
+// QI MEN TIME CALCULATION
+// ============================================================
+
+// Heavenly Stems (天干)
+const tianGan = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+// Earthly Branches (地支)
+const diZhi = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+
+// Sexagenary cycle (60 甲子)
+function getSexagenaryIndex(year, month, day, hour) {
+  // Simplified calculation based on offsets
+  // Year: 2024 = 甲辰 (index 40)
+  const yearOffset = (year - 4) % 60;
+  // Month: approximate
+  const monthOffset = (month + 1) % 60;
+  // Day: approximate from a known reference
+  const ref = new Date(2024, 0, 1); // 2024-01-01 = 甲子日? Let's use a known one
+  // Actually 2024-01-01 is 甲子日 (index 0) approximately
+  const target = new Date(year, month - 1, day);
+  const diffDays = Math.round((target - ref) / 86400000);
+  const dayOffset = ((diffDays % 60) + 60) % 60;
+  // Hour: 23:00-01:00 = 子时 = index 0
+  // Each shichen = 2 hours, starting from 子(23-1), 丑(1-3), etc.
+  const shichenIndex = Math.floor(((hour + 1) % 24) / 2);
+  // Day stem determines hour stem: 甲己日甲子, 乙庚日丙子, 丙辛日戊子, 丁壬日庚子, 戊癸日壬子
+  const dayStem = dayOffset % 10;
+  const hourStemMap = [0, 2, 4, 6, 8]; // 甲0->甲0, 乙1->丙2, 丙2->戊4, 丁3->庚6, 戊4->壬8
+  const hourStem = (hourStemMap[dayStem % 5] + shichenIndex) % 10;
+
+  return {
+    year: (yearOffset + 60) % 60,
+    month: (monthOffset + 60) % 60,
+    day: (dayOffset + 60) % 60,
+    hour: shichenIndex,
+    dayStem: dayStem,
+    hourStem: hourStem,
+    dayBranch: dayOffset % 12,
+    hourBranch: shichenIndex,
+    yearStem: yearOffset % 10,
+    yearBranch: yearOffset % 12,
+    monthStem: monthOffset % 10,
+    monthBranch: monthOffset % 12
+  };
+}
+
+function getQiMenTime(date) {
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  const h = date.getHours();
+  const min = date.getMinutes();
+
+  const s = getSexagenaryIndex(y, m, d, h);
+
+  const yearGan = tianGan[s.yearStem];
+  const yearZhi = diZhi[s.yearBranch];
+  const monthGan = tianGan[s.monthStem];
+  const monthZhi = diZhi[s.monthBranch];
+  const dayGan = tianGan[s.dayStem];
+  const dayZhi = diZhi[s.dayBranch];
+  const hourGan = tianGan[s.hourStem];
+  const hourZhi = diZhi[s.hourBranch];
+
+  // Determine solar term
+  const solarTerm = getSolarTerm(date);
+
+  // Determine Yin/Yang Dun
+  const isYangDun = solarTerm.isYang;
+
+  // Simplified Ju number calculation
+  // 阳遁: 冬至7, 小寒8, 大寒9, 立春8, 雨水9, 惊蛰1, 春分2, 清明3, 谷雨4, 立夏5, 小满6, 芒种7
+  // 阴遁: 夏至9, 小暑8, 大暑7, 立秋6, 处暑5, 白露4, 秋分3, 寒露2, 霜降1, 立冬6, 小雪5, 大雪4
+  let juNumber = solarTerm.ju;
+
+  const shichenNames = ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'];
+  const shichenName = shichenNames[s.hour];
+
+  return {
+    yearGan, yearZhi, monthGan, monthZhi, dayGan, dayZhi, hourGan, hourZhi,
+    yearStr: yearGan + yearZhi + '年',
+    monthStr: monthGan + monthZhi + '月',
+    dayStr: dayGan + dayZhi + '日',
+    hourStr: hourGan + hourZhi + '时',
+    shichenName,
+    shichenIndex: s.hour,
+    isYangDun,
+    dunName: isYangDun ? '阳遁' : '阴遁',
+    juNumber,
+    solarTerm: solarTerm.name,
+    hourStem: s.hourStem,
+    hourBranch: s.hourBranch,
+    dayStem: s.dayStem,
+    dayBranch: s.dayBranch
+  };
+}
+
+function getSolarTerm(date) {
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+
+  // Simplified solar term determination
+  // Approximate boundaries
+  const solMap = [
+    { name:'冬至', month:12, day:22, isYang:true, ju:7 },
+    { name:'小寒', month:1, day:6, isYang:true, ju:8 },
+    { name:'大寒', month:1, day:20, isYang:true, ju:9 },
+    { name:'立春', month:2, day:4, isYang:true, ju:8 },
+    { name:'雨水', month:2, day:19, isYang:true, ju:9 },
+    { name:'惊蛰', month:3, day:6, isYang:true, ju:1 },
+    { name:'春分', month:3, day:21, isYang:true, ju:2 },
+    { name:'清明', month:4, day:5, isYang:true, ju:3 },
+    { name:'谷雨', month:4, day:20, isYang:true, ju:4 },
+    { name:'立夏', month:5, day:6, isYang:true, ju:5 },
+    { name:'小满', month:5, day:21, isYang:true, ju:6 },
+    { name:'芒种', month:6, day:6, isYang:true, ju:7 },
+    { name:'夏至', month:6, day:22, isYang:false, ju:9 },
+    { name:'小暑', month:7, day:7, isYang:false, ju:8 },
+    { name:'大暑', month:7, day:23, isYang:false, ju:7 },
+    { name:'立秋', month:8, day:7, isYang:false, ju:6 },
+    { name:'处暑', month:8, day:23, isYang:false, ju:5 },
+    { name:'白露', month:9, day:8, isYang:false, ju:4 },
+    { name:'秋分', month:9, day:23, isYang:false, ju:3 },
+    { name:'寒露', month:10, day:8, isYang:false, ju:2 },
+    { name:'霜降', month:10, day:23, isYang:false, ju:1 },
+    { name:'立冬', month:11, day:7, isYang:false, ju:6 },
+    { name:'小雪', month:11, day:22, isYang:false, ju:5 },
+    { name:'大雪', month:12, day:7, isYang:false, ju:4 }
+  ];
+
+  // Sort by month/day
+  solMap.sort((a,b) => {
+    if (a.month !== b.month) return a.month - b.month;
+    return a.day - b.day;
+  });
+
+  // Find the current solar term
+  let current = solMap[solMap.length - 1]; // default to last one
+  for (let i = 0; i < solMap.length; i++) {
+    if (m < solMap[i].month || (m === solMap[i].month && d < solMap[i].day)) {
+      if (i === 0) {
+        current = solMap[solMap.length - 1];
+      } else {
+        current = solMap[i - 1];
+      }
+      break;
+    }
+  }
+
+  return current;
+}
+
+// ============================================================
+// RENDERING
+// ============================================================
+
+let dpr = 1;
+
+function setupCanvas() {
+  dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  const size = Math.min(rect.width || 600, window.innerWidth - 60, 600);
+  W = size;
+  H = size;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+  CX = W / 2;
+  CY = H / 2;
+}
+
+// Ring radii (proportional to canvas size)
+const R = () => W * 0.46;  // outer (earth)
+const R2 = () => W * 0.35; // human
+const R3 = () => W * 0.24; // heaven
+const R4 = () => W * 0.13; // spirit
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // Background circle
+  const bgGrad = ctx.createRadialGradient(CX, CY, 0, CX, CY, R());
+  bgGrad.addColorStop(0, '#1a1814');
+  bgGrad.addColorStop(0.5, '#12100c');
+  bgGrad.addColorStop(1, '#0a0907');
+  ctx.fillStyle = bgGrad;
+  ctx.beginPath();
+  ctx.arc(CX, CY, R() + 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Subtle grid
+  ctx.save();
+  ctx.globalAlpha = 0.03;
+  ctx.strokeStyle = '#d4a843';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * Math.PI * 2 - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(CX, CY);
+    ctx.lineTo(CX + Math.cos(a) * R(), CY + Math.sin(a) * R());
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // === DISK 1: 地盘 (Earth) - Outermost ring ===
+  drawEarthDisk();
+
+  // === DISK 2: 人盘 (Human) - Middle ring ===
+  drawHumanDisk();
+
+  // === DISK 3: 天盘 (Heaven) - Inner ring ===
+  drawHeavenDisk();
+
+  // === DISK 4: 神盘 (Spirit) - Center ===
+  drawSpiritDisk();
+
+  // === Connecting lines ===
+  if (showLines) {
+    drawConnectingLines();
+  }
+
+  // === Hour indicator ===
+  drawHourIndicator();
+
+  // === Center title ===
+  drawCenterTitle();
+}
+
+function drawEarthDisk() {
+  const r = R();
+  const rInner = R2() + (r - R2()) * 0.15;
+
+  // Ring background
+  ctx.save();
+  ctx.strokeStyle = 'rgba(212,168,67,0.15)';
+  ctx.lineWidth = r - rInner;
+  ctx.beginPath();
+  ctx.arc(CX, CY, (r + rInner) / 2, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.restore();
+
+  const midR = (r + rInner) / 2;
+
+  // Draw 8 trigrams
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2 - Math.PI / 2;
+    const bg = baguaData[i];
+
+    // Sector background
+    const startAngle = angle - Math.PI / 8;
+    const endAngle = angle + Math.PI / 8;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(CX, CY, r, startAngle, endAngle);
+    ctx.arc(CX, CY, rInner, endAngle, startAngle, true);
+    ctx.closePath();
+
+    const isHovered = hoveredElement && hoveredElement.type === 'bagua' && hoveredElement.index === i;
+    const isSelected = selectedElement && selectedElement.type === 'bagua' && selectedElement.index === i;
+
+    if (isHovered || isSelected) {
+      ctx.fillStyle = isSelected ? 'rgba(212,168,67,0.15)' : 'rgba(212,168,67,0.08)';
+      ctx.shadowColor = 'rgba(212,168,67,0.2)';
+      ctx.shadowBlur = 20;
+    } else {
+      ctx.fillStyle = 'rgba(212,168,67,0.02)';
+    }
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = 'rgba(212,168,67,0.12)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    ctx.restore();
+
+    if (!showLabels) continue;
+
+    // Trigram symbol
+    const symR = midR - (midR - rInner) * 0.3;
+    ctx.save();
+    ctx.fillStyle = '#d4a843';
+    ctx.font = `${W * 0.048}px "Noto Serif SC", serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.translate(CX + Math.cos(angle) * symR, CY + Math.sin(angle) * symR);
+    ctx.rotate(0);
+    ctx.fillText(bg.symbol, 0, 0);
+    ctx.restore();
+
+    // Name + element
+    const textR = midR + (r - midR) * 0.4;
+    ctx.save();
+    ctx.fillStyle = '#d4c5a9';
+    ctx.font = `${W * 0.035}px "Noto Serif SC", serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.translate(CX + Math.cos(angle) * textR, CY + Math.sin(angle) * textR);
+    ctx.fillText(bg.name + '·' + bg.element, 0, 0);
+    ctx.restore();
+
+    // Direction
+    const dirR = rInner + (midR - rInner) * 0.35;
+    ctx.save();
+    ctx.fillStyle = '#8a7e6a';
+    ctx.font = `${W * 0.028}px "Noto Serif SC", serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.translate(CX + Math.cos(angle) * dirR, CY + Math.sin(angle) * dirR);
+    ctx.fillText(bg.direction, 0, 0);
+    ctx.restore();
+  }
+}
+
+function drawHumanDisk() {
+  const r = R2();
+  const rInner = R3() + (r - R3()) * 0.4;
+  const totalRotation = rotationAngle + autoAngle;
+
+  // Ring background
+  ctx.save();
+  const grad = ctx.createRadialGradient(CX, CY, rInner, CX, CY, r);
+  grad.addColorStop(0, 'rgba(196,30,58,0.03)');
+  grad.addColorStop(0.5, 'rgba(196,30,58,0.06)');
+  grad.addColorStop(1, 'rgba(196,30,58,0.02)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(CX, CY, r, 0, Math.PI * 2);
+  ctx.arc(CX, CY, rInner, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(196,30,58,0.1)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.restore();
+
+  const midR = (r + rInner) / 2;
+
+  // 12 earthly branches
+  for (let i = 0; i < 12; i++) {
+    // Apply rotation offset
+    const rotOffset = (totalRotation / 360) * 12;
+    const idx = ((i - Math.round(rotOffset)) % 12 + 12) % 12;
+    const angle = (i / 12) * Math.PI * 2 - Math.PI / 2;
+    const dz = dizhiData[idx];
+
+    // Sector
+    const startAngle = angle - Math.PI / 12;
+    const endAngle = angle + Math.PI / 12;
+
+    const isHovered = hoveredElement && hoveredElement.type === 'dizhi' && hoveredElement.originalIndex === idx;
+    const isSelected = selectedElement && selectedElement.type === 'dizhi' && selectedElement.originalIndex === idx;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(CX, CY, r, startAngle, endAngle);
+    ctx.arc(CX, CY, rInner, endAngle, startAngle, true);
+    ctx.closePath();
+
+    if (isHovered || isSelected) {
+      ctx.fillStyle = isSelected ? 'rgba(196,30,58,0.15)' : 'rgba(196,30,58,0.08)';
+      ctx.shadowColor = 'rgba(196,30,58,0.2)';
+      ctx.shadowBlur = 15;
+    } else {
+      ctx.fillStyle = 'transparent';
+    }
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = 'rgba(196,30,58,0.08)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    ctx.restore();
+
+    if (!showLabels) continue;
+
+    // Branch name
+    ctx.save();
+    ctx.fillStyle = '#c41e3a';
+    ctx.font = `${W * 0.045}px "Noto Serif SC", serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.translate(CX + Math.cos(angle) * midR, CY + Math.sin(angle) * midR);
+    ctx.fillText(dz.name, 0, -4);
+
+    // Zodiac
+    ctx.fillStyle = '#8a5a4a';
+    ctx.font = `${W * 0.025}px "Noto Serif SC", serif`;
+    ctx.fillText(dz.zodiac, 0, 10);
+    ctx.restore();
+  }
+}
+
+function drawHeavenDisk() {
+  const r = R3();
+  const rInner = R4() + (r - R4()) * 0.3;
+
+  // Ring background
+  ctx.save();
+  const grad = ctx.createRadialGradient(CX, CY, rInner, CX, CY, r);
+  grad.addColorStop(0, 'rgba(52,152,219,0.02)');
+  grad.addColorStop(0.5, 'rgba(52,152,219,0.05)');
+  grad.addColorStop(1, 'rgba(52,152,219,0.02)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(CX, CY, r, 0, Math.PI * 2);
+  ctx.arc(CX, CY, rInner, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(52,152,219,0.1)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.restore();
+
+  const midR = (r + rInner) / 2;
+
+  // 9 stars - use 8 positions evenly (skip one gap for center star 天禽)
+  for (let i = 0; i < 9; i++) {
+    // 天禽 is at center of heaven disk, others around
+    if (i === 4) {
+      // 天禽 at center of this ring
+      const isHovered = hoveredElement && hoveredElement.type === 'jiuxing' && hoveredElement.index === 4;
+      const isSelected = selectedElement && selectedElement.type === 'jiuxing' && selectedElement.index === 4;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(CX, CY, (r - rInner) * 0.25, 0, Math.PI * 2);
+      ctx.fillStyle = isSelected ? 'rgba(52,152,219,0.2)' : isHovered ? 'rgba(52,152,219,0.1)' : 'rgba(52,152,219,0.05)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(52,152,219,0.15)';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+      ctx.restore();
+      if (showLabels) {
+        ctx.save();
+        ctx.fillStyle = '#3498db';
+        ctx.font = `${W * 0.035}px "Noto Serif SC", serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('天禽', CX, CY);
+        ctx.restore();
+      }
+      continue;
+    }
+
+    const angle = (i / 8) * Math.PI * 2 - Math.PI / 2;
+    const jx = jiuxingData[i];
+    const isHovered = hoveredElement && hoveredElement.type === 'jiuxing' && hoveredElement.index === i;
+    const isSelected = selectedElement && selectedElement.type === 'jiuxing' && selectedElement.index === i;
+
+    // Small circle for each star
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(CX + Math.cos(angle) * midR, CY + Math.sin(angle) * midR, (r - rInner) * 0.3, 0, Math.PI * 2);
+    ctx.fillStyle = isSelected ? 'rgba(52,152,219,0.2)' : isHovered ? 'rgba(52,152,219,0.1)' : 'rgba(52,152,219,0.03)';
+    ctx.fill();
+    ctx.strokeStyle = isSelected ? 'rgba(52,152,219,0.4)' : isHovered ? 'rgba(52,152,219,0.3)' : 'rgba(52,152,219,0.15)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    ctx.restore();
+
+    if (!showLabels) continue;
+    ctx.save();
+    ctx.fillStyle = '#3498db';
+    ctx.font = `${W * 0.032}px "Noto Serif SC", serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.translate(CX + Math.cos(angle) * midR, CY + Math.sin(angle) * midR);
+    ctx.fillText(jx.name, 0, -4);
+    ctx.fillStyle = '#5a8aaa';
+    ctx.font = `${W * 0.022}px "Noto Serif SC", serif`;
+    ctx.fillText(jx.rating, 0, 10);
+    ctx.restore();
+  }
+}
+
+function drawSpiritDisk() {
+  const r = R4();
+
+  // Center ring background
+  ctx.save();
+  const grad = ctx.createRadialGradient(CX, CY, 0, CX, CY, r);
+  grad.addColorStop(0, 'rgba(212,168,67,0.06)');
+  grad.addColorStop(0.6, 'rgba(212,168,67,0.03)');
+  grad.addColorStop(1, 'rgba(212,168,67,0.01)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(CX, CY, r, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(212,168,67,0.1)';
+  ctx.lineWidth = 0.5;
+  ctx.stroke();
+  ctx.restore();
+
+  // 8 spirits around
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2 - Math.PI / 2;
+    const bs = bashenData[i];
+    const isHovered = hoveredElement && hoveredElement.type === 'bashen' && hoveredElement.index === i;
+    const isSelected = selectedElement && selectedElement.type === 'bashen' && selectedElement.index === i;
+
+    const x = CX + Math.cos(angle) * r * 0.65;
+    const y = CY + Math.sin(angle) * r * 0.65;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(x, y, r * 0.18, 0, Math.PI * 2);
+    ctx.fillStyle = isSelected ? 'rgba(212,168,67,0.2)' : isHovered ? 'rgba(212,168,67,0.1)' : 'rgba(212,168,67,0.03)';
+    ctx.fill();
+    ctx.strokeStyle = isSelected ? 'rgba(212,168,67,0.4)' : 'rgba(212,168,67,0.15)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+    ctx.restore();
+
+    if (!showLabels) continue;
+    ctx.save();
+    ctx.fillStyle = '#d4a843';
+    ctx.font = `${W * 0.028}px "Noto Serif SC", serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(bs.name, x, y);
+    ctx.restore();
+  }
+}
+
+function drawConnectingLines() {
+  const outerR = R2();
+  const innerR = R3();
+  const totalRotation = rotationAngle + autoAngle;
+  const rotOffset = (totalRotation / 360) * 12;
+
+  for (let i = 0; i < 12; i++) {
+    const dzIdx = ((i - Math.round(rotOffset)) % 12 + 12) % 12;
+    const angle = (i / 12) * Math.PI * 2 - Math.PI / 2;
+
+    // Only draw lines for some branches to avoid visual clutter (alternating)
+    if (i % 2 !== 0) continue;
+
+    ctx.save();
+    ctx.globalAlpha = 0.12;
+    ctx.strokeStyle = '#d4a843';
+    ctx.lineWidth = 0.3;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(CX + Math.cos(angle) * outerR, CY + Math.sin(angle) * outerR);
+    ctx.lineTo(CX + Math.cos(angle) * innerR, CY + Math.sin(angle) * innerR);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function drawHourIndicator() {
+  if (!selectedElement) return;
+
+  let angle = -Math.PI / 2; // default to top
+  if (selectedElement.type === 'dizhi') {
+    const totalRotation = rotationAngle + autoAngle;
+    const rotOffset = (totalRotation / 360) * 12;
+    const i = ((selectedElement.originalIndex + Math.round(rotOffset)) % 12 + 12) % 12;
+    angle = (i / 12) * Math.PI * 2 - Math.PI / 2;
+  } else if (selectedElement.type === 'bagua') {
+    angle = (selectedElement.index / 8) * Math.PI * 2 - Math.PI / 2;
+  }
+
+  ctx.save();
+  ctx.strokeStyle = 'rgba(212,168,67,0.4)';
+  ctx.lineWidth = 2;
+  ctx.shadowColor = 'rgba(212,168,67,0.3)';
+  ctx.shadowBlur = 10;
+  ctx.beginPath();
+  ctx.moveTo(CX, CY);
+  ctx.lineTo(CX + Math.cos(angle) * R(), CY + Math.sin(angle) * R());
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+  ctx.restore();
+}
+
+function drawCenterTitle() {
+  const r = R4();
+  ctx.save();
+  ctx.fillStyle = 'rgba(212,168,67,0.6)';
+  ctx.font = `${W * 0.055}px "Ma Shan Zheng", cursive`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(212,168,67,0.15)';
+  ctx.shadowBlur = 15;
+  ctx.fillText('风后奇门', CX, CY);
+  ctx.shadowBlur = 0;
+  ctx.restore();
+}
+
+// ============================================================
+// INTERACTION
+// ============================================================
+
+function getCanvasPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const x = (e.clientX - rect.left) * (W / rect.width);
+  const y = (e.clientY - rect.top) * (H / rect.height);
+  return { x, y };
+}
+
+function hitTest(x, y) {
+  const dx = x - CX, dy = y - CY;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const angle = Math.atan2(dy, dx);
+
+  // Check spirit disk (center)
+  if (dist < R4() * 0.85) {
+    const spiritR = R4() * 0.65;
+    for (let i = 0; i < 8; i++) {
+      const sa = (i / 8) * Math.PI * 2 - Math.PI / 2;
+      const sx = CX + Math.cos(sa) * spiritR;
+      const sy = CY + Math.sin(sa) * spiritR;
+      const sd = Math.sqrt((x - sx) ** 2 + (y - sy) ** 2);
+      if (sd < R4() * 0.22) {
+        return { type: 'bashen', index: i };
+      }
+    }
+    return null;
+  }
+
+  // Check heaven disk
+  if (dist >= R4() && dist < R3()) {
+    const midR = (R3() + R4() * 1.3) / 2;
+    // Check 天禽 (center)
+    if (dist < (R3() - R4() * 1.3) * 0.5) {
+      return { type: 'jiuxing', index: 4 };
+    }
+    for (let i = 0; i < 9; i++) {
+      if (i === 4) continue;
+      const sa = (i / 8) * Math.PI * 2 - Math.PI / 2;
+      const sx = CX + Math.cos(sa) * midR;
+      const sy = CY + Math.sin(sa) * midR;
+      const sd = Math.sqrt((x - sx) ** 2 + (y - sy) ** 2);
+      if (sd < (R3() - R4() * 1.3) * 0.35) {
+        return { type: 'jiuxing', index: i };
+      }
+    }
+    return null;
+  }
+
+  // Check human disk
+  if (dist >= R3() && dist < R2()) {
+    const totalRotation = rotationAngle + autoAngle;
+    const rotOffset = (totalRotation / 360) * 12;
+    const rawAngle = ((angle + Math.PI / 2) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+    const pos = Math.round(rawAngle / (Math.PI * 2) * 12) % 12;
+    const originalIdx = ((pos + Math.round(rotOffset)) % 12 + 12) % 12;
+    return { type: 'dizhi', index: pos, originalIndex: originalIdx };
+  }
+
+  // Check earth disk
+  if (dist >= R2() && dist <= R()) {
+    const rawAngle = ((angle + Math.PI / 2) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+    const pos = Math.round(rawAngle / (Math.PI * 2) * 8) % 8;
+    return { type: 'bagua', index: pos };
+  }
+
+  return null;
+}
+
+canvas.addEventListener('mousemove', (e) => {
+  const { x, y } = getCanvasPos(e);
+  const hit = hitTest(x, y);
+  hoveredElement = hit;
+  canvas.style.cursor = hit ? 'pointer' : 'default';
+
+  // Show tooltip
+  const tooltip = document.getElementById('tooltip');
+  if (hit) {
+    let text = '';
+    if (hit.type === 'bagua') {
+      const d = baguaData[hit.index];
+      text = d.name + '卦 · ' + d.element + ' · ' + d.direction;
+    } else if (hit.type === 'dizhi') {
+      const d = dizhiData[hit.originalIndex];
+      text = d.name + ' · ' + d.zodiac + ' · ' + d.element;
+    } else if (hit.type === 'jiuxing') {
+      const d = jiuxingData[hit.index];
+      text = d.name + ' · ' + d.element + ' · ' + d.rating;
+    } else if (hit.type === 'bashen') {
+      const d = bashenData[hit.index];
+      text = d.name + ' · ' + d.type;
+    }
+    tooltip.textContent = text;
+    tooltip.style.display = 'block';
+    tooltip.style.left = (e.clientX + 12) + 'px';
+    tooltip.style.top = (e.clientY + 12) + 'px';
+  } else {
+    tooltip.style.display = 'none';
+  }
+
+  draw();
+});
+
+canvas.addEventListener('mouseleave', () => {
+  hoveredElement = null;
+  document.getElementById('tooltip').style.display = 'none';
+  draw();
+});
+
+canvas.addEventListener('click', (e) => {
+  const { x, y } = getCanvasPos(e);
+  const hit = hitTest(x, y);
+  if (hit) {
+    selectedElement = hit;
+    showInfo(hit);
+  } else {
+    selectedElement = null;
+    document.getElementById('infoContent').style.display = 'none';
+    document.getElementById('infoPlaceholder').style.display = 'block';
+  }
+  draw();
+});
+
+// ============================================================
+// INFO DISPLAY
+// ============================================================
+
+function showInfo(hit) {
+  const placeholder = document.getElementById('infoPlaceholder');
+  const content = document.getElementById('infoContent');
+  placeholder.style.display = 'none';
+  content.style.display = 'block';
+
+  let html = '';
+
+  if (hit.type === 'bagua') {
+    const d = baguaData[hit.index];
+    html = `<h3>${d.symbol} ${d.name}卦</h3>`;
+    html += `<div class="info-row"><span class="label">卦名</span><span class="value">${d.trigram}</span></div>`;
+    html += `<div class="info-row"><span class="label">卦符</span><span class="value">${d.symbol}</span></div>`;
+    html += `<div class="info-row"><span class="label">方位</span><span class="value">${d.direction} (${d.dirEn})</span></div>`;
+    html += `<div class="info-row"><span class="label">五行</span><span class="value">${d.element}</span></div>`;
+    html += `<div class="info-row"><span class="label">自然</span><span class="value">${d.nature}</span></div>`;
+    html += `<div class="info-row"><span class="label">对应身体</span><span class="value">${d.body}</span></div>`;
+    html += `<div class="info-desc">${d.meaning}</div>`;
+  } else if (hit.type === 'dizhi') {
+    const d = dizhiData[hit.originalIndex];
+    html = `<h3>${d.name} (${d.zodiac})</h3>`;
+    html += `<div class="info-row"><span class="label">地支</span><span class="value">${d.name}</span></div>`;
+    html += `<div class="info-row"><span class="label">方位</span><span class="value">${d.direction}</span></div>`;
+    html += `<div class="info-row"><span class="label">五行</span><span class="value">${d.element}</span></div>`;
+    html += `<div class="info-row"><span class="label">生肖</span><span class="value">${d.zodiac}</span></div>`;
+    html += `<div class="info-row"><span class="label">时辰</span><span class="value">${d.hour}</span></div>`;
+    html += `<div class="info-row"><span class="label">月份</span><span class="value">${d.month}</span></div>`;
+  } else if (hit.type === 'jiuxing') {
+    const d = jiuxingData[hit.index];
+    html = `<h3>${d.name}</h3>`;
+    html += `<div class="info-row"><span class="label">星名</span><span class="value">${d.name}</span></div>`;
+    html += `<div class="info-row"><span class="label">五行</span><span class="value">${d.element}</span></div>`;
+    html += `<div class="info-row"><span class="label">吉凶</span><span class="value"><span class="auspicious-badge ${d.ratingClass}">${d.rating}</span></span></div>`;
+    html += `<div class="info-desc">${d.meaning}</div>`;
+  } else if (hit.type === 'bashen') {
+    const d = bashenData[hit.index];
+    html = `<h3>${d.name}</h3>`;
+    html += `<div class="info-row"><span class="label">神名</span><span class="value">${d.name}</span></div>`;
+    html += `<div class="info-row"><span class="label">属性</span><span class="value"><span class="auspicious-badge ${d.type === '吉神' ? 'badge-great' : 'badge-bad'}">${d.type}</span></span></div>`;
+    html += `<div class="info-row"><span class="label">五行</span><span class="value">${d.element}</span></div>`;
+    html += `<div class="info-desc">${d.meaning}</div>`;
+  }
+
+  content.innerHTML = html;
+}
+
+// ============================================================
+// CONTROL FUNCTIONS
+// ============================================================
+
+function updateTime() {
+  const input = document.getElementById('datetimeInput');
+  const val = input.value;
+  if (!val) return;
+  const date = new Date(val);
+  currentDate = date;
+  const qm = getQiMenTime(date);
+
+  document.getElementById('qmTimeText').textContent =
+    qm.yearStr + ' ' + qm.monthStr + ' ' + qm.dayStr + ' ' + qm.hourStr + '  ' + qm.dunName + qm.juNumber + '局  ' + qm.solarTerm;
+
+  document.getElementById('qmDetailText').textContent =
+    '节气: ' + qm.solarTerm + ' | ' + qm.dunName + qm.juNumber + '局 | ' + qm.shichenName + ' | 日干: ' + qm.dayGan + qm.dayZhi + ' 时干: ' + qm.hourGan + qm.hourZhi;
+
+  draw();
+}
+
+function setShichen(index) {
+  const input = document.getElementById('datetimeInput');
+  let val = input.value;
+  if (!val) {
+    const now = new Date();
+    val = now.toISOString().slice(0, 16);
+    input.value = val;
+  }
+  const date = new Date(val);
+  // 子时=23-1, 丑=1-3, etc.
+  let hour;
+  if (index === 0) {
+    hour = 23;
+  } else {
+    hour = (index - 1) * 2 + 1;
+    if (hour >= 23) hour = 23;
+  }
+  date.setHours(hour);
+  date.setMinutes(0);
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  const h = String(hour).padStart(2, '0');
+  input.value = `${y}-${m}-${d}T${h}:00`;
+  updateTime();
+}
+
+function toggleLabels() {
+  showLabels = !showLabels;
+  document.getElementById('toggleLabels').classList.toggle('active');
+  draw();
+}
+
+function toggleLines() {
+  showLines = !showLines;
+  document.getElementById('toggleLines').classList.toggle('active');
+  draw();
+}
+
+function toggleAutoRotate() {
+  autoRotate = !autoRotate;
+  document.getElementById('toggleAutoRotate').classList.toggle('active');
+}
+
+function setAnimSpeed(speed) {
+  animSpeed = speed;
+  document.querySelectorAll('#speedNormal, .btn-row .btn').forEach(b => {
+    if (b.textContent === '慢' && speed === 0.3) b.classList.add('active');
+    else if (b.textContent === '正常' && speed === 1) b.classList.add('active');
+    else if (b.textContent === '快' && speed === 2.5) b.classList.add('active');
+    else if (['慢','正常','快'].includes(b.textContent)) b.classList.remove('active');
+  });
+}
+
+function toggleRef() {
+  const ref = document.getElementById('refContent');
+  ref.classList.toggle('open');
+  const toggle = document.querySelector('.ref-toggle');
+  toggle.textContent = ref.classList.contains('open') ? '▲ 收起参考数据' : '▼ 参考数据表';
+}
+
+// ============================================================
+// POPULATE REFERENCE TABLES
+// ============================================================
+
+function populateTables() {
+  // Bagua
+  const baguaBody = document.getElementById('baguaBody');
+  baguaData.forEach(d => {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${d.name}</td><td>${d.symbol}</td><td>${d.direction}</td><td>${d.element}</td><td>${d.nature}</td><td>${d.meaning}</td>`;
+    baguaBody.appendChild(row);
+  });
+
+  // Dizhi
+  const dizhiBody = document.getElementById('dizhiBody');
+  dizhiData.forEach(d => {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${d.name}</td><td>${d.direction}</td><td>${d.element}</td><td>${d.zodiac}</td><td>${d.hour}</td><td>${d.month}</td>`;
+    dizhiBody.appendChild(row);
+  });
+
+  // Jiuxing
+  const jiuxingBody = document.getElementById('jiuxingBody');
+  jiuxingData.forEach(d => {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${d.name}</td><td>${d.element}</td><td><span class="auspicious-badge ${d.ratingClass}">${d.rating}</span></td><td>${d.meaning}</td>`;
+    jiuxingBody.appendChild(row);
+  });
+
+  // Bashen
+  const bashenBody = document.getElementById('bashenBody');
+  bashenData.forEach(d => {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${d.name}</td><td><span class="auspicious-badge ${d.type === '吉神' ? 'badge-great' : 'badge-bad'}">${d.type}</span></td><td>${d.meaning}</td>`;
+    bashenBody.appendChild(row);
+  });
+
+  // Jieqi
+  const jieqiBody = document.getElementById('jieqiBody');
+  jieqiData.forEach(d => {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${d.name}</td><td>${d.dun}</td><td>${d.dun === '阳遁' ? d.juMin + '局' : d.juMin + '局'}</td>`;
+    jieqiBody.appendChild(row);
+  });
+}
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+
+function init() {
+  setupCanvas();
+  populateTables();
+
+  // Set current datetime
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  const h = String(now.getHours()).padStart(2, '0');
+  const min = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('datetimeInput').value = `${y}-${m}-${d}T${h}:${min}`;
+
+  // Event listeners
+  document.getElementById('datetimeInput').addEventListener('change', updateTime);
+
+  const rotSlider = document.getElementById('rotationSlider');
+  rotSlider.addEventListener('input', () => {
+    rotationAngle = parseFloat(rotSlider.value);
+    document.getElementById('rotationValue').textContent = rotationAngle + '°';
+    draw();
+  });
+
+  // Initial calculation
+  updateTime();
+  draw();
+
+  // Animation loop
+  let lastTime = 0;
+  function animate(time) {
+    if (!lastTime) lastTime = time;
+    const dt = (time - lastTime) / 1000;
+    lastTime = time;
+
+    if (autoRotate) {
+      autoAngle = (autoAngle + dt * 15 * animSpeed) % 360;
+      draw();
+    }
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+}
+
+// Handle resize
+window.addEventListener('resize', () => {
+  setupCanvas();
+  draw();
+});
+
+// Start when ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+</script>
+</body>
+</html>

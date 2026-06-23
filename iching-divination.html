@@ -143,6 +143,50 @@ a:hover{color:#f0d070}
   .coin{width:55px;height:55px;font-size:1.3rem}
   .toss-btn{font-size:1rem;padding:.7rem 2rem}
 }
+
+/* ============================ LINE POSITION MODE ============================ */
+.yao-mode-container{max-width:900px;margin:0 auto;padding:0 1.5rem}
+.yao-display{background:var(--bg2);border:1px solid var(--rule);border-radius:12px;padding:2rem;margin-bottom:2rem}
+.yao-hexagram-title{font-family:var(--font-display);color:var(--accent2);font-size:1.8rem;text-align:center;margin-bottom:.3rem;letter-spacing:.1em}
+.yao-hexagram-subtitle{color:var(--muted);text-align:center;font-size:.85rem;margin-bottom:1.5rem}
+.yao-line-list{display:flex;flex-direction:column;gap:2px;align-items:center;margin-bottom:1.5rem}
+.yao-line-item{display:flex;align-items:center;width:100%;max-width:640px;padding:10px 15px;border-radius:8px;background:var(--bg3);border:1px solid var(--rule);transition:all .4s ease;gap:12px;position:relative;overflow:hidden}
+.yao-line-item:hover{border-color:var(--accent2);background:var(--bg4)}
+.yao-line-item .yao-pos{font-family:var(--font-mono);font-size:.75rem;color:var(--accent2);min-width:42px;font-weight:600;text-align:center;padding:2px 6px;border-radius:4px;background:rgba(212,168,67,0.1)}
+.yao-line-item .yao-line-vis{min-width:80px;display:flex;justify-content:center;align-items:center}
+.yao-line-item .yao-line-vis .yl{height:5px;border-radius:3px}
+.yao-line-item .yao-line-vis .yl.yl-yang{width:60px;background:var(--accent2);box-shadow:0 0 6px rgba(212,168,67,0.3)}
+.yao-line-item .yao-line-vis .yl.yl-yin{display:flex;gap:16px;width:60px;justify-content:center}
+.yao-line-item .yao-line-vis .yl.yl-yin span{display:block;height:5px;width:22px;background:var(--accent2);border-radius:3px;opacity:.7}
+.yao-line-item .yao-text-wrap{flex:1;display:flex;flex-direction:column}
+.yao-line-item .yao-text{color:var(--ink);font-size:.85rem;line-height:1.6}
+.yao-line-item .yao-meaning{color:var(--muted);font-size:.75rem;line-height:1.4;margin-top:2px}
+.yao-line-item.changing-line{border-color:var(--accent);background:rgba(196,30,58,0.08);box-shadow:0 0 15px rgba(196,30,58,0.15)}
+.yao-line-item.changing-line .yao-pos{background:rgba(196,30,58,0.2);color:var(--accent)}
+.yao-line-item.changing-line::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:var(--accent);animation:pulseGlow 1.5s ease-in-out infinite}
+@keyframes pulseGlow{0%,100%{opacity:.5}50%{opacity:1}}
+.yao-changing-info{text-align:center;padding:.8rem;margin-top:1rem;background:rgba(196,30,58,0.1);border:1px solid var(--accent);border-radius:8px;color:var(--accent);font-size:.85rem;font-family:var(--font-mono);display:none}
+.yao-relationship{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;padding:1.5rem;background:var(--bg3);border-radius:10px;border:1px solid var(--rule)}
+.yao-relation-card{text-align:center;padding:.8rem;background:var(--bg4);border-radius:8px;border:1px solid var(--rule)}
+.yao-relation-card .rel-label{color:var(--muted);font-size:.75rem;margin-bottom:.3rem}
+.yao-relation-card .rel-name{font-family:var(--font-display);color:var(--accent2);font-size:1.2rem;margin-bottom:.2rem}
+.yao-relation-card .rel-desc{color:var(--muted);font-size:.7rem}
+.yao-relation-card.rel-primary{border-color:var(--accent2);background:rgba(212,168,67,0.05)}
+.yao-relation-card.rel-changed{border-color:var(--accent);background:rgba(196,30,58,0.05)}
+.yao-placeholder{color:var(--muted);font-size:.9rem;text-align:center;padding:3rem 1rem}
+.yao-change-arrow{display:block;text-align:center;font-size:1.5rem;color:var(--accent);margin:.3rem 0;animation:arrowPulse 1s ease-in-out infinite}
+@keyframes arrowPulse{0%,100%{opacity:.5;transform:translateY(0)}50%{opacity:1;transform:translateY(3px)}}
+.yao-toggle-btn{display:block;margin:1rem auto 0;padding:.6rem 1.5rem;background:transparent;border:1px solid var(--accent2);border-radius:8px;color:var(--accent2);font-family:var(--font);font-size:.85rem;cursor:pointer;transition:all .3s}
+.yao-toggle-btn:hover{background:rgba(212,168,67,0.1)}
+@media(max-width:768px){
+  .yao-line-item{flex-wrap:wrap;padding:8px 10px}
+  .yao-line-item .yao-pos{min-width:36px;font-size:.7rem}
+  .yao-line-item .yao-line-vis{min-width:60px}
+  .yao-line-item .yao-line-vis .yl.yl-yang{width:45px}
+  .yao-line-item .yao-line-vis .yl.yl-yin{width:45px}
+  .yao-line-item .yao-line-vis .yl.yl-yin span{width:16px}
+  .yao-relationship{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
@@ -162,6 +206,15 @@ a:hover{color:#f0d070}
   <a href="astrology-hub.html" class="nav-link">天文星象</a>
   <a href="lhp-test.html" class="nav-link">魔法测试</a>
   <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
 </nav>
 
 <div class="main-content">
@@ -174,7 +227,9 @@ a:hover{color:#f0d070}
   <div class="tab-bar">
     <button class="tab-btn active" data-tab="coin">抛硬币占卜</button>
     <button class="tab-btn" data-tab="yarrow">蓍草起卦</button>
-    <button class="tab-btn" data-tab="browse">浏览六十四卦</button>
+    
+    <button class="tab-btn" data-tab="yao">爻位详解</button>
+<button class="tab-btn" data-tab="browse">浏览六十四卦</button>
   </div>
 
   <div class="tab-content active" id="tab-coin">
@@ -227,6 +282,44 @@ a:hover{color:#f0d070}
     </div>
   </div>
 </div>
+  <div class="tab-content" id="tab-yao">
+    <div class="yao-mode-container">
+      <div class="yao-display">
+        <div id="yaoPlaceholder">
+          <div class="yao-placeholder">
+            <p>请先使用"抛硬币占卜"或"蓍草起卦"获得卦象，然后切换到"爻位详解"查看详细分析。</p>
+            <p style="margin-top:.5rem;color:var(--muted);font-size:.8rem">也可以在浏览六十四卦中点击任意卦象查看爻位详解。</p>
+          </div>
+        </div>
+        <div id="yaoContent" style="display:none">
+          <div class="yao-hexagram-title" id="yaoTitle"></div>
+          <div class="yao-hexagram-subtitle" id="yaoSubtitle"></div>
+          <div class="yao-line-list" id="yaoLineList"></div>
+          <div class="yao-changing-info" id="yaoChangingInfo"></div>
+          <div class="yao-relationship" id="yaoRelationship" style="display:none">
+            <div class="yao-relation-card rel-primary" id="relOriginal">
+              <div class="rel-label">本卦（主卦）</div>
+              <div class="rel-name"></div>
+              <div class="rel-desc"></div>
+            </div>
+            <div class="yao-change-arrow" id="relArrow">&#9660;</div>
+            <div class="yao-relation-card rel-changed" id="relChanged">
+              <div class="rel-label">之卦（变卦）</div>
+              <div class="rel-name"></div>
+              <div class="rel-desc"></div>
+            </div>
+            <div class="yao-relation-card" id="relHidden">
+              <div class="rel-label">体卦（互卦）</div>
+              <div class="rel-name"></div>
+              <div class="rel-desc"></div>
+            </div>
+          </div>
+          <button class="yao-toggle-btn" id="yaoJudgmentToggle">查看卦辞解读</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 <div class="modal-overlay" id="detailModal">
   <div class="modal-content">
@@ -441,6 +534,524 @@ const hexagrams = [
    judgment:"未济：亨。小狐汔济，濡其尾，无攸利。",
    interp:{career:"未济者，未成也。事业上尚未完成，还需继续努力。就像小狐狸过河，尾巴湿了，还没有完全成功。此时不宜松懈，应该继续前进。",business:"项目尚未完成，还有最后一段路要走。此时放弃或松懈都会前功尽弃。坚持到最后就是胜利。",love:"感情尚未圆满。单身者还在寻找的路上。已有伴侣者还需要继续经营，不能松懈。好事多磨。",decision:"小狐汔济。快要成功了，但还不能松气。适合做出继续努力、坚持到底的决策。不要功亏一篑。"}}
 ];
+
+
+// Auto-generated line judgment data (爻辞) for all 64 hexagrams
+// Indexed by hexagram number (1-64), each with 6 lines from bottom to top
+const yaociData = {
+  1: [
+    {text: "潜龙勿用", meaning: "Hidden dragon, do not act"},
+    {text: "见龙在田，利见大人", meaning: "Dragon appearing in the field, beneficial to see the great man"},
+    {text: "君子终日乾乾，夕惕若厉，无咎", meaning: "Noble man works all day, vigilant at night, no blame"},
+    {text: "或跃在渊，无咎", meaning: "Leaping in the abyss, no blame"},
+    {text: "飞龙在天，利见大人", meaning: "Dragon flying in the sky, beneficial to see the great man"},
+    {text: "亢龙有悔", meaning: "Arrogant dragon will have regret"},
+  ],
+  2: [
+    {text: "履霜，坚冰至", meaning: "Treading on frost, solid ice will come"},
+    {text: "直方大，不习无不利", meaning: "Straight, square, great, without practice nothing is unfavorable"},
+    {text: "含章可贞，或从王事，无成有终", meaning: "Holding hidden beauty, if engaged in king's affairs, no achievement but a good end"},
+    {text: "括囊，无咎无誉", meaning: "Tied-up bag, no blame no praise"},
+    {text: "黄裳，元吉", meaning: "Yellow lower garment, great good fortune"},
+    {text: "龙战于野，其血玄黄", meaning: "Dragons fighting in the wild, blood black and yellow"},
+  ],
+  3: [
+    {text: "磐桓，利居贞，利建侯", meaning: "Hesitating, beneficial to stay firm, beneficial to establish helpers"},
+    {text: "屯如邅如，乘马班如。匪寇婚媾，女子贞不字，十年乃字", meaning: "Difficulty and obstacles, horses in confusion. Not a bandit but a suitor, the maiden does not marry, after ten years she marries"},
+    {text: "即鹿无虞，惟入于林中，君子几不如舍，往吝", meaning: "Chasing deer without a guide, only enters the forest, noble man understands to let go"},
+    {text: "乘马班如，求婚媾，往吉，无不利", meaning: "Horses in confusion, seek alliance, going forward brings good fortune"},
+    {text: "屯其膏，小贞吉，大贞凶", meaning: "Difficulty in dispensing bounty, small matters fortunate, great matters unfortunate"},
+    {text: "乘马班如，泣血涟如", meaning: "Horses in confusion, weeping blood in streams"},
+  ],
+  4: [
+    {text: "发蒙，利用刑人，用说桎梏，以往吝", meaning: "Releasing folly, beneficial to discipline, removing shackles, going forward brings regret"},
+    {text: "包蒙吉，纳妇吉，子克家", meaning: "Tolerating folly is fortunate, taking a wife is fortunate, the son can manage the household"},
+    {text: "勿用取女，见金夫，不有躬，无攸利", meaning: "Do not marry this woman, seeing a wealthy man she loses herself, nothing beneficial"},
+    {text: "困蒙，吝", meaning: "Trapped in folly, regret"},
+    {text: "童蒙，吉", meaning: "Childlike folly, good fortune"},
+    {text: "击蒙，不利为寇，利御寇", meaning: "Striking folly, not beneficial to be a bandit, beneficial to defend against bandits"},
+  ],
+  5: [
+    {text: "需于郊，利用恒，无咎", meaning: "Waiting on the outskirts, beneficial to persevere, no blame"},
+    {text: "需于沙，小有言，终吉", meaning: "Waiting on the sand, small words of criticism, ultimately good fortune"},
+    {text: "需于泥，致寇至", meaning: "Waiting in the mud, attracts bandits"},
+    {text: "需于血，出自穴", meaning: "Waiting in blood, coming out of the cave"},
+    {text: "需于酒食，贞吉", meaning: "Waiting with wine and food, perseverance brings good fortune"},
+    {text: "入于穴，有不速之客三人来，敬之终吉", meaning: "Entering the cave, three uninvited guests arrive, respecting them brings good fortune"},
+  ],
+  6: [
+    {text: "不永所事，小有言，终吉", meaning: "Do not prolong the matter, small words, ultimately good fortune"},
+    {text: "不克讼，归而逋，其邑人三百户无眚", meaning: "Cannot win the conflict, return and flee, the people of the town of 300 households have no disaster"},
+    {text: "食旧德，贞厉，终吉。或从王事，无成", meaning: "Living on old virtue, perseverance brings danger, ultimately good fortune. If engaged in king's affairs, no achievement"},
+    {text: "不克讼，复即命，渝安贞，吉", meaning: "Cannot win the conflict, return and accept fate, change to peaceful perseverance, good fortune"},
+    {text: "讼，元吉", meaning: "Conflict, great good fortune"},
+    {text: "或锡之鞶带，终朝三褫之", meaning: "Receives a fine belt, but in one day it is snatched away three times"},
+  ],
+  7: [
+    {text: "师出以律，否臧凶", meaning: "The army goes out by regulation, without it there is disaster"},
+    {text: "在师中吉，无咎，王三锡命", meaning: "In the army, good fortune, no blame, the king gives three commands"},
+    {text: "师或舆尸，凶", meaning: "The army perhaps carries corpses, misfortune"},
+    {text: "师左次，无咎", meaning: "The army halts on the left, no blame"},
+    {text: "田有禽，利执言，无咎。长子帅师，弟子舆尸，贞凶", meaning: "Fields have game, beneficial to speak out. The eldest son leads the army, the younger brother carries corpses"},
+    {text: "大君有命，开国承家，小人勿用", meaning: "The great ruler issues commands, establishing states and families, do not employ petty people"},
+  ],
+  8: [
+    {text: "有孚比之，无咎。有孚盈缶，终来有它吉", meaning: "Sincere union, no blame. Sincerity fills an earthen vessel, eventually good fortune arrives"},
+    {text: "比之自内，贞吉", meaning: "Union from within, perseverance brings good fortune"},
+    {text: "比之匪人，不亦伤乎", meaning: "Union with the wrong people, is this not sad?"},
+    {text: "外比之，贞吉", meaning: "Outward union, perseverance brings good fortune"},
+    {text: "显比，王用三驱，失前禽。邑人不诫，吉", meaning: "Open union, the king hunts from three sides, losing the front game. The townspeople are not warned, good fortune"},
+    {text: "比之无首，凶", meaning: "Union without a head, misfortune"},
+  ],
+  9: [
+    {text: "复自道，何其咎？吉", meaning: "Returning to one's own path, what blame is there? Good fortune"},
+    {text: "牵复，吉", meaning: "Pulled back, good fortune"},
+    {text: "舆说辐，夫妻反目", meaning: "The chariot loses its spokes, husband and wife turn against each other"},
+    {text: "有孚，血去惕出，无咎", meaning: "Sincere, blood goes and fear departs, no blame"},
+    {text: "有孚挛如，富以其邻", meaning: "Sincere and bonded, sharing wealth with neighbors"},
+    {text: "既雨既处，尚德载。妇贞厉，月几望，君子征凶", meaning: "Rain has fallen, virtue is stored. Woman perseveres in danger, moon nearly full, noble man acting brings misfortune"},
+  ],
+  10: [
+    {text: "素履，往无咎", meaning: "Plain conduct, going forward no blame"},
+    {text: "履道坦坦，幽人贞吉", meaning: "The path is smooth and level, the hermit's perseverance brings good fortune"},
+    {text: "眇能视，跛能履。履虎尾，咥人凶。武人为于大君", meaning: "One-eyed but can see, lame but can walk. Treading on tiger's tail, it bites, misfortune"},
+    {text: "履虎尾，愬愬终吉", meaning: "Treading on tiger's tail, cautiously fearful, ultimately good fortune"},
+    {text: "夬履，贞厉", meaning: "Resolute conduct, perseverance brings danger"},
+    {text: "视履考祥，其旋元吉", meaning: "Look at conduct and examine omens, turning back brings great good fortune"},
+  ],
+  11: [
+    {text: "拔茅茹，以其汇，征吉", meaning: "Pulling up reed grass, it brings its kind, going forward brings good fortune"},
+    {text: "包荒，用冯河，不遐遗。朋亡，得尚于中行", meaning: "Embracing the wild, crossing rivers, not abandoning the distant. Friends depart, finding support in the middle course"},
+    {text: "无平不陂，无往不复。艰贞无咎。勿恤其孚，于食有福", meaning: "No flat without slope, no going without returning. Perseverance in hardship no blame"},
+    {text: "翩翩，不富以其邻，不戒以孚", meaning: "Fluttering, not wealthy with neighbors, no need for caution in sincerity"},
+    {text: "帝乙归妹，以祉元吉", meaning: "Emperor Yi gives his daughter in marriage, receiving blessing, great good fortune"},
+    {text: "城复于隍，勿用师。自邑告命，贞吝", meaning: "The wall returns to the moat, do not use the army. From the town comes the order, perseverance brings regret"},
+  ],
+  12: [
+    {text: "拔茅茹，以其汇，贞吉亨", meaning: "Pulling up reed grass, it brings its kind, perseverance brings good fortune"},
+    {text: "包承，小人吉，大人否亨", meaning: "Embracing and supporting, petty people fortunate, great people obstructed"},
+    {text: "包羞", meaning: "Embracing shame"},
+    {text: "有命无咎，畴离祉", meaning: "Having the decree, no blame, those who share receive blessing"},
+    {text: "休否，大人吉。其亡其亡，系于苞桑", meaning: "Stopping stagnation, great people fortunate. It perishes, it perishes, tied to a mulberry bush"},
+    {text: "倾否，先否后喜", meaning: "Overthrowing stagnation, first obstructed then joyous"},
+  ],
+  13: [
+    {text: "同人于门，无咎", meaning: "Fellowship at the gate, no blame"},
+    {text: "同人于宗，吝", meaning: "Fellowship within the clan, regret"},
+    {text: "伏戎于莽，升其高陵，三岁不兴", meaning: "Hiding soldiers in the grass, ascending the high hill, three years without action"},
+    {text: "乘其墉，弗克攻，吉", meaning: "Climbing the wall, unable to attack, good fortune"},
+    {text: "同人先号咷而后笑，大师克相遇", meaning: "Fellowship first weeping then laughing, great armies meet"},
+    {text: "同人于郊，无悔", meaning: "Fellowship in the outskirts, no regret"},
+  ],
+  14: [
+    {text: "无交害匪咎，艰则无咎", meaning: "No harmful associations, no blame, hardship then no blame"},
+    {text: "大车以载，有攸往，无咎", meaning: "A great cart to carry, going somewhere, no blame"},
+    {text: "公用亨于天子，小人弗克", meaning: "The duke offers to the Son of Heaven, petty people cannot"},
+    {text: "匪其彭，无咎", meaning: "Not showing off, no blame"},
+    {text: "厥孚交如威如，吉", meaning: "Sincerity interwoven and majestic, good fortune"},
+    {text: "自天祐之，吉无不利", meaning: "Heaven's blessing, good fortune nothing unfavorable"},
+  ],
+  15: [
+    {text: "谦谦君子，用涉大川，吉", meaning: "Modest and humble noble man, crossing great rivers, good fortune"},
+    {text: "鸣谦，贞吉", meaning: "Modesty that is heard, perseverance brings good fortune"},
+    {text: "劳谦君子，有终吉", meaning: "Laboring modest noble man, good end brings good fortune"},
+    {text: "无不利，撝谦", meaning: "Nothing unfavorable, spreading modesty"},
+    {text: "不富以其邻，利用侵伐，无不利", meaning: "Not wealthy with neighbors, beneficial to attack, nothing unfavorable"},
+    {text: "鸣谦，利用行师，征邑国", meaning: "Modesty that is heard, beneficial to lead armies, attack towns and states"},
+  ],
+  16: [
+    {text: "鸣豫，凶", meaning: "Enthusiasm that is announced, misfortune"},
+    {text: "介于石，不终日，贞吉", meaning: "Firm as a rock, not lasting all day, perseverance brings good fortune"},
+    {text: "盱豫悔，迟有悔", meaning: "Over-eager enthusiasm brings regret, delaying also brings regret"},
+    {text: "由豫，大有得。勿疑，朋盍簪", meaning: "Enthusiasm from within, great gain. No doubt, friends gather like clasped hairpins"},
+    {text: "贞疾，恒不死", meaning: "Persevering illness, but never dies"},
+    {text: "冥豫，成有渝，无咎", meaning: "Dark enthusiasm, achievement changes, no blame"},
+  ],
+  17: [
+    {text: "官有渝，贞吉。出门交有功", meaning: "The official's role changes, perseverance brings good fortune. Going out brings success"},
+    {text: "系小子，失丈夫", meaning: "Tied to a youth, losing the strong man"},
+    {text: "系丈夫，失小子。随有求得，利居贞", meaning: "Tied to the strong man, losing the youth. Following brings gain, beneficial to stay firm"},
+    {text: "随有获，贞凶。有孚在道，以明何咎", meaning: "Following brings gain, perseverance brings misfortune. Sincerely on the path, what blame?"},
+    {text: "孚于嘉，吉", meaning: "Sincerity in goodness, good fortune"},
+    {text: "拘系之，乃从维之，王用亨于西山", meaning: "Bound and held, then tied securely, the king offers sacrifice on the western mountain"},
+  ],
+  18: [
+    {text: "干父之蛊，有子，考无咎，厉终吉", meaning: "Correcting the father's decay, having a son, the father has no blame, danger ultimately good fortune"},
+    {text: "干母之蛊，不可贞", meaning: "Correcting the mother's decay, cannot be persevered"},
+    {text: "干父之蛊，小有悔，无大咎", meaning: "Correcting the father's decay, small regret, no great blame"},
+    {text: "裕父之蛊，往见吝", meaning: "Indulging the father's decay, going forward brings regret"},
+    {text: "干父之蛊，用誉", meaning: "Correcting the father's decay, gaining praise"},
+    {text: "不事王侯，高尚其事", meaning: "Not serving king or noble, esteeming one's own affairs"},
+  ],
+  19: [
+    {text: "咸临，贞吉", meaning: "Joint approach, perseverance brings good fortune"},
+    {text: "咸临，吉无不利", meaning: "Joint approach, good fortune nothing unfavorable"},
+    {text: "甘临，无攸利。既忧之，无咎", meaning: "Sweet approach, nothing beneficial. If worried, no blame"},
+    {text: "至临，无咎", meaning: "Full approach, no blame"},
+    {text: "知临，大君之宜，吉", meaning: "Wise approach, fitting for a great ruler, good fortune"},
+    {text: "敦临，吉无咎", meaning: "Genuine approach, good fortune no blame"},
+  ],
+  20: [
+    {text: "童观，小人无咎，君子吝", meaning: "Childlike observation, petty people no blame, noble person regret"},
+    {text: "窥观，利女贞", meaning: "Peeping observation, beneficial for a woman to be steadfast"},
+    {text: "观我生，进退", meaning: "Observing my own life, advancing and retreating"},
+    {text: "观国之光，利用宾于王", meaning: "Observing the nation's light, beneficial to serve the king"},
+    {text: "观我生，君子无咎", meaning: "Observing my own life, noble person no blame"},
+    {text: "观其生，君子无咎", meaning: "Observing others' lives, noble person no blame"},
+  ],
+  21: [
+    {text: "屦校灭趾，无咎", meaning: "Feet in stocks, toes hidden, no blame"},
+    {text: "噬肤灭鼻，无咎", meaning: "Biting soft meat, nose hidden, no blame"},
+    {text: "噬腊肉，遇毒，小吝无咎", meaning: "Biting dried meat, encountering poison, small regret no blame"},
+    {text: "噬干胏，得金矢，利艰贞，吉", meaning: "Biting dry bone, finding gold arrow, beneficial for difficult perseverance, good fortune"},
+    {text: "噬干肉，得黄金，贞厉无咎", meaning: "Biting dried meat, finding gold, perseverance brings danger no blame"},
+    {text: "何校灭耳，凶", meaning: "Wearing cangue, ears hidden, misfortune"},
+  ],
+  22: [
+    {text: "贲其趾，舍车而徒", meaning: "Adorning the feet, leaving the chariot and walking"},
+    {text: "贲其须", meaning: "Adorning the beard"},
+    {text: "贲如濡如，永贞吉", meaning: "Adorned and moistened, eternal perseverance brings good fortune"},
+    {text: "贲如皤如，白马翰如。匪寇婚媾", meaning: "Adorned and white, white horse galloping. Not a bandit but a suitor"},
+    {text: "贲于丘园，束帛戋戋，吝终吉", meaning: "Adorning the garden hill, a small bundle of silk, regret ends with good fortune"},
+    {text: "白贲，无咎", meaning: "Plain adornment, no blame"},
+  ],
+  23: [
+    {text: "剥床以足，蔑贞凶", meaning: "The bed is stripped at the legs, destroying what is correct, misfortune"},
+    {text: "剥床以辨，蔑贞凶", meaning: "The bed is stripped at the frame, destroying what is correct, misfortune"},
+    {text: "剥之无咎", meaning: "Stripping it, no blame"},
+    {text: "剥床以肤，凶", meaning: "The bed is stripped at the skin, misfortune"},
+    {text: "贯鱼以宫人宠，无不利", meaning: "String of fish, the palace ladies receive favor, nothing unfavorable"},
+    {text: "硕果不食，君子得舆，小人剥庐", meaning: "Large fruit not eaten, noble person obtains a carriage, petty person's hut is stripped"},
+  ],
+  24: [
+    {text: "不远复，无祇悔，元吉", meaning: "Returning from not far, no great regret, great good fortune"},
+    {text: "休复，吉", meaning: "Beautiful return, good fortune"},
+    {text: "频复，厉无咎", meaning: "Repeated return, danger no blame"},
+    {text: "中行独复", meaning: "Walking in the middle, returning alone"},
+    {text: "敦复，无悔", meaning: "Genuine return, no regret"},
+    {text: "迷复，凶，有灾眚。用行师，终有大败", meaning: "Lost in return, misfortune, disaster. Leading armies, great defeat"},
+  ],
+  25: [
+    {text: "无妄往，吉", meaning: "Going forward in innocence, good fortune"},
+    {text: "不耕获，不菑畬，则利有攸往", meaning: "Not farming for harvest, not clearing for fields, then beneficial to go somewhere"},
+    {text: "无妄之灾，或系之牛，行人之得，邑人之灾", meaning: "Unexpected disaster, an ox tethered, a passerby takes it, the townspeople suffer"},
+    {text: "可贞，无咎", meaning: "Can be steadfast, no blame"},
+    {text: "无妄之疾，勿药有喜", meaning: "Unexpected illness, no medicine needed, happiness"},
+    {text: "无妄行，有眚，无攸利", meaning: "Innocent action brings disaster, nothing beneficial"},
+  ],
+  26: [
+    {text: "有厉，利已", meaning: "There is danger, beneficial to stop"},
+    {text: "舆说輹", meaning: "The chariot loses its axle"},
+    {text: "良马逐，利艰贞。曰闲舆卫，利有攸往", meaning: "Good horses galloping, beneficial for difficult perseverance. Practicing driving and defense"},
+    {text: "童牛之牿，元吉", meaning: "The calf's wooden headboard, great good fortune"},
+    {text: "豮豕之牙，吉", meaning: "The gelded boar's tusks, good fortune"},
+    {text: "何天之衢，亨", meaning: "The highway of heaven, success"},
+  ],
+  27: [
+    {text: "舍尔灵龟，观我朵颐，凶", meaning: "Leaving your spirit tortoise, watching my open jaws, misfortune"},
+    {text: "颠颐，拂经于丘颐，征凶", meaning: "Reversing nourishment, going against the pattern, acting brings misfortune"},
+    {text: "拂颐，贞凶。十年勿用，无攸利", meaning: "Against nourishment, perseverance brings misfortune. Ten years not used, nothing beneficial"},
+    {text: "颠颐，吉。虎视眈眈，其欲逐逐，无咎", meaning: "Reversing nourishment, good fortune. Tiger's fierce gaze, his desires following, no blame"},
+    {text: "拂经，居贞吉，不可涉大川", meaning: "Going against the pattern, staying firm brings good fortune, cannot cross great rivers"},
+    {text: "由颐，厉吉，利涉大川", meaning: "Nourishment from within, danger and good fortune, beneficial to cross great rivers"},
+  ],
+  28: [
+    {text: "藉用白茅，无咎", meaning: "Spread with white rushes, no blame"},
+    {text: "枯杨生稊，老夫得其女妻，无不利", meaning: "Withered tree sprouts, the old man gets a young wife, nothing unfavorable"},
+    {text: "栋桡，凶", meaning: "The ridgepole bends, misfortune"},
+    {text: "栋隆，吉。有它吝", meaning: "The ridgepole raised, good fortune. Other matters bring regret"},
+    {text: "枯杨生华，老妇得其士夫，无咎无誉", meaning: "Withered tree blossoms, the old woman gets a young husband, no blame no praise"},
+    {text: "过涉灭顶，凶，无咎", meaning: "Crossing with excess, head submerged, misfortune, no blame"},
+  ],
+  29: [
+    {text: "习坎，入于坎窞，凶", meaning: "Double pit, entering the pit's depths, misfortune"},
+    {text: "坎有险，求小得", meaning: "The pit is dangerous, seeking small gains"},
+    {text: "来之坎坎，险且枕。入于坎窞，勿用", meaning: "Coming and going, pit upon pit, danger and depth. Entering the pit's depths, do not act"},
+    {text: "樽酒簋贰，用缶，纳约自牖，终无咎", meaning: "Simple offerings of wine and grain, using earthen vessels, through the window, ultimately no blame"},
+    {text: "坎不盈，祇既平，无咎", meaning: "The pit not full, the mound leveled, no blame"},
+    {text: "系用徽纆，寘于丛棘，三岁不得，凶", meaning: "Bound with ropes, placed in thorny prison, three years without release, misfortune"},
+  ],
+  30: [
+    {text: "履错然，敬之无咎", meaning: "Treading with care, respecting it no blame"},
+    {text: "黄离，元吉", meaning: "Yellow adherence, great good fortune"},
+    {text: "日昃之离，不鼓缶而歌，则大耋之嗟，凶", meaning: "Sunset clinging, not singing with earthenware, old age sighs, misfortune"},
+    {text: "突如其来如，焚如，死如，弃如", meaning: "Suddenly coming, burning, dying, discarding"},
+    {text: "出涕沱若，戚嗟若，吉", meaning: "Weeping profusely, sighing sadly, good fortune"},
+    {text: "王用出征，有嘉折首，获匪其丑，无咎", meaning: "The king goes to battle, cutting off heads, capturing the captives, no blame"},
+  ],
+  31: [
+    {text: "咸其拇", meaning: "Influence at the big toe"},
+    {text: "咸其腓，凶，居吉", meaning: "Influence at the calf, misfortune, staying brings good fortune"},
+    {text: "咸其股，执其随，往吝", meaning: "Influence at the thigh, holding to what follows, going forward brings regret"},
+    {text: "贞吉悔亡。憧憧往来，朋从尔思", meaning: "Perseverance brings good fortune, regret vanishes. Restless coming and going, friends follow your thoughts"},
+    {text: "咸其脢，无悔", meaning: "Influence at the back, no regret"},
+    {text: "咸其辅颊舌", meaning: "Influence at the jaw, cheeks, and tongue"},
+  ],
+  32: [
+    {text: "浚恒，贞凶，无攸利", meaning: "Deep and lasting, perseverance brings misfortune, nothing beneficial"},
+    {text: "悔亡", meaning: "Regret vanishes"},
+    {text: "不恒其德，或承之羞，贞吝", meaning: "Not lasting in virtue, perhaps receiving shame, perseverance brings regret"},
+    {text: "田无禽", meaning: "No game in the fields"},
+    {text: "恒其德，贞。妇人吉，夫子凶", meaning: "Lasting in virtue, perseverance. Woman good fortune, man misfortune"},
+    {text: "振恒，凶", meaning: "Shaking and lasting, misfortune"},
+  ],
+  33: [
+    {text: "遁尾，厉。勿用有攸往", meaning: "Retreating at the tail, danger. Do not go anywhere"},
+    {text: "执之用黄牛之革，莫之胜说", meaning: "Held fast with yellow ox-hide, cannot be loosened"},
+    {text: "系遁，有疾厉。畜臣妾吉", meaning: "Tied retreat, sickness and danger. Keeping servants brings good fortune"},
+    {text: "好遁，君子吉，小人否", meaning: "Loving retreat, noble person good fortune, petty person not"},
+    {text: "嘉遁，贞吉", meaning: "Admirable retreat, perseverance brings good fortune"},
+    {text: "肥遁，无不利", meaning: "Fruitful retreat, nothing unfavorable"},
+  ],
+  34: [
+    {text: "壮于趾，征凶，有孚", meaning: "Power in the toes, acting brings misfortune, be sincere"},
+    {text: "贞吉", meaning: "Perseverance brings good fortune"},
+    {text: "小人用壮，君子用罔，贞厉。羝羊触藩，羸其角", meaning: "Petty person uses force, noble person uses restraint. Ram butting fence, tangling horns"},
+    {text: "贞吉悔亡。藩决不羸，壮于大舆之輹", meaning: "Perseverance brings good fortune, regret vanishes. Fence breaks, not tangled, power in the great chariot's axle"},
+    {text: "丧羊于易，无悔", meaning: "Losing the goat in the field, no regret"},
+    {text: "羝羊触藩，不能退，不能遂，无攸利。艰则吉", meaning: "Ram butting fence, cannot retreat, cannot advance, nothing beneficial. Hardship brings good fortune"},
+  ],
+  35: [
+    {text: "晋如摧如，贞吉。罔孚裕无咎", meaning: "Advancing and blocked, perseverance brings good fortune. Without sincerity yet generous, no blame"},
+    {text: "晋如愁如，贞吉。受兹介福，于其王母", meaning: "Advancing and anxious, perseverance brings good fortune. Receiving great blessing from the grandmother"},
+    {text: "众允，悔亡", meaning: "All agree, regret vanishes"},
+    {text: "晋如鼫鼠，贞厉", meaning: "Advancing like a hamster, perseverance brings danger"},
+    {text: "悔亡，失得勿恤。往吉，无不利", meaning: "Regret vanishes, don't worry about loss or gain. Going forward good fortune, nothing unfavorable"},
+    {text: "晋其角，维用伐邑。厉吉无咎，贞吝", meaning: "Advancing at the horn, only for attacking the town. Danger, good fortune, no blame, perseverance brings regret"},
+  ],
+  36: [
+    {text: "明夷于飞，垂其翼。君子于行，三日不食。有攸往，主人有言", meaning: "Darkened light in flight, drooping wings. Noble person traveling, three days without food"},
+    {text: "明夷于左股，用拯马壮，吉", meaning: "Darkened light at the left thigh, using a strong horse to rescue, good fortune"},
+    {text: "明夷于南狩，得其大首，不可疾贞", meaning: "Darkened light in southern hunt, capturing the great chief, cannot rush perseverance"},
+    {text: "入于左腹，获明夷之心，于出门庭", meaning: "Entering the left side, grasping the dark light's heart, leaving the courtyard"},
+    {text: "箕子之明夷，利贞", meaning: "The dark light of Count Ji, beneficial to persevere"},
+    {text: "不明晦，初登于天，后入于地", meaning: "Not light but dark, first ascending to heaven, later entering the earth"},
+  ],
+  37: [
+    {text: "闲有家，悔亡", meaning: "Guarding the family, regret vanishes"},
+    {text: "无攸遂，在中馈，贞吉", meaning: "Nothing to accomplish, in the inner affairs, perseverance brings good fortune"},
+    {text: "家人嗃嗃，悔厉吉。妇子嘻嘻，终吝", meaning: "Family stern and strict, regret and danger but good fortune. Women and children laughing, ultimately regret"},
+    {text: "富家，大吉", meaning: "Wealthy family, great good fortune"},
+    {text: "王假有家，勿恤，吉", meaning: "The king approaches the family, do not worry, good fortune"},
+    {text: "有孚威如，终吉", meaning: "Sincere and majestic, ultimately good fortune"},
+  ],
+  38: [
+    {text: "悔亡。丧马勿逐，自复。见恶人无咎", meaning: "Regret vanishes. Lost horse do not chase, it returns. Meeting bad people no blame"},
+    {text: "遇主于巷，无咎", meaning: "Meeting the master in the lane, no blame"},
+    {text: "见舆曳，其牛掣。其人天且劓，无初有终", meaning: "Chariot pulled back, ox held back. The man branded and mutilated, no beginning but an end"},
+    {text: "睽孤，遇元夫，交孚，厉无咎", meaning: "Lonely and divided, meeting the good man, sincere interaction, danger no blame"},
+    {text: "悔亡。厥宗噬肤，往何咎", meaning: "Regret vanishes. The clan biting soft meat, going forward what blame?"},
+    {text: "睽孤，见豕负涂，载鬼一车。先张之弧，后说之弧。匪寇婚媾，往遇雨则吉", meaning: "Lonely, seeing a pig covered in mud, a carriage full of ghosts. First drawing the bow, then putting it away. Not a bandit but a suitor"},
+  ],
+  39: [
+    {text: "往蹇来誉", meaning: "Going forward brings difficulty, returning brings praise"},
+    {text: "王臣蹇蹇，匪躬之故", meaning: "The king's ministers in difficulty, not for their own sake"},
+    {text: "往蹇来反", meaning: "Going forward brings difficulty, returning and turning back"},
+    {text: "往蹇来连", meaning: "Going forward brings difficulty, returning and connecting"},
+    {text: "大蹇朋来", meaning: "Great difficulty, friends come"},
+    {text: "往蹇来硕，吉。利见大人", meaning: "Going forward brings difficulty, returning brings great reward. Beneficial to see the great person"},
+  ],
+  40: [
+    {text: "无咎", meaning: "No blame"},
+    {text: "田获三狐，得黄矢，贞吉", meaning: "Hunting, capturing three foxes, obtaining a yellow arrow, perseverance brings good fortune"},
+    {text: "负且乘，致寇至，贞吝", meaning: "Carrying burdens while riding, attracting bandits, perseverance brings regret"},
+    {text: "解而拇，朋至斯孚", meaning: "Untie the thumb, friends come sincerely"},
+    {text: "君子维有解，吉。有孚于小人", meaning: "The noble person unties, good fortune. Sincere towards petty people"},
+    {text: "公用射隼于高墉之上，获之无不利", meaning: "The duke shoots the hawk on the high wall, capturing it nothing unfavorable"},
+  ],
+  41: [
+    {text: "已事遄往，无咎。酌损之", meaning: "Finished matters quickly dealt with, no blame. Consider the decrease"},
+    {text: "利贞，征凶。弗损益之", meaning: "Beneficial to persevere, acting brings misfortune. Neither decrease nor increase"},
+    {text: "三人行，则损一人。一人行，则得其友", meaning: "Three walking, one is lost. One walking, finds a friend"},
+    {text: "损其疾，使遄有喜，无咎", meaning: "Decrease the illness, quickly there is happiness, no blame"},
+    {text: "或益之十朋之龟，弗克违，元吉", meaning: "Perhaps receiving a valuable tortoise, cannot refuse, great good fortune"},
+    {text: "弗损益之，无咎，贞吉，利有攸往。得臣无家", meaning: "Neither decrease nor increase, no blame, perseverance brings good fortune, beneficial to go somewhere"},
+  ],
+  42: [
+    {text: "利用为大作，元吉无咎", meaning: "Beneficial for great undertakings, great good fortune no blame"},
+    {text: "或益之十朋之龟，弗克违，永贞吉。王用享于帝，吉", meaning: "Receiving a valuable tortoise, cannot refuse, eternal perseverance brings good fortune"},
+    {text: "益之用凶事，无咎。有孚中行，告公用圭", meaning: "Increase used in times of misfortune, no blame. Sincere in conduct, report to the duke"},
+    {text: "中行告公从，利用为依迁国", meaning: "Walking in the middle, report to the duke and follow, beneficial for relocating the state"},
+    {text: "有孚惠心，勿问元吉。有孚惠我德", meaning: "Sincere generous heart, no need to ask, great good fortune. Sincere generosity is my virtue"},
+    {text: "莫益之，或击之。立心勿恒，凶", meaning: "No one increases, some attack. Heart not steadfast, misfortune"},
+  ],
+  43: [
+    {text: "壮于前趾，往不胜为咎", meaning: "Power in the front toes, going forward unable to win brings blame"},
+    {text: "惕号，莫夜有戎，勿恤", meaning: "Alert and shouting, at night there is an attack, do not worry"},
+    {text: "壮于頄，有凶。君子夬夬，独行遇雨，若濡有愠，无咎", meaning: "Power in the cheekbones, misfortune. Noble person resolute, walking alone in the rain"},
+    {text: "臀无肤，其行次且。牵羊悔亡，闻言不信", meaning: "Buttocks without skin, walking with difficulty. Leading a sheep regret vanishes, hears but does not believe"},
+    {text: "苋陆夬夬，中行无咎", meaning: "Resolute as purslane, walking the middle path no blame"},
+    {text: "无号，终有凶", meaning: "No warning, ultimately misfortune"},
+  ],
+  44: [
+    {text: "系于金柅，贞吉。有攸往，见凶。羸豕孚蹢躅", meaning: "Tied to a metal brake, perseverance brings good fortune. Going somewhere sees misfortune. A thin pig is restless"},
+    {text: "包有鱼，无咎，不利宾", meaning: "Bag contains fish, no blame, not beneficial for guests"},
+    {text: "臀无肤，其行次且，厉无大咎", meaning: "Buttocks without skin, walking with difficulty, danger no great blame"},
+    {text: "包无鱼，起凶", meaning: "Bag without fish, arising misfortune"},
+    {text: "以杞包瓜，含章，有陨自天", meaning: "Wrapping melon with willow, containing hidden beauty, falling from heaven"},
+    {text: "姤其角，吝无咎", meaning: "Meeting at the horn, regret no blame"},
+  ],
+  45: [
+    {text: "有孚不终，乃乱乃萃。若号，一握为笑。勿恤，往无咎", meaning: "Sincerity not lasting, confusion and gathering. Shouting, a handful of laughter. Do not worry"},
+    {text: "引吉无咎，孚乃利用禴", meaning: "Drawing brings good fortune no blame, sincerity enables simple offerings"},
+    {text: "萃如嗟如，无攸利。往无咎，小吝", meaning: "Gathering with sighs, nothing beneficial. Going forward no blame, small regret"},
+    {text: "大吉无咎", meaning: "Great good fortune no blame"},
+    {text: "萃有位，无咎。匪孚，元永贞，悔亡", meaning: "Gathering in position, no blame. Not yet sincere, great and lasting perseverance, regret vanishes"},
+    {text: "赍咨涕洟，无咎", meaning: "Sighing and weeping, no blame"},
+  ],
+  46: [
+    {text: "允升，大吉", meaning: "Sincere ascent, great good fortune"},
+    {text: "孚乃利用禴，无咎", meaning: "Sincerity enables simple offerings, no blame"},
+    {text: "升虚邑", meaning: "Ascending an empty town"},
+    {text: "王用亨于岐山，吉无咎", meaning: "The king offers at Mount Qi, good fortune no blame"},
+    {text: "贞吉升阶", meaning: "Perseverance brings good fortune, ascending steps"},
+    {text: "冥升，利于不息之贞", meaning: "Dark ascent, beneficial for unceasing perseverance"},
+  ],
+  47: [
+    {text: "臀困于株木，入于幽谷，三岁不觌", meaning: "Buttocks trapped in tree stump, entering the dark valley, three years without seeing"},
+    {text: "困于酒食，朱绂方来，利用享祀。征凶无咎", meaning: "Trapped by wine and food, the red knee-cover arrives, beneficial for sacrifice"},
+    {text: "困于石，据于蒺藜。入于其宫，不见其妻，凶", meaning: "Trapped by rocks, holding thorns. Entering the house, not seeing the wife, misfortune"},
+    {text: "来徐徐，困于金车，吝有终", meaning: "Coming slowly, trapped in a metal chariot, regret but an end"},
+    {text: "劓刖，困于赤绂。乃徐有说，利用祭祀", meaning: "Nose and feet cut, trapped by the red knee-cover. Slowly released, beneficial for sacrifice"},
+    {text: "困于葛藟，于臲卼。曰动悔有悔，征吉", meaning: "Trapped by vines, in great danger. Saying moving brings regret, acting brings good fortune"},
+  ],
+  48: [
+    {text: "井泥不食，旧井无禽", meaning: "Well mud not drunk, old well no animals"},
+    {text: "井谷射鲋，瓮敝漏", meaning: "Well valley shooting minnows, the jar is broken and leaking"},
+    {text: "井渫不食，为我心恻。可用汲，王明并受其福", meaning: "Well cleaned not drunk, makes my heart sad. Can draw water, the wise king shares the blessing"},
+    {text: "井甃，无咎", meaning: "The well is tiled, no blame"},
+    {text: "井冽，寒泉食", meaning: "Well pure, cold spring water to drink"},
+    {text: "井收勿幕，有孚元吉", meaning: "The well completed, do not cover it, sincere and great good fortune"},
+  ],
+  49: [
+    {text: "巩用黄牛之革", meaning: "Bound with yellow ox-hide"},
+    {text: "巳日乃革之，征吉无咎", meaning: "On the day change comes, acting brings good fortune no blame"},
+    {text: "征凶，贞厉。革言三就，有孚", meaning: "Acting brings misfortune, perseverance brings danger. The change discussed three times, sincere"},
+    {text: "悔亡，有孚改命，吉", meaning: "Regret vanishes, sincere change of destiny, good fortune"},
+    {text: "大人虎变，未占有孚", meaning: "The great person changes like a tiger, divining brings sincerity"},
+    {text: "君子豹变，小人革面。征凶，居贞吉", meaning: "Noble person changes like a leopard, petty person changes face. Acting brings misfortune, staying brings good fortune"},
+  ],
+  50: [
+    {text: "鼎颠趾，利出否。得妾以其子，无咎", meaning: "Cauldron upside down, beneficial to empty. Taking a concubine for her son, no blame"},
+    {text: "鼎有实，我仇有疾，不我能即，吉", meaning: "Cauldron has substance, my rival is sick, cannot approach me, good fortune"},
+    {text: "鼎耳革，其行塞。雉膏不食，方雨亏悔，终吉", meaning: "Cauldron handle changed, movement blocked. Pheasant fat not eaten, rain comes, regret ends, good fortune"},
+    {text: "鼎折足，覆公餗，其形渥，凶", meaning: "Cauldron leg broken, spilling the duke's food, wet and stained, misfortune"},
+    {text: "鼎黄耳金铉，利贞", meaning: "Cauldron with yellow handle, golden rings, beneficial to persevere"},
+    {text: "鼎玉铉，大吉无不利", meaning: "Cauldron with jade rings, great good fortune, nothing unfavorable"},
+  ],
+  51: [
+    {text: "震来虩虩，后笑言哑哑，吉", meaning: "Thunder comes with terror, then laughter, good fortune"},
+    {text: "震来厉，亿丧贝。跻于九陵，勿逐，七日得", meaning: "Thunder comes dangerously, losing wealth. Climbing the nine hills, do not chase, seven days recover"},
+    {text: "震苏苏，震行无眚", meaning: "Thunder brings trembling, acting in thunder no disaster"},
+    {text: "震遂泥", meaning: "Thunder sinks in mud"},
+    {text: "震往来厉，亿无丧有事", meaning: "Thunder coming and going dangerously, no loss but business at hand"},
+    {text: "震索索，视矍矍，征凶。震不于其躬，于其邻，无咎", meaning: "Thunder brings terror, fearful glance, acting misfortune. Thunder not at oneself but at neighbors"},
+  ],
+  52: [
+    {text: "艮其趾，无咎。利永贞", meaning: "Keeping still at the feet, no blame. Beneficial for eternal perseverance"},
+    {text: "艮其腓，不拯其随，其心不快", meaning: "Keeping still at the calf, not helping what follows, heart dissatisfied"},
+    {text: "艮其限，列其夤，厉薰心", meaning: "Keeping still at the waist, splitting the back, danger burns the heart"},
+    {text: "艮其身，无咎", meaning: "Keeping still at the torso, no blame"},
+    {text: "艮其辅，言有序，悔亡", meaning: "Keeping still at the jaw, words in order, regret vanishes"},
+    {text: "敦艮，吉", meaning: "Genuine stillness, good fortune"},
+  ],
+  53: [
+    {text: "鸿渐于干，小子厉有言，无咎", meaning: "Wild goose gradually approaches the shore, youth in danger with words, no blame"},
+    {text: "鸿渐于磐，饮食衎衎，吉", meaning: "Wild goose gradually approaches the rock, eating and drinking joyfully, good fortune"},
+    {text: "鸿渐于陆，夫征不复，妇孕不育，凶", meaning: "Wild goose gradually approaches the high ground, husband gone not returning, wife pregnant not giving birth"},
+    {text: "鸿渐于木，或得其桷，无咎", meaning: "Wild goose gradually approaches a tree, perhaps finding a branch, no blame"},
+    {text: "鸿渐于陵，妇三岁不孕，终莫之胜，吉", meaning: "Wild goose gradually approaches the hill, wife three years not pregnant, ultimately no harm, good fortune"},
+    {text: "鸿渐于逵，其羽可用为仪，吉", meaning: "Wild goose gradually approaches the skyway, its feathers can be used for ceremony, good fortune"},
+  ],
+  54: [
+    {text: "归妹以娣，跛能履，征吉", meaning: "Marrying off as a younger sister, lame but can walk, acting brings good fortune"},
+    {text: "眇能视，利幽人之贞", meaning: "One-eyed but can see, beneficial for the hermit's perseverance"},
+    {text: "归妹以须，反归以娣", meaning: "Marrying off as a concubine, returning as a younger sister"},
+    {text: "归妹愆期，迟归有时", meaning: "Marrying off delayed, the return has its time"},
+    {text: "帝乙归妹，其君之袂不如其娣之袂良。月几望，吉", meaning: "Emperor Yi's marriage, the bride's sleeves not as fine as the younger sister's"},
+    {text: "女承筐无实，士刲羊无血，无攸利", meaning: "The woman carries an empty basket, the man stabs a sheep without blood, nothing beneficial"},
+  ],
+  55: [
+    {text: "遇其配主，虽旬无咎，往有尚", meaning: "Meeting the matching master, even with delay no blame, going brings reward"},
+    {text: "丰其蔀，日中见斗。往得疑疾，有孚发若，吉", meaning: "Great covering, at noon seeing the Dipper. Going brings suspicion, sincere expression brings good fortune"},
+    {text: "丰其沛，日中见沬。折其右肱，无咎", meaning: "Great obscuring, at noon seeing small stars. Breaking the right arm, no blame"},
+    {text: "丰其蔀，日中见斗。遇其夷主，吉", meaning: "Great covering, at noon seeing the Dipper. Meeting the equal master, good fortune"},
+    {text: "来章，有庆誉，吉", meaning: "Coming brightness, celebration and praise, good fortune"},
+    {text: "丰其屋，蔀其家，窥其户，阒其无人，三岁不觌，凶", meaning: "Great house, covering the home, peeking through the door, silent and empty"},
+  ],
+  56: [
+    {text: "旅琐琐，斯其所取灾", meaning: "The wanderer petty and mean, this brings disaster upon himself"},
+    {text: "旅即次，怀其资，得童仆贞", meaning: "The wanderer at an inn, carrying wealth, acquiring loyal servants"},
+    {text: "旅焚其次，丧其童仆，贞厉", meaning: "The wanderer's inn burns, losing the servants, perseverance brings danger"},
+    {text: "旅于处，得其资斧，我心不快", meaning: "The wanderer at a place, obtaining wealth and tools, heart unsatisfied"},
+    {text: "射雉一矢亡，终以誉命", meaning: "Shooting a pheasant, one arrow lost, ultimately gaining praise and office"},
+    {text: "鸟焚其巢，旅人先笑后号咷。丧牛于易，凶", meaning: "Bird's nest burns, wanderer first laughs then weeps. Losing ox in the field"},
+  ],
+  57: [
+    {text: "进退，利武人之贞", meaning: "Advancing and retreating, beneficial for the warrior's perseverance"},
+    {text: "巽在床下，用史巫纷若，吉无咎", meaning: "Wind under the bed, using shamans and scribes, good fortune no blame"},
+    {text: "频巽，吝", meaning: "Repeated compliance, regret"},
+    {text: "悔亡，田获三品", meaning: "Regret vanishes, hunting captures three kinds of game"},
+    {text: "贞吉悔亡无不利，无初有终。先庚三日，后庚三日，吉", meaning: "Perseverance brings good fortune, nothing unfavorable, no beginning but an end"},
+    {text: "巽在床下，丧其资斧，贞凶", meaning: "Wind under the bed, losing wealth and tools, perseverance brings misfortune"},
+  ],
+  58: [
+    {text: "和兑，吉", meaning: "Harmonious joy, good fortune"},
+    {text: "孚兑，吉，悔亡", meaning: "Sincere joy, good fortune, regret vanishes"},
+    {text: "来兑，凶", meaning: "Coming joy, misfortune"},
+    {text: "商兑未宁，介疾有喜", meaning: "Discussed joy unsettled, separating illness brings happiness"},
+    {text: "孚于剥，有厉", meaning: "Sincerity in stripping, there is danger"},
+    {text: "引兑", meaning: "Drawing joy"},
+  ],
+  59: [
+    {text: "用拯马壮，吉", meaning: "Using a strong horse to rescue, good fortune"},
+    {text: "涣奔其机，悔亡", meaning: "Scattering, running to the bench, regret vanishes"},
+    {text: "涣其躬，无悔", meaning: "Scattering the self, no regret"},
+    {text: "涣其群，元吉。涣有丘，匪夷所思", meaning: "Scattering the group, great good fortune. Scattering forms a mound, beyond ordinary thought"},
+    {text: "涣汗其大号，涣王居，无咎", meaning: "Scattering like sweat, the great proclamation, scattering the king's residence, no blame"},
+    {text: "涣其血，去逖出，无咎", meaning: "Scattering the blood, going far away, no blame"},
+  ],
+  60: [
+    {text: "不出户庭，无咎", meaning: "Not leaving the courtyard, no blame"},
+    {text: "不出门庭，凶", meaning: "Not leaving the gate, misfortune"},
+    {text: "不节若，则嗟若，无咎", meaning: "Not regulating brings sighs, no blame"},
+    {text: "安节，亨", meaning: "Peaceful regulation, success"},
+    {text: "甘节，吉。往有尚", meaning: "Sweet regulation, good fortune. Going brings reward"},
+    {text: "苦节，贞凶，悔亡", meaning: "Bitter regulation, perseverance brings misfortune, regret vanishes"},
+  ],
+  61: [
+    {text: "虞吉，有它不燕", meaning: "Careful good fortune, other matters bring unease"},
+    {text: "鸣鹤在阴，其子和之。我有好爵，吾与尔靡之", meaning: "Crane calling in the shade, its young answers. I have a fine cup, I share it with you"},
+    {text: "得敌，或鼓或罢，或泣或歌", meaning: "Finding a rival, sometimes drumming, sometimes stopping, sometimes weeping, sometimes singing"},
+    {text: "月几望，马匹亡，无咎", meaning: "Moon nearly full, horse lost, no blame"},
+    {text: "有孚挛如，无咎", meaning: "Sincere and bonded, no blame"},
+    {text: "翰音登于天，贞凶", meaning: "Flying sound ascends to heaven, perseverance brings misfortune"},
+  ],
+  62: [
+    {text: "飞鸟以凶", meaning: "Flying bird brings misfortune"},
+    {text: "过其祖，遇其妣。不及其君，遇其臣，无咎", meaning: "Passing the grandfather, meeting the grandmother. Not reaching the ruler, meeting the minister"},
+    {text: "弗过防之，从或戕之，凶", meaning: "Do not exceed but guard against, following may bring harm"},
+    {text: "无咎，弗过遇之。往厉必戒，勿用永贞", meaning: "No blame, not exceeding but meeting. Going forward danger, must beware"},
+    {text: "密云不雨，自我西郊。公弋取彼在穴", meaning: "Dense clouds no rain, from the western outskirts. The duke shoots for what is in the cave"},
+    {text: "弗遇过之，飞鸟离之，凶", meaning: "Not meeting but exceeding, flying bird caught, misfortune"},
+  ],
+  63: [
+    {text: "曳其轮，濡其尾，无咎", meaning: "Drag the wheels, wet the tail, no blame"},
+    {text: "妇丧其茀，勿逐，七日得", meaning: "Woman loses her curtain, do not chase, seven days recover"},
+    {text: "高宗伐鬼方，三年克之，小人勿用", meaning: "High Emperor conquers the Demon Country, three years to overcome"},
+    {text: "繻有衣袽，终日戒", meaning: "Rags for mending, always vigilant"},
+    {text: "东邻杀牛，不如西邻之禴祭，实受其福", meaning: "East neighbor kills ox, not as good as west neighbor's simple offering"},
+    {text: "濡其首，厉", meaning: "Wetting the head, danger"},
+  ],
+  64: [
+    {text: "濡其尾，吝", meaning: "Wetting the tail, regret"},
+    {text: "曳其轮，贞吉", meaning: "Drag the wheels, perseverance brings good fortune"},
+    {text: "未济，征凶。利涉大川", meaning: "Not yet completed, acting brings misfortune. Beneficial to cross great rivers"},
+    {text: "贞吉悔亡。震用伐鬼方，三年有赏于大国", meaning: "Perseverance brings good fortune, regret vanishes. Attacking the Demon Country"},
+    {text: "贞吉无悔。君子之光，有孚吉", meaning: "Perseverance brings good fortune no regret. Noble person's radiance, sincere good fortune"},
+    {text: "有孚于饮酒，无咎。濡其首，有孚失是", meaning: "Sincere in drinking wine, no blame. Wetting the head, sincerity loses correctness"},
+  ],
+};
 
 // ============================ UTILITY ============================
 function getHexByNum(n){return hexagrams.find(h=>h.n===n)}
@@ -759,6 +1370,191 @@ document.getElementById('detailModal').addEventListener('click',function(e){
 });
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){document.getElementById('detailModal').classList.remove('open');document.body.style.overflow='';}
+});
+
+
+// ============================ LINE POSITION MODE (Yao Wei) ============================
+function getYaoPositionName(hexNum, lineIdx, lineValue) {
+  // lineValue: 1 = yang (九), 0 = yin (六)
+  const posNames = ["初", "二", "三", "四", "五", "上"];
+  const yinYang = lineValue === 1 ? "九" : "六";
+  return posNames[lineIdx] + yinYang;
+}
+
+function getLineVisualHTML(lineValue) {
+  if (lineValue === 1) {
+    return '<div class="yl yl-yang"></div>';
+  } else {
+    return '<div class="yl yl-yin"><span></span><span></span></div>';
+  }
+}
+
+function renderYaoWei(hexNum, changingArray) {
+  const h = getHexByNum(hexNum);
+  if (!h || !yaociData[hexNum]) return;
+
+  document.getElementById('yaoPlaceholder').style.display = 'none';
+  document.getElementById('yaoContent').style.display = 'block';
+
+  document.getElementById('yaoTitle').textContent = h.ch;
+  document.getElementById('yaoSubtitle').textContent = '第' + h.n + '卦 · ' + h.en + ' · ' + h.p;
+
+  const list = document.getElementById('yaoLineList');
+  list.innerHTML = '';
+
+  const lines = h.lines; // binary array
+  const yaoLines = yaociData[hexNum];
+  const hasChanges = changingArray && changingArray.some(c => c);
+
+  // Display from bottom (line 0, 初) to top (line 5, 上)
+  for (let i = 0; i < 6; i++) {
+    const pos = getYaoPositionName(hexNum, i, lines[i]);
+    const yao = yaoLines[i];
+    const isChanging = changingArray && changingArray[i];
+    const item = document.createElement('div');
+    item.className = 'yao-line-item' + (isChanging ? ' changing-line' : '');
+    item.style.animationDelay = (i * 0.1) + 's';
+
+    // Build the changing display text
+    let changeText = '';
+    if (isChanging) {
+      const newVal = lines[i] === 1 ? 0 : 1;
+      const newPos = getYaoPositionName(hexNum, i, newVal);
+      changeText = ' <span style="color:var(--accent);font-size:.7rem;font-family:var(--font-mono)">→ ' + newPos + '</span>';
+    }
+
+    item.innerHTML =
+      '<div class="yao-pos">' + pos + changeText + '</div>' +
+      '<div class="yao-line-vis">' + getLineVisualHTML(lines[i]) + '</div>' +
+      '<div class="yao-text-wrap">' +
+        '<div class="yao-text">' + yao.text + '</div>' +
+        '<div class="yao-meaning">' + yao.meaning + '</div>' +
+      '</div>';
+
+    list.appendChild(item);
+  }
+
+  // Show changing info
+  const info = document.getElementById('yaoChangingInfo');
+  if (hasChanges) {
+    let changes = [];
+    for (let i = 0; i < 6; i++) {
+      if (changingArray[i]) {
+        const oldPos = getYaoPositionName(hexNum, i, lines[i]);
+        const newVal = lines[i] === 1 ? 0 : 1;
+        const newPos = getYaoPositionName(hexNum, i, newVal);
+        changes.push(oldPos + '→' + newPos);
+      }
+    }
+    info.style.display = 'block';
+    info.innerHTML = '⚡ 变爻: ' + changes.join(' | ');
+  } else {
+    info.style.display = 'none';
+  }
+
+  // Show hexagram relationships if there are changes
+  const relDiv = document.getElementById('yaoRelationship');
+  if (hasChanges) {
+    relDiv.style.display = 'grid';
+    
+    // Original hexagram
+    document.querySelector('#relOriginal .rel-name').textContent = h.ch;
+    document.querySelector('#relOriginal .rel-desc').textContent = '第' + h.n + '卦 · ' + h.en;
+
+    // Transformed hexagram (之卦)
+    const newLines = lines.map((val, i) => changingArray[i] ? (val === 1 ? 0 : 1) : val);
+    const newIdx = newLines.reduce((s, b, i) => s + b * Math.pow(2, 5 - i), 0);
+    const newH = getHexByNum(newIdx);
+    if (newH) {
+      document.querySelector('#relChanged .rel-name').textContent = newH.ch;
+      document.querySelector('#relChanged .rel-desc').textContent = '第' + newH.n + '卦 · ' + newH.en;
+    }
+
+    // Hidden/body hexagram (体卦/互卦) - inner core: lines 2,3,4 (bottom) and 3,4,5 (top)
+    // 互卦 = 下互 (lines 1,2,3) + 上互 (lines 2,3,4) - zero-indexed
+    const lowerInner = [lines[1], lines[2], lines[3]];
+    const upperInner = [lines[2], lines[3], lines[4]];
+    const hiddenLines = [...lowerInner, ...upperInner];
+    const hiddenIdx = hiddenLines.reduce((s, b, i) => s + b * Math.pow(2, 5 - i), 0);
+    const hiddenH = getHexByNum(hiddenIdx);
+    if (hiddenH) {
+      document.querySelector('#relHidden .rel-name').textContent = hiddenH.ch;
+      document.querySelector('#relHidden .rel-desc').textContent = '第' + hiddenH.n + '卦 · ' + h.en;
+    }
+  } else {
+    relDiv.style.display = 'none';
+  }
+}
+
+// Listen for tab switch to yao mode - when switched, show current hexagram if available
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (this.dataset.tab === 'yao') {
+      // Try to get current hexagram from coin toss or yarrow
+      let hexNum = null;
+      let changing = null;
+      
+      if (coinValues && coinValues.length === 6) {
+        const idx = linesFromValues(coinValues).reduce((s, b, i) => s + b * Math.pow(2, 5 - i), 0) - 1;
+        hexNum = idx + 1;
+        changing = coinChanging;
+      } else if (yarrowState.lines && yarrowState.lines.length === 6) {
+        const idx = yarrowState.lines.reduce((s, b, i) => s + b * Math.pow(2, 5 - i), 0);
+        hexNum = idx;
+        changing = yarrowState.changing;
+      }
+      
+      if (hexNum && getHexByNum(hexNum)) {
+        renderYaoWei(hexNum, changing);
+      }
+    }
+  });
+});
+
+// Enhance openDetail to add yao-wei link in modal
+const origOpenDetail = window.openDetail;
+window.openDetail = function(n) {
+  origOpenDetail(n);
+  // Add a "查看爻位详解" button to the modal
+  const interpDiv = document.getElementById('modalInterpretation');
+  // Remove any existing yao-link
+  const existing = document.getElementById('modalYaoLink');
+  if (existing) existing.remove();
+  const yaoLink = document.createElement('button');
+  yaoLink.id = 'modalYaoLink';
+  yaoLink.textContent = '查看爻位详解';
+  yaoLink.style.cssText = 'display:block;margin:1.5rem auto 0;padding:.6rem 1.5rem;background:rgba(212,168,67,0.1);border:1px solid var(--accent2);border-radius:8px;color:var(--accent2);font-family:var(--font);font-size:.85rem;cursor:pointer;transition:all .3s';
+  yaoLink.addEventListener('click', function() {
+    // Switch to yao tab
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelector('.tab-btn[data-tab="yao"]').classList.add('active');
+    document.getElementById('tab-yao').classList.add('active');
+    // Close modal
+    document.getElementById('detailModal').classList.remove('open');
+    document.body.style.overflow = '';
+    // Render yao wei
+    renderYaoWei(n, coinChanging && coinChanging.length === 6 ? coinChanging : null);
+  });
+  interpDiv.appendChild(yaoLink);
+};
+
+// Add toggle button for judgment in yao mode
+document.getElementById('yaoJudgmentToggle').addEventListener('click', function() {
+  // Find hexagram from current data
+  let hexNum = null;
+  
+  if (coinValues && coinValues.length === 6) {
+    const idx = linesFromValues(coinValues).reduce((s, b, i) => s + b * Math.pow(2, 5 - i), 0) - 1;
+    hexNum = idx + 1;
+  } else if (yarrowState.lines && yarrowState.lines.length === 6) {
+    const idx = yarrowState.lines.reduce((s, b, i) => s + b * Math.pow(2, 5 - i), 0);
+    hexNum = idx;
+  }
+  
+  if (hexNum) {
+    openDetail(hexNum);
+  }
 });
 
 // ============================ PARTICLES ============================
