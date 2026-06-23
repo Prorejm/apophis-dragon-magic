@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>性转换魔法 · 阿波菲斯</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:rgba(255,255,245,0.87);font-family:'Noto Serif SC',serif;overflow-x:hidden;min-height:100vh}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:#d4a843;border-radius:3px}
+#particleCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.content-wrapper{position:relative;z-index:1;padding-top:80px;max-width:1200px;margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px}
+
+/* Navigation */
+.nav-bar{position:fixed;top:0;left:0;width:100%;height:64px;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:1000}
+.nav-brand{font-family:'Ma Shan Zheng',cursive;font-size:28px;color:#d4a843;cursor:pointer;letter-spacing:4px}
+.nav-links{display:flex;gap:8px;list-style:none}
+.nav-link{color:rgba(255,255,245,0.6);text-decoration:none;font-size:13px;padding:6px 14px;border-radius:4px;transition:all 0.3s;font-family:'Noto Serif SC',serif}
+.nav-link:hover,.nav-link.active{color:#d4a843;background:rgba(212,168,67,0.08)}
+.hamburger{display:none;flex-direction:column;cursor:pointer;gap:5px;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:26px;height:2px;background:#d4a843;transition:all 0.3s;border-radius:2px}
+
+/* Hero */
+.hero-section{text-align:center;padding:60px 20px 40px;position:relative}
+.hero-section h1{font-family:'Ma Shan Zheng',cursive;font-size:56px;color:#d4a843;letter-spacing:8px;text-shadow:0 0 40px rgba(212,168,67,0.3),0 0 80px rgba(196,30,58,0.15)}
+.hero-section .subtitle{font-family:'Cormorant Garamond',serif;font-size:22px;color:rgba(212,168,67,0.7);margin-top:12px;font-style:italic;letter-spacing:2px}
+.hero-section .divider{width:120px;height:1px;background:linear-gradient(90deg,transparent,#d4a843,transparent);margin:24px auto}
+.hero-section .desc{max-width:700px;margin:20px auto 0;color:rgba(255,255,245,0.6);font-size:15px;line-height:1.8}
+
+/* Tabs */
+.tab-container{margin-top:30px}
+.tab-nav{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid rgba(212,168,67,0.15);padding-bottom:0}
+.tab-btn{background:transparent;border:none;color:rgba(255,255,245,0.45);font-family:'Noto Serif SC',serif;font-size:14px;padding:12px 18px;cursor:pointer;transition:all 0.3s;border-bottom:2px solid transparent;white-space:nowrap}
+.tab-btn:hover{color:rgba(212,168,67,0.7)}
+.tab-btn.active{color:#d4a843;border-bottom-color:#d4a843}
+.tab-content{display:none;padding:40px 0;animation:fadeIn 0.5s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Content Styles */
+.tab-content h2{font-family:'Ma Shan Zheng',cursive;font-size:36px;color:#d4a843;margin-bottom:16px;letter-spacing:4px}
+.tab-content h3{font-family:'Ma Shan Zheng',cursive;font-size:24px;color:#c41e3a;margin:28px 0 12px;letter-spacing:2px}
+.tab-content h4{font-size:18px;color:#d4a843;margin:20px 0 8px;font-weight:700}
+.tab-content p{font-size:15px;line-height:1.9;color:rgba(255,255,245,0.78);margin-bottom:14px;text-indent:2em}
+.tab-content p.no-indent{text-indent:0}
+.tab-content ul,.tab-content ol{margin:10px 0 18px 2em;color:rgba(255,255,245,0.78);line-height:1.9}
+.tab-content li{margin-bottom:6px;font-size:15px}
+.tab-content .highlight-box{border-left:3px solid #d4a843;background:rgba(212,168,67,0.05);padding:16px 20px;margin:16px 0;border-radius:0 8px 8px 0}
+.tab-content .highlight-box.crimson{border-left-color:#c41e3a;background:rgba(196,30,58,0.05)}
+.tab-content .highlight-box.purple{border-left-color:#4a0e4e;background:rgba(74,14,78,0.08)}
+
+/* Principle Cards */
+.principle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:20px 0}
+.principle-card{background:rgba(212,168,67,0.04);border:1px solid rgba(212,168,67,0.15);border-radius:12px;padding:20px;transition:all 0.3s}
+.principle-card:hover{background:rgba(212,168,67,0.08);border-color:#d4a843;transform:translateY(-2px)}
+.principle-card .number{font-family:'Cormorant Garamond',serif;font-size:32px;color:#d4a843;opacity:0.6}
+.principle-card h4{font-size:15px;color:#d4a843;margin:6px 0;font-weight:700}
+.principle-card p{font-size:13px;line-height:1.7;text-indent:0}
+
+/* Timeline */
+.timeline{position:relative;padding-left:32px;margin:20px 0}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#d4a843,#c41e3a,#4a0e4e)}
+.timeline-item{position:relative;margin-bottom:24px;padding-left:20px}
+.timeline-item::before{content:'';position:absolute;left:-22px;top:6px;width:10px;height:10px;border-radius:50%;background:#d4a843;border:2px solid #0a0a0a}
+.timeline-item .year{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:#d4a843}
+.timeline-item .desc{font-size:14px;color:rgba(255,255,245,0.65);margin-top:4px;line-height:1.7}
+
+/* Figure Cards */
+.figures-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:20px 0}
+.figure-card{background:rgba(10,10,10,0.6);border:1px solid rgba(212,168,67,0.12);border-radius:12px;padding:24px;transition:all 0.3s}
+.figure-card:hover{border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.03)}
+.figure-card .f-name{font-family:'Ma Shan Zheng',cursive;font-size:22px;color:#d4a843}
+.figure-card .f-life{font-family:'Cormorant Garamond',serif;font-size:16px;color:rgba(212,168,67,0.6);margin:2px 0 8px}
+.figure-card p{font-size:14px;line-height:1.8;text-indent:0}
+.figure-card .f-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.figure-card .f-tag{padding:2px 10px;border:1px solid rgba(212,168,67,0.2);border-radius:12px;font-size:11px;color:rgba(212,168,67,0.7)}
+
+/* Comparison Table */
+.comparison-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}
+.comparison-table th,.comparison-table td{padding:12px 16px;border:1px solid rgba(212,168,67,0.15);text-align:left}
+.comparison-table th{background:rgba(212,168,67,0.08);color:#d4a843;font-weight:700}
+.comparison-table td{color:rgba(255,255,245,0.75);line-height:1.7}
+.comparison-table tr:hover td{background:rgba(212,168,67,0.03)}
+
+/* Canvas for interactive */
+.interactive-canvas{width:100%;max-width:600px;height:400px;margin:20px auto;display:block;border-radius:12px;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15)}
+
+/* Ritual Builder */
+.ritual-builder{background:rgba(74,14,78,0.08);border:1px solid rgba(74,14,78,0.3);border-radius:12px;padding:28px;margin:20px 0}
+.ritual-builder label{display:block;color:#d4a843;font-size:14px;margin-bottom:4px;margin-top:14px}
+.ritual-builder select,.ritual-builder input{width:100%;padding:10px 14px;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.2);border-radius:6px;color:rgba(255,255,245,0.87);font-family:'Noto Serif SC',serif;font-size:14px}
+.ritual-builder select option{background:#0a0a0a}
+.ritual-builder button{background:linear-gradient(135deg,#d4a843,#c41e3a);color:#0a0a0a;border:none;padding:12px 28px;border-radius:6px;font-family:'Ma Shan Zheng',cursive;font-size:18px;cursor:pointer;margin-top:18px;transition:all 0.3s;letter-spacing:2px}
+.ritual-builder button:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,30,58,0.3)}
+.ritual-output{background:rgba(10,10,10,0.6);border:1px solid rgba(212,168,67,0.15);border-radius:8px;padding:20px;margin-top:16px;min-height:100px;white-space:pre-wrap;line-height:1.8;font-size:14px;color:rgba(255,255,245,0.78)}
+
+/* Quiz */
+.quiz-container{background:rgba(10,10,10,0.6);border:1px solid rgba(212,168,67,0.15);border-radius:12px;padding:28px;margin:20px 0}
+.quiz-question{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid rgba(212,168,67,0.08)}
+.quiz-question:last-child{border-bottom:none}
+.quiz-question .q-text{font-size:15px;color:#d4a843;margin-bottom:10px;font-weight:700}
+.quiz-question .q-options{display:flex;flex-direction:column;gap:6px}
+.quiz-question .q-option{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(212,168,67,0.1);border-radius:6px;cursor:pointer;transition:all 0.2s}
+.quiz-question .q-option:hover{background:rgba(212,168,67,0.05);border-color:rgba(212,168,67,0.3)}
+.quiz-question .q-option input[type="radio"]{accent-color:#d4a843}
+.quiz-question .q-option.selected{background:rgba(212,168,67,0.08);border-color:#d4a843}
+.quiz-question .q-feedback{font-size:13px;margin-top:6px;padding:6px 12px;border-radius:4px;display:none}
+.quiz-question .q-feedback.correct{display:block;background:rgba(212,168,67,0.1);color:#d4a843}
+.quiz-question .q-feedback.wrong{display:block;background:rgba(196,30,58,0.1);color:#c41e3a}
+.quiz-score{text-align:center;padding:20px;font-family:'Cormorant Garamond',serif;font-size:28px;color:#d4a843}
+
+/* OTO Structure */
+.oto-tree{display:flex;flex-direction:column;align-items:center;gap:4px;margin:24px 0;padding:20px;background:rgba(10,10,10,0.5);border:1px solid rgba(212,168,67,0.1);border-radius:12px}
+.oto-level{display:flex;align-items:center;gap:12px;padding:8px 20px;border:1px solid rgba(212,168,67,0.12);border-radius:6px;width:100%;max-width:450px;transition:all 0.3s;cursor:pointer}
+.oto-level:hover{border-color:#d4a843;background:rgba(212,168,67,0.04)}
+.oto-level .deg{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:#d4a843;min-width:60px}
+.oto-level .name{flex:1;font-size:14px;color:rgba(255,255,245,0.8)}
+.oto-level .badge{font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(212,168,67,0.1);color:rgba(212,168,67,0.7)}
+.oto-level.highlight .deg{color:#c41e3a}
+.oto-level.highlight{background:rgba(196,30,58,0.05);border-color:rgba(196,30,58,0.3)}
+
+/* Alchemy Steps */
+.alchemy-steps{display:flex;flex-wrap:wrap;gap:20px;margin:20px 0}
+.alchemy-step{flex:1;min-width:140px;max-width:180px;text-align:center;padding:20px 12px;border:1px solid rgba(212,168,67,0.12);border-radius:12px;cursor:pointer;transition:all 0.3s;position:relative}
+.alchemy-step:hover{transform:translateY(-4px);border-color:#d4a843;box-shadow:0 8px 24px rgba(212,168,67,0.1)}
+.alchemy-step .step-num{font-family:'Cormorant Garamond',serif;font-size:36px;color:#d4a843;opacity:0.5}
+.alchemy-step .step-name{font-size:15px;color:#d4a843;margin:6px 0 4px;font-weight:700}
+.alchemy-step .step-en{font-size:11px;color:rgba(255,255,245,0.4);margin-bottom:6px;font-style:italic}
+.alchemy-step .step-desc{font-size:12px;color:rgba(255,255,245,0.6);line-height:1.6}
+.alchemy-step.active{border-color:#c41e3a;background:rgba(196,30,58,0.06);box-shadow:0 8px 24px rgba(196,30,58,0.12)}
+.alchemy-step.active .step-num{color:#c41e3a;opacity:0.8}
+
+/* Step Detail */
+.step-detail{background:rgba(10,10,10,0.6);border:1px solid rgba(212,168,67,0.12);border-radius:12px;padding:24px;margin:20px 0;min-height:120px}
+.step-detail .sd-title{font-size:20px;color:#d4a843;font-weight:700;margin-bottom:8px}
+.step-detail .sd-body{font-size:14px;line-height:1.9;color:rgba(255,255,245,0.75)}
+.step-detail .sd-body p{text-indent:2em}
+
+/* Figure Relation Canvas */
+#relationCanvas{width:100%;height:500px;margin:20px auto;display:block;border-radius:12px;background:rgba(10,10,10,0.8);border:1px solid rgba(212,168,67,0.15)}
+
+/* Responsive */
+@media(max-width:768px){
+  .nav-links{position:fixed;top:64px;left:0;width:100%;background:rgba(10,10,10,0.96);flex-direction:column;padding:16px 24px;gap:4px;display:none;border-bottom:1px solid rgba(212,168,67,0.15)}
+  .nav-links.open{display:flex}
+  .hamburger{display:flex}
+  .hero-section h1{font-size:36px}
+  .tab-btn{font-size:12px;padding:10px 12px}
+  .tab-content{padding:24px 0}
+  .tab-content h2{font-size:28px}
+  .principle-grid{grid-template-columns:1fr 1fr}
+  .figures-grid{grid-template-columns:1fr}
+  .alchemy-steps{justify-content:center}
+  .alchemy-step{min-width:120px;max-width:140px}
+}
+
+@media(max-width:480px){
+  .hero-section h1{font-size:28px}
+  .principle-grid{grid-template-columns:1fr}
+  .tab-btn{font-size:11px;padding:8px 10px}
+  .comparison-table{font-size:12px}
+  .comparison-table th,.comparison-table td{padding:8px 10px}
+}
+
+/* Loading shimmer */
+.section-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,168,67,0.3),transparent);margin:32px 0}
+.gold-text{color:#d4a843}
+.crimson-text{color:#c41e3a}
+.purple-text{color:#4a0e4e}
+.small-text{font-size:12px;color:rgba(255,255,245,0.4)}
+.quote-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(212,168,67,0.7);text-align:center;padding:20px 40px;border-left:2px solid rgba(212,168,67,0.2);border-right:2px solid rgba(212,168,67,0.2);margin:20px 0;line-height:1.7}
+</style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link active">性魔法</a>
+</nav>
+
+<div class="content-wrapper">
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <h1>性 转 换 魔 法</h1>
+    <div class="subtitle">Sex Magic &bull; Sexual Alchemy &bull; Sexual Transmutation</div>
+    <div class="divider"></div>
+    <p class="desc">性是最原始的生命力之源。在魔法传统的深处，性能量被视为通向超越性意识、实现意志转化和接触神圣领域的最强力量之一。本专题系统梳理从古代密宗到现代西方神秘学的性魔法传统。</p>
+  </section>
+
+  <!-- Tab Navigation -->
+  <div class="tab-container">
+    <div class="tab-nav" id="tabNav">
+      <button class="tab-btn active" data-tab="overview">性魔法概论</button>
+      <button class="tab-btn" data-tab="eastern">东方法源</button>
+      <button class="tab-btn" data-tab="oto">OTO与克劳利</button>
+      <button class="tab-btn" data-tab="western">西方传统</button>
+      <button class="tab-btn" data-tab="ritual">仪式与实践</button>
+      <button class="tab-btn" data-tab="alchemy">炼金术与性</button>
+      <button class="tab-btn" data-tab="lhp">左路与性魔法</button>
+    </div>
+
+    <!-- ==================== TAB 1: OVERVIEW ==================== -->
+    <div class="tab-content active" id="tab-overview">
+      <h2>性魔法概论</h2>
+
+      <h3>性即魔法</h3>
+      <p>性魔法(Sex Magic)，又称性炼金术(Sexual Alchemy)或性转化(Sexual Transmutation)，是西方神秘学传统中最为隐秘也最为强大的分支之一。其核心信念简洁而震撼：<strong class="gold-text">性即是魔法</strong>。性能量不仅仅是生殖繁衍的生物学驱力，更是一种可被引导、转化和注入魔法意图的原始生命力量。</p>
+
+      <p>在几乎所有古老文明的神话和仪式中，性与神圣不可分割。印度教的林伽与约尼、道家阴阳交合、希腊秘仪中的性象征——它们都指向同一个真理：性体验是普通人类意识与超越性意识之间的天然桥梁。性魔法之所以在西方被冠以"左道"(Left-Hand Path)的标签，恰恰因为它触及了文明社会最深层的禁忌，并敢于在其中寻找力量。</p>
+
+      <p>与传统魔法不同，性魔法不依赖复杂的咒语或昂贵的仪式道具。它依赖的是每一个人与生俱来的——性的能量。但性魔法也绝非简单的性行为；它是高度意志化、目标化的内在炼金术。从业者需要通过对性能量的认知、控制和转化，将这股最原始的驱力锻造成魔法意志的利刃。</p>
+
+      <div class="highlight-box">
+        <p style="text-indent:0;margin:0;font-size:14px"><strong>性魔法根本教义：</strong> 性高潮不仅是生理现象，更是一种天然的"灵知状态"(Gnostic State)——在那极为短暂的瞬间，思维止息，意志纯粹，人类触及了意识与潜意识之间的阈限空间。若能在此刻植入一个清晰的魔法意图，它将直接铭刻在灵魂的最深处。</p>
+      </div>
+
+      <h3>性魔法五大原则</h3>
+      <div class="principle-grid">
+        <div class="principle-card">
+          <div class="number">I</div>
+          <h4>原始生命力</h4>
+          <p>性力(sex energy)是最原始的生命力，是所有创造力、灵感和精神力量的生物根源。没有性能量的参与，任何魔法都缺乏真正的"火力"。</p>
+        </div>
+        <div class="principle-card">
+          <div class="number">II</div>
+          <h4>意志转化</h4>
+          <p>性力可以通过意志进行转化和升华。正如道家所说"顺则凡，逆则仙"，性能量可以被引导向上，从低层次的欲望转化为高层次的魔法动力。</p>
+        </div>
+        <div class="principle-card">
+          <div class="number">III</div>
+          <h4>意识门户</h4>
+          <p>性高潮是进入意识改变状态的天然门户。在这一状态中，头脑的喋喋不休暂时停止，潜意识的大门敞开，适合进行深度魔法工作。</p>
+        </div>
+        <div class="principle-card">
+          <div class="number">IV</div>
+          <h4>注入意图</h4>
+          <p>性能量可以像燃料一样注入魔法目标和意图中。通过对性能量的引导和聚焦，魔法师能够为自己的意志提供巨大的能量支持。</p>
+        </div>
+        <div class="principle-card">
+          <div class="number">V</div>
+          <h4>专注与禁欲</h4>
+          <p>性魔法的效果与专注力和禁欲时间成正比。禁欲期间积累的性能量越多、越精纯，释放时的魔法威力就越强大。这是"蓄能"的基本法则。</p>
+        </div>
+      </div>
+
+      <h3>历史发展时间线</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="year">约公元前3000年</div>
+          <div class="desc">印度河谷文明出现最早的林伽崇拜，性仪式与丰收祭典融合，奠定了密宗性魔法的原始基础。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">约公元前1500年</div>
+          <div class="desc">《梨俱吠陀》记载宇宙原人Purusha的创世献祭，其中隐含性能量与宇宙创生的对应关系。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">约公元前600年</div>
+          <div class="desc">奥义书传统明确阐述昆达里尼能量和脉轮系统，为密宗性魔法提供了完整的能量解剖学基础。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">约公元200年</div>
+          <div class="desc">中国道家房中术在魏晋时期达到鼎盛，《素女经》《玄女经》等经典确立了阴阳采补的理论体系。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">约600年</div>
+          <div class="desc">印度左道密宗(Vamachara)兴起，五M仪式(酒、肉、鱼、谷物、性结合)在阿萨姆等地秘密传承。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1855年</div>
+          <div class="desc">Paschal Beverly Randolph开始系统化西方性魔法，融合东方密宗与西方玫瑰十字传统，创立"Ansairetic神秘"。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1906年</div>
+          <div class="desc">Theodor Reuss将性魔法引入Ordo Templi Orientis(OTO)，将IX度(第九等级)确立为性魔法工作等级。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1912年</div>
+          <div class="desc">Aleister Crowley成为OTO国际领袖，将性魔法系统化并融入《法之书》的Thelema哲学体系。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1927年</div>
+          <div class="desc">Crowley发表《圣蛇仪式》(Star Sapphire)和《巴比伦圣女》，成为OTO XI度性魔法的核心仪式文本。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1930年代</div>
+          <div class="desc">Julius Evola撰写《密宗：性与超越的形而上学》，从传统主义立场重新诠释性魔法的哲学意义。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1950年代</div>
+          <div class="desc">Austin Osman Spare发展出基于性高潮的Sigil魔法体系，将性魔法与自动书写和潜意识技术结合。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">1970年代</div>
+          <div class="desc">Kenneth Grant创立Typhonian传统，将性魔法与外星接触、深渊穿越和Qliphoth工作融合。</div>
+        </div>
+        <div class="timeline-item">
+          <div class="year">当代</div>
+          <div class="desc">性魔法在当代LHP和混沌魔法中得到广泛传播和发展，数字化时代的性魔法实践也悄然兴起。</div>
+        </div>
+      </div>
+
+      <h3>关键人物</h3>
+      <div class="figures-grid">
+        <div class="figure-card">
+          <div class="f-name">Paschal Beverly Randolph</div>
+          <div class="f-life">1825-1875</div>
+          <p>美国神秘学者、灵媒和作家。被公认为第一位系统化西方性魔法的实践者。他在游历欧洲和中东后创立了"Ansairetic Mystery"，将东方性知识与西方玫瑰十字传统融合。他也是最早将性魔法用作爱情婚姻咨询的从业者。</p>
+          <div class="f-tags"><span class="f-tag">Ansairetic Mystery</span><span class="f-tag">爱情魔法</span><span class="f-tag">玫瑰十字</span></div>
+        </div>
+        <div class="figure-card">
+          <div class="f-name">Theodor Reuss</div>
+          <div class="f-life">1855-1923</div>
+          <p>德国神秘学家、OTO创始人。他在1906年将性魔法引入OTO等级体系，从印度密宗和英国性神秘学中汲取灵感，设计了OTO IX度的性魔法工作。他的性魔法思想深刻地影响了后来的Crowley。</p>
+          <div class="f-tags"><span class="f-tag">OTO创始人</span><span class="f-tag">IX度</span><span class="f-tag">密宗融合</span></div>
+        </div>
+        <div class="figure-card">
+          <div class="f-name">Aleister Crowley</div>
+          <div class="f-life">1875-1947</div>
+          <p>英国神秘学家、Thelema创始人、OTO领袖。他将性魔法从单纯的性仪式提升为完整的魔法哲学体系。他的《法之书》《Magick in Theory and Practice》等作品详细阐述了性魔法的理论基础和实践方法。</p>
+          <div class="f-tags"><span class="f-tag">Thelema</span><span class="f-tag">XI度</span><span class="f-tag">圣蛇仪式</span></div>
+        </div>
+        <div class="figure-card">
+          <div class="f-name">Julius Evola</div>
+          <div class="f-life">1898-1974</div>
+          <p>意大利传统主义哲学家。他在《密宗：性与超越的形而上学》中从传统主义视角重新解读性魔法，批判现代社会的性堕落，倡导性作为超越和觉醒的工具而非放纵。</p>
+          <div class="f-tags"><span class="f-tag">传统主义</span><span class="f-tag">密宗哲学</span><span class="f-tag">超越</span></div>
+        </div>
+        <div class="figure-card">
+          <div class="f-name">Kenneth Grant</div>
+          <div class="f-life">1924-2011</div>
+          <p>英国神秘学家、Typhonian OTO领袖。他创造性地将性魔法与外星接触、洛夫克拉夫特的宇宙恐怖、以及卡巴拉中的Qliphoth(另一侧)结合起来，形成了独特的Typhonian传统。</p>
+          <div class="f-tags"><span class="f-tag">Typhonian</span><span class="f-tag">外星接触</span><span class="f-tag">Qliphoth</span></div>
+        </div>
+        <div class="figure-card">
+          <div class="f-name">Austin Osman Spare</div>
+          <div class="f-life">1886-1956</div>
+          <p>英国艺术家和神秘学家，被誉为"20世纪最被低估的魔法师"。他将在性高潮中自动书写出sigil(符印)的技术发扬光大，创立了Zos Kia Cultus体系，其性-意识-艺术三位一体的方法深刻影响了混沌魔法。</p>
+          <div class="f-tags"><span class="f-tag">Zos Kia Cultus</span><span class="f-tag">Sigil魔法</span><span class="f-tag">自动书写</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: EASTERN ==================== -->
+    <div class="tab-content" id="tab-eastern">
+      <h2>东方法源</h2>
+
+      <h3>印度密宗传统</h3>
+
+      <h4>Shiva-Shakti二元性</h4>
+      <p>印度密宗(Tantra)的宇宙观建立在Shiva(希瓦)与Shakti(沙克蒂)的永恒结合之上。Shiva代表纯粹的静态意识——不动、旁观、超越一切属性的绝对实在。Shakti代表动态的宇宙能量——创造、维持和毁灭宇宙的主动力量。两者并非分离的神祇，而是同一终极实在的两个不可分割的面向。</p>
+
+      <p>在密宗的象征体系中，Shiva与Shakti的结合不仅是形而上的原则，也是性魔法最深刻的宇宙论基础。Shiva是林伽(Linga)，Shakti是约尼(Yoni)，两者的结合是所有创造活动的原型。性魔法从业者将自己视为这对宇宙情侣的人间化身——男性体内有Shiva的种子，女性体内有Shakti的能量，当两者在性结合中相遇，就在肉身层面再现了宇宙创生的原始运动。</p>
+
+      <div class="highlight-box">
+        <p style="text-indent:0;margin:0;font-size:14px"><strong>核心洞见：</strong> 性不是"为了"生育或快乐才存在的低级活动。性就是Shiva-Shakti永恒的宇宙之舞在人类层面的缩影。每一次真正的性结合都是一次宇宙创生事件的微型重演。</p>
+      </div>
+
+      <h4>昆达里尼(Kundalini)能量</h4>
+      <p>昆达里尼是密宗性魔法中最核心的能量概念。它被描述为沉睡在脊椎底部的盘绕之蛇(通常位于海底轮/Muladhara)，代表着个体体内潜在的神性力量。昆达里尼的"觉醒"和"上升"是密宗修行的最高目标。</p>
+
+      <p>值得注意的是，昆达里尼虽然源于脊椎底部(与性器官部位对应)，但它绝不仅仅是"性能量"的简单等同。昆达里尼是包含性能量在内的全部生命力的潜在形态。当它被唤醒后，沿着脊椎向上穿越各个脉轮，最终到达顶轮(Sahasrara)，修行者便获得解脱(enlightenment)和神性合一。</p>
+
+      <p>在性魔法的语境中，昆达里尼的上升可以通过有意识的性实践来激活。高潮时刻的能量迸发可以被视为昆达里尼"苏醒"的瞬间——如果从业者能够在此刻通过意志将这股能量沿着脊椎向上引导，而非让其通过正常途径向下释放，则可实现性炼金术中的"能量转化"。</p>
+
+      <h4>脉轮系统</h4>
+      <p>脉轮(Chakra)是密宗能量解剖学的核心结构。人体被描述为拥有七个主要脉轮，从脊椎底部延伸到头顶，每个脉轮对应特定的意识层次和生命面向：</p>
+      <ul>
+        <li><strong>海底轮(Muladhara)</strong>——位于会阴处，对应生存本能和昆达里尼的沉睡之所，红色能量漩涡</li>
+        <li><strong>腹轮(Svadhisthana)</strong>——位于下腹部，对应性欲、创造力和情感，橙色能量</li>
+        <li><strong>脐轮(Manipura)</strong>——位于太阳神经丛，对应个人力量、意志和转化，黄色能量</li>
+        <li><strong>心轮(Anahata)</strong>——位于胸腔中部，对应爱与慈悲，绿色能量——性能量上升到此处将转化为普世之爱</li>
+        <li><strong>喉轮(Vishuddha)</strong>——位于喉部，对应沟通和真理表达，蓝色能量</li>
+        <li><strong>眉心轮(Ajna)</strong>——位于两眉之间，对应直觉和超感知，靛蓝色——第三眼</li>
+        <li><strong>顶轮(Sahasrara)</strong>——位于头顶，对应宇宙合一和解脱，紫色/白色能量——最终的觉醒</li>
+      </ul>
+      <p>在性魔法实践中，脉轮系统提供了一个精细的"能量地图"。从业者可以感知性能量在脉轮之间的流动，并有意识地引导它从低层脉轮(海底轮、腹轮)向上层脉轮(心轮、眉心轮、顶轮)移动。这个过程本身就是一种内在的炼金术——将粗重的性能量转化为精微的精神力量。</p>
+
+      <h4>左道密宗(Vamachara)的五M仪式</h4>
+      <p>左道密宗(Vamachara)是印度密宗中最具争议的分支。"Vamachara"意为"左手之道"，与"右手之道"(Dakshinachara)相对。五M仪式(Panchamakara)是左道密宗的核心实践，其名称来源于梵文中五个以"M"开头的仪式元素：</p>
+      <ul>
+        <li><strong>Madya</strong>(酒)——打破清醒意识的控制</li>
+        <li><strong>Mamsa</strong>(肉)——超越肉食禁忌</li>
+        <li><strong>Matsya</strong>(鱼)——象征水生繁衍力</li>
+        <li><strong>Mudra</strong>(谷物/手势)——象征生命循环</li>
+        <li><strong>Maithuna</strong>(性结合)——最终的仪式高潮</li>
+      </ul>
+      <p>五M仪式的核心逻辑是通过系统性地打破社会禁忌来创造一种"超越性的意识状态"——当修行者超越了对这些禁忌的恐惧和执着，他们的意识就进入了一个更自由、更开阔的层面。而这个过程的顶点——Maithuna(性结合)——就是在最深刻的禁忌之地寻找神圣。这与西方性魔法的精神有着惊人的共鸣。</p>
+
+      <div class="section-divider"></div>
+
+      <h3>中国房中术</h3>
+
+      <h4>道家阴阳调和</h4>
+      <p>中国的性魔法传统——房中术——建立在道家阴阳哲学的基础之上。阴阳是宇宙的根本二元性力量：阴代表被动、黑暗、女性、寒冷和接纳；阳代表主动、光明、男性、温暖和向外。阴阳并非对立，而是互补和互相转化的。在性领域，男女之间的交合就是阴阳最直接、最自然的互动形式。</p>
+
+      <p>道家房中术的根本原则不是"纵欲"或"禁欲"，而是"调阴阳"和"合气血"。通过正确的性实践，男性可以平衡体内的过阳，女体可以充盈不足之阴。当阴阳在性结合中达到真正的平衡，双方的健康、寿命和精神状态都会得到显著提升。《黄帝内经》云："阴阳者，天地之道也，万物之纲纪，变化之父母，生杀之本始。"</p>
+
+      <h4>采补之术</h4>
+      <p>采补是房中术中最具争议也最广为人知的概念。"采"指采集，"补"指补充——通过特定的性技法和呼吸控制从对方身上获取精气和能量来滋补自身。这种技术在历史上曾被世俗化为"采阴补阳"或"采阳补阴"的单向掠夺，但在真正的道家修炼传统中，它强调的是互惠互利——双方在交流中同时获得滋养。</p>
+
+      <p>采补的技术核心在于男女之间的"气"的交换。在性兴奋和性高潮时刻，人体的气场和能量流动达到最高峰。通过眼神交会、呼吸同步和特定体位的配合，能量可以在双方之间形成一个循环。男性的阳气和女性的阴气在这个循环中相互融合、相互强化，产生出远超单打独斗的修炼效果。</p>
+
+      <h4>河车运转</h4>
+      <p>河车运转是道家内丹术中的重要概念，来源于对身体内能量循环路线的描述。"河车"指古代的水车，象征着能量沿着身体中轴的上下升降。在小周天功中，能量从丹田(下腹部)沿着督脉(背部中线上行)上升至头顶，然后沿着任脉(胸腹部中线下行)回到丹田。</p>
+
+      <p>在性魔法语境中，河车运转提供了一个性能量转化的具体技术模型。当性能量被激发后，不任由其以常规方式消散，而是通过提肛、收腹、屏息和意念引导，将这股能量沿着脊椎(督脉)向上提拉到头顶甚至更高处，然后经过前胸(任脉)回到丹田。这个循环过程实现了性炼金术中的"蒸馏"——将粗重的性力转化为精微的灵性力量。</p>
+
+      <h4>还精补脑</h4>
+      <p>"还精补脑"是道家房中术中最著名的概念之一，也常被西方学者称为"男性性炼金术"的核心技术。其字面意思是将精液(或精气)通过能量通道回送至大脑，以滋养中枢神经系统和高级精神功能。比起单纯的生物化学解释，在魔法传统中，还精补脑更被理解为一种能量转化的象征——将精华的生命力从低级用途(生殖)升华到高级用途(精神觉醒)。</p>
+
+      <p>在技术层面，还精补脑可以通过多种方法实现，包括在接近高潮时通过特定的肌肉收缩和呼吸控制来阻止射精(或截断性能量的外泄)，配合意念引导将能量向上运送。重要的是，这不是简单的"忍住不射"，而是通过长期的修炼培养出一种对性能量的精细感知和引导能力。那些掌握了还精补脑技术的修行者，据说能够在不消耗能量的情况下获得性结合的全部精神益处——能量在体内循环而非外溢。</p>
+
+      <div class="section-divider"></div>
+
+      <h3>对比：印度密宗 vs 道家性魔法</h3>
+      <table class="comparison-table">
+        <thead>
+          <tr><th>维度</th><th>印度密宗(Tantra)</th><th>中国道家房中术</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>哲学基础</td><td>Shiva-Shakti二元性，宇宙即性结合</td><td>阴阳调和，道法自然</td></tr>
+          <tr><td>核心能量</td><td>昆达里尼(Kundalini)——螺旋上升的神性之蛇</td><td>气(Qi)——循环流动的生命精微</td></tr>
+          <tr><td>解剖模型</td><td>脉轮(Chakra)——七重能量中心</td><td>经络/丹田——气血循环通路</td></tr>
+          <tr><td>目标</td><td>解脱(Moksha)——超越轮回</td><td>长生久视——寿命和健康提升</td></tr>
+          <tr><td>性角色</td><td>性是觉醒和解脱的工具</td><td>性是调和阴阳、养生长寿的途径</td></tr>
+          <tr><td>技术重点</td><td>能量的唤醒和上升</td><td>精气的蓄养和循环</td></tr>
+          <tr><td>态度</td><td>打破禁忌以获得超越性意识</td><td>节欲有度以维护健康平衡</td></tr>
+          <tr><td>对社会规范</td><td>左道直接挑战社会禁忌</td><td>通常与社会规范保持和谐</td></tr>
+        </tbody>
+      </table>
+
+      <h3>昆达里尼脉轮图</h3>
+      <p style="text-indent:0">下方交互式Canvas展示了人体的七个主要脉轮。悬停(hover)或点击每个脉轮可查看详细信息。</p>
+      <canvas id="chakraCanvas" class="interactive-canvas"></canvas>
+    </div>
+
+    <!-- ==================== TAB 3: OTO ==================== -->
+    <div class="tab-content" id="tab-oto">
+      <h2>OTO 与 克劳利</h2>
+
+      <h3>Ordo Templi Orientis 的历史</h3>
+      <p>Ordo Templi Orientis(东方圣殿骑士团，简称OTO)是20世纪最具影响力的西方神秘学组织之一，也是性魔法在西方世界系统化传承的主要载体。OTO由Theodor Reuss和Karl Kellner于1902年至1906年间在德国创立。Kellner曾赴印度学习密宗经验，并与一位精通性魔法的阿拉伯神秘学家有过深入交流，这些经历为OTO独特的性魔法体系奠定了基石。</p>
+
+      <p>OTO最初被设计为一个包含九重等级的共济会风格组织，每个等级对应特定的魔法知识和实践。不同于许多神秘学组织将性议题严格排除在外的做法，OTO从一开始就明确将性魔法——尤其是被称为"神圣性魔法"(Sacred Sex Magic)的实践——作为其高级等级的核心工作。这在当时的西方神秘学界无疑是一个革命性的举措。</p>
+
+      <p>1912年，Aleister Crowley被Theodor Reuss引入OTO，并很快成为该组织的国际领袖。Crowley的加入彻底改变了OTO的发展轨迹。他将自己的Thelema哲学体系融入到OTO的等级结构中，将性魔法从一套实践方法升华为完整的魔法世界观。</p>
+
+      <h3>Theodor Reuss与密宗性魔法的引入</h3>
+      <p>Reuss在OTO的创立中扮演了关键角色。他早年研究印度教和佛教经典，并对左道密宗(Vamachara)有着浓厚的兴趣。1902年，Reuss在伦敦结识了英国性神秘学家Hargrave Jennings，后者关于性魔法和古代生殖崇拜的著作对Reuss产生了深远影响。</p>
+
+      <p>Reuss相信，在所有宗教和神秘传统的核心深处，都隐藏着一个"性秘密"——即性能量是通往神圣意识的最直接途径。他的OTO性魔法体系混合了印度密宗的脉轮-昆达里尼理论、西方玫瑰十字的炼金术象征，以及共济会的等级仪式框架。Reuss将这种融合称为"爬虫之火"(Fire of the Serpent)——即昆达里尼在西方神秘学语境中的对应物。</p>
+
+      <p>然而，Reuss的性魔法体系相对来说较为简单和实验性。真正将OTO性魔法推向完整和系统化的，是他的继任者——Aleister Crowley。</p>
+
+      <h3>XI度(第十一等级)的工作内容</h3>
+      <p>在Crowley重构的OTO等级体系中，性魔法主要分布在三个最高的等级中：VIII度、IX度和XI度。其中，XI度(第十一等级)是最具争议也最为特殊的性魔法等级。</p>
+
+      <p>IX度(第九等级)的工作核心是"异性性魔法"——即男性和女性从业者的性结合，通过阴阳能量的交流来实现魔法的目的。这是最经典的性魔法形式，其象征对应的是Shiva与Shakti的结合、炼金术中红王与白后的化学婚礼。</p>
+
+      <p>而XI度(第十一等级)则涉及"同性性魔法"和"自淫性魔法"(mas-turbatory magic)。Crowley认为，性魔法可以在任何性取向和任何性表达形式中发挥作用。XI度的工作挑战了从业者对性本身的执着——将性从生育和快乐的传统束缚中解放出来，使其成为纯粹的魔法工具。Crowley曾指出，XI度的本质是"通过性来超越性本身"。</p>
+
+      <p>VIII度(第八等级)则更为隐秘，涉及禁欲和独身的性炼金术——通过完全不释放(或极为节制的释放)来积累和转化性力。这三个等级构成了OTO性魔法体系的完整光谱：从禁欲(积累)到结合(交流)再到释放(投射)。</p>
+
+      <div class="highlight-box">
+        <p style="text-indent:0;margin:0;font-size:14px"><strong>Crowley的名言：</strong> "Magick is the Science and Art of causing Change to occur in conformity with Will."（魔法是使变化依照意志发生的科学与艺术。）而性魔法，则是这一原则在人类最深处、最强大的能量层面的应用。</p>
+      </div>
+
+      <h3>《法之书》中的性魔法</h3>
+      <p>Crowley的《法之书》(Liber AL vel Legis)是Thelema哲学的核心经典。虽然这部只有三章的作品表面上没有直接讨论性魔法，但其中充满了性象征和性魔法隐喻。最著名的是第三章中关于"巴比伦圣女"(Babalon/Whore of Babylon)的描绘——她骑乘七头十角之兽，手持淫乱之杯，是所有性魔法力量的人格化象征。</p>
+
+      <p>Crowley将《法之书》的核心教义总结为"做你想做的即是全部法则"——这一原则直接应用于性魔法领域：从业者必须清楚自己真正想要什么，然后将这一想要(Will)注入性魔法的实践中。没有清晰意志的性行为只是肉体的消耗；有清晰意志的性行为就是最高形式的魔法。</p>
+
+      <h3>巴比伦圣女的仪式</h3>
+      <p>巴比伦圣女(Babalon)在Crowley的性魔法体系中占据着核心地位。她既是性解放的象征，也是超越二元性的人类潜能化身。巴比伦圣女的仪式被称为"圣女仪式"或"星之圣杯仪式"，是OTO XI度工作中最具代表性的仪式之一。</p>
+
+      <p>在这个仪式中，扮演"圣女"的从业者(通常为女性，但也可以由男性扮演)通过一系列特定的性魔法技术进入一种意识改变状态。在这种状态中，她不再是普通的个人，而是宇宙性能量——沙克蒂——的具身化容器。她的爱人/搭档则充当Shiva的角色，将纯粹的意志投入这个能量的容器之中。两者的结合在肉体、能量和意识三个层面上同步发生。</p>
+
+      <h3>月亮的孩子们</h3>
+      <p>"月亮的孩子们"(Children of the Moon)是Crowley在其作品《月亮的孩子们》中描述的一个性魔法团体——或者更准确地说，是他构想的一个性修炼社群的原型。这个社群以性魔法为核心修习内容，但其目标不是享乐或放纵，而是通过性来达到集体意识的超越状态。</p>
+
+      <p>月亮的孩子们的实践融合了音乐、舞蹈、仪式和性魔法。他们相信，当一群人同时进入性魔法的"灵知状态"时，集体意识层面会发生一种"共鸣效应"——每个人的能量场相互交织和放大，产生出远超个人工作所能达到的魔法效果。这种群体性魔法实践后来被许多现代神秘学团体借鉴。</p>
+
+      <h3>圣蛇仪式(Star Ruby / Star Sapphire)</h3>
+      <p>Crowley创作了两个相互关联的仪式——"圣红仪式"(Star Ruby)和"圣蓝仪式"(Star Sapphire)——作为OTO性魔法的核心仪式文本。圣红仪式主要涉及基础的魔法防护和能量净化，是性魔法开始前的预备性工作。圣蓝仪式则直接涉及性魔法的核心操作。</p>
+
+      <p>圣蓝仪式的文本使用高度象征性的语言——"欲望之蛇"、"巴比伦之杯"、"星星的闪耀"——来引导从业者进入性魔法的工作状态。仪式中，从业者通过特定的咒语吟唱、手势(mudra)和能量可视化技术，将性能量从低层的欲望转化为高层的魔法意志。Crowley写道："圣蓝仪式是所有仪式中最有力的——因为它触及了所有力量的最深层根源。"</p>
+
+      <h3>OTO等级体系展示</h3>
+      <p style="text-indent:0">点击下方等级卡可查看详细信息。</p>
+      <div id="otoTreeContainer" style="margin:20px 0"></div>
+    </div>
+
+    <!-- ==================== TAB 4: WESTERN ==================== -->
+    <div class="tab-content" id="tab-western">
+      <h2>西方传统</h2>
+
+      <h3>Paschal Beverly Randolph (1825-1875)</h3>
+      <p>在西方神秘学史上，Paschal Beverly Randolph是一位被严重低估的人物。他是第一位系统化性魔法的西方实践者，比Crowley和OTO早了整整半个世纪。Randolph出生在美国纽约，拥有非洲裔、欧洲裔和美洲原住民的血统。他年轻时成为一名灵媒和催眠师，并在欧洲和中东游历多年，期间接触到了东方的性神秘学知识。</p>
+
+      <h4>Ansairetic Mystery</h4>
+      <p>Randolph自创的"Ansairetic Mystery"体系融合了玫瑰十字会的炼金术传统、东方密宗的性能量学说，以及他个人通过灵媒实践获得的"洞见"。Ansairetic的核心教义是：性是人类最强大的魔法力量，但只有通过正确的引导和净化，这股力量才能被转化为魔法意志。</p>
+
+      <p>不同于Reuss和Crowley的公开(或半公开)态度，Randolph始终对性魔法的传授保持警惕。他相信性魔法的知识不能也不应该被广泛传播——它只能在经过严格筛选和准备的学生之间秘密传递。这种谨慎态度使得他的教导大多以口传和私人书信的形式流传，这在某种程度上造成了他在神秘学历史上的被忽视。</p>
+
+      <h4>爱情魔法和婚姻顾问</h4>
+      <p>Randolph的一个独创性贡献是将性魔法应用于爱情和婚姻咨询。他是西方世界第一位将性魔法用于"实用"目的的职业神秘学家。他的客户——主要是维多利亚时代的中上层阶级——寻求他的帮助来解决婚姻中的性不和谐、不育问题以及在爱情中吸引特定伴侣的问题。</p>
+
+      <p>Randolph将"Ansairetic Mystery"中的原理——通过意志引导性力——转化为实用的爱情魔法技术。他会为客户定制特定的仪式、冥想和"性处方"，以一种当时极为罕见的直白和专业态度讨论性议题。这在维多利亚时代的道德环境中无疑是极为前卫的。</p>
+
+      <div class="section-divider"></div>
+
+      <h3>Kenneth Grant (1924-2011)</h3>
+      <p>Kenneth Grant是20世纪后半叶最具原创性的西方神秘学家之一。他是Aleister Crowley的私人秘书和亲密门徒，在Crowley生命的最后几年中负责照料这位"伟大野兽"的生活和工作。Crowley去世后，Grant创立了Typhonian OTO——一个与传统OTO存在重大差异的独立组织。</p>
+
+      <h4>Typhonian Tradition</h4>
+      <p>Typhonian传统以埃及女神Typhon(赛特神的女性面)命名，融合了Crowley的Thelema、洛夫克拉夫特的宇宙恐怖(Cosmic Horror)、以及古代埃及的神秘学传统。在这个体系中，性魔法不再只是个人意志的实现工具，更是一种与"非人类智能"(Non-Human Intelligences)接触的方法。</p>
+
+      <p>Grant在其代表作《夜之面》(Outside the Circles of Time)和《黑暗中的星星》(Nightside of Eden)中详细阐述了他的性魔法宇宙观。他认为，性高潮时的意识改变状态使人能够突破常规现实的面纱，接触到大洋彼岸(Abyss of the Outer Space)的实体——那些被洛夫克拉夫特称为"旧日支配者"(Great Old Ones)的星际存在。</p>
+
+      <h4>性魔法与外星接触</h4>
+      <p>Grant的性魔法体系中最具争议的方面是他关于性魔法能够引发"外星接触"的主张。他相信，某些特定的性魔法仪式——特别是涉及深度意识改变和性能量大量释放的仪式——可以在时空结构中打开"门户"，使得来自其他维度或星系的实体得以与人类从业者建立联络。</p>
+
+      <p>这种观点在当时被主流神秘学界视为怪诞的科幻想象，但在近年来——随着UFO学(crash retrieval program)和"迷幻外星接触"研究的兴起——Grant的理论被重新审视。一些研究者认为，Grant的Typhonian性魔法体系可能是西方神秘学传统中最早认真对待"非人类智能接触"问题的系统性尝试。</p>
+
+      <h4>Qliphoth的工作</h4>
+      <p>在卡巴拉传统中，Qliphoth(壳/另一侧)是生命之树的"黑暗面"——未被净化的能量和意识的残余碎片。传统卡巴拉学者通常警告人们避免接触Qliphoth，将其视为邪恶或不洁的能量。但Grant——受Crowley的影响——将Qliphoth视为未被探索的意识领域，蕴含着巨大的潜在力量。</p>
+
+      <p>Grant的Qliphoth性魔法工作涉及穿越生命之树上被称为"深渊"(Abyss)的阈限，探索位于生命之树"另一侧"的黑暗脉轮和能量中心。他描绘了与Qliphoth对应的"黑暗昆达里尼"——一条向下的、蜿蜒进入潜意识深层(而非向上通往神性)的蛇。这种"下行"的工作方法——不同于传统密宗的"上行"昆达里尼——是Grant性魔法体系中最独特的特征之一。</p>
+
+      <div class="section-divider"></div>
+
+      <h3>Julius Evola (1898-1974)</h3>
+      <p>意大利传统主义哲学家Julius Evola的性魔法思想与他的整体哲学立场一致——反对现代世界的"下降"和"堕落"，倡导回归超越性的传统价值。Evola在其著作《密宗：性与超越的形而上学》(The Yoga of Power: Sex and the Metaphysics of Transcendence)中，从传统主义的视角对密宗性魔法进行了深刻的重新诠释。</p>
+
+      <p>Evola区分了"下行"的性魔法和"上行"的性魔法。下行——他所批判的——是放纵、沉溺和将性用于低级的感官满足。上行——他所倡导的——是通过性的力量来实现意识的内在提升和对世俗存在的超越。Evola认为，真正的性魔法不是关于"更多的性"，而是关于"通过性来超越性"。</p>
+
+      <p>Evola的性魔法哲学特别强调"行动与静修的结合"。不像传统神秘学中将灵修与世俗行动对立起来，Evola认为性魔法提供了一条在行动中保持内在静修的路径——在性结合的最激烈时刻，保持内在的"冰山"般的冷静和觉知。这种"在烈火中保持冰冷"的状态，被他视为性炼金术的最高成就。</p>
+
+      <div class="section-divider"></div>
+
+      <h3>Austin Osman Spare (1886-1956)</h3>
+      <p>在所有西方性魔法的实践者中，Austin Osman Spare或许是最特立独行的一个。他是一位天才艺术家，也是一位极具原创性的神秘学家，其Zos Kia Cultus体系至今仍在影响混沌魔法和当代sigil魔法实践。Spare的性魔法方法不依赖于复杂的组织或等级系统——它完全基于个人的创造性表达和对潜意识力量的直接利用。</p>
+
+      <p>Spare性魔法体系的核心概念是"以性为路标"(sex as a sign-post)——性高潮状态是通往潜意识的捷径。他在高潮时刻的恍惚状态中进行自动书写，让自己的手在不经过大脑理性控制的情况下画出符号和图像。这些从无意识深处涌现的符号——他称之为"sigil"(符印)——携带着来自深层意识的力量。</p>
+
+      <p>Spare的性-意识-艺术三位一体方法将性魔法从仪式密室带到了画布上。他的画作本身就是性魔法的记录和工具——充满了性象征、自动书写和潜意识的暴烈涌现。Spare的作品证明了一个深刻的魔法真理：魔法不仅仅是"做"出来的——它也可以是"画"出来和"写"出来的。</p>
+
+      <h3>人物关系与学派传承图</h3>
+      <p style="text-indent:0">下方交互式Canvas展示了西方性魔法关键人物之间的传承和影响关系。拖动(Drag)视图，点击(Click)人物节点可查看基本信息。</p>
+      <canvas id="relationCanvas"></canvas>
+    </div>
+
+    <!-- ==================== TAB 5: RITUAL ==================== -->
+    <div class="tab-content" id="tab-ritual">
+      <h2>仪式与实践</h2>
+
+      <h3>基础准备工作</h3>
+
+      <h4>禁欲期(3-21天)</h4>
+      <p>在性魔法开始之前，预备性的禁欲是一个被所有传统共通的准备步骤。禁欲的时长从最短的3天到最长的21天不等，取决于从业者的经验水平、体质和目标魔法的紧迫程度。禁欲并非压抑，而是蓄能——将日常生活通过性冲动不断消耗掉的能量积累起来，使其成为一个被压缩的、等待释放的"能量弹簧"。</p>
+
+      <p>在禁欲期间，从业者应避免任何形式的性释放——包括性行为、自慰、以及有意识的性幻想高潮。但禁欲不意味着"不想性"；相反，觉醒的性能量需要被有意识地引导到日常的冥想和能量练习中。一个常见的做法是在禁欲期间每天进行20-30分钟的"能量呼吸"冥想——通过专注的呼吸将腹部的温暖感(性能量的感知对应)沿着脊椎向上引导。</p>
+
+      <h4>自我净化(斋戒/沐浴/冥想)</h4>
+      <p>性魔法对身体和能量场的"洁净度"有较高的要求。从业者建议在仪式前进行以下净化步骤：</p>
+      <ul>
+        <li><strong>斋戒</strong>——仪式前24小时内避免食用肉类、大蒜、洋葱和酒精，以保持能量的"清透"。推荐食用水果、蔬菜和清淡的谷物，充足饮水。</li>
+        <li><strong>沐浴</strong>——仪式前进行一次有意识的净化沐浴。在水中加入海盐或草药(如迷迭香、薰衣草)，在沐浴过程中用意念"冲洗"自己的能量场，观想灰色的废气被水流带走。</li>
+        <li><strong>冥想</strong>——仪式前进行15-20分钟的静坐冥想，平稳呼吸，清空杂念，将注意力收归于内在感受。可以配合诵念(如"Om"或"AH")来调谐能量振动。</li>
+      </ul>
+
+      <h4>魔法目标设定(清晰单一)</h4>
+      <p>性魔法中最常见的失败原因之一就是目标不清晰或目标过多。性高潮的"灵知窗口"极其短暂——通常只有3到15秒——在此时间内从业者只能将一个(最多两个)清晰、简洁的意图投射到能量中。因此，目标的设定必须遵守"3C"原则：清晰(Clear)、简洁(Concise)、可达成(Achievable)。</p>
+      <p>例如：不要设定"我希望能找到爱情并改善我的财务和我的健康"这样的混杂目标。相反，将其分解为独立的仪式——每一个仪式聚焦于一个单一目标："我的意志是吸引一个与我灵魂共鸣的爱人进入我的生活。"这个意图应该被精炼成一个简短的短语或一个符号(sigil)，以便在高潮瞬间快速投射。</p>
+
+      <h4>仪式空间的布置</h4>
+      <p>性魔法的仪式空间可以根据个人偏好和传统规范进行布置，但几个基本元素不可或缺：</p>
+      <ul>
+        <li><strong>圣坛(Altar)</strong>——一张大小适中的桌子或平面，放置仪式工具。用深色(最好是黑色或深紫色)的布料覆盖。</li>
+        <li><strong>蜡烛</strong>——至少两根：一红(代表能量和欲望)一白(代表意志和净化)。蜡烛的火焰也是冥想专注的对象。</li>
+        <li><strong>象征物</strong>——代表魔法目标的物理符号(如象征财富的硬币、象征爱情的玫瑰石英、象征智慧的书籍)。</li>
+        <li><strong>香</strong>——推荐使用乳香(frankincense)、檀香(sandalwood)或肉桂(cinnamon)，它们的能量对应有助于提升仪式氛围。</li>
+        <li><strong>五芒星或六芒星</strong>——可以绘制或放置在地面上，作为能量聚集和保护的几何锚点。</li>
+        <li><strong>记录工具</strong>——笔和魔法日记，用于仪式后的记录和反省。</li>
+      </ul>
+      <p>最重要的是，空间必须让从业者感到安全、私密和不被打扰。任何可能的干扰(电话、门铃、宠物)都应在仪式前消除。</p>
+
+      <div class="section-divider"></div>
+
+      <h3>五种核心实践</h3>
+
+      <h4>1. Solo实践：自慰+意志聚焦</h4>
+      <p>单人性魔法是最常见也最易入门的性魔法形式。其基本流程为：通过自慰(或任何形式的单人性刺激)逐渐积累性能量，在接近高潮时明确地集中意志于魔法目标上，在高潮释放的瞬间——当意识进入"灵知窗口"——将精炼为短语或符号的魔法意图投射出去。</p>
+
+      <p>关键的技术细节在于"延后高潮"——通过减缓节奏和深呼吸来延长性兴奋的积累阶段，同时在心中反复默念魔法目标(或其符号化的表现形式)。高潮不应被作为终点和结束，而应被视为能量投射的发射——高潮后保持安静平躺10-15分钟，让投射出去的能量在宇宙中"找到它的落脚处"。</p>
+
+      <h4>2. 伴侣实践：阴阳能量循环</h4>
+      <p>双人性魔法是全作中"经典模式"，对应密宗中的Maithuna和道家中的阴阳调和。与Solo实践不同，伴侣实践不仅涉及个人的能量，还涉及两个个体之间的能量交流。理想的伴侣实践要求双方都理解性魔法的原理并同意共同的目标。</p>
+
+      <p>基本流程：双方先进行同步呼吸和眼神交流来建立能量连接，然后通过性结合逐渐积累共同能量。当双方同时达到高潮时——这是需要练习的——双方同时将共同设定的目标投射到能量场中。高潮后双方继续保持身体接触和能量连接，让能量在两者之间循环沉淀。</p>
+
+      <p>伴侣实践的独特优势在于"共鸣放大"——两个同步振动的心跳、呼吸和能量场可以产生出远超单人的魔法威力。</p>
+
+      <h4>3. 三人实践：能量三角</h4>
+      <p>三人性魔法(通常为两男一女或两女一男)建立在双人实践的基础之上，但其能量动力学更为复杂。三人形成一个"能量三角"——在几何学中，三角形是最稳定的能量结构。在这个设置中，三股个人能量在一个闭环中循环，经过每个参与者时都被"调制"和"增幅"。</p>
+
+      <p>三人实践要求非常高的协调和对等性。通常，三个人围成一个三角形，各自与另外两人保持身体接触(不一定是性器官接触)。性高潮不一定需要同时发生——更高级的实践是在不同时间点分别释放，以使能量场经历多次"脉冲"叠加。三人实践在OTO和Typhonian传统中都有记载，被视为通往群体性魔法的前阶。</p>
+
+      <h4>4. 群体实践：圣宴</h4>
+      <p>群体性魔法——或称为"圣宴"(Sacred Feast)——是性魔法最壮观也最罕见的形式。在圣宴中，一组经过准备和训练的从业者(通常为5-13人)聚集在一起进行有引导的性魔法仪式。每个参与者都知道自己的角色和整个仪式的魔法目标。</p>
+
+      <p>圣宴的能量动力学比三人三角更加复杂。多个个体形成多个互相交叉的能量环路——每个参与者都与其他所有人建立了能量的"通道"。当一波波的高潮在群体中传播时，整个空间会产生一种类似"能量风暴"的效应。Crowley和Grant都曾描述过圣宴中出现的集体幻象和实体显现现象。</p>
+
+      <h4>5. 禁欲型：能量转化冥想</h4>
+      <p>禁欲型性魔法——或称为"白色炼金术"——根本不涉及性高潮的释放。相反，它通过长时间的禁欲积累性能量，然后通过冥想和能量练习将这些积存的能量直接转化为精神动力。这种方法的支持者认为，不释放的性魔法更为"精纯"，因为它避免了高潮后必然出现的能量损耗期。</p>
+
+      <p>禁欲型实践的核心技术是"能量提升"(Energy Raising)——通过呼吸、可视化(例如观想脊椎底部有金色的蛇或光柱)和肌肉收缩(如古瑜伽中的Ashwini Mudra和Mula Bandha)，将性能量从腹轮和海底轮逐渐推到更高的脉轮。熟练的从业者可以仅通过这种冥想式能量转化就体验到类似高潮的全身性"能量高潮"——这种状态被称为"干性高潮"或"昆达里尼涌动"。</p>
+
+      <div class="section-divider"></div>
+
+      <h3>意淫(Will-Bearing)技术详解</h3>
+      <p>"意淫"(Will-Bearing)是性魔法中最关键的技术之一。这个词并非指通常意义上的"意淫"(sexual fantasy)，而是指"承载意志"(bearing the will)的行为——在性高潮的灵知时刻，将魔法意志如同种子一般植入能量场的行为。</p>
+
+      <p>意淫技术的核心步骤：</p>
+      <ul>
+        <li><strong>意志的结晶</strong>——在仪式之前(最好在禁欲期间)，将魔法目标压缩为一个极简的短语或符号。这个短语应使用现在时、主动语态和正面表达，例如"我的意志是获得清晰洞见"，而非"我不想再困惑"。</li>
+        <li><strong>意志的携带</strong>——在性兴奋积累的全过程中，不断地在心中默念、观想或体会这个意志短语/符号。它应该成为性兴奋的内容本身——将性能量与意志混合，如同将燃料与引信结合。</li>
+        <li><strong>意志的投射</strong>——在高潮爆发前的一刹那(约1-3秒前)，将意志短语/符号从意识中释放——不是"猛力推出"，而是"让它从心中落下"。高潮本身的动力会自然而然地携带这个意图进入超意识的维度。</li>
+        <li><strong>意志的遗忘</strong>——投射之后，完全放下。不要分析、怀疑或回味刚刚投射的内容。让宇宙去处理剩下的工作。执着的检查和分析只会把已经投射出去的能量"拉回来"。</li>
+      </ul>
+
+      <h3>高潮时刻的意志投射技术</h3>
+      <p>在高潮发生的精确时刻进行意志投射是性魔法中最微妙的技术。从业者需要培养出对高潮"前兆"的精细感知——那种即将爆发的临界感。在这个临界点上：</p>
+      <ul>
+        <li>不再思考魔法目标(已经在前面的阶段中完成了与能量的结合)</li>
+        <li>放松身体的紧张——不要"用力"去投射</li>
+        <li>将注意力从"自我"转向"能量本身"——让自己成为能量流经的通道</li>
+        <li>在释放的瞬间，意志自然随能量而动——如同河流带着落叶冲向大海</li>
+      </ul>
+      <p>常见错误包括"过于用力"(用意志力的紧张阻塞了能量的流动)和"意志游移"(在高潮前一刻怀疑或改变目标)。解决这些问题的唯一方法是练习、练习、再练习——性魔法和其他形式的魔法一样，需要实际的修行而非仅仅理论。</p>
+
+      <h3>事后能量沉淀</h3>
+      <p>性魔法仪式后的24小时是一个敏感的"沉淀期"。在这段时间内：</p>
+      <ul>
+        <li>保持安静和平和，避免激烈的情绪波动</li>
+        <li>减少社交和外界刺激——给能量"安家"的时间</li>
+        <li>多喝水，吃清淡的食物</li>
+        <li>记录梦境——高潮投射的能量常常在梦境中返回"确认信号"</li>
+        <li>不要向他人讨论或吹嘘仪式的内容——能量的泄露会削弱效果</li>
+        <li>观察接下来的3-7天内生活中出现的"同步性"(synchronicities)——它们可能是魔法正在生效的迹象</li>
+      </ul>
+
+      <div class="section-divider"></div>
+
+      <h3>性魔法仪式构建器</h3>
+      <p style="text-indent:0">选择您的仪式参数，生成个性化的性魔法仪式说明。</p>
+      <div class="ritual-builder" id="ritualBuilder">
+        <label>选择魔法目标：</label>
+        <select id="ritualGoal">
+          <option value="self-knowledge">自我认知与洞见</option>
+          <option value="creativity">创造力激发</option>
+          <option value="attraction">吸引爱情/伴侣</option>
+          <option value="prosperity">财富与繁荣</option>
+          <option value="protection">能量防护</option>
+          <option value="spiritual-contact">灵性接触/实体沟通</option>
+          <option value="will-power">意志力强化</option>
+          <option value="healing">自我疗愈</option>
+        </select>
+
+        <label>选择实践方式：</label>
+        <select id="ritualMethod">
+          <option value="solo">Solo独自实践</option>
+          <option value="partner">伴侣双人实践</option>
+          <option value="trio">三人能量三角</option>
+          <option value="abstinence">禁欲能量转化</option>
+        </select>
+
+        <label>禁欲准备天数：</label>
+        <input type="range" id="ritualAbstinence" min="0" max="21" value="7">
+        <span id="abstinenceDisplay">7 天</span>
+
+        <label>仪式时长(分钟)：</label>
+        <select id="ritualDuration">
+          <option value="30">30分钟(快速仪式)</option>
+          <option value="60" selected>60分钟(标准仪式)</option>
+          <option value="90">90分钟(深入仪式)</option>
+          <option value="120">120分钟(大型仪式)</option>
+        </select>
+
+        <label>使用道具/辅助：</label>
+        <select id="ritualTools">
+          <option value="minimal">极简(仅蜡烛与香)</option>
+          <option value="standard">标准(圣坛+蜡烛+香+符号)</option>
+          <option value="elaborate">精细(全道具+音乐+祭袍)</option>
+        </select>
+
+        <button onclick="generateRitual()">生成仪式说明</button>
+        <div class="ritual-output" id="ritualOutput">点击上方按钮生成您的个性化性魔法仪式说明……</div>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 6: ALCHEMY ==================== -->
+    <div class="tab-content" id="tab-alchemy">
+      <h2>炼金术与性</h2>
+
+      <h3>炼金术中的性象征</h3>
+      <p>西方炼金术(Alchemy)与性魔法之间存在着深刻的象征性关联。炼金术士们用高度编码的性隐喻来描述他们的工作——红王(Red King)与白后(White Queen)的结合、化学婚礼(Chemical Wedding)、以及贤者之石(Philosopher's Stone)——这些都不是简单的寓言，而是描述了性炼金术的内在过程。</p>
+
+      <p>理解炼金术中的性象征，是掌握西方式性魔法哲学的关键。炼金术士描述的"操作"(Operation)实际上是在三个层面上同时进行的：物理层面(实际的材料操作)、心理层面(内在的意识转变)和性层面(性能量的转化)。这种多重对应性使得炼金术语言成为性魔法完美的表述框架。</p>
+
+      <h4>红王(X)与白后(Y)的结合</h4>
+      <p>在炼金术中，红王代表硫(Sulphur)——男性的、活跃的、固定的、火性的原则。白后代表汞(Mercury)——女性的、流动的、挥发的、水性的原则。两者的结合——Coitus(性结合)——是炼金术大工(Great Work)的核心事件。红王与白后在一个密封的容器中结合，经历死亡、腐烂和重生，最终产生出贤者之石。</p>
+
+      <p>这条象征路径清晰地对应了性魔法的工作框架：红王的硫=男性的性能量/意志=阳；白后的汞=女性的性能量/接纳=阴。两者的结合不仅是在肉身层面，更是在能量和意识的层面。性魔法中常说的"在能量的层面做爱"正是红王与白后的化学婚礼在人类尺度上的再现。</p>
+
+      <h4>化学婚礼</h4>
+      <p>"化学婚礼"(Chymical Wedding)是炼金术最著名的性象征叙事。在17世纪玫瑰十字会宣言《化学婚礼》中，描述了国王和王子的婚礼仪式——充满了性象征、死亡和重生。这部文本揭示了一个深刻的性魔法真理：真正的结合不是简单的融合，而是通过"死亡"（自我边界消解）来实现的"重生"。</p>
+
+      <p>在性魔法实践中，化学婚礼的对应是清晰而具体的：在高度投入的性结合中，双方的自我边界——即"我"与"你"的区分——暂时消融了。在这个短暂的"合一"中，两人不再是个体，而是一个整体的两个极。这个合一状态被炼金术士称为"Hermetic Androgyne"(赫耳墨斯式雌雄同体)——同时包含阴和阳的完整存在。正是在这个状态中，魔法才能发挥最大的威力。</p>
+
+      <h4>贤者之石的产生</h4>
+      <p>贤者之石(Philosopher's Stone)是炼金术的终极目标——一种能够点石成金、治愈所有疾病、赋予永生的物质。在性魔法语境中，贤者之石象征着经过性炼金术转化后的"完整的自我"——一个不再被低层欲望和肉体冲动所控制、能够自由运用自身所有能量的觉醒者。</p>
+
+      <p>贤者之石对应的是性魔法中的"第三体"(the third body)——当两个个体在性魔法中结合时，他们产生出的不仅仅是各自能量的简单加总，而是一个全新的、独立的"能量体"或"星光体"。这个第三体就是性魔法的"贤者之石"——它携带着双方的魔法意图，被投射到现实层面去执行意志。</p>
+
+      <h4>Nigredo/Albedo/Rubedo与性的三个阶段</h4>
+      <p>炼金术大工的三阶段——黑化(Nigredo)、白化(Albedo)和红化(Rubedo)——可以完美地映射到性魔法的三个阶段：</p>
+      <ul>
+        <li><strong>Nigredo(黑化)</strong>——对应禁欲和准备阶段。在此阶段，从业者面对自己的欲望和阴影，深入观察和理解自己的性冲动。这是一个"腐烂"和"分解"的过程——旧的、不纯洁的性观念被瓦解。</li>
+        <li><strong>Albedo(白化)</strong>——对应能量的净化和精炼阶段。通过冥想、能量练习和净化仪式，粗重的性能量被"洗涤"为更纯净的形式。这是个"月亮"的阶段——内在的白色圣女占据了主导。</li>
+        <li><strong>Rubedo(红化)</strong>——对应性魔法的实践本身。红王与白后结合，性能量被点燃和投射，意图被注入宇宙。这是"太阳"的阶段——红色的激情与金色的意志融为一体。</li>
+      </ul>
+
+      <h3>性炼金术七步</h3>
+      <p style="text-indent:0">点击下方每一步查看详细说明。</p>
+      <div class="alchemy-steps" id="alchemySteps">
+        <div class="alchemy-step" data-step="0">
+          <div class="step-num">I</div>
+          <div class="step-name">钙化</div>
+          <div class="step-en">Calcination</div>
+          <div class="step-desc">欲望的提纯</div>
+        </div>
+        <div class="alchemy-step" data-step="1">
+          <div class="step-num">II</div>
+          <div class="step-name">溶解</div>
+          <div class="step-en">Dissolution</div>
+          <div class="step-desc">能量的释放</div>
+        </div>
+        <div class="alchemy-step" data-step="2">
+          <div class="step-num">III</div>
+          <div class="step-name">分离</div>
+          <div class="step-en">Separation</div>
+          <div class="step-desc">意图与欲望区分</div>
+        </div>
+        <div class="alchemy-step" data-step="3">
+          <div class="step-num">IV</div>
+          <div class="step-name">结合</div>
+          <div class="step-en">Conjunction</div>
+          <div class="step-desc">性与意志的结合</div>
+        </div>
+        <div class="alchemy-step" data-step="4">
+          <div class="step-num">V</div>
+          <div class="step-name">发酵</div>
+          <div class="step-en">Fermentation</div>
+          <div class="step-desc">能量转化</div>
+        </div>
+        <div class="alchemy-step" data-step="5">
+          <div class="step-num">VI</div>
+          <div class="step-name">蒸馏</div>
+          <div class="step-en">Distillation</div>
+          <div class="step-desc">升华</div>
+        </div>
+        <div class="alchemy-step" data-step="6">
+          <div class="step-num">VII</div>
+          <div class="step-name">凝结</div>
+          <div class="step-en">Coagulation</div>
+          <div class="step-desc">结果的实现</div>
+        </div>
+      </div>
+
+      <div class="step-detail" id="stepDetail">
+        <div class="sd-title">点击上方步骤查看详情</div>
+        <div class="sd-body"><p>选择性炼金术七步中的任意一步，查看该阶段的详细说明。</p></div>
+      </div>
+
+      <h3>性炼金术七步互动图</h3>
+      <p style="text-indent:0">下方Canvas以图像化方式展示了性炼金术七步的循环，每一步用不同颜色的同心圆表示。</p>
+      <canvas id="alchemyCanvas" class="interactive-canvas"></canvas>
+
+      <div class="section-divider"></div>
+
+      <h3>炼金术性象征对照表</h3>
+      <table class="comparison-table">
+        <thead>
+          <tr><th>炼金术元素</th><th>性魔法对应</th><th>象征意义</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>红王(硫)</td><td>主动性能量/意志/Shiva</td><td>固定的、火性的、纯粹的意志</td></tr>
+          <tr><td>白后(汞)</td><td>接纳性能量/直觉/Shakti</td><td>流动的、水性的、接纳的容器</td></tr>
+          <tr><td>化学婚礼</td><td>性结合中的自我消融</td><td>合一状态——超越二元性</td></tr>
+          <tr><td>贤者之石</td><td>第三体/星光体</td><td>结合产生的超越性存在</td></tr>
+          <tr><td>原始物质</td><td>性欲/性能量</td><td>需要被净化和转化的原材料</td></tr>
+          <tr><td>密闭容器</td><td>能量场/仪式空间</td><td>保护性能量不外泄的边界</td></tr>
+          <tr><td>哲人之石</td><td>觉醒的意识/真我</td><td>炼金术的最终成果</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ==================== TAB 7: LHP ==================== -->
+    <div class="tab-content" id="tab-lhp">
+      <h2>左路与性魔法</h2>
+
+      <h3>性魔法在左路中的独特地位</h3>
+      <p>在左派道路(Left-Hand Path)的体系中，性魔法占据着一个独特的、不可替代的地位。LHP的核心目标是自我神化(Apotheosis)——即个体通过自己的努力和意志实现神性状态的觉醒。而性魔法，作为最直接、最原始的能量操作方式，是达成这一目标的最强有力的工具之一。</p>
+
+      <p>与右派道路(RHP)将性视为需要被控制或超越的低级冲动不同，LHP拥抱性的力量并试图通过它实现意识的扩展。LHP认为，性不是通往神圣的障碍——它就是神圣本身。问题不在于性本身，而在于人如何运用这股力量。在LHP的视角中，每一次性魔法实践都是一次小型的自我神化仪式——从业者在其中扮演着创造者和毁灭者的双重角色。</p>
+
+      <div class="highlight-box crimson">
+        <p style="text-indent:0;margin:0;font-size:14px"><strong>LHP性魔法的根本宣言：</strong> 我不是为了繁衍而使用性，也不是为了快乐而使用性——我是为了成为神而使用性。性是我行使意志的圣坛，是我宣告自我神性的祭坛。</p>
+      </div>
+
+      <h3>禁忌的突破性力量</h3>
+      <p>LHP性魔法的一个核心特征是它系统性地使用"禁忌"作为力量催化剂。在大多数社会中，性——尤其是非生殖性的、非规范性取向的、或非一对一关系的性——都受到严格的道德和法律约束。LHP从业者认为，这些禁忌不是偶然的——它们的存在恰恰说明了性中蕴含的真正的力量。</p>
+
+      <p>当从业者有意地跨越这些禁忌——不是出于叛逆或放纵，而是在意图明确的魔法框架中——他们的意识会经历一种"突破性转变"。禁忌的跨越本身就创造了一个强大的精神张力场，就像一根被拉到极限的橡皮筋——在断裂的瞬间释放出巨大的能量。LHP性魔法将这个"断裂瞬间"精确地定位到魔法意图的投射时刻。</p>
+
+      <p>需要注意的是，LHP传统对"禁忌的突破"有严格的要求：它必须是自觉的、有目的的、在安全框架内的。无意识的放纵和自毁式的越界不属于LHP性魔法——那是纯粹的堕落，而非转化。真正的LHP从业者必须始终保持对自身行为的清醒掌控——"在野兽的暴烈中保持神的清醒"。</p>
+
+      <h3>性作为自我神化的工具</h3>
+      <p>"自我神化"(Self-Deification或Apotheosis)是LHP的终极目标——通过修炼和意志的行使，使个体意识到自身的神性并活出这种神性。性魔法在这一过程中扮演的角色可以用一个简单但深刻的说法来概括：在性高潮中，你不仅仅是你——你比你自己更大。</p>
+
+      <p>在高潮的"灵知窗口"中，个体意识暂时超越了平常的自我边界。这个"超越"不是向外看(如迷幻剂产生的视觉幻象)，而是向内深入——深入到意识的根源，即"我是"这个基本的自我感知。当这个感知在性高潮中被放大到极致时，从业者体验到的不再是"我有一个灵魂"或"我与神合一"，而是"我就是神"。</p>
+
+      <p>这个体验——虽然可能只持续短短几秒——是自我神化最直接的实验性证明。LHP性魔法的长期练习会产生一种累积效应：每次高潮中的神性体验都会在心灵中留下印记，逐渐改变从业者的自我认知和存在方式。经过足够多的训练后，高潮中的神性状态会开始渗透到日常生活中——从业者开始以"神"而非"凡人"的视角看待自己和生活。</p>
+
+      <h3>人格面具的消解</h3>
+      <p>在荣格心理学中，"人格面具"(Persona)是个体向社会展示的表层人格——一种在社会化过程中形成的"伪装"。LHP性魔法通过极端的亲密感和无防御状态，系统地消解了这个面具。</p>
+
+      <p>在性魔法实践中，从业者不能带着日常的面具进入仪式。性高潮的体验不允许任何形式的伪装——它是纯粹的、本能的、前社会化的。在那一刻，所有的社会角色——职业、身份、阶层——都被剥离，剩下的是赤裸的、原始的"意志存在"。这种"面具消解"的体验本身就具有强烈的魔法效果——因为它证明了人的本质不是社会塑造的表层，而是更深层、更强大的东西。</p>
+
+      <p>LHP性魔法要求从业者不仅接受这种无面状态，更要学会在其中找到力量。当一个人不再需要任何人格面具来确认自我时，他的意志就获得了真正的自由——不再是"某某人想要什么"，而是"纯粹的意志想要什么"。这种意志的自由正是性魔法力量的源泉。</p>
+
+      <h3>性与灵知(Gnosis)的直接关联</h3>
+      <p>在魔法理论中，"灵知"(Gnosis)指的是一种特殊的意识状态——在这种状态中，理性的、分析的思维暂时停止，潜意识的大门敞开，个体可以直接体验到超越性的真理。性高潮被公认为最有效的灵知诱导手段之一——比以下的很多方式都更加直接：</p>
+      <ul>
+        <li>比冥想更快速(熟练者可以在数分钟内通过性刺激进入灵知)</li>
+        <li>比迷幻剂更可控(性高潮的灵知是自然产生的，不会引起精神混乱)</li>
+        <li>比仪式更强烈(性能量是人体能产生的最高频能量)</li>
+        <li>比疼痛/极限运动更安全(在正确设置的条件下)</li>
+      </ul>
+      <p>性高潮的灵知状态具有几个独特的特点：它是身体和精神的同步高峰(不像冥想主要涉及思维层面)；它是无需技巧的自然产生(不像仪式需要大量学习和准备)；它的强度可以通过训练不断提高。这些特点使得性高潮成为LHP实践中最受欢迎的灵知诱导手段。</p>
+
+      <h3>现代LHP实践中的性魔法</h3>
+      <p>在当代西方神秘学中，性魔法已经超越了传统的OTO和密宗框架，融入到更广泛的LHP实践中。现代LHP团体(如Temple of Set、Order of the Nine Angles的某些分支、以及各种独立的混沌魔法团体)都对性魔法有自己的诠释和实践方法。</p>
+
+      <p>其中，混沌魔法对性魔法的贡献尤为显著。混沌魔法吸收了Spare的sigil技术，将其与现代心理学(特别是潜意识编程)结合，创造出一种"心理性魔法"(psycho-sexual magic)的新形式。在这种方法中，性高潮的灵知状态被用作"潜意识重编程"的窗口——而不是传统魔法中的"意志投射"。</p>
+
+      <p>数字化时代也催生了新的性魔法形式：远程性魔法(通过视频/图像进行远程能量连接)、数字sigil(将性高潮的意图编码为数字符号)以及社交媒体上的性魔法(通过社交平台传播带有魔法的内容)。这些新形式虽然与传统方法有着明显的区别，但它们在核心原理上——通过性高潮进入灵知并投射意图——是一致的。</p>
+
+      <h3>安全、同意与伦理</h3>
+      <p>性魔法——如同所有涉及性的活动——必须在明确的同意、安全和伦理框架中实践。这一点对于LHP实践者尤为重要，因为LHP经常被(错误地)等同于无道德约束的为所欲为。事实上，真正的LHP实践要求从业者对自身行为有着极高的责任感和伦理意识。</p>
+
+      <p>在性魔法实践中，必须遵循以下基本伦理准则：</p>
+      <ul>
+        <li><strong>知情同意</strong>——所有参与者必须完全了解仪式的性质和目标，并在没有压力或欺骗的情况下自由同意参与。</li>
+        <li><strong>随时撤回</strong>——任何参与者在任何时候都有权撤回同意并退出实践，不应受到任何形式的强制或感情勒索。</li>
+        <li><strong>无害原则</strong>——魔法的目标不应直接伤害任何个体。虽然LHP传统不认同RHP的"完全无害"原则，但伤害他人的目标——尤其是未经同意的性魔法操控——被视为严重的不当行为。</li>
+        <li><strong>能量卫生</strong>——仪式后必须进行能量净化，避免将仪式中的能量状态带入日常生活。</li>
+        <li><strong>保密</strong>——性魔法涉及参与者最私密和最脆弱的部分。所有参与者的隐私必须得到严格保护。</li>
+      </ul>
+      <p>这些伦理准则不仅是为了保护参与者，也是为了保护性魔法本身——当性魔法在安全、尊重的环境中进行时，它所产生的是清晰、强大的能量；当它在操纵和欺骗中进行时，产生的则是混乱和污染的能量，最终会反噬从业者自身。</p>
+
+      <div class="highlight-box purple">
+        <p style="text-indent:0;margin:0;font-size:14px"><strong>阿波菲斯的立场：</strong> 性魔法是通往自我认知和自我超越的强大工具。但力量越大，责任越大。在探索性魔法的深度之前，请确保你已经充分准备好了——不仅是在魔法技术上，更是在心理和伦理的成熟度上。尊重自己，尊重对方，尊重力量。</p>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <h3>左路性魔法知识测试</h3>
+      <p style="text-indent:0">测试您对左路性魔法知识的理解程度。选择正确答案后会自动显示反馈。</p>
+      <div class="quiz-container" id="quizContainer"></div>
+      <div class="quiz-score" id="quizScore"></div>
+    </div>
+
+  </div><!-- /tab-container -->
+</div><!-- /content-wrapper -->
+
+<script>
+// ============== Particle Background ==============
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resizeCanvas() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const PARTICLE_COUNT = 120;
+const particles = [];
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+  particles.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    r: Math.random() * 3 + 1,
+    alpha: Math.random() * 0.4 + 0.1,
+    color: Math.random() > 0.5 ? '#d4a843' : '#c41e3a'
+  });
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, W, H);
+  for (const p of particles) {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0) p.x = W;
+    if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H;
+    if (p.y > H) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.alpha;
+    ctx.fill();
+  }
+  // Draw connections
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 150) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = 'rgba(212,168,67,0.08)';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// ============== Hamburger Menu ==============
+document.getElementById('hamburgerBtn').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// ============== Tab System ==============
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', function() {
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+    // Close mobile nav
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+// ============== Chakra Canvas (Tab 2) ==============
+(function drawChakras() {
+  const c = document.getElementById('chakraCanvas');
+  if (!c) return;
+  const rect = c.parentElement.getBoundingClientRect();
+  c.width = Math.min(600, rect.width - 40);
+  c.height = 400;
+  const cx = c.width / 2;
+  const ctx = c.getContext('2d');
+
+  const chakras = [
+    { name: '海底轮\nMuladhara', y: 340, color: '#cc3333', r: 22 },
+    { name: '腹轮\nSvadhisthana', y: 290, color: '#e8852e', r: 20 },
+    { name: '脐轮\nManipura', y: 240, color: '#e8c82e', r: 18 },
+    { name: '心轮\nAnahata', y: 190, color: '#33aa55', r: 18 },
+    { name: '喉轮\nVishuddha', y: 140, color: '#3377cc', r: 16 },
+    { name: '眉心轮\nAjna', y: 95, color: '#5533aa', r: 16 },
+    { name: '顶轮\nSahasrara', y: 50, color: '#8833aa', r: 18 }
+  ];
+
+  let hoveredIdx = -1;
+
+  function draw() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    // Spine line
+    ctx.beginPath();
+    ctx.moveTo(cx, 370);
+    ctx.lineTo(cx, 30);
+    ctx.strokeStyle = 'rgba(212,168,67,0.15)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Serpent (Kundalini)
+    ctx.beginPath();
+    ctx.moveTo(cx - 10, 360);
+    ctx.quadraticCurveTo(cx + 25, 330, cx - 10, 300);
+    ctx.quadraticCurveTo(cx - 25, 270, cx + 10, 240);
+    ctx.quadraticCurveTo(cx + 20, 210, cx - 5, 180);
+    ctx.strokeStyle = 'rgba(212,168,67,0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    chakras.forEach((ch, i) => {
+      const isHover = i === hoveredIdx;
+      const rad = isHover ? ch.r + 6 : ch.r;
+      const alpha = isHover ? 0.9 : 0.5;
+
+      // Glow
+      const grd = ctx.createRadialGradient(cx, ch.y, 0, cx, ch.y, rad * 2.5);
+      grd.addColorStop(0, ch.color + '33');
+      grd.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(cx, ch.y, rad * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      // Circle
+      ctx.beginPath();
+      ctx.arc(cx, ch.y, rad, 0, Math.PI * 2);
+      ctx.fillStyle = ch.color + Math.round(alpha * 180).toString(16).padStart(2, '0');
+      ctx.fill();
+      ctx.strokeStyle = ch.color;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Petals (simple)
+      for (let p = 0; p < 4; p++) {
+        const a = p * Math.PI / 2 + Date.now() * 0.0005;
+        ctx.beginPath();
+        ctx.ellipse(cx + Math.cos(a) * (rad + 10), ch.y + Math.sin(a) * (rad + 10), 4, 6, a, 0, Math.PI * 2);
+        ctx.strokeStyle = ch.color + '44';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // Label
+      if (isHover) {
+        ctx.fillStyle = '#d4a843';
+        ctx.font = '12px "Noto Serif SC",serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(ch.name, cx, ch.y + rad + 20);
+      }
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  c.addEventListener('mousemove', function(e) {
+    const rect = c.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    hoveredIdx = -1;
+    for (let i = chakras.length - 1; i >= 0; i--) {
+      const dx = mx - cx;
+      const dy = my - chakras[i].y;
+      if (dx * dx + dy * dy < (chakras[i].r + 10) * (chakras[i].r + 10)) {
+        hoveredIdx = i;
+        break;
+      }
+    }
+  });
+})();
+
+// ============== OTO Tree (Tab 3) ==============
+(function buildOTOTree() {
+  const container = document.getElementById('otoTreeContainer');
+  if (!container) return;
+  const levels = [
+    { deg: '0°', name: 'Minerval (门外者)', badge: '入门' },
+    { deg: 'I°', name: 'Man & Brother / Woman & Sister', badge: '基础' },
+    { deg: 'II°', name: 'Magician', badge: '基础' },
+    { deg: 'III°', name: 'Master Magician', badge: '基础' },
+    { deg: 'IV°', name: 'Perfect Magician / Adept', badge: '中级' },
+    { deg: 'V°', name: 'Sovereign Prince Rose-Croix', badge: '中级' },
+    { deg: 'VI°', name: 'Knight of the Sun', badge: '高级' },
+    { deg: 'VII°', name: 'Theoretical & Practical Adept', badge: '高级' },
+    { deg: 'VIII°', name: 'Perfect Adept (禁欲性炼金术)', badge: '性魔法', highlight: true },
+    { deg: 'IX°', name: 'Initiate (异性性魔法)', badge: '性魔法', highlight: true },
+    { deg: 'X°', name: 'Rex / Regina (组织领袖)', badge: '领导' },
+    { deg: 'XI°', name: 'Initiate of the Eleventh Degree (同性/自淫)', badge: '性魔法', highlight: true }
+  ];
+
+  const html = '<div class="oto-tree">' + levels.map(l =>
+    `<div class="oto-level${l.highlight ? ' highlight' : ''}">
+      <span class="deg">${l.deg}</span>
+      <span class="name">${l.name}</span>
+      <span class="badge">${l.badge}</span>
+    </div>`
+  ).join('') + '</div>';
+  container.innerHTML = html;
+})();
+
+// ============== Figure Relation Canvas (Tab 4) ==============
+(function drawRelations() {
+  const c = document.getElementById('relationCanvas');
+  if (!c) return;
+  const rect = c.parentElement.getBoundingClientRect();
+  c.width = Math.min(800, rect.width - 40);
+  c.height = 500;
+  const ctx = c.getContext('2d');
+
+  const nodes = [
+    { id: 0, label: 'Randolph\n(1825-1875)', x: 0.2, y: 0.1 },
+    { id: 1, label: 'Reuss\n(1855-1923)', x: 0.35, y: 0.2 },
+    { id: 2, label: 'Crowley\n(1875-1947)', x: 0.5, y: 0.15 },
+    { id: 3, label: 'Spare\n(1886-1956)', x: 0.65, y: 0.25 },
+    { id: 4, label: 'Evola\n(1898-1974)', x: 0.3, y: 0.55 },
+    { id: 5, label: 'Grant\n(1924-2011)', x: 0.55, y: 0.6 },
+    { id: 6, label: 'OTO\n(性魔法体系)', x: 0.5, y: 0.38 },
+    { id: 7, label: 'Typhonian\n传统', x: 0.7, y: 0.7 }
+  ];
+
+  const edges = [
+    { from: 0, to: 1, label: '影响' },
+    { from: 1, to: 2, label: '引入OTO' },
+    { from: 2, to: 3, label: '同代人' },
+    { from: 2, to: 4, label: '批判影响' },
+    { from: 2, to: 5, label: '师徒' },
+    { from: 1, to: 6, label: '创立' },
+    { from: 2, to: 6, label: '改造' },
+    { from: 5, to: 7, label: '创立' },
+    { from: 3, to: 5, label: '影响' },
+    { from: 4, to: 5, label: '思想影响' }
+  ];
+
+  let dragNode = null;
+  let offsetX = 0, offsetY = 0;
+
+  function getPos(node) {
+    return { x: node._x || (c.width * node.x), y: node._y || (c.height * node.y) };
+  }
+
+  function drawGraph() {
+    ctx.clearRect(0, 0, c.width, c.height);
+
+    // Draw edges
+    edges.forEach(e => {
+      const from = getPos(nodes[e.from]);
+      const to = getPos(nodes[e.to]);
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(to.x, to.y);
+      ctx.strokeStyle = 'rgba(212,168,67,0.2)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      // Label
+      const mx = (from.x + to.x) / 2;
+      const my = (from.y + to.y) / 2;
+      ctx.fillStyle = 'rgba(212,168,67,0.3)';
+      ctx.font = '10px "Noto Serif SC",serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(e.label, mx, my - 6);
+    });
+
+    // Draw nodes
+    nodes.forEach(n => {
+      const pos = getPos(n);
+      // Glow
+      const grd = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, 50);
+      grd.addColorStop(0, 'rgba(212,168,67,0.1)');
+      grd.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 50, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(10,10,10,0.9)';
+      ctx.fill();
+      ctx.strokeStyle = '#d4a843';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#d4a843';
+      ctx.font = '11px "Noto Serif SC",serif';
+      ctx.textAlign = 'center';
+      const lines = n.label.split('\n');
+      lines.forEach((line, i) => {
+        ctx.fillText(line, pos.x, pos.y + 32 + i * 14);
+      });
+    });
+  }
+
+  drawGraph();
+
+  c.addEventListener('mousedown', function(e) {
+    const rect = c.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    for (const n of nodes) {
+      const pos = getPos(n);
+      if (Math.hypot(mx - pos.x, my - pos.y) < 25) {
+        dragNode = n;
+        offsetX = mx - pos.x;
+        offsetY = my - pos.y;
+        break;
+      }
+    }
+  });
+
+  c.addEventListener('mousemove', function(e) {
+    if (!dragNode) return;
+    const rect = c.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    dragNode._x = mx - offsetX;
+    dragNode._y = my - offsetY;
+    drawGraph();
+  });
+
+  c.addEventListener('mouseup', function() { dragNode = null; });
+  c.addEventListener('mouseleave', function() { dragNode = null; });
+})();
+
+// ============== Ritual Builder (Tab 5) ==============
+const abstinenceSlider = document.getElementById('ritualAbstinence');
+const abstinenceDisplay = document.getElementById('abstinenceDisplay');
+if (abstinenceSlider) {
+  abstinenceSlider.addEventListener('input', function() {
+    abstinenceDisplay.textContent = this.value + ' 天';
+  });
+}
+
+function generateRitual() {
+  const goal = document.getElementById('ritualGoal').value;
+  const method = document.getElementById('ritualMethod').value;
+  const abstinence = document.getElementById('ritualAbstinence').value;
+  const duration = document.getElementById('ritualDuration').value;
+  const tools = document.getElementById('ritualTools').value;
+  const output = document.getElementById('ritualOutput');
+
+  const goalNames = {
+    'self-knowledge': '自我认知与洞见',
+    'creativity': '创造力激发',
+    'attraction': '吸引爱情/伴侣',
+    'prosperity': '财富与繁荣',
+    'protection': '能量防护',
+    'spiritual-contact': '灵性接触/实体沟通',
+    'will-power': '意志力强化',
+    'healing': '自我疗愈'
+  };
+
+  const methodNames = {
+    'solo': 'Solo独自实践',
+    'partner': '伴侣双人实践',
+    'trio': '三人能量三角',
+    'abstinence': '禁欲能量转化'
+  };
+
+  const toolNames = {
+    'minimal': '极简(仅蜡烛与香)',
+    'standard': '标准(圣坛+蜡烛+香+符号)',
+    'elaborate': '精细(全道具+音乐+祭袍)'
+  };
+
+  const instructions = {
+    'solo': '\n  1. 在禁欲期(' + abstinence + '天)内每天进行20分钟能量呼吸冥想\n  2. 将魔法目标精炼为3-5字的短语或一个sigil符号\n  3. 仪式开始前进行净化沐浴，点燃蜡烛和香\n  4. 通过自慰积累性能量，全程在心中默念目标短语\n  5. 在接近高潮时进入深度聚焦，高潮瞬间释放目标\n  6. 高潮后保持平躺15分钟，让能量沉淀',
+    'partner': '\n  1. 双方共同禁欲' + abstinence + '天，每天同步冥想\n  2. 共同确定魔法目标，各自内化\n  3. 仪式前双方一起进行净化沐浴和能量调频\n  4. 从同步呼吸开始，通过眼神交流和抚摸建立能量连接\n  5. 在性结合中同时达到高潮并共同投射目标\n  6. 高潮后保持拥抱，让双方能量场循环融合',
+    'trio': '\n  1. 三人各自禁欲' + abstinence + '天\n  2. 确定共同的魔法目标并在仪式前统一意图\n  3. 三人围成三角形，建立身体/眼神/能量的三点连接\n  4. 指定能量流动方向(顺时针或逆时针)\n  5. 通过交替高潮制造能量脉冲叠加\n  6. 最后一人高潮时所有人同时投射目标',
+    'abstinence': '\n  1. 严格执行' + abstinence + '天完全禁欲(无任何形式的性释放)\n  2. 每天进行40分钟"能量提升"冥想(Mula Bandha技术)\n  3. 观想脊椎底部的金色光柱沿着脉轮系统上升\n  4. 将积累的性能量通过呼吸引导到心轮和眉心轮\n  5. 在仪式中通过能量呼吸达成"干性高潮"释放目标\n  6. 将转化后的能量通过双手投射到象征物中'
+  };
+
+  const ritual = [
+    '═══════════════════════════════',
+    '   性 魔 法 仪 式 说 明 书',
+    '═══════════════════════════════',
+    '',
+    '【魔法目标】' + goalNames[goal],
+    '【实践方式】' + methodNames[method],
+    '【准备禁欲】' + abstinence + ' 天',
+    '【仪式时长】' + duration + ' 分钟',
+    '【道具配置】' + toolNames[tools],
+    '───────────────────────────',
+    '',
+    '【仪式流程】' + (instructions[method] || ''),
+    '',
+    '【注意事项】',
+    '  - 确保仪式空间私密不被打扰',
+    '  - 仪式前后各饮用一杯清水',
+    '  - 仪式后24小时内保持安静和反省',
+    '  - 记录梦境以观察魔法信号的返回',
+    '  - 如感到不适立即停止并接地',
+    '',
+    '═══════════════════════════════',
+    '  意志即是力量 · 阿波菲斯',
+    '═══════════════════════════════'
+  ].join('\n');
+
+  output.textContent = ritual;
+}
+
+// ============== Alchemy Steps (Tab 6) ==============
+const alchemyStepDetails = [
+  { title: '钙化(Calcination)——欲望的提纯', body: '<p>钙化是性炼金术的第一步，对应禁欲和自我净化。在这个阶段，从业者通过禁欲和斋戒，将散乱的、未经炼化的性欲"燃烧"为精纯的能量。就像炼金术士将原始物质在火焰中燃烧以去除杂质一样，钙化阶段的从业者直面自己的欲望——不是否认它，而是在意识的火焰中"煅烧"它。这个过程会产生强烈的内在张力——性欲的本能要求释放，而意志要求控制。这种张力本身就是力量的源泉。钙化成功的标志是：从业者能够清晰地区分"性欲"(本能冲动)和"性能量"(可转化的力量)之间的区别。</p>' },
+  { title: '溶解(Dissolution)——能量的释放', body: '<p>在钙化之后进入溶解阶段。此时，经过禁欲积累的"浓缩性能量"需要被有意识地释放——但不是以常规的方式(泄欲)，而是以一种受控的、有目的的方式。这个阶段对应的是性魔法中的能量唤醒过程。通过性刺激(自慰或伴侣互动)或能量呼吸，积累在海底轮和腹轮的浓稠能量开始"融化"为流动的能量流。从业者会感受到下腹部的温暖、刺痛或压力感——这就是"能量开始流动"的身体信号。溶解阶段的关键是：不要急于达到高潮，而是让能量充分"融化"和"扩散"到整个下腹部区域。</p>' },
+  { title: '分离(Separation)——意图与欲望的区分', body: '<p>分离是性炼金术中最精微的阶段。在这个阶段，从业者需要将"魔法意图"从"性欲望"中分离出来。虽然两者在能量层面是纠缠在一起的，但在意识层面必须被清晰地区分。性欲望是"我想要释放/我想要快乐"，魔法意图是"我的意志是……"。分离的技术是通过意识的聚焦——在性兴奋的同时，反复在心中默念和观想魔法目标，将目标"烙印"在不断升温的能量之上。当从业者能够做到"在燃烧的欲望中保持冷静的意志"时，分离就成功了。这是性魔法与普通性行为的根本分界线。</p>' },
+  { title: '结合(Conjunction)——性与意志的结合', body: '<p>结合——Corpus(身体)——是分离阶段的直接延续。在意图和欲望被清晰区分之后，它们需要被重新结合——但不是以原来那种纠缠的状态，而是以"意志驾驭欲望"的新秩序结合在一起。这个阶段对应的是性魔法中"能量的充电"。将精纯化后的魔法意图注入到流动的性能量中——就像将引信插入炸药。结合的结果是一个"能量-意图"复合体：它既是强烈的性能量，又是清晰的魔法意志。在符号层面，这就是红王(硫)与白后(汞)的化学婚礼——Sex(性)与Will(意志)的神圣婚姻。</p>' },
+  { title: '发酵(Fermentation)——能量转化', body: '<p>发酵是性炼金术中能量性质发生转变的阶段。经过结合的能量-意图复合体需要被放置——就像葡萄酒需要时间发酵一样——使其内在的力量自然地"成熟"和增强。这个阶段对应的是性魔法中高潮前的那个"延长的平台期"。从业者通过呼吸控制、肌肉收缩和注意力分散技术，将高潮推迟到极限——在即将爆发但尚未爆发的状态下停留尽可能长的时间。在这个延长的高潮前状态中，能量-意图复合体经历了一个"沸腾"和"起泡"的过程——它变得越来越强烈、越来越精纯。发酵阶段的持续时间从几秒到几分钟不等，取决于练习程度。</p>' },
+  { title: '蒸馏(Distillation)——升华', body: '<p>蒸馏——Sublimatio——是性能量被向上提升的阶段。在发酵阶段积累的强烈能量-意图复合体不再向下释放(通过正常的高潮通道)，而是被从业者通过意志和呼吸技术向上引导——从腹轮/海底轮上升到心轮、喉轮和眉心轮。这个过程与道家"河车运转"和密宗"昆达里尼上升"完全对应。在身体感受上，从业者会体验到一股暖流或电击般的感觉沿着脊椎向上移动。当这股能量到达更高的脉轮时，其性质发生了转变——从粗重的"性欲"变成了精微的"狂喜"和"超意识"。蒸馏阶段是性炼金术中最接近"神秘体验"的时刻。</p>' },
+  { title: '凝结(Coagulation)——结果的实现', body: '<p>凝结是性炼金术的最后一步，对应性魔法的高潮释放和结果显现。经过蒸馏精纯的能量-意图复合体被最终释放——通过高潮(或干性高潮)投射到宇宙/现实层面。凝结不仅是高潮的释放，也是魔法意图的"落地"——从内在的能量现实转化为外在的物质现实。高潮后的瞬间，从业者进入一种深邃的平静和合一状态，在此状态下，投射出去的意志被认为开始在现实的"土壤"中"生长"。炼金术士说："As above, so below"(在上如此，在下亦然)——内在能量世界发生的一切，终将在外在物质世界中显现其对应物。</p>' }
+];
+
+(function initAlchemySteps() {
+  const steps = document.querySelectorAll('.alchemy-step');
+  const detail = document.getElementById('stepDetail');
+  if (!steps.length || !detail) return;
+
+  steps.forEach(step => {
+    step.addEventListener('click', function() {
+      steps.forEach(s => s.classList.remove('active'));
+      this.classList.add('active');
+      const idx = parseInt(this.dataset.step);
+      const data = alchemyStepDetails[idx];
+      if (data) {
+        detail.innerHTML = '<div class="sd-title">' + data.title + '</div><div class="sd-body">' + data.body + '</div>';
+      }
+    });
+  });
+})();
+
+// ============== Alchemy Canvas (Tab 6) ==============
+(function drawAlchemyCircle() {
+  const c = document.getElementById('alchemyCanvas');
+  if (!c) return;
+  const rect = c.parentElement.getBoundingClientRect();
+  c.width = Math.min(600, rect.width - 40);
+  c.height = 400;
+  const ctx = c.getContext('2d');
+  const cx2 = c.width / 2;
+  const cy2 = c.height / 2;
+  const baseR = Math.min(cx2, cy2) - 40;
+
+  const stepColors = ['#cc3333', '#e8852e', '#e8c82e', '#d4a843', '#3377cc', '#5533aa', '#8833aa'];
+  const stepNames = ['Calcination', 'Dissolution', 'Separation', 'Conjunction', 'Fermentation', 'Distillation', 'Coagulation'];
+  const stepCn = ['钙化', '溶解', '分离', '结合', '发酵', '蒸馏', '凝结'];
+  let alchemyAngle = 0;
+
+  function drawAlchemy() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    alchemyAngle += 0.003;
+
+    // Outer ring
+    for (let i = 0; i < 7; i++) {
+      const angle = (i / 7) * Math.PI * 2 - Math.PI / 2 + alchemyAngle;
+      const nextAngle = ((i + 1) / 7) * Math.PI * 2 - Math.PI / 2 + alchemyAngle;
+      const r1 = baseR * 0.6 + baseR * 0.4 * (0.5 + 0.5 * Math.sin(alchemyAngle * 2 + i));
+
+      ctx.beginPath();
+      ctx.arc(cx2, cy2, r1, angle, nextAngle);
+      ctx.strokeStyle = stepColors[i] + '66';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      const labelAngle = angle + (nextAngle - angle) / 2;
+      const lx = cx2 + Math.cos(labelAngle) * (baseR + 20);
+      const ly = cy2 + Math.sin(labelAngle) * (baseR + 20);
+      ctx.fillStyle = stepColors[i];
+      ctx.font = '11px "Noto Serif SC",serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(stepCn[i], lx, ly);
+
+      // Inner dot
+      const dx = cx2 + Math.cos(labelAngle) * r1 * 0.6;
+      const dy = cy2 + Math.sin(labelAngle) * r1 * 0.6;
+      ctx.beginPath();
+      ctx.arc(dx, dy, 4, 0, Math.PI * 2);
+      ctx.fillStyle = stepColors[i];
+      ctx.fill();
+    }
+
+    // Center Ouroboros
+    ctx.beginPath();
+    ctx.arc(cx2, cy2, 15, 0, Math.PI * 2);
+    ctx.strokeStyle = '#d4a843';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(cx2, cy2, 8, 0, Math.PI * 2);
+    ctx.fillStyle = '#d4a843';
+    ctx.fill();
+
+    // Cross in center
+    ctx.beginPath();
+    ctx.moveTo(cx2 - 20, cy2);
+    ctx.lineTo(cx2 + 20, cy2);
+    ctx.moveTo(cx2, cy2 - 20);
+    ctx.lineTo(cx2, cy2 + 20);
+    ctx.strokeStyle = 'rgba(212,168,67,0.2)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    requestAnimationFrame(drawAlchemy);
+  }
+  drawAlchemy();
+})();
+
+// ============== Quiz (Tab 7) ==============
+(function buildQuiz() {
+  const container = document.getElementById('quizContainer');
+  if (!container) return;
+
+  const questions = [
+    { q: 'LHP中，性魔法的主要目标是什么？', options: ['获得性快感', '自我神化(Apotheosis)', '繁衍后代', '控制他人'], correct: 1 },
+    { q: '以下哪位人物被称为"第一个系统化西方性魔法的实践者"？', options: ['Aleister Crowley', 'Julius Evola', 'Paschal Beverly Randolph', 'Kenneth Grant'], correct: 2 },
+    { q: '在OTO等级体系中，IX度(第九等级)的核心工作是什么？', options: ['禁欲性炼金术', '异性性魔法', '同性性魔法', '组织管理'], correct: 1 },
+    { q: '密宗中的"五M仪式"中的Maithuna指的是什么？', options: ['酒', '肉', '手势', '性结合'], correct: 3 },
+    { q: '道家房中术中"还精补脑"的本质是什么？', options: ['一种治病方法', '一种性姿势', '能量从低级向高级的转化', '一种养生食谱'], correct: 2 },
+    { q: 'Austin Osman Spare将性高潮中的自动书写技术用于创造什么？', options: ['符印(Sigil)', '咒语', '绘画', '音乐'], correct: 0 },
+    { q: '炼金术七步中，哪一步对应"性与意志的结合"？', options: ['溶解', '分离', '结合(Conjunction)', '凝结'], correct: 2 },
+    { q: 'Kenneth Grant的Typhonian传统将性魔法与什么结合？', options: ['外星接触', '金融魔法', '植物魔法', '天气预报'], correct: 0 },
+    { q: '在性魔法中，"意淫"(Will-Bearing)技术的核心是什么？', options: ['进行性幻想', '在高潮时投射意志', '学习新的性姿势', '阅读色情文学'], correct: 1 },
+    { q: '性魔法中"禁欲期"的主要目的是什么？', options: ['惩罚自己', '获得道德优越感', '蓄积性能量以供转化', '证明自己的意志力'], correct: 2 }
+  ];
+
+  let html = '';
+  questions.forEach((q, qi) => {
+    html += '<div class="quiz-question" data-q="' + qi + '">';
+    html += '<div class="q-text">' + (qi + 1) + '. ' + q.q + '</div>';
+    html += '<div class="q-options">';
+    q.options.forEach((opt, oi) => {
+      html += '<label class="q-option" data-q="' + qi + '" data-opt="' + oi + '">';
+      html += '<input type="radio" name="q' + qi + '" value="' + oi + '">';
+      html += '<span>' + opt + '</span>';
+      html += '</label>';
+    });
+    html += '</div>';
+    html += '<div class="q-feedback" id="fb' + qi + '"></div>';
+    html += '</div>';
+  });
+  container.innerHTML = html;
+
+  // Add event listeners
+  container.querySelectorAll('.q-option').forEach(label => {
+    label.addEventListener('click', function() {
+      const qi = parseInt(this.dataset.q);
+      const oi = parseInt(this.dataset.opt);
+      const q = questions[qi];
+      const feedback = document.getElementById('fb' + qi);
+
+      // Check if already answered
+      if (feedback.style.display === 'block') return;
+
+      // Mark selected
+      container.querySelectorAll('.q-option[data-q="' + qi + '"]').forEach(l => l.classList.remove('selected'));
+      this.classList.add('selected');
+
+      if (oi === q.correct) {
+        feedback.textContent = '正确！' + (qi === 0 ? 'LHP性魔法的最高目标是自我神化——通过性来实现个人神性的觉醒。' : qi === 1 ? 'Randolph在1850年代就开始系统化性魔法，比Crowley早了半个世纪。' : qi === 2 ? 'IX度是异性性魔法等级，涉及男女结合的能量交换。' : qi === 3 ? 'Maithuna是五M仪式的核心——性结合。' : qi === 4 ? '还精补脑是能量从低级(生殖-生存)向高级(精神-灵性)的转化。' : qi === 5 ? 'Spare在高潮中进行自动书写，创造出具有魔法力量的Sigil(符印)。' : qi === 6 ? '结合(Conjunction)是性炼金术中性与意志融合的阶段。' : qi === 7 ? 'Grant将性魔法与洛夫克拉夫特的宇宙恐怖及外星接触主题融合。' : qi === 8 ? '意淫(Will-Bearing)是在高潮的灵知时刻投射魔法意志的技术。' : '禁欲的目的是蓄积性能量，使其在释放时具有最大的魔法威力。');
+        feedback.className = 'q-feedback correct';
+        feedback.style.display = 'block';
+      } else {
+        feedback.textContent = '不正确。正确答案是: ' + q.options[q.correct];
+        feedback.className = 'q-feedback wrong';
+        feedback.style.display = 'block';
+      }
+
+      // Update score
+      updateQuizScore(questions);
+    });
+  });
+})();
+
+function updateQuizScore(questions) {
+  const scoreDiv = document.getElementById('quizScore');
+  let correct = 0;
+  for (let i = 0; i < questions.length; i++) {
+    const fb = document.getElementById('fb' + i);
+    if (fb && fb.classList.contains('correct')) correct++;
+  }
+  scoreDiv.textContent = '得分: ' + correct + ' / ' + questions.length + ' (' + Math.round(correct / questions.length * 100) + '%)';
+}
+
+// ============== Init first alchemy step ==============
+(function initFirstAlchemyStep() {
+  const firstStep = document.querySelector('.alchemy-step');
+  if (firstStep) firstStep.click();
+})();
+
+// ============== Init Ritual Builder default ==============
+if (typeof generateRitual === 'function') {
+  // init on load
+}
+</script>
+
+</body>
+</html>

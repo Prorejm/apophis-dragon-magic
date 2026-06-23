@@ -188,6 +188,8 @@ input:focus{border-color:var(--accent2);}
   <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
   <a href="kabbalah.html" class="nav-link">卡巴拉</a>
   <a href="book-of-law.html" class="nav-link active">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <a class="mobile-link" href="index.html">&#9751; 主页</a>
@@ -214,6 +216,7 @@ input:focus{border-color:var(--accent2);}
   <button class="tab-btn" data-tab="tab4">&#9737; 泰雷玛魔法</button>
   <button class="tab-btn" data-tab="tab5">&#9761; 法之书与左路</button>
   <button class="tab-btn" data-tab="tab6">&#9672; 卡巴拉关联</button>
+  <button class="tab-btn" data-tab="tab7">&#9888; 经文解析</button>
 </div>
 <div class="tab-content active" id="tab1">
 <div class="reader-toolbar">
@@ -1019,6 +1022,128 @@ Dragon Rouge（瑞典的左路魔法组织）将法之书纳入其"七龙之路"
 <p style="font-size:.85rem;color:var(--ink-dim);">AL I:60 中的神秘数字6=50650，代表 Nuit 的揭示。在卡巴拉数论中，50650 = 6 x 777 + 6 x 666，反映了宇宙的数学结构。</p>
 </div>
 </div>
+<div class="tab-content" id="tab7">
+<h2 class="section-label">&#9888; 经文解析工具 <span class="label-en">Scriptural Analysis Tools</span></h2>
+
+<!-- Tool 1: 词频统计器 -->
+<div class="card">
+<div class="card-title">&#9312; 词频统计器 <span style="font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;">Word Frequency Analyzer</span></div>
+<div class="reader-toolbar" style="margin-bottom:12px;">
+  <select id="wfChapter" style="width:auto;min-width:100px;">
+    <option value="all">全篇</option>
+    <option value="1">第一章</option>
+    <option value="2">第二章</option>
+    <option value="3">第三章</option>
+  </select>
+  <button class="btn" id="wfBtn">&#9888; 分析词频</button>
+  <span style="font-size:.78rem;color:var(--muted);margin-left:8px;">分析 Will / Love / Law / Star / Nuit / Hadit / Hoor / Ra / Fire / Word / Man / Woman / Child / Heart / Blood / Light 等关键词</span>
+</div>
+<div class="grid-2">
+  <div><canvas id="wfChart" style="width:100%;height:260px;border:1px solid var(--rule);border-radius:var(--radius);background:var(--bg2);"></canvas></div>
+  <div style="max-height:280px;overflow-y:auto;">
+    <table class="gematria-table" id="wfTable" style="font-size:.78rem;">
+      <thead><tr><th>单词</th><th>出现次数</th><th>所在章节</th></tr></thead>
+      <tbody id="wfTbody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- Tool 2: 数值密码分析器 -->
+<div class="card">
+<div class="card-title">&#9313; 数值密码分析器 <span style="font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;">Number Cipher Analyzer</span></div>
+<p style="font-size:.82rem;color:var(--ink-dim);margin-bottom:10px;">点击经文中的神秘数字，查看其 Gematria 对应关系和出现位置。</p>
+<div class="reader-toolbar" style="margin-bottom:12px;flex-wrap:wrap;">
+  <span id="numChipContainer" style="display:flex;gap:6px;flex-wrap:wrap;">
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="3">3</span>
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="7">7</span>
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="11">11</span>
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="31">31</span>
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="61">61</span>
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="93">93</span>
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="418">418</span>
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="666">666</span>
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="718">718</span>
+    <span class="tag" style="cursor:pointer;font-size:.85rem;padding:4px 12px;" data-num="777">777</span>
+  </span>
+</div>
+<div id="numDetail" style="display:none;background:var(--bg2);border:1px solid var(--rule);border-radius:var(--radius);padding:14px 18px;margin-bottom:10px;">
+  <div style="font-family:var(--font-en);font-size:1.8rem;color:var(--accent2);font-weight:700;" id="numVal"></div>
+  <div style="font-size:.85rem;color:var(--ink-dim);margin-top:6px;" id="numMeaning"></div>
+  <div style="font-size:.82rem;color:var(--muted);margin-top:8px;" id="numPositions"></div>
+</div>
+<table class="gematria-table" style="font-size:.78rem;">
+  <thead><tr><th>数字</th><th>Gematria 对应</th><th>出现位置 (章节:节)</th><th>可能的含义</th></tr></thead>
+  <tbody id="numTableBody"></tbody>
+</table>
+</div>
+
+<!-- Tool 3: 章节对比工具 -->
+<div class="card">
+<div class="card-title">&#9314; 章节对比工具 <span style="font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;">Chapter Comparison</span></div>
+<div class="reader-toolbar" style="margin-bottom:12px;flex-wrap:wrap;">
+  <span style="font-size:.82rem;color:var(--ink-dim);">按主题筛选：</span>
+  <select id="compTheme" style="width:auto;min-width:100px;">
+    <option value="all">全部经文</option>
+    <option value="deities">神名 (Nuit / Hadit / Ra-Hoor-Khuit)</option>
+    <option value="action">行动 (call / come / do / hear)</option>
+    <option value="taboo">禁忌 (not / curse / who)</option>
+    <option value="love">爱/律法 (love / law / will)</option>
+    <option value="fire">火焰/光 (fire / flame / light)</option>
+  </select>
+  <button class="btn" id="compBtn">&#9888; 执行对比</button>
+  <span id="compCount" style="font-size:.78rem;color:var(--muted);margin-left:8px;"></span>
+</div>
+<div class="grid-3" id="compContainer" style="margin-bottom:12px;">
+  <div style="border:1px solid var(--rule);border-radius:var(--radius);padding:10px;background:var(--bg2);max-height:320px;overflow-y:auto;">
+    <div style="font-family:var(--font-display);color:var(--accent2);font-size:.95rem;text-align:center;margin-bottom:6px;">第一章</div>
+    <div id="compCh1" style="font-size:.78rem;color:var(--ink-dim);line-height:1.7;"></div>
+  </div>
+  <div style="border:1px solid var(--rule);border-radius:var(--radius);padding:10px;background:var(--bg2);max-height:320px;overflow-y:auto;">
+    <div style="font-family:var(--font-display);color:var(--accent2);font-size:.95rem;text-align:center;margin-bottom:6px;">第二章</div>
+    <div id="compCh2" style="font-size:.78rem;color:var(--ink-dim);line-height:1.7;"></div>
+  </div>
+  <div style="border:1px solid var(--rule);border-radius:var(--radius);padding:10px;background:var(--bg2);max-height:320px;overflow-y:auto;">
+    <div style="font-family:var(--font-display);color:var(--accent2);font-size:.95rem;text-align:center;margin-bottom:6px;">第三章</div>
+    <div id="compCh3" style="font-size:.78rem;color:var(--ink-dim);line-height:1.7;"></div>
+  </div>
+</div>
+<div style="overflow-x:auto;">
+  <table class="gematria-table" style="font-size:.78rem;">
+    <thead><tr><th>主题</th><th>第一章</th><th>第二章</th><th>第三章</th><th>总计</th></tr></thead>
+    <tbody id="compPivotBody"></tbody>
+  </table>
+</div>
+</div>
+
+<!-- Tool 4: 秘语标签云 -->
+<div class="card">
+<div class="card-title">&#9315; 秘语标签云 <span style="font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;">Sacred Word Cloud</span></div>
+<p style="font-size:.82rem;color:var(--ink-dim);margin-bottom:10px;">从全篇经文中提取关键词，圆形排列的标签云。点击标签可跳转到对应章节位置。</p>
+<div class="reader-toolbar" style="margin-bottom:12px;">
+  <button class="btn" id="cloudBtn">&#9888; 生成标签云</button>
+  <span style="font-size:.78rem;color:var(--muted);margin-left:8px;" id="cloudStatus">点击按钮生成关键词云</span>
+</div>
+<div style="text-align:center;">
+  <canvas id="cloudCanvas" style="width:100%;height:360px;border:1px solid var(--rule);border-radius:var(--radius);background:var(--bg2);cursor:pointer;"></canvas>
+</div>
+</div>
+
+<!-- Tool 5: 章节交叉引用 -->
+<div class="card">
+<div class="card-title">&#9316; 章节交叉引用 <span style="font-family:var(--font-en);font-size:.85rem;color:var(--muted);font-style:italic;">Cross References & Network</span></div>
+<p style="font-size:.82rem;color:var(--ink-dim);margin-bottom:10px;">法之书各章节之间的隐秘呼应关系网络。</p>
+<div class="reader-toolbar" style="margin-bottom:12px;">
+  <button class="btn" id="xrefBtn">&#9888; 显示交叉引用</button>
+  <span id="xrefInfo" style="font-size:.78rem;color:var(--muted);margin-left:8px;"></span>
+</div>
+<div class="grid-2">
+  <div><canvas id="xrefCanvas" style="width:100%;height:320px;border:1px solid var(--rule);border-radius:var(--radius);background:var(--bg2);"></canvas></div>
+  <div id="xrefList" style="max-height:320px;overflow-y:auto;font-size:.78rem;color:var(--ink-dim);line-height:1.8;padding:4px 8px;border:1px solid var(--rule);border-radius:var(--radius);background:var(--bg2);"></div>
+</div>
+</div>
+
+</div>
 <script>
 // Particle Canvas
 const canvas=document.getElementById('particleCanvas');
@@ -1214,6 +1339,469 @@ function drawRelationCanvas(){
 }
 setTimeout(drawRelationCanvas,100);
 window.addEventListener('resize',()=>setTimeout(drawRelationCanvas,200));
+
+// ============================================================
+// Tab 7: 经文解析工具 (Analysis Tools)
+// ============================================================
+
+// --- Data: Build structured verse array from DOM ---
+function buildVerseData() {
+  const verses = [];
+  document.querySelectorAll('.chapter-section .verse').forEach(el => {
+    const dv = el.getAttribute('data-verse');
+    if (!dv) return;
+    const parts = dv.split(':');
+    const ch = parseInt(parts[0]);
+    const vNum = parseInt(parts[1]);
+    const textEl = el.querySelector('.v-text');
+    const text = textEl ? textEl.textContent.replace(/\s+/g,' ').trim() : '';
+    verses.push({ ch, vNum, ref: dv, text, el });
+  });
+  return verses;
+}
+
+// --- Tool 1: 词频统计器 ---
+const WF_KEYWORDS = ['Will','Love','Law','Star','Nuit','Hadit','Hoor','Ra','Fire','Word','Man','Woman','Child','Heart','Blood','Light',
+  'Will','Love','Law','Star','Nuit','Hadit','Hoor','Ra','Fire','Word','Man','Woman','Child','Heart','Blood','Light'];
+
+function getUniqueKeywords() {
+  const seen = {};
+  WF_KEYWORDS.forEach(k => seen[k] = true);
+  return Object.keys(seen);
+}
+
+function doWordFrequency() {
+  const verses = buildVerseData();
+  const chFilter = document.getElementById('wfChapter').value;
+  const filtered = chFilter === 'all' ? verses : verses.filter(v => v.ch === parseInt(chFilter));
+  const keywords = getUniqueKeywords();
+  const results = keywords.map(kw => {
+    const pattern = kw.toLowerCase();
+    let count = 0;
+    const chapters = new Set();
+    filtered.forEach(v => {
+      if (v.text.toLowerCase().includes(pattern)) {
+        count++;
+        chapters.add(v.ch);
+      }
+    });
+    return { word: kw, count, chapters: Array.from(chapters).sort((a,b)=>a-b).map(c=>'第'+c+'章').join(', ') || '-' };
+  });
+  results.sort((a,b) => b.count - a.count);
+  // Table
+  const tbody = document.getElementById('wfTbody');
+  tbody.innerHTML = results.map(r => '<tr><td>'+r.word+'</td><td>'+r.count+'</td><td>'+r.chapters+'</td></tr>').join('');
+  // Canvas bar chart
+  const canvas = document.getElementById('wfChart');
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const w = Math.max(canvas.parentElement.clientWidth||300,300);
+  canvas.width = w * (window.devicePixelRatio||1);
+  canvas.height = 260 * (window.devicePixelRatio||1);
+  canvas.style.width = w+'px';
+  canvas.style.height = '260px';
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio||1;
+  ctx.scale(dpr, dpr);
+  const cw = w, ch = 260;
+  ctx.clearRect(0,0,cw,ch);
+  // Background
+  ctx.fillStyle = '#0d0d0d';
+  ctx.fillRect(0,0,cw,ch);
+  const maxCount = Math.max(1, ...results.map(r => r.count));
+  const barW = Math.max(14, Math.min(28, (cw-60) / results.length - 4));
+  const padding = { top: 20, bottom: 36, left: 40, right: 16 };
+  const chartH = ch - padding.top - padding.bottom;
+  results.forEach((r, i) => {
+    const x = padding.left + i * (barW + 4);
+    const barH = (r.count / maxCount) * chartH;
+    const y = padding.top + chartH - barH;
+    const grad = ctx.createLinearGradient(x,y,x,y+barH);
+    grad.addColorStop(0,'#d4a843');
+    grad.addColorStop(1,'#c41e3a');
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, y, barW, barH);
+    ctx.strokeStyle = 'rgba(212,168,67,0.3)';
+    ctx.lineWidth = 0.5;
+    ctx.strokeRect(x, y, barW, barH);
+    // Label
+    ctx.fillStyle = '#a09080';
+    ctx.font = '9px "Noto Serif SC",sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(r.count, x + barW/2, y - 4);
+    ctx.fillStyle = '#6a5e4e';
+    ctx.font = '8px "Noto Serif SC",sans-serif';
+    ctx.fillText(r.word, x + barW/2, ch - padding.bottom + 14);
+  });
+  // Axes
+  ctx.strokeStyle = '#1e1e1e';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(padding.left, padding.top);
+  ctx.lineTo(padding.left, ch - padding.bottom);
+  ctx.lineTo(cw - padding.right, ch - padding.bottom);
+  ctx.stroke();
+}
+
+document.getElementById('wfBtn').addEventListener('click', doWordFrequency);
+
+// --- Tool 2: 数值密码分析器 ---
+const NUM_DATA = {
+  3: {meaning:'Binah / 理解之数；生命之树的第三原质。Gematria: Gimel=3。骆驼象征，代表跨越深渊的路径。'},
+  7: {meaning:'Netzach / 胜利之数；七大行星、经典金属。Gematria: Zayin=7。剑之路径，代表力量的切割。'},
+  11: {meaning:'魔法之数；五元素之和(1+2+3+4+1=11)；ABRAHADABRA的字母数。也是Qliphoth(逆生命之树)的数目。'},
+  31: {meaning:'AL(法之书)的数值：Aleph(1)+Lamed(30)=31。代表律法本身的密码。'},
+  61: {meaning:'Ain(无)的希伯来文数值：Aleph(1)+Yod(10)+Nun(50)=61。代表虚无的奥秘。'},
+  93: {meaning:'Thelema(意志)与Agape(爱)的希腊文数值均为93。意志与爱的神圣合一。'},
+  418: {meaning:'ABRAHADABRA的数值。大工作(Great Work)的完成之数。生命之树上跨越深渊的路径。'},
+  666: {meaning:'To Mega Therion(大兽)的数值。太阳之数，代表个体神性的完美表达。不是邪恶之数。'},
+  718: {meaning:'法之书(Liber AL vel Legis)的数值。通过Stele of Revealing揭示的圣数。'},
+  777: {meaning:'完美之数。Crowley的卡巴拉对应著作《777》。三乘七的三重神圣结构。'}
+};
+
+function buildNumTable() {
+  const verses = buildVerseData();
+  const tbody = document.getElementById('numTableBody');
+  const rows = Object.keys(NUM_DATA).map(num => {
+    const positions = verses.filter(v => v.text.includes(num)).map(v => v.ref);
+    const posStr = positions.length ? positions.join(', ') : '—';
+    return '<tr><td style="font-family:var(--font-en);font-weight:700;color:var(--accent2);">'+num+'</td><td>'+NUM_DATA[num].meaning.split('。')[0]+'</td><td>'+posStr+'</td><td>'+NUM_DATA[num].meaning.split('。').slice(0,2).join('。')+'</td></tr>';
+  }).join('');
+  tbody.innerHTML = rows;
+}
+buildNumTable();
+
+document.getElementById('numChipContainer').addEventListener('click', function(e) {
+  const chip = e.target.closest('[data-num]');
+  if (!chip) return;
+  const num = chip.getAttribute('data-num');
+  const verses = buildVerseData();
+  const detail = document.getElementById('numDetail');
+  const val = document.getElementById('numVal');
+  const meaning = document.getElementById('numMeaning');
+  const positions = document.getElementById('numPositions');
+  detail.style.display = 'block';
+  val.textContent = num;
+  meaning.textContent = NUM_DATA[num] ? NUM_DATA[num].meaning : '暂无对应';
+  const posList = verses.filter(v => v.text.includes(num)).map(v => v.ref);
+  positions.textContent = '出现位置：' + (posList.length ? posList.join(', ') : '经文中未直接出现此数字');
+  // Scroll to detail
+  detail.scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+
+// --- Tool 3: 章节对比工具 ---
+const THEME_PATTERNS = {
+  deities: /nuit|hadit|ra[-\s]?hoor[-\s]?khuit|hoor|ra[-\s]?horus/i,
+  action: /\b(call|come|do\b|hear|speak|write|go|stand|arise|ask|seek|find)\b/i,
+  taboo: /\b(not|curse|fool|cast\s*out|reject|destroy|perish|oppose|crush|refuse)\b/i,
+  love: /love|law|will/i,
+  fire: /fire|flame|light|burn|sun|glow|heat/i
+};
+
+function doComparison() {
+  const verses = buildVerseData();
+  const theme = document.getElementById('compTheme').value;
+  let pattern = null;
+  if (theme !== 'all') pattern = THEME_PATTERNS[theme] || null;
+  const ch1 = [], ch2 = [], ch3 = [];
+  verses.forEach(v => {
+    if (pattern && !pattern.test(v.text)) return;
+    if (v.ch === 1) ch1.push(v);
+    else if (v.ch === 2) ch2.push(v);
+    else if (v.ch === 3) ch3.push(v);
+  });
+  const render = (arr, containerId) => {
+    const el = document.getElementById(containerId);
+    if (!arr.length) { el.innerHTML = '<span style="color:var(--muted);">无匹配经文</span>'; return; }
+    el.innerHTML = arr.map(v => '<div style="padding:2px 0;border-bottom:1px solid rgba(212,168,67,0.06);"><span style="color:var(--muted);font-size:.7rem;">'+v.ref+'</span> <span style="color:var(--ink-dim);">'+v.text.replace(pattern||/./,'$&')+'</span></div>').join('');
+  };
+  render(ch1, 'compCh1');
+  render(ch2, 'compCh2');
+  render(ch3, 'compCh3');
+  const total = ch1.length + ch2.length + ch3.length;
+  document.getElementById('compCount').textContent = '共 ' + total + ' 处匹配 (Ch1:'+ch1.length+' / Ch2:'+ch2.length+' / Ch3:'+ch3.length+')';
+  // Pivot table
+  const themeNames = ['deities','action','taboo','love','fire'];
+  const themeLabels = ['神名','行动','禁忌','爱/律法','火焰/光'];
+  const pivotBody = document.getElementById('compPivotBody');
+  pivotBody.innerHTML = themeNames.map((t,i) => {
+    const p = THEME_PATTERNS[t];
+    const c1 = verses.filter(v => v.ch===1 && p.test(v.text)).length;
+    const c2 = verses.filter(v => v.ch===2 && p.test(v.text)).length;
+    const c3_ = verses.filter(v => v.ch===3 && p.test(v.text)).length;
+    return '<tr><td>'+themeLabels[i]+'</td><td>'+c1+'</td><td>'+c2+'</td><td>'+c3_+'</td><td>'+(c1+c2+c3_)+'</td></tr>';
+  }).join('');
+}
+document.getElementById('compBtn').addEventListener('click', doComparison);
+
+// --- Tool 4: 秘语标签云 ---
+function doWordCloud() {
+  const verses = buildVerseData();
+  // Extract keywords: collect Chinese and English words from all text
+  const allText = verses.map(v => v.text).join(' ');
+  // Count word frequencies (English words)
+  const engWords = allText.match(/[A-Za-z\u00C0-\u024F]+/g) || [];
+  const freq = {};
+  const skip = new Set(['the','and','of','in','to','a','is','my','i','me','not','be','that','with','for','by','as','on','it','at','or','this','you','your','all','are','from','no','but','so','an','will','its','has','have','was']);
+  engWords.forEach(w => {
+    const low = w.toLowerCase();
+    if (low.length < 2 || skip.has(low)) return;
+    freq[low] = (freq[low] || 0) + 1;
+  });
+  // Also count Chinese characters/keywords
+  const chineseTerms = ['Nuit','Hadit','Hoor','Ra','Law','Love','Will','Star','Fire','Word','Man','Woman','Child','Heart','Blood','Light','Serpent','Flame','Khabs','Khu','Aiwass','Therion','Babalon','Horus','Sphinx','Chariot','Wheel','Crown','Throne','Temple','Secret','Ecstasy','Flame','Sun','Moon','Star','Night','Dark','Light','Blood','Life','Death','Power','Force','Glory','Wisdom','Knowledge','Silence','Voice','Abyss','Chaos','Dream','Soul','Spirit'];
+  chineseTerms.forEach(term => {
+    const low = term.toLowerCase();
+    if (!freq[low]) {
+      const matches = allText.match(new RegExp('\\b'+term+'\\b','gi'));
+      if (matches) freq[low] = matches.length;
+    }
+  });
+  // Sort and take top 40
+  const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,40);
+  if (sorted.length === 0) { document.getElementById('cloudStatus').textContent = '未提取到关键词'; return; }
+  document.getElementById('cloudStatus').textContent = '共提取 '+sorted.length+' 个关键词，点击标签可跳转';
+  const maxFreq = Math.max(1, sorted[0][1]);
+  const minFreq = Math.max(1, sorted[sorted.length-1][1]);
+  // Canvas
+  const canvas = document.getElementById('cloudCanvas');
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const cw = Math.max(canvas.parentElement.clientWidth||500,400);
+  canvas.width = cw * (window.devicePixelRatio||1);
+  canvas.height = 360 * (window.devicePixelRatio||1);
+  canvas.style.width = cw+'px';
+  canvas.style.height = '360px';
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio||1;
+  ctx.scale(dpr, dpr);
+  const w2 = cw, h2 = 360;
+  ctx.clearRect(0,0,w2,h2);
+  ctx.fillStyle = '#0d0d0d';
+  ctx.fillRect(0,0,w2,h2);
+  // Draw title
+  ctx.fillStyle = 'rgba(212,168,67,0.15)';
+  ctx.font = '14px "Cormorant Garamond",serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Sacred Words of Liber AL', w2/2, 22);
+  const cx = w2/2, cy = h2/2 + 10;
+  const maxR = Math.min(cx, cy-30) - 12;
+  // Spiral placement
+  const placed = [];
+  function collision(x, y, r) {
+    for (const p of placed) {
+      const dx = p.x - x, dy = p.y - y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < p.r + r + 4) return true;
+    }
+    return false;
+  }
+  sorted.forEach(([word, count], idx) => {
+    // Size: between 10 and 36px
+    const ratio = (count - minFreq) / Math.max(1, maxFreq - minFreq);
+    const fontSize = 10 + ratio * 26;
+    const r = fontSize * 0.55;
+    // Spiral placement
+    let angle = idx * 2.4; // golden angle
+    for (let radius = 8; radius < maxR; radius += 4) {
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+      if (x - r < 6 || x + r > w2-6 || y - r < 30 || y + r > h2-10) { angle += 0.5; continue; }
+      if (!collision(x, y, r)) {
+        placed.push({x,y,r});
+        const hue = 30 + (idx * 7 % 30);
+        ctx.fillStyle = 'hsl('+hue+',50%,'+(50+ratio*20)+'%)';
+        ctx.font = Math.round(fontSize)+'px "Cormorant Garamond","Noto Serif SC",serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(word, x, y);
+        // Store data attribute for click
+        canvas.dataset.cloudIdx = idx;
+        canvas.dataset.cloudWord = word;
+        return;
+      }
+      angle += 0.5;
+    }
+    // Fallback: place at random
+    const fx = 20 + Math.random() * (w2-40);
+    const fy = 34 + Math.random() * (h2-50);
+    placed.push({x:fx,y:fy,r});
+    const hue = 30 + (idx * 7 % 30);
+    ctx.fillStyle = 'hsl('+hue+',50%,'+(50+ratio*20)+'%)';
+    ctx.font = Math.round(fontSize)+'px "Cormorant Garamond","Noto Serif SC",serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(word, fx, fy);
+  });
+  // Click handler for word cloud
+  canvas.onclick = function(e) {
+    const rect2 = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect2.left) * (cw / rect2.width);
+    const my = (e.clientY - rect2.top) * (h2 / rect2.height);
+    for (const p of placed) {
+      const dx = mx - p.x, dy = my - p.y;
+      if (Math.sqrt(dx*dx+dy*dy) < p.r + 8) {
+        // Find the word - navigate to first verse containing it
+        const wordEl = sorted.find(s => {
+          const low = s[0].toLowerCase();
+          return verses.some(v => v.text.toLowerCase().includes(low));
+        });
+        if (wordEl) {
+          const targetVerse = verses.find(v => v.text.toLowerCase().includes(wordEl[0].toLowerCase()));
+          if (targetVerse) {
+            // Switch to tab1 and navigate to the verse
+            document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+            document.querySelector('[data-tab="tab1"]').classList.add('active');
+            document.getElementById('tab1').classList.add('active');
+            targetVerse.el.scrollIntoView({behavior:'smooth',block:'center'});
+            targetVerse.el.style.transition = 'background 0.3s';
+            targetVerse.el.style.background = 'rgba(212,168,67,0.15)';
+            setTimeout(()=>{ targetVerse.el.style.background = ''; }, 2000);
+            return;
+          }
+        }
+      }
+    }
+  };
+}
+document.getElementById('cloudBtn').addEventListener('click', doWordCloud);
+
+// --- Tool 5: 章节交叉引用 ---
+const CROSS_REFS = [
+  { from: '1:1', to: '2:2', desc: 'Hadit 在第一章中的显现呼应他在第二章中的自我揭示——"我是那火焰核心"。' },
+  { from: '1:3', to: '2:70', desc: '"每一名男女都是一颗星"呼应"站起来吧！你们是星辰的子嗣"。' },
+  { from: '1:20', to: '2:78', desc: '"爱是律法，爱在意志之下"在第一章和第二章结尾重复出现。' },
+  { from: '1:20', to: '3:75', desc: '"爱即是律法，爱在意志下"作为全书的核心宣言在全书最后一节重申。' },
+  { from: '2:5', to: '3:40', desc: '"蛇是我的象征"呼应"以蛇的智慧与鹰的视野，我统治万有"。' },
+  { from: '2:13', to: '3:13', desc: '"我是那燃烧的太阳"在第二章和第三章的完全相同措辞。' },
+  { from: '1:8', to: '2:8', desc: '"The Khabs 在 Khu 之中"与"Khu 之外，没有什么是神圣的"形成呼应。' },
+  { from: '1:8', to: '2:9', desc: 'Khabs 的主题从第一章延续到第二章的"崇拜 Khabs 吧"。' },
+  { from: '1:59', to: '2:20', desc: '"行汝意志即为全部律法"在第二章中以总结形式再次出现。' },
+  { from: '1:59', to: '3:74', desc: '"行汝意志"作为最终的训诫在第三章结尾重现。' },
+  { from: '2:49', to: '3:57', desc: '"我是一切开端，一切终结"呼应"三即是一"的终极合一。' },
+  { from: '2:28', to: '3:53', desc: '"一切矛盾都将被化解"与"我是那矛盾的化解者"形成对应。' },
+  { from: '1:51', to: '2:76', desc: '"四种至福的盛宴"呼应第二章结尾"意志的狂喜"。' },
+  { from: '3:1', to: '3:21', desc: 'Ra-Hoor-Khuit 与 Horus 作为同一存在的不同面向出现。' },
+  { from: '1:15', to: '2:4', desc: '"星辰之女亲吻 Hadit"与"我是 Nuit 的秘密丈夫"形成完整的叙事。' },
+  { from: '3:7', to: '3:17', desc: '"在废墟上建立庙宇"与"我的圣殿将在沙漠中崛起"形成预言序列。' },
+  { from: '1:44', to: '2:74', desc: '"我是 Nuit，星辰之女"与"我是那隐藏的先知"都是神性自我揭示的宣告。' },
+  { from: '2:72', to: '3:11', desc: '"失去我"与"在黑暗中消亡"形成了对不认知者的平行警告。' },
+  { from: '3:33', to: '1:23', desc: '"我使 Nuit 微笑"呼应 Nuit 与 Hadit 在第一章的命名关系。' },
+  { from: '2:35', to: '3:5', desc: '"那战车的光轮是我"与"看那战车的车轮"的完全对应。' },
+  { from: '1:5', to: '3:25', desc: '"战争之主"呼应第三章"以战争与毁灭，我铺平道路"。' },
+  { from: '2:39', to: '3:44', desc: '"铁和火焰铸成我的圣殿"与"用钢铁铸造你的灵魂"的材料主题。' },
+];
+
+function doCrossReferences() {
+  const verses = buildVerseData();
+  const canvas = document.getElementById('xrefCanvas');
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const cw = Math.max(canvas.parentElement.clientWidth||300,300);
+  canvas.width = cw * (window.devicePixelRatio||1);
+  canvas.height = 320 * (window.devicePixelRatio||1);
+  canvas.style.width = cw+'px';
+  canvas.style.height = '320px';
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio||1;
+  ctx.scale(dpr, dpr);
+  const w2 = cw, h2 = 320;
+  ctx.clearRect(0,0,w2,h2);
+  ctx.fillStyle = '#0d0d0d';
+  ctx.fillRect(0,0,w2,h2);
+
+  // Collect unique reference nodes
+  const nodes = {};
+  CROSS_REFS.forEach(ref => {
+    nodes[ref.from] = { ref: ref.from, x: 0, y: 0, r: 6 };
+    nodes[ref.to] = { ref: ref.to, x: 0, y: 0, r: 6 };
+  });
+  // Position nodes in a circular layout
+  const nodeRefs = Object.keys(nodes);
+  const nCount = nodeRefs.length;
+  const centerX = w2/2, centerY = h2/2 - 10;
+  const radius = Math.min(centerX, centerY) - 30;
+  nodeRefs.forEach((ref, i) => {
+    const angle = (2 * Math.PI * i / nCount) - Math.PI/2;
+    nodes[ref].x = centerX + radius * Math.cos(angle);
+    nodes[ref].y = centerY + radius * Math.sin(angle);
+  });
+
+  // Draw edges
+  ctx.strokeStyle = 'rgba(212,168,67,0.15)';
+  ctx.lineWidth = 0.8;
+  CROSS_REFS.forEach(ref => {
+    const from = nodes[ref.from], to = nodes[ref.to];
+    if (!from || !to) return;
+    ctx.beginPath();
+    ctx.moveTo(from.x, from.y);
+    ctx.lineTo(to.x, to.y);
+    ctx.stroke();
+  });
+
+  // Draw nodes
+  nodeRefs.forEach(ref => {
+    const n = nodes[ref];
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+    ctx.fillStyle = '#d4a843';
+    ctx.globalAlpha = 0.6;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = '#d4a843';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.font = '8px "Cormorant Garamond",serif';
+    ctx.fillStyle = '#a09080';
+    ctx.textAlign = 'center';
+    ctx.fillText(ref, n.x, n.y - 10);
+  });
+
+  // Legend
+  ctx.fillStyle = 'rgba(212,168,67,0.3)';
+  ctx.font = '10px "Cormorant Garamond",serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Cross-Reference Network ('+CROSS_REFS.length+' connections)', w2/2, h2-8);
+
+  // Build reference list
+  const listEl = document.getElementById('xrefList');
+  listEl.innerHTML = CROSS_REFS.map(ref => {
+    const fromVerse = verses.find(v => v.ref === ref.from);
+    const toVerse = verses.find(v => v.ref === ref.to);
+    const fromText = fromVerse ? fromVerse.text.replace(/<[^>]*>/g,'').substring(0,40) : '';
+    const toText = toVerse ? toVerse.text.replace(/<[^>]*>/g,'').substring(0,40) : '';
+    return '<div style="padding:4px 6px;border-bottom:1px solid rgba(212,168,67,0.08);cursor:pointer;" data-from="'+ref.from+'" data-to="'+ref.to+'">'+
+      '<span style="color:var(--accent2);font-weight:600;">'+ref.from+'</span> \u2192 <span style="color:var(--accent2);font-weight:600;">'+ref.to+'</span>'+
+      '<div style="font-size:.72rem;color:var(--muted);margin-top:2px;">'+ref.desc.substring(0,50)+'...</div></div>';
+  }).join('');
+
+  // Click handler on list items
+  listEl.querySelectorAll('div[data-from]').forEach(el => {
+    el.addEventListener('click', function() {
+      const from = this.getAttribute('data-from');
+      const to = this.getAttribute('data-to');
+      // Navigate to tab1 and scroll to from-verse
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+      document.querySelector('[data-tab="tab1"]').classList.add('active');
+      document.getElementById('tab1').classList.add('active');
+      const targetVerse = verses.find(v => v.ref === from);
+      if (targetVerse) {
+        targetVerse.el.scrollIntoView({behavior:'smooth',block:'center'});
+        targetVerse.el.style.transition = 'background 0.3s';
+        targetVerse.el.style.background = 'rgba(212,168,67,0.15)';
+        setTimeout(()=>{ targetVerse.el.style.background = ''; }, 2000);
+      }
+    });
+  });
+
+  document.getElementById('xrefInfo').textContent = '显示 ' + CROSS_REFS.length + ' 条交叉引用关系';
+}
+document.getElementById('xrefBtn').addEventListener('click', doCrossReferences);
+// Auto-run word frequency on first tab7 load
+document.querySelector('[data-tab="tab7"]').addEventListener('click', function() {
+  setTimeout(() => {
+    if (!document.getElementById('wfTbody').children.length) doWordFrequency();
+  }, 200);
+});
 </script>
 </body>
 </html>

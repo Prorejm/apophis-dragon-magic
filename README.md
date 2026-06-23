@@ -133,6 +133,8 @@
 | ✡ 希伯来字母 | [hebrew-alphabet.html](https://prorejm.github.io/apophis-dragon-magic/hebrew-alphabet.html) |
 | 🌟 卡巴拉 | [kabbalah.html](https://prorejm.github.io/apophis-dragon-magic/kabbalah.html) |
 | 📜 法之书 | [book-of-law.html](https://prorejm.github.io/apophis-dragon-magic/book-of-law.html) |
+| 🌿 金枝 | [golden-bough.html](https://prorejm.github.io/apophis-dragon-magic/golden-bough.html) |
+| 🔥 性魔法 | [sex-magic.html](https://prorejm.github.io/apophis-dragon-magic/sex-magic.html) |
 ## 💻 本地运行
 
 直接用浏览器打开 `index.html` 即可，无需服务器。

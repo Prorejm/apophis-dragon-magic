@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金枝 · The Golden Bough — 阿波菲斯</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:#0a0a0a; color:#c8b88a; font-family:'Noto Serif SC','Cormorant Garamond',serif;
+  min-height:100vh; overflow-x:hidden;
+}
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-track { background:#0a0a0a; }
+::-webkit-scrollbar-thumb { background:#d4a843; border-radius:4px; }
+a { color:#d4a843; text-decoration:none; transition:color 0.3s; }
+a:hover { color:#c41e3a; }
+
+/* particles */
+#particleCanvas {
+  position:fixed; top:0; left:0; width:100%; height:100%; z-index:0;
+  pointer-events:none;
+}
+
+/* nav */
+.nav-bar {
+  position:fixed; top:0; left:0; width:100%; height:60px;
+  background:rgba(10,10,10,0.92); backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(212,168,67,0.25);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 2rem; z-index:1000;
+}
+.nav-brand {
+  font-family:'Ma Shan Zheng',cursive; font-size:1.6rem; color:#d4a843;
+  letter-spacing:0.15em; text-shadow:0 0 20px rgba(212,168,67,0.3);
+}
+.nav-links { display:flex; gap:1.5rem; align-items:center; }
+.nav-link {
+  font-size:0.85rem; color:#c8b88a; letter-spacing:0.05em;
+  position:relative; padding:0.25rem 0; cursor:pointer;
+}
+.nav-link::after {
+  content:''; position:absolute; bottom:0; left:0; width:0; height:1px;
+  background:#d4a843; transition:width 0.3s;
+}
+.nav-link:hover::after { width:100%; }
+.nav-link:hover { color:#d4a843; }
+
+/* hamburger */
+.hamburger {
+  display:none; flex-direction:column; cursor:pointer; gap:5px;
+  background:none; border:none; padding:4px; z-index:1001;
+}
+.hamburger span {
+  display:block; width:26px; height:2px;
+  background:#d4a843; transition:all 0.3s; border-radius:2px;
+}
+.hamburger.active span:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+.hamburger.active span:nth-child(2) { opacity:0; }
+.hamburger.active span:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+
+/* hero */
+.hero {
+  position:relative; z-index:1; min-height:85vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:6rem 2rem 3rem;
+}
+.hero h1 {
+  font-family:'Playfair Display',serif; font-size:clamp(2.8rem,7vw,5.5rem);
+  color:#d4a843; text-shadow:0 0 60px rgba(212,168,67,0.25),0 4px 20px rgba(0,0,0,0.8);
+  letter-spacing:0.08em; margin-bottom:0.5rem;
+}
+.hero .sub {
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:clamp(1.2rem,2.5vw,1.8rem); color:#a09070;
+  letter-spacing:0.3em; margin-bottom:1.5rem;
+}
+.hero .author { color:#6a5a3a; font-size:0.95rem; letter-spacing:0.15em; }
+.hero .ornament { color:#d4a843; font-size:2rem; margin:1.5rem 0; opacity:0.5; }
+
+/* tabs */
+.tab-container { position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:0 1.5rem 4rem; }
+.tab-buttons {
+  display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center;
+  margin-bottom:3rem; border-bottom:1px solid rgba(212,168,67,0.2); padding-bottom:1rem;
+}
+.tab-btn {
+  padding:0.6rem 1.2rem; background:transparent; border:1px solid rgba(212,168,67,0.3);
+  color:#8a7a5a; font-family:'Noto Serif SC',serif; font-size:0.85rem;
+  cursor:pointer; transition:all 0.3s; border-radius:4px; letter-spacing:0.05em;
+}
+.tab-btn:hover { color:#d4a843; border-color:#d4a843; background:rgba(212,168,67,0.08); }
+.tab-btn.active { color:#d4a843; border-color:#d4a843; background:rgba(212,168,67,0.15); box-shadow:0 0 20px rgba(212,168,67,0.1); }
+
+.tab-panel { display:none; animation:fadeIn 0.6s ease; }
+.tab-panel.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+
+.tab-panel h2 {
+  font-family:'Playfair Display',serif; color:#d4a843; font-size:2rem;
+  margin-bottom:1.5rem; padding-bottom:0.5rem;
+  border-bottom:1px solid rgba(212,168,67,0.2); letter-spacing:0.05em;
+}
+.tab-panel h3 {
+  font-family:'Ma Shan Zheng',cursive; color:#d4a843; font-size:1.4rem;
+  margin:1.8rem 0 0.8rem; letter-spacing:0.08em;
+}
+.tab-panel h4 { color:#c41e3a; font-size:1.1rem; margin:1.2rem 0 0.5rem; }
+.tab-panel p { line-height:1.9; margin-bottom:1rem; text-align:justify; font-size:0.95rem; }
+.tab-panel .highlight { color:#d4a843; font-weight:700; }
+.tab-panel .crimson { color:#c41e3a; }
+.tab-panel .green { color:#2d5016; }
+
+/* card */
+.card {
+  background:rgba(212,168,67,0.04); border:1px solid rgba(212,168,67,0.12);
+  border-radius:8px; padding:1.5rem; margin:1.5rem 0;
+}
+.card-title { color:#d4a843; font-size:1.1rem; margin-bottom:0.8rem; font-weight:700; }
+
+/* comparison table */
+.comparison-table {
+  width:100%; border-collapse:collapse; margin:1.5rem 0;
+  font-size:0.9rem;
+}
+.comparison-table th {
+  background:rgba(212,168,67,0.15); color:#d4a843;
+  padding:0.8rem 1rem; border:1px solid rgba(212,168,67,0.2);
+  font-weight:700; text-align:center;
+}
+.comparison-table td {
+  padding:0.8rem 1rem; border:1px solid rgba(212,168,67,0.1);
+  vertical-align:top;
+}
+
+/* magic classifier */
+.magic-input-area {
+  display:flex; gap:0.8rem; margin:1.5rem 0; flex-wrap:wrap;
+}
+.magic-input-area input {
+  flex:1; min-width:200px; padding:0.7rem 1rem;
+  background:rgba(10,10,10,0.8); border:1px solid rgba(212,168,67,0.3);
+  color:#c8b88a; font-family:'Noto Serif SC',serif; font-size:0.9rem;
+  border-radius:4px; outline:none; transition:border-color 0.3s;
+}
+.magic-input-area input:focus { border-color:#d4a843; }
+.magic-input-area button {
+  padding:0.7rem 1.5rem; background:#d4a843; color:#0a0a0a;
+  border:none; border-radius:4px; cursor:pointer; font-weight:700;
+  font-family:'Noto Serif SC',serif; transition:all 0.3s;
+}
+.magic-input-area button:hover { background:#c41e3a; color:#fff; }
+.magic-result {
+  padding:1rem; border-radius:4px; margin-top:0.5rem;
+  border:1px solid rgba(212,168,67,0.2);
+}
+
+/* quiz */
+.quiz-question { margin:1.5rem 0; }
+.quiz-question p { font-weight:700; margin-bottom:0.5rem; }
+.quiz-options { display:flex; flex-direction:column; gap:0.4rem; }
+.quiz-options label {
+  display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0.8rem;
+  border:1px solid rgba(212,168,67,0.12); border-radius:4px;
+  cursor:pointer; transition:all 0.3s; font-size:0.9rem;
+}
+.quiz-options label:hover { border-color:rgba(212,168,67,0.4); background:rgba(212,168,67,0.04); }
+.quiz-options input[type="radio"] { accent-color:#d4a843; }
+.quiz-result { margin-top:1rem; padding:1rem; border-radius:4px; display:none; }
+
+/* timeline */
+.timeline { position:relative; padding:1.5rem 0; }
+.timeline::before {
+  content:''; position:absolute; left:20px; top:0; bottom:0;
+  width:2px; background:linear-gradient(to bottom,rgba(212,168,67,0.5),rgba(196,30,58,0.3));
+}
+.timeline-item {
+  position:relative; padding-left:50px; margin-bottom:1.8rem;
+}
+.timeline-item::before {
+  content:''; position:absolute; left:12px; top:6px;
+  width:18px; height:18px; border-radius:50%;
+  background:#d4a843; border:3px solid #0a0a0a;
+}
+.timeline-item .year {
+  font-family:'Playfair Display',serif; color:#d4a843; font-size:1.1rem;
+  font-weight:700;
+}
+.timeline-item .desc { color:#a09070; font-size:0.9rem; line-height:1.6; }
+
+/* tree genealogy */
+.tree-node {
+  display:inline-block; padding:0.5rem 1rem; margin:0.3rem;
+  border:1px solid rgba(212,168,67,0.3); border-radius:4px;
+  font-size:0.85rem; cursor:pointer; transition:all 0.3s;
+}
+.tree-node:hover { border-color:#d4a843; background:rgba(212,168,67,0.1); }
+.tree-level { margin:0.5rem 0; text-align:center; }
+.tree-connector { text-align:center; color:#6a5a3a; font-size:0.7rem; }
+
+/* fire calendar */
+.calendar-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1rem; margin:1.5rem 0;
+}
+.calendar-card {
+  background:rgba(212,168,67,0.04); border:1px solid rgba(212,168,67,0.12);
+  border-radius:8px; padding:1rem; text-align:center;
+  transition:all 0.3s; cursor:default;
+}
+.calendar-card:hover { border-color:#d4a843; transform:translateY(-2px); }
+.calendar-card .feast-name { color:#d4a843; font-weight:700; margin-bottom:0.3rem; }
+.calendar-card .feast-date { font-size:0.8rem; color:#6a5a3a; }
+.calendar-card .feast-desc { font-size:0.8rem; color:#a09070; margin-top:0.3rem; }
+
+/* scroll indicator */
+.scroll-indicator {
+  position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
+  animation:bounce 2s infinite; color:#d4a843; font-size:1.5rem; opacity:0.5;
+}
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(10px)} }
+
+/* footer */
+.footer {
+  position:relative; z-index:1; text-align:center; padding:3rem 2rem;
+  border-top:1px solid rgba(212,168,67,0.1); color:#5a4a2a; font-size:0.8rem;
+  letter-spacing:0.1em;
+}
+
+/* responsive */
+@media(max-width:860px){
+  .hamburger { display:flex; }
+  .nav-links {
+    position:fixed; top:0; right:-100%; width:280px; height:100vh;
+    background:rgba(10,10,10,0.97); backdrop-filter:blur(16px);
+    flex-direction:column; padding:5rem 2rem 2rem; gap:1.2rem;
+    transition:right 0.4s; border-left:1px solid rgba(212,168,67,0.15);
+  }
+  .nav-links.open { right:0; }
+  .nav-link { font-size:1rem; }
+  .tab-btn { font-size:0.78rem; padding:0.5rem 0.9rem; }
+}
+@media(max-width:480px){
+  .hero h1 { font-size:2rem; }
+  .tab-panel h2 { font-size:1.4rem; }
+  .comparison-table { font-size:0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link active">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+</nav>
+
+<section class="hero">
+  <h1>金 枝</h1>
+  <div class="sub">The Golden Bough</div>
+  <div class="ornament">&#10087; &#9670; &#10087;</div>
+  <p class="author">詹姆斯·乔治·弗雷泽爵士 &middot; Sir James George Frazer &middot; 1854–1941</p>
+  <p class="author" style="font-size:0.85rem;margin-top:0.8rem;color:#7a6a4a;max-width:600px;line-height:1.6;">
+    一部研究巫术、宗教与神话的百科全书式巨著，人类学与比较宗教学的奠基之作
+  </p>
+  <div class="scroll-indicator">&#9660;</div>
+</section>
+
+<div class="tab-container">
+  <div class="tab-buttons" id="tabButtons">
+    <button class="tab-btn active" data-tab="overview">全书总览</button>
+    <button class="tab-btn" data-tab="sympathetic">交感魔法</button>
+    <button class="tab-btn" data-tab="dying-god">死去的王</button>
+    <button class="tab-btn" data-tab="taboo">禁忌与净化</button>
+    <button class="tab-btn" data-tab="tree">树神崇拜</button>
+    <button class="tab-btn" data-tab="fire">火节与净化</button>
+    <button class="tab-btn" data-tab="lhp">金枝与左路</button>
+  </div>
+
+  <!-- Tab1: 全书总览 -->
+  <div class="tab-panel active" id="tab-overview">
+    <h2>&#10087; 全书总览</h2>
+
+    <h3>《金枝》简介</h3>
+    <p>《金枝》（<em>The Golden Bough: A Study in Comparative Religion</em>）是苏格兰人类学家詹姆斯·乔治·弗雷泽爵士（Sir James George Frazer）创作的一部里程碑式的人类学与比较宗教学著作。最初于1890年以两卷本形式出版，后经多次增订，至第三版（1906–1915年）已扩展至十二卷，1936年又出版补编《Aftermath》。这部巨著以其宏大的比较方法、丰赡的跨文化资料和优雅的维多利亚文风，深刻影响了二十世纪的神话学、宗教学、心理学、文学批评乃至西方神秘学的发展方向。</p>
+    <p>弗雷泽在《金枝》中试图追溯人类思想从巫术经宗教到科学的演化轨迹。他以古罗马内米湖畔（Lake Nemi）的"森林之王"（Rex Nemorensis）传说为起点——据传，内米圣殿的祭司必须折断一株金枝方能挑战前任并取而代之——由此展开了一场横跨全球、纵贯古今的巫术与宗教观念巡礼。全书通过数千条来自世界各地的民族志和古典文献证据，系统论述了交感巫术、植物崇拜、祭祀仪式、替罪羊机制、禁忌体系、火节、树神崇拜等核心主题，最终归结到对人类社会精神进化规律的宏大概括。</p>
+    <p>弗雷泽的方法论核心是比较法：他将来自澳大利亚原住民、非洲部落、古希腊罗马、印度、中国、日本、美洲原住民以及欧洲民间传说等不同文明的材料并列呈现，揭示出人类在相似的生存处境中产生了跨越地理与历史界限的惊人相似的思维模式。这种文化平行论（cultural parallelism）虽在后世人类学中受到挑战，但《金枝》作为思想宝库的地位从未动摇。</p>
+    <p>值得注意的是，弗雷泽并非田野人类学家——他是一位"扶手椅人类学家"（armchair anthropologist），主要通过传教士报告、旅行者记述和古典文献来构建其理论体系。这一局限并不减损《金枝》的学术价值，但它提醒读者：弗雷泽的宏大叙事更多是一种维多利亚时代知识分子理性精神的产物，而非基于参与观察的民族志科学的结论。</p>
+    <p>尽管存在方法论争议，《金枝》的影响之广无出其右。它不仅催生了现代人类学的比较研究范式，还深刻塑造了T.S.艾略特（其《荒原》直接引用金枝意象）、詹姆斯·乔伊斯、D.H.劳伦斯、罗伯特·格雷夫斯等文学大师的创作，对弗洛伊德和荣格的精神分析理论也有重要启发。在流行文化中，金枝的意象出现在《夺宝奇兵》《塞尔达传说》《冰与火之歌》等无数作品中。</p>
+
+    <h3>作者生平：詹姆斯·弗雷泽爵士</h3>
+    <p>詹姆斯·乔治·弗雷泽（1854年1月1日－1941年5月7日）出生于苏格兰格拉斯哥的一个中产阶级长老会家庭。他在格拉斯哥大学接受教育，后进入剑桥大学三一学院深造，原本专攻古典学——他关于柏拉图和波菲利的早期著作显示出一位古典学者的深厚素养。1879年，他被选为三一学院的研究员；1907年受聘为利物浦大学社会人类学教授，但一年后即返回剑桥，终身以独立学者身份从事研究与写作。</p>
+    <p>弗雷泽的学术生涯几乎全部献给了《金枝》的写作与不断修订。他凭借惊人的语言能力和文献广搜能力，从世界各地的原始资料中提取了数以万计的仪式与信仰案例。他的学术风格被形容为"维多利亚时代的体系建构者"：追求宏大的一元论解释框架，相信人类心智的统一性，以及相信理性终将战胜迷信的历史进程。</p>
+    <p>1914年，弗雷泽因其学术贡献被授予爵士爵位。他还获得了多所欧洲大学的荣誉博士学位，被选为英国皇家学会院士。尽管他从未进行过田野调查，但他的书房中生产的著作被视为比较人类学的高峰。1941年他在剑桥逝世，享年87岁。他的骨灰安葬于剑桥的圣吉尔斯公墓，墓碑上刻有《金枝》中的金枝图案。</p>
+
+    <h3>书名的由来："金枝"是什么？</h3>
+    <p>书名"金枝"（The Golden Bough）直接来源于古罗马的一个古老传说。在意大利内米（Nemi）的狄安娜圣殿中，有一棵特殊的橡树，任何人若要成为圣殿祭司——即"森林之王"（Rex Nemorensis，又译"内米之王"）——必须先折断这棵树上的一根树枝，然后与现任祭司进行一场生死决斗，取胜后方能继位。这根树枝被称作"金枝"。</p>
+    <p>弗雷泽在书中考证：这根金枝实际上是<span class="highlight">槲寄生（mistletoe）</span>。槲寄生是一种寄生于橡树枝干的常绿植物，当橡树在冬季落叶时，槲寄生依然翠绿，在古人的想象中，这常青的寄生植物象征着不死的神性。根据维吉尔的《埃涅阿斯纪》，特洛伊英雄埃涅阿斯正是手持金枝——从冥后普罗塞皮娜的圣林中折取的槲寄生枝条——才得以安全穿越冥界，这进一步强化了金枝作为生死之间媒介的象征意义。</p>
+    <p>因此，"金枝"一词承载了多重象征：它是一个人获得神圣权力的凭证，是通向冥界的通行证，是槲寄生所代表的不可摧毁的生命力，也是祭司继承制度的残酷规则——每一个祭司都是杀死前任才坐上宝座的弑君者，而他终将被下一个挑战者所杀。这种"在位者必被杀"的循环结构，构成了弗雷泽"神王被杀"理论的原始模型。</p>
+
+    <div class="card">
+      <div class="card-title">&#10087; 槲寄生（Mistletoe）的文化意义</div>
+      <p>在凯尔特文化中，槲寄生被德鲁伊视为最神圣的植物之一。德鲁伊在每年特定的月相下，用金镰刀从橡树上割取槲寄生，并用白布接住——绝不让它接触地面。他们认为槲寄生是万能解药、生命之药，能治愈一切疾病，能赐予生育能力，还能抵御邪灵的侵害。北欧神话中，光明之神巴德尔正是因为被槲寄生制成的箭所杀而坠入冥界——这与金枝作为冥界通行证的意象形成了奇妙的呼应。槲寄生的常青特性与寄生性，使它成为"不死"与"中介"的天然象征：它既属于树木又不属于树木，既活着又像非生非死，处于生命状态之间的阈限地带。</p>
+    </div>
+
+    <h3>全书的历史地位与影响</h3>
+    <p>《金枝》自1890年问世以来，即以其非凡的广度和宏大的叙事迅速引起广泛关注。它不仅奠定了比较宗教学和人类学的基础，更在众多领域产生了深远影响：</p>
+    <p><span class="highlight">神话学与宗教学：</span>弗雷泽的"死而复活之神"（Dying and Rising God）模式成为神话研究的基本范式之一。他对奥西里斯、阿多尼斯、阿提斯、狄俄尼索斯和耶稣的比较研究，虽在细节上受到后世修正，但其比较方法论开创了一个学术时代。</p>
+    <p><span class="highlight">心理学：</span>弗洛伊德在《图腾与禁忌》和《摩西与一神教》中大量引用《金枝》的材料，将其作为自己理论的人类学证据。荣格的原型理论——尤其是母亲原型、死而复活原型和智慧老人原型——从《金枝》中汲取了大量比较神话学的素材。</p>
+    <p><span class="highlight">文学：</span>T.S.艾略特在《荒原》的注释中明确承认《金枝》——特别是其中关于阿多尼斯、阿提斯和丰产仪式的章节——是其诗歌意象体系的核心来源。詹姆斯·乔伊斯、D.H.劳伦斯、W.B.叶芝、罗伯特·格雷夫斯、威廉·戈尔丁（《蝇王》）等均受其影响。</p>
+    <p><span class="highlight">西方神秘学：</span>《金枝》的系统性比较研究为现代异教复兴（Neopaganism）、威卡教（Wicca）和左手道（Left-Hand Path）传统提供了历史语境和理论合法性。弗雷泽虽以理性主义者自居，但他的著作收集了大量原始巫术和异教仪式的珍贵记载，成为后来神秘学复兴运动的重要参考资料。</p>
+
+    <h3>核心思想摘要</h3>
+    <p>《金枝》的核心论点可概括如下：弗雷泽认为人类精神进化经历了三个连续的宏大的阶段——<span class="highlight">巫术（Magic）阶段、宗教（Religion）阶段与科学（Science）阶段</span>。在巫术阶段，人类相信自己能通过交感法则直接控制自然；当巫术失效，人们转而相信有高于人类的神灵主宰一切，从而进入宗教阶段；随着理性思维的发展，科学逐渐取代了宗教的解释功能，但仍保留了宗教探索人类未知领域的面向。</p>
+    <p>在这一框架下，弗雷泽深入探讨了"神王被杀"（the killing of the divine king）机制：在早期社会中，国王被视为自然丰产力的化身，当他的力量开始衰弱——如年老或患病——就必须被杀死并更替，以确保土地和人民的繁荣。这一残酷的仪式在世界各地普遍存在，从非洲的部落到古埃及的法老，从巴比伦的萨卡亚节到墨西哥的人祭。这些仪式与替罪羊（scapegoat）机制紧密相关：通过将社会的罪恶和不洁转移到一个载体上——无论是人还是动物——然后将载体驱逐或杀死，群体得以净化。</p>
+
+    <h3>宗教演化时间线</h3>
+    <div class="timeline">
+      <div class="timeline-item"><span class="year">约公元前10000年</span><div class="desc">旧石器时代晚期——狩猎采集社会的萨满巫术：洞穴壁画中的仪式场景、动物灵信仰、交感巫术的早期萌芽</div></div>
+      <div class="timeline-item"><span class="year">约公元前4000年</span><div class="desc">美索不达米亚文明兴起——对伊南娜/伊什塔尔的崇拜，植物神杜姆兹的季节性死亡与复活的仪式</div></div>
+      <div class="timeline-item"><span class="year">约公元前3100年</span><div class="desc">埃及法老文明——奥西里斯神话成型，死而复活之神成为埃及宗教的核心叙事，法老作为神王被崇拜</div></div>
+      <div class="timeline-item"><span class="year">约公元前2000年</span><div class="desc">巴比伦的萨卡亚节（Sacaea）——在巴比伦新年节期间，以一名囚犯扮演国王后加以处死的仪式</div></div>
+      <div class="timeline-item"><span class="year">约公元前1600年</span><div class="desc">古希腊——狄俄尼索斯崇拜的酒神秘仪，强调死而复活的循环</div></div>
+      <div class="timeline-item"><span class="year">约公元前1200年</span><div class="desc">古罗马——内米湖畔的森林之王（Rex Nemorensis）祭司制度的起源传说</div></div>
+      <div class="timeline-item"><span class="year">约公元前600年</span><div class="desc">古罗马的Mamuralia仪式——以一名老人扮演年老的玛尔斯神后被驱逐或处死的替罪仪式</div></div>
+      <div class="timeline-item"><span class="year">约公元1世纪</span><div class="desc">基督教——耶稣的死而复活叙事，在弗雷泽的比较框架中被视为死而复活之神原型的一个晚期变体</div></div>
+      <div class="timeline-item"><span class="year">约5–10世纪</span><div class="desc">欧洲基督教化——异教仪式被压制或被吸收为基督教节日的元素（如圣诞节与冬至节、复活节与春分丰产仪式的融合）</div></div>
+      <div class="timeline-item"><span class="year">17–18世纪</span><div class="desc">启蒙运动与科学革命——巫术世界观被科学世界观逐步取代，宗教从公共领域退向私人领域</div></div>
+      <div class="timeline-item"><span class="year">1890年</span><div class="desc">弗雷泽出版《金枝》——这部著作既是对巫术与宗教的最后一次全面整理，也是对理性战胜迷信的维多利亚式乐观主义的宣言</div></div>
+    </div>
+  </div>
+
+  <!-- Tab2: 交感魔法 -->
+  <div class="tab-panel" id="tab-sympathetic">
+    <h2>&#10087; 交感魔法</h2>
+    <p>交感魔法（Sympathetic Magic）是弗雷泽在《金枝》中提出的核心概念，也是他整个巫术理论体系的基石。弗雷泽认为，巫术的运作基于两个基本的思维定律：<span class="highlight">相似律（Law of Similarity）</span>和<span class="highlight">接触律（Law of Contagion）</span>。前者衍生出"顺势巫术"（Homeopathic Magic，又译模拟巫术），后者衍生出"接触巫术"（Contagious Magic）。这两大定律共同构成交感魔法的全貌，其根本预设是：万物之间存在着一种神秘的相互感应，可以跨越时空距离产生作用。</p>
+
+    <h3>相似律与顺势巫术</h3>
+    <p>相似律的核心原则是"同类相生"——即<span class="highlight">结果与原因相似</span>，或更简单地说：<span class="highlight">像什么就能产生什么</span>。基于这一原则，巫师可以通过模仿某个行为来促使该行为在现实中发生。弗雷泽将这种巫术称为"顺势巫术"或"模拟巫术"，因为它通过模拟（imitation）来达到目的。</p>
+    <p>最具代表性的案例是<span class="highlight">模拟人偶</span>：在世界各地的文化中，巫师制作一个代表敌人的小塑像——可以是木雕、蜡像、布偶或泥人——然后对手偶施加伤害，如针刺、火烧、摔打、掩埋等，相信敌人会因此遭受同样的痛苦。古埃及人制作蜡制鳄鱼，当蜡融化时鳄鱼也会离开；澳大利亚原住民在仪式中用矛刺戳地上的图案以诅咒敌人；印加人将代表敌人的雕像用火烧死；欧洲民间传说中也有大量的巫毒娃娃实践（虽然"巫毒"一词源于伏都教，但与人偶诅咒相关的仪式遍布全球）。</p>
+    <p>另一个经典案例是<span class="highlight">食用老虎肉以获取勇气</span>：在许多部落社会中，人们相信食用某种动物的肉可以吸收该动物的特性。吃老虎肉或狮心会获得勇气，吃鹰肉会获得敏锐视力，吃鹿肉会变得敏捷，吃野猪肉会变得凶猛。这种"你即你所食"（You are what you eat）的逻辑，是顺势巫术的典型体现。同样，在战争中，战士涂抹敌人的鲜血以获得敌人的力量；在爱情魔法中，饮用含有自己血液的酒来唤起对方的情感。相似律还体现在中国传统文化中的许多习俗里——如用红色（火的颜色）驱邪避祟，用桃木（桃为百木之长）制作符咒，以及春节贴门神、放鞭炮等驱逐年兽的象征性行为。</p>
+    <p>弗雷泽还发现，顺势巫术不仅在原始部落中存在，在近代欧洲的民间习俗中同样盛行。例如，英格兰的早期居民会在盛夏时节点燃篝火，希望借此"点燃"太阳的力量以促进庄稼生长；德国农民在播种时会模仿跳跃的动作，认为这能让庄稼长得更高。这些都是典型的顺势巫术思维——通过模拟自然界的某个过程，来促使该过程真实发生。</p>
+
+    <h3>接触律与接触巫术</h3>
+    <p>接触律的原则是：<span class="highlight">一旦接触过的事物，即使分开后仍能相互作用</span>。简单说就是"部分等于整体"——通过控制某人曾经接触过的物品（头发、指甲、衣物、脚印、名字等），就可以间接控制此人。弗雷泽将这种巫术称为"接触巫术"。</p>
+    <p>在原始社会中，人们会非常小心地处理自己的头发、指甲、牙齿、脐带和排泄物。这些"可分离的自我部分"被认为与本人保持着持续的魔法联系。如果落入敌人之手，敌人就可以通过这些物品来施加伤害。因此，在澳大利亚的原住民中，人们会将剪下的头发隐藏起来或在火上烧掉；在新几内亚，人们会将脱落的牙齿藏在树皮中，以防被敌人使用；在世界各地，人们都会将新生儿的脐带小心保存或掩埋在特定地点——这些习俗背后都是接触律的思维在支配。</p>
+    <p>使用敌人的头发、指甲或衣物进行魔法的实践遍布全球：古希腊人相信通过一个人的脚印可以对他施加魔法；中世纪的欧洲巫师会用受害者的衣物碎片来制作诅咒用品；在现代的非洲巫术实践中，获取目标人物的头发或指甲仍然是巫术中最关键的步骤之一。接触巫术也被用于治疗——通过处理病人的排泄物或旧衣物来"带走"疾病，这与中国传统医学中的"祝由科"有异曲同工之妙。</p>
+    <p>弗雷泽指出，名字在原始思维中也属于"接触"的一部分。在许多文化中，真名被视为个人的核心组成部分而不轻易示人——知道一个人的名字就等于拥有了控制他的力量。因此，人们会给小孩起"公开名"和"秘密名"，或者在日常生活中使用绰号和化名来保护真名不被外人知道。埃及神话中，伊西斯通过骗取太阳神拉的秘密真名而获得了统治他的力量——这正是接触巫术的最著名神话叙事。</p>
+
+    <h3>对比：顺势巫术 vs 接触巫术</h3>
+    <table class="comparison-table">
+      <tr>
+        <th>比较维度</th><th>顺势巫术（Homeopathic Magic）</th><th>接触巫术（Contagious Magic）</th>
+      </tr>
+      <tr>
+        <td>底层逻辑</td><td>相似律：同类相生</td><td>接触律：部分=整体</td>
+      </tr>
+      <tr>
+        <td>操作方式</td><td>模仿目标行为或制作相似物</td><td>利用目标留下的物品/痕迹</td>
+      </tr>
+      <tr>
+        <td>典型行为</td><td>制作人偶、模仿动作、形象模拟</td><td>使用头发/指甲/衣物/名字</td>
+      </tr>
+      <tr>
+        <td>核心信念</td><td>像什么就能产生什么</td><td>曾接触即永远联系</td>
+      </tr>
+      <tr>
+        <td>失效风险</td><td>相似程度不足时失效</td><td>原始物品被净化后失效</td>
+      </tr>
+      <tr>
+        <td>积极用途</td><td>求雨舞、丰产仪式、治愈模仿</td><td>以圣物传递祝福、圣髑崇拜</td>
+      </tr>
+      <tr>
+        <td>消极用途</td><td>诅咒人偶、图像毁损</td><td>获得对方毛发后进行诅咒</td>
+      </tr>
+      <tr>
+        <td>文化例子</td><td>求雨者喷洒水模仿降雨</td><td>珍藏恋人头发以维系感情</td>
+      </tr>
+    </table>
+
+    <h3>魔法行为分类器</h3>
+    <p>输入或选择一个魔法行为，系统将根据弗雷泽的交感魔法理论判断其属于顺势巫术还是接触巫术：</p>
+    <div class="magic-input-area">
+      <input type="text" id="magicInput" placeholder="输入魔法行为，如：用蜡制人偶诅咒敌人" value="用蜡制人偶诅咒敌人">
+      <button onclick="classifyMagic()">分类判定</button>
+    </div>
+    <div class="magic-result" id="magicResult">
+      <p><strong>示例："用蜡制人偶诅咒敌人"</strong></p>
+      <p>判定：<span class="highlight">顺势巫术（Homeopathic Magic）</span></p>
+      <p>依据：基于相似律——人偶与目标相似，通过模仿伤害来产生实际伤害。这是一种跨越时空距离的模拟行为，属于向果律（post hoc ergo propter hoc）在原始思维中的应用。</p>
+    </div>
+  </div>
+
+  <!-- Tab3: 死去的王 -->
+  <div class="tab-panel" id="tab-dying-god">
+    <h2>&#10087; 死去的王</h2>
+    <p>"神王被杀"（The Killing of the Divine King）是《金枝》中最具冲击力的理论之一。弗雷泽从内米湖畔的森林之王传说出发，追溯了在全世界范围普遍存在的"国王代表神或自然力，因此其生死必须受严格控制"的仪式体系。在许多早期社会中，国王不仅是政治首领，更是自然丰产力的化身——他若健康强壮，土地就丰饶；他若衰老病弱，土地就会荒芜。因此，当国王开始显露出衰老迹象时，他必须被处死，由一位年轻强壮的新王取代，以确保自然周期能持续运转。</p>
+
+    <h3>内米的森林之王</h3>
+    <p>在意大利内米湖畔的狄安娜圣林中，生长着一棵神圣的橡树。任何人——无论多么强壮勇敢——若想成为圣殿的祭司（即"森林之王"，Rex Nemorensis），必须先折断橡树的一根金枝（槲寄生枝条），然后与现任祭司展开一场不死不休的决斗。若他获胜杀死前任，他便成为新的森林之王——直到下一个挑战者出现。这个制度使得森林之王始终处于高度警觉之中，因为任何一个陌生的旅人都可能是前来夺取他王位与生命的对手。斯特拉博（Strabo）和奥维德（Ovid）等古典作家都记载了这一惊人的习俗。弗雷泽将内米的森林之王视为整个"神王被杀"仪式的原始典范——一个将王权、神性与死亡紧密交织在一起的制度缩影。</p>
+
+    <h3>全球文化中的替罪王</h3>
+    <p>弗雷泽在《金枝》中搜集了大量"替罪王"的资料，以下是最具代表性的几个：</p>
+    <h4>巴比伦的萨卡亚节（Sacaea）</h4>
+    <p>在巴比伦新年节期间，有一个被称为萨卡亚的五天仪式。在此期间，一名囚犯被释放出狱，穿上国王的紫色袍服，坐在王座上，享有国王的一切特权——包括发号施令、享受美食和宫女侍寝。但五天后，他的王室装扮被剥去，他被鞭打、游街示众，然后被处死。这一仪式象征着旧的秩序消逝与新的秩序诞生，而替罪王承载了一年的不祥与罪孽。</p>
+    <h4>古罗马的Mamuralia</h4>
+    <p>在古罗马，每年3月14日或15日举行Mamuralia仪式。一名全身披挂兽皮的老人——扮演年老的战神玛尔斯（Mars）——被驱逐出城。他被棍棒和鞭子追打着穿过街道，人们高喊"出去吧，玛尔斯！走出城外！"然后将他在城外的荒野中杀死，或驱逐至永不能再回来的远方。这一仪式象征着旧玛尔斯被送走，新玛尔斯即将到来，代表着旧年死亡、新年诞生的循环。</p>
+    <h4>印度的替罪王</h4>
+    <p>在印度的一些地区——特别是在奥里萨邦和马拉巴尔海岸——曾存在一种将罪犯或奴隶当作临时国王的习俗。他在为期数天的节日中被尊为国王，享有一切世俗乐趣，然后被处死。这种习俗的变体在泰国内陆和柬埔寨也有记载。有时，替罪王并不需要被实际处死，只需被驱逐出境或以动物替代——人类文明化进程中"替罪"形式逐渐柔化的表现。</p>
+    <h4>墨西哥的祭祀仪式</h4>
+    <p>在中美洲的阿兹特克文明中，每年会选出一名年轻男子作为特斯卡特利波卡（Tezcatlipoca，烟雾镜之神）的化身。他在一年中享有神一般的生活——学习吹笛、佩戴鲜花、陪伴贵族，在节日前一个月还要娶四位少女为妻。然而在最后的节日中，他被送上金字塔顶端，心脏被献给太阳神。这一仪式完美体现了"神王被杀"的循环逻辑：被当作神来崇拜的人，最终也要作为神而被献祭。</p>
+
+    <h3>死而复活之神</h3>
+    <p>弗雷泽在《金枝》中专门探讨了"死而复活之神"（Dying and Rising Gods）主题，将其作为宗教思想的核心母题之一。他比较了古代近东和地中海世界的几位主要神祇：</p>
+
+    <div class="card">
+      <div class="card-title">&#10087; 死而复活之神比较</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:0.8rem;">
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:0.8rem;text-align:center;">
+          <div style="color:#d4a843;font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">奥西里斯</div>
+          <div style="font-size:0.8rem;color:#a09070;">古埃及<br>被塞特杀害后由伊西斯复活，成为冥界之王</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:0.8rem;text-align:center;">
+          <div style="color:#d4a843;font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">阿多尼斯</div>
+          <div style="font-size:0.8rem;color:#a09070;">腓尼基/希腊<br>被野猪所伤而死，每年春季复活与阿佛洛狄特团聚</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:0.8rem;text-align:center;">
+          <div style="color:#d4a843;font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">阿提斯</div>
+          <div style="font-size:0.8rem;color:#a09070;">弗里吉亚<br>自阉后死亡，被众神之母西布莉复活成为松柏之神</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:0.8rem;text-align:center;">
+          <div style="color:#d4a843;font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">狄俄尼索斯</div>
+          <div style="font-size:0.8rem;color:#a09070;">古希腊<br>被泰坦撕碎后由宙斯/雅典娜复活，酒神与狂欢之神</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:0.8rem;text-align:center;">
+          <div style="color:#d4a843;font-weight:700;font-size:1.1rem;margin-bottom:0.3rem;">耶稣</div>
+          <div style="font-size:0.8rem;color:#a09070;">基督教<br>被钉十字架后第三日复活，带来救赎的应许</div>
+        </div>
+      </div>
+    </div>
+
+    <p>弗雷泽的观点在当时引起了极大争议：他认为耶稣的死而复活叙事本质上是在同类神话模式的框架内产生的。他并非否定基督教的独特性，而是通过比较宗教学的透镜揭示出一个横跨文明的深层叙事结构：一位神圣人物经历死亡（常是残酷的）之后复活，象征自然界的冬季死亡与春季重生。这一观点成为了后来约瑟夫·坎贝尔"单一神话"（monomyth）理论的先声。</p>
+  </div>
+
+  <!-- Tab4: 禁忌与净化 -->
+  <div class="tab-panel" id="tab-taboo">
+    <h2>&#10087; 禁忌与净化</h2>
+    <p>禁忌（Taboo）是《金枝》中另一个核心议题。弗雷泽从波利尼西亚语"tabu"（意为神圣不可侵犯）出发，将禁忌制度解释为一种原始社会的自我保护机制。禁忌将某些人、物、行为或地点标记为"危险的"，以避免社会失序和个人受到超自然的伤害。与禁忌相伴的是各种净化仪式——当禁忌被打破时，需要通过净化来恢复个人与群体的纯洁状态。</p>
+
+    <h3>首领禁忌</h3>
+    <p>在波利尼西亚和许多其他社会中，首领（国王、酋长）被视为神圣力量的载体，因此他们的人身受到极度严格的限制。弗雷泽详细记录了各种首领禁忌：在许多部落中，首领的脚不能触碰地面，否则他的神圣力会流失到土壤中，同时普通人也可能因接触首领的脚印而死亡——因为神圣力就像高压电一样对普通人是致命的。因此，波利尼西亚的酋长出行时由侍从背负，或踩在特制的高跷上。日本的天皇在古典时期也受到类似限制——他的指甲和头发绝不能随意剪落，他的食物必须在特殊的器皿中制作，他的身体不能接触普通人的衣物。</p>
+    <p>此外，首领的头发、指甲、血液甚至唾液都被视为极度危险的物品，需要由专人小心收集并掩埋。在非洲的几内亚海岸，国王的胡须如剪下后必须由专门人员保管在特定场所。在柬埔寨，国王不能踩在绸缎之外的地面上。这些禁忌的深层逻辑是：神圣力量是双刃剑——它既是祝福的来源，也是诅咒的来源，必须通过严密的禁忌体系来控制。</p>
+
+    <h3>战士禁忌</h3>
+    <p>在准备出征时，战士必须遵守各种禁忌以确保胜利。弗雷泽收集的案例包括：南非的祖鲁战士出征前禁止与妻子同房，否则其力量会被女性削弱；波利尼西亚的战士在出发前必须经历严格的禁食和隔离；北美平原印第安人在战争舞蹈期间也遵守大量饮食限制。这些禁忌背后的逻辑是：战士处于神圣力量的阈限状态（liminal state）中，任何不洁行为都可能导致超自然的惩罚和军事上的失败。</p>
+
+    <h3>月经与产期禁忌</h3>
+    <p>弗雷泽指出，几乎所有文化都存在与女性月经和生产相关的禁忌。通常，经期女性和产后女性被视为处于一种"危险的不洁"状态而被隔离——她们被禁止触碰食物器皿（让别人送到隔离处）、禁止进入圣地或宗教场所、禁止接触战士的武器。这些禁忌在世界范围内以惊人的相似性出现：从澳大利亚原住民的小屋隔离到犹太教"尼达"（Niddah）的月经律法，从印度的经期隔离到北美印第安人的"月事小屋"。弗雷泽将其解释为原始社会对生命创造过程的神秘力量的敬畏——月经和生产与生命的起源相关，因此处于这些过程中的女性被认为拥有特殊的、同时也是危险的灵力。</p>
+
+    <h3>死者禁忌</h3>
+    <p>接触亡者同样伴随着严格的限制。在世界上大多数文化中，死者被视为具有不洁性——或者反过来，死者所在的场域具有强大的灵性力量——因此参与葬礼的人、处理尸体的人、甚至死亡发生的房屋都被视为禁忌。在波利尼西亚，接触过尸体的人不能直接用手吃饭；在古罗马，葬礼后需要用水和火进行净化才能进入神殿；在犹太教和伊斯兰教中，葬礼后必须进行洗手的仪式。这些禁忌反映了人类对死亡这一大限之事的深层恐惧和敬畏——死亡是终极的阈限状态，接触死亡就等于站在了生与死两个世界之间的边界上。</p>
+
+    <h3>净化仪式</h3>
+    <p>当禁忌被打破或当个人/群体需要恢复纯净时，净化仪式（purification rituals）便登场了。弗雷泽将其归纳为几类核心形式：<span class="highlight">火的净化</span>——篝火节中焚烧瘟疫象征物、火中行走以驱散邪灵、圣火在净化仪式中的核心作用；<span class="highlight">水的净化</span>——浸礼、圣水洒净、印度教徒在恒河中沐浴以洗净罪孽、天主教圣水盆中的驱邪仪式；<span class="highlight">血的净化</span>——以动物祭品的血液涂抹祭坛或参与者的身体、割礼中的流血仪式、以血为盟约的印记；<span class="highlight">替罪羊仪式</span>——将群体的不洁或罪孽转移到一只动物（或一个人）身上，然后将其驱逐至荒野或处死，从而使群体恢复纯净。犹太教的赎罪日（Yom Kippur）仪式中的替罪羊是最经典的文本记载。</p>
+
+    <h3>禁忌知识测试</h3>
+    <p>以下是一个包含10道题目的测试，检验你对《金枝》禁忌与净化主题的理解：</p>
+    <div id="quizContainer">
+      <div class="quiz-question">
+        <p>1. 在波利尼西亚，为什么首领通常不能接触地面？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="a"> 因为地面会吸收首领的神圣力，同时普通人可能因接触他的脚印而死</label>
+          <label><input type="radio" name="q1" value="b"> 因为首领只穿特殊的草鞋</label>
+          <label><input type="radio" name="q1" value="c"> 因为地面代表了低贱的世俗力量</label>
+          <label><input type="radio" name="q1" value="d"> 因为首领需要保持更高位置以示威严</label>
+        </div>
+      </div>
+      <div class="quiz-question">
+        <p>2. 弗雷泽将禁忌描述为什么？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="a"> 一种宗教戒律</label>
+          <label><input type="radio" name="q2" value="b"> 一种原始社会的自我保护机制，标记危险的边界</label>
+          <label><input type="radio" name="q2" value="c"> 一种道德规范</label>
+          <label><input type="radio" name="q2" value="d"> 一种法律体系</label>
+        </div>
+      </div>
+      <div class="quiz-question">
+        <p>3. "tabu"一词源自哪个地区的语言？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="a"> 非洲</label>
+          <label><input type="radio" name="q3" value="b"> 南美洲</label>
+          <label><input type="radio" name="q3" value="c"> 波利尼西亚</label>
+          <label><input type="radio" name="q3" value="d"> 北欧</label>
+        </div>
+      </div>
+      <div class="quiz-question">
+        <p>4. 以下哪种不属于弗雷泽描述的净化仪式类型？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="a"> 火的净化</label>
+          <label><input type="radio" name="q4" value="b"> 水的净化</label>
+          <label><input type="radio" name="q4" value="c"> 土的净化</label>
+          <label><input type="radio" name="q4" value="d"> 血的净化</label>
+        </div>
+      </div>
+      <div class="quiz-question">
+        <p>5. 犹太教赎罪日仪式中的替罪羊象征了什么？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="a"> 献给神的供品</label>
+          <label><input type="radio" name="q5" value="b"> 转移到动物身上的集体罪孽</label>
+          <label><input type="radio" name="q5" value="c"> 丰产的象征</label>
+          <label><input type="radio" name="q5" value="d"> 对动物的忏悔</label>
+        </div>
+      </div>
+      <div class="quiz-question">
+        <p>6. 为什么原始社会中战士出征前要遵守禁忌？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q6" value="a"> 为了锻炼纪律</label>
+          <label><input type="radio" name="q6" value="b"> 因为战士处于神圣的阈限状态，任何不洁都可能导致失败</label>
+          <label><input type="radio" name="q6" value="c"> 为了节约食物</label>
+          <label><input type="radio" name="q6" value="d"> 为了让敌人放松警惕</label>
+        </div>
+      </div>
+      <div class="quiz-question">
+        <p>7. 在弗雷泽的分析中，月经禁忌主要源于什么？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q7" value="a"> 对女性的歧视</label>
+          <label><input type="radio" name="q7" value="b"> 对生命创造过程神秘力量的敬畏</label>
+          <label><input type="radio" name="q7" value="c"> 对血液的普遍恐惧</label>
+          <label><input type="radio" name="q7" value="d"> 饮食习惯的影响</label>
+        </div>
+      </div>
+      <div class="quiz-question">
+        <p>8. 以下哪一项不属于首领禁忌的常见表现？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q8" value="a"> 不能随意剪落头发和指甲</label>
+          <label><input type="radio" name="q8" value="b"> 不能亲手触摸普通人的食物</label>
+          <label><input type="radio" name="q8" value="c"> 必须每天公开出游巡视</label>
+          <label><input type="radio" name="q8" value="d"> 唾液、血液等必须由专人小心处理</label>
+        </div>
+      </div>
+      <div class="quiz-question">
+        <p>9. 弗雷泽将"替罪羊"仪式视为什么功能的体现？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q9" value="a"> 对动物的崇拜</label>
+          <label><input type="radio" name="q9" value="b"> 群体不洁的转移与净化机制</label>
+          <label><input type="radio" name="q9" value="c"> 农业生产的象征</label>
+          <label><input type="radio" name="q9" value="d"> 政治统治的需要</label>
+        </div>
+      </div>
+      <div class="quiz-question">
+        <p>10. 在接触亡者的禁忌中，哪种做法最为普遍？</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q10" value="a"> 将亡者遗弃在荒野</label>
+          <label><input type="radio" name="q10" value="b"> 参与葬礼后进行净化仪式（如水洗或火熏）</label>
+          <label><input type="radio" name="q10" value="c"> 不吃肉给亡者祭奠</label>
+          <label><input type="radio" name="q10" value="d"> 禁止谈论亡者名字</label>
+        </div>
+      </div>
+      <button onclick="checkQuiz()" style="padding:0.7rem 1.5rem;background:#d4a843;color:#0a0a0a;border:none;border-radius:4px;cursor:pointer;font-weight:700;font-family:'Noto Serif SC',serif;margin-top:1rem;">提交测验</button>
+      <div class="quiz-result" id="quizResult"></div>
+    </div>
+  </div>
+
+  <!-- Tab5: 树神崇拜 -->
+  <div class="tab-panel" id="tab-tree">
+    <h2>&#10087; 树神崇拜</h2>
+    <p>树神崇拜（Tree Worship）是《金枝》中最令人着迷的篇章之一。弗雷泽以丰富的资料展示了树木崇拜在全球范围内的普遍存在。他提出，对原始人类来说，树木不仅是食物和建筑材料的来源，更是某种超自然力量的居所——树木因为其高大、常青、以及年复一年的枯荣周期，天然地成为生命、死亡与复活的神圣象征。在弗雷泽的分析中，树神崇拜不仅是巫术和宗教的交叉地带，也是人类最早的神话叙事雏形之一。</p>
+
+    <h3>树木崇拜的世界性</h3>
+    <p>弗雷泽的考察覆盖了各个文明中的树木崇拜传统：<span class="highlight">橡树崇拜</span>在欧洲尤其突出——德鲁伊视橡树为神圣之树，橡树林是举行仪式和审判的主要场所。"德鲁伊"（Druid）一词据信即源自印欧语根"dru-"，意为"橡树"或"知识"。德鲁伊在橡树下主持祭祀，从橡树上割取神圣的槲寄生，相信橡树是所有树木中蕴含智慧最深的。在古希腊，橡树是宙斯的神树，多多纳（Dodona）的宙斯神谕就在橡树林中传达——风吹过橡树叶的声音被祭司解读为神谕。在北欧，橡树被奉献给雷神托尔，橡树被认为能抵御雷电的袭击（雷神之锤保护橡树的信仰）。<span class="highlight">紫杉（yew）</span>在凯尔特传统中与死亡和重生紧密相连——紫杉在古代欧洲墓地普遍种植，其惊人的长寿（可活数千年）和剧毒的特性使它成为不朽与死亡的双重象征。<span class="highlight">世界树Yggdrasil</span>是北欧神话的宇宙轴心——它连接九个世界，树根延伸到冥界，树冠直达天空，它的生灭与宇宙的命运紧密相连。在东方，<span class="highlight">菩提树</span>（Ficus religiosa）是佛教的圣树——释迦牟尼在菩提树下悟道成佛，菩提树从此成为觉悟与智慧的象征。</p>
+
+    <h3>五朔节（May Day）与五朔花柱</h3>
+    <p>五朔节是欧洲最古老且最重要的树神崇拜节庆之一。在每年5月1日，欧洲各地的人们——尤其是英格兰、德国、瑞典和法国的乡村——会举行盛大的庆祝活动。其核心环节是竖立五朔花柱（Maypole）：一根装饰着鲜花和彩带的木柱被竖立在村庄广场中央，男男女女手拉手围绕花柱跳圆圈舞——丝带在舞动中编织成美丽的图案。弗雷泽指出，五朔花柱实际上是树神的化身——它代表被人类迎接到村落的"树精"或"植物神"（vegetation spirit），人们通过庆祝它的到来来确保全年的丰收和人口繁衍。</p>
+    <p>除了竖立花柱，五朔节还包括采摘山楂花（五月花）装饰房屋、选出"五月女王"和"五月国王"、在篝火旁欢歌跳舞、以及清洁房屋和庭院的习俗。弗雷泽将这些习俗追溯至古罗马的"花神节"（Floralia）——一个为花神芙罗拉举行的生殖和丰产庆典。中世纪以来，五朔节在基督教社会中虽受到压制的尝试——清教徒在17世纪将其视为异教残余而加以禁止——但始终顽强地在民间流传。直到现代，五朔节仍然是欧洲新异教（Neopaganism）和威卡教（Wicca）最为重要的八大节庆之一，称为Beltane。</p>
+
+    <h3>树神谱系图</h3>
+    <p>以下展示了不同文化中与树神崇拜相关的主要路径，点击可查看简要说明：</p>
+    <div style="text-align:center;padding:1rem 0;" id="treeGenealogy">
+      <div class="tree-level"><span class="tree-node" onclick="showTreeInfo('oak')">&#127794; 橡树 (Oak)</span></div>
+      <div class="tree-connector">|———|———|———|</div>
+      <div class="tree-level">
+        <span class="tree-node" onclick="showTreeInfo('zeus')">宙斯·奥林匹亚</span>
+        <span class="tree-node" onclick="showTreeInfo('thor')">托尔·北欧</span>
+        <span class="tree-node" onclick="showTreeInfo('druid')">德鲁伊·凯尔特</span>
+      </div>
+      <div style="margin:1.5rem 0;"></div>
+      <div class="tree-level"><span class="tree-node" onclick="showTreeInfo('yggdrasil')">&#127794; 世界树 Yggdrasil</span></div>
+      <div class="tree-connector">|</div>
+      <div class="tree-level"><span class="tree-node" onclick="showTreeInfo('norse')">奥丁·北欧诸神·命运三女神</span></div>
+      <div style="margin:1.5rem 0;"></div>
+      <div class="tree-level"><span class="tree-node" onclick="showTreeInfo('yew')">&#127794; 紫杉 (Yew)</span></div>
+      <div class="tree-connector">|</div>
+      <div class="tree-level"><span class="tree-node" onclick="showTreeInfo('celtic-death')">凯尔特冥界·不死传说</span></div>
+      <div style="margin:1.5rem 0;"></div>
+      <div class="tree-level"><span class="tree-node" onclick="showTreeInfo('bodhi')">&#127794; 菩提树 (Bodhi)</span></div>
+      <div class="tree-connector">|</div>
+      <div class="tree-level"><span class="tree-node" onclick="showTreeInfo('buddha')">释迦牟尼·觉悟·佛教传承</span></div>
+      <div style="margin:1.5rem 0;"></div>
+      <div class="tree-level"><span class="tree-node" onclick="showTreeInfo('mistletoe')">&#127794; 槲寄生 (Mistletoe) — 金枝</span></div>
+      <div class="tree-connector">|</div>
+      <div class="tree-level"><span class="tree-node" onclick="showTreeInfo('nemi')">内米森林之王·冥界通行证</span></div>
+    </div>
+    <div id="treeInfoBox" class="card" style="min-height:60px;">
+      <p style="color:#a09070;font-style:italic;">点击谱系图中任意节点以查看详细信息。</p>
+    </div>
+  </div>
+
+  <!-- Tab6: 火节与净化 -->
+  <div class="tab-panel" id="tab-fire">
+    <h2>&#10087; 火节与净化</h2>
+    <p>在《金枝》中，弗雷泽专门用了大量篇幅探讨世界各地的火节（Fire Festivals）。他指出，火在人类文明中从来就不仅是实用的工具——火是人类最早也是最重要的象征性力量之一，代表着净化、转化、驱逐邪灵、传递生命力和驱散黑暗。从苏格兰高地的贝尔丹篝火到中欧的仲夏火堆，从中国西藏的驱鬼火祭到美洲原住民的太阳舞之火，火的仪式功能几乎是人类文化中一个普世的存在。</p>
+
+    <h3>贝尔丹（Beltane）火节</h3>
+    <p>贝尔丹是凯尔特文化的四大火节之一，每年5月1日举行。"Beltane"一词据信源自凯尔特语"bel"（明亮/火焰）和"tane"（火），意为"明亮的火焰"或"贝尔之火"（贝尔是凯尔特太阳神）。在贝尔丹前夕，德鲁伊和凯尔特部落点燃巨大的篝火——通常是两堆火相邻而燃——然后将牲畜从两火之间驱赶穿过。这一行为被认为能净化牲畜、保护它们免受疾病和邪灵侵害，同时也能增强它们的生育力。人类也参与"穿火"仪式——人们在火堆之间跳跃或绕火行走以接受火的净化和祝福。</p>
+    <p>弗雷泽详细记载了苏格兰高地的贝尔丹传统：牧师们将一种特殊的燕麦蛋糕（一种祭祀面饼）放在篝火上烤，然后将蛋糕分成小块撒向人群。其中一块蛋糕被事先涂黑——谁拿到了这块就会被称为"被诅咒者"（cailleach bealtine），要象征性地被投入火中（或以跳火来化解诅咒）。这一变体形式显示了"替罪羊"机制在火节中的存在——火同时是净化者也是消灭替罪者的工具。</p>
+
+    <h3>仲夏火节（Midsummer Fire Festival）</h3>
+    <p>仲夏火节（夏至庆祝）是欧洲最具普遍性的火节传统。在每年的6月21日至24日（圣约翰节），从斯堪的纳维亚到伊比利亚半岛，从不列颠群岛到巴尔干半岛，人们点燃熊熊的仲夏篝火。弗雷泽指出，仲夏火节的核心象征是<span class="highlight">太阳力量的顶点与转折</span>——夏至是白昼最长的日子，之后昼渐短、夜渐长，人们通过点燃篝火来"维持太阳的力量"，帮助太阳度过即将到来的黑暗半年的衰减期。这是一种典型的顺势巫术：用人类制造的火来象征和增强天上的火——太阳。</p>
+    <p>在仲夏火节中，人们不仅燃起火堆，还用特殊的花草制作花环——圣约翰草、马鞭草、金丝桃、迷迭香——被认为在仲夏夜具有最强大的魔力。年轻男女手牵手跳过篝火以祈求爱情和生育，跳得最高的孩子被认为会获得最多的好运。篝火的灰烬被撒向田野以保护庄稼，火炭被带回家中作为护身符。这些习俗的深层逻辑是对火的<span class="highlight">驱邪性</span>和<span class="highlight">繁衍性</span>的双重信仰——火不仅毁灭邪恶，还促进生育。</p>
+
+    <h3>冬至火节（Yule / Winter Solstice）</h3>
+    <p>在一年中最漫长的夜里，人们点燃冬至之火以呼唤光明的回归。冬至火节的核心主题是"阳回大地"、生命在黑暗中挣扎重生。在北欧传统中，冬至节被称为Yule，人们焚烧巨大的原木——称为"圣诞柴"（Yule log）——在炉火中，圣诞柴必须用前一年的余烬引燃，象征着光与火的生命永不断绝。弗雷泽指出，冬至火节和仲夏火节是一个对称的两极：仲夏火节是太阳力量最盛时刻的庆祝，冬至火节则是太阳力量降至最低时对其回归的呼唤。两个节日的核心都围绕着火的象征性作用——火既是人类对太阳的模仿，也是对太阳不可摧毁的信仰的表达。</p>
+
+    <h3>火的净化与保护功能</h3>
+    <p>弗雷泽将火的仪式功能总结为两大层次：驱邪（apotropaic）和繁衍（fertility）。火的驱邪功能体现在，人们相信火能烧毁一切邪恶和污秽——无论是隐藏的邪灵、疾病、瘟疫还是非自然的威胁；火的繁衍功能则体现在，火的力量可以促进动物生育、帮助庄稼生长、或者增进人类的爱情和生殖能力。这两个层次有时紧密交织——比如将牲畜驱赶过火堆，同时实现了驱邪（清除公牛身上的疾病邪灵）和繁衍（增强公牛的交配能力）的双重目的。</p>
+    <p>在具体实践中，火的仪式功能包括：在农田边点燃篝火以驱赶害虫和邪灵，并将火灰撒在田野中作为肥料和护身符；在畜棚中保留不熄的圣火以保护牲畜；在婚礼中新郎新娘跳过篝火以祈求婚姻幸福和多子多孙；在新生儿出生后让火光照耀以驱散产房的邪灵；在葬礼上焚烧火堆以帮助亡魂升天和净化送葬者。这些习俗在弗雷泽的笔下构成了一个清晰的系统——火是世界上使用最广泛、含义最丰富的仪式工具。</p>
+    <p>弗雷泽还详细讨论了"火中行走"（fire-walking）的现象。在希腊、保加利亚、印度尼西亚、波利尼西亚和日本等地的传统中，人们赤脚走过灼热的炭火或石块而不受伤害。弗雷泽将其解释为一种极端的净化与考验仪式——通过平安走过火堆，参与者证明了自身的纯洁和被神明庇佑，同时也通过火的考验获得了更高的社会地位和灵性力量。在现代人类学看来，火中行走有着更复杂的物理学解释（莱顿弗罗斯特效应等），但在弗雷泽的时代，他将其归结为交感巫术中"火不能被火伤害"的信仰逻辑。</p>
+
+    <h3>交互式火节日历</h3>
+    <div class="calendar-grid">
+      <div class="calendar-card">
+        <div class="feast-name">贝尔丹 Beltane</div>
+        <div class="feast-date">5月1日</div>
+        <div class="feast-desc">凯尔特四大火节之一，点燃篝火，驱赶牲畜穿火以净化</div>
+      </div>
+      <div class="calendar-card">
+        <div class="feast-name">仲夏火节 Midsummer</div>
+        <div class="feast-date">6月21–24日</div>
+        <div class="feast-desc">夏至庆祝，点燃篝火以维持和强化太阳的力量</div>
+      </div>
+      <div class="calendar-card">
+        <div class="feast-name">卢纳斯 Lúnasa</div>
+        <div class="feast-date">8月1日</div>
+        <div class="feast-desc">凯尔特收获节，焚烧收获的第一批谷物作为祭品</div>
+      </div>
+      <div class="calendar-card">
+        <div class="feast-name">感恩节火祭</div>
+        <div class="feast-date">收获季节</div>
+        <div class="feast-desc">世界各地的丰收感恩仪式，在篝火旁庆祝收成</div>
+      </div>
+      <div class="calendar-card">
+        <div class="feast-name">萨温 Samhain</div>
+        <div class="feast-date">10月31日–11月1日</div>
+        <div class="feast-desc">凯尔特新年，点燃篝火以抵御游荡的亡灵</div>
+      </div>
+      <div class="calendar-card">
+        <div class="feast-name">冬至 Yule</div>
+        <div class="feast-date">12月21–25日</div>
+        <div class="feast-desc">冬至节，焚烧圣诞柴以呼唤光明的回归</div>
+      </div>
+      <div class="calendar-card">
+        <div class="feast-name">圣烛节 Imbolc</div>
+        <div class="feast-date">2月1–2日</div>
+        <div class="feast-desc">点燃蜡烛迎接春天的到来，火的净化与新生的仪式</div>
+      </div>
+      <div class="calendar-card">
+        <div class="feast-name">排灯节 Diwali</div>
+        <div class="feast-date">10–11月</div>
+        <div class="feast-desc">印度教的灯节，灯火象征光明战胜黑暗、善良战胜邪恶</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab7: 金枝与左路 -->
+  <div class="tab-panel" id="tab-lhp">
+    <h2>&#10087; 金枝与左路</h2>
+    <p>如果说《金枝》是一部关于人类如何从巫术走向宗教、再从宗教走向科学的宏大叙事，那么在左手道（Left-Hand Path）的视角下，这部著作则是一个关于<span class="highlight">被压抑的知识</span>的宝库——那些被近代理性主义视为"迷信"而抛弃的巫术世界观，在左路的解读中被重新发现为一种具有强大内在逻辑的、与启蒙理性并行的认知方式。弗雷泽虽然以维多利亚时代理性主义者的身份写作，但他的著作无意中收集和保存了后来成为左路传统重要参考文献的珍贵材料。</p>
+
+    <h3>弗雷泽的宗教演化三阶段</h3>
+    <p>弗雷泽在《金枝》中提出了一个著名的三阶段演化模型：<span class="highlight">魔法（Magic）→ 宗教（Religion）→ 科学（Science）</span>。他认为人类最初相信通过魔法可以直接控制自然；当认识到魔法的无效后，人类转而信仰超越自然的诸神，希望通过祈祷和献祭获取神的恩宠；最终，科学的兴起为人类提供了更可靠的自然因果解释，从而取代了宗教的位置。</p>
+    <p>从左路的视角来看，这一模型虽然反映了维多利亚时代进步主义的面貌，但其价值不在于三阶段的线性递进，而在于弗雷泽对<span class="highlight">魔法世界观</span>（magical worldview）的详细重建。弗雷泽以惊人的渊博知识证明了：魔法并非是杂乱无章的迷信，而是一套基于相似律和接触律的、具有内在一致性的思维体系。这套体系在逻辑上是自洽的——它的"错误"不在于逻辑，而在于其对自然因果关系的假设不符合现代物理学的事实。换言之，巫术是一种"前科学的科学"（pre-scientific science），而非一种"反理性的愚昧"。这一认识对于左路传统至关重要——因为左路的核心主张之一就是：人类可以通过意志、仪式和知识直接改造自身的存在状态，而不必依附于任何外在的神祇。</p>
+
+    <h3>替罪羊机制在左路中的解读</h3>
+    <p>《金枝》对替罪羊（scapegoat）机制的详尽分析，在左路传统中得到了深度的心灵转化。弗雷泽展示了人类如何将自身的罪孽、不洁和不幸转移到某个人或动物身上，然后通过驱逐或杀死替罪者来获得净化和新生。从波利尼西亚的部落驱邪到犹太教的赎罪日山羊，从雅典的"药王"（pharmakos）仪式到印度的卡莉女神的献祭，替罪羊机制是全球性的净化仪式。</p>
+    <p>在左路的心理学解读中，替罪羊机制揭示了人类心灵的深刻结构：<span class="highlight">人们渴望净化的力量，却不愿亲自承担净化的代价</span>。因此，他们发明了各种"转移"技术来逃避责任——将自身的阴影投射到他人身上，然后通过惩罚"他者"来获取伪善的纯洁。在左路的实践中，这一机制被逆转：真正的净化不是将阴影投射出去，而是<span class="highlight">主动地、有意识地吸收和整合阴影</span>。这就是左道实践者所谓的"双向净化"——通过直面而不是逃避自身的黑暗面，来获得超越善恶二元对立的力量。</p>
+    <p>从路西法⇔撒旦的角度来看，弗雷泽的替罪羊研究可以被视为一个精密的"他者化"（Othering）机制的实证记录：社会总是需要不断制造出"不应存在者"来巩固自身的同一性。而撒旦——字面意义上的"敌人"——正是终极的他者。左路传统的核心任务之一，就是揭示这一他者化机制，并找回被投射到撒旦形象上的那些被社会否定的品质：自主意志、敢于反抗的勇气、对知识的饥渴、以及对自我超越的追求。</p>
+
+    <h3>死去的王与自我神化</h3>
+    <p>"神王被杀"的仪式在左路的解读中获得了新的维度。弗雷泽展示了世界各地的国王如何被视为自然力量的容器和代理者——国王的健康直接关联着土地的生产力，因此当国王的体力衰退时，他必须被更替以确保自然循环不受阻碍。这种"国王即神体"的观念，在左路的个人实践中被内在化为一种核心箴言：<span class="highlight">你必须是自己的神王</span>。</p>
+    <p>左路不是要等待一个外在的救世主或神圣统治者，而是要每个人成为自身的"神王"——即处于自我意志和命运的绝对控制之中。这意味着，自我中那些"衰老的""过时的"部分必须被有意识地杀死和替代——这就是左路对"杀死神王"的内在化理解：通过不断的自我超越、自我解构和自我重建，个体可以像森林之王一样不断更新自身，从旧的身份中"杀死"自己，以新的更强形式重生。每一次魔术性的自我转化，都是一次折断金枝的行为——一次穿越冥界边界以获取更高力量的冒险。</p>
+
+    <h3>《金枝》与《法之书》的对话</h3>
+    <p>将弗雷泽的《金枝》与阿莱斯特·克劳利的《法之书》（The Book of the Law, 1904）并置阅读，可以发现一种深层的对话关系：</p>
+    <p><span class="highlight">从死而复活到"行汝意志"：</span>弗雷泽的"死而复活之神"模式在克劳利的体系中获得了极端化的发展。如果说弗雷泽的奥西里斯和阿多尼斯是在自然循环中被动地死亡与复活的植物神，那么克劳利所宣扬的哈迪特（Hadit）则是永恒自我变革、永不固着于任何单一形态的烈焰之神——《法之书》的第一章中，哈迪特宣告："我是点燃每一个心灵之火的火焰，也是每一个心灵的核心。"这是将弗雷泽的外在季节性神话内在化为一个关于自我意志的永恒燃烧过程。</p>
+    <p><span class="highlight">魔法世界观的回归：</span>弗雷泽将巫术定义为人类试图直接控制自然的阶段，并将这一阶段视为已被科学超越的历史。而《法之书》的核心宣言"行汝意志，即为全部之律法"（Do what thou wilt shall be the whole of the Law），本质上是一种极端的交感魔法世界观的回归——它宣称个体意志的力量不亚于宇宙的规律本身，纯粹的意志可以像相似律和接触律一样产生真实效应。这一点，可以被视为弗雷泽三阶段模型中的一个"回旋"：科学之后不是巫术的消失，而是巫术以更高的形式（魔法意志论）的回归。</p>
+    <p><span class="highlight">替罪机制的倒转：</span>弗雷泽详细记录的替罪羊机制在《法之书》中被激进的否定："每一位男人和每一位女人都是一颗星星。"（Every man and every woman is a star.）这意味着没有生命是替罪的工具，没有个体应该承载他人的罪孽。这一宣言颠覆了弗雷泽叙述中那种群体通过牺牲个体来维持自身秩序的原始模式，而代之以一个完全不同的伦理——每个个体都有其独立的轨道和存在的理由。</p>
+    <p>最终，弗雷泽和克劳利的交汇点在于：二者都承认存在着一种超越特定宗教教条的人类精神底层结构——弗雷泽将其追溯至巫术的两大思维定律，克劳利则将其编码为《法之书》中关于意志与爱的两极法则。从阿波菲斯的视角看，这种底层结构正是阿波菲斯之蛇所象征的永恒创造力——它超越善恶，超越魔法与宗教的对立，超越一切分类体系。金枝被折断的那一刻，不是王权的更替，而是阿波菲斯之蛇在冥界与人间之间撕开的一道裂缝——所有敢于穿过裂缝的人，都将获得金枝的祝福与诅咒：永远不再是顺从的羊群，而是永不驯服的自我。</p>
+
+    <div class="card">
+      <div class="card-title">&#10087; 金枝箴言</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;text-align:center;color:#d4a843;">
+        "The Golden Bough is a tale of the tragedy of the dying god —<br>
+        but also of the triumph of the will that dares to pluck it."<br>
+        <span style="font-size:0.85rem;color:#6a5a3a;">— 金枝讲述的是死神的悲剧，也是敢于折断它的意志的凯歌。</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>&#10087; 基于詹姆斯·弗雷泽爵士《金枝》（The Golden Bough）比较宗教学研究</p>
+  <p>阿波菲斯 · Apophis Dragon Magic · 左手道的智慧圣殿</p>
+  <p style="margin-top:0.5rem;font-size:0.7rem;">"橡树之下，金枝闪光；折断它的人，将成为自己的王。"</p>
+</footer>
+
+<script>
+/* ===== Particle Canvas ===== */
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let w, h;
+
+function resizeCanvas() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.size = Math.random() * 3 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3 - 0.1;
+    this.opacity = Math.random() * 0.4 + 0.1;
+    this.life = Math.random() * 300 + 200;
+    this.maxLife = this.life;
+    this.hue = Math.random() > 0.7 ? 35 : 120; // gold or green
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.life--;
+    this.opacity = (this.life / this.maxLife) * 0.4;
+    if (this.life <= 0 || this.x < -10 || this.x > w + 10 || this.y < -10 || this.y > h + 10) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    const color = this.hue === 35 ? '212,168,67' : '45,80,22';
+    ctx.fillStyle = 'rgba(' + color + ',' + this.opacity + ')';
+    ctx.fill();
+    // leaf shape for some particles
+    if (this.hue === 120 && this.size > 1.5) {
+      ctx.beginPath();
+      ctx.ellipse(this.x, this.y, this.size * 1.5, this.size * 0.6, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(45,80,22,' + (this.opacity * 0.3) + ')';
+      ctx.fill();
+    }
+  }
+}
+
+function initParticles(count) {
+  particles = [];
+  for (let i = 0; i < count; i++) { particles.push(new Particle()); }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => { p.update(); p.draw(); });
+  // draw connections
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = 'rgba(212,168,67,' + (0.06 * (1 - dist / 120)) + ')';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animateParticles);
+}
+initParticles(100);
+animateParticles();
+
+/* ===== Tab Switching ===== */
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabPanels = {
+  overview: document.getElementById('tab-overview'),
+  sympathetic: document.getElementById('tab-sympathetic'),
+  'dying-god': document.getElementById('tab-dying-god'),
+  taboo: document.getElementById('tab-taboo'),
+  tree: document.getElementById('tab-tree'),
+  fire: document.getElementById('tab-fire'),
+  lhp: document.getElementById('tab-lhp')
+};
+
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', function() {
+    tabButtons.forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    Object.values(tabPanels).forEach(p => { if (p) p.classList.remove('active'); });
+    const target = tabPanels[this.dataset.tab];
+    if (target) target.classList.add('active');
+    // close mobile nav
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('active');
+  });
+});
+
+/* ===== Hamburger ===== */
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', function() {
+  this.classList.toggle('active');
+  navLinks.classList.toggle('open');
+});
+
+/* ===== Magic Classifier ===== */
+const magicKeywords = {
+  homeopathic: [
+    '人偶', '蜡像', '雕像', '模拟', '模仿', '画像', '照片', '图案', '代替',
+    '象征', '跳', '舞', '洒水', '喷水', '点燃', '烧', '画', '绘', '象征性',
+    '假', '似', '仿', '偶', '代表', '相似'
+  ],
+  contagious: [
+    '头发', '指甲', '唾液', '血液', '血', '衣物', '衣服', '名字', '姓名',
+    '剪', '脱', '落', '排泄', '牙', '脚印', '足迹', '影子', '毛发',
+    '穿', '戴', '遗物', '尸体', '骨', '皮肤', '汗', '泪'
+  ]
+};
+
+function classifyMagic() {
+  const input = document.getElementById('magicInput').value.trim();
+  const result = document.getElementById('magicResult');
+  if (!input) { result.innerHTML = '<p style="color:#c41e3a;">请输入或选择一个魔法行为。</p>'; return; }
+
+  let homeoScore = 0, contaScore = 0;
+  magicKeywords.homeopathic.forEach(k => { if (input.includes(k)) homeoScore++; });
+  magicKeywords.contagious.forEach(k => { if (input.includes(k)) contaScore++; });
+
+  let type, law, explanation, example;
+  if (homeoScore > contaScore) {
+    type = '顺势巫术（Homeopathic Magic）';
+    law = '相似律（Law of Similarity）';
+    explanation = '该行为通过模仿或模拟目标来产生实际效果，属于"同类相生"原则的应用。';
+    example = '类似行为：求雨者喷洒水模仿降雨、用画像诅咒目标、食用动物的肉来获取该动物的特性。';
+  } else if (contaScore > homeoScore) {
+    type = '接触巫术（Contagious Magic）';
+    law = '接触律（Law of Contagion）';
+    explanation = '该行为通过目标留下或与之接触过的物质来间接控制目标，属于"部分即整体"原则的应用。';
+    example = '类似行为：使用目标毛发进行诅咒、珍藏恋人的头发以维系感情、以圣徒遗物传递祝福。';
+  } else if (homeoScore === 0 && contaScore === 0) {
+    type = '无法判定';
+    law = '—';
+    explanation = '未能识别出明确的交感魔法特征。请尝试使用更具体的魔法行为描述，例如"用蜡制人偶诅咒敌人"或"用敌人的头发制作诅咒符"。';
+    example = '提示：尝试输入包含"人偶/画像/模仿"（顺势）或"头发/指甲/衣物"（接触）的关键词。';
+  } else {
+    type = '混合型魔法（Mixed Sympathetic Magic）';
+    law = '相似律 + 接触律';
+    explanation = '该行为同时包含顺势和接触两种魔法特征，体现了交感魔法的复合运用——两个定律可能在同一个仪式中协同作用。';
+    example = '例如：使用目标本人的头发制作一个代表目标的人偶，然后烧毁人偶——这是接触律（使用头发）与相似律（人偶代表目标）的结合。';
+  }
+
+  result.innerHTML = '<p><strong>输入行为：</strong>' + input + '</p>' +
+    '<p><strong>判定：</strong><span class="highlight">' + type + '</span></p>' +
+    '<p><strong>依据：</strong>' + law + ' — ' + explanation + '</p>' +
+    '<p style="color:#6a5a3a;font-size:0.85rem;">' + example + '</p>';
+}
+
+/* ===== Quiz ===== */
+const quizAnswers = {
+  q1: 'a', q2: 'b', q3: 'c', q4: 'c', q5: 'b',
+  q6: 'b', q7: 'b', q8: 'c', q9: 'b', q10: 'b'
+};
+
+function checkQuiz() {
+  let score = 0, total = 10;
+  const resultDiv = document.getElementById('quizResult');
+  for (let i = 1; i <= total; i++) {
+    const selected = document.querySelector('input[name="q' + i + '"]:checked');
+    if (selected && selected.value === quizAnswers['q' + i]) score++;
+  }
+  let level = '';
+  if (score >= 9) level = '禁制大师 — 你对弗雷泽的禁忌理论已有深刻理解！';
+  else if (score >= 7) level = '仪式学者 — 你的知识功底扎实，继续研读可臻化境。';
+  else if (score >= 5) level = '见习祭司 — 你对禁忌和净化已有基本了解，建议重读相关章节。';
+  else level = '初入圣林者 — 金枝在等待你，不妨从书中寻找更多答案。';
+
+  resultDiv.style.display = 'block';
+  resultDiv.style.border = '1px solid rgba(212,168,67,0.3)';
+  resultDiv.style.background = 'rgba(212,168,67,0.05)';
+  resultDiv.style.padding = '1rem';
+  resultDiv.innerHTML = '<p><strong>测试结果：</strong>' + score + ' / ' + total + ' 正确</p>' +
+    '<p><span class="highlight">' + level + '</span></p>' +
+    '<p style="color:#6a5a3a;font-size:0.85rem;margin-top:0.5rem;">知识是折断金枝的利刃，继续深入吧。</p>';
+}
+
+/* ===== Tree Info ===== */
+const treeData = {
+  oak: '橡树是欧洲最受尊崇的圣树。德鲁伊在橡树林中举行仪式，从橡树上割取槲寄生。古希腊的宙斯神谕在多多纳的橡树林中传达——风吹橡叶的声音即是神明的语言。在北欧传统中，橡树被奉献给雷神托尔，人们相信橡树能抵御雷电。',
+  zeus: '宙斯，希腊神话的众神之王。他的圣树是橡树，多多纳神谕的橡树林传达宙斯的意志。橡树枝被作为王权的象征。在《金枝》中，宙斯是"天空父亲"与"橡树之神"的双重化身。',
+  thor: '托尔，北欧神话的雷神。橡树被奉献给他，因为橡树常被雷电击中，古人相信这是托尔的战锤（Mjölnir）的印记。橡树因此被视为受雷神庇护的树。',
+  druid: '凯尔特德鲁伊视橡树和槲寄生为至圣之物。他们在橡树林中举行仪式，用金镰刀在特定的月相下割取槲寄生。"Druid"一词源自印欧语根"dru-"（橡树）。德鲁伊相信橡树蕴含着宇宙的智慧。',
+  yggdrasil: '世界树Yggdrasil是北欧神话的宇宙轴心——一棵巨大的梣树（ash tree）。它连接九界，树根下是智慧之泉（由密米尔守护），树冠上是神国Asgard。奥丁曾在树上倒吊九日九夜以获取如尼文的智慧。',
+  norse: '北欧诸神的命运与世界树紧密相连。奥丁在世界树下获得智慧，命运三女神在树根处编织众生的命运线。弗雷泽将世界树视为"树即宇宙"这一跨文化象征的北欧表达。',
+  yew: '紫杉（yew）是凯尔特传统中与死亡和永恒紧密相连的树木。紫杉可活数千年，因此被视为不朽的象征。但其全株（除假种皮外）剧毒，故又被视为死亡之树。紫杉常见于欧洲墓地——生与死的边界之树。',
+  'celtic-death': '凯尔特神话中，紫杉是通往冥界的大门之一。紫杉木被用于制作长弓——在阿金库尔战役中，紫杉弓帮助英格兰击败了法兰西。紫杉的剧毒汁液被用作毒箭的毒药，进一步加强了它与死亡的关联。',
+  bodhi: '菩提树（Ficus religiosa）在佛教中是最神圣的树。公元前6世纪，释迦牟尼在菩提伽耶的菩提树下静坐冥想，最终证悟成佛。菩提树从此成为觉悟、智慧和超越轮回的象征。',
+  buddha: '释迦牟尼在菩提树下入定四十九日，降伏魔罗后证得无上正等正觉。佛教传统中，菩提树被广种植于寺庙中，其叶片被视为吉祥之物。每一棵菩提树都是佛陀觉悟的活着的纪念碑。',
+  mistletoe: '槲寄生——即弗雷泽所称的"金枝"——是一种寄生于橡树的常绿植物。它在冬季依然翠绿，被视为不可摧毁的生命力的象征。德鲁伊用金镰刀割取它，认为它是万能之药。在北欧神话中，光明之神巴德尔被槲寄生所杀。',
+  nemi: '内米湖畔的森林之王（Rex Nemorensis）传说：任何人欲成为祭司必须先折断橡树上的金枝（槲寄生），然后与现任祭司决斗并杀死他。维吉尔的《埃涅阿斯纪》中，埃涅阿斯手持金枝穿越冥界——金枝由此成为生死边界的通行证。'
+};
+
+function showTreeInfo(key) {
+  const box = document.getElementById('treeInfoBox');
+  const text = treeData[key];
+  if (text) {
+    box.innerHTML = '<p>' + text + '</p>';
+  } else {
+    box.innerHTML = '<p style="color:#6a5a3a;font-style:italic;">相关信息正在加载中……</p>';
+  }
+}
+
+/* ===== Auto-classify on load ===== */
+window.addEventListener('DOMContentLoaded', function() {
+  classifyMagic();
+});
+</script>
+</body>
+</html>
