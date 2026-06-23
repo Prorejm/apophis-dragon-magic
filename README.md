@@ -126,6 +126,8 @@
 | 🌿 魔法植物 | [magical-botany.html](https://prorejm.github.io/apophis-dragon-magic/magical-botany.html) |
 | 🌀 太乙神数 | [taiyi-divination.html](https://prorejm.github.io/apophis-dragon-magic/taiyi-divination.html) |
 | ⚔️ 左路魔法 | [left-hand-path.html](https://prorejm.github.io/apophis-dragon-magic/left-hand-path.html) |
+| 💀 死灵术 | [necromancy.html](https://prorejm.github.io/apophis-dragon-magic/necromancy.html) |
+| 🎲 跑团规则 | [apophis-trpg.html](https://prorejm.github.io/apophis-dragon-magic/apophis-trpg.html) |
 ## 💻 本地运行
 
 直接用浏览器打开 `index.html` 即可，无需服务器。

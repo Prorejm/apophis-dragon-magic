@@ -725,6 +725,8 @@ body {
   <a href="magical-botany.html" class="nav-link">魔法植物</a>
   <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
   <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
 </nav>
 
 <!-- 粒子背景 -->
@@ -979,6 +981,79 @@ var GAMES = [
     desc: '斯特鲁普测试：点击与圆圈颜色匹配的文字！注意文字颜色可能不同！',
     badge: '限时30秒 · 反应',
     instructions: ['观察圆圈的颜色', '点击文字与圆圈颜色匹配的按钮', '文字本身的颜色可能是干扰', '30秒内尽可能多答对']
+  },
+  {
+    id: 'heads',
+    icon: '🐉',
+    title: '七首觉醒',
+    desc: '翻牌匹配七首之龙，唤醒远古之力',
+    badge: '记忆',
+    instructions: ['点击翻开卡片，记忆七首符号的位置', '每次翻开两张，匹配相同符号', '全部7对匹配即为胜利', '翻牌次数越少、用时越短，得分越高']
+  },
+  {
+    id: 'xeper',
+    icon: '⚡',
+    title: 'Xeper进化',
+    desc: '积累意识之力，攀登进化之巅',
+    badge: '放置',
+    instructions: ['点击中央球体积累"意识之力"', '力量足够时自动升阶进化', '第3阶后开启自动生成', '目标是达到第7阶——红贤者']
+  },
+  {
+    id: 'sigilm',
+    icon: '🔮',
+    title: '符印记忆',
+    desc: '记忆并复现古老符印，修炼灵知',
+    badge: '记忆',
+    instructions: ['观察短暂出现的符印图案', '在画布上复现你记忆中的符印', '共10轮，难度逐渐增加', '准确度越高得分越高']
+  },
+  {
+    id: 'choices',
+    icon: '⚖️',
+    title: '左路抉择',
+    desc: '面对左路哲学的伦理抉择',
+    badge: '剧情',
+    instructions: ['阅读每个场景的故事背景', '从三个选项中选择你的行动', '根据左道哲学理念评分', '5个场景结束后得出最终评价']
+  },
+  {
+    id: 'gnosis',
+    icon: '🧩',
+    title: '灵知顿悟',
+    desc: '拼合古卷符文，开启灵知之眼',
+    badge: '拼图',
+    instructions: ['点击与空格相邻的符文方块滑动', '将15个符文按正确顺序排列', '步数越少、用时越短得分越高', '完成后将显现古代魔法书页']
+  },
+  // ====== 新增 LHP 游戏 ======
+  {
+    id: 'gnosisawake',
+    title: '灵知觉醒',
+    icon: '✨',
+    desc: '冥想专注训练：金色光点随机浮现，在消失前点击捕获，唤醒灵知',
+    badge: '等级递增 · 专注',
+    instructions: ['金色光点会在画布上随机浮现', '在光点消失前点击它', '等级越高，光点出现越快、数量越多', '点击金色光点+1分，红色光点-2分', '错失光点会扣生命值']
+  },
+  {
+    id: 'darkmask',
+    title: '黑暗面具',
+    icon: '💀',
+    desc: '死灵术符号记忆匹配：翻开卡牌，配对相同的神秘符号',
+    badge: '记忆 · 配对',
+    instructions: ['点击翻开卡牌，一次翻开两张', '匹配相同的神秘符号', '匹配成功卡牌消除并得分', '匹配失败卡牌翻回', '找到全部8对即为胜利']
+  },
+  {
+    id: 'xeperwill',
+    title: 'Xeper意志',
+    icon: '⚡',
+    desc: '塞特意志力训练：按住按钮保持指针在目标区域内振荡',
+    badge: '意志试炼 · 等级递增',
+    instructions: ['持续按住按钮保持指针振荡', '指针在金色目标区域内时松开', '成功则升级，失败则重置', '等级越高振荡越快、目标越窄', '挑战你的意志极限']
+  },
+  {
+    id: 'chaosritual',
+    title: '混沌仪式',
+    icon: '🌀',
+    desc: '序列记忆：记住火水风土的亮起顺序，重复仪式序列',
+    badge: '序列记忆 · 逐步递增',
+    instructions: ['观察四个元素按钮的亮起顺序', '按相同顺序点击按钮复现', '每轮增加一个步骤', '连续正确次数越多得分越高', '点错即游戏结束']
   }
 ];
 
@@ -3979,6 +4054,1138 @@ function initColorReaction(canvas) {
 }
 
 // ==========================================
+// ========= 游戏 13: 灵知觉醒 =============
+// ==========================================
+function initGnosisAwake(canvas) {
+  var ctx = canvas.getContext('2d');
+  var started = false;
+  var alive = true;
+  var frameId = null;
+  var score = 0;
+  var lives = 5;
+  var level = 1;
+  var sparks = [];
+  var particles = [];
+  var comboCount = 0;
+  var missedCount = 0;
+
+  var SPARK_LIFETIME_BASE = 3000;
+  var SPARK_MIN = 3;
+  var SPARK_MAX_BASE = 6;
+  var SPAWN_INTERVAL_BASE = 1500;
+
+  var lastSpawn = 0;
+  var totalPlayTime = 0;
+
+  function getLevelParams() {
+    var lv = Math.min(level, 20);
+    var sparkLifetime = Math.max(600, SPARK_LIFETIME_BASE - lv * 120);
+    var sparkMax = Math.min(15, SPARK_MAX_BASE + lv);
+    var spawnInterval = Math.max(400, SPAWN_INTERVAL_BASE - lv * 55);
+    var speedMult = 1 + lv * 0.15;
+    return {lifetime: sparkLifetime, maxCount: sparkMax, interval: spawnInterval, speed: speedMult};
+  }
+
+  function createSpark() {
+    var r = Math.random() * 12 + 8;
+    var isGold = Math.random() < 0.7;
+    return {
+      x: Math.random() * (canvas.width - 2*r) + r,
+      y: Math.random() * (canvas.height - 2*r) + r,
+      r: r,
+      vx: (Math.random() - 0.5) * 2,
+      vy: (Math.random() - 0.5) * 2,
+      born: performance.now(),
+      lifetime: getLevelParams().lifetime * (0.7 + Math.random() * 0.6),
+      isGold: isGold,
+      alpha: 1,
+      pulse: Math.random() * Math.PI * 2
+    };
+  }
+
+  function spawnSparks() {
+    var params = getLevelParams();
+    while (sparks.length < params.maxCount && Math.random() < 0.3) {
+      sparks.push(createSpark());
+    }
+  }
+
+  function emitParticles(x, y, color, count) {
+    count = count || 8;
+    for (var i = 0; i < count; i++) {
+      var angle = Math.random() * Math.PI * 2;
+      var speed = Math.random() * 3 + 1;
+      particles.push({
+        x: x, y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        r: Math.random() * 3 + 1,
+        life: 1,
+        color: color || '#d4a843'
+      });
+    }
+  }
+
+  function update(timestamp) {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+
+    totalPlayTime += 16;
+    var params = getLevelParams();
+
+    // Spawn new sparks
+    if (timestamp - lastSpawn > params.interval) {
+      lastSpawn = timestamp;
+      spawnSparks();
+    }
+
+    // Update sparks
+    for (var i = sparks.length - 1; i >= 0; i--) {
+      var s = sparks[i];
+      var age = timestamp - s.born;
+      var lifetime = s.lifetime;
+      // Move
+      s.x += s.vx * params.speed;
+      s.y += s.vy * params.speed;
+      // Bounce off edges
+      if (s.x < s.r || s.x > canvas.width - s.r) { s.vx *= -1; s.x = Math.max(s.r, Math.min(canvas.width - s.r, s.x)); }
+      if (s.y < s.r || s.y > canvas.height - s.r) { s.vy *= -1; s.y = Math.max(s.r, Math.min(canvas.height - s.r, s.y)); }
+
+      // Fade out
+      var fadeStart = lifetime * 0.6;
+      if (age > fadeStart) {
+        s.alpha = 1 - (age - fadeStart) / (lifetime - fadeStart);
+      } else {
+        s.alpha = 0.7 + 0.3 * Math.sin(s.pulse + timestamp / 500);
+      }
+
+      // Expired
+      if (age >= lifetime) {
+        if (s.isGold) {
+          missedCount++;
+          emitParticles(s.x, s.y, '#c41e3a', 6);
+        }
+        sparks.splice(i, 1);
+      }
+    }
+
+    // Update particles
+    for (var i = particles.length - 1; i >= 0; i--) {
+      var p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 0.03;
+      if (p.life <= 0) { particles.splice(i, 1); }
+    }
+
+    // Check lives
+    if (lives <= 0) {
+      alive = false;
+      var finalScore = score * 10 + level * 50;
+      gameOver(finalScore);
+      return;
+    }
+
+    draw(timestamp);
+    updateHUD(score, '等级: ' + level + ' 生命: ' + lives + ' 连击: ' + comboCount);
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw(timestamp) {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw particles
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      ctx.globalAlpha = p.life;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 10;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+
+    // Draw sparks
+    for (var i = 0; i < sparks.length; i++) {
+      var s = sparks[i];
+      ctx.globalAlpha = Math.max(0.1, s.alpha);
+
+      if (s.isGold) {
+        // Golden spark with glow
+        var grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 2.5);
+        grad.addColorStop(0, 'rgba(255,215,0,0.8)');
+        grad.addColorStop(0.5, 'rgba(212,168,67,0.4)');
+        grad.addColorStop(1, 'rgba(212,168,67,0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r * 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.shadowColor = 'rgba(255,215,0,0.6)';
+        ctx.shadowBlur = 15;
+        ctx.fillStyle = '#ffd700';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Inner bright core
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#fff8dc';
+        ctx.beginPath();
+        ctx.arc(s.x - s.r*0.2, s.y - s.r*0.2, s.r * 0.35, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        // Red decoy spark
+        ctx.shadowColor = 'rgba(196,30,58,0.5)';
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = '#c41e3a';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r * 0.8, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Skull-like mark
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#8a1a2a';
+        ctx.font = (s.r * 1.2) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('x', s.x, s.y + 1);
+      }
+      ctx.shadowBlur = 0;
+    }
+    ctx.globalAlpha = 1;
+
+    // Level indicator glow
+    ctx.fillStyle = 'rgba(212,168,67,0.08)';
+    ctx.font = (canvas.width * 0.08) + 'px "Ma Shan Zheng", serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText('灵知觉醒 · Lv.' + level, canvas.width / 2, canvas.height - 10);
+  }
+
+  function handleCanvasClick(e) {
+    if (!started || !alive || paused) return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    var hitGold = false;
+    var hitRed = false;
+    for (var i = sparks.length - 1; i >= 0; i--) {
+      var s = sparks[i];
+      var dx = mx - s.x;
+      var dy = my - s.y;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < s.r + 5) {
+        if (s.isGold) {
+          score++;
+          comboCount++;
+          emitParticles(s.x, s.y, '#ffd700', 12);
+          flashFeedback(true);
+          hitGold = true;
+          if (comboCount % 10 === 0 && level < 20) level++;
+        } else {
+          score = Math.max(0, score - 2);
+          comboCount = 0;
+          emitParticles(s.x, s.y, '#c41e3a', 10);
+          flashFeedback(false);
+          hitRed = true;
+        }
+        sparks.splice(i, 1);
+        break;
+      }
+    }
+    if (!hitGold && !hitRed) {
+      // Check if missed any gold spark
+      comboCount = 0;
+    }
+    updateHUD(score, '等级: ' + level + ' 生命: ' + lives + ' 连击: ' + comboCount);
+  }
+
+  canvas.addEventListener('click', handleCanvasClick);
+
+  // Init
+  lastSpawn = performance.now();
+  updateHUD(score, '等级: ' + level + ' 生命: ' + lives);
+  draw(performance.now());
+
+  window.startGame = function() {
+    started = true;
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+    canvas.removeEventListener('click', handleCanvasClick);
+  };
+}
+
+// ==========================================
+// ========= 游戏 14: 黑暗面具 =============
+// ==========================================
+function initDarkMask(canvas) {
+  var ctx = canvas.getContext('2d');
+  var started = false;
+  var alive = true;
+  var frameId = null;
+
+  // 8 pairs = 16 cards
+  var SYMBOLS = [
+    {name: 'Anubis', glyph: '☥', color: '#d4a843'},
+    {name: '天秤', glyph: '⚖', color: '#ffd700'},
+    {name: '月亮', glyph: '☽', color: '#c0c0c0'},
+    {name: '骷髅', glyph: '☠', color: '#c41e3a'},
+    {name: '蛇', glyph: '🐍', color: '#228b22'},
+    {name: '眼睛', glyph: '⊙', color: '#1e90ff'},
+    {name: '金字塔', glyph: '▲', color: '#d4a843'},
+    {name: '权杖', glyph: '⚡', color: '#ff8c00'}
+  ];
+
+  var COLS = 4, ROWS = 4;
+  var cards = [];
+  var firstPick = null;
+  var secondPick = null;
+  var locked = false;
+  var pairsFound = 0;
+  var totalPairs = 8;
+  var attempts = 0;
+  var score = 0;
+  var flipBackTimer = null;
+
+  var cardW, cardH, offsetX, offsetY;
+
+  function calcLayout() {
+    var gap = 6;
+    cardW = Math.min(80, (canvas.width - gap * (COLS + 1)) / COLS);
+    cardH = Math.min(100, (canvas.height - gap * (ROWS + 1)) / ROWS);
+    offsetX = (canvas.width - (cardW * COLS + gap * (COLS - 1))) / 2;
+    offsetY = (canvas.height - (cardH * ROWS + gap * (ROWS - 1))) / 2 + 20;
+  }
+
+  function shuffleArray(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  function initDeck() {
+    var deck = [];
+    for (var i = 0; i < totalPairs; i++) {
+      deck.push({symbolIdx: i, matched: false});
+      deck.push({symbolIdx: i, matched: false});
+    }
+    shuffleArray(deck);
+    cards = [];
+    for (var i = 0; i < deck.length; i++) {
+      cards.push({
+        symbolIdx: deck[i].symbolIdx,
+        flipped: false,
+        matched: false,
+        x: 0, y: 0
+      });
+    }
+    // Assign positions
+    calcLayout();
+    for (var row = 0; row < ROWS; row++) {
+      for (var col = 0; col < COLS; col++) {
+        var idx = row * COLS + col;
+        var gap = 6;
+        cards[idx].x = offsetX + col * (cardW + gap);
+        cards[idx].y = offsetY + row * (cardH + gap);
+      }
+    }
+  }
+
+  function resetGame() {
+    initDeck();
+    firstPick = null;
+    secondPick = null;
+    locked = false;
+    pairsFound = 0;
+    attempts = 0;
+    score = 0;
+    flipBackTimer = null;
+    alive = true;
+    updateHUD(score, '配对: 0/' + totalPairs + ' 尝试: ' + attempts);
+  }
+
+  function flipBackCards() {
+    if (firstPick) { cards[firstPick].flipped = false; firstPick = null; }
+    if (secondPick) { cards[secondPick].flipped = false; secondPick = null; }
+    locked = false;
+    draw();
+  }
+
+  function checkMatch() {
+    if (firstPick === null || secondPick === null) return;
+    var c1 = cards[firstPick];
+    var c2 = cards[secondPick];
+    if (c1.symbolIdx === c2.symbolIdx) {
+      // Match!
+      c1.matched = true;
+      c2.matched = true;
+      pairsFound++;
+      attempts++;
+      score += 10 * (1 + Math.floor(attempts / 4));
+      flashFeedback(true);
+      firstPick = null;
+      secondPick = null;
+      updateHUD(score, '配对: ' + pairsFound + '/' + totalPairs + ' 尝试: ' + attempts);
+      if (pairsFound >= totalPairs) {
+        alive = false;
+        gameOver(score);
+      }
+      draw();
+    } else {
+      // No match
+      attempts++;
+      flashFeedback(false);
+      updateHUD(score, '配对: ' + pairsFound + '/' + totalPairs + ' 尝试: ' + attempts);
+      locked = true;
+      setTimeout(function() {
+        flipBackCards();
+        locked = false;
+      }, 800);
+    }
+  }
+
+  function handleClick(e) {
+    if (!started || !alive || paused || locked) return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    // Check restart button
+    if (mx >= canvas.width - 90 && mx <= canvas.width - 10 && my >= 8 && my <= 32 && !alive) {
+      resetGame();
+      draw();
+      return;
+    }
+
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      if (c.matched || c.flipped) continue;
+      if (mx >= c.x && mx <= c.x + cardW && my >= c.y && my <= c.y + cardH) {
+        c.flipped = true;
+        if (firstPick === null) {
+          firstPick = i;
+        } else if (secondPick === null && i !== firstPick) {
+          secondPick = i;
+          checkMatch();
+        }
+        draw();
+        return;
+      }
+    }
+  }
+
+  function update() {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+    draw();
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw border frame
+    ctx.strokeStyle = 'rgba(212,168,67,0.15)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(offsetX - 8, offsetY - 8, cardW * COLS + 6 * (COLS-1) + 16, cardH * ROWS + 6 * (ROWS-1) + 16);
+
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      var cx = c.x, cy = c.y;
+
+      if (c.matched) {
+        // Matched - fade out with golden border
+        ctx.fillStyle = 'rgba(212,168,67,0.1)';
+        ctx.strokeStyle = 'rgba(212,168,67,0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.fillRect(cx, cy, cardW, cardH);
+        ctx.strokeRect(cx, cy, cardW, cardH);
+
+        // Symbol
+        var sym = SYMBOLS[c.symbolIdx];
+        ctx.fillStyle = sym.color;
+        ctx.globalAlpha = 0.5;
+        ctx.font = (cardH * 0.45) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(sym.glyph, cx + cardW/2, cy + cardH/2);
+        ctx.globalAlpha = 1;
+      } else if (c.flipped) {
+        // Flipped - show symbol
+        ctx.fillStyle = '#1a1a1a';
+        ctx.strokeStyle = '#d4a843';
+        ctx.lineWidth = 2;
+        ctx.shadowColor = 'rgba(212,168,67,0.3)';
+        ctx.shadowBlur = 8;
+        ctx.fillRect(cx, cy, cardW, cardH);
+        ctx.strokeRect(cx, cy, cardW, cardH);
+        ctx.shadowBlur = 0;
+
+        var sym = SYMBOLS[c.symbolIdx];
+        ctx.fillStyle = sym.color;
+        ctx.shadowColor = sym.color;
+        ctx.shadowBlur = 10;
+        ctx.font = (cardH * 0.5) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(sym.glyph, cx + cardW/2, cy + cardH/2 + 1);
+        ctx.shadowBlur = 0;
+
+        // Name label
+        ctx.fillStyle = 'rgba(232,224,212,0.6)';
+        ctx.font = '11px "Noto Serif SC", serif';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(sym.name, cx + cardW/2, cy + cardH - 4);
+      } else {
+        // Face down - occult card back
+        ctx.fillStyle = '#0d0d0d';
+        ctx.strokeStyle = '#2a2a2a';
+        ctx.lineWidth = 1;
+        ctx.fillRect(cx, cy, cardW, cardH);
+        ctx.strokeRect(cx, cy, cardW, cardH);
+
+        // Card back pattern
+        var cx2 = cx + cardW/2, cy2 = cy + cardH/2;
+        var r = Math.min(cardW, cardH) * 0.25;
+        ctx.strokeStyle = 'rgba(212,168,67,0.2)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(cx2, cy2, r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Inner pentagram
+        ctx.strokeStyle = 'rgba(212,168,67,0.12)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (var p = 0; p < 5; p++) {
+          var angle = (p * 2 * Math.PI / 5) - Math.PI / 2;
+          var px = cx2 + r * 0.7 * Math.cos(angle);
+          var py = cy2 + r * 0.7 * Math.sin(angle);
+          if (p === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.stroke();
+
+        // Corner dots
+        ctx.fillStyle = 'rgba(212,168,67,0.15)';
+        var dotPositions = [
+          [cx + 5, cy + 5], [cx + cardW - 5, cy + 5],
+          [cx + 5, cy + cardH - 5], [cx + cardW - 5, cy + cardH - 5]
+        ];
+        for (var d = 0; d < 4; d++) {
+          ctx.beginPath();
+          ctx.arc(dotPositions[d][0], dotPositions[d][1], 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    // Title
+    ctx.fillStyle = 'rgba(212,168,67,0.3)';
+    ctx.font = '14px "Ma Shan Zheng", serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillText('黑暗面具', canvas.width / 2, 4);
+  }
+
+  canvas.addEventListener('click', handleClick);
+  resetGame();
+  draw();
+
+  window.startGame = function() {
+    started = true;
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+    canvas.removeEventListener('click', handleClick);
+  };
+}
+
+// ==========================================
+// ========= 游戏 15: Xeper意志 =============
+// ==========================================
+function initXeperWill(canvas) {
+  var ctx = canvas.getContext('2d');
+  var started = false;
+  var alive = true;
+  var frameId = null;
+  var level = 1;
+  var bestLevel = parseInt(localStorage.getItem('xeperwill_best')) || 0;
+  var holding = false;
+  var pointerPos = 0; // 0..1
+  var pointerSpeed = 0.02;
+  var direction = 1;
+  var targetCenter = 0.5;
+  var targetWidth = 0.3;
+  var successCount = 0;
+  var timeInTarget = 0;
+  var neededHoldTime = 500; // ms
+  var holdStartTime = 0;
+  var releaseTimer = null;
+
+  var cx, cy, barW, barH, zoneY;
+
+  function calcLayout() {
+    cx = canvas.width / 2;
+    cy = canvas.height / 2;
+    barW = Math.min(canvas.width * 0.7, 400);
+    barH = 20;
+    zoneY = cy + 60;
+  }
+
+  function getLevelParams() {
+    var lv = Math.min(level, 30);
+    return {
+      speed: 0.02 + lv * 0.004,
+      targetWidth: Math.max(0.04, 0.3 - lv * 0.008),
+      holdTime: Math.max(200, 500 - lv * 10)
+    };
+  }
+
+  function resetPointer() {
+    pointerPos = 0.5;
+    direction = 1;
+    holding = false;
+    holdStartTime = 0;
+    timeInTarget = 0;
+    if (releaseTimer) { clearTimeout(releaseTimer); releaseTimer = null; }
+  }
+
+  function resetGame() {
+    level = 1;
+    successCount = 0;
+    resetPointer();
+    alive = true;
+    updateLevelDisplay();
+  }
+
+  function updateLevelDisplay() {
+    updateHUD(successCount, '等级: ' + level + ' | 最高: ' + bestLevel + ' | ' + (holding ? '按住中...' : ''));
+  }
+
+  function onPointerRelease() {
+    if (!alive || !started) return;
+    if (holding) {
+      holding = false;
+      var params = getLevelParams();
+      var halfW = params.targetWidth / 2;
+      var lower = targetCenter - halfW;
+      var upper = targetCenter + halfW;
+
+      if (pointerPos >= lower && pointerPos <= upper) {
+        // Success!
+        level++;
+        successCount++;
+        if (level > bestLevel) {
+          bestLevel = level;
+          try { localStorage.setItem('xeperwill_best', bestLevel); } catch(e) {}
+        }
+        flashFeedback(true);
+        resetPointer();
+        updateLevelDisplay();
+      } else {
+        // Fail
+        flashFeedback(false);
+        level = 1;
+        resetPointer();
+        updateLevelDisplay();
+      }
+      draw();
+    }
+  }
+
+  function update(timestamp) {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+
+    var params = getLevelParams();
+
+    // Update pointer oscillation
+    if (!holding) {
+      pointerPos += pointerSpeed * direction;
+      if (pointerPos >= 1) { pointerPos = 1; direction = -1; }
+      if (pointerPos <= 0) { pointerPos = 0; direction = 1; }
+    }
+
+    var halfW = params.targetWidth / 2;
+    var lower = targetCenter - halfW;
+    var upper = targetCenter + halfW;
+
+    // Check if in target zone
+    if (holding) {
+      timeInTarget += 16;
+      if (timeInTarget >= params.holdTime) {
+        // Auto success if held long enough
+        holding = false;
+        level++;
+        successCount++;
+        if (level > bestLevel) {
+          bestLevel = level;
+          try { localStorage.setItem('xeperwill_best', bestLevel); } catch(e) {}
+        }
+        flashFeedback(true);
+        resetPointer();
+        updateLevelDisplay();
+      }
+    } else {
+      timeInTarget = 0;
+    }
+
+    draw();
+
+    // Update speed based on level
+    pointerSpeed = params.speed;
+
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    calcLayout();
+
+    var params = getLevelParams();
+    var halfW = params.targetWidth / 2;
+
+    // Background bar track
+    ctx.fillStyle = '#151515';
+    ctx.strokeStyle = '#2a2a2a';
+    ctx.lineWidth = 1;
+    ctx.fillRect(cx - barW/2, zoneY, barW, barH);
+    ctx.strokeRect(cx - barW/2, zoneY, barW, barH);
+
+    // Target zone
+    var tLeft = cx - barW/2 + (targetCenter - halfW) * barW;
+    var tRight = cx - barW/2 + (targetCenter + halfW) * barW;
+    var targetGrad = ctx.createLinearGradient(tLeft, 0, tRight, 0);
+    targetGrad.addColorStop(0, 'rgba(212,168,67,0.2)');
+    targetGrad.addColorStop(0.5, 'rgba(212,168,67,0.4)');
+    targetGrad.addColorStop(1, 'rgba(212,168,67,0.2)');
+    ctx.fillStyle = targetGrad;
+    ctx.fillRect(tLeft, zoneY + 2, tRight - tLeft, barH - 4);
+
+    // Target zone border
+    ctx.strokeStyle = 'rgba(212,168,67,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([3, 3]);
+    ctx.strokeRect(tLeft, zoneY, tRight - tLeft, barH);
+    ctx.setLineDash([]);
+
+    // Pointer
+    var px = cx - barW/2 + pointerPos * barW;
+    ctx.shadowColor = '#d4a843';
+    ctx.shadowBlur = 15;
+    ctx.fillStyle = '#ffd700';
+    ctx.beginPath();
+    ctx.moveTo(px, zoneY - 8);
+    ctx.lineTo(px - 6, zoneY + barH + 8);
+    ctx.lineTo(px + 6, zoneY + barH + 8);
+    ctx.closePath();
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Indicator line
+    ctx.strokeStyle = 'rgba(255,215,0,0.5)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(px, zoneY);
+    ctx.lineTo(px, zoneY + barH);
+    ctx.stroke();
+
+    // Label
+    ctx.fillStyle = '#8a7e6e';
+    ctx.font = '16px "Ma Shan Zheng", serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText('意志力条', cx, zoneY - 10);
+
+    // "按住" button hint
+    ctx.fillStyle = holding ? 'rgba(212,168,67,0.5)' : 'rgba(212,168,67,0.2)';
+    ctx.strokeStyle = 'rgba(212,168,67,0.4)';
+    ctx.lineWidth = 1;
+    var btnX = cx - 60, btnY = zoneY + barH + 30, btnW2 = 120, btnH2 = 40;
+    ctx.fillRect(btnX, btnY, btnW2, btnH2);
+    ctx.strokeRect(btnX, btnY, btnW2, btnH2);
+
+    ctx.fillStyle = holding ? '#d4a843' : '#8a7e6e';
+    ctx.font = '18px "Ma Shan Zheng", serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(holding ? '松开!' : '按住', cx, btnY + btnH2/2 + 1);
+
+    // Level display
+    ctx.fillStyle = 'rgba(212,168,67,0.3)';
+    ctx.font = '48px "Ma Shan Zheng", serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText('Lv.' + level, cx, zoneY - 30);
+
+    // Best level
+    ctx.fillStyle = 'rgba(212,168,67,0.15)';
+    ctx.font = '14px "Noto Serif SC", serif';
+    ctx.textBaseline = 'top';
+    ctx.fillText('最高等级: ' + bestLevel, cx, cy + 160);
+  }
+
+  function handleMouseDown(e) {
+    if (!started || !alive || paused) return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    var btnX = cx - 60, btnY = zoneY + barH + 30, btnW2 = 120, btnH2 = 40;
+    if (mx >= btnX && mx <= btnX + btnW2 && my >= btnY && my <= btnY + btnH2) {
+      if (!holding) {
+        holding = true;
+        holdStartTime = performance.now();
+        timeInTarget = 0;
+        updateLevelDisplay();
+        draw();
+      }
+    }
+  }
+
+  function handleMouseUp(e) {
+    if (holding && started && alive) {
+      onPointerRelease();
+    }
+  }
+
+  canvas.addEventListener('mousedown', handleMouseDown);
+  canvas.addEventListener('mouseup', handleMouseUp);
+  canvas.addEventListener('mouseleave', function() {
+    if (holding) onPointerRelease();
+  });
+
+  calcLayout();
+  resetGame();
+  draw();
+
+  window.startGame = function() {
+    started = true;
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+    canvas.removeEventListener('mousedown', handleMouseDown);
+    canvas.removeEventListener('mouseup', handleMouseUp);
+  };
+}
+
+// ==========================================
+// ========= 游戏 16: 混沌仪式 =============
+// ==========================================
+function initChaosRitual(canvas) {
+  var ctx = canvas.getContext('2d');
+  var started = false;
+  var alive = true;
+  var frameId = null;
+
+  var ELEMENTS = [
+    {name: '火', color: '#c41e3a', glow: 'rgba(196,30,58,0.8)', key: 'fire'},
+    {name: '水', color: '#1e90ff', glow: 'rgba(30,144,255,0.8)', key: 'water'},
+    {name: '风', color: '#228b22', glow: 'rgba(34,139,34,0.8)', key: 'wind'},
+    {name: '土', color: '#d4a843', glow: 'rgba(212,168,67,0.8)', key: 'earth'}
+  ];
+
+  var sequence = [];
+  var playerSequence = [];
+  var currentStep = 0;
+  var score = 0;
+  var round = 1;
+  var bestStreak = parseInt(localStorage.getItem('chaosritual_best')) || 0;
+  var isShowing = false;
+  var showIndex = 0;
+  var showTimer = null;
+  var acceptingInput = false;
+  var flashBtn = -1;
+  var flashTimer = null;
+
+  var btnR = 40;
+  var btnPositions = [];
+  var centerX, centerY;
+  var baseRadius;
+
+  function calcLayout() {
+    centerX = canvas.width / 2;
+    centerY = canvas.height / 2;
+    baseRadius = Math.min(canvas.width, canvas.height) * 0.2;
+    baseRadius = Math.max(60, Math.min(baseRadius, 120));
+    btnR = Math.min(45, baseRadius * 0.45);
+    var angleOff = -Math.PI / 2;
+    btnPositions = [];
+    for (var i = 0; i < 4; i++) {
+      var angle = angleOff + i * Math.PI / 2;
+      btnPositions.push({
+        x: centerX + baseRadius * Math.cos(angle),
+        y: centerY + baseRadius * Math.sin(angle)
+      });
+    }
+  }
+
+  function generateNextStep() {
+    return Math.floor(Math.random() * 4);
+  }
+
+  function startRound() {
+    // Add one more step to sequence
+    sequence.push(generateNextStep());
+    currentStep = 0;
+    playerSequence = [];
+    acceptingInput = false;
+    isShowing = true;
+    showIndex = 0;
+
+    // Show sequence to player
+    function showNext() {
+      if (showIndex >= sequence.length) {
+        isShowing = false;
+        acceptingInput = true;
+        currentStep = 0;
+        playerSequence = [];
+        draw();
+        return;
+      }
+      flashBtn = sequence[showIndex];
+      draw();
+      setTimeout(function() {
+        flashBtn = -1;
+        draw();
+        showIndex++;
+        setTimeout(showNext, 200);
+      }, 500);
+    }
+    setTimeout(showNext, 400);
+  }
+
+  function resetGame() {
+    sequence = [];
+    playerSequence = [];
+    currentStep = 0;
+    score = 0;
+    round = 1;
+    bestStreak = parseInt(localStorage.getItem('chaosritual_best')) || 0;
+    isShowing = false;
+    acceptingInput = false;
+    flashBtn = -1;
+    alive = true;
+    updateHUD(score, '第 ' + round + ' 轮 | 最佳: ' + bestStreak);
+  }
+
+  function handleClick(e) {
+    if (!started || !alive || paused || isShowing || !acceptingInput) return;
+    var rect = canvas.getBoundingClientRect();
+    var mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    var my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    for (var i = 0; i < 4; i++) {
+      var bp = btnPositions[i];
+      var dx = mx - bp.x;
+      var dy = my - bp.y;
+      if (dx * dx + dy * dy < btnR * btnR) {
+        playerSequence.push(i);
+        flashBtn = i;
+        draw();
+
+        var that = i;
+        setTimeout(function() { flashBtn = -1; draw(); }, 200);
+
+        if (playerSequence[currentStep] !== sequence[currentStep]) {
+          // Wrong!
+          acceptingInput = false;
+          flashFeedback(false);
+          if (round - 1 > bestStreak) {
+            bestStreak = round - 1;
+            try { localStorage.setItem('chaosritual_best', bestStreak); } catch(e) {}
+          }
+          updateHUD(score, '游戏结束 | 第 ' + round + ' 轮 | 最佳: ' + bestStreak);
+          setTimeout(function() {
+            alive = false;
+            gameOver(score * 10 + (round - 1) * 100);
+          }, 300);
+          return;
+        }
+
+        currentStep++;
+        if (currentStep >= sequence.length) {
+          // Round complete!
+          score += round * 10;
+          round++;
+          acceptingInput = false;
+          flashFeedback(true);
+          updateHUD(score, '第 ' + round + ' 轮 | 最佳: ' + bestStreak);
+          setTimeout(function() {
+            if (alive) startRound();
+          }, 400);
+        }
+        return;
+      }
+    }
+  }
+
+  function update(timestamp) {
+    if (!started || !alive || paused) { frameId = requestAnimationFrame(update); return; }
+    draw();
+    frameId = requestAnimationFrame(update);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    calcLayout();
+
+    // Draw connecting lines (ritual circle)
+    ctx.strokeStyle = 'rgba(212,168,67,0.1)';
+    ctx.lineWidth = 1;
+    for (var i = 0; i < 4; i++) {
+      for (var j = i + 1; j < 4; j++) {
+        ctx.beginPath();
+        ctx.moveTo(btnPositions[i].x, btnPositions[i].y);
+        ctx.lineTo(btnPositions[j].x, btnPositions[j].y);
+        ctx.stroke();
+      }
+    }
+
+    // Outer circle (ritual ring)
+    ctx.strokeStyle = 'rgba(212,168,67,0.15)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, baseRadius + btnR + 12, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, baseRadius - btnR - 12, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Draw 4 element buttons
+    for (var i = 0; i < 4; i++) {
+      var bp = btnPositions[i];
+      var el = ELEMENTS[i];
+      var isFlashing = (flashBtn === i);
+      var isDim = isShowing && !isFlashing;
+
+      var r = btnR * (isFlashing ? 1.15 : 1);
+      if (isFlashing) {
+        // Glow effect
+        ctx.shadowColor = el.glow;
+        ctx.shadowBlur = 30;
+      } else {
+        ctx.shadowBlur = 0;
+      }
+
+      var grad = ctx.createRadialGradient(
+        bp.x - r*0.3, bp.y - r*0.3, 0,
+        bp.x, bp.y, r
+      );
+      if (isFlashing) {
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.3, el.color);
+        grad.addColorStop(1, el.color + '88');
+      } else {
+        grad.addColorStop(0, el.color + '66');
+        grad.addColorStop(1, el.color + '22');
+      }
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(bp.x, bp.y, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.shadowBlur = 0;
+
+      // Border
+      ctx.strokeStyle = isFlashing ? el.color : el.color + '44';
+      ctx.lineWidth = isFlashing ? 3 : 1.5;
+      ctx.beginPath();
+      ctx.arc(bp.x, bp.y, r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Element symbol
+      ctx.fillStyle = isFlashing ? '#ffffff' : el.color;
+      ctx.font = (r * 0.8) + 'px "Ma Shan Zheng", serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(el.name, bp.x, bp.y + 1);
+
+      if (isDim) {
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.beginPath();
+        ctx.arc(bp.x, bp.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Center display
+    ctx.fillStyle = 'rgba(212,168,67,0.15)';
+    ctx.font = '28px "Ma Shan Zheng", serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    var centerText = '';
+    if (isShowing) {
+      centerText = '观察...';
+    } else if (acceptingInput) {
+      centerText = '你的回合';
+    } else if (!started) {
+      centerText = '混沌仪式';
+    }
+    ctx.fillText(centerText, centerX, centerY);
+
+    ctx.fillStyle = 'rgba(212,168,67,0.2)';
+    ctx.font = '14px "Noto Serif SC", serif';
+    ctx.textBaseline = 'top';
+    ctx.fillText('第 ' + round + ' 轮 · 长度 ' + sequence.length, centerX, centerY + 30);
+
+    // Step progress
+    if (acceptingInput && sequence.length > 0) {
+      var barX = centerX - 60;
+      var barY = centerY + 55;
+      ctx.fillStyle = '#1a1a1a';
+      ctx.fillRect(barX, barY, 120, 6);
+      ctx.fillStyle = '#d4a843';
+      ctx.fillRect(barX, barY, (currentStep / sequence.length) * 120, 6);
+    }
+  }
+
+  canvas.addEventListener('click', handleClick);
+  calcLayout();
+  resetGame();
+  draw();
+
+  window.startGame = function() {
+    started = true;
+    // Start first round on begin
+    setTimeout(function() {
+      if (alive) startRound();
+    }, 300);
+    frameId = requestAnimationFrame(update);
+  };
+  window.onPauseChange = function(p) {
+    if (!p && alive) { frameId = requestAnimationFrame(update); }
+  };
+  window.destroyGame = function() {
+    if (frameId) cancelAnimationFrame(frameId);
+    canvas.removeEventListener('click', handleClick);
+  };
+}
+
+// ==========================================
 // ========= 游戏初始化调度器 ==============
 // ==========================================
 function initGame(gameId, canvas) {
@@ -4003,6 +5210,15 @@ function initGame(gameId, canvas) {
     case 'minesweeper': initMinesweeper(canvas); break;
     case 'sigilpuzzle': initSigilPuzzle(canvas); break;
     case 'color': initColorReaction(canvas); break;
+    case 'heads': initHeads(canvas); break;
+    case 'xeper': initXeper(canvas); break;
+    case 'sigilm': initSigilm(canvas); break;
+    case 'choices': initChoices(canvas); break;
+    case 'gnosis': initGnosis(canvas); break;
+    case 'gnosisawake': initGnosisAwake(canvas); break;
+    case 'darkmask': initDarkMask(canvas); break;
+    case 'xeperwill': initXeperWill(canvas); break;
+    case 'chaosritual': initChaosRitual(canvas); break;
   }
 }
 </script>

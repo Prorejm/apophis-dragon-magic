@@ -1,0 +1,1982 @@
+[
+  {
+    "file": "algorithmic-art.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 27,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 16,
+          "form": 0,
+          "canvas": 0,
+          "input": 4,
+          "select": 1,
+          "textarea": 0,
+          "button": 5
+        }
+      },
+      "js_functions": {
+        "defined_count": 4,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": false,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": false,
+        "has_flex": true,
+        "has_grid": false,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "apophis-adventure.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 28,
+        "breakdown": {
+          "onclick": 14,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 7,
+          "form": 0,
+          "canvas": 1,
+          "input": 0,
+          "select": 0,
+          "textarea": 0,
+          "button": 6
+        }
+      },
+      "js_functions": {
+        "defined_count": 52,
+        "called_count": 11,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 24,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "apophis-trpg.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": false
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 136,
+        "breakdown": {
+          "onclick": 41,
+          "onchange": 14,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 7,
+          "form": 0,
+          "canvas": 2,
+          "input": 28,
+          "select": 9,
+          "textarea": 2,
+          "button": 33
+        }
+      },
+      "js_functions": {
+        "defined_count": 39,
+        "called_count": 28,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 2,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": false,
+        "patterns": []
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 1
+  },
+  {
+    "file": "astrology-hub.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 31,
+        "breakdown": {
+          "onclick": 7,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 1,
+          "addEventListener": 6,
+          "form": 0,
+          "canvas": 3,
+          "input": 3,
+          "select": 0,
+          "textarea": 0,
+          "button": 11
+        }
+      },
+      "js_functions": {
+        "defined_count": 16,
+        "called_count": 6,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 30,
+        "has_viewport": true,
+        "has_clamp": false,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "bazi-chart.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 24,
+        "breakdown": {
+          "onclick": 7,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 5,
+          "form": 0,
+          "canvas": 2,
+          "input": 1,
+          "select": 4,
+          "textarea": 0,
+          "button": 5
+        }
+      },
+      "js_functions": {
+        "defined_count": 18,
+        "called_count": 3,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "bars",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "blog.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 28,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 11,
+          "form": 0,
+          "canvas": 1,
+          "input": 1,
+          "select": 0,
+          "textarea": 0,
+          "button": 14
+        }
+      },
+      "js_functions": {
+        "defined_count": 10,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "chinese-astrology-divination.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 36,
+        "breakdown": {
+          "onclick": 7,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 5,
+          "form": 0,
+          "canvas": 3,
+          "input": 4,
+          "select": 5,
+          "textarea": 0,
+          "button": 12
+        }
+      },
+      "js_functions": {
+        "defined_count": 19,
+        "called_count": 6,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 27,
+        "has_viewport": true,
+        "has_clamp": false,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "dragon-ritual.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 17,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 7,
+          "form": 0,
+          "canvas": 3,
+          "input": 0,
+          "select": 0,
+          "textarea": 0,
+          "button": 6
+        }
+      },
+      "js_functions": {
+        "defined_count": 17,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "dream-diary.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 47,
+        "breakdown": {
+          "onclick": 8,
+          "onchange": 1,
+          "onsubmit": 0,
+          "oninput": 1,
+          "addEventListener": 12,
+          "form": 0,
+          "canvas": 2,
+          "input": 5,
+          "select": 4,
+          "textarea": 2,
+          "button": 12
+        }
+      },
+      "js_functions": {
+        "defined_count": 30,
+        "called_count": 11,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "generators.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 140,
+        "breakdown": {
+          "onclick": 46,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 7,
+          "form": 0,
+          "canvas": 8,
+          "input": 9,
+          "select": 3,
+          "textarea": 1,
+          "button": 66
+        }
+      },
+      "js_functions": {
+        "defined_count": 42,
+        "called_count": 29,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "goetia-demons.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 24,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 13,
+          "form": 0,
+          "canvas": 3,
+          "input": 1,
+          "select": 2,
+          "textarea": 0,
+          "button": 4
+        }
+      },
+      "js_functions": {
+        "defined_count": 20,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": false,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": false,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "hetu-luoshu.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 27,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 11,
+          "form": 0,
+          "canvas": 5,
+          "input": 1,
+          "select": 0,
+          "textarea": 0,
+          "button": 9
+        }
+      },
+      "js_functions": {
+        "defined_count": 11,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "history-calendar.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 41,
+        "breakdown": {
+          "onclick": 9,
+          "onchange": 3,
+          "onsubmit": 0,
+          "oninput": 1,
+          "addEventListener": 8,
+          "form": 0,
+          "canvas": 2,
+          "input": 4,
+          "select": 4,
+          "textarea": 0,
+          "button": 10
+        }
+      },
+      "js_functions": {
+        "defined_count": 22,
+        "called_count": 7,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 26,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "iching-divination.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 35,
+        "breakdown": {
+          "onclick": 2,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 17,
+          "form": 0,
+          "canvas": 2,
+          "input": 1,
+          "select": 0,
+          "textarea": 0,
+          "button": 13
+        }
+      },
+      "js_functions": {
+        "defined_count": 15,
+        "called_count": 1,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "index.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 19,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 17,
+          "form": 0,
+          "canvas": 0,
+          "input": 0,
+          "select": 0,
+          "textarea": 0,
+          "button": 1
+        }
+      },
+      "js_functions": {
+        "defined_count": 7,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 33,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": false,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "left-hand-path.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 155,
+        "breakdown": {
+          "onclick": 47,
+          "onchange": 0,
+          "onsubmit": 2,
+          "oninput": 0,
+          "addEventListener": 13,
+          "form": 2,
+          "canvas": 4,
+          "input": 12,
+          "select": 8,
+          "textarea": 13,
+          "button": 54
+        }
+      },
+      "js_functions": {
+        "defined_count": 63,
+        "called_count": 35,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": true,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 2,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "bars"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "lhp-test.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 34,
+        "breakdown": {
+          "onclick": 14,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 6,
+          "form": 0,
+          "canvas": 1,
+          "input": 1,
+          "select": 0,
+          "textarea": 0,
+          "button": 12
+        }
+      },
+      "js_functions": {
+        "defined_count": 20,
+        "called_count": 8,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": false,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": true,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 24,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "liuren-simulator.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 25,
+        "breakdown": {
+          "onclick": 7,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 6,
+          "form": 0,
+          "canvas": 1,
+          "input": 2,
+          "select": 4,
+          "textarea": 0,
+          "button": 5
+        }
+      },
+      "js_functions": {
+        "defined_count": 31,
+        "called_count": 6,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": false,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "liuyao-divination.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 14,
+        "breakdown": {
+          "onclick": 2,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 6,
+          "form": 0,
+          "canvas": 3,
+          "input": 0,
+          "select": 0,
+          "textarea": 0,
+          "button": 3
+        }
+      },
+      "js_functions": {
+        "defined_count": 28,
+        "called_count": 1,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "magic-knowledge-test.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 27,
+        "breakdown": {
+          "onclick": 4,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 7,
+          "form": 0,
+          "canvas": 1,
+          "input": 1,
+          "select": 0,
+          "textarea": 0,
+          "button": 14
+        }
+      },
+      "js_functions": {
+        "defined_count": 20,
+        "called_count": 3,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 24,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": false,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "magic-training.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 106,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 41,
+          "form": 0,
+          "canvas": 1,
+          "input": 6,
+          "select": 5,
+          "textarea": 11,
+          "button": 41
+        }
+      },
+      "js_functions": {
+        "defined_count": 36,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "magical-botany.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 26,
+        "breakdown": {
+          "onclick": 2,
+          "onchange": 2,
+          "onsubmit": 0,
+          "oninput": 1,
+          "addEventListener": 5,
+          "form": 0,
+          "canvas": 2,
+          "input": 1,
+          "select": 2,
+          "textarea": 0,
+          "button": 11
+        }
+      },
+      "js_functions": {
+        "defined_count": 23,
+        "called_count": 2,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 24,
+        "has_viewport": true,
+        "has_clamp": false,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "meihua-yijing.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 33,
+        "breakdown": {
+          "onclick": 11,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 6,
+          "form": 0,
+          "canvas": 2,
+          "input": 4,
+          "select": 0,
+          "textarea": 0,
+          "button": 10
+        }
+      },
+      "js_functions": {
+        "defined_count": 34,
+        "called_count": 6,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 24,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "mini-games.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 34,
+        "breakdown": {
+          "onclick": 6,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 21,
+          "form": 0,
+          "canvas": 2,
+          "input": 0,
+          "select": 0,
+          "textarea": 0,
+          "button": 5
+        }
+      },
+      "js_functions": {
+        "defined_count": 90,
+        "called_count": 4,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 24,
+        "has_viewport": true,
+        "has_clamp": false,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "necromancy.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": false,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": false
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 105,
+        "breakdown": {
+          "onclick": 54,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 5,
+          "form": 0,
+          "canvas": 6,
+          "input": 0,
+          "select": 4,
+          "textarea": 0,
+          "button": 36
+        }
+      },
+      "js_functions": {
+        "defined_count": 45,
+        "called_count": 25,
+        "missing": [
+          "resetConfessions"
+        ]
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 2,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": false,
+        "patterns": []
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 2
+  },
+  {
+    "file": "planetary-hours.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 13,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 6,
+          "form": 0,
+          "canvas": 0,
+          "input": 3,
+          "select": 1,
+          "textarea": 0,
+          "button": 2
+        }
+      },
+      "js_functions": {
+        "defined_count": 17,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": false,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 24,
+        "has_viewport": true,
+        "has_clamp": false,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "qimen-chart.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 21,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 13,
+          "form": 0,
+          "canvas": 2,
+          "input": 0,
+          "select": 0,
+          "textarea": 0,
+          "button": 5
+        }
+      },
+      "js_functions": {
+        "defined_count": 9,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "qimen-dunjia.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 52,
+        "breakdown": {
+          "onclick": 20,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 10,
+          "form": 0,
+          "canvas": 2,
+          "input": 2,
+          "select": 0,
+          "textarea": 0,
+          "button": 18
+        }
+      },
+      "js_functions": {
+        "defined_count": 26,
+        "called_count": 6,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 24,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": false,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "sigil-game.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 13,
+        "breakdown": {
+          "onclick": 1,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 6,
+          "form": 0,
+          "canvas": 3,
+          "input": 1,
+          "select": 0,
+          "textarea": 0,
+          "button": 2
+        }
+      },
+      "js_functions": {
+        "defined_count": 15,
+        "called_count": 0,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 24,
+        "has_viewport": true,
+        "has_clamp": false,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "taiyi-divination.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 34,
+        "breakdown": {
+          "onclick": 4,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 18,
+          "form": 0,
+          "canvas": 2,
+          "input": 1,
+          "select": 1,
+          "textarea": 0,
+          "button": 8
+        }
+      },
+      "js_functions": {
+        "defined_count": 31,
+        "called_count": 3,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": false,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 27,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": true,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  },
+  {
+    "file": "ziwei-dou-shu.html",
+    "status": "OK",
+    "checks": {
+      "nav_bar": true,
+      "interactivity": true,
+      "js_functions": true,
+      "animation": true,
+      "responsive": true,
+      "hamburger_menu": true
+    },
+    "details": {
+      "nav_bar": "OK",
+      "interactivity": {
+        "total": 19,
+        "breakdown": {
+          "onclick": 2,
+          "onchange": 0,
+          "onsubmit": 0,
+          "oninput": 0,
+          "addEventListener": 8,
+          "form": 0,
+          "canvas": 2,
+          "input": 2,
+          "select": 4,
+          "textarea": 0,
+          "button": 1
+        }
+      },
+      "js_functions": {
+        "defined_count": 24,
+        "called_count": 1,
+        "missing": []
+      },
+      "animation": {
+        "particle_canvas": true,
+        "particle_class": false,
+        "canvas_animation": true,
+        "css_animation": true,
+        "css_transition": true,
+        "starfield": false,
+        "animation_class": true
+      },
+      "responsive": {
+        "has_media_queries": true,
+        "media_query_count": 25,
+        "has_viewport": true,
+        "has_clamp": true,
+        "has_flex": true,
+        "has_grid": false,
+        "has_max_width": true
+      },
+      "hamburger_menu": {
+        "found": true,
+        "patterns": [
+          "nav-toggle",
+          "hamburger_unicode"
+        ]
+      }
+    },
+    "issues": [],
+    "fail_count": 0,
+    "warn_count": 0
+  }
+]

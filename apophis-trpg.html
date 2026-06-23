@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿波菲斯·龙之魔法 — TRPG规则书</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a; --bg2: #1a1a1a; --bg3: #121212;
+  --ink: #e8e0d4; --muted: #8a7e6e;
+  --accent: #c41e3a; --accent2: #d4a843;
+  --gold: #d4a843; --crimson: #c41e3a;
+  --rule: #2a2a2a; --card-bg: #111;
+  --font: 'Noto Serif SC', 'Songti SC', serif;
+  --font-display: 'Ma Shan Zheng', cursive;
+  --font-en: 'Cormorant Garamond', serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  font-family:var(--font);background-color:var(--bg);color:var(--ink);
+  line-height:1.8;overflow-x:hidden;min-height:100vh;
+}
+.progress-bar{
+  position:fixed;top:0;left:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  z-index:1000;transition:width 0.1s linear;
+  box-shadow:0 0 10px rgba(196,30,58,0.5);
+}
+.nav-bar{
+  position:fixed;top:3px;left:0;right:0;
+  background:rgba(10,10,10,0.95);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+  z-index:999;padding:0.6rem 1.5rem;
+  display:flex;align-items:center;gap:1.2rem;
+  overflow-x:auto;scrollbar-width:none;
+}
+.nav-bar::-webkit-scrollbar{display:none;}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:0.85rem;white-space:nowrap;letter-spacing:0.1em;}
+.nav-link{
+  color:var(--muted);text-decoration:none;font-size:0.8rem;
+  white-space:nowrap;padding:0.3rem 0.6rem;
+  border-radius:4px;transition:all 0.3s ease;
+}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,0.1);}
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:80px 24px 40px;}
+.page-header{
+  text-align:center;padding:40px 20px 30px;
+  border-bottom:1px solid rgba(212,168,67,0.15);margin-bottom:30px;
+}
+.page-header h1{
+  font-family:var(--font-display);font-size:clamp(2rem,5vw,3.5rem);
+  color:var(--accent2);letter-spacing:8px;
+  text-shadow:0 0 40px rgba(212,168,67,0.2);
+}
+.page-header .subtitle{
+  font-size:0.95rem;color:var(--muted);letter-spacing:3px;margin-top:8px;
+}
+.page-header .divider{
+  width:80px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  margin:16px auto;
+}
+.tab-nav{
+  display:flex;gap:4px;margin-bottom:30px;
+  border-bottom:1px solid var(--rule);overflow-x:auto;
+  scrollbar-width:none;flex-wrap:wrap;
+}
+.tab-nav::-webkit-scrollbar{display:none;}
+.tab-btn{
+  padding:10px 18px;border:none;background:transparent;
+  color:var(--muted);font-family:var(--font);font-size:0.85rem;
+  cursor:pointer;transition:all 0.3s;white-space:nowrap;
+  border-bottom:2px solid transparent;letter-spacing:1px;
+}
+.tab-btn:hover{color:var(--accent2);}
+.tab-btn.active{
+  color:var(--accent2);border-bottom-color:var(--accent2);
+  background:rgba(212,168,67,0.05);
+}
+.tab-content{display:none;animation:fadeIn 0.5s ease;}
+.tab-content.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card{
+  background:var(--card-bg);border:1px solid var(--rule);
+  border-radius:8px;padding:24px;margin-bottom:20px;transition:all 0.3s;
+}
+.card:hover{border-color:rgba(212,168,67,0.2);}
+.card-title{
+  font-family:var(--font-display);font-size:1.3rem;
+  color:var(--accent2);margin-bottom:12px;letter-spacing:2px;
+}
+.card-title .num{color:var(--crimson);font-family:var(--font);}
+.card-subtitle{color:var(--muted);font-size:0.9rem;margin-bottom:12px;}
+.btn{
+  display:inline-block;padding:8px 20px;border:1px solid var(--accent2);
+  background:transparent;color:var(--accent2);font-family:var(--font);
+  font-size:0.85rem;cursor:pointer;transition:all 0.3s;
+  letter-spacing:1px;border-radius:4px;text-decoration:none;
+}
+.btn:hover{background:rgba(212,168,67,0.1);box-shadow:0 0 20px rgba(212,168,67,0.1);}
+.btn-crimson{border-color:var(--crimson);color:var(--crimson);}
+.btn-crimson:hover{background:rgba(196,30,58,0.1);box-shadow:0 0 20px rgba(196,30,58,0.1);}
+.btn-sm{padding:5px 12px;font-size:0.8rem;}
+.btn-block{display:block;width:100%;text-align:center;}
+input,textarea,select{
+  background:var(--bg3);border:1px solid var(--rule);color:var(--ink);
+  padding:10px 14px;font-family:var(--font);font-size:0.9rem;
+  border-radius:4px;width:100%;transition:border-color 0.3s;outline:none;
+}
+input:focus,textarea:focus,select:focus{border-color:var(--accent2);}
+textarea{resize:vertical;min-height:80px;}
+label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:4px;}
+.form-group{margin-bottom:16px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;}
+@media(max-width:768px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}}
+.progress-track{
+  width:100%;height:6px;background:var(--bg3);border-radius:3px;margin:8px 0;overflow:hidden;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--crimson),var(--accent2));
+  border-radius:3px;transition:width 0.5s ease;width:0%;
+}
+table{width:100%;border-collapse:collapse;margin:16px 0;}
+th,td{
+  padding:10px 14px;border:1px solid var(--rule);text-align:left;font-size:0.85rem;
+}
+th{background:var(--bg3);color:var(--accent2);font-weight:700;letter-spacing:1px;}
+td{color:var(--ink);}
+.stat-row{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0;}
+.stat-box{
+  flex:1;min-width:100px;text-align:center;padding:14px;
+  background:var(--bg3);border:1px solid var(--rule);border-radius:8px;
+}
+.stat-box .num{font-family:var(--font-display);font-size:1.6rem;color:var(--accent2);}
+.stat-box .label{font-size:0.8rem;color:var(--muted);margin-top:4px;}
+.section-title{
+  font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.2rem);
+  color:var(--accent2);text-align:center;margin-bottom:24px;
+  letter-spacing:4px;position:relative;
+}
+.section-title::after{
+  content:'';display:block;width:60px;height:2px;
+  background:linear-gradient(90deg,var(--crimson),var(--accent2));
+  margin:12px auto 0;
+}
+.text-center{text-align:center;}
+.text-gold{color:var(--accent2);}
+.text-crimson{color:var(--crimson);}
+.text-muted{color:var(--muted);}
+.mt-8{margin-top:8px;}.mt-16{margin-top:16px;}.mt-24{margin-top:24px;}
+.mb-8{margin-bottom:8px;}.mb-16{margin-bottom:16px;}
+.flex-center{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
+.badge{
+  display:inline-block;padding:2px 8px;border-radius:3px;
+  font-size:0.75rem;letter-spacing:1px;
+}
+.badge-gold{background:rgba(212,168,67,0.15);color:var(--accent2);}
+.badge-red{background:rgba(196,30,58,0.15);color:var(--crimson);}
+.tag{
+  display:inline-block;padding:2px 10px;margin:2px;
+  background:var(--bg3);border:1px solid var(--rule);
+  border-radius:12px;font-size:0.8rem;color:var(--muted);
+}
+.dice-display{
+  font-size:3rem;font-family:var(--font-display);text-align:center;
+  color:var(--accent2);padding:20px;letter-spacing:4px;
+  text-shadow:0 0 20px rgba(212,168,67,0.3);
+}
+.dice-box{
+  width:120px;height:120px;border:2px solid var(--accent2);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;font-family:var(--font-display);color:var(--accent2);
+  margin:10px auto;transition:all 0.15s;background:var(--bg3);
+  text-shadow:0 0 20px rgba(212,168,67,0.5);
+  box-shadow:0 0 10px rgba(212,168,67,0.1);
+}
+.dice-box.rolling{animation:diceRoll 0.1s infinite;border-color:var(--crimson);}
+@keyframes diceRoll{
+  0%{transform:rotateX(0deg) rotateY(0deg)}
+  25%{transform:rotateX(90deg) rotateY(45deg)}
+  50%{transform:rotateX(180deg) rotateY(90deg)}
+  75%{transform:rotateX(270deg) rotateY(135deg)}
+  100%{transform:rotateX(360deg) rotateY(180deg)}
+}
+.dice-box.show-3d{animation:diceLand 0.3s ease-out;}
+@keyframes diceLand{
+  0%{transform:rotateX(720deg) rotateY(360deg) scale(1.3);opacity:0.7}
+  100%{transform:rotateX(0) rotateY(0) scale(1);opacity:1}
+}
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);
+  z-index:2000;justify-content:center;align-items:center;
+}
+.modal-overlay.show{display:flex;}
+.modal-box{
+  background:var(--bg2);border:1px solid var(--rule);
+  border-radius:12px;padding:30px;max-width:500px;width:90%;
+  max-height:80vh;overflow-y:auto;
+}
+.modal-box h3{font-family:var(--font-display);color:var(--accent2);margin-bottom:16px;}
+.canvas-wrap{width:100%;max-width:600px;margin:16px auto;}
+.canvas-wrap canvas{width:100%;height:auto;border:1px solid var(--rule);border-radius:8px;background:var(--bg3);}
+.collapsible .card-body{display:none;padding-top:16px;}
+.collapsible.open .card-body{display:block;}
+.collapsible .card-header{
+  display:flex;justify-content:space-between;align-items:center;cursor:pointer;
+}
+.collapsible .card-header::after{
+  content:'+';font-size:1.2rem;color:var(--accent2);transition:transform 0.3s;
+}
+.collapsible.open .card-header::after{content:'\2212';}
+.scroll-hint{text-align:center;color:var(--muted);font-size:0.75rem;margin:8px 0;}
+@media(max-width:768px){
+  .container{padding:70px 12px 30px;}
+  .tab-btn{padding:8px 12px;font-size:0.8rem;}
+  .card{padding:16px;}
+  table{font-size:0.8rem;}
+  th,td{padding:6px 8px;}
+}
+.small-input{width:80px;display:inline-block;}
+.inline-group{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.result-box{
+  padding:16px;background:var(--bg3);border:1px solid var(--rule);
+  border-radius:8px;margin:12px 0;min-height:60px;
+  font-size:0.9rem;
+}
+.result-box .highlight{color:var(--accent2);font-weight:600;}
+.combat-log{
+  background:var(--bg3);border:1px solid var(--rule);border-radius:8px;
+  padding:12px;height:200px;overflow-y:auto;font-size:0.85rem;
+  margin:12px 0;font-family:var(--font);
+}
+.combat-log .log-entry{padding:2px 0;}
+.combat-log .log-hit{color:#4caf50;}
+.combat-log .log-miss{color:var(--muted);}
+.combat-log .log-dmg{color:var(--crimson);}
+.combat-log .log-heal{color:#4caf50;}
+.combat-log .log-info{color:var(--accent2);}
+.checkbox-item{display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;}
+.checkbox-item input[type="checkbox"]{width:auto;cursor:pointer;accent-color:var(--accent2);}
+.hex-grid{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;}
+.hex-cell{
+  width:40px;height:40px;border:1px solid var(--rule);display:flex;
+  align-items:center;justify-content:center;font-size:0.7rem;
+  background:var(--bg3);border-radius:4px;color:var(--muted);
+}
+.hex-cell.room{background:rgba(212,168,67,0.1);border-color:var(--accent2);color:var(--accent2);}
+.hex-cell.corridor{background:rgba(196,30,58,0.05);border-color:var(--crimson);}
+.hex-cell.trap{background:rgba(196,30,58,0.2);border-color:var(--crimson);color:var(--crimson);}
+.hex-cell.chest{background:rgba(212,168,67,0.2);border-color:var(--accent2);color:var(--accent2);}
+.hex-cell.boss{background:rgba(196,30,58,0.3);border-color:var(--crimson);color:var(--crimson);font-weight:700;}
+.hex-cell.start{background:rgba(0,150,136,0.2);border-color:#009688;color:#009688;}
+.bar-container{width:100%;height:24px;background:var(--bg3);border-radius:12px;overflow:hidden;margin:8px 0;position:relative;}
+.bar-fill{
+  height:100%;border-radius:12px;transition:width 0.8s ease;
+  background:linear-gradient(90deg,var(--crimson),var(--accent2));
+  min-width:0;
+}
+.bar-label{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:0.75rem;color:#fff;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* ====== MOBILE NAV TOGGLE ====== */
+.nav-toggle{display:none;background:none;border:none;color:#d4a843;font-size:1.5rem;cursor:pointer;padding:0.25rem 0.5rem;flex-shrink:0;font-family:'Ma Shan Zheng',cursive;}
+@media(max-width:768px){
+  .nav-bar{flex-wrap:wrap;position:relative;padding:0.5rem 0.8rem;gap:0.3rem;max-height:52px;overflow:hidden;transition:max-height 0.4s ease;}
+  .nav-bar.open{max-height:100vh;overflow-y:auto;}
+  .nav-toggle{display:block;position:absolute;right:10px;top:8px;z-index:10001;}
+  .nav-bar .nav-link{width:100%;font-size:0.7rem;padding:0.35rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.03);}
+  .nav-bar .nav-brand{font-size:0.75rem;}
+}
+@media(max-width:480px){
+  .nav-bar .nav-link{font-size:0.65rem;padding:0.3rem 0.4rem;}
+  .nav-bar .nav-brand{font-size:0.7rem;}
+}
+
+/* ====== RESPONSIVE GRID SYSTEM ====== */
+@media(max-width:900px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr !important;}
+}
+@media(max-width:640px){
+  .grid-2,.grid-3,.grid-4,.card-grid{grid-template-columns:1fr !important;}
+}
+/* ====== RESPONSIVE CANVAS ====== */
+@media(max-width:768px){
+  canvas{max-width:100% !important;height:auto !important;}
+}
+/* ====== RESPONSIVE TABLES ====== */
+@media(max-width:768px){
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{font-size:0.75rem;}
+  table th,table td{padding:0.3rem 0.4rem !important;}
+}
+@media(max-width:768px){
+  .card{padding:0.8rem !important;}
+  h2{font-size:1.1rem !important;}
+  h3{font-size:1rem !important;}
+  p,.desc{font-size:0.82rem !important;line-height:1.6 !important;}
+  .tab-nav{overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;gap:0.3rem;padding-bottom:0.3rem;}
+  .tab-btn{font-size:0.7rem !important;padding:0.4rem 0.6rem !important;white-space:nowrap;}
+}
+@media(max-width:480px){
+  .tab-btn{font-size:0.6rem !important;padding:0.3rem 0.5rem !important;}
+}
+
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link active">跑团规则</a>
+</nav>
+
+<canvas id="particleCanvas"></canvas>
+
+<div class="container">
+
+<header class="page-header">
+  <h1>&#x1F409; 阿波菲斯·龙之魔法</h1>
+  <div class="subtitle">TRPG 规则书 — 完整版 v1.0</div>
+  <div class="divider"></div>
+  <p style="max-width:700px;margin:12px auto 0;font-size:0.9rem;color:var(--muted);">
+    左路修炼、死灵术、魔法植物学、太乙神数 — 融合东西方玄学的黑暗奇幻角色扮演规则
+  </p>
+</header>
+
+<nav class="tab-nav" id="tabNav">
+  <button class="tab-btn active" data-tab="ch1">第一章 创角</button>
+  <button class="tab-btn" data-tab="ch2">第二章 法术</button>
+  <button class="tab-btn" data-tab="ch3">第三章 战斗</button>
+  <button class="tab-btn" data-tab="ch4">第四章 左路修炼</button>
+  <button class="tab-btn" data-tab="ch5">第五章 死灵术</button>
+  <button class="tab-btn" data-tab="ch6">第六章 魔法植物</button>
+  <button class="tab-btn" data-tab="ch7">第七章 占卜</button>
+  <button class="tab-btn" data-tab="ch8">第八章 冒险模组</button>
+</nav>
+
+<!-- ============= CH1: 角色创建 ============= -->
+<div class="tab-content active" id="ch1">
+  <h2 class="section-title">第一章：角色创建</h2>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">I.</span> 基础属性</h3>
+    <p style="margin-bottom:16px;color:var(--muted);font-size:0.9rem;">每个角色有6项基础属性，通过3D6投点生成（可重投一次）。</p>
+    <div class="grid-2">
+      <div><label>体魄 (STR)</label><input type="number" id="statStr" value="10" min="3" max="18"></div>
+      <div><label>灵巧 (DEX)</label><input type="number" id="statDex" value="10" min="3" max="18"></div>
+      <div><label>意志 (WIL)</label><input type="number" id="statWil" value="10" min="3" max="18"></div>
+      <div><label>智识 (INT)</label><input type="number" id="statInt" value="10" min="3" max="18"></div>
+      <div><label>感知 (PER)</label><input type="number" id="statPer" value="10" min="3" max="18"></div>
+      <div><label>魅力 (CHA)</label><input type="number" id="statCha" value="10" min="3" max="18"></div>
+    </div>
+    <div class="flex-center mt-16">
+      <div class="dice-box" id="diceBox3d6">&#x25CF;</div>
+    </div>
+    <div class="dice-display" id="diceDisplay3d6">点击投点</div>
+    <div class="flex-center" style="gap:8px;flex-wrap:wrap;">
+      <button class="btn" onclick="rollStat()">&#x1F3B2; 投点 (3D6)</button>
+      <button class="btn btn-sm" onclick="quickRollAll()">&#x1F3B2; 全部投点</button>
+      <button class="btn btn-crimson btn-sm" onclick="resetStats()">重置</button>
+    </div>
+    <div class="stat-row mt-16" id="statPreview">
+      <div class="stat-box"><div class="num" id="hpPreview">30</div><div class="label">生命值 (HP)</div></div>
+      <div class="stat-box"><div class="num" id="mpPreview">35</div><div class="label">魔力值 (MP)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">II.</span> 职业选择</h3>
+    <div class="grid-3" id="classSelect">
+      <div class="card" style="cursor:pointer;" onclick="selectClass('sorcerer')" id="cls-sorcerer">
+        <h4 class="card-title" style="font-size:1.1rem;">&#x2728; 术士</h4>
+        <p style="font-size:0.8rem;color:var(--muted);">Sorcerer — 天生的魔力掌控者</p>
+        <p style="font-size:0.8rem;margin-top:8px;">技能：魔力增幅、元素掌控、法术瞬发</p>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="selectClass('necromancer')" id="cls-necromancer">
+        <h4 class="card-title" style="font-size:1.1rem;">&#x1F480; 死灵法师</h4>
+        <p style="font-size:0.8rem;color:var(--muted);">Necromancer — 亡者之主</p>
+        <p style="font-size:0.8rem;margin-top:8px;">技能：亡灵召唤、生命汲取、恐惧光环</p>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="selectClass('dragonKnight')" id="cls-dragonKnight">
+        <h4 class="card-title" style="font-size:1.1rem;">&#x1F409; 龙骑士</h4>
+        <p style="font-size:0.8rem;color:var(--muted);">Dragon Knight — 龙之力量的继承者</p>
+        <p style="font-size:0.8rem;margin-top:8px;">技能：龙力附体、龙息术、龙鳞护甲</p>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="selectClass('herbalist')" id="cls-herbalist">
+        <h4 class="card-title" style="font-size:1.1rem;">&#x1F33F; 草药师</h4>
+        <p style="font-size:0.8rem;color:var(--muted);">Herbalist — 自然与炼金的宗师</p>
+        <p style="font-size:0.8rem;margin-top:8px;">技能：药草精通、炼金术、解毒</p>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="selectClass('astrologer')" id="cls-astrologer">
+        <h4 class="card-title" style="font-size:1.1rem;">&#x1F319; 占星师</h4>
+        <p style="font-size:0.8rem;color:var(--muted);">Astrologer — 星辰命运的解读人</p>
+        <p style="font-size:0.8rem;margin-top:8px;">技能：星象占卜、命运干预、行星祈愿</p>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="selectClass('lhpWalker')" id="cls-lhpWalker">
+        <h4 class="card-title" style="font-size:1.1rem;">&#x2622; 左路行者</h4>
+        <p style="font-size:0.8rem;color:var(--muted);">LHP Practitioner — 自我神化的追寻者</p>
+        <p style="font-size:0.8rem;margin-top:8px;">技能：黑暗灵知、意志强化、禁忌仪式</p>
+      </div>
+    </div>
+    <div class="mt-16">
+      <label>已选职业</label>
+      <input type="text" id="selectedClass" value="未选择" readonly style="color:var(--accent2);font-weight:600;">
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">III.</span> 角色信息</h3>
+    <div class="grid-2">
+      <div class="form-group"><label>角色姓名</label><input type="text" id="charName" placeholder="输入角色名..."></div>
+      <div class="form-group"><label>玩家名称</label><input type="text" id="playerName" placeholder="你的名字..."></div>
+    </div>
+    <div class="form-group"><label>背景故事</label><textarea id="charBio" placeholder="简述角色的背景故事..." rows="3"></textarea></div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">IV.</span> 角色卡管理</h3>
+    <div class="flex-center" style="gap:8px;flex-wrap:wrap;">
+      <button class="btn" onclick="saveCharacter()">&#x1F4BE; 保存角色卡</button>
+      <button class="btn" onclick="loadCharacter()">&#x1F4C2; 读取角色卡</button>
+      <button class="btn btn-crimson" onclick="deleteCharacter()">&#x1F5D1; 删除角色卡</button>
+    </div>
+    <div id="charSaveStatus" class="mt-8" style="font-size:0.85rem;color:var(--muted);text-align:center;"></div>
+  </div>
+</div>
+
+<!-- ============= CH2: 法术系统 ============= -->
+<div class="tab-content" id="ch2">
+  <h2 class="section-title">第二章：法术系统</h2>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">I.</span> 法术列表</h3>
+    <p style="margin-bottom:12px;font-size:0.9rem;color:var(--muted);">5个等级（1-5环），每个等级6个法术。勾选表示已学会。</p>
+    <div class="scroll-hint">&#x2190; 左右滑动查看完整表格 &#x2192;</div>
+    <div style="overflow-x:auto;" id="spellbookContainer"></div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">II.</span> 魔力消耗规则</h3>
+    <p style="font-size:0.9rem;color:var(--muted);">施法消耗 = 环级 &times; 3 + 2 (MP)。每日可恢复魔力值 = 意志 &times; 2（长休后）。</p>
+    <table>
+      <thead><tr><th>环级</th><th>基础消耗</th><th>每日施法次数参考</th></tr></thead>
+      <tbody>
+        <tr><td>1环</td><td>5 MP</td><td>意志 &times; 1.5 次</td></tr>
+        <tr><td>2环</td><td>8 MP</td><td>意志 &times; 1 次</td></tr>
+        <tr><td>3环</td><td>11 MP</td><td>意志 &times; 0.5 次</td></tr>
+        <tr><td>4环</td><td>14 MP</td><td>意志 &times; 0.3 次</td></tr>
+        <tr><td>5环</td><td>17 MP</td><td>意志值至少12方可施放</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============= CH3: 战斗系统 ============= -->
+<div class="tab-content" id="ch3">
+  <h2 class="section-title">第三章：战斗系统</h2>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">I.</span> 战斗规则</h3>
+    <div class="grid-2">
+      <div>
+        <h4 style="color:var(--accent2);margin-bottom:8px;">&#x2694; 基础规则</h4>
+        <ul style="font-size:0.85rem;color:var(--muted);list-style:none;padding:0;">
+          <li>&bull; 先攻 = DEX + 1D6</li>
+          <li>&bull; 攻击 = STR 或 DEX + 1D20</li>
+          <li>&bull; 防御值 = 10 + 对方DEX + 护甲调整</li>
+          <li>&bull; 伤害 = 武器基础 + STR调整值</li>
+          <li>&bull; STR调整 = (STR-10)/2 (向下取整)</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:var(--accent2);margin-bottom:8px;">&#x1F6E1; 防御类型</h4>
+        <table>
+          <thead><tr><th>类型</th><th>护甲值</th><th>灵巧惩罚</th></tr></thead>
+          <tbody>
+            <tr><td>轻甲</td><td>+2</td><td>无</td></tr>
+            <tr><td>中甲</td><td>+4</td><td>-1 DEX调整</td></tr>
+            <tr><td>重甲</td><td>+6</td><td>-2 DEX调整</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">II.</span> 武器表</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>名称</th><th>伤害</th><th>类型</th><th>特殊效果</th></tr></thead>
+        <tbody>
+          <tr><td>匕首</td><td>1D4</td><td>轻/穿刺</td><td>投掷</td></tr>
+          <tr><td>长剑</td><td>1D8</td><td>标准/挥砍</td><td>—</td></tr>
+          <tr><td>巨剑</td><td>2D6</td><td>重型/挥砍</td><td>双手</td></tr>
+          <tr><td>短弓</td><td>1D6</td><td>远程/穿刺</td><td>射程30m</td></tr>
+          <tr><td>法杖</td><td>1D6</td><td>魔法/钝击</td><td>施法法器</td></tr>
+          <tr><td>骨镰</td><td>1D10</td><td>重型/挥砍</td><td>死灵法术加成</td></tr>
+          <tr><td>龙牙匕</td><td>1D6</td><td>魔法/穿刺</td><td>对龙类+2伤害</td></tr>
+          <tr><td>月华刃</td><td>1D8</td><td>魔法/挥砍</td><td>月光下伤害翻倍</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">III.</span> 战斗模拟器</h3>
+    <p style="margin-bottom:12px;font-size:0.9rem;color:var(--muted);">简化的回合制模拟，玩家 vs AI敌人。</p>
+    <div class="grid-2">
+      <div>
+        <h4 style="color:var(--accent2);margin-bottom:8px;">&#x1F9D1;&#x200D;&#x2694;&#xFE0F; 玩家</h4>
+        <div class="form-group"><label>生命值</label><input type="number" id="playerHP" value="30" min="1" max="999"></div>
+        <div class="form-group"><label>攻击加值</label><input type="number" id="playerAtk" value="5" min="0" max="30"></div>
+        <div class="form-group"><label>防御值</label><input type="number" id="playerDef" value="12" min="1" max="50"></div>
+        <div class="form-group"><label>武器伤害</label>
+          <select id="playerWeapon">
+            <option value="1d4">匕首 1D4</option>
+            <option value="1d6" selected>短弓/法杖 1D6</option>
+            <option value="1d8">长剑/月华刃 1D8</option>
+            <option value="2d6">巨剑 2D6</option>
+            <option value="1d10">骨镰 1D10</option>
+          </select>
+        </div>
+        <div class="bar-container" id="playerHPBar"><div class="bar-fill" id="playerHPFill" style="width:100%;"></div><div class="bar-label" id="playerHPLabel">30/30</div></div>
+      </div>
+      <div>
+        <h4 style="color:var(--crimson);margin-bottom:8px;">&#x1F47F; 敌人</h4>
+        <div class="form-group"><label>敌人类型</label>
+          <select id="enemyType">
+            <option value="skeleton">骷髅兵 (HP:15, ATK:3, DEF:10)</option>
+            <option value="zombie" selected>僵尸 (HP:25, ATK:4, DEF:12)</option>
+            <option value="darkKnight">黑暗骑士 (HP:40, ATK:6, DEF:15)</option>
+            <option value="lesserDragon">幼龙 (HP:60, ATK:8, DEF:18)</option>
+            <option value="lich">巫妖 (HP:50, ATK:7, DEF:14)</option>
+          </select>
+        </div>
+        <div class="bar-container" id="enemyHPBar"><div class="bar-fill" id="enemyHPFill" style="width:100%;"></div><div class="bar-label" id="enemyHPLabel">25/25</div></div>
+        <div class="flex-center mt-8" style="gap:8px;">
+          <button class="btn" onclick="combatAttack()">&#x2694; 攻击</button>
+          <button class="btn btn-crimson" onclick="combatDefend()">&#x1F6E1; 防御</button>
+          <button class="btn btn-sm" onclick="combatSkill()">&#x2728; 技能</button>
+          <button class="btn btn-sm btn-crimson" onclick="resetCombat()">重置战斗</button>
+        </div>
+      </div>
+    </div>
+    <div class="combat-log" id="combatLog">
+      <div class="log-entry log-info">战斗开始！选择行动...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============= CH4: 左路修炼 ============= -->
+<div class="tab-content" id="ch4">
+  <h2 class="section-title">第四章：左路修炼</h2>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">I.</span> 七阶位系统</h3>
+    <p style="margin-bottom:12px;font-size:0.9rem;color:var(--muted);">基于Michael Kelly的7头之龙阶位体系。每阶位有修炼目标和能力解锁。</p>
+    <div style="overflow-x:auto;">
+      <table id="gradeTable">
+        <thead><tr><th>阶位</th><th>名称</th><th>修炼目标</th><th>解锁能力</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td>I</td><td>觉醒者 (Awakener)</td><td>完成黑暗启蒙仪式</td><td>灵知感知、阴影视觉</td><td><input type="checkbox" onchange="updateGradeProgress()" class="grade-check" data-grade="0"></td></tr>
+          <tr><td>II</td><td>寻路者 (Pathseeker)</td><td>连续7天灵知修炼</td><td>能量操控、意志屏障</td><td><input type="checkbox" onchange="updateGradeProgress()" class="grade-check" data-grade="1"></td></tr>
+          <tr><td>III</td><td>破壁者 (Wallbreaker)</td><td>突破自我限制仪式</td><td>形态扭曲、心灵沟通</td><td><input type="checkbox" onchange="updateGradeProgress()" class="grade-check" data-grade="2"></td></tr>
+          <tr><td>IV</td><td>唤龙者 (Dragoncaller)</td><td>召唤并与龙灵沟通</td><td>龙力附体、龙息术</td><td><input type="checkbox" onchange="updateGradeProgress()" class="grade-check" data-grade="3"></td></tr>
+          <tr><td>V</td><td>影之大师 (Shadow Master)</td><td>掌控自身阴影</td><td>阴影穿行、分身术</td><td><input type="checkbox" onchange="updateGradeProgress()" class="grade-check" data-grade="4"></td></tr>
+          <tr><td>VI</td><td>命运编织者 (Fate Weaver)</td><td>改写自身命运线</td><td>时间缓流、因果干预</td><td><input type="checkbox" onchange="updateGradeProgress()" class="grade-check" data-grade="5"></td></tr>
+          <tr><td>VII</td><td>自我之神 (Self-God)</td><td>完全自我神化</td><td>现实扭曲、不朽</td><td><input type="checkbox" onchange="updateGradeProgress()" class="grade-check" data-grade="6"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mt-16">
+      <div class="bar-container" id="gradeProgressBar"><div class="bar-fill" id="gradeProgressFill" style="width:0%;"></div><div class="bar-label" id="gradeProgressLabel">0 / 7</div></div>
+    </div>
+  </div>
+
+  <div class="card collapsible open">
+    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3 class="card-title"><span class="num">II.</span> 十九修炼法 (Don Webb)</h3>
+    </div>
+    <div class="card-body">
+      <div class="grid-2" id="practicesList">
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">1</span> 沉默练习 — 每日保持1小时完全沉默</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">2</span> 呼吸控制 — 4-7-8呼吸法训练</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">3</span> 视觉化 — 每日15分钟冥想必想</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">4</span> 能量感知 — 感知自身气场边界</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">5</span> 阴影工作 — 直面并整合阴影自我</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">6</span> 梦境记录 — 每日记录梦境</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">7</span> 星体投射 — 尝试意识离体</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">8</span> 元素操控 — 操控四种元素的能量</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">9</span> 神圣名字 — 默念力量名号</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">10</span> 符印制作 — 制作个人力量符印</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">11</span> 时间感知 — 感知时间流动</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">12</span> 共时性记录 — 记录生活中的巧合</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">13</span> 灵知诱导 — 进入灵知状态</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">14</span> 意志宣言 — 每日意志肯定语</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">15</span> 禁欲练习 — 暂时放弃某种享乐</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">16</span> 能量充能 — 充能个人物品</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">17</span> 通道建立 — 建立能量通道</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">18</span> 双生火焰 — 寻找精神对应体</div>
+        <div class="card" style="padding:12px;"><span class="badge badge-gold">19</span> 自我神化 — 完成自我神化仪式</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card collapsible open">
+    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3 class="card-title"><span class="num">III.</span> 黑暗启蒙仪式</h3>
+    </div>
+    <div class="card-body">
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">完成以下所有步骤方可进阶为觉醒者。</p>
+      <div id="initiationList">
+        <label class="checkbox-item"><input type="checkbox" onchange="checkInitiation()"> 1. 连续3日午夜冥想</label>
+        <label class="checkbox-item"><input type="checkbox" onchange="checkInitiation()"> 2. 书写并焚烧自我誓言</label>
+        <label class="checkbox-item"><input type="checkbox" onchange="checkInitiation()"> 3. 制作个人力量符印</label>
+        <label class="checkbox-item"><input type="checkbox" onchange="checkInitiation()"> 4. 召唤并面对阴影自我</label>
+        <label class="checkbox-item"><input type="checkbox" onchange="checkInitiation()"> 5. 进行第一次灵知诱导</label>
+        <label class="checkbox-item"><input type="checkbox" onchange="checkInitiation()"> 6. 记录完整的修炼日志</label>
+        <label class="checkbox-item"><input type="checkbox" onchange="checkInitiation()"> 7. 宣布新名号</label>
+      </div>
+      <div id="initiationStatus" class="mt-8" style="font-size:0.9rem;color:var(--muted);text-align:center;"></div>
+    </div>
+  </div>
+
+  <div class="card collapsible open">
+    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3 class="card-title"><span class="num">IV.</span> 灵知状态</h3>
+    </div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div>
+          <h4 style="color:var(--accent2);margin-bottom:8px;">进入灵知的方法</h4>
+          <ul style="font-size:0.85rem;color:var(--muted);list-style:none;">
+            <li>&bull; 深层冥想（需要WIL &ge; 14）</li>
+            <li>&bull; 感官剥夺（30分钟以上）</li>
+            <li>&bull; 节奏性吟唱/鼓点</li>
+            <li>&bull; 极限状态（疲劳/兴奋边缘）</li>
+            <li>&bull; 梦境意识（清醒梦）</li>
+            <li>&bull; 性灵知（Transitive Gnosis）</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--accent2);margin-bottom:8px;">灵知效果</h4>
+          <ul style="font-size:0.85rem;color:var(--muted);list-style:none;">
+            <li>&bull; 施法效果提升50%</li>
+            <li>&bull; 感知范围扩大至30m</li>
+            <li>&bull; 意志判定获得优势</li>
+            <li>&bull; 短暂看见灵体存在</li>
+            <li>&bull; 魔力恢复速度提高2倍</li>
+            <li>&bull; 持续回合 = WIL调整 + 1</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============= CH5: 死灵术 ============= -->
+<div class="tab-content" id="ch5">
+  <h2 class="section-title">第五章：死灵术</h2>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">I.</span> 亡灵沟通规则</h3>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">与亡者沟通需要以下条件：</p>
+    <ul style="font-size:0.9rem;color:var(--muted);list-style:none;margin-bottom:16px;">
+      <li>&bull; 尸体或遗物（必须完整存在）</li>
+      <li>&bull; 施法者 INT &ge; 12</li>
+      <li>&bull; 消耗 8 MP</li>
+      <li>&bull; 每具亡灵可提3个问题</li>
+      <li>&bull; 亡灵有30%概率说谎（WIL对抗判定）</li>
+    </ul>
+    <div class="flex-center"><button class="btn btn-sm" onclick="simulateNecroComm()">&#x1F3B2; 模拟亡灵沟通</button></div>
+    <div id="necroCommResult" class="result-box mt-8" style="min-height:40px;"></div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">II.</span> 召唤仪式</h3>
+    <div class="grid-2">
+      <div>
+        <h4 style="color:var(--accent2);margin-bottom:8px;">仪式要求</h4>
+        <ul style="font-size:0.85rem;color:var(--muted);list-style:none;">
+          <li>&bull; 魔法阵绘制（需要INT &ge; 13）</li>
+          <li>&bull; 献祭品（血液/生命值5点/宝物）</li>
+          <li>&bull; 消耗 15 MP</li>
+          <li>&bull; 施法时间：30分钟</li>
+          <li>&bull; 成功概率：60% + WIL调整&times;5%</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:var(--accent2);margin-bottom:8px;">召唤物种类</h4>
+        <ul style="font-size:0.85rem;color:var(--muted);list-style:none;">
+          <li>&bull; 亡灵仆从（骷髅/僵尸）— 持续24h</li>
+          <li>&bull; 怨灵（幽影/恶灵）— 需要特殊容器</li>
+          <li>&bull; 尸妖（高级亡灵）— 需要施法者等级5+</li>
+          <li>&bull; 龙巫妖 — 需要龙尸体+特殊仪式</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex-center mt-16"><button class="btn btn-sm btn-crimson" onclick="simulateSummon()">&#x1F3B2; 模拟召唤仪式</button></div>
+    <div id="summonResult" class="result-box mt-8" style="min-height:40px;"></div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">III.</span> 死灵法器表</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>法器名</th><th>效果</th><th>获取难度</th></tr></thead>
+        <tbody>
+          <tr><td>骨杖</td><td>亡灵控制+2，召唤消耗-3MP</td><td>普通</td></tr>
+          <tr><td>亡者之书</td><td>习得所有1-3环死灵法术</td><td>困难</td></tr>
+          <tr><td>灵魂瓶</td><td>可容纳一个怨灵</td><td>普通</td></tr>
+          <tr><td>裹尸布</td><td>隐形于亡灵视野</td><td>困难</td></tr>
+          <tr><td>黑曜石刃</td><td>献祭时额外获得2倍效果</td><td>稀有</td></tr>
+          <tr><td>龙骨号角</td><td>召唤龙巫妖的媒介</td><td>传说</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card collapsible open">
+    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3 class="card-title"><span class="num">IV.</span> 亡灵仆从</h3>
+    </div>
+    <div class="card-body">
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>类型</th><th>HP</th><th>ATK</th><th>DEF</th><th>速度</th><th>特殊</th></tr></thead>
+          <tbody>
+            <tr><td>骷髅</td><td>12</td><td>4</td><td>10</td><td>中等</td><td>穿刺抗性</td></tr>
+            <tr><td>僵尸</td><td>20</td><td>3</td><td>8</td><td>慢</td><td>毒素免疫</td></tr>
+            <tr><td>幽影</td><td>10</td><td>5</td><td>12</td><td>快</td><td>物理免疫50%</td></tr>
+            <tr><td>尸妖</td><td>35</td><td>7</td><td>14</td><td>中等</td><td>恐惧光环</td></tr>
+            <tr><td>龙巫妖</td><td>80</td><td>12</td><td>18</td><td>快</td><td>龙息、亡灵光环</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">V.</span> 禁忌知识与SAN值</h3>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:8px;">每项死灵术都伴随着精神风险。查阅禁忌知识或施放高阶死灵法术时需要进行SAN值判定。</p>
+    <div class="grid-2">
+      <div>
+        <h4 style="color:var(--accent2);margin-bottom:8px;">SAN值规则</h4>
+        <ul style="font-size:0.85rem;color:var(--muted);list-style:none;">
+          <li>&bull; 初始SAN = WIL &times; 3 + 10</li>
+          <li>&bull; 施放死灵法术：SAN-1D4</li>
+          <li>&bull; 阅读禁忌书：SAN-2D6</li>
+          <li>&bull; SAN &le; 30：临时疯狂</li>
+          <li>&bull; SAN = 0：永久疯狂</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:var(--accent2);margin-bottom:8px;">SAN值模拟</h4>
+        <div class="form-group"><label>当前SAN值</label><input type="number" id="sanValue" value="40" min="0" max="100"></div>
+        <div class="flex-center" style="gap:8px;">
+          <button class="btn btn-sm" onclick="sanCheck('spell')">施法损失</button>
+          <button class="btn btn-sm btn-crimson" onclick="sanCheck('book')">阅读禁忌书</button>
+          <button class="btn btn-sm" onclick="sanCheck('rest')">长休恢复</button>
+        </div>
+        <div id="sanStatus" class="mt-8" style="font-size:0.85rem;color:var(--muted);text-align:center;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============= CH6: 魔法植物与炼金 ============= -->
+<div class="tab-content" id="ch6">
+  <h2 class="section-title">第六章：魔法植物与炼金</h2>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">I.</span> 草药采集规则</h3>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">草药效力受季节和月亮周期影响。满月时采集效果提升50%，新月时降低30%。</p>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>草药名</th><th>采集季节</th><th>月亮偏好</th><th>基础效果</th></tr></thead>
+        <tbody>
+          <tr><td>龙血草</td><td>夏季</td><td>满月</td><td>恢复 3D6 HP</td></tr>
+          <tr><td>影之花</td><td>秋季</td><td>新月</td><td>隐形 1D4 回合</td></tr>
+          <tr><td>星辰苔</td><td>春季</td><td>满月</td><td>MP恢复 2D6</td></tr>
+          <tr><td>骨藤</td><td>冬季</td><td>残月</td><td>召唤亡灵</td></tr>
+          <tr><td>月光兰</td><td>四季</td><td>满月</td><td>净化诅咒</td></tr>
+          <tr><td>地狱火蕈</td><td>夏季</td><td>新月</td><td>火焰伤害 2D8</td></tr>
+          <tr><td>银叶草</td><td>春季</td><td>盈月</td><td>治愈毒素</td></tr>
+          <tr><td>夜影根</td><td>秋季</td><td>新月</td><td>睡眠效果 2D6</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex-center mt-8">
+      <button class="btn btn-sm" onclick="simulateHerbHarvest()">&#x1F33F; 模拟采集</button>
+    </div>
+    <div id="harvestResult" class="result-box mt-8" style="min-height:40px;"></div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">II.</span> 炼金配方</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>成品</th><th>材料</th><th>所需技能</th><th>效果</th></tr></thead>
+        <tbody>
+          <tr><td>治愈药水</td><td>龙血草 + 银叶草</td><td>草药师</td><td>回复 4D6 HP</td></tr>
+          <tr><td>魔力药水</td><td>星辰苔 + 月光兰</td><td>草药师</td><td>回复 3D6 MP</td></tr>
+          <tr><td>隐形药水</td><td>影之花 + 夜影根</td><td>草药师 Lv2</td><td>隐形 2D4 回合</td></tr>
+          <tr><td>龙力药剂</td><td>龙血草 + 地狱火蕈</td><td>草药师 Lv3</td><td>STR+4 持续1小时</td></tr>
+          <tr><td>亡灵药剂</td><td>骨藤 + 夜影根</td><td>死灵法师</td><td>召唤亡灵仆从</td></tr>
+          <tr><td>万能解毒剂</td><td>银叶草 + 月光兰</td><td>草药师 Lv2</td><td>解除所有毒素</td></tr>
+          <tr><td>龙息合剂</td><td>地狱火蕈 + 龙血草</td><td>草药师 Lv4</td><td>喷吐 4D6 火焰</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-group mt-16">
+      <label>选择要制作的药剂</label>
+      <select id="potionSelect">
+        <option value="0">治愈药水</option>
+        <option value="1">魔力药水</option>
+        <option value="2">隐形药水</option>
+        <option value="3">龙力药剂</option>
+        <option value="4">亡灵药剂</option>
+        <option value="5">万能解毒剂</option>
+        <option value="6">龙息合剂</option>
+      </select>
+    </div>
+    <div class="flex-center"><button class="btn btn-sm" onclick="brewPotion()">&#x2697; 制作药剂</button></div>
+    <div id="brewResult" class="result-box mt-8" style="min-height:40px;"></div>
+  </div>
+
+  <div class="card collapsible open">
+    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3 class="card-title"><span class="num">III.</span> 圣园种植</h3>
+    </div>
+    <div class="card-body">
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">在圣园中种植魔法植物需要以下条件：</p>
+      <ul style="font-size:0.85rem;color:var(--muted);list-style:none;margin-bottom:12px;">
+        <li>&bull; 需要一块受祝福的土地</li>
+        <li>&bull; 每月灌溉一次月光水</li>
+        <li>&bull; 植物生长周期：1-3个月（游戏内）</li>
+        <li>&bull; 收获时需通过 PER 判定</li>
+      </ul>
+      <div class="grid-3" id="gardenPlot">
+        <div class="card" style="padding:16px;text-align:center;min-height:100px;" id="plot0">
+          <div style="font-size:0.8rem;color:var(--muted);">地块 1</div>
+          <div style="font-size:0.9rem;margin-top:8px;color:var(--accent2);">空置</div>
+        </div>
+        <div class="card" style="padding:16px;text-align:center;min-height:100px;" id="plot1">
+          <div style="font-size:0.8rem;color:var(--muted);">地块 2</div>
+          <div style="font-size:0.9rem;margin-top:8px;color:var(--accent2);">空置</div>
+        </div>
+        <div class="card" style="padding:16px;text-align:center;min-height:100px;" id="plot2">
+          <div style="font-size:0.8rem;color:var(--muted);">地块 3</div>
+          <div style="font-size:0.9rem;margin-top:8px;color:var(--accent2);">空置</div>
+        </div>
+      </div>
+      <div class="flex-center mt-8" style="gap:8px;">
+        <select id="plantSelect">
+          <option value="0">龙血草</option>
+          <option value="1">影之花</option>
+          <option value="2">星辰苔</option>
+          <option value="3">月光兰</option>
+        </select>
+        <button class="btn btn-sm" onclick="plantHerb()">&#x1F331; 种植</button>
+        <button class="btn btn-sm btn-crimson" onclick="harvestHerb()">&#x1F33F; 收获</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============= CH7: 占卜系统 ============= -->
+<div class="tab-content" id="ch7">
+  <h2 class="section-title">第七章：占卜系统</h2>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">I.</span> 太乙神数简化占卜</h3>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">基于太乙神数原理的简化占卜法，通过三要素判定吉凶。</p>
+    <div class="grid-2">
+      <div>
+        <div class="form-group"><label>当前时辰</label>
+          <select id="taiyiHour">
+            <option value="0">子时 (23-01)</option><option value="1">丑时 (01-03)</option>
+            <option value="2">寅时 (03-05)</option><option value="3">卯时 (05-07)</option>
+            <option value="4">辰时 (07-09)</option><option value="5">巳时 (09-11)</option>
+            <option value="6">午时 (11-13)</option><option value="7">未时 (13-15)</option>
+            <option value="8">申时 (15-17)</option><option value="9">酉时 (17-19)</option>
+            <option value="10">戌时 (19-21)</option><option value="11">亥时 (21-23)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>询问事项</label>
+          <select id="taiyiQuestion">
+            <option value="0">事业/修炼</option><option value="1">爱情/人际</option>
+            <option value="2">战斗/冒险</option><option value="3">健康/生命</option>
+            <option value="4">财富/宝物</option><option value="5">魔法/玄学</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="result-box" id="taiyiResult" style="min-height:120px;">
+          <div style="text-align:center;color:var(--muted);">点击占卜按钮开始</div>
+        </div>
+        <div class="flex-center mt-8"><button class="btn" onclick="taiyiDivine()">&#x1F3B2; 太乙占卜</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">II.</span> 简易塔罗占卜</h3>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">抽取3张塔罗牌进行三牌阵占卜（过去-现在-未来）。</p>
+    <div class="flex-center" style="gap:12px;flex-wrap:wrap;">
+      <div id="tarotCard1" class="card" style="width:140px;height:200px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;" onclick="drawTarot(0)">
+        <div style="font-size:2rem;color:var(--muted);">&#x1F0CF;</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;">过去</div>
+        <div style="font-size:0.7rem;color:var(--muted);" id="tarotLabel0">点击抽牌</div>
+      </div>
+      <div id="tarotCard2" class="card" style="width:140px;height:200px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;" onclick="drawTarot(1)">
+        <div style="font-size:2rem;color:var(--muted);">&#x1F0CF;</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;">现在</div>
+        <div style="font-size:0.7rem;color:var(--muted);" id="tarotLabel1">点击抽牌</div>
+      </div>
+      <div id="tarotCard3" class="card" style="width:140px;height:200px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;" onclick="drawTarot(2)">
+        <div style="font-size:2rem;color:var(--muted);">&#x1F0CF;</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;">未来</div>
+        <div style="font-size:0.7rem;color:var(--muted);" id="tarotLabel2">点击抽牌</div>
+      </div>
+    </div>
+    <div class="flex-center mt-8"><button class="btn btn-sm" onclick="drawAllTarot()">&#x1F3B2; 完整三牌阵</button></div>
+    <div id="tarotInterpretation" class="result-box mt-8" style="min-height:60px;font-size:0.85rem;"></div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">III.</span> 梦境解读</h3>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">输入梦境关键词获取梦境的象征意义和可能预示。</p>
+    <div class="form-group"><label>梦境描述</label><textarea id="dreamInput" placeholder="描述你的梦境..." rows="3"></textarea></div>
+    <div class="flex-center"><button class="btn btn-sm" onclick="interpretDream()">&#x1F31B; 解读梦境</button></div>
+    <div id="dreamResult" class="result-box mt-8" style="min-height:60px;font-size:0.85rem;"></div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">IV.</span> 行星时影响</h3>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">不同行星时对各类行动有不同影响。</p>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>行星</th><th>对应时段</th><th>加成行动</th><th>减益行动</th></tr></thead>
+        <tbody>
+          <tr><td>&#x2600; 太阳</td><td>日出-正午</td><td>战斗、领导</td><td>潜行、隐秘</td></tr>
+          <tr><td>&#x263D; 月亮</td><td>黄昏-午夜</td><td>占卜、魔法</td><td>体力劳动</td></tr>
+          <tr><td>&#x2642; 火星</td><td>正午-日落</td><td>战斗、锻造</td><td>外交、谈判</td></tr>
+          <tr><td>&#x2643; 水星</td><td>黎明、黄昏</td><td>沟通、交易</td><td>冥想、仪式</td></tr>
+          <tr><td>&#x2644; 木星</td><td>上午</td><td>学习、施法</td><td>破坏、偷窃</td></tr>
+          <tr><td>&#x2645; 金星</td><td>傍晚</td><td>社交、爱情</td><td>战斗、冲突</td></tr>
+          <tr><td>&#x2646; 土星</td><td>深夜</td><td>仪式、禁制</td><td>娱乐、享乐</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex-center mt-8"><button class="btn btn-sm" onclick="getPlanetaryHour()">&#x1F319; 查询当前行星时</button></div>
+    <div id="planetaryResult" class="result-box mt-8" style="min-height:40px;font-size:0.85rem;"></div>
+  </div>
+</div>
+
+<!-- ============= CH8: 冒险模组 ============= -->
+<div class="tab-content" id="ch8">
+  <h2 class="section-title">第八章：冒险模组</h2>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">I.</span> 预设冒险剧本</h3>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>剧本名</th><th>推荐等级</th><th>时长</th><th>简介</th></tr></thead>
+        <tbody>
+          <tr><td>&#x1F480; 亡者苏醒</td><td>1-2</td><td>2-3小时</td><td>墓地亡灵暴动，玩家需调查原因并阻止亡灵大军</td></tr>
+          <tr><td>&#x1F409; 龙血之谜</td><td>3-4</td><td>3-4小时</td><td>村庄遭遇龙血污染，玩家需找到污染源头并净化</td></tr>
+          <tr><td>&#x2728; 太乙逆位</td><td>5-6</td><td>4-5小时</td><td>太乙神数显示天象逆转，玩家需修复命运之线</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid-3 mt-16">
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--accent2);margin-bottom:8px;">&#x1F480; 亡者苏醒</h4>
+        <p style="font-size:0.8rem;color:var(--muted);">背景：银月墓地的亡者接连苏醒，死灵法师试图组建亡灵军团。玩家需在亡者大军形成前阻止仪式。</p>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:4px;">目标：摧毁仪式核心 / 击败死灵法师 / 超度亡灵</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--accent2);margin-bottom:8px;">&#x1F409; 龙血之谜</h4>
+        <p style="font-size:0.8rem;color:var(--muted);">背景：幼龙受伤后龙血污染了水源，村民逐渐变异。必须找到受伤的龙并治愈它。</p>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:4px;">目标：寻找龙巢 / 采集草药 / 治愈幼龙</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--accent2);margin-bottom:8px;">&#x2728; 太乙逆位</h4>
+        <p style="font-size:0.8rem;color:var(--muted);">背景：太乙神数显示命运之线被强行扭转，时空裂缝打开。玩家需穿越裂缝修复因果。</p>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:4px;">目标：进入时空裂缝 / 修复命运节点 / 击败时空守卫</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card collapsible open">
+    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3 class="card-title"><span class="num">II.</span> 怪物图鉴</h3>
+    </div>
+    <div class="card-body">
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>名称</th><th>HP</th><th>ATK</th><th>DEF</th><th>特性</th><th>掉落</th></tr></thead>
+          <tbody>
+            <tr><td>骷髅兵</td><td>12</td><td>4</td><td>10</td><td>穿刺抗性</td><td>碎骨 (炼金材料)</td></tr>
+            <tr><td>僵尸</td><td>25</td><td>3</td><td>8</td><td>毒素免疫, 行动缓慢</td><td>腐肉 (亡灵召唤)</td></tr>
+            <tr><td>幽影</td><td>15</td><td>6</td><td>12</td><td>物理50%免疫, 夜视</td><td>暗影精华</td></tr>
+            <tr><td>尸妖</td><td>40</td><td>8</td><td>14</td><td>恐惧光环, 亡灵控制</td><td>魂核 (魔法充能)</td></tr>
+            <tr><td>黑暗骑士</td><td>50</td><td>9</td><td>16</td><td>重甲, 暗影打击</td><td>黑铁装备</td></tr>
+            <tr><td>幼龙</td><td>60</td><td>10</td><td>16</td><td>龙息(2D8), 飞行</td><td>龙鳞片, 龙血</td></tr>
+            <tr><td>石像鬼</td><td>35</td><td>7</td><td>18</td><td>物理抗性, 石化凝视</td><td>活化核心</td></tr>
+            <tr><td>梦魇</td><td>30</td><td>8</td><td>12</td><td>心灵攻击, 幻觉</td><td>梦魇鬃毛</td></tr>
+            <tr><td>龙巫妖</td><td>80</td><td>12</td><td>18</td><td>亡灵光环, 龙息, 魔法免疫50%</td><td>龙魂石 (传说)</td></tr>
+            <tr><td>阿波菲斯化身</td><td>120</td><td>16</td><td>22</td><td>混沌光环, 时空扭曲, 魔法免疫75%</td><td>混沌碎片 (神器)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card collapsible open">
+    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+      <h3 class="card-title"><span class="num">III.</span> 宝物表</h3>
+    </div>
+    <div class="card-body">
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>名称</th><th>类型</th><th>效果</th><th>稀有度</th></tr></thead>
+          <tbody id="treasureTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">IV.</span> 随机遭遇生成器</h3>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">根据地点和危险等级生成随机遭遇事件。</p>
+    <div class="grid-2">
+      <div>
+        <div class="form-group"><label>地点类型</label>
+          <select id="encounterLocation">
+            <option value="forest">森林</option><option value="dungeon">地下城</option>
+            <option value="mountain">山地</option><option value="swamp">沼泽</option>
+            <option value="city">城镇</option><option value="graveyard">墓地</option>
+            <option value="dragonLair">龙巢</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <div class="form-group"><label>危险等级</label>
+          <select id="encounterDanger">
+            <option value="safe">安全</option><option value="low" selected>低</option>
+            <option value="medium">中等</option><option value="high">高</option>
+            <option value="deadly">致命</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="flex-center"><button class="btn" onclick="generateEncounter()">&#x1F3B2; 生成遭遇</button></div>
+    <div id="encounterResult" class="result-box mt-8" style="min-height:80px;"></div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-title"><span class="num">V.</span> 地下城生成器</h3>
+    <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">快速生成一个简易地下城布局。</p>
+    <div class="flex-center" style="gap:8px;">
+      <span style="font-size:0.85rem;color:var(--muted);">房间数:</span>
+      <select id="dungeonRooms">
+        <option value="6">6</option><option value="8" selected>8</option><option value="10">10</option><option value="12">12</option>
+      </select>
+      <button class="btn" onclick="generateDungeon()">&#x1F3B2; 生成地下城</button>
+    </div>
+    <div class="canvas-wrap" style="max-width:100%;overflow-x:auto;">
+      <canvas id="dungeonCanvas" width="700" height="400"></canvas>
+    </div>
+    <div id="dungeonInfo" class="result-box mt-8" style="min-height:40px;font-size:0.85rem;"></div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ===== Utility Functions =====
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function d(n){return rand(1,n);}
+function ddice(n, sides){let s=0;for(let i=0;i<n;i++)s+=d(sides);return s;}
+
+// ===== Progress Bar =====
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const p=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+  document.getElementById('progressBar').style.width=p+'%';
+});
+
+// ===== Particle Canvas =====
+(function(){
+  const c=document.getElementById('particleCanvas');
+  const ctx=c.getContext('2d');
+  let particles=[];
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
+  window.addEventListener('resize',resize);resize();
+  for(let i=0;i<60;i++){
+    particles.push({
+      x:Math.random()*c.width,y:Math.random()*c.height,
+      vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5,
+      r:Math.random()*2+1,o:Math.random()*0.6+0.1,
+      phase:Math.random()*Math.PI*2
+    });
+  }
+  function anim(){
+    ctx.clearRect(0,0,c.width,c.height);
+    const t=Date.now()/1000;
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=c.width;if(p.x>c.width)p.x=0;
+      if(p.y<0)p.y=c.height;if(p.y>c.height)p.y=0;
+      const alpha=p.o*(0.5+0.5*Math.sin(t*0.5+p.phase));
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(212,168,67,${alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(anim);
+  }
+  anim();
+})();
+
+// ===== Tab System =====
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById(this.dataset.tab).classList.add('active');
+  });
+});
+
+// ===== CH1: Dice Rolling & Character Creation =====
+let rollHistory=[];
+
+function rollStat(){
+  const box=document.getElementById('diceBox3d6');
+  const display=document.getElementById('diceDisplay3d6');
+  box.classList.add('rolling');
+  let count=0;
+  const interval=setInterval(()=>{
+    const r=ddice(3,6);
+    display.textContent=r;
+    count++;
+    if(count>12){
+      clearInterval(interval);
+      box.classList.remove('rolling');
+      box.classList.add('show-3d');
+      setTimeout(()=>box.classList.remove('show-3d'),300);
+    }
+  },80);
+  // Determine which stat to fill
+  const emptyStats=[];
+  ['statStr','statDex','statWil','statInt','statPer','statCha'].forEach(id=>{
+    if(parseInt(document.getElementById(id).value)===10||parseInt(document.getElementById(id).value)===3)emptyStats.push(id);
+  });
+  if(emptyStats.length>0){
+    setTimeout(()=>{
+      const r=ddice(3,6);
+      document.getElementById(emptyStats[0]).value=r;
+      rollHistory.push(r);
+      updateStatPreview();
+      display.textContent=r;
+    },1100);
+  }
+}
+
+function quickRollAll(){
+  ['statStr','statDex','statWil','statInt','statPer','statCha'].forEach(id=>{
+    document.getElementById(id).value=ddice(3,6);
+  });
+  rollHistory=[];
+  updateStatPreview();
+  document.getElementById('diceDisplay3d6').textContent='全部投点完成';
+}
+
+function resetStats(){
+  ['statStr','statDex','statWil','statInt','statPer','statCha'].forEach(id=>{
+    document.getElementById(id).value=10;
+  });
+  rollHistory=[];
+  updateStatPreview();
+  document.getElementById('diceDisplay3d6').textContent='已重置';
+}
+
+function updateStatPreview(){
+  const str=parseInt(document.getElementById('statStr').value)||10;
+  const wil=parseInt(document.getElementById('statWil').value)||10;
+  document.getElementById('hpPreview').textContent=str*2+10;
+  document.getElementById('mpPreview').textContent=wil*3+5;
+}
+
+['statStr','statDex','statWil','statInt','statPer','statCha'].forEach(id=>{
+  document.getElementById(id).addEventListener('change',updateStatPreview);
+});
+
+function selectClass(cls){
+  document.querySelectorAll('#classSelect .card').forEach(c=>c.style.borderColor='var(--rule)');
+  const el=document.getElementById('cls-'+cls);
+  if(el){el.style.borderColor='var(--accent2)';}
+  const names={
+    sorcerer:'术士',necromancer:'死灵法师',dragonKnight:'龙骑士',
+    herbalist:'草药师',astrologer:'占星师',lhpWalker:'左路行者'
+  };
+  document.getElementById('selectedClass').value=names[cls]||'未选择';
+}
+
+function saveCharacter(){
+  const data={
+    name:document.getElementById('charName').value,
+    player:document.getElementById('playerName').value,
+    bio:document.getElementById('charBio').value,
+    cls:document.getElementById('selectedClass').value,
+    str:document.getElementById('statStr').value,
+    dex:document.getElementById('statDex').value,
+    wil:document.getElementById('statWil').value,
+    int:document.getElementById('statInt').value,
+    per:document.getElementById('statPer').value,
+    cha:document.getElementById('statCha').value
+  };
+  localStorage.setItem('apophis-trpg-character',JSON.stringify(data));
+  document.getElementById('charSaveStatus').innerHTML='<span style="color:#4caf50;">&#x2714; 角色卡已保存</span>';
+}
+
+function loadCharacter(){
+  const raw=localStorage.getItem('apophis-trpg-character');
+  if(!raw){
+    document.getElementById('charSaveStatus').innerHTML='<span style="color:var(--crimson);">&#x2716; 未找到保存的角色卡</span>';
+    return;
+  }
+  const data=JSON.parse(raw);
+  document.getElementById('charName').value=data.name||'';
+  document.getElementById('playerName').value=data.player||'';
+  document.getElementById('charBio').value=data.bio||'';
+  document.getElementById('selectedClass').value=data.cls||'未选择';
+  document.getElementById('statStr').value=data.str||10;
+  document.getElementById('statDex').value=data.dex||10;
+  document.getElementById('statWil').value=data.wil||10;
+  document.getElementById('statInt').value=data.int||10;
+  document.getElementById('statPer').value=data.per||10;
+  document.getElementById('statCha').value=data.cha||10;
+  updateStatPreview();
+  document.getElementById('charSaveStatus').innerHTML='<span style="color:#4caf50;">&#x2714; 角色卡已读取</span>';
+}
+
+function deleteCharacter(){
+  localStorage.removeItem('apophis-trpg-character');
+  document.getElementById('charSaveStatus').innerHTML='<span style="color:var(--muted);">角色卡已删除</span>';
+}
+
+// ===== CH2: Spell System =====
+const SPELLS={
+  1:[
+    {name:'火焰箭',time:'1动作',range:'30m',duration:'立即',desc:'发射一枚火焰箭，造成2D6火焰伤害'},
+    {name:'治愈轻伤',time:'1动作',range:'触摸',duration:'立即',desc:'恢复1D8+2 HP'},
+    {name:'魔法护盾',time:'1反应',range:'自身',duration:'1小时',desc:'AC+2'},
+    {name:'探测魔法',time:'1分钟',range:'自身',duration:'专注10分钟',desc:'感知附近魔法能量'},
+    {name:'光亮术',time:'1动作',range:'触摸',duration:'1小时',desc:'让一件物品发出光芒'},
+    {name:'通晓语言',time:'1动作',range:'自身',duration:'1小时',desc:'理解所有语言'}
+  ],
+  2:[
+    {name:'灼热射线',time:'1动作',range:'30m',duration:'立即',desc:'发射3道射线，每道2D6火伤'},
+    {name:'治疗中等伤',time:'1动作',range:'触摸',duration:'立即',desc:'恢复3D8+3 HP'},
+    {name:'隐身术',time:'1动作',range:'触摸',duration:'1小时',desc:'目标隐形'},
+    {name:'亡灵命令',time:'1动作',range:'15m',duration:'1小时',desc:'控制一个亡灵'},
+    {name:'龙力术',time:'1动作',range:'自身',duration:'10分钟',desc:'STR+4, 临时HP+10'},
+    {name:'星体投射',time:'10分钟',range:'自身',duration:'1小时',desc:'灵魂离体探索'}
+  ],
+  3:[
+    {name:'火球术',time:'1动作',range:'30m',duration:'立即',desc:'6D6火焰伤害（范围6m）'},
+    {name:'治愈重伤',time:'1动作',range:'触摸',duration:'立即',desc:'恢复5D8+5 HP'},
+    {name:'亡灵大军',time:'1分钟',range:'30m',duration:'24小时',desc:'召唤2D4个骷髅战士'},
+    {name:'龙息术',time:'1动作',range:'自身',duration:'立即',desc:'锥形范围4D8火焰伤害'},
+    {name:'时间缓流',time:'1反应',range:'30m',duration:'1回合',desc:'目标速度减半'},
+    {name:'命运干预',time:'1反应',range:'30m',duration:'立即',desc:'重掷一次判定'}
+  ],
+  4:[
+    {name:'陨石术',time:'1动作',range:'60m',duration:'立即',desc:'8D6火焰/钝击伤害'},
+    {name:'生命汲取',time:'1动作',range:'15m',duration:'立即',desc:'4D8伤害, 回复等量HP'},
+    {name:'召唤龙灵',time:'1分钟',range:'15m',duration:'1小时',desc:'召唤龙灵协助战斗'},
+    {name:'精神控制',time:'1动作',range:'15m',duration:'1小时',desc:'控制人形生物'},
+    {name:'暗影穿行',time:'1动作',range:'自身',duration:'立即',desc:'传送30m暗影间'},
+    {name:'灵知领域',time:'1动作',range:'自身',duration:'10分钟',desc:'进入灵知状态'}
+  ],
+  5:[
+    {name:'末日审判',time:'1动作',range:'60m',duration:'立即',desc:'10D6神圣/混沌伤害'},
+    {name:'完全复活',time:'1小时',range:'触摸',duration:'永久',desc:'复活死者'},
+    {name:'龙巫妖转化',time:'1小时',range:'触摸',duration:'永久',desc:'将尸体转为龙巫妖'},
+    {name:'时空裂隙',time:'1动作',range:'30m',duration:'1分钟',desc:'打开时空裂缝'},
+    {name:'自我神化',time:'1小时',range:'自身',duration:'永久',desc:'属性+2, 获得神性'},
+    {name:'现实扭曲',time:'1动作',range:'30m',duration:'1分钟',desc:'小范围改变现实规则'}
+  ]
+};
+
+function initSpellbook(){
+  const c=document.getElementById('spellbookContainer');
+  let html='<table><thead><tr><th>环级</th><th>名称</th><th>施法时间</th><th>距离</th><th>持续时间</th><th>效果</th><th>学会</th></tr></thead><tbody>';
+  for(let lv=1;lv<=5;lv++){
+    SPELLS[lv].forEach(s=>{
+      html+=`<tr><td>${lv}环</td><td>${s.name}</td><td>${s.time}</td><td>${s.range}</td><td>${s.duration}</td><td style="font-size:0.8rem;">${s.desc}</td><td><input type="checkbox" class="spell-check" data-lv="${lv}" data-name="${s.name}"></td></tr>`;
+    });
+  }
+  html+='</tbody></table>';
+  c.innerHTML=html;
+  // Load saved spells
+  const saved=JSON.parse(localStorage.getItem('apophis-spellbook')||'[]');
+  document.querySelectorAll('.spell-check').forEach(cb=>{
+    if(saved.includes(cb.dataset.name))cb.checked=true;
+    cb.addEventListener('change',saveSpellbook);
+  });
+}
+function saveSpellbook(){
+  const learned=[];
+  document.querySelectorAll('.spell-check:checked').forEach(cb=>learned.push(cb.dataset.name));
+  localStorage.setItem('apophis-spellbook',JSON.stringify(learned));
+}
+initSpellbook();
+
+// ===== CH3: Combat System =====
+let combatState={playerHP:30,enemyHP:25,playerMaxHP:30,enemyMaxHP:25,defending:false,enemyAtk:4,enemyDef:12};
+
+const ENEMY_STATS={
+  skeleton:{hp:15,atk:3,def:10,name:'骷髅兵'},
+  zombie:{hp:25,atk:4,def:12,name:'僵尸'},
+  darkKnight:{hp:40,atk:6,def:15,name:'黑暗骑士'},
+  lesserDragon:{hp:60,atk:8,def:18,name:'幼龙'},
+  lich:{hp:50,atk:7,def:14,name:'巫妖'}
+};
+
+function resetCombat(){
+  const eType=document.getElementById('enemyType').value;
+  const eStats=ENEMY_STATS[eType];
+  combatState.playerHP=parseInt(document.getElementById('playerHP').value)||30;
+  combatState.playerMaxHP=combatState.playerHP;
+  combatState.enemyHP=eStats.hp;
+  combatState.enemyMaxHP=eStats.hp;
+  combatState.enemyAtk=eStats.atk;
+  combatState.enemyDef=eStats.def;
+  combatState.defending=false;
+  updateCombatUI();
+  document.getElementById('combatLog').innerHTML='<div class="log-entry log-info">战斗开始！选择行动...</div>';
+  document.getElementById('playerHP').value=combatState.playerHP;
+}
+
+function updateCombatUI(){
+  const php=combatState.playerHP,pMax=combatState.playerMaxHP;
+  const ehp=combatState.enemyHP,eMax=combatState.enemyMaxHP;
+  document.getElementById('playerHPFill').style.width=(php/pMax*100)+'%';
+  document.getElementById('playerHPLabel').textContent=php+'/'+pMax;
+  document.getElementById('enemyHPFill').style.width=(ehp/eMax*100)+'%';
+  document.getElementById('enemyHPLabel').textContent=ehp+'/'+eMax;
+}
+
+function addCombatLog(msg,cls='log-info'){
+  const log=document.getElementById('combatLog');
+  log.innerHTML+='<div class="log-entry '+cls+'">'+msg+'</div>';
+  log.scrollTop=log.scrollHeight;
+}
+
+function rollDiceStr(str){
+  const parts=str.split('d');
+  return ddice(parseInt(parts[0]),parseInt(parts[1]));
+}
+
+function combatAttack(){
+  if(combatState.enemyHP<=0||combatState.playerHP<=0){addCombatLog('战斗已结束！请重置。','log-info');return;}
+  const pAtk=parseInt(document.getElementById('playerAtk').value)||5;
+  const atkRoll=d(20);
+  const totalAtk=atkRoll+pAtk;
+  const defVal=combatState.enemyDef;
+  if(atkRoll===20||totalAtk>=defVal){
+    const wpn=document.getElementById('playerWeapon').value;
+    const dmg=rollDiceStr(wpn)+(atkRoll===20?rollDiceStr(wpn):0);
+    combatState.enemyHP=Math.max(0,combatState.enemyHP-dmg);
+    addCombatLog('&#x2694; 玩家攻击！D20='+atkRoll+' 命中！造成 '+dmg+' 点伤害'+(atkRoll===20?' (暴击！)':''),'log-hit');
+  }else{
+    addCombatLog('&#x2694; 玩家攻击！D20='+atkRoll+' 未命中（需要 '+defVal+'）','log-miss');
+  }
+  updateCombatUI();
+  if(combatState.enemyHP<=0){addCombatLog('&#x1F3C6; 胜利！敌人被击败！','log-heal');return;}
+  enemyTurn();
+}
+
+function combatDefend(){
+  if(combatState.playerHP<=0){return;}
+  combatState.defending=true;
+  addCombatLog('&#x1F6E1; 玩家进入防御姿态','log-info');
+  enemyTurn();
+}
+
+function combatSkill(){
+  if(combatState.enemyHP<=0||combatState.playerHP<=0){return;}
+  const heal=ddice(2,6)+3;
+  combatState.playerHP=Math.min(combatState.playerMaxHP,combatState.playerHP+heal);
+  addCombatLog('&#x2728; 使用技能！恢复 '+heal+' HP','log-heal');
+  updateCombatUI();
+  enemyTurn();
+}
+
+function enemyTurn(){
+  if(combatState.enemyHP<=0)return;
+  const atkRoll=d(20);
+  const totalAtk=atkRoll+combatState.enemyAtk;
+  let pDef=parseInt(document.getElementById('playerDef').value)||12;
+  if(combatState.defending)pDef+=4;
+  if(atkRoll===20||totalAtk>=pDef){
+    const dmg=rollDiceStr('1d6')+(combatState.enemyAtk-3);
+    const finalDmg=Math.max(1,dmg-(combatState.defending?2:0));
+    combatState.playerHP=Math.max(0,combatState.playerHP-finalDmg);
+    addCombatLog('&#x1F47F; 敌人攻击！D20='+atkRoll+' 命中！造成 '+finalDmg+' 点伤害','log-dmg');
+  }else{
+    addCombatLog('&#x1F47F; 敌人攻击！D20='+atkRoll+' 未命中','log-miss');
+  }
+  combatState.defending=false;
+  updateCombatUI();
+  if(combatState.playerHP<=0){addCombatLog('&#x2620; 玩家被击败...','log-dmg');}
+}
+
+document.getElementById('enemyType').addEventListener('change',resetCombat);
+document.getElementById('playerHP').addEventListener('change',function(){
+  combatState.playerHP=parseInt(this.value)||30;
+  combatState.playerMaxHP=combatState.playerHP;
+  updateCombatUI();
+});
+
+// ===== CH4: Grade Tracker =====
+function updateGradeProgress(){
+  const checks=document.querySelectorAll('.grade-check');
+  let count=0;
+  checks.forEach(c=>{if(c.checked)count++;});
+  const pct=(count/7)*100;
+  document.getElementById('gradeProgressFill').style.width=pct+'%';
+  document.getElementById('gradeProgressLabel').textContent=count+' / 7';
+  localStorage.setItem('apophis-grades',JSON.stringify(
+    Array.from(checks).map(c=>c.checked)
+  ));
+}
+
+// Load saved grades
+(function(){
+  const saved=JSON.parse(localStorage.getItem('apophis-grades')||'[]');
+  document.querySelectorAll('.grade-check').forEach((c,i)=>{
+    if(saved[i])c.checked=true;
+  });
+  updateGradeProgress();
+})();
+
+function checkInitiation(){
+  const checks=document.querySelectorAll('#initiationList input[type="checkbox"]');
+  let count=0;
+  checks.forEach(c=>{if(c.checked)count++;});
+  const status=document.getElementById('initiationStatus');
+  if(count===7){
+    status.innerHTML='<span style="color:#4caf50;">&#x2714; 启蒙仪式完成！你已觉醒为左路行者。</span>';
+  }else{
+    status.textContent='进度：'+count+' / 7';
+  }
+}
+
+// ===== CH5: Necromancy =====
+function simulateNecroComm(){
+  const success=Math.random()<0.7;
+  const lies=Math.random()<0.3;
+  const questions=['埋葬之地的秘密','古老的诅咒来源','失落的宝藏位置','即将到来的危险','隐藏的盟友身份'];
+  const q=questions[rand(0,questions.length-1)];
+  const r=document.getElementById('necroCommResult');
+  if(success){
+    const answers=['"在橡树之下埋藏着古老的秘密..."','"三个满月之后，黑暗将降临..."','"北方地下深处，龙之眼在注视..."','"你身边的人并非你所见..."','"血月之夜，真理将显现..."'];
+    const ans=answers[rand(0,answers.length-1)];
+    r.innerHTML='<span class="highlight">沟通成功！</span>亡灵回答了关于「'+q+'」的问题：<br>"'+ans+'"'+(lies?'<br><span style="color:var(--crimson);font-size:0.8rem;">&#x26A0; 但亡灵可能说了谎...</span>':'');
+  }else{
+    r.innerHTML='<span style="color:var(--crimson);">沟通失败。</span>亡灵拒绝回应或已消散。';
+  }
+}
+
+function simulateSummon(){
+  const success=Math.random()<0.7;
+  const r=document.getElementById('summonResult');
+  const summons=['骷髅兵 x2','僵尸 x1','幽影 x1','尸妖 x1','龙巫妖雏形 x1'];
+  const summoned=summons[rand(0,summons.length-1)];
+  const cost=10+rand(1,10);
+  if(success){
+    r.innerHTML='<span class="highlight">仪式成功！</span>消耗 '+cost+' MP，召唤出：<span style="color:var(--crimson);">'+summoned+'</span>。';
+  }else{
+    r.innerHTML='<span style="color:var(--crimson);">仪式失败。</span>消耗 '+cost+' MP，亡灵反噬。损失 '+rand(2,6)+' HP。';
+  }
+}
+
+function sanCheck(type){
+  const input=document.getElementById('sanValue');
+  let val=parseInt(input.value)||40;
+  if(type==='spell'){
+    const loss=rand(1,4);val-=loss;
+    document.getElementById('sanStatus').innerHTML='施放死灵法术，SAN -'+loss;
+  }else if(type==='book'){
+    const loss=ddice(2,6);val-=loss;
+    document.getElementById('sanStatus').innerHTML='阅读禁忌书，SAN -'+loss+' <span style="color:var(--crimson);">精神受到冲击！</span>';
+  }else if(type==='rest'){
+    const gain=rand(3,8);val+=gain;
+    document.getElementById('sanStatus').innerHTML='长休恢复，SAN +'+gain;
+  }
+  val=Math.max(0,Math.min(100,val));
+  input.value=val;
+  if(val<=0)document.getElementById('sanStatus').innerHTML+=' <span style="color:var(--crimson);font-weight:700;">&#x2620; 永久疯狂！</span>';
+  else if(val<=30)document.getElementById('sanStatus').innerHTML+=' <span style="color:#ff9800;">&#x26A0; 临时疯狂状态</span>';
+}
+
+// ===== CH6: Herbalism & Alchemy =====
+const HERBS=['龙血草','影之花','星辰苔','骨藤','月光兰','地狱火蕈','银叶草','夜影根'];
+const MOON_PHASES=['新月','蛾眉月','上弦月','盈月','满月','亏月','下弦月','残月'];
+
+function simulateHerbHarvest(){
+  const herb=HERBS[rand(0,HERBS.length-1)];
+  const moonPhase=MOON_PHASES[rand(0,MOON_PHASES.length-1)];
+  const isFullMoon=moonPhase==='满月';
+  const qty=isFullMoon?rand(3,6):rand(1,3);
+  const quality=isFullMoon?'精良':'普通';
+  const r=document.getElementById('harvestResult');
+  r.innerHTML='在<span class="highlight">'+moonPhase+'</span>下采集了 <span class="highlight">'+herb+'</span> x'+qty+'（品质：'+quality+'）'+
+    (isFullMoon?'<br><span style="color:var(--accent2);font-size:0.8rem;">&#x2606; 满月加成！数量翻倍！</span>':'');
+}
+
+const POTION_RECIPES=[
+  {name:'治愈药水',materials:'龙血草 + 银叶草',effect:'回复4D6 HP',successRate:0.8},
+  {name:'魔力药水',materials:'星辰苔 + 月光兰',effect:'回复3D6 MP',successRate:0.8},
+  {name:'隐形药水',materials:'影之花 + 夜影根',effect:'隐形2D4回合',successRate:0.6},
+  {name:'龙力药剂',materials:'龙血草 + 地狱火蕈',effect:'STR+4持续1小时',successRate:0.5},
+  {name:'亡灵药剂',materials:'骨藤 + 夜影根',effect:'召唤亡灵仆从',successRate:0.6},
+  {name:'万能解毒剂',materials:'银叶草 + 月光兰',effect:'解除所有毒素',successRate:0.7},
+  {name:'龙息合剂',materials:'地狱火蕈 + 龙血草',effect:'喷吐4D6火焰',successRate:0.4}
+];
+
+function brewPotion(){
+  const idx=parseInt(document.getElementById('potionSelect').value);
+  const recipe=POTION_RECIPES[idx];
+  const success=Math.random()<recipe.successRate;
+  const r=document.getElementById('brewResult');
+  if(success){
+    const qty=rand(1,3);
+    r.innerHTML='<span class="highlight">炼制成功！</span>获得 <span style="color:var(--accent2);">'+recipe.name+'</span> x'+qty+'<br>效果：'+recipe.effect;
+  }else{
+    r.innerHTML='<span style="color:var(--crimson);">炼制失败。</span>材料损毁。损失了'+recipe.materials+'。';
+  }
+}
+
+let gardenState=[null,null,null];
+
+function plantHerb(){
+  const herbIdx=parseInt(document.getElementById('plantSelect').value);
+  const herbNames=['龙血草','影之花','星辰苔','月光兰'];
+  const empty=gardenState.indexOf(null);
+  if(empty===-1){
+    document.getElementById('brewResult').innerHTML='<span style="color:var(--crimson);">所有地块已满！请先收获。</span>';
+    return;
+  }
+  const plant=herbNames[herbIdx];
+  gardenState[empty]={name:plant,days:0};
+  document.getElementById('plot'+empty).innerHTML=
+    '<div style="font-size:0.8rem;color:var(--muted);">地块 '+(empty+1)+'</div>'+
+    '<div style="font-size:1.5rem;color:var(--accent2);">&#x1F331;</div>'+
+    '<div style="font-size:0.85rem;color:var(--accent2);">'+plant+'</div>'+
+    '<div style="font-size:0.75rem;color:var(--muted);">生长中 (0/3)</div>';
+  document.getElementById('brewResult').innerHTML='<span class="highlight">已种植 '+plant+'</span> 在地块 '+(empty+1);
+}
+
+function harvestHerb(){
+  let harvested=false;
+  gardenState.forEach((plot,i)=>{
+    if(plot&&plot.days>=3){
+      harvested=true;
+      const qty=rand(1,3);
+      document.getElementById('brewResult').innerHTML='<span class="highlight">收获 '+plot.name+'</span> x'+qty;
+      document.getElementById('plot'+i).innerHTML=
+        '<div style="font-size:0.8rem;color:var(--muted);">地块 '+(i+1)+'</div>'+
+        '<div style="font-size:0.9rem;margin-top:8px;color:var(--accent2);">空置</div>';
+      gardenState[i]=null;
+    }else if(plot){
+      plot.days++;
+      document.getElementById('plot'+i).innerHTML=
+        '<div style="font-size:0.8rem;color:var(--muted);">地块 '+(i+1)+'</div>'+
+        '<div style="font-size:1.5rem;color:var(--accent2);">&#x1F331;</div>'+
+        '<div style="font-size:0.85rem;color:var(--accent2);">'+plot.name+'</div>'+
+        '<div style="font-size:0.75rem;color:var(--muted);">生长中 ('+plot.days+'/3)</div>';
+    }
+  });
+  if(!harvested){
+    let hasAny=gardenState.some(p=>p!==null);
+    if(hasAny)document.getElementById('brewResult').innerHTML='<span style="color:var(--muted);">植物尚未成熟，需要继续生长。已加速一天。</span>';
+    else document.getElementById('brewResult').innerHTML='<span style="color:var(--muted);">没有可收获的植物。</span>';
+  }
+}
+
+// ===== CH7: Divination =====
+function taiyiDivine(){
+  const hour=parseInt(document.getElementById('taiyiHour').value);
+  const question=parseInt(document.getElementById('taiyiQuestion').value);
+  const r=document.getElementById('taiyiResult');
+  const num=ddice(3,6);
+  const elements=['金','木','水','火','土','太乙'];
+  const verdicts=['大吉','吉','中吉','小吉','平','凶','大凶'];
+  const verdict=verdicts[num%7];
+  const ele=elements[num%6];
+  const details=[
+    '龙之力在西北方汇聚，适合开始新的修炼',
+    '星辰的运行暗示着变化将近，保持警觉',
+    '暗影中隐藏着机遇，需要勇气去探索',
+    '命运之线在此刻交汇，重要的选择即将到来',
+    '古老的力量正在苏醒，准备好迎接挑战',
+    '太乙神数显示因果轮转，今日不宜强求'
+  ];
+  r.innerHTML='<div style="text-align:center;">'+
+    '<div style="font-size:2rem;color:var(--accent2);">&#x1F319;</div>'+
+    '<div style="font-size:1.3rem;color:var(--accent2);margin:8px 0;">'+verdict+'</div>'+
+    '<div style="font-size:0.85rem;color:var(--muted);">数：'+num+' | 元素：'+ele+'</div>'+
+    '<div style="font-size:0.9rem;margin-top:12px;">'+details[question]+'</div>'+
+    '</div>';
+}
+
+const TAROT_MAJOR=['愚者','魔术师','女祭司','皇后','皇帝','教皇','恋人','战车','力量','隐士','命运之轮','正义','倒吊人','死神','节制','恶魔','高塔','星辰','月亮','太阳','审判','世界'];
+const TAROT_POSITIONS=['逆位','正位'];
+
+function drawTarot(idx){
+  const card=TAROT_MAJOR[rand(0,TAROT_MAJOR.length-1)];
+  const pos=TAROT_POSITIONS[rand(0,1)];
+  const positions=['过去','现在','未来'];
+  const el=document.getElementById('tarotCard'+(idx+1));
+  el.style.borderColor='var(--accent2)';
+  el.querySelector('div:first-child').textContent='&#x1F0CF;';
+  el.querySelector('div:first-child').style.fontSize='2rem';
+  document.getElementById('tarotLabel'+idx).textContent=card+' ('+pos+')';
+  const interpretations=[
+    '新的开始、潜力、冒险',
+    '智慧、技能、创造力',
+    '直觉、神秘、潜意识',
+    '丰饶、自然、美丽',
+    '权威、结构、稳定',
+    '传统、指导、信仰',
+    '选择、关系、和谐',
+    '胜利、决心、力量',
+    '内在力量、勇气、掌控',
+    '内省、寻找真理',
+    '变化、命运、循环',
+    '公平、真理、因果',
+    '放下、新视角',
+    '结束、转变、新生',
+    '平衡、和谐、适应',
+    '束缚、欲望、阴影',
+    '剧变、觉醒、崩塌',
+    '希望、灵感、平静',
+    '幻觉、恐惧、潜意识',
+    '成功、活力、喜悦',
+    '重生、审判、觉醒',
+    '完成、整合、世界'
+  ];
+  const meanings={
+    '过去':'这段经历塑造了现在的你',
+    '现在':'你需要关注当下的能量',
+    '未来':'这是即将到来的趋势'
+  };
+  const cIdx=TAROT_MAJOR.indexOf(card);
+  const inter=interpretations[cIdx]||'深层含义需要自己体会';
+  document.getElementById('tarotInterpretation').innerHTML=
+    '<div style="text-align:center;">'+
+    '<span class="highlight">'+positions[idx]+' — '+card+' ('+pos+')</span><br>'+
+    '<span style="font-size:0.8rem;color:var(--muted);">'+inter+'</span><br>'+
+    '<span style="font-size:0.8rem;color:var(--muted);">'+meanings[positions[idx]]+'</span>'+
+    '</div>';
+}
+
+function drawAllTarot(){
+  for(let i=0;i<3;i++)drawTarot(i);
+}
+
+function interpretDream(){
+  const input=document.getElementById('dreamInput').value.trim();
+  if(!input){document.getElementById('dreamResult').innerHTML='<span style="color:var(--muted);">请先描述你的梦境。</span>';return;}
+  const symbols=['龙','蛇','月亮','太阳','水','火','树','影子','门','塔','路','血','星','骨','花','剑'];
+  const meanings=[
+    '象征强大的力量和内在的潜能正在苏醒',
+    '代表转变和治愈的周期即将到来',
+    '暗示直觉和潜意识中的智慧',
+    '预示着清晰和新的开始',
+    '象征着情感的流动和净化',
+    '代表着激情、转变和毁灭后的重生',
+    '连接天地，象征成长和生命之树',
+    '面对你内心的阴暗面，整合自我',
+    '新的机遇和过渡的象征',
+    '代表野心、隔离或新的视角',
+    '人生的道路选择，命运的指引',
+    '生命力和牺牲的象征',
+    '命运的指引和超越的希望',
+    '死亡与重生，不朽的追求',
+    '成长、美丽和生命的短暂',
+    '决断、力量和保护的象征'
+  ];
+  let foundSymbols=[];
+  symbols.forEach((s,i)=>{
+    if(input.includes(s))foundSymbols.push({symbol:s,meaning:meanings[i]});
+  });
+  const r=document.getElementById('dreamResult');
+  if(foundSymbols.length>0){
+    let html='<span class="highlight">梦境解析：</span><br>';
+    foundSymbols.forEach(f=>{
+      html+='&bull; <span style="color:var(--accent2);">'+f.symbol+'</span> — '+f.meaning+'<br>';
+    });
+    const overall=['这个梦境预示着一个转变期的到来','你的潜意识在引导你关注被忽视的方面','力量的觉醒正在你的内心深处发生','命运之线正在编织新的图案'];
+    html+='<hr style="border-color:var(--rule);margin:8px 0;"><span style="font-size:0.8rem;color:var(--muted);">综合提示：'+overall[rand(0,overall.length-1)]+'</span>';
+    r.innerHTML=html;
+  }else{
+    r.innerHTML='<span style="color:var(--muted);">未能识别明显的象征符号。尝试在梦境描述中加入更具体的元素。</span>';
+  }
+}
+
+function getPlanetaryHour(){
+  const now=new Date();
+  const hour=now.getHours();
+  const r=document.getElementById('planetaryResult');
+  const planets=['&#x2600; 太阳时','&#x2645; 金星时','&#x2643; 水星时','&#x263D; 月亮时','&#x2646; 土星时','&#x2644; 木星时','&#x2642; 火星时'];
+  const idx=hour%7;
+  const good=['战斗、领导、光明仪式','社交、爱情、艺术','沟通、交易、学习','占卜、魔法、梦境','仪式、禁制、冥想','施法、修行、祈福','战斗、锻造、破坏'];
+  const bad=['潜行、隐秘、暗杀','战斗、冲突、破坏','冥想、仪式、修行','体力劳动、建设','娱乐、享乐、社交','破坏、偷窃、欺诈','外交、谈判、和平'];
+  r.innerHTML='当前时间：'+now.toLocaleTimeString()+'<br>'+
+    '行星时：<span class="highlight">'+planets[idx]+'</span><br>'+
+    '<span style="color:#4caf50;font-size:0.85rem;">&#x2191 适合：'+good[idx]+'</span><br>'+
+    '<span style="color:var(--crimson);font-size:0.85rem;">&#x2193 不利：'+bad[idx]+'</span>';
+}
+
+// ===== CH8: Adventure Module =====
+const TREASURES=[
+  {name:'龙鳞甲',type:'防具',effect:'AC+5, 火焰抗性',rarity:'稀有'},
+  {name:'月华刃',type:'武器',effect:'1D8+2魔法伤害, 月光下翻倍',rarity:'稀有'},
+  {name:'灵魂石',type:'法器',effect:'储存1个灵魂, 可充能法术',rarity:'稀有'},
+  {name:'暗影披风',type:'饰品',effect:'隐形1次/日',rarity:'稀有'},
+  {name:'龙骨号角',type:'法器',effect:'召唤龙灵助战(1次)',rarity:'传说'},
+  {name:'智慧之眼',type:'饰品',effect:'INT+2, 看破隐形',rarity:'稀有'},
+  {name:'生命护符',type:'饰品',effect:'HP+20, 每日1次自动复活',rarity:'传说'},
+  {name:'太乙罗盘',type:'法器',effect:'每日1次占卜必定大吉',rarity:'传说'},
+  {name:'影之靴',type:'防具',effect:'移动速度+3, 暗影穿行',rarity:'稀有'},
+  {name:'龙血药剂',type:'消耗品',effect:'STR+6, HP+30(永久)',rarity:'传说'},
+  {name:'星辰法袍',type:'防具',effect:'MP+20, 法术暴击率+10%',rarity:'稀有'},
+  {name:'亡者之书',type:'法器',effect:'习得所有死灵法术',rarity:'传说'},
+  {name:'混沌碎片',type:'材料',effect:'制造神器的核心材料',rarity:'传说'},
+  {name:'银月护符',type:'饰品',effect:'免疫诅咒',rarity:'稀有'},
+  {name:'火焰之心',type:'材料',effect:'火系法术伤害+50%',rarity:'稀有'},
+  {name:'龙魂石',type:'材料',effect:'召唤龙巫妖的媒介',rarity:'传说'},
+  {name:'暗夜之刃',type:'武器',effect:'2D6+4暗影伤害, 击杀回复HP',rarity:'传说'},
+  {name:'幻影面具',type:'饰品',effect:'改变外貌, 易容+6',rarity:'稀有'},
+  {name:'元素指环',type:'饰品',effect:'操控一種元素(每日1次)',rarity:'稀有'},
+  {name:'阿波菲斯之眼',type:'神器',effect:'全属性+3, 混沌抗性, 看透命运',rarity:'传说'}
+];
+
+(function(){
+  const tbody=document.getElementById('treasureTable');
+  TREASURES.forEach(t=>{
+    tbody.innerHTML+='<tr><td>'+t.name+'</td><td>'+t.type+'</td><td style="font-size:0.8rem;">'+t.effect+'</td><td><span class="badge '+(t.rarity==='传说'?'badge-red':'badge-gold')+'">'+t.rarity+'</span></td></tr>';
+  });
+})();
+
+const ENCOUNTERS={
+  forest:{safe:['发现一片安静的林间空地','遇到一位友好的隐士'],low:['遭遇野狼','发现被遗弃的猎人小屋'],medium:['被树精拦截','遇到盗贼团伙'],high:['巨魔巡逻队','黑暗祭祀仪式'],deadly:['远古树精苏醒','龙在低空盘旋']},
+  dungeon:{safe:['发现一个空房间','找到干粮储备'],low:['遭遇鼠群','触发落石陷阱'],medium:['骷髅兵巡逻队','哥布林伏击'],high:['黑暗骑士','亡灵法师'],deadly:['石像鬼苏醒','幼龙巢穴']},
+  mountain:{safe:['发现温泉','遇到山间神庙'],low:['落石危险','遭遇山鹰袭击'],medium:['巨魔挡路','雪崩'],high:['狮鹫领地','巨人巡逻'],deadly:['远古巨龙苏醒','山体崩塌']},
+  swamp:{safe:['发现药草','遇到沼泽隐士'],low:['毒气区域','鳄鱼袭击'],medium:['食人花','沼泽亡灵'],high:['蛇人族部落','女巫小屋'],deadly:['九头蛇','亡灵沼泽领主']},
+  city:{safe:['遇到友善商人','发现情报贩子'],low:['扒手','城卫盘查'],medium:['秘密结社接头','黑市交易'],high:['刺客暗杀','贵族阴谋'],deadly:['恶魔召唤仪式','城市暴动']},
+  graveyard:{safe:['发现古代墓碑文字','找到陪葬品'],low:['幽灵低语','尸体复活'],medium:['亡灵集会','吸血鬼'],high:['死灵法师仪式','尸妖王'],deadly:['龙巫妖','亡灵大军']},
+  dragonLair:{safe:['龙不在巢穴中','发现龙鳞碎片'],low:['幼龙好奇接近'],medium:['龙怒, 遭遇火焰攻击'],high:['成年龙守护宝物'],deadly:['上古龙王','阿波菲斯化身']}
+};
+
+function generateEncounter(){
+  const loc=document.getElementById('encounterLocation').value;
+  const danger=document.getElementById('encounterDanger').value;
+  const pool=ENCOUNTERS[loc][danger]||['平静无事'];
+  const event=pool[rand(0,pool.length-1)];
+  const dangerNames={safe:'安全',low:'低',medium:'中等',high:'高',deadly:'致命'};
+  const locNames={forest:'森林',dungeon:'地下城',mountain:'山地',swamp:'沼泽',city:'城镇',graveyard:'墓地',dragonLair:'龙巢'};
+  const r=document.getElementById('encounterResult');
+  const lootChance=Math.random();
+  r.innerHTML='<div><span class="highlight">['+locNames[loc]+' - '+dangerNames[danger]+'危险]</span></div>'+
+    '<div style="font-size:1rem;margin:8px 0;">'+event+'</div>'+
+    (lootChance>0.7?'<div style="font-size:0.85rem;color:var(--accent2);">&#x1F4E6; 发现额外战利品！</div>':'')+
+    '<div style="font-size:0.8rem;color:var(--muted);">建议等级：'+(danger==='safe'?'1-2':danger==='low'?'2-3':danger==='medium'?'3-4':danger==='high'?'5-6':'7+')+'</div>';
+}
+
+function generateDungeon(){
+  const roomCount=parseInt(document.getElementById('dungeonRooms').value);
+  const canvas=document.getElementById('dungeonCanvas');
+  const ctx=canvas.getContext('2d');
+  const cols=14,rows=8;
+  const cellW=canvas.width/cols,cellH=canvas.height/rows;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // Generate dungeon grid
+  const grid=Array(rows).fill().map(()=>Array(cols).fill(0));
+  let rooms=[];
+  let placed=0,attempts=0;
+  while(placed<roomCount&&attempts<200){
+    attempts++;
+    const w=rand(2,4),h=rand(2,3);
+    const x=rand(1,cols-w-1),y=rand(1,rows-h-1);
+    let overlap=false;
+    for(let dy=-1;dy<=h;dy++){
+      for(let dx=-1;dx<=w;dx++){
+        const nx=x+dx,ny=y+dy;
+        if(nx>=0&&nx<cols&&ny>=0&&ny<rows&&grid[ny][nx]!==0)overlap=true;
+      }
+    }
+    if(!overlap){
+      rooms.push({x,y,w,h,type:placed===0?'start':Math.random()<0.1?'boss':Math.random()<0.15?'trap':Math.random()<0.12?'chest':'room'});
+      for(let dy=0;dy<h;dy++)for(let dx=0;dx<w;dx++)grid[y+dy][x+dx]=placed+1;
+      placed++;
+    }
+  }
+
+  // Draw rooms
+  const roomColors={room:'rgba(212,168,67,0.15)',start:'rgba(0,150,136,0.2)',boss:'rgba(196,30,58,0.25)',trap:'rgba(196,30,58,0.15)',chest:'rgba(212,168,67,0.2)'};
+  const borderColors={room:'#d4a843',start:'#009688',boss:'#c41e3a',trap:'#c41e3a',chest:'#d4a843'};
+  const roomLabels={start:'入口',boss:'BOSS',trap:'陷阱',chest:'宝箱',room:'房间'};
+
+  rooms.forEach((room,i)=>{
+    const rx=room.x*cellW,ry=room.y*cellH,rw=room.w*cellW,rh=room.h*cellH;
+    ctx.fillStyle=roomColors[room.type]||roomColors.room;
+    ctx.fillRect(rx+2,ry+2,rw-4,rh-4);
+    ctx.strokeStyle=borderColors[room.type]||borderColors.room;
+    ctx.lineWidth=room.type==='boss'?2:1;
+    ctx.strokeRect(rx+2,ry+2,rw-4,rh-4);
+    ctx.fillStyle=i===0?'#009688':'#d4a843';
+    ctx.font='12px "Noto Serif SC", serif';
+    ctx.textAlign='center';
+    ctx.fillText(roomLabels[room.type],rx+rw/2,ry+rh/2+4);
+    if(i>0){
+      // Connect to previous room
+      const prev=rooms[i-1];
+      const px=prev.x+prev.w/2,py=prev.y+prev.h/2;
+      const cx=room.x+room.w/2,cy=room.y+room.h/2;
+      ctx.strokeStyle='rgba(196,30,58,0.3)';
+      ctx.lineWidth=1;
+      ctx.setLineDash([3,3]);
+      ctx.beginPath();ctx.moveTo(px*cellW,py*cellH);ctx.lineTo(cx*cellW,cy*cellH);ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  });
+
+  // Generate info
+  const roomTypes=rooms.filter(r=>r.type==='room').length;
+  const traps=rooms.filter(r=>r.type==='trap').length;
+  const chests=rooms.filter(r=>r.type==='chest').length;
+  const boss=rooms.filter(r=>r.type==='boss').length;
+  document.getElementById('dungeonInfo').innerHTML=
+    '<span class="highlight">地下城已生成</span> — 共 '+rooms.length+' 个房间<br>'+
+    '房间 '+roomTypes+' | 陷阱 '+traps+' | 宝箱 '+chests+' | BOSS '+(boss>0?'&#x2622; 存在':'无')+
+    '<br><span style="font-size:0.8rem;color:var(--muted);">绿色=入口 | 金色=普通房间 | 红色=陷阱/BOSS | 金色边框=宝箱</span>';
+}
+
+// Init
+resetCombat();
+
+document.querySelectorAll('.nav-bar').forEach(function(nav){
+  if(!nav.querySelector('.nav-toggle')){
+    var btn=document.createElement('button');
+    btn.className='nav-toggle';
+    btn.textContent='☰';
+    btn.onclick=function(){nav.classList.toggle('open');};
+    nav.appendChild(btn);
+  }
+});
+</script>
+
+</body>
+</html>

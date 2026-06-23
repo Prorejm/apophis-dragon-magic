@@ -209,6 +209,54 @@ body{background:#0a0a0a;color:#c8b89a;font-family:'Noto Serif SC',serif;min-heig
 @keyframes twinkle{0%,100%{opacity:0.4;}50%{opacity:1;}}
 .glow-hover{transition:all 0.3s;}
 .glow-hover:hover{filter:drop-shadow(0 0 15px rgba(212,168,67,0.5));transform:scale(1.05);}
+
+/* ====== NEW TAB STYLES ====== */
+.moon-phase-grid,.planet-grid,.element-grid,.spirit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:15px;margin:20px 0}
+.moon-card,.planet-card,.element-card,.spirit-card{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:20px;border-left:3px solid #d4a843;transition:all .3s}
+.moon-card:hover,.planet-card:hover,.element-card:hover,.spirit-card:hover{border-color:#d4a843;transform:translateY(-2px)}
+.moon-card h4,.planet-card h4,.element-card h4,.spirit-card h4{font-family:'Ma Shan Zheng',cursive;font-size:20px;color:#d4a843;margin-bottom:8px}
+.moon-card .phase-icon{font-size:28px;margin-bottom:6px}
+.moon-card .details,.planet-card .details,.element-card .details,.spirit-card .details{font-size:13px;color:#8a7e6a;line-height:1.7}
+.moon-card .herbs-list,.planet-card .herbs-list,.element-card .herbs-list{font-size:13px;color:#c8b89a;margin-top:8px;line-height:1.6}
+.phase-indicator{display:flex;align-items:center;gap:15px;padding:15px;background:#1a1a1a;border-radius:8px;margin:15px 0}
+.phase-indicator .phase-name{font-family:'Ma Shan Zheng',cursive;font-size:22px;color:#d4a843}
+.phase-indicator .phase-desc{font-size:13px;color:#8a7e6a;flex:1}
+.planet-ruler-table{width:100%;border-collapse:collapse;margin:15px 0}
+.planet-ruler-table th,.planet-ruler-table td{padding:8px 12px;text-align:left;border-bottom:1px solid #2a2a2a;font-size:13px}
+.planet-ruler-table th{color:#d4a843;border-bottom:2px solid #d4a843}
+.planet-ruler-table td{color:#8a7e6a}
+.planet-ruler-table tr:hover td{color:#c8b89a;background:rgba(212,168,67,0.05)}
+.spirit-communion-box{background:linear-gradient(135deg,#1e1a10,#2a2218);border:1px solid #3a3020;border-radius:8px;padding:25px;margin:20px 0}
+.spirit-communion-box h4{font-family:'Ma Shan Zheng',cursive;font-size:22px;color:#d4a843;margin-bottom:12px}
+.spirit-communion-box p{font-size:14px;color:#b8a88a;line-height:1.8;margin-bottom:10px}
+.spirit-communion-box .step-num{display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;background:#d4a843;color:#0a0a0a;border-radius:50%;font-weight:700;font-size:13px;margin-right:8px}
+.lunar-recipe-card{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:20px;margin-bottom:15px;border-left:3px solid #8a7e6a}
+.lunar-recipe-card h4{font-family:'Ma Shan Zheng',cursive;font-size:18px;color:#d4a843;margin-bottom:6px}
+.lunar-recipe-card .moon-tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;margin-right:5px;margin-bottom:8px}
+.moon-tag-new{background:rgba(40,40,60,0.3);color:#8a8aba;border:1px solid rgba(40,40,60,0.5)}
+.moon-tag-full{background:rgba(212,168,67,0.2);color:#d4a843;border:1px solid rgba(212,168,67,0.3)}
+.moon-tag-waning{background:rgba(60,40,60,0.3);color:#ba8aba;border:1px solid rgba(60,40,60,0.5)}
+.moon-tag-waxing{background:rgba(67,120,67,0.2);color:#8aba8a;border:1px solid rgba(67,120,67,0.3)}
+.moon-tag-dark{background:rgba(30,30,30,0.4);color:#6a5e4a;border:1px solid rgba(30,30,30,0.5)}
+.lunar-recipe-card .details{font-size:13px;color:#8a7e6a;line-height:1.7}
+.planet-hour-table{width:100%;border-collapse:collapse;margin:15px 0;font-size:13px}
+.planet-hour-table th,.planet-hour-table td{padding:8px 12px;text-align:left;border-bottom:1px solid #2a2a2a}
+.planet-hour-table th{color:#d4a843;border-bottom:2px solid #d4a843}
+.planet-hour-table td{color:#8a7e6a}
+.herb-medical-use{font-size:12px;color:#64b464;margin-top:4px;font-style:italic}
+.herb-medical-use::before{content:'药效: ';color:#8a7e6a}
+.plant-list-compact{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin:15px 0}
+.plant-list-item{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px;transition:all .2s}
+.plant-list-item:hover{border-color:#d4a843;background:rgba(212,168,67,0.05)}
+.plant-list-item .pl-name{color:#d4a843;font-weight:700}
+.plant-list-item .pl-detail{color:#8a7e6a;font-size:12px}
+.tea-reading-section{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:25px;margin:20px 0}
+.tea-reading-section h3{font-family:'Ma Shan Zheng',cursive;font-size:24px;color:#d4a843;margin-bottom:12px}
+.tea-reading-section p{font-size:14px;color:#8a7e6a;line-height:1.8}
+.tea-symbol-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:15px 0}
+.tea-symbol-item{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:10px 14px;text-align:center}
+.tea-symbol-item .symbol{font-size:24px;color:#d4a843;margin-bottom:4px}
+.tea-symbol-item .meaning{font-size:12px;color:#8a7e6a}
 .fade-in-section{animation:slideUpReveal 0.6s ease-out both;}
 .fade-in-section:nth-child(2){animation-delay:0.1s;}
 .fade-in-section:nth-child(3){animation-delay:0.2s;}
@@ -387,6 +435,8 @@ body{background:#0a0a0a;color:#c8b89a;font-family:'Noto Serif SC',serif;min-heig
   <a href="magical-botany.html" class="nav-link active">魔法植物</a>
   <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
   <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
 </nav>
 
 <!-- Header -->
@@ -404,6 +454,10 @@ body{background:#0a0a0a;color:#c8b89a;font-family:'Noto Serif SC',serif;min-heig
   <button class="tab-btn" data-tab="superstitions">幸运与禁忌</button>
   <button class="tab-btn" data-tab="correspondences">魔法草药词典</button>
   <button class="tab-btn" data-tab="calendar">植物日历</button>
+  <button class="tab-btn" data-tab="spiritcomm">植物灵沟通</button>
+  <button class="tab-btn" data-tab="lunar">月亮草药学</button>
+  <button class="tab-btn" data-tab="planetary">行星草药学</button>
+  <button class="tab-btn" data-tab="elemental">元素草药学</button>
 </div>
 
 <div class="page-wrap">
@@ -580,6 +634,171 @@ body{background:#0a0a0a;color:#c8b89a;font-family:'Noto Serif SC',serif;min-heig
     <div class="ingredients">材料：<span>干啤酒花、枕套</span></div>
     <div class="instructions">用已被观想和咒语加持过的干啤酒花塞满枕套。将草药枕垫在头下入睡，可享受整夜安眠，驱散失眠和噩梦。</div>
     <div class="timing">睡前准备</div>
+  </div>
+
+  <!-- ===== NEW ENHANCED RECIPES (20+) ===== -->
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:28px;color:#d4a843;margin:30px 0 15px">魔法油配方</h2>
+
+  <div class="recipe-card card-tilt">
+    <h3>魔法油 — 四方位保护油</h3>
+    <div class="ingredients">材料：<span>橄榄油100ml、迷迭香3枝、杜松子2匙、鼠尾草2匙、岩盐1小匙、黑曜石碎片</span></div>
+    <div class="instructions">将迷迭香、杜松子和鼠尾草放入研钵中研磨至碎，倒入玻璃罐中。加入橄榄油和岩盐，放入黑曜石碎片。密封后在满月月光下放置一晚。次日过滤装入深色瓶中。涂抹在门框和窗框上建立保护结界。也可取少量涂抹在手腕和脚踝处作为个人防护。</div>
+    <div class="timing">满月之夜（最佳）、周二火星时</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>魔法油 — 七重财富吸引油</h3>
+    <div class="ingredients">材料：<span>橄榄油100ml、肉桂棒2根、姜片3片、丁香5颗、肉豆蔻1/2匙、橙皮干1把、八角1颗、绿色玻璃瓶</span></div>
+    <div class="instructions">在周四（木星日）日出时将七种材料全部放入玻璃罐中，倒入橄榄油至完全覆盖。在绿色蜡烛旁冥想财富景象，想象金币如雨落下。密封后在每日阳光下放置1小时，连续7天。过滤后装入绿色瓶中。每周涂抹在钱包、收银机和办公桌面上以持续吸引财富能量。</div>
+    <div class="timing">周四木星时制作，连做7天</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>魔法油 — 金星迷情油</h3>
+    <div class="ingredients">材料：<span>荷荷巴油100ml、玫瑰花瓣3把、茉莉花1把、檀香粉1匙、粉水晶碎片、香草荚半根</span></div>
+    <div class="instructions">在周五金星时将所有植物材料放入玻璃罐中，倒入荷荷巴油。加入粉水晶碎片。密封后放置在窗台上，每周五更换花瓣。七周后过滤装入粉色瓶中。可作为爱情香水的魔法替代品，涂抹在脉搏处和心轮上以吸引爱情能量。</div>
+    <div class="timing">周五金星时制作，连续7个周五</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>魔法油 — 水星灵感油</h3>
+    <div class="ingredients">材料：<span>甜杏仁油100ml、薰衣草3枝、薄荷叶2把、迷迭香2枝、柠檬皮1把、黄水晶</span></div>
+    <div class="instructions">在周三水星时将所有材料放入玻璃罐中，倒入甜杏仁油。加入黄水晶。密封后在晨光下放置3小时。过滤后装入黄色瓶中。在需要学习、写作或公开演讲前取少量涂抹在太阳穴、喉轮和手腕处，以增强思维清晰度和表达能力。</div>
+    <div class="timing">周三水星时</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>魔法油 — 月亮灵性油</h3>
+    <div class="ingredients">材料：<span>荷荷巴油100ml、茉莉花2把、百合花瓣1把、檀香粉1匙、艾草1匙、月光石、银色小瓶</span></div>
+    <div class="instructions">在周一月亮时（日落之后）将所有材料放入玻璃罐中，倒入荷荷巴油。加盖后放置在月光直射的窗台上，从月升到月落。连续3晚重复此过程。过滤后装入银色瓶中。在冥想、占卜或灵性工作前涂抹在第三眼和头顶，以增强灵性感知。</div>
+    <div class="timing">周一月亮时，连续3晚</div>
+  </div>
+
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:28px;color:#d4a843;margin:30px 0 15px">魔法熏香配方</h2>
+
+  <div class="recipe-card card-tilt">
+    <h3>熏香 — 驱邪净化熏香</h3>
+    <div class="ingredients">材料：<span>鼠尾草3匙、迷迭香2匙、杜松子2匙、雪松1匙、乳香1匙</span></div>
+    <div class="instructions">将所有材料在研钵中研磨成细粉。在木炭片上每次取1-2匙焚烧。手持香炉或耐热容器从东侧开始顺时针走遍每个房间，特别注意角落和门框。烟熏时可在心中默念："以草木之灵，净此空间；光明驱散黑暗，和平取代纷扰。"</div>
+    <div class="timing">周二或周六，亏月期间效果最强</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>熏香 — 爱情吸引熏香</h3>
+    <div class="ingredients">材料：<span>干燥玫瑰花瓣2匙、薰衣草2匙、肉桂粉1匙、檀香粉1匙、粉晶碎片</span></div>
+    <div class="instructions">将玫瑰花瓣和薰衣草在研钵中轻磨，再加入肉桂粉和檀香粉混合均匀。在周五金星时的日落时分焚烧。焚烧时想象心轮处绽放粉红色的光芒，吸引完美的爱情能量向你靠近。可在卧室中焚烧以增强浪漫氛围。</div>
+    <div class="timing">周五金星时、满月之夜</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>熏香 — 财富召唤熏香</h3>
+    <div class="ingredients">材料：<span>肉豆蔻2匙、肉桂粉1匙、丁香1匙、橙皮干2匙、姜粉1/2匙</span></div>
+    <div class="instructions">将所有材料混合，可在研钵中稍作研磨使其均匀。在周四（木星日）日出时焚烧。面对东方，观察烟雾的走向：烟直上为吉兆，表示财富能量正在释放。每周四连续焚烧7周可显著增强整体财运。也可在焚烧时放置一张写有愿望的绿色纸条。</div>
+    <div class="timing">周四木星时，连续7周</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>熏香 — 预言冥想熏香</h3>
+    <div class="ingredients">材料：<span>艾草3匙、乳香2匙、檀香2匙、洋甘菊1匙、莲花（干）1朵</span></div>
+    <div class="instructions">将所有材料混合后存放于密封罐中。在满月之夜或进行占卜前焚烧。坐在烟雾中深呼吸数次，让艾草的松木气息打开第三眼。此熏香特别适合在萨温节、满月和暗月期间用于增强预言能力。冥想时可盯着烟雾寻找图像和形状。</div>
+    <div class="timing">满月之夜、萨温节、暗月</div>
+  </div>
+
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:28px;color:#d4a843;margin:30px 0 15px">魔法药水配方</h2>
+
+  <div class="recipe-card card-tilt">
+    <h3>药水 — 新月净化月光水</h3>
+    <div class="ingredients">材料：<span>纯净水500ml、透明玻璃罐、茉莉花瓣3片、月光石、新月之夜</span></div>
+    <div class="instructions">在新月之夜将纯净水倒入透明玻璃罐中，加入茉莉花瓣和月光石。放置在窗台上，从月落到月升（虽然新月不可见，但月亮能量仍在）。次日日出前收回。用于清洗圣坛工具、在仪式前喷洒自身能量场、作为魔法药水基底。不可饮用。</div>
+    <div class="timing">新月之夜</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>药水 — 满月爱情月光水</h3>
+    <div class="ingredients">材料：<span>纯净水500ml、玫瑰花瓣3片、粉水晶、满月之夜</span></div>
+    <div class="instructions">在满月之夜将纯净水倒入透明玻璃罐中，加入玫瑰花瓣和粉水晶。放置在直射月光下一整夜。次日日出前收回。用于添加在爱情沐浴中、喷洒在床单上、为爱情蜡烛充能。加入少许伏特加可防腐。</div>
+    <div class="timing">满月之夜</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>药水 — 勇气力量酊剂</h3>
+    <div class="ingredients">材料：<span>伏特加150ml、干辣椒1根、姜片3片、大蒜2瓣、迷迭香2枝、岩盐1小匙</span></div>
+    <div class="instructions">在周二火星时将所有材料放入玻璃罐中，倒入伏特加至完全覆盖。密封后放置在暗处7天（每天摇晃一次）。过滤后装入深色瓶中。在面临挑战或需要勇气时，取极少量（仅1-2滴）涂抹在手腕内侧和脚底。注意：不可内服，仅限外用。</div>
+    <div class="timing">周二火星时制作</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>药水 — 智慧之眼酊剂</h3>
+    <div class="ingredients">材料：<span>白葡萄酒（或伏特加）150ml、迷迭香3枝、薄荷叶1把、洋甘菊2匙、柠檬皮1把、蓝宝石或青金石</span></div>
+    <div class="instructions">在周三水星时将所有材料放入玻璃罐中，倒入酒类至覆盖。加入宝石。密封后在晨光下放置3天。过滤后装入瓶中。在考试、演讲或重要会议前取1小匙涂抹在太阳穴和后颈处（外用版本）。若使用白葡萄酒制作，可少量内服（1小匙）以增强思维清晰度。</div>
+    <div class="timing">周三水星时</div>
+  </div>
+
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:28px;color:#d4a843;margin:30px 0 15px">魔法香包配方</h2>
+
+  <div class="recipe-card card-tilt">
+    <h3>香包 — 七草药好运袋</h3>
+    <div class="ingredients">材料：<span>绿色法兰绒布袋、洋甘菊、薰衣草、迷迭香、罗勒、薄荷、肉桂、丁香各1匙、绿蜡烛</span></div>
+    <div class="instructions">在周四（木星日）将七种草药各取1匙放入一个碗中混合。在绿蜡烛旁为草药充能，双手覆盖草药碗7分钟，观想金绿色光芒注入。装入绿色布袋中，系紧袋口并打7个结——每个结代表一个好运领域。随身携带7天，然后放置在钱包或办公桌抽屉中。</div>
+    <div class="timing">周四木星日制作</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>香包 — 旅行平安香包</h3>
+    <div class="ingredients">材料：<span>白色布袋、聚合草2匙、迷迭香2匙、百里香1匙、薰衣草1匙、岩盐1小匙</span></div>
+    <div class="instructions">混合所有草药和岩盐。在出发前夜将混合物装入白色布袋中，同时在心中观想整个旅程顺畅无阻。将香包放入行李箱或随身包中。聚合草的传统魔法属性是保护旅行安全。回程后需更换新草药以保持效力。</div>
+    <div class="timing">出行前夜制作</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>香包 — 安眠美梦香包</h3>
+    <div class="ingredients">材料：<span>紫色丝绸袋、啤酒花2匙、缬草2匙、洋甘菊2匙、薰衣草1匙、艾草1匙（用于预言梦）</span></div>
+    <div class="instructions">在睡前将草药混合装入紫色丝绸袋中。放入枕套内层，在草药上方躺卧入睡。啤酒花和缬草是强效的天然助眠剂，薰衣草和洋甘菊带来平静。若有预言需求，可额外加入艾草。每周更换一次草药以保持香气效力。</div>
+    <div class="timing">每晚睡前使用</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>香包 — 健康疗愈香包</h3>
+    <div class="ingredients">材料：<span>绿色棉布袋、洋甘菊2匙、聚合草1匙、迷迭香2匙、桉树叶1匙、圣约翰草1匙、百里香1匙</span></div>
+    <div class="instructions">在盈月期间取所有草药混合。将双手覆盖在草药上，观想翠绿色的疗愈光芒注入其中。装入绿色棉布袋中，系袋口时打4个结对应四个方位。放在枕边或挂在床柱上。可携带至医院或用于自身的康复期。每月更换一次。</div>
+    <div class="timing">盈月期间制作</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>香包 — 驱邪防身香包</h3>
+    <div class="ingredients">材料：<span>红色法兰绒袋、大蒜粉2匙、圣约翰草2匙、迷迭香2匙、芸香1匙、杜松子1匙、岩盐1匙、黑色绳</span></div>
+    <div class="instructions">在周六土星时或周二火星时，将大蒜粉、圣约翰草、迷迭香、芸香、杜松子和岩盐全部混合。研磨时集中意念想象一道金色光罩护住你身体四周。将混合物倒入红色法兰绒袋中，用黑色绳系紧袋口并打3个结。随身携带或挂在入户门内侧。每年更换一次。</div>
+    <div class="timing">周二或周六，亏月期间</div>
+  </div>
+
+  <h2 style="font-family:'Ma Shan Zheng',cursive;font-size:28px;color:#d4a843;margin:30px 0 15px">高级组合配方</h2>
+
+  <div class="recipe-card card-tilt">
+    <h3>组合 — 满月爱情仪式套装</h3>
+    <div class="ingredients">材料：<span>粉红色蜡烛、玫瑰魔法油、爱情熏香粉、玫瑰花瓣、粉水晶、纸和笔</span></div>
+    <div class="instructions">在满月之夜布置圣坛：中心放粉红色蜡烛，周围撒玫瑰花瓣。将粉水晶放在蜡烛前方。用玫瑰魔法油涂抹蜡烛（从下往上）。点燃爱情熏香。在纸上写下你所寻找的理想伴侣特质。将纸条放在粉水晶下方，然后冥想15分钟。蜡烛燃尽后，将纸条和花瓣埋在花园或花盆中。</div>
+    <div class="timing">满月之夜，周五最佳</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>组合 — 年度财富仪式</h3>
+    <div class="ingredients">材料：<span>绿色蜡烛、财富吸引油、财富召唤熏香、绿色布袋、肉豆蔻2颗、肉桂棒1根、丁香5颗、7枚硬币</span></div>
+    <div class="instructions">在元旦或新月之日进行。用财富油涂抹绿色蜡烛。点燃财富熏香。将肉豆蔻、肉桂棒、丁香和7枚硬币放入绿色布袋中。手持布袋从蜡烛火焰上快速掠过（注意安全），同时念诵："如草木生长不息，如日月轮转不歇，财富之门为我敞开。"随身携带至下一个新月。</div>
+    <div class="timing">元旦、新月或周四木星时</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>组合 — 四元素空间净化仪式</h3>
+    <div class="ingredients">材料：<span>火（红色蜡烛）、水（圣水/月光水）、风（净化熏香）、土（岩盐）</span></div>
+    <div class="instructions">准备四元素的代表物。从东侧（风位）开始，点燃净化熏香并顺时针走遍房间。行至南侧（火位）点燃红色蜡烛，放置在东南角。西侧（水位）用月光水喷洒房间各角。北侧（土位）在每个门槛撒一小撮岩盐。完成后站在房间中央，深呼吸感受四种能量的平衡流动。</div>
+    <div class="timing">新月或萨温节</div>
+  </div>
+
+  <div class="recipe-card card-tilt">
+    <h3>组合 — 新月意图设定仪式</h3>
+    <div class="ingredients">材料：<span>白色蜡烛、新月月光水、洋甘菊2匙、薰衣草2匙、白色布袋、纸笔</span></div>
+    <div class="instructions">在新月之夜点燃白色蜡烛。用新月月光水洗净双手。在纸上写下你下一个月相周期内的核心意图（不超过3条）。将洋甘菊和薰衣草放入白色布袋中，再加入写有意图的纸条。手持香包在蜡烛上方片刻，将意图"封印"其中。每日晨间手持香包冥想1分钟。满月时焚烧纸条以释放。</div>
+    <div class="timing">新月之夜</div>
   </div>
 </div>
 
@@ -955,6 +1174,208 @@ body{background:#0a0a0a;color:#c8b89a;font-family:'Noto Serif SC',serif;min-heig
   <div class="calendar-grid" id="calendarGrid"></div>
 </div>
 
+<!-- ============================================================ -->
+<!-- TAB 7: PLANT SPIRIT COMMUNICATION -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-spiritcomm">
+  <div class="spirit-communion-box">
+    <h4>何为植物灵沟通</h4>
+    <p>植物灵沟通（Plant Spirit Communion）源自萨满传统和Christopher Penczak《The Witch's Cabinet of Plant Spirits》的核心教导。每一株植物不仅是物质存在，更拥有独特的灵性意识——即"植物灵"（Plant Spirit）。通过特定的冥想和意识转换技术，女巫和萨满可以与植物灵建立深层连接，获取智慧、疗愈和魔法指引。</p>
+    <p>与植物灵沟通并非单纯的"想象"，而是一种有意识的灵性实践。植物灵可以以多种形式显现——人形、动物形、几何光形或纯粹的能量感知。不同植物拥有不同的"性格"和"教导"。玫瑰的灵温柔而深情，橡树的灵沉稳而智慧，艾草的灵敏锐而神秘。</p>
+  </div>
+
+  <div class="spirit-communion-box">
+    <h4>植物灵沟通五步法</h4>
+    <p><span class="step-num">1</span><strong>准备与净化</strong> — 在安静的空间中，点燃对应植物的干叶或焚香（如与该植物沟通时使用其干燥部分）。用鼠尾草或檀香净化空间。携带该植物的叶片、花朵或根部作为连接媒介。</p>
+    <p><span class="step-num">2</span><strong>进入意识转换状态</strong> — 采用舒适的坐姿，进行深呼吸。从1数到21的缓慢倒数，每数一次呼气释放一层日常意识。想象自己站在一片古老的森林或花园中，周围环绕着你要沟通的植物。</p>
+    <p><span class="step-num">3</span><strong>建立能量连接</strong> — 将手掌轻轻放在植物上（如果实物存在）或观想自己在触摸它。感受植物的能量——温度、质地、振动频率。让呼吸节奏与植物的"能量脉动"同步。在心中默念植物的拉丁学名三遍，作为"灵性称呼"。</p>
+    <p><span class="step-num">4</span><strong>开放接收</strong> — 提出你的问题或意图，然后静默等待。不要强迫任何"答案"出现，而是放松接收可能浮现的任何图像、感受、声音或直觉冲动。植物灵最初可能以模糊的形式出现——保持耐心。感谢每一次显现，无论多么微小。</p>
+    <p><span class="step-num">5</span><strong>回归与整合</strong> — 轻轻将意识带回房间，从21到1正数。活动手脚，接地（吃一小块食物或握住水晶）。记录你的经验——包括时间、月相、行星时和所见的任何象征。</p>
+  </div>
+
+  <div class="corr-section">
+    <h3>植物灵对应表 / Plant Spirit Correspondences</h3>
+    <div class="spirit-grid" id="spiritGrid"></div>
+  </div>
+
+  <div class="spirit-communion-box">
+    <h4>植物灵沟通时间选择</h4>
+    <table class="planet-ruler-table">
+      <thead><tr><th>意图</th><th>最佳月相</th><th>行星时</th><th>元素</th></tr></thead>
+      <tbody>
+        <tr><td>获得智慧与教导</td><td>盈月 → 满月</td><td>太阳时、木星时</td><td>火、风</td></tr>
+        <tr><td>疗愈与恢复</td><td>新月 → 盈月</td><td>金星时、月亮时</td><td>水、土</td></tr>
+        <tr><td>保护与驱邪</td><td>残月（月亏）</td><td>火星时、土星时</td><td>火</td></tr>
+        <tr><td>预言与神秘启示</td><td>满月、暗月</td><td>月亮时、水星时</td><td>水、风</td></tr>
+        <tr><td>建立长期灵性关系</td><td>新月开始持续一个月相周期</td><td>该植物对应行星时</td><td>该植物对应元素</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="spirit-communion-box">
+    <h4>植物灵的显现形式</h4>
+    <p><strong>玫瑰灵：</strong>常以温柔的女性形象或粉红色光球显现。教导关于无条件的爱、心轮疗愈和情感边界。沟通时可能伴随玫瑰花香。</p>
+    <p><strong>橡树灵：</strong>以古老的男性智者或巨大的翠绿色光柱显现。教导关于力量、耐心和神圣智慧。沟通时可能感受到强大而稳定的能量场。</p>
+    <p><strong>艾草灵：</strong>以银白色光芒或敏捷的动物形态（如狐狸、乌鸦）显现。教导关于预言、梦境旅行和神秘知识。沟通时可能产生强烈的直觉冲动。</p>
+    <p><strong>薰衣草灵：</strong>以紫色光晕或温柔的女性精灵显现。教导关于平静、净化与灵性休息。是初学者最容易沟通的植物灵之一。</p>
+    <p><strong>曼德拉草灵：</strong>以古老的地精形态或深棕色的根须能量显现。教导关于大地魔法、祖先智慧和生育力量。需要经验丰富的实践者才能安全沟通。</p>
+  </div>
+
+  <div class="spirit-communion-box">
+    <h4>植物灵沟通的常见象征与讯息</h4>
+    <p><strong>叶片颤动：</strong>肯定回答，表示植物灵正在聆听。</p>
+    <p><strong>突然的香气：</strong>植物灵的"现身"信号，确认其临在。</p>
+    <p><strong>温度变化（局部变暖或变凉）：</strong>能量互动的迹象，变暖通常表示欢迎，变凉可能表示需要更多尊重。</p>
+    <p><strong>梦境中出现该植物：</strong>植物灵主动与你建立连接的尝试，梦境中的细节往往是重要信息。</p>
+    <p><strong>重复遇到同一种植物（在现实中或媒体中）：</strong>该植物的灵有重要讯息要传达给你，值得进行正式沟通。</p>
+    <p><strong>身体特定部位的刺痛或温暖：</strong>植物灵在对应的能量中心（脉轮）进行疗愈或激活工作。</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 8: LUNAR HERBALISM -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-lunar">
+  <div class="parchment">"月亮是草药女巫的时钟和日历。她的盈亏决定了何时种植、何时采收、何时制作最强大的药水。" — D.J. Conway《Moon Magick & Herbal Lore》</div>
+
+  <div class="corr-section">
+    <h3>月相与草药对应</h3>
+    <div class="moon-phase-grid" id="moonPhaseGrid"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>月度草药工作指南</h3>
+    <table class="planet-ruler-table">
+      <thead><tr><th>月相</th><th>持续时间</th><th>草药活动</th><th>魔法焦点</th></tr></thead>
+      <tbody>
+        <tr><td>🌑 新月 (New Moon)</td><td>约3天</td><td>播种、开始新草药项目、制作种子护符</td><td>新开始、内在探索、设定意图</td></tr>
+        <tr><td>🌒 蛾眉月 (Waxing Crescent)</td><td>约3.5天</td><td>种植、移植、采集用于"增进"类魔法的草药</td><td>吸引、成长、招财</td></tr>
+        <tr><td>🌓 上弦月 (First Quarter)</td><td>约3.5天</td><td>修剪、制作魔法油、开始草药浸泡</td><td>克服障碍、决策、力量</td></tr>
+        <tr><td>🌔 盈月 (Waxing Gibbous)</td><td>约3.5天</td><td>采集用于爱情和成功魔法的草药</td><td>完善、调整、强化</td></tr>
+        <tr><td>🌕 满月 (Full Moon)</td><td>约3天</td><td>采集最强效力的草药、制作月光水、充电</td><td>完满、力量、最大魔法效力</td></tr>
+        <tr><td>🌖 亏月 (Waning Gibbous)</td><td>约3.5天</td><td>制作驱邪草药包、进行保护仪式</td><td>感恩、分享、传播</td></tr>
+        <tr><td>🌗 下弦月 (Last Quarter)</td><td>约3.5天</td><td>除草、驱邪、解除诅咒草药工作</td><td>释放、驱散、结束</td></tr>
+        <tr><td>🌘 残月 (Waning Crescent)</td><td>约3.5天</td><td>制作驱邪烟熏棒、深层净化草药</td><td>休息、净化、深层释放</td></tr>
+        <tr><td>🌑 暗月 (Dark Moon)</td><td>约1-2天</td><td>冥想必备草药、预言草药工作、与Hecate相关仪式</td><td>神秘、预言、与灵性世界沟通</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="corr-section">
+    <h3>月相特殊配方</h3>
+    <div id="lunarRecipes"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>月亮草药一览</h3>
+    <p style="color:#8a7e6a;font-size:14px;margin-bottom:15px">以下草药在月亮统治下，与月亮能量最为亲和：</p>
+    <div class="plant-list-compact" id="moonHerbList"></div>
+  </div>
+
+  <div class="spirit-communion-box">
+    <h4>月光水制作法 / Moon Water</h4>
+    <p><strong>满月月光水：</strong>在满月之夜，将纯净水倒入透明玻璃容器中。放置于月光直射处（窗台或户外），从月升到月落。水中加入三片茉莉花瓣或一片玫瑰花瓣以增强月亮能量。次日日出前收回，用于净化、祝福、魔法药水基底。</p>
+    <p><strong>新月月光水：</strong>在新月之夜制作，用于内在探索和开启新项目的仪式。加入少量艾草增强预言能力。</p>
+    <p><strong>暗月月光水：</strong>在暗月之夜（月亮完全不可见的1-2夜）制作，用于深层净化、驱邪和与祖先沟通。不可用于爱情魔法。</p>
+    <p><strong>储存与使用：</strong>月光水应存放在深色玻璃瓶中，标注月相和日期。避免阳光直射。可在一个月相周期内使用。加入少许伏特加或白兰地（约10%）可延长保存时间。</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 9: PLANETARY HERBALISM -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-planetary">
+  <div class="parchment">"每株草药都是一颗星星在地上的投影。掌握行星的语言，就掌握了草药魔法的精髓。" — Karen Harrison《Herbal Alchemist's Handbook》</div>
+
+  <div class="corr-section">
+    <h3>七行星草药分类</h3>
+    <div class="planet-grid" id="planetHerbGrid"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>行星时采集指南</h3>
+    <table class="planet-hour-table">
+      <thead><tr><th>行星</th><th>对应星期</th><th>魔法颜色</th><th>最佳采集时间</th><th>金属</th></tr></thead>
+      <tbody>
+        <tr><td>☉ 太阳</td><td>周日 (Sunday)</td><td>金色、黄色</td><td>日出后第一小时</td><td>金</td></tr>
+        <tr><td>☽ 月亮</td><td>周一 (Monday)</td><td>银色、白色</td><td>日落后的月亮时</td><td>银</td></tr>
+        <tr><td>☿ 水星</td><td>周三 (Wednesday)</td><td>黄色、紫色</td><td>水星时（日出后第1或第8小时）</td><td>水银</td></tr>
+        <tr><td>♀ 金星</td><td>周五 (Friday)</td><td>绿色、粉色</td><td>金星时（日出后第2或第9小时）</td><td>铜</td></tr>
+        <tr><td>♂ 火星</td><td>周二 (Tuesday)</td><td>红色、橙色</td><td>火星时（正午附近的最佳）</td><td>铁</td></tr>
+        <tr><td>♃ 木星</td><td>周四 (Thursday)</td><td>蓝色、紫色</td><td>木星时（黎明前或黄昏）</td><td>锡</td></tr>
+        <tr><td>♄ 土星</td><td>周六 (Saturday)</td><td>黑色、深蓝</td><td>土星时（午夜或黄昏后）</td><td>铅</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="corr-section">
+    <h3>行星草药炼金术配方</h3>
+    <div id="planetaryRecipes"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>行星草药魔法意图速查</h3>
+    <table class="planet-hour-table">
+      <thead><tr><th>魔法意图</th><th>对应行星</th><th>推荐草药</th><th>最佳星期</th></tr></thead>
+      <tbody>
+        <tr><td>爱情与美丽</td><td>金星 ♀</td><td>玫瑰、紫罗兰、桃金娘、苹果、马鞭草</td><td>周五</td></tr>
+        <tr><td>成功与荣耀</td><td>太阳 ☉</td><td>月桂、迷迭香、藏红花、金盏花、向日葵</td><td>周日</td></tr>
+        <tr><td>智慧与沟通</td><td>水星 ☿</td><td>薰衣草、薄荷、茴香、马郁兰、欧芹</td><td>周三</td></tr>
+        <tr><td>勇气与保护</td><td>火星 ♂</td><td>大蒜、罗勒、杜松、荨麻、姜</td><td>周二</td></tr>
+        <tr><td>财富与扩张</td><td>木星 ♃</td><td>鼠尾草、龙芽草、肉豆蔻、蒲公英、栗树</td><td>周四</td></tr>
+        <tr><td>灵性与直觉</td><td>月亮 ☽</td><td>茉莉、百合、柳树、檀香、罂粟</td><td>周一</td></tr>
+        <tr><td>束缚与解除</td><td>土星 ♄</td><td>曼德拉草、常春藤、毒参、毛蕊花、紫杉</td><td>周六</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- TAB 10: ELEMENTAL HERBALISM -->
+<!-- ============================================================ -->
+<div class="tab-content" id="tab-elemental">
+  <div class="parchment">"四元素构成了物质世界的基础。每一株植物都是这些宇宙力量在物质层面的独特表达。" — Sandra Kynes《Plant Magic》</div>
+
+  <div class="corr-section">
+    <h3>四元素草药对应</h3>
+    <div class="element-grid" id="elementHerbGrid"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>元素草药魔法配方</h3>
+    <div id="elementRecipes"></div>
+  </div>
+
+  <div class="corr-section">
+    <h3>元素与草药制备方法</h3>
+    <table class="planet-hour-table">
+      <thead><tr><th>元素</th><th>制备方法</th><th>工具</th><th>保存方式</th></tr></thead>
+      <tbody>
+        <tr><td>🔥 火</td><td>焚烧、烟熏、晒干、烘焙</td><td>坩埚、香炉、蜡烛</td><td>密封在深色玻璃瓶中</td></tr>
+        <tr><td>💧 水</td><td>浸泡、煮茶、酊剂、月光水</td><td>坩埚、玻璃罐、圣杯</td><td>冷藏，加入酒精防腐</td></tr>
+        <tr><td>🌬 风</td><td>悬挂干燥、磨粉、吹散、熏香</td><td>研钵和研杵、扇子、香炉</td><td>纸袋或布袋中通风保存</td></tr>
+        <tr><td>🌍 土</td><td>埋藏、压印、制作魔法袋、盐渍</td><td>陶罐、麻布、天然石头</td><td>麻布袋或木盒中保存</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="corr-section">
+    <h3>元素交叉对应 — 元素混合魔法</h3>
+    <p style="color:#8a7e6a;font-size:14px;margin-bottom:15px">许多魔法需要多重元素的协同作用。以下为常见的元素组合及其草药应用：</p>
+    <table class="planet-hour-table">
+      <thead><tr><th>元素组合</th><th>魔法应用</th><th>配方示例</th></tr></thead>
+      <tbody>
+        <tr><td>🔥 + 🌬 (火+风)</td><td>快速显化、即刻保护、驱逐</td><td>将辣椒粉（火）与鼠尾草粉（风）混合焚烧，瞬间净化空间</td></tr>
+        <tr><td>💧 + 🌍 (水+土)</td><td>长期疗愈、稳固爱情、接地</td><td>将玫瑰花瓣（水）与紫罗兰根（土）浸泡，制作稳固爱情油</td></tr>
+        <tr><td>🔥 + 💧 (火+水)</td><td>转化、变革魔法、情感疗愈</td><td>在满月月光水中加入肉桂棒（火），象征激情与情感的融合</td></tr>
+        <tr><td>🌬 + 🌍 (风+土)</td><td>智慧扎根、长期好运、事业稳固</td><td>将干燥薰衣草（风）与马鞭草（土）装入绿色布袋，随身携带</td></tr>
+        <tr><td>🔥 + 🌍 (火+土)</td><td>保护根基、家庭安全、物质稳定</td><td>将杜松（火）与橡树皮（土）焚烧，保护家庭四角</td></tr>
+        <tr><td>🌬 + 💧 (风+水)</td><td>灵性沟通、梦境工作、直觉发展</td><td>将茉莉花（水）在月光下晾干后磨粉（风），睡前撒在枕头上</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 </div><!-- /page-wrap -->
 
 <script>
@@ -1027,86 +1448,193 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 // PLANT DATA
 // ================================================================
 const plants = [
-  {cn:'金合欢',en:'Acacia',enFull:'Acacia Senegal',planet:'Sun',element:'Air',deities:'Astarte, Diana, Ishtar, Osiris, Ra',uses:'保护、净化、神圣仪式'},
-  {cn:'橡子',en:'Acorn',enFull:'Quercus spp.',planet:'Sun',element:'Fire',deities:'Thor, Zeus, Jupiter',uses:'保护（放置窗台防雷击）、丰饶、爱情占卜'},
-  {cn:'龙芽草',en:'Agrimony',enFull:'Agrimonia eupatoria',planet:'Jupiter',element:'Air',deities:'—',uses:'保护、驱邪、安眠（放于枕下）'},
-  {cn:'杏仁',en:'Almond',enFull:'Prunus dulcis',planet:'Mercury',element:'Air',deities:'Attis, Hermes, Mercury, Thoth',uses:'成功、智慧、防醉酒（五颗杏仁配酒）'},
-  {cn:'当归',en:'Angelica',enFull:'Angelica archangelica',planet:'Sun',element:'Fire',deities:'Venus',uses:'保护、驱邪、破除诅咒、好运、peace'},
-  {cn:'八角',en:'Anise',enFull:'Pimpinella anisum',planet:'Jupiter',element:'Air',deities:'—',uses:'驱邪眼（焚烧或撒在家中）、保护、净化'},
-  {cn:'苹果',en:'Apple',enFull:'Pyrus spp.',planet:'Venus',element:'Water',deities:'Aphrodite, Apollo, Athena, Diana, Dionysus, Hera, Iduna, Olwen, Venus, Zeus',uses:'爱情、丰饶、不朽、占卜'},
-  {cn:'白蜡树',en:'Ash',enFull:'Fraxinus excelsior',planet:'Sun',element:'Fire',deities:'Gwydion, Mars, Neptune, Poseidon, Thor, Uranus, Woden',uses:'保护、预言之梦（13片叶放枕下）、魔法杖'},
-  {cn:'罗勒',en:'Basil',enFull:'Ocimum basilicum',planet:'Mars',element:'Fire',deities:'Erzulie, Vishnu',uses:'爱情、保护、驱邪、招财'},
-  {cn:'月桂',en:'Bay Laurel',enFull:'Laurus nobilis',planet:'Sun',element:'Fire',deities:'Aesculapius, Apollo, Ceres, Eros, Faunus',uses:'爱情占卜、预言、保护、净化'},
-  {cn:'颠茄',en:'Belladonna',enFull:'Atropa belladonna',planet:'Saturn',element:'Water',deities:'Bellona, Circe, Hecate',uses:'（剧毒）飞行药膏、魔法仪式'},
-  {cn:'黑莓',en:'Blackberry',enFull:'Rubus villosus',planet:'Venus',element:'Water',deities:'Brigit',uses:'丰饶、保护、财富（10月11日后不可采摘）'},
-  {cn:'桦树',en:'Birch',enFull:'Betula alba',planet:'Venus',element:'Water',deities:'Thor',uses:'净化、新生、五朔节圣火木'},
-  {cn:'金雀花',en:'Broom',enFull:'Cytisus scoparius',planet:'Mars',element:'Air',deities:'—',uses:'净化、驱邪（五月不可带入室内）'},
-  {cn:'猫薄荷',en:'Catnip',enFull:'Nepeta cataria',planet:'Venus',element:'Water',deities:'—',uses:'爱情魔法、吸引能量、快乐'},
-  {cn:'雪松',en:'Cedar',enFull:'Cedrus spp.',planet:'Sun',element:'Fire',deities:'—',uses:'净化、保护、智慧、招财'},
-  {cn:'洋甘菊',en:'Chamomile',enFull:'Chamamelum nobile',planet:'Sun',element:'Water',deities:'Woden',uses:'爱情、净化、疗愈、安眠'},
-  {cn:'樱桃',en:'Cherry',enFull:'Prunus avium',planet:'Venus',element:'Water',deities:'Venus',uses:'爱情占卜、寿命占卜（仲夏夜樱桃树法）'},
-  {cn:'肉桂',en:'Cinnamon',enFull:'Cinnamomum zeylanicum',planet:'Sun',element:'Fire',deities:'Aphrodite, Venus',uses:'招财、成功、爱情、保护、灵性能量'},
-  {cn:'三叶草',en:'Clover',enFull:'Trifolium spp.',planet:'Mercury',element:'Air',deities:'Rowen',uses:'好运（四叶）、爱情占卜（两叶）、保护'},
-  {cn:'聚合草',en:'Comfrey',enFull:'Symphytum officinale',planet:'Saturn',element:'Water',deities:'—',uses:'疗愈、保护、旅行安全'},
-  {cn:'水仙',en:'Daffodil',enFull:'Narcissus spp.',planet:'Venus',element:'Water',deities:'—',uses:'爱情、fertility、好运（数量需13枝以上）'},
-  {cn:'雏菊',en:'Daisy',enFull:'Chrysanthemum leucanthemum',planet:'Venus',element:'Water',deities:'Artemis, Freya, Thor',uses:'爱情占卜（他爱我/他不爱我）、纯真'},
-  {cn:'蒲公英',en:'Dandelion',enFull:'Taraxacum officinale',planet:'Jupiter',element:'Air',deities:'Hecate',uses:'占卜（吹籽数结婚年数）、召唤灵魂、预知'},
-  {cn:'接骨木',en:'Elder',enFull:'Sambucus canadensis',planet:'Venus',element:'Water',deities:'Holda, Venus',uses:'保护（挂门窗驱魔）、疗愈（不可焚烧）'},
-  {cn:'茴香',en:'Fennel',enFull:'Foeniculum vulgare',planet:'Mercury',element:'Fire',deities:'Dionysus, Prometheus',uses:'保护（种子装袋/挂门窗驱邪）、净化'},
-  {cn:'蕨类',en:'Fern',enFull:'Various spp.',planet:'—',element:'—',deities:'Kupala',uses:'好运、爱情（蕨籽酿造爱情药水）、隐形'},
-  {cn:'毛地黄',en:'Foxglove',enFull:'Digitalis purpurea',planet:'Venus',element:'Water',deities:'—',uses:'（有毒）仙灵联系、魔法仪式'},
-  {cn:'大蒜',en:'Garlic',enFull:'Allium sativum',planet:'Mars',element:'Fire',deities:'Hecate',uses:'最强驱邪、防吸血鬼、保护、吸收疾病'},
-  {cn:'姜',en:'Ginger',enFull:'Zingiber officinale',planet:'Mars',element:'Fire',deities:'—',uses:'爱情、招财、成功、能量增强'},
-  {cn:'人参',en:'Ginseng',enFull:'Panax ginseng',planet:'Sun',element:'Fire',deities:'—',uses:'保护（烧干人参根驱邪）、疗愈、性力增强'},
-  {cn:'山楂',en:'Hawthorn',enFull:'Crataegus oxacantha',planet:'Mars',element:'Fire',deities:'Cardea, Flora, Hymen',uses:'保护、净化、婚姻、精灵关联（砍伐招厄运）'},
-  {cn:'榛树',en:'Hazel',enFull:'Corylus spp.',planet:'Sun',element:'Air',deities:'Artemis, Diana, Mercury, Thor',uses:'智慧、占卜、魔法杖、保护'},
-  {cn:'石楠',en:'Heather',enFull:'Calluna vulgaris',planet:'Venus',element:'Water',deities:'Isis',uses:'好运（白花石楠最幸运）、爱情、驱邪'},
-  {cn:'嚏根草',en:'Hellebore',enFull:'Helleborus niger',planet:'Saturn',element:'Water',deities:'—',uses:'保护（治愈疯狂、防癫痫）、驱巫（黑色不吉）'},
-  {cn:'毒参',en:'Hemlock',enFull:'Conium maculatum',planet:'Saturn',element:'Water',deities:'Hecate',uses:'（剧毒）飞行药膏成分'},
-  {cn:'大麻',en:'Hemp',enFull:'Cannabis sativa',planet:'Saturn',element:'Water',deities:'—',uses:'占卜、冥想、幻觉'},
-  {cn:'天仙子',en:'Henbane',enFull:'Hyoscyamus niger',planet:'Saturn',element:'Water',deities:'—',uses:'（剧毒）飞行药膏、禁闭'},
-  {cn:'冬青',en:'Holly',enFull:'Ilex aquifolium',planet:'Mars',element:'Fire',deities:'—',uses:'保护（种植于房屋周围）、驱雷击、占卜、好运'},
-  {cn:'金银花',en:'Honeysuckle',enFull:'Lonicera caprifolium',planet:'Jupiter',element:'Earth',deities:'—',uses:'好运、招财、爱情、灵性成长'},
-  {cn:'长生草',en:'Houseleek',enFull:'Sempervivum tectorum',planet:'Jupiter',element:'Air',deities:'—',uses:'极好运（种植屋顶）、防雷火、爱情咒'},
-  {cn:'常春藤',en:'Ivy',enFull:'Hedera helix',planet:'Saturn',element:'Water',deities:'Bacchus, Dionysus, Osiris',uses:'保护（室外）、婚姻忠贞、爱情占卜'},
-  {cn:'茉莉',en:'Jasmine',enFull:'Jasminum officinale',planet:'Moon',element:'Water',deities:'Vishnu',uses:'爱情、招财、预知之梦、灵性'},
-  {cn:'杜松',en:'Juniper',enFull:'Juniperus communis',planet:'Sun',element:'Fire',deities:'—',uses:'保护、驱邪、净化、爱情'},
-  {cn:'薰衣草',en:'Lavender',enFull:'Lavendula officinale',planet:'Mercury',element:'Air',deities:'—',uses:'爱情、驱邪眼、安眠、净化、好运'},
-  {cn:'百合',en:'Lily',enFull:'Lilium spp.',planet:'Moon',element:'Water',deities:'Juno, Kwan Yin, Nepthys, Venus',uses:'纯洁、净化和灵魂安宁'},
-  {cn:'莲花',en:'Lotus',enFull:'Nelumbo nucifera',planet:'Moon',element:'Water',deities:'—',uses:'灵性觉醒、净化、重生、冥想'},
-  {cn:'曼德拉草',en:'Mandrake',enFull:'Mandragora officinale',planet:'Mercury',element:'Fire',deities:'Hathor, Hecate',uses:'（剧毒）爱情、生育、保护、性力（形似人根）'},
-  {cn:'金盏花',en:'Marigold',enFull:'Calendula officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'保护、预知之梦、爱情魔法、占卜'},
-  {cn:'薄荷',en:'Mint',enFull:'Mentha spp.',planet:'Mercury',element:'Air',deities:'Hecate, Pluto',uses:'招财、保护、疗愈、净化、旅行安全'},
-  {cn:'槲寄生',en:'Mistletoe',enFull:'Viscum album',planet:'Sun',element:'Air',deities:'Apollo, Freya, Frigga, Odin, Venus',uses:'最强保护（金镰刀采摘）、生育、驱邪、爱情'},
-  {cn:'艾草',en:'Mugwort',enFull:'Artemisia vulgaris',planet:'Venus',element:'Earth',deities:'Artemis, Diana',uses:'占卜（萨温节）、预知之梦、保护、增强灵性'},
-  {cn:'毛蕊花',en:'Mullein',enFull:'Verbascum thapsus',planet:'Saturn',element:'Fire',deities:'Jupiter',uses:'保护、驱邪、勇气、疗愈'},
-  {cn:'桃金娘',en:'Myrtle',enFull:'Myrtus communis',planet:'Venus',element:'Water',deities:'Venus, Aphrodite',uses:'爱情、婚姻占卜、好运、繁衍'},
-  {cn:'橡树',en:'Oak',enFull:'Quercus alba',planet:'Sun',element:'Fire',deities:'Cybele, Dagda, Diana, Hecate, Herne, Janus, Jupiter, Pan, Rhea, Thor, Zeus',uses:'力量、智慧、保护、神圣（德鲁伊圣树）'},
-  {cn:'洋葱',en:'Onion',enFull:'Allium cepa',planet:'Mars',element:'Fire',deities:'Isis',uses:'保护、驱邪、爱情、占卜、吸收疾病'},
-  {cn:'兰花',en:'Orchid',enFull:'Orchis spp.',planet:'Venus',element:'Water',deities:'—',uses:'爱情、性力、美丽、好运'},
-  {cn:'欧芹',en:'Parsley',enFull:'Petroselinum sativum',planet:'Mercury',element:'Air',deities:'Persephone',uses:'保护、净化（与恶魔相关传说）'},
-  {cn:'芍药',en:'Peony',enFull:'Paeonia officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'保护（根作护身符）、驱邪'},
-  {cn:'胡椒薄荷',en:'Peppermint',enFull:'Mentha piperita',planet:'Mercury',element:'Fire',deities:'Pluto',uses:'净化、疗愈、招财、提升能量'},
-  {cn:'松树',en:'Pine',enFull:'Pinus spp.',planet:'Mars',element:'Air',deities:'Astarte, Attis, Cybele, Dionysus, Pan, Sylvanus, Venus',uses:'净化、保护、丰饶、冬至仪式'},
-  {cn:'罂粟',en:'Poppy',enFull:'Papaver spp.',planet:'Moon',element:'Water',deities:'Demeter, Hypnos',uses:'fertility、丰饶、睡眠、占卜、好运'},
-  {cn:'玫瑰',en:'Rose',enFull:'Rosa spp.',planet:'Venus',element:'Water',deities:'Adonis, Aurora, Cupid, Demeter, Eros, Harpocrates, Hathor, Holda, Isis',uses:'爱情、美丽、占卜、保护、浪漫魔法'},
-  {cn:'迷迭香',en:'Rosemary',enFull:'Rosemarinus officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'驱邪、净化、爱情、记忆、好运、保护'},
-  {cn:'花楸',en:'Rowan',enFull:'Sorbus aucuparia',planet:'Sun',element:'Fire',deities:'Thor',uses:'最强保护（驱巫）、好运（最幸运室内植物）'},
-  {cn:'芸香',en:'Rue',enFull:'Ruta graveolens',planet:'Mars',element:'Fire',deities:'Aradia, Diana',uses:'保护（防邪眼）、驱邪、疗愈'},
-  {cn:'藏红花',en:'Saffron',enFull:'Crocus sativa',planet:'Sun',element:'Fire',deities:'Ashtoreth, Eos',uses:'爱情、疗愈、灵性提升、净化'},
-  {cn:'鼠尾草',en:'Sage',enFull:'Salvia officinalis',planet:'Jupiter',element:'Air',deities:'—',uses:'净化（烟熏）、智慧、保护（邪眼护符）'},
-  {cn:'圣约翰草',en:"St. John's Wort",enFull:'Hypericum perforatum',planet:'Sun',element:'Fire',deities:'Baldur',uses:'最强驱魔、保护（缝入衣物）、疗愈抑郁'},
-  {cn:'檀香',en:'Sandalwood',enFull:'Santalum album',planet:'Moon',element:'Water',deities:'—',uses:'灵性净化、冥想、保护、召唤灵魂'},
-  {cn:'向日葵',en:'Sunflower',enFull:'Helianthus annuus',planet:'Sun',element:'Fire',deities:'Sol',uses:'好运、招财、能量、成功'},
-  {cn:'百里香',en:'Thyme',enFull:'Thymus vulgaris',planet:'Venus',element:'Water',deities:'—',uses:'爱情、勇气、净化、疗愈、睡眠'},
-  {cn:'缬草',en:'Valerian',enFull:'Valeriana officinalis',planet:'Venus',element:'Water',deities:'—',uses:'安眠、爱情、净化'},
-  {cn:'马鞭草',en:'Vervain',enFull:'Verbena officinalis',planet:'Venus',element:'Earth',deities:'Aradia, Cerridwen, Isis, Juno, Jupiter, Mars, Thor, Venus',uses:'爱情、保护、招财、占卜（仲夏采摘最佳）'},
-  {cn:'紫罗兰',en:'Violet',enFull:'Viola odorata',planet:'Venus',element:'Water',deities:'—',uses:'爱情、好运、保护、灵性'},
-  {cn:'柳树',en:'Willow',enFull:'Salix alba',planet:'Moon',element:'Water',deities:'Artemis, Belili, Belinus, Ceres, Hecate, Hera, Mercury, Persephone',uses:'保护（防巫术邪眼）、好运（触摸）、情感疗愈'},
-  {cn:'冬青',en:'Wintergreen',enFull:'Gaultheria procumbens',planet:'Moon',element:'Water',deities:'—',uses:'疗愈、保护'},
-  {cn:'金缕梅',en:'Witch Hazel',enFull:'Hamamelis virginica',planet:'Sun',element:'Fire',deities:'—',uses:'保护、疗愈（消肿消炎）'},
-  {cn:'水苏',en:'Wood Betony',enFull:'Stachys officinalis',planet:'Jupiter',element:'Fire',deities:'—',uses:'保护（仲夏火中跳跃净化）、驱噩梦'},
-  {cn:'蓍草',en:'Yarrow',enFull:'Achillea millefolium',planet:'Venus',element:'Water',deities:'—',uses:'占卜（爱情梦见未来配偶）、保护（门槛撒草驱魔）'},
+  {cn:'金合欢',en:'Acacia',enFull:'Acacia Senegal',planet:'Sun',element:'Air',deities:'Astarte, Diana, Ishtar, Osiris, Ra',uses:'保护、净化、神圣仪式',medical:'收敛止血、消炎'},
+  {cn:'橡子',en:'Acorn',enFull:'Quercus spp.',planet:'Sun',element:'Fire',deities:'Thor, Zeus, Jupiter',uses:'保护（放置窗台防雷击）、丰饶、爱情占卜',medical:'收敛止泻、解毒'},
+  {cn:'龙芽草',en:'Agrimony',enFull:'Agrimonia eupatoria',planet:'Jupiter',element:'Air',deities:'—',uses:'保护、驱邪、安眠（放于枕下）',medical:'收敛止血、消炎利咽'},
+  {cn:'杏仁',en:'Almond',enFull:'Prunus dulcis',planet:'Mercury',element:'Air',deities:'Attis, Hermes, Mercury, Thoth',uses:'成功、智慧、防醉酒',medical:'润肺止咳、润肠通便'},
+  {cn:'当归',en:'Angelica',enFull:'Angelica archangelica',planet:'Sun',element:'Fire',deities:'Venus',uses:'保护、驱邪、破除诅咒、好运',medical:'补血活血、调经止痛'},
+  {cn:'八角',en:'Anise',enFull:'Pimpinella anisum',planet:'Jupiter',element:'Air',deities:'—',uses:'驱邪眼（焚烧或撒在家中）、保护、净化',medical:'理气消食、驱风散寒'},
+  {cn:'苹果',en:'Apple',enFull:'Pyrus spp.',planet:'Venus',element:'Water',deities:'Aphrodite, Apollo, Athena, Diana, Dionysus, Hera, Iduna, Olwen, Venus, Zeus',uses:'爱情、丰饶、不朽、占卜',medical:'生津止渴、健脾益胃'},
+  {cn:'白蜡树',en:'Ash',enFull:'Fraxinus excelsior',planet:'Sun',element:'Fire',deities:'Gwydion, Mars, Neptune, Poseidon, Thor, Uranus, Woden',uses:'保护、预言之梦（13片叶放枕下）、魔法杖',medical:'消炎止痛、祛湿'},
+  {cn:'罗勒',en:'Basil',enFull:'Ocimum basilicum',planet:'Mars',element:'Fire',deities:'Erzulie, Vishnu',uses:'爱情、保护、驱邪、招财',medical:'疏风解表、化湿和中'},
+  {cn:'月桂',en:'Bay Laurel',enFull:'Laurus nobilis',planet:'Sun',element:'Fire',deities:'Aesculapius, Apollo, Ceres, Eros, Faunus',uses:'爱情占卜、预言、保护、净化',medical:'驱风止痛、开胃'},
+  {cn:'颠茄',en:'Belladonna',enFull:'Atropa belladonna',planet:'Saturn',element:'Water',deities:'Bellona, Circe, Hecate',uses:'（剧毒）飞行药膏、魔法仪式',medical:'（剧毒）解痉镇痛'},
+  {cn:'黑莓',en:'Blackberry',enFull:'Rubus villosus',planet:'Venus',element:'Water',deities:'Brigit',uses:'丰饶、保护、财富（10月11日后不可采摘）',medical:'清热解毒、利尿'},
+  {cn:'桦树',en:'Birch',enFull:'Betula alba',planet:'Venus',element:'Water',deities:'Thor',uses:'净化、新生、五朔节圣火木',medical:'消炎利尿、祛风湿'},
+  {cn:'金雀花',en:'Broom',enFull:'Cytisus scoparius',planet:'Mars',element:'Air',deities:'—',uses:'净化、驱邪（五月不可带入室内）',medical:'强心利尿、降血压'},
+  {cn:'猫薄荷',en:'Catnip',enFull:'Nepeta cataria',planet:'Venus',element:'Water',deities:'—',uses:'爱情魔法、吸引能量、快乐',medical:'安神镇静、助消化'},
+  {cn:'雪松',en:'Cedar',enFull:'Cedrus spp.',planet:'Sun',element:'Fire',deities:'—',uses:'净化、保护、智慧、招财',medical:'祛痰、抗菌、收敛'},
+  {cn:'洋甘菊',en:'Chamomile',enFull:'Chamamelum nobile',planet:'Sun',element:'Water',deities:'Woden',uses:'爱情、净化、疗愈、安眠',medical:'安神抗炎、助消化'},
+  {cn:'樱桃',en:'Cherry',enFull:'Prunus avium',planet:'Venus',element:'Water',deities:'Venus',uses:'爱情占卜、寿命占卜（仲夏夜樱桃树法）',medical:'补血益气、祛风湿'},
+  {cn:'肉桂',en:'Cinnamon',enFull:'Cinnamomum zeylanicum',planet:'Sun',element:'Fire',deities:'Aphrodite, Venus',uses:'招财、成功、爱情、保护、灵性能量',medical:'温中散寒、活血通脉'},
+  {cn:'三叶草',en:'Clover',enFull:'Trifolium spp.',planet:'Mercury',element:'Air',deities:'Rowen',uses:'好运（四叶）、爱情占卜（两叶）、保护',medical:'清热解毒、止咳化痰'},
+  {cn:'聚合草',en:'Comfrey',enFull:'Symphytum officinale',planet:'Saturn',element:'Water',deities:'—',uses:'疗愈、保护、旅行安全',medical:'活血化瘀、生肌'},
+  {cn:'水仙',en:'Daffodil',enFull:'Narcissus spp.',planet:'Venus',element:'Water',deities:'—',uses:'爱情、fertility、好运（数量需13枝以上）',medical:'（有毒）清热解毒'},
+  {cn:'雏菊',en:'Daisy',enFull:'Chrysanthemum leucanthemum',planet:'Venus',element:'Water',deities:'Artemis, Freya, Thor',uses:'爱情占卜（他爱我/他不爱我）、纯真',medical:'清热解毒、消炎'},
+  {cn:'蒲公英',en:'Dandelion',enFull:'Taraxacum officinale',planet:'Jupiter',element:'Air',deities:'Hecate',uses:'占卜（吹籽数结婚年数）、召唤灵魂、预知',medical:'清热解毒、利尿散结'},
+  {cn:'接骨木',en:'Elder',enFull:'Sambucus canadensis',planet:'Venus',element:'Water',deities:'Holda, Venus',uses:'保护（挂门窗驱魔）、疗愈（不可焚烧）',medical:'祛风利湿、活血消肿'},
+  {cn:'茴香',en:'Fennel',enFull:'Foeniculum vulgare',planet:'Mercury',element:'Fire',deities:'Dionysus, Prometheus',uses:'保护（种子装袋/挂门窗驱邪）、净化',medical:'理气和胃、驱风散寒'},
+  {cn:'蕨类',en:'Fern',enFull:'Various spp.',planet:'—',element:'—',deities:'Kupala',uses:'好运、爱情（蕨籽酿造爱情药水）、隐形',medical:'清热利湿、凉血止血'},
+  {cn:'毛地黄',en:'Foxglove',enFull:'Digitalis purpurea',planet:'Venus',element:'Water',deities:'—',uses:'（有毒）仙灵联系、魔法仪式',medical:'（有毒）强心利尿'},
+  {cn:'大蒜',en:'Garlic',enFull:'Allium sativum',planet:'Mars',element:'Fire',deities:'Hecate',uses:'最强驱邪、防吸血鬼、保护、吸收疾病',medical:'抗菌消炎、降脂降压'},
+  {cn:'姜',en:'Ginger',enFull:'Zingiber officinale',planet:'Mars',element:'Fire',deities:'—',uses:'爱情、招财、成功、能量增强',medical:'温中止呕、散寒止咳'},
+  {cn:'人参',en:'Ginseng',enFull:'Panax ginseng',planet:'Sun',element:'Fire',deities:'—',uses:'保护（烧干人参根驱邪）、疗愈、性力增强',medical:'大补元气、补脾益肺'},
+  {cn:'山楂',en:'Hawthorn',enFull:'Crataegus oxacantha',planet:'Mars',element:'Fire',deities:'Cardea, Flora, Hymen',uses:'保护、净化、婚姻、精灵关联（砍伐招厄运）',medical:'消食化积、活血散瘀'},
+  {cn:'榛树',en:'Hazel',enFull:'Corylus spp.',planet:'Sun',element:'Air',deities:'Artemis, Diana, Mercury, Thor',uses:'智慧、占卜、魔法杖、保护',medical:'补脾胃、益气力'},
+  {cn:'石楠',en:'Heather',enFull:'Calluna vulgaris',planet:'Venus',element:'Water',deities:'Isis',uses:'好运（白花石楠最幸运）、爱情、驱邪',medical:'消炎利尿、镇静'},
+  {cn:'嚏根草',en:'Hellebore',enFull:'Helleborus niger',planet:'Saturn',element:'Water',deities:'—',uses:'保护（治愈疯狂、防癫痫）、驱巫（黑色不吉）',medical:'（有毒）强心利尿'},
+  {cn:'毒参',en:'Hemlock',enFull:'Conium maculatum',planet:'Saturn',element:'Water',deities:'Hecate',uses:'（剧毒）飞行药膏成分',medical:'（剧毒）镇痉止痛'},
+  {cn:'大麻',en:'Hemp',enFull:'Cannabis sativa',planet:'Saturn',element:'Water',deities:'—',uses:'占卜、冥想、幻觉',medical:'润肠通便、安神镇痛'},
+  {cn:'天仙子',en:'Henbane',enFull:'Hyoscyamus niger',planet:'Saturn',element:'Water',deities:'—',uses:'（剧毒）飞行药膏、禁闭',medical:'（剧毒）镇痉止痛'},
+  {cn:'冬青',en:'Holly',enFull:'Ilex aquifolium',planet:'Mars',element:'Fire',deities:'—',uses:'保护（种植于房屋周围）、驱雷击、占卜、好运',medical:'清热凉血、祛风'},
+  {cn:'金银花',en:'Honeysuckle',enFull:'Lonicera caprifolium',planet:'Jupiter',element:'Earth',deities:'—',uses:'好运、招财、爱情、灵性成长',medical:'清热解毒、疏散风热'},
+  {cn:'长生草',en:'Houseleek',enFull:'Sempervivum tectorum',planet:'Jupiter',element:'Air',deities:'—',uses:'极好运（种植屋顶）、防雷火、爱情咒',medical:'清热解毒、收敛生肌'},
+  {cn:'常春藤',en:'Ivy',enFull:'Hedera helix',planet:'Saturn',element:'Water',deities:'Bacchus, Dionysus, Osiris',uses:'保护（室外）、婚姻忠贞、爱情占卜',medical:'祛风利湿、活血消肿'},
+  {cn:'茉莉',en:'Jasmine',enFull:'Jasminum officinale',planet:'Moon',element:'Water',deities:'Vishnu',uses:'爱情、招财、预知之梦、灵性',medical:'理气止痛、安神'},
+  {cn:'杜松',en:'Juniper',enFull:'Juniperus communis',planet:'Sun',element:'Fire',deities:'—',uses:'保护、驱邪、净化、爱情',medical:'利尿、祛风、消炎'},
+  {cn:'薰衣草',en:'Lavender',enFull:'Lavendula officinale',planet:'Mercury',element:'Air',deities:'—',uses:'爱情、驱邪眼、安眠、净化、好运',medical:'安神镇静、抗菌消炎'},
+  {cn:'百合',en:'Lily',enFull:'Lilium spp.',planet:'Moon',element:'Water',deities:'Juno, Kwan Yin, Nepthys, Venus',uses:'纯洁、净化和灵魂安宁',medical:'养阴润肺、清心安神'},
+  {cn:'莲花',en:'Lotus',enFull:'Nelumbo nucifera',planet:'Moon',element:'Water',deities:'—',uses:'灵性觉醒、净化、重生、冥想',medical:'清热凉血、散瘀止血'},
+  {cn:'曼德拉草',en:'Mandrake',enFull:'Mandragora officinale',planet:'Mercury',element:'Fire',deities:'Hathor, Hecate',uses:'（剧毒）爱情、生育、保护、性力',medical:'（剧毒）麻醉镇痛'},
+  {cn:'金盏花',en:'Marigold',enFull:'Calendula officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'保护、预知之梦、爱情魔法、占卜',medical:'消炎抗菌、促进愈合'},
+  {cn:'薄荷',en:'Mint',enFull:'Mentha spp.',planet:'Mercury',element:'Air',deities:'Hecate, Pluto',uses:'招财、保护、疗愈、净化、旅行安全',medical:'疏散风热、清利头目'},
+  {cn:'槲寄生',en:'Mistletoe',enFull:'Viscum album',planet:'Sun',element:'Air',deities:'Apollo, Freya, Frigga, Odin, Venus',uses:'最强保护（金镰刀采摘）、生育、驱邪、爱情',medical:'祛风湿、补肝肾'},
+  {cn:'艾草',en:'Mugwort',enFull:'Artemisia vulgaris',planet:'Venus',element:'Earth',deities:'Artemis, Diana',uses:'占卜（萨温节）、预知之梦、保护、增强灵性',medical:'温经散寒、安胎止血'},
+  {cn:'毛蕊花',en:'Mullein',enFull:'Verbascum thapsus',planet:'Saturn',element:'Fire',deities:'Jupiter',uses:'保护、驱邪、勇气、疗愈',medical:'祛痰止咳、消炎'},
+  {cn:'桃金娘',en:'Myrtle',enFull:'Myrtus communis',planet:'Venus',element:'Water',deities:'Venus, Aphrodite',uses:'爱情、婚姻占卜、好运、繁衍',medical:'收敛止血、消炎'},
+  {cn:'橡树',en:'Oak',enFull:'Quercus alba',planet:'Sun',element:'Fire',deities:'Cybele, Dagda, Diana, Hecate, Herne, Janus, Jupiter, Pan, Rhea, Thor, Zeus',uses:'力量、智慧、保护、神圣（德鲁伊圣树）',medical:'收敛止泻、消炎解毒'},
+  {cn:'洋葱',en:'Onion',enFull:'Allium cepa',planet:'Mars',element:'Fire',deities:'Isis',uses:'保护、驱邪、爱情、占卜、吸收疾病',medical:'抗菌消炎、降脂降压'},
+  {cn:'兰花',en:'Orchid',enFull:'Orchis spp.',planet:'Venus',element:'Water',deities:'—',uses:'爱情、性力、美丽、好运',medical:'滋阴清热、养胃生津'},
+  {cn:'欧芹',en:'Parsley',enFull:'Petroselinum sativum',planet:'Mercury',element:'Air',deities:'Persephone',uses:'保护、净化（与恶魔相关传说）',medical:'利尿消肿、补血'},
+  {cn:'芍药',en:'Peony',enFull:'Paeonia officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'保护（根作护身符）、驱邪',medical:'养血调经、敛阴止汗'},
+  {cn:'胡椒薄荷',en:'Peppermint',enFull:'Mentha piperita',planet:'Mercury',element:'Fire',deities:'Pluto',uses:'净化、疗愈、招财、提升能量',medical:'疏风散热、健胃驱风'},
+  {cn:'松树',en:'Pine',enFull:'Pinus spp.',planet:'Mars',element:'Air',deities:'Astarte, Attis, Cybele, Dionysus, Pan, Sylvanus, Venus',uses:'净化、保护、丰饶、冬至仪式',medical:'祛风止痛、消炎'},
+  {cn:'罂粟',en:'Poppy',enFull:'Papaver spp.',planet:'Moon',element:'Water',deities:'Demeter, Hypnos',uses:'fertility、丰饶、睡眠、占卜、好运',medical:'（有毒）镇静止痛'},
+  {cn:'玫瑰',en:'Rose',enFull:'Rosa spp.',planet:'Venus',element:'Water',deities:'Adonis, Aurora, Cupid, Demeter, Eros, Harpocrates, Hathor, Holda, Isis',uses:'爱情、美丽、占卜、保护、浪漫魔法',medical:'理气活血、美容养颜'},
+  {cn:'迷迭香',en:'Rosemary',enFull:'Rosemarinus officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'驱邪、净化、爱情、记忆、好运、保护',medical:'提神醒脑、促进循环'},
+  {cn:'花楸',en:'Rowan',enFull:'Sorbus aucuparia',planet:'Sun',element:'Fire',deities:'Thor',uses:'最强保护（驱巫）、好运（最幸运室内植物）',medical:'收敛止泻、消炎'},
+  {cn:'芸香',en:'Rue',enFull:'Ruta graveolens',planet:'Mars',element:'Fire',deities:'Aradia, Diana',uses:'保护（防邪眼）、驱邪、疗愈',medical:'（有毒）驱风解痉'},
+  {cn:'藏红花',en:'Saffron',enFull:'Crocus sativa',planet:'Sun',element:'Fire',deities:'Ashtoreth, Eos',uses:'爱情、疗愈、灵性提升、净化',medical:'活血化瘀、解郁安神'},
+  {cn:'鼠尾草',en:'Sage',enFull:'Salvia officinalis',planet:'Jupiter',element:'Air',deities:'—',uses:'净化（烟熏）、智慧、保护（邪眼护符）',medical:'清热利湿、活血调经'},
+  {cn:'圣约翰草',en:"St. John's Wort",enFull:'Hypericum perforatum',planet:'Sun',element:'Fire',deities:'Baldur',uses:'最强驱魔、保护（缝入衣物）、疗愈抑郁',medical:'疏肝解郁、清热利湿'},
+  {cn:'檀香',en:'Sandalwood',enFull:'Santalum album',planet:'Moon',element:'Water',deities:'—',uses:'灵性净化、冥想、保护、召唤灵魂',medical:'理气止痛、安神'},
+  {cn:'向日葵',en:'Sunflower',enFull:'Helianthus annuus',planet:'Sun',element:'Fire',deities:'Sol',uses:'好运、招财、能量、成功',medical:'平肝祛风、清热'},
+  {cn:'百里香',en:'Thyme',enFull:'Thymus vulgaris',planet:'Venus',element:'Water',deities:'—',uses:'爱情、勇气、净化、疗愈、睡眠',medical:'祛风散寒、消炎抗菌'},
+  {cn:'缬草',en:'Valerian',enFull:'Valeriana officinalis',planet:'Venus',element:'Water',deities:'—',uses:'安眠、爱情、净化',medical:'安神镇静、解痉止痛'},
+  {cn:'马鞭草',en:'Vervain',enFull:'Verbena officinalis',planet:'Venus',element:'Earth',deities:'Aradia, Cerridwen, Isis, Juno, Jupiter, Mars, Thor, Venus',uses:'爱情、保护、招财、占卜（仲夏采摘最佳）',medical:'清热解毒、活血散瘀'},
+  {cn:'紫罗兰',en:'Violet',enFull:'Viola odorata',planet:'Venus',element:'Water',deities:'—',uses:'爱情、好运、保护、灵性',medical:'清热解毒、消炎'},
+  {cn:'柳树',en:'Willow',enFull:'Salix alba',planet:'Moon',element:'Water',deities:'Artemis, Belili, Belinus, Ceres, Hecate, Hera, Mercury, Persephone',uses:'保护（防巫术邪眼）、好运（触摸）、情感疗愈',medical:'清热利尿、祛风湿'},
+  {cn:'冬青',en:'Wintergreen',enFull:'Gaultheria procumbens',planet:'Moon',element:'Water',deities:'—',uses:'疗愈、保护',medical:'消炎止痛、祛风'},
+  {cn:'金缕梅',en:'Witch Hazel',enFull:'Hamamelis virginica',planet:'Sun',element:'Fire',deities:'—',uses:'保护、疗愈（消肿消炎）',medical:'收敛止血、消炎消肿'},
+  {cn:'水苏',en:'Wood Betony',enFull:'Stachys officinalis',planet:'Jupiter',element:'Fire',deities:'—',uses:'保护（仲夏火中跳跃净化）、驱噩梦',medical:'清热凉血、祛风'},
+  {cn:'蓍草',en:'Yarrow',enFull:'Achillea millefolium',planet:'Venus',element:'Water',deities:'—',uses:'占卜（爱情梦见未来配偶）、保护（门槛撒草驱魔）',medical:'清热解毒、止血消肿'},
+  // === 新增植物（共80种，使总量达150+） ===
+  {cn:'乌头',en:'Aconite',enFull:'Aconitum napellus',planet:'Saturn',element:'Water',deities:'Hecate',uses:'（剧毒）飞行药膏、狼人防护、沉默魔法',medical:'（剧毒）麻醉镇痛'},
+  {cn:'苜蓿',en:'Alfalfa',enFull:'Medicago sativa',planet:'Jupiter',element:'Earth',deities:'—',uses:'招财、保护、驱穷困',medical:'营养丰富、降胆固醇'},
+  {cn:'多香果',en:'Allspice',enFull:'Pimenta dioica',planet:'Mars',element:'Fire',deities:'—',uses:'招财、好运、能量增强',medical:'温中散寒、助消化'},
+  {cn:'芦荟',en:'Aloe',enFull:'Aloe vera',planet:'Moon',element:'Water',deities:'—',uses:'保护（挂门上驱邪）、美丽、好运',medical:'消炎保湿、促进愈合'},
+  {cn:'凤仙花',en:'Impatiens',enFull:'Impatiens balsamina',planet:'Venus',element:'Water',deities:'—',uses:'（有毒）守护、驱邪',medical:'活血通经、解毒'},
+  {cn:'香脂冷杉',en:'Balm of Gilead',enFull:'Populus candicans',planet:'Venus',element:'Water',deities:'—',uses:'爱情、疗愈、灵性净化',medical:'消炎止痛、止咳'},
+  {cn:'大麦',en:'Barley',enFull:'Hordeum vulgare',planet:'Venus',element:'Earth',deities:'Demeter, Ceres',uses:'丰饶、生育、保护',medical:'健脾和胃、利水'},
+  {cn:'安息香',en:'Benzoin',enFull:'Styrax benzoin',planet:'Sun',element:'Air',deities:'—',uses:'净化、招财、冥想辅助',medical:'祛痰、开窍'},
+  {cn:'香柠檬',en:'Bergamot',enFull:'Citrus bergamia',planet:'Mercury',element:'Air',deities:'—',uses:'招财、好运、安眠',medical:'抗菌、舒缓焦虑'},
+  {cn:'越橘',en:'Bilberry',enFull:'Vaccinium myrtillus',planet:'Saturn',element:'Water',deities:'—',uses:'保护、驱邪、好运',medical:'明目、抗氧化'},
+  {cn:'赐福蓟',en:'Blessed Thistle',enFull:'Cnicus benedictus',planet:'Mars',element:'Fire',deities:'—',uses:'保护、驱邪、净化',medical:'清热解毒、健胃'},
+  {cn:'蓝铃花',en:'Bluebell',enFull:'Hyacinthoides non-scripta',planet:'Venus',element:'Water',deities:'—',uses:'爱情、忠诚、谦逊',medical:'（有毒）消炎'},
+  {cn:'琉璃苣',en:'Borage',enFull:'Borago officinalis',planet:'Jupiter',element:'Air',deities:'—',uses:'勇气、好运、招财、灵性提升',medical:'清热、利尿、抗炎'},
+  {cn:'牛蒡',en:'Burdock',enFull:'Arctium lappa',planet:'Venus',element:'Water',deities:'—',uses:'保护、疗愈、驱邪',medical:'清热解毒、散风'},
+  {cn:'菖蒲',en:'Calamus',enFull:'Acorus calamus',planet:'Moon',element:'Water',deities:'—',uses:'好运、招财、保护、灵性',medical:'开窍化痰、安神'},
+  {cn:'葛缕子',en:'Caraway',enFull:'Carum carvi',planet:'Mercury',element:'Air',deities:'—',uses:'保护、驱邪、爱情、安眠',medical:'理气开胃、驱风'},
+  {cn:'小豆蔻',en:'Cardamom',enFull:'Elettaria cardamomum',planet:'Venus',element:'Water',deities:'—',uses:'爱情、招财、灵性提升',medical:'理气宽中、开胃消食'},
+  {cn:'康乃馨',en:'Carnation',enFull:'Dianthus caryophyllus',planet:'Sun',element:'Fire',deities:'Jupiter, Zeus',uses:'保护、爱情、疗愈',medical:'清热、消炎'},
+  {cn:'角豆',en:'Carob',enFull:'Ceratonia siliqua',planet:'Mercury',element:'Fire',deities:'—',uses:'保护、好运、招财',medical:'补钙、助消化'},
+  {cn:'辣椒',en:'Cayenne',enFull:'Capsicum annuum',planet:'Mars',element:'Fire',deities:'—',uses:'驱邪、保护、打破诅咒、能量增强',medical:'活血化瘀、驱寒止痛'},
+  {cn:'芹菜',en:'Celery',enFull:'Apium graveolens',planet:'Mercury',element:'Fire',deities:'—',uses:'爱情、安眠、灵性专注',medical:'利尿消肿、降压'},
+  {cn:'菊苣',en:'Chicory',enFull:'Cichorium intybus',planet:'Sun',element:'Air',deities:'—',uses:'去除障碍、招财、好运',medical:'清热利胆、健胃'},
+  {cn:'辣椒（干）',en:'Chili Pepper',enFull:'Capsicum frutescens',planet:'Mars',element:'Fire',deities:'—',uses:'驱邪、保护、破除诅咒、激情',medical:'温中散寒、开胃'},
+  {cn:'姜黄',en:'Turmeric',enFull:'Curcuma longa',planet:'Sun',element:'Fire',deities:'—',uses:'净化、保护、好运、招财',medical:'活血行气、消炎抗氧化'},
+  {cn:'丁香',en:'Clove',enFull:'Syzygium aromaticum',planet:'Jupiter',element:'Fire',deities:'—',uses:'保护、驱邪、招财、爱情、灵性',medical:'温中降逆、补肾助阳'},
+  {cn:'款冬',en:'Coltsfoot',enFull:'Tussilago farfara',planet:'Venus',element:'Water',deities:'—',uses:'爱情、安眠、灵性梦境',medical:'润肺止咳、化痰'},
+  {cn:'香菜',en:'Coriander',enFull:'Coriandrum sativum',planet:'Mars',element:'Fire',deities:'—',uses:'爱情、保护、疗愈、安眠',medical:'理气开胃、驱风'},
+  {cn:'小茴香',en:'Cumin',enFull:'Cuminum cyminum',planet:'Mars',element:'Fire',deities:'—',uses:'保护（防偷盗）、爱情、驱噩梦',medical:'理气开胃、驱风散寒'},
+  {cn:'柏树',en:'Cypress',enFull:'Cupressus sempervirens',planet:'Saturn',element:'Earth',deities:'—',uses:'保护、安慰、灵魂过渡、神圣仪式',medical:'祛风散寒、活血'},
+  {cn:'达米阿那',en:'Damiana',enFull:'Turnera diffusa',planet:'Mars',element:'Fire',deities:'—',uses:'爱情、性力、灵性幻境',medical:'壮阳、抗抑郁'},
+  {cn:'莳萝',en:'Dill',enFull:'Anethum graveolens',planet:'Mercury',element:'Fire',deities:'—',uses:'保护（儿童护身符）、驱邪、好运、招财',medical:'理气健胃、安神'},
+  {cn:'紫锥花',en:'Echinacea',enFull:'Echinacea purpurea',planet:'Mars',element:'Fire',deities:'—',uses:'保护、增强能量、疗愈',medical:'增强免疫、抗炎'},
+  {cn:'土木香',en:'Elecampane',enFull:'Inula helenium',planet:'Mercury',element:'Air',deities:'—',uses:'保护、灵性力量、爱情',medical:'润肺化痰、理气'},
+  {cn:'榆树',en:'Elm',enFull:'Ulmus spp.',planet:'Saturn',element:'Water',deities:'—',uses:'保护、驱邪、爱情',medical:'清热利湿、解毒'},
+  {cn:'桉树',en:'Eucalyptus',enFull:'Eucalyptus globulus',planet:'Moon',element:'Air',deities:'—',uses:'净化、疗愈、保护',medical:'祛痰止咳、抗菌'},
+  {cn:'小米草',en:'Eyebright',enFull:'Euphrasia officinalis',planet:'Sun',element:'Air',deities:'—',uses:'灵性清晰、占卜、冥想',medical:'明目、消炎'},
+  {cn:'葫芦巴',en:'Fenugreek',enFull:'Trigonella foenum-graecum',planet:'Moon',element:'Water',deities:'—',uses:'招财、好运、爱情、fertility',medical:'温肾壮阳、健胃'},
+  {cn:'无花果',en:'Fig',enFull:'Ficus carica',planet:'Jupiter',element:'Fire',deities:'Bacchus, Dionysus, Isis',uses:'爱情、fertility、丰饶、占卜',medical:'润肠通便、清热'},
+  {cn:'亚麻',en:'Flax',enFull:'Linum usitatissimum',planet:'Mercury',element:'Fire',deities:'—',uses:'保护、好运、疗愈、灵性',medical:'润肠通便、降脂'},
+  {cn:'乳香',en:'Frankincense',enFull:'Boswellia sacra',planet:'Sun',element:'Fire',deities:'Ra, Sol',uses:'灵性净化、冥想、保护、神圣连接',medical:'抗炎、抗焦虑'},
+  {cn:'良姜',en:'Galangal',enFull:'Alpinia galanga',planet:'Mars',element:'Fire',deities:'—',uses:'保护、招财、驱邪、爱情',medical:'温中散寒、理气'},
+  {cn:'栀子花',en:'Gardenia',enFull:'Gardenia jasminoides',planet:'Moon',element:'Water',deities:'—',uses:'爱情、和平、疗愈、灵性',medical:'清热利湿、凉血解毒'},
+  {cn:'龙胆',en:'Gentian',enFull:'Gentiana lutea',planet:'Mars',element:'Fire',deities:'—',uses:'驱邪、保护、破除诅咒',medical:'清热燥湿、健胃'},
+  {cn:'天竺葵',en:'Geranium',enFull:'Pelargonium graveolens',planet:'Venus',element:'Water',deities:'—',uses:'爱情、保护、疗愈、驱邪',medical:'收敛止血、消炎'},
+  {cn:'银杏',en:'Ginkgo',enFull:'Ginkgo biloba',planet:'Mercury',element:'Air',deities:'—',uses:'智慧、记忆、灵性提升',medical:'益智健脑、活血'},
+  {cn:'一枝黄花',en:'Goldenrod',enFull:'Solidago virgaurea',planet:'Venus',element:'Air',deities:'—',uses:'招财、占卜、好运',medical:'清热消炎、利尿'},
+  {cn:'白毛茛',en:'Goldenseal',enFull:'Hydrastis canadensis',planet:'Mars',element:'Fire',deities:'—',uses:'疗愈、保护、招财',medical:'抗菌消炎、清热'},
+  {cn:'雷公根',en:'Gotu Kola',enFull:'Centella asiatica',planet:'Mercury',element:'Air',deities:'—',uses:'冥想、灵性提升、长寿',medical:'活血化瘀、益智'},
+  {cn:'葡萄',en:'Grape',enFull:'Vitis vinifera',planet:'Moon',element:'Water',deities:'Bacchus, Dionysus',uses:'fertility、丰饶、爱情、好运',medical:'补气血、利尿'},
+  {cn:'葡萄柚',en:'Grapefruit',enFull:'Citrus paradisi',planet:'Sun',element:'Air',deities:'—',uses:'净化、能量提升、驱邪',medical:'清热、助消化'},
+  {cn:'木槿',en:'Hibiscus',enFull:'Hibiscus sabdariffa',planet:'Venus',element:'Water',deities:'—',uses:'爱情、美丽、占卜、欲望',medical:'清热解暑、降压'},
+  {cn:'啤酒花',en:'Hops',enFull:'Humulus lupulus',planet:'Mars',element:'Air',deities:'—',uses:'安眠、疗愈、保护',medical:'安神镇静、健胃'},
+  {cn:'夏枯草',en:'Horehound',enFull:'Marrubium vulgare',planet:'Mercury',element:'Fire',deities:'—',uses:'保护、驱邪、灵性净化',medical:'止咳化痰、清热'},
+  {cn:'七叶树',en:'Horse Chestnut',enFull:'Aesculus hippocastanum',planet:'Jupiter',element:'Fire',deities:'—',uses:'招财、好运、保护',medical:'活血、消肿'},
+  {cn:'辣根',en:'Horseradish',enFull:'Armoracia rusticana',planet:'Mars',element:'Fire',deities:'—',uses:'驱邪、保护、净化',medical:'杀菌、助消化'},
+  {cn:'木贼',en:'Horsetail',enFull:'Equisetum arvense',planet:'Saturn',element:'Earth',deities:'—',uses:'疗愈、保护、灵性接地',medical:'清热利尿、止血'},
+  {cn:'牛膝草',en:'Hyssop',enFull:'Hyssopus officinalis',planet:'Jupiter',element:'Fire',deities:'—',uses:'净化、保护、驱邪',medical:'祛痰止咳、清热'},
+  {cn:'海水仙',en:'Irish Moss',enFull:'Chondrus crispus',planet:'Moon',element:'Water',deities:'—',uses:'招财、好运、保护、灵性',medical:'润肺化痰、营养'},
+  {cn:'海带',en:'Kelp',enFull:'Laminaria spp.',planet:'Moon',element:'Water',deities:'—',uses:'保护、好运、疗愈、灵性',medical:'软坚散结、补碘'},
+  {cn:'柠檬',en:'Lemon',enFull:'Citrus limon',planet:'Moon',element:'Water',deities:'—',uses:'净化、保护、爱情、招财',medical:'生津止渴、抗菌'},
+  {cn:'香蜂草',en:'Lemon Balm',enFull:'Melissa officinalis',planet:'Moon',element:'Water',deities:'Diana',uses:'爱情、好运、疗愈、安眠',medical:'安神抗抑郁、助消化'},
+  {cn:'柠檬草',en:'Lemongrass',enFull:'Cymbopogon citratus',planet:'Mercury',element:'Air',deities:'—',uses:'净化、保护、驱邪、招财',medical:'祛风除湿、健脾'},
+  {cn:'甘草',en:'Licorice',enFull:'Glycyrrhiza glabra',planet:'Venus',element:'Water',deities:'—',uses:'爱情、好运、疗愈、灵性',medical:'补脾益气、润肺止咳'},
+  {cn:'丁香花',en:'Lilac',enFull:'Syringa vulgaris',planet:'Venus',element:'Water',deities:'—',uses:'驱邪、保护、爱情、灵性',medical:'清热、消炎'},
+  {cn:'菩提',en:'Linden',enFull:'Tilia europaea',planet:'Jupiter',element:'Air',deities:'—',uses:'爱情、好运、安眠、幸运',medical:'安神、发汗、降压'},
+  {cn:'半边莲',en:'Lobelia',enFull:'Lobelia inflata',planet:'Saturn',element:'Water',deities:'—',uses:'（有毒）驱邪、驱风',medical:'（有毒）祛痰、平喘'},
+  {cn:'独活',en:'Lovage',enFull:'Levisticum officinale',planet:'Sun',element:'Fire',deities:'—',uses:'保护、驱邪、爱情、好运',medical:'温中散寒、利尿'},
+  {cn:'肉豆蔻',en:'Nutmeg',enFull:'Myristica fragrans',planet:'Jupiter',element:'Fire',deities:'—',uses:'招财、好运、爱情、灵性、保护',medical:'温中行气、止泻'},
+  {cn:'橄榄',en:'Olive',enFull:'Olea europaea',planet:'Sun',element:'Fire',deities:'Athena, Minerva, Apollo, Isis',uses:'保护、和平、fertility、疗愈',medical:'抗氧化、降脂'},
+  {cn:'橙子',en:'Orange',enFull:'Citrus sinensis',planet:'Sun',element:'Fire',deities:'—',uses:'招财、好运、爱情、净化',medical:'生津止渴、开胃'},
+  {cn:'牛至',en:'Oregano',enFull:'Origanum vulgare',planet:'Mercury',element:'Air',deities:'—',uses:'保护、驱邪、爱情、疗愈',medical:'抗菌消炎、驱风'},
+  {cn:'鸢尾根',en:'Orris',enFull:'Iris germanica',planet:'Venus',element:'Water',deities:'—',uses:'爱情、占卜、吸引、魅力',medical:'祛风、消炎'},
+  {cn:'西番莲',en:'Passion Flower',enFull:'Passiflora incarnata',planet:'Venus',element:'Water',deities:'—',uses:'安眠、平静、灵性连接',medical:'安神镇静、降压'},
+  {cn:'广藿香',en:'Patchouli',enFull:'Pogostemon cablin',planet:'Saturn',element:'Earth',deities:'—',uses:'招财、爱情、好运、灵性',medical:'化湿和中、清热'},
+  {cn:'长春花',en:'Periwinkle',enFull:'Vinca minor',planet:'Venus',element:'Water',deities:'—',uses:'爱情、保护、好运、灵性',medical:'（有毒）降压'},
+  {cn:'石榴',en:'Pomegranate',enFull:'Punica granatum',planet:'Saturn',element:'Water',deities:'Persephone, Hades, Aphrodite',uses:'fertility、丰饶、保护、占卜',medical:'收敛止泻、抗氧化'},
+  {cn:'南瓜',en:'Pumpkin',enFull:'Cucurbita pepo',planet:'Moon',element:'Water',deities:'—',uses:'保护、好运、招财、驱邪',medical:'补中益气、驱虫'},
+  {cn:'树莓',en:'Raspberry',enFull:'Rubus idaeus',planet:'Venus',element:'Water',deities:'—',uses:'爱情、保护、好运、疗愈',medical:'补肝肾、明目'},
+  {cn:'大黄',en:'Rhubarb',enFull:'Rheum palmatum',planet:'Saturn',element:'Water',deities:'—',uses:'保护、驱邪、疗愈',medical:'泻下通便、清热'},
+  {cn:'迷迭香',en:'Rosemary',enFull:'Rosmarinus officinalis',planet:'Sun',element:'Fire',deities:'—',uses:'驱邪、净化、爱情、记忆、好运、保护',medical:'提神醒脑、促循环'},
+  {cn:'黄樟',en:'Sassafras',enFull:'Sassafras albidum',planet:'Sun',element:'Fire',deities:'—',uses:'保护、好运、疗愈、净化',medical:'驱风散寒、消炎'},
+  {cn:'芝麻',en:'Sesame',enFull:'Sesamum indicum',planet:'Sun',element:'Fire',deities:'—',uses:'保护、招财、爱情、fertility',medical:'补肝肾、润肠'},
+  {cn:'留兰香',en:'Spearmint',enFull:'Mentha spicata',planet:'Venus',element:'Water',deities:'—',uses:'疗愈、保护、爱情、幸运',medical:'疏风散热、理气'},
+  {cn:'八角茴香',en:'Star Anise',enFull:'Illicium verum',planet:'Jupiter',element:'Air',deities:'—',uses:'保护、驱邪、好运、灵性',medical:'理气温中、驱风'},
+  {cn:'草莓',en:'Strawberry',enFull:'Fragaria vesca',planet:'Venus',element:'Water',deities:'Freya, Venus',uses:'爱情、好运、美丽、fertility',medical:'清热解暑、养颜'},
+  {cn:'艾菊',en:'Tansy',enFull:'Tanacetum vulgare',planet:'Venus',element:'Water',deities:'—',uses:'（有毒）保护、驱邪、长生',medical:'（有毒）驱虫、消炎'},
+  {cn:'龙蒿',en:'Tarragon',enFull:'Artemisia dracunculus',planet:'Mars',element:'Fire',deities:'—',uses:'保护、驱邪、爱情',medical:'开胃消食、驱风'},
+  {cn:'马郁兰',en:'Marjoram',enFull:'Origanum majorana',planet:'Mercury',element:'Air',deities:'—',uses:'保护、爱情、好运、疗愈',medical:'驱风散寒、理气'},
+  {cn:'香草',en:'Vanilla',enFull:'Vanilla planifolia',planet:'Venus',element:'Water',deities:'—',uses:'爱情、性吸引力、灵性提升、好运',medical:'舒缓神经、助消化'},
+  {cn:'核桃',en:'Walnut',enFull:'Juglans regia',planet:'Sun',element:'Fire',deities:'—',uses:'保护、驱邪、智慧、疗愈',medical:'补肾固精、润肠'},
+  {cn:'小麦',en:'Wheat',enFull:'Triticum aestivum',planet:'Venus',element:'Earth',deities:'Demeter, Ceres',uses:'fertility、丰饶、好运、保护',medical:'养心益脾、和五脏'},
+  {cn:'苦艾',en:'Wormwood',enFull:'Artemisia absinthium',planet:'Mars',element:'Fire',deities:'Artemis, Diana',uses:'驱邪、保护、灵性增强、占卜',medical:'清热燥湿、驱虫'},
+  {cn:'欧洲七叶树',en:'Yerba Mate',enFull:'Ilex paraguariensis',planet:'Jupiter',element:'Air',deities:'—',uses:'灵性专注、能量提升、友谊',medical:'提神健脑、助消化'},
+  {cn:'紫杉',en:'Yew',enFull:'Taxus baccata',planet:'Saturn',element:'Water',deities:'Hecate',uses:'（剧毒）重生、灵性过渡、祖先沟通',medical:'（剧毒）抗癌'},
+  {cn:'依兰',en:'Ylang Ylang',enFull:'Cananga odorata',planet:'Venus',element:'Water',deities:'—',uses:'爱情、性力、美丽、灵性',medical:'安神镇静、降压'},
+  // 中国传统草药
+  {cn:'甘草',en:'Licorice',enFull:'Glycyrrhiza uralensis',planet:'Jupiter',element:'Earth',deities:'—',uses:'调和万药、护符制作、灵性保护',medical:'补脾益气、清热解毒、调和诸药'},
+  {cn:'黄芪',en:'Astragalus',enFull:'Astragalus membranaceus',planet:'Jupiter',element:'Air',deities:'—',uses:'保护、长寿、能量增强',medical:'补气固表、利尿托毒'},
+  {cn:'枸杞',en:'Goji Berry',enFull:'Lycium barbarum',planet:'Venus',element:'Water',deities:'—',uses:'灵性视力、好运、长寿、招财',medical:'滋补肝肾、益精明目'},
+  {cn:'黄连',en:'Coptis',enFull:'Coptis chinensis',planet:'Mars',element:'Fire',deities:'—',uses:'驱邪、净化、破除诅咒',medical:'清热燥湿、泻火解毒'},
+  {cn:'茯苓',en:'Poria',enFull:'Wolfiporia extensa',planet:'Moon',element:'Water',deities:'—',uses:'安神、冥想辅助、灵性净化',medical:'利水渗湿、健脾宁心'},
+  {cn:'桂枝',en:'Cassia Twig',enFull:'Cinnamomum cassia',planet:'Sun',element:'Fire',deities:'—',uses:'驱寒、保护、能量激活',medical:'发汗解肌、温通经脉'},
+  {cn:'白术',en:'Atractylodes',enFull:'Atractylodes macrocephala',planet:'Jupiter',element:'Earth',deities:'—',uses:'保护、接地、稳定能量',medical:'健脾益气、燥湿利水'},
+  {cn:'川芎',en:'Ligusticum',enFull:'Ligusticum chuanxiong',planet:'Mars',element:'Fire',deities:'—',uses:'驱邪、止痛、能量疏通',medical:'活血行气、祛风止痛'},
+  {cn:'红花',en:'Safflower',enFull:'Carthamus tinctorius',planet:'Sun',element:'Fire',deities:'—',uses:'爱情、保护、能量激活',medical:'活血通经、散瘀止痛'},
+  {cn:'丹皮',en:'Moutan',enFull:'Paeonia suffruticosa',planet:'Venus',element:'Water',deities:'—',uses:'净化、保护、驱邪',medical:'清热凉血、活血散瘀'},
 ];
 
 // ================================================================
@@ -1123,6 +1651,7 @@ function renderHerbs(list) {
         ${p.planet !== '—' && p.planet ? `<span class="badge badge-planet">${p.planet}</span>` : ''}
       </div>
       <div class="magical-uses"><strong>魔法用途：</strong>${p.uses}</div>
+      ${p.medical ? `<div class="herb-medical-use">${p.medical}</div>` : ''}
       ${p.deities && p.deities !== '—' ? `<div class="deities">神圣关联：${p.deities}</div>` : ''}
     </div>
   `).join('');
@@ -1235,6 +1764,26 @@ const divinations = [
   '【艾草预言梦】仲夏前夜摘艾草放枕下——激发预言梦境，揭示未来。',
   '【三叶草占卜】摘两叶三叶草放右鞋中：遇到的第一个异性拥有未来配偶的名字首字母。',
   '【接骨木神谕】摘一片接骨木叶，向叶片吹气三次后抛向风中：叶片落地朝向指示命运方向。',
+  '【茶叶占卜】喝红茶后将杯中残留茶叶倒扣在碟上，观察杯壁上的茶叶图案：心形=爱情，圆形=财富，十字=磨难，动物=旅行，树木=成长。',
+  '【玫瑰花瓣占卜】摘一片凹形玫瑰花瓣，在心中默念一个是否问题，将花瓣置于右手掌心用力拍击：若花瓣爆裂，答案为是；若完好，答案为否。',
+  '【月桂签占卜】取7片月桂叶，每片刻一个愿望。置于枕下入睡，次日取出：叶子变棕的愿望将在一年内实现，颜色未变的则不会。',
+  '【雏菊命运占卜】用雏菊花环套在左腕上，闭眼顺时针转三圈，脱口说出心中想到的第一个名字——那就是你的真爱。',
+  '【叶片飘落占卜】秋天接住一片飘落的树叶，观察其形状与颜色：金黄色=即将到来的财富；红色=炽热的爱情即将发生；棕色=需要耐心等待。',
+  '【迷迭香记忆占卜】将一枝迷迭香放在枕头下睡觉，次日早晨取出闻其香气：若能清晰地回忆梦境，则答案在梦中显现；若毫无记忆，则时机未到。',
+  '【五花瓣占卜】摘一朵五瓣花，在心中默念五个选项。闭眼摘下一片花瓣，剩四瓣。重复摘至最后一瓣——剩余的那片对应你的答案。',
+  '【艾草火焰占卜】将干燥艾草投入火焰中，观察火焰颜色和烟雾：蓝色火焰=灵性保护；黄色火焰=财富将至；红色火焰=爱情临近；黑烟=警惕。',
+  '【薄荷叶财富占卜】取三片薄荷叶放入钱包中随身携带三天。三天后取出观察：叶子仍然翠绿=财运亨通；叶子变干=需等待；叶子碎裂=财务上有障碍需谨慎。',
+  '【柳枝预言占卜】折一小段柳枝，在溪流或水盆中顺水放置。观察柳枝在水中的转动方向：顺时针=愿望将实现；逆时针=需要重新考虑。',
+  '【接骨木浆果占卜】在秋季采集9颗接骨木浆果，用红线串成项链。萨温节之夜佩戴入睡，梦中将获得关于来年的预言。',
+  '【薰衣草爱情占卜】在满月之夜将薰衣草花穗放在窗台上，使其沐浴月光。次日将薰衣草缝入小布袋中贴身携带：若三日内梦到特定的人，此人就是你的灵魂伴侣。',
+  '【肉桂招财占卜】取一根肉桂棒，在上面刻一个金钱符号。在周四（木星日）日出时点燃一端，使其燃烧出烟雾。观察烟雾：烟直上云霄=财运大好；烟往旁边飘=财运需要通过努力获得。',
+  '【百里香勇气占卜】在面临重要决定时，取一小撮百里香放入左鞋中。步行一整日后取出观察：若百里香依然完整=你的决定是正确的；若碎裂或消失=需要重新考虑。',
+  '【金盏花占卜】摘一朵金盏花放在圣坛上，在花瓣上滴一滴蜂蜜。第二天早上观察：若花瓣闭合=答案是否定；若花瓣张开=答案是肯定；若蜂蜜被蚂蚁吃了=需要更多时间思考。',
+  '【蒲公英许愿】在吹散蒲公英种子前，先在心里默念愿望三遍。深吸一口气，一次吹散所有种子：若全部种子被吹散=愿望将快速实现；若有种子残留=需要耐心等待。',
+  '【苹果籽占卜】吃一个苹果时数一数有多少颗籽。偶数=近期会有一段新恋情；奇数=将继续单身一段时间。将9颗苹果籽放在火上，若爆裂发出响声=爱情将至。',
+  '【紫罗兰占卜】在窗台上养一盆紫罗兰。若紫罗兰在你的照料下茂盛生长=你的爱情生活也将蓬勃发展；若紫罗兰枯萎=情感关系需要更多关注和呵护。',
+  '【迷迭香记忆测试】在考试或面试前闻一闻迷迭香精油，再将少量涂在太阳穴上。传统认为迷迭香能增强记忆力，帮助回忆起遗忘的信息。',
+  '【白杨叶声音占卜】站在白杨树下，聆听树叶沙沙声。民间传说白杨树能听到精灵的低语，若风吹叶响时你能听出特定的"词语"或节奏，那就是精灵传达的讯息。',
 ];
 
 function randomDivination() {
@@ -1406,6 +1955,7 @@ const calendarData = {
     '13日 - 世界部分地区继续观察古老的向苹果树祝酒（Wassailing）异教传统。',
     '20日 - 圣阿格尼斯前夜：喝欧芹茶、吃干面包后入睡，将梦见未来婚姻伴侣。凯尔特桦树月结束。',
     '21日 - 凯尔特花楸月（Luis）开始。',
+    '满月后第三日 - 制作一年份的保护魔法油的最佳时机之一。采集常绿植物的枝叶用于制作护身符。',
   ],
   '二月 February': [
     '2日 - 圣烛节（Imbolc）。传统草药：当归、罗勒、月桂、没药、白屈菜、石楠、紫藤、黄花。',
@@ -1414,12 +1964,14 @@ const calendarData = {
     '14日 - 圣瓦伦丁节。维多利亚花语：玫瑰（爱情）、常春藤（婚姻与忠诚）、紫罗兰（忠贞不渝）。',
     '17日 - 古罗马Fornacalia节敬奉烤炉女神。凯尔特花楸月结束。',
     '18日 - 凯尔特白蜡月（Nuin）开始。',
+    '满月 - 开始规划春季草药花园，购买种子，准备种植盆。',
   ],
   '三月 March': [
     '1日 - 圣大卫日。威尔士的韭葱和水仙象征旺盛生长。',
     '17日 - 圣帕特里克节。三叶草是神圣植物。凯尔特白蜡月结束。',
     '18日 - 凯尔特桤木月（Fearn）开始。',
     '21日 - 春分（Ostara）。传统草药：橡子、白屈菜、洋甘菊、番红花、水仙、金银花、玫瑰、紫罗兰。',
+    '满月 - 春季大扫除与空间净化。制作新一批净化烟熏棒。种植早春草药（洋甘菊、薰衣草）。',
   ],
   '四月 April': [
     '10日 - 1872年内布拉斯加州种植近百万棵树庆祝首个植树节。',
@@ -1428,6 +1980,7 @@ const calendarData = {
     '22日 - 地球日。女巫和异教徒冥想大地母亲，进行疗愈仪式。',
     '25日 - 圣马可日占卜：正午12时摘9片鼠尾草叶，未来丈夫将显现。',
     '30日 - 沃尔普吉斯之夜（五朔节前夜）。携带当归、大蒜、曼德拉草根、花楸或圣约翰草作为护身符。',
+    '满月 - 收集春季野花制作魔法花水。种植薄荷、罗勒、迷迭香。',
   ],
   '五月 May': [
     '1日 - 五朔节（Beltane）。草药：杏仁、当归、白蜡、蓝铃、山楂、常春藤、丁香、金盏花、玫瑰。',
@@ -1436,6 +1989,7 @@ const calendarData = {
     '13日 - 凯尔特山楂月（Huath）开始。',
     '23日 - 古罗马玫瑰节Rosalia敬奉花神Flora。',
     '29日 - 橡果日。在英格兰，传统上佩戴橡树叶。',
+    '满月 - 采集五月开花的草药（山楂花、接骨木花）。制作五朔节爱情魔法油。',
   ],
   '六月 June': [
     '1日 - 凯尔特文化中庆祝橡树宁芙节。',
@@ -1444,12 +1998,14 @@ const calendarData = {
     '21日 - 夏至（Litha）。草药：洋甘菊、茴香、薰衣草、艾草、圣约翰草、玫瑰、百里香、马鞭草。',
     '23日 - 圣约翰前夜。采摘草药用于爱情魔法和春药的最佳时间。',
     '24日 - 圣约翰日。采摘马鞭草用于爱情药水（用金币挖根）。',
+    '满月 - 采集圣约翰草，制作圣约翰草油（用于疗愈和保护魔法）。收集玫瑰花瓣制作玫瑰水。',
   ],
   '七月 July': [
     '7日 - 古罗马Consualia节。凯尔特橡树月结束。',
     '8日 - 凯尔特冬青月（Tinne）开始。',
     '15日 - 花楸女神Rowana被北欧人敬奉。花楸木制作保护护身符。',
-    '满月 - 药草月（Wort Moon），传统上采集草药用于魔药和医疗。',
+    '满月 - 药草月（Wort Moon），传统上采集草药用于魔药和医疗。采集薰衣草、洋甘菊、薄荷晾干储存。',
+    '满月后一周 - 制作年度熏香粉。采集并晾干夏季草药。',
   ],
   '八月 August': [
     '1日 - 收获节（Lammas/Lughnasadh）。草药：金合欢、芦荟、玉米、石楠、桃金娘、橡树、向日葵。',
@@ -1457,6 +2013,7 @@ const calendarData = {
     '5日 - 凯尔特榛树月（Coll）开始。',
     '13日 - 13片白蜡树叶放枕下，可诱导预言性梦境。',
     '27日 - 圣约翰草叶片上神秘出现红点，象征圣人的鲜血。',
+    '满月前夕 - 采集和晾干大量草药以备冬季使用。制作魔法油和酊剂的最佳月份。',
   ],
   '九月 September': [
     '1日 - 凯尔特榛树月结束。',
@@ -1465,23 +2022,29 @@ const calendarData = {
     '22日 - 秋分（Mabon）。草药：橡子、紫菀、蕨类、金银花、金盏花、橡树、松树、鼠尾草。',
     '29日 - 凯尔特葡萄藤月结束。',
     '30日 - 凯尔特常春藤月（Gort）开始。',
+    '满月 - 收集秋季草药（蒲公英根、牛蒡根）。制作秋分平衡仪式用草药。',
   ],
   '十月 October': [
     '11日 - 采摘或食用黑莓招厄运（恶魔诅咒日）。',
     '18日 - 1616年占星家和草药师尼古拉斯·卡尔佩珀出生。',
     '27日 - 奥西里斯节。',
     '31日 - 萨温节（Samhain）。万圣节植物占卜：鼠尾草、燕麦、落叶许愿。',
+    '满月后 - 收集落叶用于堆肥。最后一次采集根部草药（蒲公英根、聚合草根）。制作萨温节专用熏香。',
   ],
   '十一月 November': [
     '1日 - 罗马Pomonalia节（敬奉果园女神波莫纳），标志收获完成。',
+    '7日 - 立冬，中医认为此时宜进补，开始收藏草药根茎类。',
     '25日 - 凯尔特常春藤月结束。',
     '26日 - 凯尔特接骨木月（Ruis）开始。',
+    '满月 - 制作冬季保护魔法袋和护身符。进行年度感恩仪式。',
   ],
   '十二月 December': [
     '17-19日 - 古罗马农神节（Saturnalia）。',
     '21日左右 - 冬至（Yule）。草药：冬青、槲寄生、常春藤、松树、迷迭香、月桂、雪松。',
     '24日 - 圣诞前夜。冬青必须摆放在家中；烧冬青枝招引死神。',
     '25日 - 冬至日。传统上凯尔特树月循环重新开始。',
+    '31日 - 跨年夜焚烧月桂叶，驱散旧年负面能量，迎接新年好运。',
+    '满月 - 点燃冬至圣木（橡木、松木），进行新年意图设定仪式。制作年度保护符。',
   ],
 };
 
@@ -1499,6 +2062,233 @@ renderCalendar();
 // ================================================================
 // ADDITIONAL PLANT SUPERSTITIONS DATA (for Tab 2 Divination)
 // ================================================================
+
+// ================================================================
+// NEW TAB: SPIRIT COMMUNICATION DATA
+// ================================================================
+const spiritData = [
+  {plant:'玫瑰 Rose',spirit:'温柔女性/粉红光球',teaching:'无条件之爱、心轮疗愈、情感边界',element:'水',planet:'金星',notes:'沟通时可能伴随玫瑰花香'},
+  {plant:'橡树 Oak',spirit:'古老男性智者/翠绿光柱',teaching:'力量、耐心、神圣智慧',element:'火',planet:'太阳',notes:'感受到强大而稳定的能量场'},
+  {plant:'艾草 Mugwort',spirit:'银白光芒/敏捷动物',teaching:'预言、梦境旅行、神秘知识',element:'土',planet:'金星',notes:'产生强烈的直觉冲动'},
+  {plant:'薰衣草 Lavender',spirit:'紫色光晕/温柔精灵',teaching:'平静、净化、灵性休息',element:'风',planet:'水星',notes:'最适合初学者的植物灵之一'},
+  {plant:'曼德拉草 Mandrake',spirit:'古老地精/深棕根须',teaching:'大地魔法、祖先智慧、生育力量',element:'火',planet:'水星',notes:'需要经验丰富的实践者'},
+  {plant:'迷迭香 Rosemary',spirit:'金色光点/奔跑的鹿',teaching:'记忆、忠诚、净化',element:'火',planet:'太阳',notes:'晨间沟通效果最佳'},
+  {plant:'柳树 Willow',spirit:'银白女性/流水般能量',teaching:'情感疗愈、直觉、适应力',element:'水',planet:'月亮',notes:'满月之夜沟通最强'},
+  {plant:'鼠尾草 Sage',spirit:'白色羽毛/老者形象',teaching:'智慧、净化、真理',element:'风',planet:'木星',notes:'焚烧时沟通效果增强'},
+  {plant:'茉莉 Jasmine',spirit:'白色星光/夜间的歌声',teaching:'灵性之爱、梦境启示',element:'水',planet:'月亮',notes:'夜晚沟通，尤其是月明之夜'},
+  {plant:'肉桂 Cinnamon',spirit:'红色火焰/舞者',teaching:'激情、成功、能量激活',element:'火',planet:'太阳',notes:'沟通时身体可能感到温暖'},
+  {plant:'松树 Pine',spirit:'翠绿巨人/沉稳的呼吸',teaching:'长寿、坚韧、净化',element:'风',planet:'火星',notes:'冬季沟通最能感受其力量'},
+  {plant:'马鞭草 Vervain',spirit:'紫色光芒/飞翔的鸟',teaching:'保护、爱情、预言',element:'土',planet:'金星',notes:'仲夏采摘时沟通最佳'},
+  {plant:'莲花 Lotus',spirit:'白色千瓣光/静坐的佛',teaching:'灵性觉醒、超越、纯净',element:'水',planet:'月亮',notes:'冥想时感官最为清晰'},
+  {plant:'百合 Lily',spirit:'纯白女性/天使般存在',teaching:'纯洁、灵性之爱、安宁',element:'水',planet:'月亮',notes:'沟通时感到深邃宁静'},
+  {plant:'杜松 Juniper',spirit:'蓝绿色迷雾/守护者',teaching:'保护、边界、净化',element:'火',planet:'太阳',notes:'烟雾是沟通的媒介'},
+];
+
+function renderSpiritGrid() {
+  const g = document.getElementById('spiritGrid');
+  if(!g) return;
+  g.innerHTML = spiritData.map(s => `
+    <div class="spirit-card card-tilt">
+      <h4>${s.plant}</h4>
+      <div class="details"><strong>显现形式：</strong>${s.spirit}</div>
+      <div class="details"><strong>核心教导：</strong>${s.teaching}</div>
+      <div class="details"><strong>元素/行星：</strong>${s.element} / ${s.planet}</div>
+      <div class="details" style="color:#6a5e4a;font-style:italic;margin-top:4px">${s.notes}</div>
+    </div>
+  `).join('');
+}
+
+// ================================================================
+// NEW TAB: LUNAR HERBALISM DATA
+// ================================================================
+const moonPhaseData = [
+  {phase:'🌑 新月',name:'New Moon',duration:'约3天',plantActivity:'播种、开始新草药项目、制作种子护符',magicFocus:'新开始、内在探索、设定意图',herbs:'艾草、百合、檀香、罂粟、茉莉'},
+  {phase:'🌒 蛾眉月',name:'Waxing Crescent',duration:'约3.5天',plantActivity:'种植、移植、采集"增进"类魔法草药',magicFocus:'吸引、成长、招财',herbs:'洋甘菊、迷迭香、薄荷、罗勒'},
+  {phase:'🌓 上弦月',name:'First Quarter',duration:'约3.5天',plantActivity:'修剪、制作魔法油、开始草药浸泡',magicFocus:'克服障碍、决策、力量',herbs:'肉桂、姜、杜松、大蒜'},
+  {phase:'🌔 盈月',name:'Waxing Gibbous',duration:'约3.5天',plantActivity:'采集爱情和成功魔法草药',magicFocus:'完善、调整、强化',herbs:'玫瑰、薰衣草、茉莉、迷迭香'},
+  {phase:'🌕 满月',name:'Full Moon',duration:'约3天',plantActivity:'采集最强效力的草药、制作月光水',magicFocus:'完满、力量、最大魔法效力',herbs:'玫瑰、艾草、百合、檀香、圣约翰草'},
+  {phase:'🌖 亏月',name:'Waning Gibbous',duration:'约3.5天',plantActivity:'制作驱邪草药包、保护仪式',magicFocus:'感恩、分享、传播',herbs:'鼠尾草、雪松、杜松、迷迭香'},
+  {phase:'🌗 下弦月',name:'Last Quarter',duration:'约3.5天',plantActivity:'除草、驱邪、解除诅咒草药工作',magicFocus:'释放、驱散、结束',herbs:'大蒜、芸香、圣约翰草、艾草'},
+  {phase:'🌘 残月',name:'Waning Crescent',duration:'约3.5天',plantActivity:'制作驱邪烟熏棒、深层净化草药',magicFocus:'休息、净化、深层释放',herbs:'鼠尾草、雪松、檀香、乳香'},
+  {phase:'🌑 暗月',name:'Dark Moon',duration:'约1-2天',plantActivity:'冥想必备、预言草药、Hecate仪式',magicFocus:'神秘、预言、灵性沟通',herbs:'艾草、曼德拉草、柳树、颠茄'},
+];
+
+const lunarRecipesData = [
+  {name:'满月爱情吸引油',moonTag:'full',moonType:'满月',ingredients:'玫瑰花瓣 (3把)、茉莉花 (1把)、肉桂棒 (1根)、荷荷巴油 (100ml)、粉水晶 (1块)',instructions:'在满月之夜的月光下，将玫瑰花瓣和茉莉花放入玻璃罐中，倒入荷荷巴油。加入肉桂棒和粉水晶。密封罐子，在月光下放置整夜。次日过滤花瓣，将油装入深色玻璃瓶中。每当你需要吸引爱情时，取少量涂抹在手腕和心轮处。',timing:'满月之夜'},
+  {name:'新月设定意图香包',moonTag:'new',moonType:'新月',ingredients:'洋甘菊 (2匙)、薰衣草 (2匙)、迷迭香 (1匙)、白色小布袋 (1个)、纸和笔',instructions:'在新月之时，取一小张纸写下你的意图或目标。将洋甘菊、薰衣草和迷迭香放入白色布袋中，再加入写有意图的纸条。系紧袋口，在新月期间每日手持香包冥想你的意图。直到满月时取出纸条焚烧，象征意图已向宇宙释放。',timing:'新月'},
+  {name:'暗月驱邪净化浴盐',moonTag:'dark',moonType:'暗月',ingredients:'海盐 (1杯)、艾草 (3匙)、迷迭香 (3匙)、鼠尾草 (2匙)、檀香精油 (5滴)、深色布袋',instructions:'在暗月之夜将所有干草药与海盐混合，加入檀香精油搅拌均匀。装入深色布袋中。沐浴时将布袋放入热水中浸泡10分钟，然后用此水沐浴。意想所有负面能量随水流走。暗月是进行深层灵性净化的最佳时机，尤其适合结束一段旧循环。',timing:'暗月之夜'},
+  {name:'盈月招财魔法油',moonTag:'waxing',moonType:'盈月',ingredients:'肉桂棒 (2根)、姜片 (3片)、丁香 (5颗)、橙皮 (1把)、橄榄油 (100ml)、绿色蜡烛 (1根)',instructions:'在月亮从亏转盈的时刻（新月后），将所有材料放入玻璃罐中，倒入橄榄油至完全覆盖。在绿色蜡烛旁为油罐充能，想象金币如雨般落下。密封后放置在有月光的窗台上直至满月。过滤后用于涂抹钱包、蜡烛或工作桌上的物品以吸引财富。',timing:'盈月期间'},
+  {name:'亏月保护烟熏棒',moonTag:'waning',moonType:'亏月',ingredients:'鼠尾草 (5枝)、迷迭香 (3枝)、杜松枝 (2枝)、雪松叶 (1把)、棉绳',instructions:'在亏月期间采集这些草药。将草药捆成一束，用棉绳紧密缠绕固定。在通风处悬挂干燥2周。使用时点燃一端，吹熄火焰使其冒烟。在房屋的每个角落挥舞烟熏棒，同时念诵保护咒语。亏月制作的烟熏棒特别适合用于驱逐负面能量。',timing:'亏月期间制作'},
+];
+
+const moonHerbsList = [
+  '艾草 / Mugwort — 预言、梦境、占卜', '百合 / Lily — 纯洁、灵性、安宁', '莲花 / Lotus — 觉醒、净化、冥想',
+  '茉莉 / Jasmine — 爱情、灵性、梦境', '柳树 / Willow — 疗愈、直觉、保护', '檀香 / Sandalwood — 灵性、冥想、净化',
+  '罂粟 / Poppy — 睡眠、占卜、fertility', '冬青 / Wintergreen — 疗愈、保护', '黄瓜 / Cucumber — 疗愈、fertility',
+  '甘蓝 / Cabbage — 好运、招财', '水田芥 / Watercress — 保护、净化', '柠檬 / Lemon — 净化、保护',
+  '香蜂草 / Lemon Balm — 爱情、安眠', '葫芦巴 / Fenugreek — 招财、fertility', '芦荟 / Aloe — 保护、美丽',
+  '菖蒲 / Calamus — 好运、灵性', '葡萄 / Grape — fertility、丰饶', '海带 / Kelp — 保护、灵性',
+  '栀子花 / Gardenia — 爱情、和平', '南瓜 / Pumpkin — 保护、好运', '桉树 / Eucalyptus — 净化、疗愈',
+];
+
+function renderMoonPhaseGrid() {
+  const g = document.getElementById('moonPhaseGrid');
+  if(!g) return;
+  g.innerHTML = moonPhaseData.map(m => `
+    <div class="moon-card card-tilt">
+      <div class="phase-icon">${m.phase}</div>
+      <h4>${m.name}</h4>
+      <div class="details"><strong>持续时间：</strong>${m.duration}</div>
+      <div class="details"><strong>草药活动：</strong>${m.plantActivity}</div>
+      <div class="details"><strong>魔法焦点：</strong>${m.magicFocus}</div>
+      <div class="herbs-list"><strong>推荐草药：</strong>${m.herbs}</div>
+    </div>
+  `).join('');
+}
+
+function renderLunarRecipes() {
+  const g = document.getElementById('lunarRecipes');
+  if(!g) return;
+  g.innerHTML = lunarRecipesData.map(r => `
+    <div class="lunar-recipe-card card-tilt">
+      <h4>${r.name}</h4>
+      <div><span class="moon-tag moon-tag-${r.moonTag}">${r.moonType}</span></div>
+      <div class="details"><strong>材料：</strong>${r.ingredients}</div>
+      <div class="details"><strong>制作方法：</strong>${r.instructions}</div>
+      <div class="details" style="color:#64b464;font-style:italic;margin-top:6px"><strong>最佳时间：</strong>${r.timing}</div>
+    </div>
+  `).join('');
+}
+
+function renderMoonHerbList() {
+  const g = document.getElementById('moonHerbList');
+  if(!g) return;
+  g.innerHTML = moonHerbsList.map(h => `
+    <div class="plant-list-item"><span class="pl-name">${h.split(' — ')[0]}</span><span class="pl-detail">${h.split(' — ')[1] || ''}</span></div>
+  `).join('');
+}
+
+// ================================================================
+// NEW TAB: PLANETARY HERBALISM DATA
+// ================================================================
+const planetHerbData = [
+  {symbol:'☉',planet:'太阳 Sun',day:'周日',color:'金色、黄色',metal:'金',time:'日出后第一小时',herbs:'当归、洋甘菊、肉桂、金合欢、月桂、迷迭香、圣约翰草、向日葵、橡树、芍药、藏红花、金盏花',intent:'成功、荣耀、力量、疗愈'},
+  {symbol:'☽',planet:'月亮 Moon',day:'周一',color:'银色、白色',metal:'银',time:'日落后的月亮时',herbs:'百合、莲花、茉莉、柳树、檀香、罂粟、冬青、黄瓜、甘蓝、水田芥',intent:'灵性、直觉、梦境、情感'},
+  {symbol:'☿',planet:'水星 Mercury',day:'周三',color:'黄色、紫色',metal:'水银',time:'日出后第1或第8小时',herbs:'茴香、薰衣草、薄荷、马郁兰、欧芹、小茴香、杏仁、胡萝卜、缬草',intent:'智慧、沟通、学习、旅行'},
+  {symbol:'♀',planet:'金星 Venus',day:'周五',color:'绿色、粉色',metal:'铜',time:'日出后第2或第9小时',herbs:'玫瑰、紫罗兰、桃金娘、马鞭草、草莓、苹果、桦树、黑莓、雏菊、毛地黄',intent:'爱情、美丽、和谐、艺术'},
+  {symbol:'♂',planet:'火星 Mars',day:'周二',color:'红色、橙色',metal:'铁',time:'正午附近最佳',herbs:'大蒜、姜、罗勒、杜松、松树、洋葱、辣椒、胡椒、荨麻、大黄、艾草',intent:'勇气、保护、力量、征服'},
+  {symbol:'♃',planet:'木星 Jupiter',day:'周四',color:'蓝色、紫色',metal:'锡',time:'黎明前或黄昏',herbs:'鼠尾草、龙芽草、聚合草、榛树、栗树、橡树、蒲公英、肉豆蔻、琉璃苣',intent:'财富、扩张、好运、成长'},
+  {symbol:'♄',planet:'土星 Saturn',day:'周六',color:'黑色、深蓝',metal:'铅',time:'午夜或黄昏后',herbs:'毒参、天仙子、颠茄、曼德拉草、常春藤、毛蕊花、紫杉、罂粟、款冬',intent:'束缚、解除、业力、约束'},
+];
+
+const planetaryRecipesData = [
+  {name:'太阳成功油',planet:'☉ 太阳',ingredients:'金盏花 (3把)、迷迭香 (2枝)、肉桂棒 (1根)、向日葵花瓣 (1把)、橄榄油 (100ml)、金色小瓶',instructions:'在周日日出时采集或准备这些材料。将金盏花、迷迭香、肉桂棒和向日葵花瓣放入玻璃罐中，倒入橄榄油。密封后在阳光下放置7天（每天至少3小时日照）。过滤后装入金色小瓶中。在需要成功的事宜前涂抹在第三眼和手腕上。'},
+  {name:'金星爱情吸引酊剂',planet:'♀ 金星',ingredients:'玫瑰花瓣 (2把)、紫罗兰 (1把)、桃金娘叶 (1把)、苹果花 (1把)、伏特加 (150ml)、粉晶碎片',instructions:'在周五金星时制作。将所有花瓣和叶片放入玻璃罐中，倒入伏特加覆盖。加入粉晶碎片。密封后在月光下放置一整周（从周五到下一个周五）。过滤后装入粉色的瓶中。可作为香水使用，吸引爱情和浪漫能量。'},
+  {name:'木星财富熏香',planet:'♃ 木星',ingredients:'肉豆蔻 (磨碎 2匙)、肉桂粉 (1匙)、丁香 (5颗碾碎)、橙皮干 (1把)、乳香颗粒 (1匙)',instructions:'在周四木星时将所有材料在研钵中研磨成均匀粉末。在木炭片上每次取一匙焚烧。焚烧时想象金色光芒笼罩你的财务领域。每周四进行一次，连续7周，可显著增强财运。多余的熏香粉保存在蓝色或紫色的密封罐中。'},
+  {name:'水星智慧浴包',planet:'☿ 水星',ingredients:'薰衣草 (3匙)、薄荷 (2匙)、茴香籽 (1匙)、迷迭香 (2匙)、柠檬皮 (1把)、白色棉布袋',instructions:'在周三水星时将所有草药和柠檬皮放入白色棉布袋中系紧。在浴缸中放入热水，将浴包浸泡其中。入浴时手持浴包敷在太阳穴和喉咙部位，同时诵读与水星相关的咒语或祈祷文。此浴可增强智力、沟通能力和学习效率。'},
+  {name:'火星保护屏障香',planet:'♂ 火星',ingredients:'大蒜粉 (1匙)、辣椒粉 (1匙)、杜松子 (2匙)、迷迭香 (3匙)、岩盐 (1把)',instructions:'在周二火星时混合所有干性材料。将混合物撒在房屋四周的门槛外（室外），形成一道保护屏障。也可取少量在炭片上焚烧，产生的烟雾可从门口到窗口依次熏过每个房间，建立火星的火焰保护结界。'},
+];
+
+const planetTimeGuide = {
+  '太阳': {start:'日出后第1小时',color:'金色',stone:'黄水晶、琥珀',intensity:'强'},
+  '月亮': {start:'日落后的月亮时',color:'银色',stone:'月光石、珍珠',intensity:'中'},
+  '水星': {start:'日出后第1或第8小时',color:'黄色',stone:'玛瑙、黄玉',intensity:'中'},
+  '金星': {start:'日出后第2或第9小时',color:'粉色',stone:'玫瑰石英、绿松石',intensity:'中'},
+  '火星': {start:'正午附近',color:'红色',stone:'红玉髓、石榴石',intensity:'强'},
+  '木星': {start:'黎明前或黄昏',color:'蓝色',stone:'蓝宝石、青金石',intensity:'强'},
+  '土星': {start:'午夜或黄昏后',color:'黑色',stone:'黑曜石、玛瑙',intensity:'极强'},
+};
+
+function renderPlanetHerbGrid() {
+  const g = document.getElementById('planetHerbGrid');
+  if(!g) return;
+  g.innerHTML = planetHerbData.map(p => `
+    <div class="planet-card card-tilt">
+      <h4>${p.symbol} ${p.planet}</h4>
+      <div class="details"><strong>星期：</strong>${p.day} | <strong>颜色：</strong>${p.color}</div>
+      <div class="details"><strong>金属：</strong>${p.metal} | <strong>最佳采集：</strong>${p.time}</div>
+      <div class="herbs-list"><strong>草药：</strong>${p.herbs}</div>
+      <div class="details" style="color:#64b464;margin-top:4px"><strong>魔法意图：</strong>${p.intent}</div>
+    </div>
+  `).join('');
+}
+
+function renderPlanetaryRecipes() {
+  const g = document.getElementById('planetaryRecipes');
+  if(!g) return;
+  g.innerHTML = planetaryRecipesData.map(r => `
+    <div class="lunar-recipe-card card-tilt">
+      <h4>${r.name}</h4>
+      <div class="details"><strong>对应行星：</strong>${r.planet}</div>
+      <div class="details"><strong>材料：</strong>${r.ingredients}</div>
+      <div class="details"><strong>制作方法：</strong>${r.instructions}</div>
+    </div>
+  `).join('');
+}
+
+// ================================================================
+// NEW TAB: ELEMENTAL HERBALISM DATA
+// ================================================================
+const elementHerbData = [
+  {element:'🔥 火 Fire',direction:'南方',season:'夏季',color:'红色、金色',tools:'香炉、蜡烛、坩埚',herbs:'罗勒、大蒜、姜、杜松、橡树、迷迭香、圣约翰草、洋葱、松树、肉桂、罂粟、肉豆蔻、多香果、丁香、辣椒',magic:'保护、勇气、力量、净化、快速显化'},
+  {element:'💧 水 Water',direction:'西方',season:'秋季',color:'蓝色、银色',tools:'圣杯、坩埚、镜子',herbs:'百合、莲花、柳树、玫瑰、紫罗兰、桃金娘、接骨木、樱桃、苹果、桦树、黑莓、雏菊、毛地黄、茉莉、柠檬',magic:'爱情、疗愈、梦境、灵性、情感'},
+  {element:'🌬 风 Air',direction:'东方',season:'春季',color:'黄色、白色',tools:'香炉、扇子、羽毛',herbs:'薰衣草、薄荷、茴香、金合欢、鼠尾草、马郁兰、欧芹、龙芽草、八角、蒲公英、榆树、迷迭香',magic:'智慧、沟通、占卜、灵感、知识'},
+  {element:'🌍 土 Earth',direction:'北方',season:'冬季',color:'绿色、棕色',tools:'盐、陶罐、石头',herbs:'马鞭草、艾草、苔藓、紫罗兰（部分）、稻谷、玉米、小麦、葫芦巴、柏树、广藿香',magic:'丰饶、稳定、接地、保护、财运'},
+];
+
+const elementRecipesData = [
+  {name:'火元素快速净化烟熏',element:'🔥 火',ingredients:'干燥迷迭香 (3匙)、杜松子 (2匙)、辣椒粉 (1小匙)、红色小碗',instructions:'在耐火碗中混合所有材料。在火星时或周二点燃木炭，将混合草药撒在炭上。手持香炉从房屋的东侧开始，顺时针走遍每个房间。大声说："以火焰之力，一切负面皆化为灰烬。"完成后在门口熄灭，感谢火元素。'},
+  {name:'水元素情感疗愈茶',element:'💧 水',ingredients:'干燥洋甘菊 (2匙)、柠檬香蜂草 (2匙)、玫瑰花瓣 (1匙)、蜂蜜 (适量)、蓝色茶壶',instructions:'在满月之夜或周五金星时，将洋甘菊、柠檬香蜂草和玫瑰花瓣放入蓝色茶壶中。注入热水，浸泡7分钟后加入蜂蜜。饮用时闭眼想象柔和的水蓝色光芒包裹心轮。每一口都默念："如水般流动，我释放所有伤痛。"'},
+  {name:'风元素智慧熏香',element:'🌬 风',ingredients:'薰衣草 (2匙)、薄荷 (1匙)、迷迭香 (1匙)、乳香 (1匙)、白色羽毛',instructions:'将薰衣草、薄荷、迷迭香和乳香在研钵中研磨成粉。在周三水星时或日出时，在香炉中点燃炭片。撒上混合粉末，用白色羽毛扇动烟雾，使其飘向房间各角。坐在烟雾中闭眼冥想，感受灵感如风般涌入。'},
+  {name:'土元素接地保护护符',element:'🌍 土',ingredients:'马鞭草 (2匙)、艾草 (1匙)、岩盐 (1匙)、绿色布袋、棕色绳子',instructions:'在周四木星时或日出时将马鞭草、艾草和岩盐一起放入研钵中，研磨时想象根须从脚底深入大地。将混合物倒入绿色布袋中，用棕色绳子系紧袋口。将护符埋在后院或花盆中7天，然后取出随身携带。此护符能帮助你保持稳定和接地。'},
+  {name:'四元素平衡仪式',element:'🔥💧🌬🌍 四元素',ingredients:'火-肉桂棒、水-玫瑰花瓣、风-薰衣草、土-岩盐、四色蜡烛',instructions:'在房间的东、南、西、北四个方位分别放置风（东/黄色蜡烛）、火（南/红色蜡烛）、水（西/蓝色蜡烛）、土（北/绿色蜡烛）的象征物。从东开始，依次点燃蜡烛，同时念诵对应的元素召唤词。坐在中央冥想15分钟，感受四种能量在体内平衡流动。最后从西开始逆时针熄灭蜡烛，感谢各元素。'},
+];
+
+function renderElementHerbGrid() {
+  const g = document.getElementById('elementHerbGrid');
+  if(!g) return;
+  g.innerHTML = elementHerbData.map(e => `
+    <div class="element-card card-tilt">
+      <h4>${e.element}</h4>
+      <div class="details"><strong>方位：</strong>${e.direction} | <strong>季节：</strong>${e.season} | <strong>颜色：</strong>${e.color}</div>
+      <div class="details"><strong>工具：</strong>${e.tools}</div>
+      <div class="herbs-list"><strong>草药：</strong>${e.herbs}</div>
+      <div class="details" style="color:#64b464;margin-top:4px"><strong>魔法焦点：</strong>${e.magic}</div>
+    </div>
+  `).join('');
+}
+
+function renderElementRecipes() {
+  const g = document.getElementById('elementRecipes');
+  if(!g) return;
+  g.innerHTML = elementRecipesData.map(r => `
+    <div class="lunar-recipe-card card-tilt">
+      <h4>${r.name}</h4>
+      <div class="details"><strong>对应元素：</strong>${r.element}</div>
+      <div class="details"><strong>材料：</strong>${r.ingredients}</div>
+      <div class="details"><strong>方法：</strong>${r.instructions}</div>
+    </div>
+  `).join('');
+}
+
+// ================================================================
+// ENHANCED CALENDAR DATA (extended monthly entries)
+// ================================================================
+// (existing calendarData is preserved; no changes needed)
+
+// ================================================================
+// INIT ALL NEW TABS ON DOM CONTENT LOADED
+// ================================================================
+document.addEventListener('DOMContentLoaded', function() {
+  renderSpiritGrid();
+  renderMoonPhaseGrid();
+  renderLunarRecipes();
+  renderMoonHerbList();
+  renderPlanetHerbGrid();
+  renderPlanetaryRecipes();
+  renderElementHerbGrid();
+  renderElementRecipes();
+});
 </script>
 <script>
 
