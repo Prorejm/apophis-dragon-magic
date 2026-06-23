@@ -4,673 +4,1039 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>希伯来字母 · Hebrew Alphabet · 阿波菲斯之龙</title>
-<meta name="description" content="希伯来字母完整交互指南 — 字母表、Gematria数字学、卡巴拉生命树路径、神名与咒语、字母冥想">
+<meta name="description" content="希伯来字母完整交互指南 — 字母表、Gematria数字学、卡巴拉生命树路径、神名与冥想、卡巴拉魔法仪式">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0a0a;
-  --bg2:#111;
-  --bg3:#1a1a1a;
-  --gold:#d4a843;
-  --gold-dim:#b8922e;
-  --crimson:#c41e3a;
-  --crimson-dim:#8b1528;
-  --text:#ddd;
-  --text-dim:#999;
-  --border:#333;
+  --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--bg4:#222;
+  --gold:#d4a843;--gold-dim:#b8922e;--gold-glow:rgba(212,168,67,0.3);
+  --crimson:#c41e3a;--crimson-dim:#8b1528;--crimson-glow:rgba(196,30,58,0.3);
+  --purple:#6b2fa0;--purple-dim:#4a1f70;--purple-glow:rgba(107,47,160,0.3);
+  --text:#ddd;--text-dim:#999;--text-bright:#fff;--border:#333;
+  --border-gold:rgba(212,168,67,0.25);
   --font-title:'Ma Shan Zheng','Noto Serif SC',serif;
   --font-body:'Noto Serif SC','Cormorant Garamond',serif;
   --font-eng:'Cormorant Garamond','Noto Serif SC',serif;
 }
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--font-body);
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-  line-height:1.7;
-}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.8}
 #particleCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-
-/* ===== NAV ===== */
-.nav-bar{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 24px;height:60px;
-}
-.nav-brand{
-  font-family:var(--font-title);font-size:26px;color:var(--gold);
-  text-decoration:none;letter-spacing:4px;
-}
+.nav-bar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px}
+.nav-brand{font-family:var(--font-title);font-size:26px;color:var(--gold);text-decoration:none;letter-spacing:4px;cursor:default}
 .nav-brand span{color:var(--crimson)}
-.nav-links{display:flex;gap:0;list-style:none}
-.nav-links li a{
-  display:block;padding:18px 14px;
-  color:var(--text-dim);text-decoration:none;font-size:14px;
-  transition:all .3s;position:relative;font-family:var(--font-body);white-space:nowrap;
-}
-.nav-links li a:hover,.nav-links li a.active{color:var(--gold)}
-.nav-links li a.active::after{
-  content:'';position:absolute;bottom:0;left:14px;right:14px;
-  height:2px;background:var(--gold);
-}
-.hamburger{display:none;flex-direction:column;cursor:pointer;gap:5px;background:none;border:none;padding:8px}
-.hamburger span{display:block;width:26px;height:2px;background:var(--gold);transition:all .3s;border-radius:2px}
-.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hamburger.active span:nth-child(2){opacity:0}
-.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-
-.container{position:relative;z-index:1;max-width:1200px;margin:80px auto 40px;padding:0 20px}
-.page-title{
-  text-align:center;padding:30px 0 10px;
-  font-family:var(--font-title);font-size:42px;color:var(--gold);
-  letter-spacing:6px;
-}
-.page-title small{display:block;font-family:var(--font-eng);font-size:16px;color:var(--text-dim);font-weight:400;letter-spacing:2px;margin-top:4px}
-.subtitle{text-align:center;color:var(--text-dim);margin-bottom:30px;font-style:italic}
-.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:30px;border-bottom:1px solid var(--border);padding-bottom:0}
-.tab-btn{
-  padding:10px 18px;background:transparent;border:1px solid transparent;border-bottom:none;
-  color:var(--text-dim);cursor:pointer;font-family:var(--font-body);font-size:14px;
-  transition:all .3s;border-radius:6px 6px 0 0;
-}
-.tab-btn:hover{color:var(--gold);background:rgba(212,168,67,0.05)}
-.tab-btn.active{color:var(--gold);border-color:var(--border);background:var(--bg2);margin-bottom:-1px}
-.tab-content{display:none;animation:fadeIn .4s ease}
-.tab-content.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-
-/* ===== TAB 1: LETTER CARDS ===== */
-.letter-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:16px;
-}
-.letter-card{
-  background:var(--bg2);border:1px solid var(--border);
-  border-radius:10px;padding:18px;
-  transition:all .3s;cursor:pointer;position:relative;overflow:hidden;
-}
-.letter-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:var(--gold);opacity:0;transition:opacity .3s;
-}
-.letter-card:hover{border-color:var(--gold-dim);transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,168,67,0.08)}
-.letter-card:hover::before{opacity:1}
-.letter-card .hebrew{font-size:48px;text-align:right;color:var(--gold);font-family:'Times New Roman','Noto Serif SC',serif;line-height:1.2;margin-bottom:4px}
-.letter-card .letter-name{font-size:18px;color:var(--gold);font-family:var(--font-title);letter-spacing:2px}
-.letter-card .letter-eng{font-family:var(--font-eng);font-size:15px;color:var(--text-dim);font-style:italic}
-.letter-card .letter-meta{display:flex;gap:12px;margin:6px 0;font-size:13px;color:var(--text-dim)}
-.letter-card .letter-meta span{background:var(--bg3);padding:2px 8px;border-radius:4px}
-.letter-card .letter-meaning{font-size:14px;color:var(--text);margin-top:6px;border-top:1px solid var(--border);padding-top:6px}
-.letter-card .letter-tarot{font-size:13px;color:var(--crimson);font-family:var(--font-eng);font-style:italic;margin-top:4px}
-
-/* ===== TAB 2: GEMATRIA ===== */
-.gematria-section{display:flex;flex-direction:column;gap:30px}
-.calculator-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;
-}
-.calculator-card h3{color:var(--gold);font-family:var(--font-title);font-size:22px;margin-bottom:16px;letter-spacing:2px}
-.calc-input-group{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.calc-input-group label{color:var(--text-dim);font-size:14px}
-.calc-input-group input{
-  background:var(--bg3);border:1px solid var(--border);color:var(--text);
-  padding:8px 14px;border-radius:6px;font-size:16px;width:200px;font-family:var(--font-body);
-}
-.calc-input-group input:focus{outline:none;border-color:var(--gold)}
-.calc-input-group button{
-  background:var(--gold);color:var(--bg);border:none;padding:8px 20px;
-  border-radius:6px;cursor:pointer;font-size:14px;font-family:var(--font-body);
-  transition:all .3s;
-}
-.calc-input-group button:hover{background:var(--gold-dim)}
-.calc-result{font-size:20px;color:var(--gold);margin-top:12px;font-family:var(--font-eng)}
-.gematria-table{width:100%;border-collapse:collapse;margin-top:10px}
-.gematria-table th,.gematria-table td{
-  border:1px solid var(--border);padding:8px 12px;text-align:left;font-size:14px;
-}
-.gematria-table th{background:var(--bg3);color:var(--gold);font-family:var(--font-title);letter-spacing:1px}
-.gematria-table td{color:var(--text)}
-.gematria-table tr:hover{background:rgba(212,168,67,0.05)}
-.info-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;
-}
-.info-card h3{color:var(--gold);font-family:var(--font-title);font-size:20px;margin-bottom:10px}
-.info-card p{font-size:14px;color:var(--text);margin-bottom:8px}
-.info-card .highlight{color:var(--gold)}
-
-/* ===== TAB 3: TREE OF LIFE ===== */
-.tree-section{display:flex;flex-wrap:wrap;gap:20px}
-.tree-canvas-wrap{
-  flex:1;min-width:320px;background:var(--bg2);border:1px solid var(--border);
-  border-radius:10px;padding:10px;position:relative;
-}
-.tree-canvas-wrap canvas{width:100%;display:block;border-radius:6px;cursor:pointer}
-.tree-info-panel{
-  width:320px;background:var(--bg2);border:1px solid var(--border);
-  border-radius:10px;padding:20px;align-self:flex-start;min-height:300px;
-}
-.tree-info-panel h3{color:var(--gold);font-family:var(--font-title);font-size:20px;margin-bottom:8px}
-.tree-info-panel .empty-msg{color:var(--text-dim);font-style:italic;font-size:14px}
-.tree-info-panel .path-detail{font-size:14px}
-.tree-info-panel .path-detail .label{color:var(--gold-dim)}
-.tree-info-panel .path-detail .value{color:var(--text);margin-bottom:4px}
-.tree-info-panel .path-detail .tarot{color:var(--crimson);font-family:var(--font-eng);font-style:italic}
-.pillar-legend{display:flex;gap:16px;margin:12px 0;flex-wrap:wrap}
-.pillar-legend span{font-size:12px;padding:4px 10px;border-radius:4px;border:1px solid var(--border)}
-.pillar-legend .mercy{color:#5b8c5a;border-color:#5b8c5a}
-.pillar-legend .severity{color:#c41e3a;border-color:#c41e3a}
-.pillar-legend .mild{color:#d4a843;border-color:#d4a843}
-
-/* ===== TAB 4: INCANTATIONS ===== */
-.incant-section{display:flex;flex-direction:column;gap:24px}
-.divine-names-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.divine-name-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;
-  transition:all .3s;
-}
-.divine-name-card:hover{border-color:var(--gold)}
-.divine-name-card .dn-hebrew{font-size:36px;color:var(--gold);font-family:'Times New Roman',serif;margin-bottom:6px}
-.divine-name-card .dn-name{color:var(--text);font-size:16px;font-family:var(--font-title)}
-.divine-name-card .dn-meaning{font-size:13px;color:var(--text-dim)}
-.divine-name-card .dn-value{font-size:13px;color:var(--crimson);font-family:var(--font-eng)}
-.amulet-maker{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;
-}
-.amulet-maker h3{color:var(--gold);font-family:var(--font-title);font-size:22px;margin-bottom:12px;letter-spacing:2px}
-.amulet-letters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-.amulet-letter-btn{
-  width:44px;height:44px;background:var(--bg3);border:1px solid var(--border);
-  color:var(--gold);font-size:22px;cursor:pointer;border-radius:6px;
-  transition:all .2s;font-family:'Times New Roman',serif;
-}
-.amulet-letter-btn:hover,.amulet-letter-btn.selected{background:var(--gold);color:var(--bg);border-color:var(--gold)}
-.amulet-preview{
-  background:var(--bg);border:1px solid var(--border);border-radius:10px;
-  padding:30px;text-align:center;min-height:120px;margin:12px 0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
-.amulet-preview .amulet-hebrew{font-size:56px;color:var(--gold);font-family:'Times New Roman',serif;letter-spacing:8px}
-.amulet-preview .amulet-label{margin-top:8px;font-size:13px;color:var(--text-dim)}
-.amulet-actions{display:flex;gap:12px;flex-wrap:wrap}
-.amulet-actions button{
-  background:var(--gold);color:var(--bg);border:none;padding:8px 20px;
-  border-radius:6px;cursor:pointer;font-size:14px;font-family:var(--font-body);
-  transition:all .3s;
-}
-.amulet-actions button:hover{background:var(--gold-dim)}
-.amulet-actions button.danger{background:var(--crimson)}
-.amulet-actions button.danger:hover{background:var(--crimson-dim)}
-.spell-display{display:flex;flex-direction:column;gap:14px}
-.spell-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;
-  padding:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
-}
-.spell-card .spell-hebrew{font-size:32px;color:var(--gold);font-family:'Times New Roman',serif;min-width:80px;text-align:center}
-.spell-card .spell-info{flex:1}
-.spell-card .spell-name{color:var(--text);font-size:16px;font-family:var(--font-title)}
-.spell-card .spell-desc{font-size:13px;color:var(--text-dim)}
-.spell-card .spell-tag{display:inline-block;padding:2px 8px;background:var(--bg3);border-radius:4px;font-size:12px;color:var(--gold);margin-top:4px}
-
-/* ===== TAB 5: MEDITATION ===== */
-.meditation-section{display:flex;flex-direction:column;gap:24px}
-.meditation-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
-.meditation-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;
-  padding:18px;transition:all .3s;cursor:pointer;
-}
-.meditation-card:hover{border-color:var(--gold);transform:translateY(-2px)}
-.meditation-card .med-hebrew{font-size:42px;color:var(--gold);font-family:'Times New Roman',serif;text-align:center;margin-bottom:6px}
-.meditation-card .med-name{text-align:center;color:var(--text);font-size:16px;font-family:var(--font-title)}
-.meditation-card .med-guide{font-size:13px;color:var(--text-dim);margin-top:8px;line-height:1.6}
-.combo-meditation{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;
-}
-.combo-meditation h3{color:var(--gold);font-family:var(--font-title);font-size:20px;margin-bottom:10px}
-.combo-meditation p{font-size:14px;color:var(--text);margin-bottom:8px}
-.meditation-timer{
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;text-align:center;
-}
-.meditation-timer h3{color:var(--gold);font-family:var(--font-title);font-size:22px;margin-bottom:16px;letter-spacing:2px}
-.timer-display{font-size:72px;color:var(--gold);font-family:var(--font-eng);letter-spacing:4px;margin:16px 0}
-.timer-controls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.timer-controls button{
-  padding:10px 24px;border:none;border-radius:6px;cursor:pointer;
-  font-size:14px;font-family:var(--font-body);transition:all .3s;
-}
-.timer-start{background:var(--gold);color:var(--bg)}
-.timer-start:hover{background:var(--gold-dim)}
-.timer-pause{background:var(--crimson);color:#fff}
-.timer-pause:hover{background:var(--crimson-dim)}
-.timer-reset{background:var(--bg3);color:var(--text);border:1px solid var(--border)!important}
-.timer-reset:hover{background:var(--border)}
-.timer-presets{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap}
-.timer-presets button{
-  padding:6px 14px;background:var(--bg3);border:1px solid var(--border);color:var(--text-dim);
-  border-radius:20px;cursor:pointer;font-size:12px;font-family:var(--font-body);transition:all .3s;
-}
-.timer-presets button:hover,.timer-presets button.active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
-.meditation-current{
-  background:var(--bg3);border:1px solid var(--border);border-radius:10px;
-  padding:20px;margin-top:12px;text-align:center;
-}
-.meditation-current .mc-hebrew{font-size:64px;color:var(--gold);font-family:'Times New Roman',serif;margin-bottom:6px}
-.meditation-current .mc-name{font-size:20px;color:var(--text);font-family:var(--font-title)}
-.meditation-current .mc-guide{font-size:14px;color:var(--text-dim);margin-top:8px;max-width:600px;margin-left:auto;margin-right:auto}
-.meditation-current .mc-auto-cycle{font-size:13px;color:var(--gold-dim);margin-top:8px;font-style:italic}
-
-/* ===== RESPONSIVE ===== */
+.nav-links{display:flex;gap:8px;flex-wrap:nowrap;align-items:center}
+.nav-link{font-family:var(--font-body);font-size:13px;color:var(--text-dim);text-decoration:none;padding:6px 12px;border-radius:4px;transition:all 0.3s;cursor:pointer;white-space:nowrap}
+.nav-link:hover,.nav-link.active{color:var(--gold);background:rgba(212,168,67,0.08)}
+.nav-toggle{display:none;background:none;border:1px solid var(--border);color:var(--gold);font-size:22px;cursor:pointer;padding:4px 10px;border-radius:4px;transition:all 0.3s}
+.nav-toggle:hover{background:rgba(212,168,67,0.1)}
+.tab-bar{position:relative;z-index:10;display:flex;justify-content:center;flex-wrap:wrap;gap:4px;padding:16px 20px 0;margin-top:60px;background:var(--bg);border-bottom:1px solid var(--border)}
+.tab-btn{font-family:var(--font-body);font-size:14px;color:var(--text-dim);background:transparent;border:1px solid transparent;padding:10px 20px;cursor:pointer;border-radius:6px 6px 0 0;transition:all 0.3s;letter-spacing:1px}
+.tab-btn:hover{color:var(--gold);border-color:var(--border-gold)}
+.tab-btn.active{color:var(--gold);background:var(--bg2);border-color:var(--border-gold);border-bottom-color:var(--bg2)}
+.content{position:relative;z-index:10;max-width:1200px;margin:0 auto;padding:30px 20px 60px}
+.tab-panel{display:none;animation:fadeIn 0.4s ease}
+.tab-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-family:var(--font-title);font-size:32px;color:var(--gold);text-align:center;margin:30px 0 10px;letter-spacing:6px}
+.section-subtitle{font-family:var(--font-eng);font-size:16px;color:var(--text-dim);text-align:center;margin-bottom:30px;font-style:italic}
+.section-divider{width:120px;height:2px;margin:20px auto 30px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;margin:20px 0}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;transition:all 0.3s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--crimson),var(--purple));opacity:0.6}
+.card:hover{border-color:var(--gold-dim);box-shadow:0 0 20px var(--gold-glow);transform:translateY(-2px)}
+.card-hebrew{font-size:64px;color:var(--gold);text-align:center;margin-bottom:8px;line-height:1.2;text-shadow:0 0 20px var(--gold-glow)}
+.card-name{font-family:var(--font-eng);font-size:22px;color:var(--text-bright);text-align:center;margin-bottom:4px;font-weight:700}
+.card-name-cn{font-family:var(--font-title);font-size:18px;color:var(--crimson);text-align:center;margin-bottom:12px}
+.card-meta{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px}
+.card-tag{font-size:12px;padding:3px 10px;border-radius:20px;background:rgba(212,168,67,0.1);border:1px solid var(--border-gold);color:var(--gold)}
+.card-tag.crimson{background:rgba(196,30,58,0.1);border-color:rgba(196,30,58,0.3);color:var(--crimson)}
+.card-tag.purple{background:rgba(107,47,160,0.1);border-color:rgba(107,47,160,0.3);color:var(--purple)}
+.card-desc{font-size:14px;color:var(--text-dim);line-height:1.8;border-top:1px solid var(--border);padding-top:12px}
+.card-desc strong{color:var(--gold)}
+.sofit-section{margin:40px 0;padding:24px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
+.sofit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-top:16px}
+.sofit-card{text-align:center;padding:20px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;transition:all 0.3s}
+.sofit-card:hover{border-color:var(--purple);box-shadow:0 0 15px var(--purple-glow)}
+.sofit-letter{font-size:48px;color:var(--purple);text-shadow:0 0 15px var(--purple-glow)}
+.sofit-name{font-family:var(--font-eng);font-size:16px;color:var(--text);margin:6px 0 4px}
+.sofit-base{font-size:13px;color:var(--text-dim)}
+.data-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}
+.data-table thead th{background:var(--bg3);color:var(--gold);padding:12px 14px;text-align:left;border-bottom:2px solid var(--gold-dim);font-family:var(--font-title);font-size:15px;letter-spacing:2px}
+.data-table tbody td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+.data-table tbody tr:hover{background:rgba(212,168,67,0.04)}
+.data-table tbody tr:nth-child(even){background:rgba(255,255,255,0.01)}
+.gematria-intro{font-size:15px;color:var(--text);line-height:2;max-width:900px;margin:0 auto 30px;text-align:justify}
+.gematria-intro p{margin-bottom:16px;text-indent:2em}
+.calc-box{background:var(--bg2);border:1px solid var(--border-gold);border-radius:10px;padding:24px;margin:30px 0;max-width:700px}
+.calc-box h3{color:var(--gold);margin-bottom:16px;font-family:var(--font-title);font-size:20px}
+.calc-input{width:100%;padding:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:16px;font-family:var(--font-body);outline:none;transition:border-color 0.3s}
+.calc-input:focus{border-color:var(--gold)}
+.calc-btn{margin-top:12px;padding:10px 28px;background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:var(--bg);border:none;border-radius:6px;font-size:15px;cursor:pointer;font-family:var(--font-body);font-weight:700;transition:all 0.3s}
+.calc-btn:hover{box-shadow:0 0 20px var(--gold-glow);transform:translateY(-1px)}
+.calc-result{margin-top:16px;padding:16px;background:var(--bg3);border-radius:6px;border:1px solid var(--border);font-size:15px;color:var(--gold);min-height:50px}
+.method-section{margin:30px 0;padding:20px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
+.method-section h3{color:var(--crimson);margin-bottom:12px;font-family:var(--font-title);font-size:18px}
+.method-section p{color:var(--text-dim);line-height:1.9;font-size:14px}
+.tree-canvas-wrap{text-align:center;margin:30px 0}
+#treeCanvas{background:var(--bg2);border:1px solid var(--border);border-radius:10px;max-width:100%;cursor:pointer}
+.tree-path-info{margin-top:16px;padding:16px;background:var(--bg2);border:1px solid var(--border-gold);border-radius:8px;min-height:60px;font-size:15px;color:var(--gold)}
+.divine-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;margin:20px 0;position:relative;overflow:hidden}
+.divine-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--gold),var(--purple))}
+.divine-hebrew{font-size:40px;color:var(--gold);text-align:center;margin-bottom:8px;text-shadow:0 0 15px var(--gold-glow)}
+.divine-name{font-family:var(--font-eng);font-size:24px;color:var(--text-bright);text-align:center;margin-bottom:4px;font-weight:700}
+.divine-title{font-family:var(--font-title);font-size:16px;color:var(--crimson);text-align:center;margin-bottom:16px}
+.divine-desc{font-size:14px;color:var(--text-dim);line-height:1.9;text-indent:2em}
+.divine-desc strong{color:var(--gold);text-indent:0}
+.meditation-timer{background:var(--bg2);border:1px solid var(--border-gold);border-radius:10px;padding:30px;text-align:center;margin:30px 0}
+.timer-display{font-family:var(--font-eng);font-size:72px;color:var(--gold);text-shadow:0 0 30px var(--gold-glow);margin:20px 0;letter-spacing:4px}
+.timer-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.timer-preset{padding:8px 20px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text-dim);cursor:pointer;font-family:var(--font-body);font-size:14px;transition:all 0.3s}
+.timer-preset:hover,.timer-preset.active{color:var(--gold);border-color:var(--gold-dim);background:rgba(212,168,67,0.08)}
+.timer-control{padding:10px 30px;background:linear-gradient(135deg,var(--crimson-dim),var(--crimson));color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:var(--font-body);font-size:15px;font-weight:700;margin:8px;transition:all 0.3s}
+.timer-control:hover{box-shadow:0 0 20px var(--crimson-glow)}
+.meditation-guide{margin:30px 0}
+.guide-letter{display:flex;align-items:flex-start;gap:16px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin:10px 0;transition:all 0.3s}
+.guide-letter:hover{border-color:var(--purple);box-shadow:0 0 10px var(--purple-glow)}
+.guide-heb{font-size:36px;color:var(--purple);min-width:50px;text-align:center;text-shadow:0 0 10px var(--purple-glow)}
+.guide-text{font-size:14px;color:var(--text-dim);line-height:1.8;flex:1}
+.guide-text strong{color:var(--purple)}
+.ritual-section{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:28px;margin:24px 0}
+.ritual-section h3{font-family:var(--font-title);font-size:22px;color:var(--crimson);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.ritual-section h4{color:var(--gold);margin:16px 0 8px;font-size:16px}
+.ritual-section p{font-size:14px;color:var(--text-dim);line-height:1.9;margin-bottom:12px;text-indent:2em}
+.ritual-section p.no-indent{text-indent:0}
+.ritual-step{display:flex;gap:12px;margin:12px 0;padding:12px;background:var(--bg3);border-radius:6px;border-left:3px solid var(--gold-dim)}
+.ritual-step-num{font-family:var(--font-eng);font-size:20px;color:var(--gold);font-weight:700;min-width:30px}
+.ritual-step-text{font-size:14px;color:var(--text-dim);line-height:1.8;flex:1}
+.ritual-hebrew{font-size:18px;color:var(--gold);text-align:center;margin:16px 0;padding:12px;background:var(--bg3);border-radius:6px;direction:rtl}
+.yhvq-section{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin:20px 0}
+.yhvq-card{text-align:center;padding:24px 16px;background:var(--bg3);border-radius:8px;border:2px solid var(--border);transition:all 0.3s}
+.yhvq-card:hover{transform:translateY(-3px)}
+.yhvq-card.yod{border-color:var(--gold)}
+.yhvq-card.he{border-color:var(--crimson)}
+.yhvq-card.vav{border-color:var(--purple)}
+.yhvq-card.he-final{border-color:var(--text-dim)}
+.yhvq-letter{font-size:48px;margin-bottom:8px}
+.yhvq-card.yod .yhvq-letter{color:var(--gold);text-shadow:0 0 20px var(--gold-glow)}
+.yhvq-card.he .yhvq-letter{color:var(--crimson);text-shadow:0 0 20px var(--crimson-glow)}
+.yhvq-card.vav .yhvq-letter{color:var(--purple);text-shadow:0 0 20px var(--purple-glow)}
+.yhvq-card.he-final .yhvq-letter{color:var(--text-dim)}
+.yhvq-name{font-family:var(--font-eng);font-size:18px;color:var(--text-bright);margin-bottom:4px}
+.yhvq-meaning{font-size:13px;color:var(--text-dim);line-height:1.6}
+.names72-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:20px 0}
+.name72-card{text-align:center;padding:14px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;transition:all 0.3s;cursor:default}
+.name72-card:hover{border-color:var(--gold-dim);box-shadow:0 0 10px var(--gold-glow)}
+.name72-heb{font-size:22px;color:var(--gold);direction:rtl;margin-bottom:4px}
+.name72-eng{font-size:11px;color:var(--text-dim);font-family:var(--font-eng)}
+.footer{position:relative;z-index:10;text-align:center;padding:30px 20px;border-top:1px solid var(--border);color:var(--text-dim);font-size:13px;margin-top:40px}
+.footer a{color:var(--gold-dim);text-decoration:none}
+.highlight{color:var(--gold);font-weight:700}
+.highlight-crimson{color:var(--crimson);font-weight:700}
+.highlight-purple{color:var(--purple);font-weight:700}
+.occult-quote{border-left:3px solid var(--gold-dim);padding:16px 20px;margin:20px 0;background:rgba(212,168,67,0.03);border-radius:0 8px 8px 0;font-style:italic;color:var(--text-dim)}
+.occult-quote cite{display:block;margin-top:8px;color:var(--gold);font-style:normal;font-size:13px}
 @media(max-width:768px){
-  .hamburger{display:flex}
-  .nav-links{
-    position:fixed;top:60px;left:0;right:0;background:rgba(10,10,10,0.97);
-    backdrop-filter:blur(12px);flex-direction:column;border-bottom:1px solid var(--border);
-    display:none;
-  }
+  .nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:rgba(10,10,10,0.97);flex-direction:column;padding:16px;border-bottom:1px solid var(--border)}
   .nav-links.open{display:flex}
-  .nav-links li a{padding:14px 24px;border-bottom:1px solid rgba(255,255,255,0.04)}
-  .nav-links li a.active::after{display:none}
-  .page-title{font-size:32px}
-  .letter-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-  .timer-display{font-size:52px}
-  .tree-info-panel{width:100%}
-  .divine-names-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
-  .meditation-grid{grid-template-columns:1fr}
-  .calc-input-group input{width:100%}
+  .nav-toggle{display:block}
+  .tab-btn{font-size:12px;padding:8px 14px}
+  .card-grid{grid-template-columns:1fr}
+  .section-title{font-size:26px}
+  .timer-display{font-size:48px}
+  .yhvq-section{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:480px){
-  .page-title{font-size:26px}
-  .letter-grid{grid-template-columns:1fr}
-  .tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}
-  .tab-btn{white-space:nowrap;font-size:12px;padding:8px 12px}
+  .nav-brand{font-size:20px;letter-spacing:2px}
+  .tab-btn{font-size:11px;padding:6px 10px}
+  .card{padding:16px}
+  .card-hebrew{font-size:48px}
+  .sofit-grid{grid-template-columns:repeat(2,1fr)}
+  .names72-grid{grid-template-columns:repeat(3,1fr)}
+  .yhvq-section{grid-template-columns:1fr 1fr}
+  .timer-display{font-size:36px}
 }
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-dim)}
 </style>
 </head>
 <body>
 <canvas id="particleCanvas"></canvas>
-
-<!-- ===== NAV ===== -->
 <nav class="nav-bar" id="navBar">
-  <span class="nav-brand">阿波菲斯</span>
-  <a href="index.html" class="nav-link">主书</a>
-  <a href="sigil-game.html" class="nav-link">符印工坊</a>
-  <a href="iching-divination.html" class="nav-link">周易占卜</a>
-  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
-  <a href="planetary-hours.html" class="nav-link">行星时</a>
-  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
-  <a href="astrology-hub.html" class="nav-link">天文星象</a>
-  <a href="lhp-test.html" class="nav-link">魔法测试</a>
-  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
-  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
-  <a href="blog.html" class="nav-link">神秘学博客</a>
-  <a href="generators.html" class="nav-link">生成工坊</a>
-  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
-  <a href="mini-games.html" class="nav-link">迷你游戏</a>
-  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
-  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
-  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
-  <a href="magic-training.html" class="nav-link">魔法修炼</a>
-  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
-  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
-  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
-  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
-  <a href="dream-diary.html" class="nav-link">梦境日记</a>
-  <a href="history-calendar.html" class="nav-link">历史年表</a>
-  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
-  <a href="magical-botany.html" class="nav-link">魔法植物</a>
-  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
-  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
-  <a href="necromancy.html" class="nav-link">死灵术</a>
-  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
-  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
-  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
-  <a href="hebrew-alphabet.html" class="nav-link active">希伯来字母</a>
-  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
-  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <span class="nav-brand">阿波菲斯<span>之龙</span></span>
+  <button class="nav-toggle" id="navToggle" aria-label="菜单">&#9776;</button>
+  <div class="nav-links" id="navLinks">
+    <a class="nav-link" onclick="switchTab('alefbet')">字母表</a>
+    <a class="nav-link" onclick="switchTab('gematria')">数值学</a>
+    <a class="nav-link" onclick="switchTab('paths')">生命树</a>
+    <a class="nav-link" onclick="switchTab('divine')">神名冥想</a>
+    <a class="nav-link" onclick="switchTab('magic')">卡巴拉魔法</a>
+  </div>
 </nav>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('alefbet')">字母表 Alefbet</button>
+  <button class="tab-btn" onclick="switchTab('gematria')">数值学 Gematria</button>
+  <button class="tab-btn" onclick="switchTab('paths')">生命树路径</button>
+  <button class="tab-btn" onclick="switchTab('divine')">神名与冥想</button>
+  <button class="tab-btn" onclick="switchTab('magic')">卡巴拉魔法</button>
+</div>
+<div class="content">
 
-<div class="container">
-  <h1 class="page-title">希伯来字母 <small>Hebrew Alphabet &middot; &#x5d0;&#x5dc;&#x5e3;-&#x5d1;&#x5d9;&#x5ea;</small></h1>
-  <p class="subtitle">22个神圣字母 &middot; 卡巴拉生命树 &middot; 数字学奥秘 &middot; 魔法咒语 &middot; 冥想之路</p>
-
-  <div class="tabs" id="tabButtons">
-    <button class="tab-btn active" data-tab="tab1">&#x1f4dc; 字母表</button>
-    <button class="tab-btn" data-tab="tab2">&#x1f522; 数值学</button>
-    <button class="tab-btn" data-tab="tab3">&#x1f332; 生命树路径</button>
-    <button class="tab-btn" data-tab="tab4">&#x1f9d9; 咒语神名</button>
-    <button class="tab-btn" data-tab="tab5">&#x1f549; 冥想字母</button>
+<!-- TAB 1: ALEFBET -->
+<div class="tab-panel active" id="tab-alefbet">
+  <h2 class="section-title">希伯来二十二字母</h2>
+  <p class="section-subtitle">The Twenty-Two Letters of the Hebrew Alphabet</p>
+  <div class="section-divider"></div>
+  <div class="occult-quote">
+    二十二个字母是宇宙的基石。它们是上帝用以创造世界的工具，是连接物质与精神世界的桥梁。每一个字母都蕴含着深邃的哲学意义、数字振动和神秘力量。
+    <cite>——《光辉之书》Sepher Yetzirah</cite>
   </div>
-
-  <!-- ===== TAB 1: ALPHABET ===== -->
-  <div class="tab-content active" id="tab1">
-    <div class="letter-grid" id="letterGrid"></div>
-  </div>
-
-  <!-- ===== TAB 2: GEMATRIA ===== -->
-  <div class="tab-content" id="tab2">
-    <div class="gematria-section">
-      <div class="calculator-card">
-        <h3>&#x1f4ca; Gematria 数值计算器</h3>
-        <div class="calc-input-group">
-          <label>输入希伯来文字母:</label>
-          <input type="text" id="gematriaInput" placeholder="例如: &#x5d7;&#x5d9;" value="&#x5d7;&#x5d9;">
-          <button id="calcGematria">计算数值</button>
-        </div>
-        <div class="calc-result" id="gematriaResult">&#x5d7;&#x5d9; = 18 (Chai / &#x751f;&#x547d;)</div>
-      </div>
-      <div class="info-card">
-        <h3>&#x1f4d6; 著名数值对应</h3>
-        <table class="gematria-table">
-          <thead><tr><th>数值</th><th>希伯来文</th><th>含义</th><th>说明</th></tr></thead>
-          <tbody id="famousValues"></tbody>
-        </table>
-      </div>
-      <div class="info-card">
-        <h3>&#x1f4a1; Notarikon &amp; Temurah</h3>
-        <p><span class="highlight">Notarikon (&#x5e7;&#x5d9;&#x5e7;&#x5e8;&#x5d5;&#x5e0;&#x5d9;&#x5e7;&#x5f3;)</span>: &#x5c06;&#x6bcf;&#x4e2a;&#x8bcd;&#x7684;&#x9996;&#x5b57;&#x6bcd;&#x62bd;&#x53d6;&#x51fa;&#x6765;&#x7ec4;&#x6210;&#x65b0;&#x8bcd;&#xff0c;&#x6216;&#x5c06;&#x4e00;&#x4e2a;&#x8bcd;&#x7684;&#x6bcf;&#x4e2a;&#x5b57;&#x6bcd;&#x4f5c;&#x4e3a;&#x53e5;&#x9996;&#x5b57;&#x6bcd;&#x5c55;&#x5f00;&#x4e3a;&#x53e5;&#x5b50;&#x3002;&#x4f8b;&#x5982;&#xff0c;&#x56db;&#x5b57;&#x795e;&#x540d;YHVH (&#x5d9;&#x5d4;&#x5d5;&#x5d4;) &#x7684;Notarikon&#x53ef;&#x4ee5;&#x5c55;&#x5f00;&#x4e3a;&#x201c;&#x5d9;&#x5d4;&#x5d5;&#x5d4; &#x5d0;&#x5d3;&#x5d5;&#x5e0;&#x5d9; &#x5d4;&#x5d0;&#x5e8;&#x5e5; &#x5d5;&#x5d4;&#x5e9;&#x5de;&#x5d9;&#x5dd;&#x201d; (Adonai ha&#x2019;Aretz ve&#x2019;ha&#x2019;Shamayim) &#x2014; &#x5929;&#x5730;&#x7684;&#x4e3b;&#x3002;</p>
-        <p><span class="highlight">Temurah (&#x5ea;&#x5de;&#x5e8;&#x5d5;&#x5bc;&#x5e8;&#x5d4;)</span>: &#x5b57;&#x6bcd;&#x66ff;&#x6362;&#xff0c;&#x6309;&#x7167;&#x7279;&#x5b9a;&#x89c4;&#x5219;&#x5c06;&#x4e00;&#x4e2a;&#x5b57;&#x6bcd;&#x66ff;&#x6362;&#x4e3a;&#x53e6;&#x4e00;&#x4e2a;&#x5b57;&#x6bcd;&#x3002;&#x5e38;&#x89c1;&#x7684;&#x65b9;&#x6cd5;&#x5305;&#x62ec;Atbash (&#x7b2c;&#x4e00;&#x4e2a;&#x5b57;&#x6bcd;&#x4e0e;&#x6700;&#x540e;&#x4e00;&#x4e2a;&#x4e92;&#x6362;: &#x5d0;&#x2194;&#x5ea;, &#x5d1;&#x2194;&#x5e9;...) &#x3001;Avgad (&#x76f8;&#x90bb;&#x5b57;&#x6bcd;&#x4e92;&#x6362;: &#x5d0;&#x2194;&#x5d1;, &#x5d2;&#x2194;&#x5d3;...) &#x3001;Albam (&#x7b2c;&#x4e00;&#x534a;&#x4e0e;&#x7b2c;&#x4e8c;&#x534a;&#x5bf9;&#x5e94;: &#x5d0;&#x2194;&#x5dc;, &#x5d1;&#x2194;&#x5dd;...)&#x3002;Temurah&#x662f;&#x5361;&#x5df4;&#x62c9;&#x5bc6;&#x7801;&#x5b66;&#x548c;&#x9b54;&#x6cd5;&#x7b26;&#x6587;&#x5236;&#x4f5c;&#x7684;&#x91cd;&#x8981;&#x57fa;&#x7840;&#x3002;</p>
-      </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-hebrew">א</div>
+      <div class="card-name">Aleph</div>
+      <div class="card-name-cn">阿莱夫</div>
+      <div class="card-meta"><span class="card-tag">数值 1</span><span class="card-tag crimson">愚者 (0)</span><span class="card-tag purple">空气 / Kether</span></div>
+      <div class="card-desc"><strong>象形：牛</strong> — Aleph是希伯来字母表的首字母，代表神圣的开端与原始创造力。在卡巴拉中，Aleph对应生命树最高源质<span class="highlight">Kether（王冠）</span>，象征着无限的光与宇宙的第一因。作为空气元素的代表，Aleph承载着<span class="highlight-purple">神圣呼吸</span>的含义，即上帝创造世界时吹入亚当鼻中的生命之气。在塔罗中对应愚者牌，代表无限可能性与天真的勇气。Aleph的数值为1，是所有数字的起源，暗示着从无到有的创造过程。在冥想中，专注于Aleph可以帮助修行者连接宇宙的原始能量，开启灵性觉醒的第一步。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ב</div>
+      <div class="card-name">Bet</div>
+      <div class="card-name-cn">贝特</div>
+      <div class="card-meta"><span class="card-tag">数值 2</span><span class="card-tag crimson">魔术师 (I)</span><span class="card-tag purple">月亮 / Chokmah</span></div>
+      <div class="card-desc"><strong>象形：房屋</strong> — Bet是第二个希伯来字母，象征着容器、庇护所与二元性的概念。作为<span class="highlight">房屋</span>，它代表着宇宙的结构框架，是万物得以存在和展现的空间。在卡巴拉生命树中，Bet对应<span class="highlight-purple">Chokmah（智慧）</span>，这是第一个可被理解的源质，代表着阳性的创造力量。塔罗中对应魔术师牌，象征将意志转化为现实的能力。Bet的数值为2，标志着从一的统一进入二的分化，是所有二元对立的源头——光与暗、善与恶、精神与物质。在希伯来语中，《创世记》以Bet开头（Bereshith），暗示着创造始于二元性的建立。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ג</div>
+      <div class="card-name">Gimel</div>
+      <div class="card-name-cn">吉梅尔</div>
+      <div class="card-meta"><span class="card-tag">数值 3</span><span class="card-tag crimson">女祭司 (II)</span><span class="card-tag purple">水星 / Binah</span></div>
+      <div class="card-desc"><strong>象形：骆驼</strong> — Gimel代表旅程、沟通与上升的力量。骆驼是沙漠中的旅行者，象征着在物质世界与精神世界之间穿行的能力。在卡巴拉中，Gimel对应<span class="highlight-purple">Binah（理解）</span>，这是阴性的接收源质，代表着深邃的直觉与内在的智慧。塔罗中对应女祭司牌，象征潜意识的智慧与神秘的直觉力量。Gimel的数值为3，在神秘学中是最具创造力的数字之一，代表着灵性、心智与身体的和谐统一。在希伯来传统中，Gimel也象征着<span class="highlight">慈善（Gemilut Hasadim）</span>，因为骆驼承载着重物穿越沙漠，正如善行承载着灵魂穿越物质世界。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ד</div>
+      <div class="card-name">Dalet</div>
+      <div class="card-name-cn">达莱特</div>
+      <div class="card-meta"><span class="card-tag">数值 4</span><span class="card-tag crimson">皇后 (III)</span><span class="card-tag purple">金星 / Chesed</span></div>
+      <div class="card-desc"><strong>象形：门</strong> — Dalet象征着通道、入口与谦卑的品质。门是连接内外空间的媒介，代表着从一个状态过渡到另一个状态的可能性。在卡巴拉中，Dalet对应<span class="highlight-purple">Chesed（慈悲）</span>，这是爱与宽恕的源质，代表着神圣的恩典流向受造界。塔罗中对应皇后牌，象征丰饶、母性与自然界的创造力。Dalet的数值为4，在神秘学中代表着稳固与结构——四元素、四方位、四季。门的意象暗示着<span class="highlight">谦卑</span>（Dalet与Dalah相关），因为只有谦卑的人才能通过灵性的门扉进入更高的意识层次。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ה</div>
+      <div class="card-name">He</div>
+      <div class="card-name-cn">赫</div>
+      <div class="card-meta"><span class="card-tag">数值 5</span><span class="card-tag crimson">皇帝 (IV)</span><span class="card-tag purple">白羊座 / Geburah</span></div>
+      <div class="card-desc"><strong>象形：窗户</strong> — He是神圣启示的字母，象征着窗户所代表的<span class="highlight">光照、灵感与神圣呼吸</span>。窗户允许光线从外部进入室内，正如神圣的启示从灵性世界流入物质世界。He是四字神名YHVH中的两个字母之一，使其成为最具神圣性的字母之一。在卡巴拉中，He对应<span class="highlight-purple">Geburah（严厉）</span>，这是力量与纪律的源质，代表着神圣的审判与净化。塔罗中对应皇帝牌，象征权威、秩序与领导力。He的数值为5，代表着人类（五指、五感）与神圣的连接。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ו</div>
+      <div class="card-name">Vav</div>
+      <div class="card-name-cn">瓦夫</div>
+      <div class="card-meta"><span class="card-tag">数值 6</span><span class="card-tag crimson">教皇 (V)</span><span class="card-tag purple">金牛座 / Tiphareth</span></div>
+      <div class="card-desc"><strong>象形：钉子 / 钩子</strong> — Vav是连接与结合的字母，其形状如同一根钉子或钩子，将事物固定在一起。在希伯来语法中，Vav是连接词"和"，是语言中使用最频繁的字母，象征着<span class="highlight">万物之间的联系与统一</span>。在卡巴拉中，Vav对应<span class="highlight-purple">Tiphareth（美丽）</span>，这是生命树的中心，代表着平衡、和谐与神圣的显现。塔罗中对应教皇牌，象征精神导师与传统的智慧传承。Vav的数值为6，在创造论中代表第六日的完成——人类被创造的日子。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ז</div>
+      <div class="card-name">Zayin</div>
+      <div class="card-name-cn">扎因</div>
+      <div class="card-meta"><span class="card-tag">数值 7</span><span class="card-tag crimson">恋人 (VI)</span><span class="card-tag purple">双子座 / Netzach</span></div>
+      <div class="card-desc"><strong>象形：剑</strong> — Zayin代表切割、分辨与滋养的力量。剑是双刃的，既能切割虚妄以揭示真理，也能守护真理免受侵蚀。在卡巴拉中，Zayin对应<span class="highlight-purple">Netzach（胜利）</span>，这是永恒与美的源质，代表着情感的力量与自然的韵律。塔罗中对应恋人牌，象征着选择、结合与灵魂的伴侣关系。Zayin的数值为7，是灵性中最神圣的数字之一——七日创造、七重天堂、七脉轮、七色光谱。Zayin也象征着<span class="highlight">滋养（Zan）</span>与武器，暗示着灵性战士必须在分辨真理的同时保持慈悲之心。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ח</div>
+      <div class="card-name">Chet</div>
+      <div class="card-name-cn">赫特</div>
+      <div class="card-meta"><span class="card-tag">数值 8</span><span class="card-tag crimson">战车 (VII)</span><span class="card-tag purple">巨蟹座 / Hod</span></div>
+      <div class="card-desc"><strong>象形：栅栏</strong> — Chet象征着围栏、保护与生命的力量。栅栏既保护内部的珍贵之物不受外界侵扰，也界定着神圣与世俗的边界。在卡巴拉中，Chet对应<span class="highlight-purple">Hod（荣耀）</span>，这是光辉与知识的源质，代表着心智的明晰与神圣的荣耀。塔罗中对应战车牌，象征着意志力、控制与胜利的旅程。Chet的数值为8，代表着无限、循环与永恒——将数字8横过来就是无限符号。在希伯来语中，Chet是<span class="highlight">Chaim（生命）</span>的首字母，暗示着这个字母与生命力的深层联系。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ט</div>
+      <div class="card-name">Tet</div>
+      <div class="card-name-cn">泰特</div>
+      <div class="card-meta"><span class="card-tag">数值 9</span><span class="card-tag crimson">力量 (VIII)</span><span class="card-tag purple">狮子座 / Yesod</span></div>
+      <div class="card-desc"><strong>象形：蛇</strong> — Tet是九个字母中最神秘的字母之一，代表着盘绕、隐藏的智慧与蛇的力量。蛇在几乎所有神秘传统中都扮演着核心角色——它是蜕变的象征，是守护宝藏的守护者，也是连接天地之间的中介。在卡巴拉中，Tet对应<span class="highlight-purple">Yesod（基础）</span>，这是生命树的基础源质，代表着潜意识、梦境与灵性能量的储存库。塔罗中对应力量牌，象征着内在的力量、勇气与对本能的驾驭。Tet的数值为9，是单数数字的终结，暗示着完成与新的开始。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">י</div>
+      <div class="card-name">Yod</div>
+      <div class="card-name-cn">约德</div>
+      <div class="card-meta"><span class="card-tag">数值 10</span><span class="card-tag crimson">隐者 (IX)</span><span class="card-tag purple">处女座 / Malkuth</span></div>
+      <div class="card-desc"><strong>象形：手</strong> — Yod是希伯来字母中最小的一个，却蕴含着最强大的力量。它象征着<span class="highlight">手、行动与神圣的意志</span>，是上帝创造世界的工具——"伸出你的手"在圣经中反复出现。Yod是四字神名YHVH的首字母，也是所有希伯来语动词变位的基础标记。在卡巴拉中，Yod对应<span class="highlight-purple">Malkuth（王国）</span>，这是最低的源质，代表着物质世界与神圣计划的最终显现。塔罗中对应隐者牌，象征着内在探索、孤独的智慧与灵性的指引。Yod的数值为10，是数字的圆满——十源质、十诫、十指。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">כ</div>
+      <div class="card-name">Kaf</div>
+      <div class="card-name-cn">卡夫</div>
+      <div class="card-meta"><span class="card-tag">数值 20</span><span class="card-tag crimson">命运之轮 (X)</span><span class="card-tag purple">木星</span></div>
+      <div class="card-desc"><strong>象形：手掌</strong> — Kaf象征着<span class="highlight">手掌、弯曲与接受</span>的力量。手掌是抓握与给予的工具，既可以紧握也可以张开，代表着灵活性与适应力。在希伯来语中，Kaf是Keter（王冠）的首字母，暗示着与最高源质的联系。塔罗中对应命运之轮牌，象征着命运的循环、转变与宇宙的节奏。Kaf的数值为20，代表着双倍的完整与灵性的成熟。在卡巴拉冥想中，Kaf与<span class="highlight">王权</span>的概念密切相关——手掌象征着祝福的手势，在犹太传统中，祭司以手掌的特定姿势祝福会众。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ל</div>
+      <div class="card-name">Lamed</div>
+      <div class="card-name-cn">拉梅德</div>
+      <div class="card-meta"><span class="card-tag">数值 30</span><span class="card-tag crimson">正义 (XI)</span><span class="card-tag purple">天秤座</span></div>
+      <div class="card-desc"><strong>象形：牛鞭 / 牧杖</strong> — Lamed是希伯来字母中最高的一个，象征着<span class="highlight">学习、教导与追求</span>真理的旅程。牛鞭是引导牛群的工具，暗示着灵性导师引导弟子的角色。在希伯来语中，Lamed是Limud（学习）和Melech（国王）的核心字母。塔罗中对应正义牌，象征着平衡、因果律与真理的衡量。Lamed的数值为30，在卡巴拉中与<span class="highlight">心脏（Lev）</span>相关——心脏有30个瓣膜，是生命与情感的源泉。Lamed的形状独特地高耸，象征着追求知识者必须站得高才能看得远。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">מ</div>
+      <div class="card-name">Mem</div>
+      <div class="card-name-cn">梅姆</div>
+      <div class="card-meta"><span class="card-tag">数值 40</span><span class="card-tag crimson">倒吊人 (XII)</span><span class="card-tag purple">水 / Neptune</span></div>
+      <div class="card-desc"><strong>象形：水</strong> — Mem是<span class="highlight">水、流动与静默</span>的字母。水是生命之源，是适应力最强的元素——它可以是平静的湖面，也可以是汹涌的洪流。在卡巴拉中，Mem对应水的元素，代表着情感的深度与潜意识的广阔。塔罗中对应倒吊人牌，象征着自愿的牺牲、视角的转换与通过放下而获得启示。Mem的数值为40，在圣经中是最具象征意义的数字之一——摩西在西奈山上40天、洪水持续40天、以色列人在旷野中40年。40代表着<span class="highlight">考验、净化与转变</span>的完整周期。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">נ</div>
+      <div class="card-name">Nun</div>
+      <div class="card-name-cn">努恩</div>
+      <div class="card-meta"><span class="card-tag">数值 50</span><span class="card-tag crimson">死神 (XIII)</span><span class="card-tag purple">天蝎座</span></div>
+      <div class="card-desc"><strong>象形：鱼</strong> — Nun象征着<span class="highlight">鱼、行动与种子</span>。鱼生活在水中却不受水的限制，象征着在潜意识深处自由游弋的灵性力量。在希伯来语中，Nun是Ne'eman（忠实）的首字母，暗示着忠诚与信任的品质。塔罗中对应死神牌，象征着结束、转变与重生——不是物理的死亡，而是旧有模式的消亡与新可能性的诞生。Nun的数值为50，代表着<span class="highlight">自由（Jubilee）</span>——在犹太传统中，第50年是禧年，所有奴隶获得自由，所有土地回归原主。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ס</div>
+      <div class="card-name">Samekh</div>
+      <div class="card-name-cn">萨梅克</div>
+      <div class="card-meta"><span class="card-tag">数值 60</span><span class="card-tag crimson">节制 (XIV)</span><span class="card-tag purple">射手座</span></div>
+      <div class="card-desc"><strong>象形：支柱</strong> — Samekh象征着<span class="highlight">支撑、循环与永恒</span>。支柱是建筑结构的核心，支撑着整个建筑物的重量，正如信仰支撑着灵魂的精神结构。Samekh是希伯来字母中唯一一个完全封闭的字母，象征着<span class="highlight">永恒的循环</span>——没有起点也没有终点，如同灵魂的不灭本质。塔罗中对应节制牌，象征着平衡、融合与炼金术式的转化。Samekh的数值为60，在冥想中，Samekh帮助修行者建立内在的支柱，在混乱的世界中保持稳定与中心。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ע</div>
+      <div class="card-name">Ayin</div>
+      <div class="card-name-cn">阿因</div>
+      <div class="card-meta"><span class="card-tag">数值 70</span><span class="card-tag crimson">魔鬼 (XV)</span><span class="card-tag purple">摩羯座</span></div>
+      <div class="card-desc"><strong>象形：眼睛</strong> — Ayin象征着<span class="highlight">眼睛、看见与物质世界</span>的幻象。眼睛是灵魂的窗户，但也是幻象的入口——我们所看到的未必是真实的。在卡巴拉中，Ayin与<span class="highlight">Ayin（无）</span>的概念相关，暗示着超越物质表象的虚无境界。塔罗中对应魔鬼牌，象征着束缚、欲望与物质世界的诱惑——但同时也暗示着通过觉知而获得解放的可能。Ayin的数值为70，代表着<span class="highlight">世界（70个民族）</span>与完整的人类经验。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">פ</div>
+      <div class="card-name">Pe</div>
+      <div class="card-name-cn">佩</div>
+      <div class="card-meta"><span class="card-tag">数值 80</span><span class="card-tag crimson">高塔 (XVI)</span><span class="card-tag purple">火星</span></div>
+      <div class="card-desc"><strong>象形：口</strong> — Pe象征着<span class="highlight">口、言语与表达</span>的力量。口是言语的出口，是思想转化为声音的媒介。在卡巴拉中，言语具有创造的力量——上帝通过言语创造世界，而人类的言语也具有塑造现实的力量。塔罗中对应高塔牌，象征着突然的变革、旧结构的崩塌与真理的揭示。Pe的数值为80，代表着<span class="highlight">力量与成熟</span>。在希伯来语中，Pe是Podeh（救赎）的首字母，暗示着言语既可以创造也可以毁灭，既可以祝福也可以诅咒。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">צ</div>
+      <div class="card-name">Tzadi</div>
+      <div class="card-name-cn">察迪</div>
+      <div class="card-meta"><span class="card-tag">数值 90</span><span class="card-tag crimson">星星 (XVII)</span><span class="card-tag purple">水瓶座</span></div>
+      <div class="card-desc"><strong>象形：鱼钩</strong> — Tzadi象征着<span class="highlight">鱼钩、捕捉与正义</span>。鱼钩是捕鱼工具，暗示着从深渊中提取智慧的能力。在希伯来语中，Tzadi是Tzadik（义人）的首字母，代表着正义与正直的品质。塔罗中对应星星牌，象征着希望、灵感与灵性的指引——在黑暗之后出现的星光。Tzadi的数值为90，在卡巴拉中与<span class="highlight">Tzadik（义人）</span>的路径密切相关。在犹太传统中，36位隐藏的义人（Lamed-Vav Tzadikim）的存在维系着世界的平衡。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ק</div>
+      <div class="card-name">Qof</div>
+      <div class="card-name-cn">科夫</div>
+      <div class="card-meta"><span class="card-tag">数值 100</span><span class="card-tag crimson">月亮 (XVIII)</span><span class="card-tag purple">双鱼座</span></div>
+      <div class="card-desc"><strong>象形：后脑 / 猴</strong> — Qof象征着<span class="highlight">后脑、循环与灵性</span>的觉醒。后脑是视觉皮层所在之处，暗示着超越肉眼所见的精神视觉。在希伯来语中，Qof是Qodesh（神圣）的首字母，代表着神圣性与纯洁。塔罗中对应月亮牌，象征着潜意识、梦境与直觉的力量——月亮的光是反射的，暗示着灵性真理需要通过内在的反射才能被理解。Qof的数值为100，代表着<span class="highlight">完整与圆满</span>——在犹太传统中，100是义人的年龄，也是社区祈祷法定人数的十倍。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ר</div>
+      <div class="card-name">Resh</div>
+      <div class="card-name-cn">雷什</div>
+      <div class="card-meta"><span class="card-tag">数值 200</span><span class="card-tag crimson">太阳 (XIX)</span><span class="card-tag purple">太阳 / Helios</span></div>
+      <div class="card-desc"><strong>象形：头</strong> — Resh象征着<span class="highlight">头、开始与引导</span>。头是身体的最高部分，是思想与意志的所在之处。在卡巴拉中，Resh与太阳的光芒相关，代表着<span class="highlight">照耀与启蒙</span>的力量。塔罗中对应太阳牌，象征着光明、喜悦、成功与生命的活力——太阳是所有行星中最耀眼的存在，代表着意识的完全觉醒。Resh的数值为200，在卡巴拉中与<span class="highlight">Rosh（头/首）</span>的概念相关，暗示着领导力与先锋精神。Resh也象征着<span class="highlight">Ruch（精神/风）</span>，暗示着精神的力量如同风一般无形却强大。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ש</div>
+      <div class="card-name">Shin</div>
+      <div class="card-name-cn">辛</div>
+      <div class="card-meta"><span class="card-tag">数值 300</span><span class="card-tag crimson">审判 (XX)</span><span class="card-tag purple">火 / Spirit</span></div>
+      <div class="card-desc"><strong>象形：牙齿</strong> — Shin是<span class="highlight">精神之火、转化与神圣力量</span>的字母。牙齿是身体中最坚硬的部分，象征着不可摧毁的精神力量。Shin的三条分支象征着火的三重性质——创造、毁灭与转化。在卡巴拉中，Shin对应火元素与<span class="highlight">Shekinah（神圣临在）</span>，代表着上帝在世界中的显现。塔罗中对应审判牌，象征着复活、觉醒与灵魂的最终审判。Shin是Shalom（和平）、Shaddai（全能者）和Shekinah（神圣临在）的首字母，是希伯来字母中最具神圣力量的字母之一。</div>
+    </div>
+    <div class="card">
+      <div class="card-hebrew">ת</div>
+      <div class="card-name">Tav</div>
+      <div class="card-name-cn">塔夫</div>
+      <div class="card-meta"><span class="card-tag">数值 400</span><span class="card-tag crimson">世界 (XXI)</span><span class="card-tag purple">土星 / Malkuth</span></div>
+      <div class="card-desc"><strong>象形：十字标记</strong> — Tav是希伯来字母表的最后一个字母，象征着<span class="highlight">标记、完成与真理</span>。十字标记是签名与封印的象征，代表着契约的完成与永恒的印记。在卡巴拉中，Tav对应<span class="highlight">Malkuth（王国）</span>与土星，代表着物质世界的最终完成与神圣计划的实现。塔罗中对应世界牌，象征着圆满、完成与宇宙的和谐——这是大阿尔卡纳的最后一张牌，代表着灵性旅程的终极目标。Tav也象征着<span class="highlight">Emet（真理）</span>——这个希伯来单词以Aleph开头、以Tav结尾，暗示着真理从开端到完成贯穿始终。</div>
     </div>
   </div>
-
-  <!-- ===== TAB 3: TREE OF LIFE ===== -->
-  <div class="tab-content" id="tab3">
-    <div class="tree-section">
-      <div class="tree-canvas-wrap">
-        <canvas id="treeCanvas"></canvas>
-      </div>
-      <div class="tree-info-panel" id="treeInfoPanel">
-        <h3>&#x1f4a1; 路径信息</h3>
-        <div class="pillar-legend">
-          <span class="mercy">&#x2b31; 慈悲柱</span>
-          <span class="severity">&#x2b31; 严厉柱</span>
-          <span class="mild">&#x2b31; 温和柱</span>
-        </div>
-        <div id="treeInfoContent">
-          <p class="empty-msg">点击路径查看详细信息</p>
-        </div>
-      </div>
+  <div class="sofit-section">
+    <h3 class="section-title" style="font-size:24px;margin-top:0">词尾形式 Sofit</h3>
+    <p style="color:var(--text-dim);font-size:14px;margin:10px 0 20px;text-align:center">五个希伯来字母在词尾时采用特殊形式，数值分别为 500、600、700、800、900</p>
+    <div class="sofit-grid">
+      <div class="sofit-card"><div class="sofit-letter">ך</div><div class="sofit-name">Final Kaf</div><div class="sofit-base">基本形 כ Kaf · 数值 500</div></div>
+      <div class="sofit-card"><div class="sofit-letter">ם</div><div class="sofit-name">Final Mem</div><div class="sofit-base">基本形 מ Mem · 数值 600</div></div>
+      <div class="sofit-card"><div class="sofit-letter">ן</div><div class="sofit-name">Final Nun</div><div class="sofit-base">基本形 נ Nun · 数值 700</div></div>
+      <div class="sofit-card"><div class="sofit-letter">ף</div><div class="sofit-name">Final Pe</div><div class="sofit-base">基本形 פ Pe · 数值 800</div></div>
+      <div class="sofit-card"><div class="sofit-letter">ץ</div><div class="sofit-name">Final Tzadi</div><div class="sofit-base">基本形 צ Tzadi · 数值 900</div></div>
     </div>
   </div>
-
-  <!-- ===== TAB 4: INCANTATIONS ===== -->
-  <div class="tab-content" id="tab4">
-    <div class="incant-section">
-      <div class="info-card">
-        <h3>&#x1f64f; 卡巴拉神名对应表</h3>
-        <div class="divine-names-grid" id="divineNamesGrid"></div>
-      </div>
-      <div class="amulet-maker">
-        <h3>&#x1f4ff; 护符文字制作</h3>
-        <p style="color:var(--text-dim);font-size:14px;margin-bottom:8px">点击下方字母组合成护符文字</p>
-        <div class="amulet-letters" id="amuletLetters"></div>
-        <div class="amulet-preview" id="amuletPreview">
-          <div class="amulet-hebrew" id="amuletDisplay">&mdash;</div>
-          <div class="amulet-label">点击上方字母开始制作</div>
-        </div>
-        <div class="amulet-actions">
-          <button id="amuletClear" class="danger">清空</button>
-          <button id="amuletCopy">复制文字</button>
-          <button id="amuletRandom">随机护符</button>
-        </div>
-      </div>
-      <div class="info-card">
-        <h3>&#x1f4dc; 著名卡巴拉咒语</h3>
-        <div class="spell-display" id="spellDisplay"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== TAB 5: MEDITATION ===== -->
-  <div class="tab-content" id="tab5">
-    <div class="meditation-section">
-      <div class="meditation-grid" id="meditationGrid"></div>
-      <div class="combo-meditation">
-        <h3>&#x2727; 神圣名字组合冥想</h3>
-        <p>推荐冥想顺序: <span class="highlight">Yod-He-Vav-He (&#x5d9;&#x5d4;&#x5d5;&#x5d4;)</span> &rarr; <span class="highlight">Adonai (&#x5d0;&#x5d3;&#x5e0;&#x5d9;)</span> &rarr; <span class="highlight">Ehyeh (&#x5d0;&#x5d4;&#x5d9;&#x5d4;)</span></p>
-        <p>方法：安静坐下，深呼吸。在吸气时观想第一个字母，呼气时感受其振动。依次念诵每个字母的发音，让神圣名字的能量充满全身。每次专注一个神名，每日修习21分钟。</p>
-        <p>进阶：将字母对应到生命树的路径，在冥想中沿路径上行，从Malkuth（王国）到Kether（王冠），体验意识提升的旅程。</p>
-      </div>
-      <div class="meditation-timer">
-        <h3>&#x23f1; 引导式冥想计时器</h3>
-        <div class="meditation-current" id="medCurrent">
-          <div class="mc-hebrew" id="medCurrentLetter">&#x5d0;</div>
-          <div class="mc-name" id="medCurrentName">Aleph &mdash; &#x725b;, &#x5f00;&#x7aef;</div>
-          <div class="mc-guide" id="medCurrentGuide">观想一头圣牛的轮廓。感受字母Aleph在喉咙中的振动。它是所有字母之母，代表神圣呼吸的开始。让气息带着金色的光从头顶流入，充满整个身体。</div>
-          <div class="mc-auto-cycle" id="medAutoLabel">&#x25b6; 字母自动轮播中 ...</div>
-        </div>
-        <div class="timer-presets" id="timerPresets">
-          <button data-min="3">3 分钟</button>
-          <button data-min="5" class="active">5 分钟</button>
-          <button data-min="11">11 分钟</button>
-          <button data-min="21">21 分钟</button>
-          <button data-min="42">42 分钟</button>
-        </div>
-        <div class="timer-display" id="timerDisplay">05:00</div>
-        <div class="timer-controls">
-          <button class="timer-start" id="timerStart">&#x25b6; 开始冥想</button>
-          <button class="timer-pause" id="timerPause" style="display:none">&#x23f8; 暂停</button>
-          <button class="timer-reset" id="timerReset">&#x21ba; 重置</button>
-        </div>
-      </div>
-    </div>
+  <div class="occult-quote">
+    二十二个字母被刻在石头上，排列成圆环。上帝通过旋转它们创造了宇宙中的一切——过去、现在与未来。每一个字母都是一个世界，每一个世界都是一个字母，而理解这些字母的人便掌握了创造的钥匙。
+    <cite>——《光辉之书》Sepher Yetzirah 2:4-5</cite>
   </div>
 </div>
 
+<!-- TAB 2: GEMATRIA -->
+<div class="tab-panel" id="tab-gematria">
+  <h2 class="section-title">数值学 Gematria</h2>
+  <p class="section-subtitle">The Hidden Numerology of the Hebrew Letters</p>
+  <div class="section-divider"></div>
+  <div class="gematria-intro">
+    <p>Gematria（吉马特里亚）是希伯来神秘学中最核心的解经方法之一，其原理基于一个根本信念：<span class="highlight">语言与数字共享同一本体</span>。在希伯来语中，每一个字母都对应一个固定的数值，因此每一个单词都拥有一个数值总和。当两个不同的单词或短语拥有相同的数值时，它们之间便存在着隐秘的灵性联系——这种联系揭示了宇宙的深层结构与神圣的意图。</p>
+    <p>Gematria的起源可以追溯到第二圣殿时期，但在中世纪的卡巴拉传统中达到了巅峰。卡巴拉学者们相信，<span class="highlight">托拉（Torah）的每一个字母都是上帝有意安排的</span>，没有任何一个字母是多余的或偶然的。因此，通过数值分析，修行者可以揭示经文表面含义之下的隐藏信息。这种方法不仅被用于解经，也被用于创造护符、进行预言和理解宇宙的运作法则。</p>
+    <p>在实践层面，Gematria有三种主要方法：<span class="highlight-crimson">Gematria</span>（标准数值计算）、<span class="highlight-crimson">Notarikon</span>（首字母缩写法，将一个单词的每个字母视为另一个单词的首字母）和<span class="highlight-crimson">Temurah</span>（字母替换法，按照特定规则交换字母的位置）。这三种方法共同构成了希伯来神秘学的"三把钥匙"，打开了理解神圣语言的大门。</p>
+    <p>值得注意的是，Gematria并非简单的数字游戏。它要求修行者具备深厚的经文知识、敏锐的直觉和灵性的洞察力。<span class="highlight-purple">数值的对应不是机械的，而是灵性的</span>——真正的Gematria揭示的是两个概念之间在神圣层面上的共振与共鸣。正如光辉之书所言："文字是上帝的容器，而数字是打开容器的钥匙。"</p>
+  </div>
+  <h3 class="section-title" style="font-size:24px">著名数值对应表</h3>
+  <div class="section-divider"></div>
+  <div style="overflow-x:auto">
+  <table class="data-table">
+    <thead><tr><th>数值</th><th>希伯来</th><th>名称</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td><strong class="highlight">1</strong></td><td>א</td><td>Aleph / Echad</td><td>统一、唯一、上帝的独一性</td></tr>
+      <tr><td><strong class="highlight">3</strong></td><td>אב</td><td>Aleph-Bet / Ab</td><td>父亲、起源、字母表的种子</td></tr>
+      <tr><td><strong class="highlight">7</strong></td><td>ז</td><td>Zayin</td><td>灵性、完成、神圣的周期</td></tr>
+      <tr><td><strong class="highlight">10</strong></td><td>י</td><td>Yod</td><td>神圣意志、十源质、十诫</td></tr>
+      <tr><td><strong class="highlight">13</strong></td><td>אחד</td><td>Echad (אחד)</td><td>"一"——申命记6:4"以色列啊，你要听"</td></tr>
+      <tr><td><strong class="highlight">15</strong></td><td>יה</td><td>Yah (יה)</td><td>上帝的简称名，用于祝福与诗歌</td></tr>
+      <tr><td><strong class="highlight">18</strong></td><td>חי</td><td>Chai (חי)</td><td>"生命"——犹太文化中最神圣的数字</td></tr>
+      <tr><td><strong class="highlight">21</strong></td><td>אהיה</td><td>Eheieh (אהיה)</td><td>"我将是什么"——出埃及记中上帝的自称</td></tr>
+      <tr><td><strong class="highlight">26</strong></td><td>יהוה</td><td>YHVH (יהוה)</td><td>四字神名——最神圣的上帝之名</td></tr>
+      <tr><td><strong class="highlight">31</strong></td><td>אל</td><td>AL (אל)</td><td>"神"——上帝力量的基本名称</td></tr>
+      <tr><td><strong class="highlight">36</strong></td><td>לו</td><td>Lamed-Vav</td><td>36位隐藏义人，维系世界平衡</td></tr>
+      <tr><td><strong class="highlight">42</strong></td><td>אמ"ת</td><td>AMaT</td><td>42字母神名，用于创造仪式</td></tr>
+      <tr><td><strong class="highlight">50</strong></td><td>נ</td><td>Nun</td><td>自由、禧年、灵魂的解放</td></tr>
+      <tr><td><strong class="highlight">72</strong></td><td>—</td><td>Shemhamphorasch</td><td>72神名——分裂红海的力量</td></tr>
+      <tr><td><strong class="highlight">77</strong></td><td>עז</td><td>Oz / Mazel</td><td>力量、山羊、命运之星</td></tr>
+      <tr><td><strong class="highlight">93</strong></td><td>—</td><td>Thelema + Agape</td><td>"意志"(Thelema=93) + "爱"(Agape=93)</td></tr>
+      <tr><td><strong class="highlight">136</strong></td><td>—</td><td>Son of Man</td><td>"人子"——新约中基督的自称</td></tr>
+      <tr><td><strong class="highlight">207</strong></td><td>אור</td><td>Aur (אור)</td><td>"光"——创造的第一元素</td></tr>
+      <tr><td><strong class="highlight">216</strong></td><td>—</td><td>Geburah / Aryeh</td><td>"严厉"源质 / "狮子"</td></tr>
+      <tr><td><strong class="highlight">318</strong></td><td>—</td><td>Bnei Elohim</td><td>"神之子"——天使的称谓</td></tr>
+      <tr><td><strong class="highlight">358</strong></td><td>משיח</td><td>Mashiach (משיח)</td><td>"弥赛亚"——受膏者、拯救者</td></tr>
+      <tr><td><strong class="highlight">400</strong></td><td>ת</td><td>Tav</td><td>完成、十字标记、世界的终末</td></tr>
+      <tr><td><strong class="highlight">505</strong></td><td>—</td><td>Sarah / Shir</td><td>"公主" / "诗歌"</td></tr>
+      <tr><td><strong class="highlight">613</strong></td><td>—</td><td>Taryag Mitzvot</td><td>613条诫命——托拉的全部律法</td></tr>
+      <tr><td><strong class="highlight">666</strong></td><td>—</td><td>Number of the Beast</td><td>"兽之数"——启示录中的神秘数字</td></tr>
+      <tr><td><strong class="highlight">718</strong></td><td>—</td><td>Stele of Revealing</td><td>"启示石碑"——Thelema的核心圣物</td></tr>
+      <tr><td><strong class="highlight">777</strong></td><td>—</td><td>Boaz / Thelema</td><td>灵性完美、圣殿之柱、神的意志</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="calc-box">
+    <h3>交互式数值计算器</h3>
+    <p style="color:var(--text-dim);font-size:13px;margin-bottom:12px">输入希伯来字母或英文单词，计算其Gematria数值</p>
+    <input class="calc-input" id="gemInput" type="text" placeholder="输入希伯来字母（如 אברהם）或英文单词（如 LOVE）" autocomplete="off">
+    <br>
+    <button class="calc-btn" onclick="calcGematria()">计算数值</button>
+    <div class="calc-result" id="gemResult">等待输入...</div>
+  </div>
+  <h3 class="section-title" style="font-size:24px">三种计算方法</h3>
+  <div class="section-divider"></div>
+  <div class="method-section">
+    <h3>Gematria — 标准数值法</h3>
+    <p>Gematria是最基本也是最广泛使用的希伯来数值计算方法。每个希伯来字母拥有一个固定的数值：Aleph=1, Bet=2, Gimel=3... 直到Tav=400。词尾形式拥有扩展数值：Final Kaf=500, Final Mem=600, Final Nun=700, Final Pe=800, Final Tzadi=900。将一个单词中所有字母的数值相加，便得到该单词的Gematria值。例如，<span class="highlight">Chai（חי）= Chet(8) + Yod(10) = 18</span>，因此18在犹太文化中代表"生命"。当两个不同的单词拥有相同的Gematria值时，它们被认为在灵性层面具有深层联系。例如，<span class="highlight">YHVH（יהוה）= 26</span>，而<span class="highlight">AHVH（אהוה）= 26</span>，暗示着四字神名与"爱"之间的神秘关联。</p>
+  </div>
+  <div class="method-section">
+    <h3>Notarikon — 首字母缩写法</h3>
+    <p>Notarikon是一种将单词拆解为字母、然后将每个字母视为另一个单词首字母的方法。这种方法类似于现代的缩写，但在卡巴拉中具有深远的灵性意义。例如，四字神名<span class="highlight">YHVH（יהוה）</span>可以通过Notarikon解读为：<span class="highlight">Yom（日子）、Hora（小时）、V'Noded（行走者）</span>，暗示着"日复一日，时刻行走"的灵性修行。Notarikon也常被用于解读圣经经文——将一个长句的每个单词首字母提取出来，形成一个新的灵性信息。这种方法揭示了<span class="highlight">语言的多层结构</span>——每一个单词不仅是表面的意思，还包含着隐藏在字母中的深层信息。</p>
+  </div>
+  <div class="method-section">
+    <h3>Temurah — 字母替换法</h3>
+    <p>Temurah是三种方法中最复杂的一种，它通过系统地替换字母来揭示隐藏的含义。最著名的Temurah系统是<span class="highlight">Atbash（阿特巴什）</span>，将字母表反转配对：Aleph与Tav互换、Bet与Shin互换、Gimel与Resh互换，以此类推。例如，使用Atbash解码<span class="highlight">Babel（בבל）= Sheshach（ששך）</span>，揭示了巴比伦的隐藏名称。另一种常见的Temurah系统是<span class="highlight">Aiq Bekar（艾克贝卡）</span>，将字母表分为三组（3x7+2x3），按照特定规则进行替换。Temurah的原理基于一个信念：<span class="highlight">上帝的语言是多维的</span>，同一个信息可以在不同的字母排列中呈现不同的面向。</p>
+  </div>
+  <div class="occult-quote">
+    数字是神圣语言的骨骼，字母是它的血肉。当骨骼与血肉完美结合时，真理便从文字中浮现，如同灵魂从身体中觉醒。掌握Gematria的人，便掌握了阅读宇宙之书的能力。
+    <cite>——亚伯拉罕·阿布拉菲亚 Abraham Abulafia</cite>
+  </div>
+</div>
+
+<!-- TAB 3: TREE OF LIFE PATHS -->
+<div class="tab-panel" id="tab-paths">
+  <h2 class="section-title">生命树二十二路径</h2>
+  <p class="section-subtitle">The 22 Paths of the Tree of Life</p>
+  <div class="section-divider"></div>
+  <div class="gematria-intro">
+    <p>卡巴拉生命树是西方神秘学传统中最核心的象征图式。它由<span class="highlight">十个源质（Sephiroth）</span>和连接它们的<span class="highlight">二十二条路径</span>构成。每条路径对应一个希伯来字母、一张塔罗大阿尔卡纳牌、一个占星对应和一个深层的灵性意义。这二十二条路径是灵魂从物质世界（Malkuth）上升到神圣王冠（Kether）的阶梯，也是神圣能量从上而下流入受造界的通道。</p>
+  </div>
+  <div style="overflow-x:auto">
+  <table class="data-table">
+    <thead><tr><th>路径</th><th>字母</th><th>连接</th><th>塔罗</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td>11</td><td>א Aleph</td><td>Kether → Chokmah</td><td>愚者 (0)</td><td>空气元素，神圣呼吸，从无限到智慧的流动</td></tr>
+      <tr><td>12</td><td>ב Bet</td><td>Kether → Binah</td><td>魔术师 (I)</td><td>月亮，智慧容器，从王冠到理解的显化</td></tr>
+      <tr><td>13</td><td>ג Gimel</td><td>Kether → Tiphareth</td><td>女祭司 (II)</td><td>水星，神圣直觉，从王冠直达中心的灵性通道</td></tr>
+      <tr><td>14</td><td>ד Dalet</td><td>Chesed → Geburah</td><td>皇后 (III)</td><td>金星，爱与力量的平衡，慈悲与严厉的对话</td></tr>
+      <tr><td>15</td><td>ה He</td><td>Chesed → Tiphareth</td><td>皇帝 (IV)</td><td>白羊座，神圣启示，从慈悲到美丽的下降</td></tr>
+      <tr><td>16</td><td>ו Vav</td><td>Chokmah → Binah</td><td>教皇 (V)</td><td>金牛座，智慧与理解的结合，二元性的统一</td></tr>
+      <tr><td>17</td><td>ז Zayin</td><td>Binah → Tiphareth</td><td>恋人 (VI)</td><td>双子座，分辨与选择，从理解到美丽的转化</td></tr>
+      <tr><td>18</td><td>ח Chet</td><td>Chesed → Netzach</td><td>战车 (VII)</td><td>巨蟹座，意志的战车，从慈悲到胜利的驱动力</td></tr>
+      <tr><td>19</td><td>ט Tet</td><td>Geburah → Hod</td><td>力量 (VIII)</td><td>狮子座，内在力量，从严厉到荣耀的转化</td></tr>
+      <tr><td>20</td><td>י Yod</td><td>Chesed → Tiphareth</td><td>隐者 (IX)</td><td>处女座，神圣意志，从慈悲到美丽的手之工作</td></tr>
+      <tr><td>21</td><td>כ Kaf</td><td>Netzach → Hod</td><td>命运之轮 (X)</td><td>木星，命运的循环，胜利与荣耀的永恒交替</td></tr>
+      <tr><td>22</td><td>ל Lamed</td><td>Geburah → Tiphareth</td><td>正义 (XI)</td><td>天秤座，因果平衡，从严厉到美丽的正义之路</td></tr>
+      <tr><td>23</td><td>מ Mem</td><td>Netzach → Yesod</td><td>倒吊人 (XII)</td><td>水，流动与静默，从胜利到基础的下降</td></tr>
+      <tr><td>24</td><td>נ Nun</td><td>Tiphareth → Yesod</td><td>死神 (XIII)</td><td>天蝎座，转变与重生，从美丽到基础的转化</td></tr>
+      <tr><td>25</td><td>ס Samekh</td><td>Yesod → Malkuth</td><td>节制 (XIV)</td><td>射手座，支撑与循环，从基础到王国的桥梁</td></tr>
+      <tr><td>26</td><td>ע Ayin</td><td>Tiphareth → Netzach</td><td>魔鬼 (XV)</td><td>摩羯座，物质幻象，从美丽到胜利的考验</td></tr>
+      <tr><td>27</td><td>פ Pe</td><td>Netzach → Malkuth</td><td>高塔 (XVI)</td><td>火星，变革与崩塌，从胜利到王国的突破</td></tr>
+      <tr><td>28</td><td>צ Tzadi</td><td>Yesod → Hod</td><td>星星 (XVII)</td><td>水瓶座，希望与灵感，从基础到荣耀的星光</td></tr>
+      <tr><td>29</td><td>ק Qof</td><td>Malkuth → Netzach</td><td>月亮 (XVIII)</td><td>双鱼座，潜意识与梦境，从王国到月亮的直觉</td></tr>
+      <tr><td>30</td><td>ר Resh</td><td>Hod → Yesod</td><td>太阳 (XIX)</td><td>太阳，启蒙与照耀，从荣耀到基础的光明</td></tr>
+      <tr><td>31</td><td>ש Shin</td><td>Malkuth → Hod</td><td>审判 (XX)</td><td>火，精神之火，从王国到荣耀的净化</td></tr>
+      <tr><td>32</td><td>ת Tav</td><td>Yesod → Malkuth</td><td>世界 (XXI)</td><td>土星，完成与真理，从基础到王国的最终路径</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3 class="section-title" style="font-size:24px;margin-top:40px">生命树图</h3>
+  <p class="section-subtitle">点击路径查看详情</p>
+  <div class="section-divider"></div>
+  <div class="tree-canvas-wrap">
+    <canvas id="treeCanvas" width="700" height="800"></canvas>
+    <div class="tree-path-info" id="treePathInfo">点击生命树上的路径线查看详细信息</div>
+  </div>
+  <div class="occult-quote">
+    生命树是宇宙的地图。十个源质是上帝的十个属性，二十二条路径是灵魂回归神圣的阶梯。攀登这棵树的人，将发现每一个源质都是一面镜子，映照着宇宙的一个面向，而所有的面向最终汇聚于Kether——那无限的光明之中。
+    <cite>——《光辉之书》Sepher Yetzirah</cite>
+  </div>
+</div>
+
+<!-- TAB 4: DIVINE NAMES & MEDITATION -->
+<div class="tab-panel" id="tab-divine">
+  <h2 class="section-title">神名与冥想</h2>
+  <p class="section-subtitle">Divine Names and Letter Meditation</p>
+  <div class="section-divider"></div>
+  <div class="divine-card">
+    <div class="divine-hebrew">יהוה</div>
+    <div class="divine-name">YHVH · Tetragrammaton</div>
+    <div class="divine-title">四字神名</div>
+    <div class="divine-desc">
+      <p><strong>YHVH（יהוה）</strong>是犹太教中最神圣的上帝之名，被称为"四字神名"（Tetragrammaton）。这个名字由四个字母组成：Yod（י）、He（ה）、Vav（ו）、He（ה），其数值总和为26。在犹太传统中，这个名字太过神圣以至于不能直接发音——在诵读圣经时，犹太人会用<span class="highlight">Adonai（主）</span>来代替。YHVH的发音已经失传，学者们推测其原始发音可能类似于"Yahweh"或"Jehovah"。</p>
+      <p>在卡巴拉中，四字神名被理解为<span class="highlight">宇宙创造的四重过程</span>：Yod代表父亲（Chokmah/智慧），第一个He代表母亲（Binah/理解），Vav代表儿子（Tiphareth/美丽），第二个He代表女儿（Malkuth/王国）。这四个字母也对应着四元素——Yod=火，He=水，Vav=空气，He=土——象征着神名包含了整个物质世界的构成要素。</p>
+      <p>在冥想实践中，修行者通过反复吟诵或默想这四个字母来连接不同层次的灵性意识。每个字母对应一个源质、一个元素和一个方向，形成一个完整的灵性循环。<span class="highlight-purple">YHVH是卡巴拉魔法中最核心的神名</span>，几乎所有的仪式和护符都包含这个神圣的名字。</p>
+    </div>
+  </div>
+  <h3 class="section-title" style="font-size:24px">其他重要神名</h3>
+  <div class="section-divider"></div>
+  <div class="divine-card">
+    <div class="divine-hebrew">אהיה</div>
+    <div class="divine-name">Eheieh</div>
+    <div class="divine-title">"我将是什么" — Kether</div>
+    <div class="divine-desc"><p><strong>Eheieh（אהיה）</strong>出现在《出埃及记》3:14中，当摩西询问上帝的名字时，上帝回答"Ehyeh Asher Ehyeh"（我将是我所将是）。这个名字对应生命树最高源质<span class="highlight">Kether（王冠）</span>，代表着上帝的永恒存在与无限潜能。Eheieh由Aleph-He-Yod-He组成，数值为21。在卡巴拉冥想中，专注于Eheieh可以帮助修行者超越个体意识，体验与神圣源头的合一状态。这个名字暗示着<span class="highlight">上帝不是固定的存在，而是永恒的"将成为"</span>——一种不断展开、不断显现的动态存在。</p></div>
+  </div>
+  <div class="divine-card">
+    <div class="divine-hebrew">אדני</div>
+    <div class="divine-name">Adonai</div>
+    <div class="divine-title">"我的主" — Malkuth</div>
+    <div class="divine-desc"><p><strong>Adonai（אדני）</strong>意为"我的主"，是犹太人在诵读圣经时代替YHVH使用的名称。在卡巴拉中，Adonai对应<span class="highlight">Malkuth（王国）</span>，代表着上帝在物质世界中的显现与统治。Adonai由Aleph-Dalet-Nun-Yod组成，数值为65。这个名字是<span class="highlight">最接近人类经验的神名</span>，因为它代表着上帝作为王者和主人在物质世界中的临在。在仪式魔法中，Adonai常被用于与物质世界相关的操作——祝福、保护、驱逐和治愈。</p></div>
+  </div>
+  <div class="divine-card">
+    <div class="divine-hebrew">אלהים</div>
+    <div class="divine-name">Elohim</div>
+    <div class="divine-title">"神" — Binah</div>
+    <div class="divine-desc"><p><strong>Elohim（אלהים）</strong>是圣经中使用最频繁的上帝之名，出现在《创世记》第一章的创造叙事中。值得注意的是，Elohim在语法上是复数形式，暗示着<span class="highlight">上帝的多重面向</span>或神圣力量的多元性。在卡巴拉中，Elohim对应<span class="highlight">Binah（理解）</span>，代表着上帝作为创造者和审判者的面向。Elohim由Aleph-Lamed-He-Yod-Mem组成，数值为86。这个名字与<span class="highlight">自然界的法则和秩序</span>密切相关，代表着上帝通过自然法则来管理和维持宇宙的运作。</p></div>
+  </div>
+  <div class="divine-card">
+    <div class="divine-hebrew">אלהים צבאות</div>
+    <div class="divine-name">Elohim Tzabaoth</div>
+    <div class="divine-title">"万军之神" — Netzach</div>
+    <div class="divine-desc"><p><strong>Elohim Tzabaoth（אלהים צבאות）</strong>意为"万军之神"或"天军之主"，指的是天使军团和天体力量的统帅。在卡巴拉中，这个名字对应<span class="highlight">Netzach（胜利）</span>，代表着上帝作为宇宙力量指挥官的面向。这个名字与<span class="highlight">星辰、天使和自然界的灵性力量</span>密切相关。在仪式魔法中，Elohim Tzabaoth被用于召唤天使、操控自然力量和进行天文魔法。</p></div>
+  </div>
+  <div class="divine-card">
+    <div class="divine-hebrew">שדי</div>
+    <div class="divine-name">Shaddai</div>
+    <div class="divine-title">"全能者" — Chesed</div>
+    <div class="divine-desc"><p><strong>Shaddai（שדי）</strong>意为"全能者"或"至高者"，是圣经中上帝的另一个重要名称。在犹太传统中，Shaddai与<span class="highlight">Abraham（亚伯拉罕）</span>的启示密切相关——当上帝与亚伯拉罕立约时，以El Shaddai（全能的神）自称。在卡巴拉中，Shaddai对应<span class="highlight">Chesed（慈悲）</span>，代表着上帝作为慈爱和恩典之源的面向。Shaddai由Shin-Dalet-Yod组成，数值为314。在犹太传统中，Shaddai的名字被写在Mezuzah（门框经文盒）的外侧，以Shin的形式出现，守护着家庭的入口。</p></div>
+  </div>
+  <h3 class="section-title" style="font-size:24px;margin-top:40px">七十二神名 Shemhamphorasch</h3>
+  <p class="section-subtitle">The 72 Names of God</p>
+  <div class="section-divider"></div>
+  <div class="gematria-intro">
+    <p>七十二神名（Shemhamphorasch）源自《出埃及记》14:19-21的三节经文。这三节经文各包含72个字母，将它们垂直排列后，从每一列中提取三个字母，便组成了72个三字母神名。这些神名被认为拥有<span class="highlight">分裂红海</span>的力量，在卡巴拉魔法中被广泛用于护符制作、天使召唤和灵性修炼。每个神名对应一个天使、一个灵性力量和一个特定的用途。</p>
+  </div>
+  <div class="names72-grid">
+    <div class="name72-card"><div class="name72-heb">והו</div><div class="name72-eng">Vehu · 创造</div></div>
+    <div class="name72-card"><div class="name72-heb">ילי</div><div class="name72-eng">Yeli · 智慧</div></div>
+    <div class="name72-card"><div class="name72-heb">סיט</div><div class="name72-eng">Sit · 治愈</div></div>
+    <div class="name72-card"><div class="name72-heb">אול</div><div class="name72-eng">Aul · 保护</div></div>
+    <div class="name72-card"><div class="name72-heb">מהש</div><div class="name72-eng">Mahash · 心灵</div></div>
+    <div class="name72-card"><div class="name72-heb">ללה</div><div class="name72-eng">Lelah · 梦境</div></div>
+    <div class="name72-card"><div class="name72-heb">אכא</div><div class="name72-eng">Aka · 纯洁</div></div>
+    <div class="name72-card"><div class="name72-heb">כשת</div><div class="name72-eng">Kasht · 审视</div></div>
+    <div class="name72-card"><div class="name72-heb">חלל</div><div class="name72-eng">Chalal · 自由</div></div>
+    <div class="name72-card"><div class="name72-heb">מנד</div><div class="name72-eng">Mend · 赐福</div></div>
+    <div class="name72-card"><div class="name72-heb">יעז</div><div class="name72-eng">Yez · 力量</div></div>
+    <div class="name72-card"><div class="name72-heb">הבה</div><div class="name72-eng">Heh · 光明</div></div>
+    <div class="name72-card"><div class="name72-heb">לכו</div><div class="name72-eng">Leku · 旅途</div></div>
+    <div class="name72-card"><div class="name72-heb">פוק</div><div class="name72-eng">Poq · 解放</div></div>
+    <div class="name72-card"><div class="name72-heb">מנד</div><div class="name72-eng">Mend · 和谐</div></div>
+    <div class="name72-card"><div class="name72-heb">אני</div><div class="name72-eng">Ani · 慈悲</div></div>
+    <div class="name72-card"><div class="name72-heb">חעם</div><div class="name72-eng">Chaam · 稳固</div></div>
+    <div class="name72-card"><div class="name72-heb">רהא</div><div class="name72-eng">Reha · 视野</div></div>
+    <div class="name72-card"><div class="name72-heb">יאז</div><div class="name72-eng">Yez · 勇气</div></div>
+    <div class="name72-card"><div class="name72-heb">השם</div><div class="name72-eng">Hesem · 守护</div></div>
+    <div class="name72-card"><div class="name72-heb">עלי</div><div class="name72-eng">Ali · 高升</div></div>
+    <div class="name72-card"><div class="name72-heb">להב</div><div class="name72-eng">Lehab · 火焰</div></div>
+    <div class="name72-card"><div class="name72-heb">כוו</div><div class="name72-eng">Kav · 连接</div></div>
+    <div class="name72-card"><div class="name72-heb">שכה</div><div class="name72-eng">Sheka · 宁静</div></div>
+    <div class="name72-card"><div class="name72-heb">ברש</div><div class="name72-eng">Beresh · 创始</div></div>
+    <div class="name72-card"><div class="name72-heb">יגל</div><div class="name72-eng">Yigal · 救赎</div></div>
+    <div class="name72-card"><div class="name72-heb">אש</div><div class="name72-eng">Ash · 神圣</div></div>
+    <div class="name72-card"><div class="name72-heb">טהו</div><div class="name72-eng">Tahu · 净化</div></div>
+    <div class="name72-card"><div class="name72-heb">ירה</div><div class="name72-eng">Yerah · 光照</div></div>
+    <div class="name72-card"><div class="name72-heb">אוי</div><div class="name72-eng">Avi · 父亲</div></div>
+    <div class="name72-card"><div class="name72-heb">לכו</div><div class="name72-eng">Leku · 引导</div></div>
+    <div class="name72-card"><div class="name72-heb">שקי</div><div class="name72-eng">Sheki · 荣耀</div></div>
+    <div class="name72-card"><div class="name72-heb">ושב</div><div class="name72-eng">Veshev · 回归</div></div>
+    <div class="name72-card"><div class="name72-heb">ילי</div><div class="name72-eng">Yeli · 永恒</div></div>
+    <div class="name72-card"><div class="name72-heb">סיא</div><div class="name72-eng">Sia · 洞察</div></div>
+    <div class="name72-card"><div class="name72-heb">אוו</div><div class="name72-eng">Avv · 和平</div></div>
+    <div class="name72-card"><div class="name72-heb">הלל</div><div class="name72-eng">Halal · 赞美</div></div>
+    <div class="name72-card"><div class="name72-heb">מבה</div><div class="name72-eng">Mibah · 转化</div></div>
+    <div class="name72-card"><div class="name72-heb">הני</div><div class="name72-eng">Hani · 恩典</div></div>
+    <div class="name72-card"><div class="name72-heb">עקנ</div><div class="name72-eng">Akan · 坚韧</div></div>
+    <div class="name72-card"><div class="name72-heb">כשב</div><div class="name72-eng">Keshev · 理解</div></div>
+    <div class="name72-card"><div class="name72-heb">חשי</div><div class="name72-eng">Chashi · 信任</div></div>
+    <div class="name72-card"><div class="name72-heb">דלי</div><div class="name72-eng">Dali · 提升</div></div>
+    <div class="name72-card"><div class="name72-heb">הככ</div><div class="name72-eng">Hekak · 神秘</div></div>
+    <div class="name72-card"><div class="name72-heb">עדנ</div><div class="name72-eng">Aden · 欢乐</div></div>
+    <div class="name72-card"><div class="name72-heb">יאד</div><div class="name72-eng">Yad · 记忆</div></div>
+    <div class="name72-card"><div class="name72-heb">אוי</div><div class="name72-eng">Avi · 希望</div></div>
+    <div class="name72-card"><div class="name72-heb">הנו</div><div class="name72-eng">Henu · 宽恕</div></div>
+    <div class="name72-card"><div class="name72-heb">פזי</div><div class="name72-eng">Pazi · 美丽</div></div>
+    <div class="name72-card"><div class="name72-heb">מיכ</div><div class="name72-eng">Mich · 丰盛</div></div>
+    <div class="name72-card"><div class="name72-heb">ומב</div><div class="name72-eng">Vemab · 生命</div></div>
+    <div class="name72-card"><div class="name72-heb">יהה</div><div class="name72-eng">Yahah · 神圣</div></div>
+    <div class="name72-card"><div class="name72-heb">אנו</div><div class="name72-eng">Anu · 存在</div></div>
+    <div class="name72-card"><div class="name72-heb">מחי</div><div class="name72-eng">Machi · 复活</div></div>
+    <div class="name72-card"><div class="name72-heb">וחב</div><div class="name72-eng">Vachav · 团结</div></div>
+    <div class="name72-card"><div class="name72-heb">יחי</div><div class="name72-eng">Yachi · 活力</div></div>
+    <div class="name72-card"><div class="name72-heb">אני</div><div class="name72-eng">Ani · 信念</div></div>
+    <div class="name72-card"><div class="name72-heb">שמו</div><div class="name72-eng">Shemo · 名字</div></div>
+    <div class="name72-card"><div class="name72-heb">ולד</div><div class="name72-eng">Valed · 诞生</div></div>
+    <div class="name72-card"><div class="name72-heb">יאל</div><div class="name72-eng">Yael · 攀升</div></div>
+    <div class="name72-card"><div class="name72-heb">שאו</div><div class="name72-eng">Shau · 高举</div></div>
+    <div class="name72-card"><div class="name72-heb">אלד</div><div class="name72-eng">Eld · 永恒</div></div>
+    <div class="name72-card"><div class="name72-heb">עזי</div><div class="name72-eng">Azi · 坚定</div></div>
+    <div class="name72-card"><div class="name72-heb">השו</div><div class="name72-eng">Heshu · 平衡</div></div>
+    <div class="name72-card"><div class="name72-heb">מים</div><div class="name72-eng">Mim · 深度</div></div>
+    <div class="name72-card"><div class="name72-heb">והר</div><div class="name72-eng">Vaher · 高山</div></div>
+    <div class="name72-card"><div class="name72-heb">יאה</div><div class="name72-eng">Yah · 神圣</div></div>
+    <div class="name72-card"><div class="name72-heb">לאו</div><div class="name72-eng">Lao · 真理</div></div>
+    <div class="name72-card"><div class="name72-heb">כלי</div><div class="name72-eng">Keli · 器皿</div></div>
+    <div class="name72-card"><div class="name72-heb">שוו</div><div class="name72-eng">Shav · 平等</div></div>
+    <div class="name72-card"><div class="name72-heb">ייח</div><div class="name72-eng">Yich · 统一</div></div>
+    <div class="name72-card"><div class="name72-heb">מהו</div><div class="name72-eng">Mahhu · 存在</div></div>
+    <div class="name72-card"><div class="name72-heb">והו</div><div class="name72-eng">Vehu · 力量</div></div>
+    <div class="name72-card"><div class="name72-heb">דיי</div><div class="name72-eng">Dii · 知识</div></div>
+    <div class="name72-card"><div class="name72-heb">עשו</div><div class="name72-eng">Ashu · 创造</div></div>
+  </div>
+  <h3 class="section-title" style="font-size:24px;margin-top:40px">冥想计时器</h3>
+  <p class="section-subtitle">Letter Meditation Timer</p>
+  <div class="section-divider"></div>
+  <div class="meditation-timer">
+    <div class="timer-display" id="timerDisplay">00:00</div>
+    <div class="timer-btns">
+      <button class="timer-preset" onclick="setTimer(5)">5 分钟</button>
+      <button class="timer-preset" onclick="setTimer(10)">10 分钟</button>
+      <button class="timer-preset" onclick="setTimer(15)">15 分钟</button>
+      <button class="timer-preset" onclick="setTimer(20)">20 分钟</button>
+      <button class="timer-preset" onclick="setTimer(30)">30 分钟</button>
+    </div>
+    <div style="margin-top:12px">
+      <button class="timer-control" onclick="startTimer()">开始</button>
+      <button class="timer-control" onclick="pauseTimer()">暂停</button>
+      <button class="timer-control" onclick="resetTimer()">重置</button>
+    </div>
+    <p style="color:var(--text-dim);font-size:13px;margin-top:16px">选择时长后点击"开始"，专注于选定的希伯来字母进行冥想</p>
+  </div>
+  <h3 class="section-title" style="font-size:24px;margin-top:40px">二十二字母冥想引导</h3>
+  <p class="section-subtitle">Guided Meditation for Each Hebrew Letter</p>
+  <div class="section-divider"></div>
+  <div class="meditation-guide">
+    <div class="guide-letter"><div class="guide-heb">א</div><div class="guide-text"><strong>Aleph · 呼吸冥想</strong> — 闭上眼睛，感受呼吸的节奏。每一次吸气都是神圣的创造，每一次呼气都是释放与放下。想象Aleph的形状——两条竖线由一条对角线连接，象征着天与地的桥梁。在呼吸之间，感受那无声的间隙，那是Aleph所在的空间，是无限可能性的所在。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ב</div><div class="guide-text"><strong>Bet · 庇护冥想</strong> — 想象自己置身于一间古老的神圣房屋中。Bet是房屋，是安全的庇护所。感受墙壁的温暖与保护，感受地板的稳固。这间房屋是你的内在圣殿，在这里你与神圣相连。在宁静中，聆听房屋深处传来的低语，那是宇宙创造的声音。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ג</div><div class="guide-text"><strong>Gimel · 旅程冥想</strong> — 想象自己骑着骆驼穿越广袤的沙漠。Gimel是旅程的字母，代表着在物质世界与精神世界之间的穿行。感受沙漠的热浪与星空的寒冷，感受旅途中的孤独与发现。每一步都是一次灵性的进步，每一个沙丘都隐藏着智慧的宝藏。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ד</div><div class="guide-text"><strong>Dalet · 门户冥想</strong> — 在你的面前出现了一扇古老的门。Dalet是门，是通道。这扇门通往你内心最深处的自我。伸出手，触碰门把手。感受金属的冰冷与门后的温暖。缓缓推开门，让光芒涌入。穿过这扇门，你将进入一个新的意识空间。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ה</div><div class="guide-text"><strong>He · 窗户冥想</strong> — 想象一面古老的窗户，窗框上刻着He的形状。透过这扇窗户，你看到了另一个世界——一个充满光芒与色彩的世界。He是启示的字母，代表着神圣的光照从灵性世界流入物质世界。凝视窗外的景象，让那些光芒渗透你的每一个细胞。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ו</div><div class="guide-text"><strong>Vav · 连接冥想</strong> — 想象一根金色的线从天顶垂下，穿过你的头顶，直达你的心底。Vav是连接的字母，它将天与地、灵与肉、意识与潜意识连接在一起。感受这根线的振动，它传递着宇宙的频率。你是这根线上的一个节点，连接着所有存在。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ז</div><div class="guide-text"><strong>Zayin · 剑之冥想</strong> — 在你的手中出现了一把发光的剑。Zayin是剑的字母，代表着分辨与切割的力量。这把剑可以切割虚妄与幻象，揭示隐藏的真理。挥动这把剑，切割掉所有不再服务于你的信念和模式。感受剑光划过空气时的嗡鸣。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ח</div><div class="guide-text"><strong>Chet · 生命冥想</strong> — 想象一道围栏环绕着你，形成了一个神圣的空间。Chet是栅栏，也是Chaim（生命）的首字母。在这个被保护的空间里，你感到完全的安全与宁静。感受生命的脉动——你的心跳、你的呼吸、你血液的流动。这就是Chet的力量，生命的守护者。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ט</div><div class="guide-text"><strong>Tet · 蛇之冥想</strong> — 想象一条发光的蛇在你面前盘绕成圆环。Tet是蛇的字母，象征着蜕变与隐藏的智慧。蛇蜕去旧皮，象征着放下旧的自我，迎接新的开始。观察蛇的缓慢移动，感受它所代表的智慧——耐心、适应与永恒的重生。</div></div>
+    <div class="guide-letter"><div class="guide-heb">י</div><div class="guide-text"><strong>Yod · 种子冥想</strong> — 想象一个微小的光点悬浮在你的心轮前方。Yod是最小的字母，却蕴含着无限的潜能，如同种子中蕴含着整棵大树。凝视这个光点，感受它逐渐扩大，充满你的整个身体，然后扩展到整个房间，最终覆盖整个宇宙。你就是那个种子。</div></div>
+    <div class="guide-letter"><div class="guide-heb">כ</div><div class="guide-text"><strong>Kaf · 手掌冥想</strong> — 伸出你的双手，掌心朝上。Kaf是手掌的字母，象征着接受与给予。感受掌心的温暖，想象金色的能量从天而降，流入你的掌心。这能量是宇宙的祝福，通过你的手掌传递到你的全身。然后，将这祝福传递给世界。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ל</div><div class="guide-text"><strong>Lamed · 学习冥想</strong> — 想象自己站在一座高山之巅。Lamed是最高的字母，象征着追求知识的旅程。从这个高度，你可以看到整个世界的全景。风在耳边低语，传递着古老的智慧。Lamed教导我们：真正的知识来自于高处，来自于超越自我局限的视角。</div></div>
+    <div class="guide-letter"><div class="guide-heb">מ</div><div class="guide-text"><strong>Mem · 水之冥想</strong> — 想象自己置身于一片平静的湖面之上。Mem是水的字母，代表着流动、深度与静默。湖水清澈见底，映照着天空和星辰。感受水的温柔与力量——它可以适应任何容器，也可以穿透最坚硬的岩石。让水的智慧流入你的意识。</div></div>
+    <div class="guide-letter"><div class="guide-heb">נ</div><div class="guide-text"><strong>Nun · 鱼之冥想</strong> — 想象自己变成一条鱼，在深邃的海洋中自由游弋。Nun是鱼的字母，象征着在潜意识深处自由穿行的能力。海洋是无限的，充满了神秘与未知。作为一条鱼，你不惧怕深度，因为你知道——在最深的海底，隐藏着最珍贵的珍珠。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ס</div><div class="guide-text"><strong>Samekh · 支柱冥想</strong> — 想象一根巨大的石柱从大地升起，直入云霄。Samekh是支柱的字母，也是唯一完全封闭的希伯来字母，象征着永恒的循环。这根支柱支撑着天地，也支撑着你的灵性结构。在混乱的世界中，Samekh是你内在的稳定力量。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ע</div><div class="guide-text"><strong>Ayin · 眼睛冥想</strong> — 闭上眼睛，然后缓缓睁开。Ayin是眼睛的字母，代表着看见与觉知。但真正的看见不是用肉眼，而是用灵眼。在冥想中，让内在的视觉逐渐清晰。你开始"看见"那些肉眼看不到的东西——能量的流动、色彩的光晕、灵性存在的身影。</div></div>
+    <div class="guide-letter"><div class="guide-heb">פ</div><div class="guide-text"><strong>Pe · 言语冥想</strong> — 在这个冥想中，你将练习沉默的艺术。Pe是口的字母，代表着言语的力量。但最强大的言语是沉默——在沉默中，你聆听宇宙的声音。感受口腔中的空间，感受舌头的静止。在沉默中，真正的声音开始浮现。</div></div>
+    <div class="guide-letter"><div class="guide-heb">צ</div><div class="guide-text"><strong>Tzadi · 鱼钩冥想</strong> — 想象一个发光的鱼钩沉入深海。Tzadi是鱼钩的字母，象征着从深渊中提取智慧的能力。鱼钩缓慢下沉，穿过层层海水，最终触底。在那里，它钩住了一颗璀璨的珍珠——那是你灵魂深处隐藏的真理与正义。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ק</div><div class="guide-text"><strong>Qof · 灵性冥想</strong> — 想象一轮满月悬挂在夜空中。Qof是灵性与月亮的字母，代表着潜意识与直觉的力量。月光柔和而神秘，照亮了黑暗中的道路。在月光下，你看到了自己的影子——那是你尚未认识的那部分自我。拥抱这个影子，让它融入你的光明之中。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ר</div><div class="guide-text"><strong>Resh · 太阳冥想</strong> — 想象一轮金色的太阳在你头顶升起。Resh是头与太阳的字母，代表着启蒙与照耀。阳光温暖而明亮，驱散了所有的阴影。感受阳光渗透你的头顶，充满你的整个身体。你就是太阳，你的意识就是光芒，照亮一切黑暗。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ש</div><div class="guide-text"><strong>Shin · 火之冥想</strong> — 在你面前出现了一团神圣的火焰。Shin是火与精神之火的字母，其三条分支象征着火的三重性质。这团火焰不燃烧物质，只燃烧虚妄。将你所有的恐惧、怀疑和执念投入火焰中，观看它们化为光与热。剩下的，只有纯粹的灵性之光。</div></div>
+    <div class="guide-letter"><div class="guide-heb">ת</div><div class="guide-text"><strong>Tav · 完成冥想</strong> — 想象一个巨大的十字标记在空中发光。Tav是最后一个字母，象征着完成与真理。回顾你的整个冥想旅程——从Aleph的开始到Tav的完成，你走过了二十二个灵性站点。每一个字母都是你灵魂的一个面向，而Tav将它们全部封印在一起，形成一个完整的圆环。</div></div>
+  </div>
+</div>
+
+<!-- TAB 5: KABBALAH MAGIC -->
+<div class="tab-panel" id="tab-magic">
+  <h2 class="section-title">卡巴拉魔法</h2>
+  <p class="section-subtitle">Practical Kabbalistic Magic and Ritual</p>
+  <div class="section-divider"></div>
+  <div class="occult-quote">
+    卡巴拉魔法不是关于操控自然或强迫意志，而是关于与宇宙的和谐共振。通过理解神圣的名字、字母和数字的奥秘，修行者可以将自己的意志与神圣的意志对齐，从而在物质世界中实现灵性的目的。
+    <cite>——以色列·里加德 Israel Regardie</cite>
+  </div>
+  <div class="ritual-section">
+    <h3>卡巴拉十字仪式 The Kabbalistic Cross</h3>
+    <p>卡巴拉十字仪式是几乎所有卡巴拉魔法仪式的基础开场和收尾。它源自伊丽莎白时代的约翰·迪伊和黄金黎明协会的传统，其目的是在修行者的身体周围建立一个神圣的能量场，将修行者置于生命树的中心位置。通过这个仪式，修行者将自身与宇宙的四个方向、四个元素和神圣的名字连接起来，为后续的魔法操作创造一个受保护的神圣空间。</p>
+    <h4>仪式步骤</h4>
+    <div class="ritual-step"><div class="ritual-step-num">1</div><div class="ritual-step-text">面向东方站立，双脚并拢，双臂自然下垂。深呼吸三次，每次呼气时想象体内的负面能量被排出体外。让自己进入一种平静而专注的状态。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">2</div><div class="ritual-step-text">用右手食指触碰额头，感受指尖的能量集中。在此处振动（以低沉的共鸣声音说出）：<span class="highlight">Ateh（阿特）</span>——意为" unto thee"，将你的意识提升至头顶上方的Kether。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">3</div><div class="ritual-step-text">将手指从额头向下移动至胸部（胸骨下方），振动：<span class="highlight">Malkuth（马尔库特）</span>——意为"王国"，将能量从头顶的王冠引导至身体的王国。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">4</div><div class="ritual-step-text">将手指从胸部向右移动至右肩，振动：<span class="highlight">ve-Geburah（维-格布拉）</span>——意为"及力量"，激活右肩的严厉之柱。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">5</div><div class="ritual-step-text">将手指横跨胸部移动至左肩，振动：<span class="highlight">ve-Gedulah（维-格杜拉）</span>——意为"及荣耀"，激活左肩的慈悲之柱。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">6</div><div class="ritual-step-text">双手在胸前合十，手指指向正前方，振动：<span class="highlight">Le-Olam, Amen（勒-奥拉姆，阿门）</span>——意为"永世如此，阿门"。感受能量从双手射出，形成一个光球在你面前。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">7</div><div class="ritual-step-text">静默片刻，感受卡巴拉十字的能量场在你周围形成。你现在是生命树的中心——头顶是Kether，脚下是Malkuth，左右是Geburah和Gedulah，前方是光芒的汇聚点。这个神圣空间将保护你并增强你后续仪式的力量。</div></div>
+    <div class="ritual-hebrew">Ateh · Malkuth · ve-Geburah · ve-Gedulah · Le-Olam · Amen<br>אתה · מלכות · וגבורה · וגדולה · לעולם · אמן</div>
+  </div>
+  <div class="ritual-section">
+    <h3>小五芒星驱逐仪式 LBRP</h3>
+    <p>Lesser Banishing Ritual of the Pentagram（LBRP，小五芒星驱逐仪式）是西方魔法传统中最重要、最广泛练习的仪式之一。它由黄金黎明协会在19世纪末系统化，但其根源可以追溯到更古老的犹太神秘主义传统。LBRP的目的是<span class="highlight">清除仪式空间中的负面能量</span>，建立一个受保护的神圣空间，并平衡修行者体内的元素能量。这个仪式通常在每天的清晨和夜晚进行，是灵性修行的日常实践之一。</p>
+    <h4>第一部分：卡巴拉十字</h4>
+    <p class="no-indent">首先执行上述的卡巴拉十字仪式，建立神圣空间的中心点。</p>
+    <h4>第二部分：绘制五芒星</h4>
+    <div class="ritual-step"><div class="ritual-step-num">1</div><div class="ritual-step-text">走向东方，面向东方站立。用右手（或持仪式匕首）在身前的空气中绘制一个<span class="highlight">驱逐五芒星</span>（从左下角开始，经过右上角、右下角、左上角，最后到顶部）。在绘制过程中，感受五芒星的光芒从你的指尖流出。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">2</div><div class="ritual-step-text">将手（或匕首）伸入五芒星的中心，振动上帝之名：<span class="highlight">YHVH（יהוה）</span>。感受这个名字的振动穿透五芒星，将其激活为东方的守护之门。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">3</div><div class="ritual-step-text">保持手指指向五芒星，向右转90度，面向南方。绘制第二个驱逐五芒星，振动：<span class="highlight">Adonai（אדני）</span>。这是南方之门的守护名。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">4</div><div class="ritual-step-text">继续向右转90度，面向西方。绘制第三个驱逐五芒星，振动：<span class="highlight">Eheieh（אהיה）</span>。这是西方之门的守护名。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">5</div><div class="ritual-step-text">继续向右转90度，面向北方。绘制第四个驱逐五芒星，振动：<span class="highlight">Agla（אגלא）</span>。这是北方之门的守护名，是"Ateh Gibor Le-Olam Adonai"的首字母缩写。</div></div>
+    <h4>第三部分：召唤大天使</h4>
+    <div class="ritual-step"><div class="ritual-step-num">6</div><div class="ritual-step-text">回到东方，展开双臂呈十字形。振动：<span class="highlight">"在我面前拉斐尔（Raphael），在我身后加百列（Gabriel），在我右边迈克尔（Michael），在我左边乌列尔（Uriel），在我周围闪耀着五芒星的光芒！"</span></div></div>
+    <div class="ritual-step"><div class="ritual-step-num">7</div><div class="ritual-step-text">重复卡巴拉十字仪式，完成LBRP。感受四个方向的五芒星形成一个完整的保护圆环，四位大天使守护着四个方位。你现在已经处于一个完全受保护的神圣空间中。</div></div>
+    <div class="ritual-hebrew">Before me Raphael · Behind me Gabriel<br>On my right hand Michael · On my left hand Uriel<br>For about me flames the Pentagram<br>And in the Column stands the Six-rayed Star</div>
+  </div>
+  <div class="ritual-section">
+    <h3>路径工作 Pathworking</h3>
+    <p>路径工作（Pathworking）是卡巴拉魔法中最核心的灵性实践之一。它是一种<span class="highlight">引导式冥想</span>，修行者通过想象和觉知，沿着生命树的二十二条路径从一个源质移动到另一个源质。路径工作的目的是让修行者亲身体验每一个源质和每一条路径的灵性特质，从而深化对卡巴拉体系的理解，并实现意识的转化与提升。</p>
+    <h4>路径工作的基本方法</h4>
+    <div class="ritual-step"><div class="ritual-step-num">1</div><div class="ritual-step-text"><strong>准备阶段</strong>：选择一条路径（通常从最低的路径32开始，逐步上升）。研究该路径对应的希伯来字母、塔罗牌、占星对应和灵性含义。准备一个安静、不受打扰的空间，可以点燃蜡烛和熏香来营造氛围。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">2</div><div class="ritual-step-text"><strong>开场仪式</strong>：执行LBRP清除空间，然后执行卡巴拉十字建立神圣空间。可以额外使用中柱仪式（Middle Pillar）来激活体内的能量中心。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">3</div><div class="ritual-step-text"><strong>冥想阶段</strong>：闭上眼睛，想象自己站在路径的起点源质处。观察周围的环境——颜色、光线、声音、气味。然后，开始沿着路径缓慢前行。注意路径上的一切细节——风景的变化、遇到的灵性存在、感受到的能量波动。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">4</div><div class="ritual-step-text"><strong>到达与整合</strong>：到达路径的终点源质后，停留一段时间，充分体验该源质的能量和特质。与该源质中可能出现的灵性存在进行交流。然后，缓慢地沿原路返回，将所获得的经验整合到你的意识中。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">5</div><div class="ritual-step-text"><strong>记录与收尾</strong>：睁开眼睛后，立即记录你的体验——所见、所感、所闻。然后执行LBRP关闭仪式空间。定期回顾你的路径工作记录，你会发现随着实践的深入，你的体验会越来越丰富和深刻。</div></div>
+  </div>
+  <div class="ritual-section">
+    <h3>护符制作 Talisman Making</h3>
+    <p>护符制作是卡巴拉魔法中最具实践性的技术之一。护符（Talisman）是一个承载特定灵性力量或意图的物理对象，通常由金属、纸张或木材制成，上面刻有神圣的名字、符号和字母。<span class="highlight">护符与护身符（Amulet）的区别在于</span>：护身符主要用于防御和驱逐负面力量，而护符则用于吸引和凝聚特定的灵性力量或实现特定的目的。</p>
+    <h4>护符制作的基本步骤</h4>
+    <div class="ritual-step"><div class="ritual-step-num">1</div><div class="ritual-step-text"><strong>确定意图</strong>：明确护符的目的——保护、治愈、繁荣、爱情、智慧等。根据意图选择对应的神名、希伯来字母、塔罗牌和行星/源质。例如，治愈护符可以使用Shaddai（שדי）和Netzach源质的力量。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">2</div><div class="ritual-step-text"><strong>选择材料</strong>：根据意图选择合适的材料。金属护符应选择对应行星的金属——金（太阳）、银（月亮）、铜（金星）、铁（火星）等。纸张护符应使用高质量的羊皮纸或棉纸，以天然墨水书写。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">3</div><div class="ritual-step-text"><strong>设计符号</strong>：在护符上绘制或刻写选定的神名、字母和符号。可以使用标准护符设计，也可以根据Gematria和Notarikon创造个性化的符号组合。确保所有符号都精确无误——在魔法中，细节至关重要。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">4</div><div class="ritual-step-text"><strong>充能仪式</strong>：在合适的时机（行星日和时辰），执行LBRP和卡巴拉十字，然后在护符上方振动对应的神名，将灵性能量注入护符。可以同时使用熏香、蜡烛和祈祷来增强充能效果。</div></div>
+    <div class="ritual-step"><div class="ritual-step-num">5</div><div class="ritual-step-text"><strong>封印与使用</strong>：将充能后的护符用布包裹或放入小袋中，佩戴在身上或放置在适当的位置。定期为护符重新充能，特别是在新月或满月时分。当护符的目的已经达成或能量明显减弱时，应将其妥善处理——焚烧或埋入大地。</div></div>
+  </div>
+  <h3 class="section-title" style="font-size:24px;margin-top:40px">YHVH 四色冥想</h3>
+  <p class="section-subtitle">The Four-Color Meditation of the Tetragrammaton</p>
+  <div class="section-divider"></div>
+  <p style="color:var(--text-dim);font-size:15px;max-width:800px;margin:0 auto 20px;text-align:center">四字神名YHVH的四个字母分别对应四种颜色和四个元素。通过四色冥想，修行者可以体验神名的完整能量循环。</p>
+  <div class="yhvq-section">
+    <div class="yhvq-card yod">
+      <div class="yhvq-letter">י</div>
+      <div class="yhvq-name">Yod</div>
+      <div class="yhvq-meaning"><strong>颜色：金黄色</strong><br>元素：火<br>源质：Chokmah（智慧）<br>象征：父性原则、神圣意志、创造的火花。Yod是种子，是最初的点，蕴含着无限的可能性。在冥想中，想象金色的火焰从头顶流入，点燃内在的灵性之火。</div>
+    </div>
+    <div class="yhvq-card he">
+      <div class="yhvq-letter">ה</div>
+      <div class="yhvq-name">He (First)</div>
+      <div class="yhvq-meaning"><strong>颜色：深蓝色</strong><br>元素：水<br>源质：Binah（理解）<br>象征：母性原则、接收与孕育。第一个He是容器，是承载Yod之火的圣杯。在冥想中，想象深蓝色的水流从心轮涌出，滋养你的情感与直觉。</div>
+    </div>
+    <div class="yhvq-card vav">
+      <div class="yhvq-letter">ו</div>
+      <div class="yhvq-name">Vav</div>
+      <div class="yhvq-meaning"><strong>颜色：紫红色</strong><br>元素：空气<br>源质：Tiphareth（美丽）<br>象征：子性原则、连接与平衡。Vav是桥梁，连接着父与母、火与水。在冥想中，想象紫红色的光芒从脊柱升起，平衡你体内的所有对立力量。</div>
+    </div>
+    <div class="yhvq-card he-final">
+      <div class="yhvq-letter">ה</div>
+      <div class="yhvq-name">He (Final)</div>
+      <div class="yhvq-meaning"><strong>颜色：翠绿色</strong><br>元素：土<br>源质：Malkuth（王国）<br>象征：女/大地原则、显现与完成。第二个He是结果，是神圣计划在物质世界中的最终显现。在冥想中，想象翠绿色的能量从脚底升起，将你扎根于大地。</div>
+    </div>
+  </div>
+  <div class="occult-quote">
+    魔法的本质是意志的修炼。当修行者的意志与神圣的意志合一时，奇迹便自然发生——不是因为自然法则被打破，而是因为修行者触及了自然法则的深层结构，发现了那些尚未被人类认知的可能性。
+    <cite>——埃利法斯·利维 Eliphas Levi</cite>
+  </div>
+</div>
+
+</div><!-- end content -->
+<div class="footer">
+  <p>阿波菲斯之龙 · Apophis Dragon Magic · Hebrew Alphabet Study</p>
+  <p style="margin-top:8px;font-size:12px;color:var(--text-dim)">以学习与研究为目的 · For educational and research purposes only</p>
+</div>
+
 <script>
-// ===== PARTICLE BACKGROUND =====
-const canvas = document.getElementById('particleCanvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-let animId;
-
-function resizeCanvas(){
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize',resizeCanvas);
-
-class Particle{
-  constructor(){this.reset()}
-  reset(){
+/* ===== PARTICLE BACKGROUND ===== */
+(function(){
+  var canvas=document.getElementById('particleCanvas');
+  var ctx=canvas.getContext('2d');
+  var particles=[];
+  var maxParticles=80;
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+  resize();
+  window.addEventListener('resize',resize);
+  function Particle(){
     this.x=Math.random()*canvas.width;
     this.y=Math.random()*canvas.height;
     this.size=Math.random()*2+0.5;
-    this.speedX=(Math.random()-0.5)*0.4;
-    this.speedY=(Math.random()-0.5)*0.4;
+    this.speedX=(Math.random()-0.5)*0.3;
+    this.speedY=(Math.random()-0.5)*0.3;
     this.opacity=Math.random()*0.5+0.1;
+    var colors=['212,168,67','196,30,58','107,47,160'];
+    this.color=colors[Math.floor(Math.random()*colors.length)];
   }
-  update(){
-    this.x+=this.speedX;
-    this.y+=this.speedY;
-    if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset();
+  for(var i=0;i<maxParticles;i++){particles.push(new Particle());}
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(var i=0;i<particles.length;i++){
+      var p=particles[i];
+      p.x+=p.speedX;p.y+=p.speedY;
+      if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
+      if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+      ctx.fillStyle='rgba('+p.color+','+p.opacity+')';ctx.fill();
+    }
+    for(var i=0;i<particles.length;i++){
+      for(var j=i+1;j<particles.length;j++){
+        var dx=particles[i].x-particles[j].x;
+        var dy=particles[i].y-particles[j].y;
+        var dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<120){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x,particles[i].y);
+          ctx.lineTo(particles[j].x,particles[j].y);
+          ctx.strokeStyle='rgba(212,168,67,'+(0.06*(1-dist/120))+')';
+          ctx.lineWidth=0.5;ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animate);
   }
-  draw(){
+  animate();
+})();
+
+/* ===== TAB SWITCHING ===== */
+function switchTab(tabName){
+  var panels=document.querySelectorAll('.tab-panel');
+  for(var i=0;i<panels.length;i++){panels[i].classList.remove('active');}
+  var btns=document.querySelectorAll('.tab-btn');
+  for(var i=0;i<btns.length;i++){btns[i].classList.remove('active');}
+  var navLinks=document.querySelectorAll('.nav-link');
+  for(var i=0;i<navLinks.length;i++){navLinks[i].classList.remove('active');}
+  var target=document.getElementById('tab-'+tabName);
+  if(target)target.classList.add('active');
+  var tabNames=['alefbet','gematria','paths','divine','magic'];
+  var idx=tabNames.indexOf(tabName);
+  if(idx>=0&&btns[idx])btns[idx].classList.add('active');
+  if(idx>=0&&navLinks[idx])navLinks[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(tabName==='paths'){setTimeout(drawTree,100);}
+}
+
+/* ===== HAMBURGER MENU ===== */
+(function(){
+  var toggle=document.getElementById('navToggle');
+  var links=document.getElementById('navLinks');
+  if(toggle&&links){toggle.addEventListener('click',function(){links.classList.toggle('open');});}
+})();
+
+/* ===== GEMATRIA CALCULATOR ===== */
+var hebrewValues={'א':1,'ב':2,'ג':3,'ד':4,'ה':5,'ו':6,'ז':7,'ח':8,'ט':9,'י':10,'כ':20,'ל':30,'מ':40,'נ':50,'ס':60,'ע':70,'פ':80,'צ':90,'ק':100,'ר':200,'ש':300,'ת':400,'ך':500,'ם':600,'ן':700,'ף':800,'ץ':900};
+function calcGematria(){
+  var input=document.getElementById('gemInput').value.trim();
+  var result=document.getElementById('gemResult');
+  if(!input){result.innerHTML='请输入内容后再计算';return;}
+  var isHebrew=false,total=0,breakdown=[];
+  for(var i=0;i<input.length;i++){
+    var ch=input[i];
+    if(hebrewValues[ch]!==undefined){
+      isHebrew=true;total+=hebrewValues[ch];
+      breakdown.push(ch+'='+hebrewValues[ch]);
+    }
+  }
+  if(isHebrew&&breakdown.length>0){
+    result.innerHTML='<strong>希伯来数值：</strong>'+total+'<br><span style="font-size:12px;color:var(--text-dim)">计算过程：'+breakdown.join(' + ')+'</span>';
+    return;
+  }
+  var engTotal=0,engBreakdown=[],upper=input.toUpperCase();
+  for(var i=0;i<upper.length;i++){
+    var code=upper.charCodeAt(i);
+    if(code>=65&&code<=90){var val=code-64;engTotal+=val;engBreakdown.push(upper[i]+'='+val);}
+  }
+  if(engBreakdown.length>0){
+    result.innerHTML='<strong>英文序数数值：</strong>'+engTotal+'<br><span style="font-size:12px;color:var(--text-dim)">计算过程：'+engBreakdown.join(' + ')+'</span><br><span style="font-size:12px;color:var(--text-dim)">（A=1, B=2, ... Z=26）</span>';
+    return;
+  }
+  result.innerHTML='未检测到可计算的希伯来字母或英文字母';
+}
+document.getElementById('gemInput').addEventListener('keydown',function(e){if(e.key==='Enter')calcGematria();});
+
+/* ===== MEDITATION TIMER ===== */
+var timerInterval=null,timerSeconds=0,timerRunning=false,timerPresetSeconds=0;
+function setTimer(minutes){
+  timerPresetSeconds=minutes*60;timerSeconds=timerPresetSeconds;updateTimerDisplay();
+  var presets=document.querySelectorAll('.timer-preset');
+  for(var i=0;i<presets.length;i++){presets[i].classList.remove('active');}
+  if(event&&event.target)event.target.classList.add('active');
+}
+function startTimer(){
+  if(timerRunning)return;
+  if(timerSeconds<=0){timerSeconds=timerPresetSeconds||300;}
+  timerRunning=true;
+  timerInterval=setInterval(function(){
+    timerSeconds--;updateTimerDisplay();
+    if(timerSeconds<=0){
+      pauseTimer();
+      document.getElementById('timerDisplay').style.color='var(--crimson)';
+      document.getElementById('timerDisplay').style.textShadow='0 0 30px var(--crimson-glow)';
+      setTimeout(function(){
+        document.getElementById('timerDisplay').style.color='var(--gold)';
+        document.getElementById('timerDisplay').style.textShadow='0 0 30px var(--gold-glow)';
+      },3000);
+    }
+  },1000);
+}
+function pauseTimer(){
+  timerRunning=false;
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+}
+function resetTimer(){
+  pauseTimer();timerSeconds=timerPresetSeconds||0;updateTimerDisplay();
+  document.getElementById('timerDisplay').style.color='var(--gold)';
+  document.getElementById('timerDisplay').style.textShadow='0 0 30px var(--gold-glow)';
+}
+function updateTimerDisplay(){
+  var m=Math.floor(timerSeconds/60);
+  var s=timerSeconds%60;
+  var display=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  document.getElementById('timerDisplay').textContent=display;
+}
+
+/* ===== TREE OF LIFE CANVAS ===== */
+var treePaths=[
+  {id:11,from:0,to:1,letter:'Aleph',tarot:'愚者 (0)',meaning:'空气元素，神圣呼吸'},
+  {id:12,from:0,to:2,letter:'Bet',tarot:'魔术师 (I)',meaning:'月亮，智慧容器'},
+  {id:13,from:0,to:5,letter:'Gimel',tarot:'女祭司 (II)',meaning:'水星，神圣直觉'},
+  {id:14,from:3,to:4,letter:'Dalet',tarot:'皇后 (III)',meaning:'金星，爱与力量'},
+  {id:15,from:3,to:5,letter:'He',tarot:'皇帝 (IV)',meaning:'白羊座，神圣启示'},
+  {id:16,from:1,to:2,letter:'Vav',tarot:'教皇 (V)',meaning:'金牛座，二元统一'},
+  {id:17,from:2,to:5,letter:'Zayin',tarot:'恋人 (VI)',meaning:'双子座，分辨与选择'},
+  {id:18,from:3,to:6,letter:'Chet',tarot:'战车 (VII)',meaning:'巨蟹座，意志之力'},
+  {id:19,from:4,to:7,letter:'Tet',tarot:'力量 (VIII)',meaning:'狮子座，内在力量'},
+  {id:20,from:3,to:5,letter:'Yod',tarot:'隐者 (IX)',meaning:'处女座，神圣意志'},
+  {id:21,from:6,to:7,letter:'Kaf',tarot:'命运之轮 (X)',meaning:'木星，命运循环'},
+  {id:22,from:4,to:5,letter:'Lamed',tarot:'正义 (XI)',meaning:'天秤座，因果平衡'},
+  {id:23,from:6,to:8,letter:'Mem',tarot:'倒吊人 (XII)',meaning:'水，流动与静默'},
+  {id:24,from:5,to:8,letter:'Nun',tarot:'死神 (XIII)',meaning:'天蝎座，转变重生'},
+  {id:25,from:8,to:9,letter:'Samekh',tarot:'节制 (XIV)',meaning:'射手座，支撑循环'},
+  {id:26,from:5,to:6,letter:'Ayin',tarot:'魔鬼 (XV)',meaning:'摩羯座，物质幻象'},
+  {id:27,from:6,to:9,letter:'Pe',tarot:'高塔 (XVI)',meaning:'火星，变革崩塌'},
+  {id:28,from:8,to:7,letter:'Tzadi',tarot:'星星 (XVII)',meaning:'水瓶座，希望灵感'},
+  {id:29,from:9,to:6,letter:'Qof',tarot:'月亮 (XVIII)',meaning:'双鱼座，潜意识'},
+  {id:30,from:7,to:8,letter:'Resh',tarot:'太阳 (XIX)',meaning:'太阳，启蒙照耀'},
+  {id:31,from:9,to:7,letter:'Shin',tarot:'审判 (XX)',meaning:'火，精神之火'},
+  {id:32,from:8,to:9,letter:'Tav',tarot:'世界 (XXI)',meaning:'土星，完成真理'}
+];
+var sephirothNames=['Kether','Chokmah','Binah','Chesed','Geburah','Tiphareth','Netzach','Hod','Yesod','Malkuth'];
+var sephirothPos=[];
+var highlightedPath=-1;
+
+function drawTree(){
+  var canvas=document.getElementById('treeCanvas');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  var cx=w/2;
+  sephirothPos=[
+    {x:cx,y:60},      // 0 Kether
+    {x:cx-100,y:160}, // 1 Chokmah
+    {x:cx+100,y:160}, // 2 Binah
+    {x:cx-120,y:300}, // 3 Chesed
+    {x:cx+120,y:300}, // 4 Geburah
+    {x:cx,y:380},     // 5 Tiphareth
+    {x:cx-120,y:500}, // 6 Netzach
+    {x:cx+120,y:500}, // 7 Hod
+    {x:cx,y:600},     // 8 Yesod
+    {x:cx,y:720}      // 9 Malkuth
+  ];
+  /* draw paths */
+  for(var i=0;i<treePaths.length;i++){
+    var p=treePaths[i];
+    var from=sephirothPos[p.from];
+    var to=sephirothPos[p.to];
     ctx.beginPath();
-    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctx.fillStyle=`rgba(212,168,67,${this.opacity})`;
+    ctx.moveTo(from.x,from.y);
+    ctx.lineTo(to.x,to.y);
+    if(highlightedPath===p.id){
+      ctx.strokeStyle='rgba(212,168,67,0.9)';
+      ctx.lineWidth=3;
+      ctx.shadowColor='rgba(212,168,67,0.5)';
+      ctx.shadowBlur=15;
+    }else{
+      ctx.strokeStyle='rgba(212,168,67,0.2)';
+      ctx.lineWidth=1;
+      ctx.shadowBlur=0;
+    }
+    ctx.stroke();
+    ctx.shadowBlur=0;
+  }
+  /* draw sephiroth */
+  for(var i=0;i<sephirothPos.length;i++){
+    var s=sephirothPos[i];
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,22,0,Math.PI*2);
+    ctx.fillStyle='rgba(10,10,10,0.9)';
     ctx.fill();
+    ctx.strokeStyle='rgba(212,168,67,0.6)';
+    ctx.lineWidth=2;
+    ctx.stroke();
+    ctx.fillStyle='#d4a843';
+    ctx.font='11px Cormorant Garamond, serif';
+    ctx.textAlign='center';
+    ctx.fillText(sephirothNames[i],s.x,s.y+4);
   }
 }
 
-function initParticles(n=80){
-  particles=[];
-  for(let i=0;i<n;i++)particles.push(new Particle());
-}
-function animateParticles(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{p.update();p.draw()});
-  animId=requestAnimationFrame(animateParticles);
-}
-initParticles();
-animateParticles();
-
-// ===== HAMBURGER =====
-const hamburger=document.getElementById('hamburger');
-const navLinks=document.getElementById('navLinks');
-hamburger.addEventListener('click',()=>{
-  hamburger.classList.toggle('active');
-  navLinks.classList.toggle('open');
-});
-
-// ===== TAB SYSTEM =====
-const tabBtns=document.querySelectorAll('.tab-btn');
-const tabContents=document.querySelectorAll('.tab-content');
-tabBtns.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const target=btn.dataset.tab;
-    tabBtns.forEach(b=>b.classList.remove('active'));
-    tabContents.forEach(c=>c.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(target).classList.add('active');
-    // Redraw tree canvas when tab3 is shown
-    if(target==='tab3'&&typeof drawTree==='function')drawTree();
-  });
-});
-
-// ===== HEBREW LETTER DATA =====
-const hebrewLetters = [
-  {hebrew:'&#x5d0;',name:'Aleph',nameZh:'&#x963f;&#x52d2;&#x592b;',num:1,meaning:'&#x725b;&#x3001;&#x5f00;&#x7aef;',mystic:'&#x795e;&#x5723;&#x547c;&#x5438;&#xff0c;&#x4e00;&#x5207;&#x5b57;&#x6bcd;&#x4e4b;&#x6bcd;',tarot:'&#x611a;&#x8005;(0)',path:11,pronounce:'&#x5f31;&#x58f0;&#x5583;&#x55e6;/&#x503c;&#x58f0;&#x5039;'},
-  {hebrew:'&#x5d1;',name:'Beth',nameZh:'&#x8d1d;&#x7279;',num:2,meaning:'&#x623f;&#x5c4b;',mystic:'&#x795e;&#x5723;&#x4e4b;&#x5bb6;&#xff0c;&#x5305;&#x5bb9;&#x4e0e;&#x5b88;&#x62a4;',tarot:'&#x9b54;&#x672f;&#x5e08;(I)',path:12,pronounce:'b'},
-  {hebrew:'&#x5d2;',name:'Gimel',nameZh:'&#x5409;&#x7c73;&#x5c14;',num:3,meaning:'&#x9a7c;&#x9a7c;',mystic:'&#x5bcc;&#x8db3;&#x4e0e;&#x65c5;&#x7a0b;&#xff0c;&#x7cbe;&#x795e;&#x7684;&#x8f6c;&#x53d8;',tarot:'&#x5973;&#x796d;&#x53f8;(II)',path:13,pronounce:'g'},
-  {hebrew:'&#x5d3;',name:'Dalet',nameZh:'&#x8fbe;&#x83b1;&#x7279;',num:4,meaning:'&#x95e8;',mystic:'&#x8fdb;&#x5165;&#x795e;&#x5723;&#x4e4b;&#x95e8;&#xff0c;&#x51ed;&#x4fe1;&#x4e4b;&#u8df3;',tarot:'&#x7687;&#x540e;(III)',path:14,pronounce:'d'},
-  {hebrew:'&#x5d4;',name:'He',nameZh:'&#x8d6b;',num:5,meaning:'&#x7a97;&#x6237;',mystic:'&#x795e;&#x5723;&#x5149;&#x7167;&#x8fdb;&#x7684;&#x7a97;&#x53e3;&#xff0c;&#x542f;&#x793a;&#x4e0e;&#x6069;&#x5178;',tarot:'&#x7687;&#u5e1d;(IV)',path:15,pronounce:'h'},
-  {hebrew:'&#x5d5;',name:'Vav',nameZh:'&#x74e6;&#x592b;',num:6,meaning:'&#x9489;&#x5b50;&#x3001;&#x94a9;&#x5b50;',mystic:'&#x8fde;&#x63a5;&#x4e4b;&#x529b;&#xff0c;&#x5929;&#u4e0e;&#x5730;&#x7684;&#x6865;&#x6881;',tarot:'&#x6559;&#x7687;(V)',path:16,pronounce:'v'},
-  {hebrew:'&#x5d6;',name:'Zayin',nameZh:'&#x624e;&#x56e0;',num:7,meaning:'&#x5251;',mystic:'&#x7cbe;&#x795e;&#x4e4b;&#x5251;&#xff0c;&#u51b3;&#x65ad;&#x4e0e;&#u5206;&#x8fa8;',tarot:'&#x604b;&#u4eba;(VI)',path:17,pronounce:'z'},
-  {hebrew:'&#x5d7;',name:'Chet',nameZh:'&#x8d6b;&#x7279;',num:8,meaning:'&#x6805;&#x680f;',mystic:'&#x8d85;&#x8d8a;&#x4e16;&#x4fd7;&#x4e4b;&#x56f4;&#xff0c;&#u795e;&#x5723;&#x4e4b;&#u56f4;',tarot:'&#x6218;&#u8f66;(VII)',path:18,pronounce:'ch'},
-  {hebrew:'&#x5d8;',name:'Tet',nameZh:'&#x7279;&#u7279;',num:9,meaning:'&#x86c7;',mystic:'&#x5305;&#x88f9;&#x4e0e;&#x4fdd;&#x62a4;&#xff0c;&#x6f5c;&#x80fd;&#x7684;&#x87ba;&#x65cb;',tarot:'&#x529b;&#x91cf;(VIII)',path:19,pronounce:'t'},
-  {hebrew:'&#x5d9;',name:'Yod',nameZh:'&#x7ea6;&#u5fb7;',num:10,meaning:'&#x624b;',mystic:'&#x521b;&#x9020;&#x4e4b;&#x624b;&#xff0c;&#x6240;&#x6709;&#x5b57;&#u6bcd;&#x7684;&#u6838;&#u5fc3;',tarot:'&#x9690;&#x58eb;(IX)',path:20,pronounce:'y'},
-  {hebrew:'&#x5db;',name:'Kaf',nameZh:'&#x5361;&#u592b;',num:20,meaning:'&#x624b;&#x638c;',mystic:'&#x63a5;&#x53d7;&#x4e0e;&#x5f00;&#x542f;&#xff0c;&#x53ef;&#x80fd;&#x6027;&#x7684;&#x5bb9;&#x5668;',tarot:'&#x547d;&#x8fd0;&#x4e4b;&#x8f6e;(X)',path:21,pronounce:'k'},
-  {hebrew:'&#x5dc;',name:'Lamed',nameZh:'&#x62c9;&#x6885;&#xb5b7;',num:30,meaning:'&#x725b;&#x97ad;',mystic:'&#x5b66;&#x4e60;&#x4e0e;&#x6559;&#x5bfc;&#xff0c;&#x5411;&#x4e0a;&#x7684;&#x8ffd;&#x6c42;',tarot:'&#x6b63;&#x4e49;(XI)',path:22,pronounce:'l'},
-  {hebrew:'&#x5de;',name:'Mem',nameZh:'&#x6885;&#x59c6;',num:40,meaning:'&#x6c34;',mystic:'&#x6df1;&#x6e0a;&#x4e4b;&#x6c34;&#xff0c;&#x6d41;&#x52a8;&#x4e0e;&#x611f;&#x60c5;',tarot:'&#x5012;&#x540a;&#x4eba;(XII)',path:23,pronounce:'m'},
-  {hebrew:'&#x5df;',name:'Nun',nameZh:'&#x7eb3;&#x6069;',num:50,meaning:'&#x9c7c;',mystic:'&#x5b88;&#x5019;&#x4e0e;&#x8f6c;&#x53d8;&#xff0c;&#x6df1;&#x6d77;&#x4e4b;&#x4e2d;&#x7684;&#x751f;&#x547d;',tarot:'&#x6b7b;&#x795e;(XIII)',path:24,pronounce:'n'},
-  {hebrew:'&#x5e1;',name:'Samekh',nameZh:'&#x8428;&#x6885;&#x8d6b;',num:60,meaning:'&#x652f;&#x67f1;',mystic:'&#x652f;&#x6301;&#x4e0e;&#x5faa;&#x73af;&#xff0c;&#x5b87;&#x5b99;&#x7684;&#x652f;&#x67f1;',tarot:'&#x8282;&#x5236;(XIV)',path:25,pronounce:'s'},
-  {hebrew:'&#x5e2;',name:'Ayin',nameZh:'&#x963f;&#x56e0;',num:70,meaning:'&#x773c;&#x775b;',mystic:'&#x7cbe;&#x795e;&#x4e4b;&#x773c;&#xff0c;&#x771f;&#x76f8;&#x7684;&#x89c6;&#x91ce;',tarot:'&#x9b54;&#x9b3c;(XV)',path:26,pronounce:'a/&#x5039;'},
-  {hebrew:'&#x5e4;',name:'Pe',nameZh:'&#x6d3e;',num:80,meaning:'&#x53e3;',mystic:'&#x8a00;&#x8f9e;&#x4e0e;&#x58f0;&#x97f3;&#xff0c;&#x521b;&#x9020;&#x6027;&#x7684;&#x8bed;&#x8a00;',tarot:'&#x9ad8;&#x5854;(XVI)',path:27,pronounce:'p'},
-  {hebrew:'&#x5e6;',name:'Tzadi',nameZh:'&#x7d2d;&#x8fea;',num:90,meaning:'&#x9c7c;&#x94a9;',mystic:'&#x6b63;&#x4e49;&#x4e0e;&#x8d85;&#x8d8a;&#xff0c;&#x4fe1;&#x4ef0;&#x7684;&#x94a9;',tarot:'&#x661f;&#x661f;(XVII)',path:28,pronounce:'tz'},
-  {hebrew:'&#x5e7;',name:'Qof',nameZh:'&#x79d1;&#x592b;',num:100,meaning:'&#x540e;&#x8111;',mystic:'&#x5723;&#x5409;&#x4e4b;&#x5149;&#xff0c;&#x5706;&#x6ee1;&#x7684;&#x5468;&#x671f;',tarot:'&#x6708;&#x4eae;(XVIII)',path:29,pronounce:'q'},
-  {hebrew:'&#x5e8;',name:'Resh',nameZh:'&#x96f7;&#x4ec0;',num:200,meaning:'&#x5934;',mystic:'&#x667a;&#x6167;&#x4e0e;&#x5146;&#x8c61;&#xff0c;&#x7cbe;&#x795e;&#x7684;&#x9996;&#x9886;',tarot:'&#x592a;&#x9633;(XIX)',path:30,pronounce:'r'},
-  {hebrew:'&#x5e9;',name:'Shin',nameZh:'&#x5e0c;&#x56e0;',num:300,meaning:'&#x7259;&#x9f7f;',mystic:'&#x795e;&#x5723;&#x4e4b;&#x706b;&#xff0c;&#x6539;&#x53d8;&#x4e0e;&#x5316;&#x89e3;',tarot:'&#x5ba1;&#x5224;(XX)',path:31,pronounce:'sh'},
-  {hebrew:'&#x5ea;',name:'Tav',nameZh:'&#x5854;&#x592b;',num:400,meaning:'&#x5341;&#x5b57;&#x6807;&#x8bb0;',mystic:'&#x5b8c;&#x6210;&#x4e0e;&#x771f;&#x7406;&#xff0c;&#x5b87;&#x5b99;&#x7684;&#x7f3a;&#x53e3;',tarot:'&#x4e16;&#x754c;(XXI)',path:32,pronounce:'t'}
-];
-
-// ===== TAB 1: RENDER LETTER CARDS =====
-function renderLetters(){
-  const grid=document.getElementById('letterGrid');
-  grid.innerHTML='';
-  hebrewLetters.forEach((l,i)=>{
-    const card=document.createElement('div');
-    card.className='letter-card';
-    card.innerHTML=`
-      <div class="hebrew">${l.hebrew}</div>
-      <div class="letter-name">${l.nameZh} (${l.name})</div>
-      <div class="letter-eng">${l.pronounce} &middot; 数值 ${l.num}</div>
-      <div class="letter-meta"><span>路径 ${l.path}</span><span>${l.tarot}</span></div>
-      <div class="letter-meaning"><strong>含义:</strong> ${l.meaning}</div>
-      <div class="letter-meaning"><strong>神秘学:</strong> ${l.mystic}</div>
-      <div class="letter-tarot">&#x1f90e; 塔罗: ${l.tarot}</div>
-    `;
-    grid.appendChild(card);
-  });
-}
-renderLetters();
-
-// ===== TAB 2: GEMATRIA =====
-const gematriaInput=document.getElementById('gematriaInput');
-const calcBtn=document.getElementById('calcGematria');
-const resultDiv=document.getElementById('gematriaResult');
-
-function calcGematriaValue(str){
-  let total=0;
-  const letterValues={
-    '&#x5d0;':1,'&#x5d1;':2,'&#x5d2;':3,'&#x5d3;':4,'&#x5d4;':5,'&#x5d5;':6,'&#x5d6;':7,'&#x5d7;':8,'&#x5d8;':9,'&#x5d9;':10,
-    '&#x5db;':20,'&#x5da;':20,'&#x5dc;':30,'&#x5de;':40,'&#x5dd;':40,'&#x5df;':50,'&#x5e1;':60,'&#x5e2;':70,'&#x5e4;':80,'&#x5e3;':80,
-    '&#x5e6;':90,'&#x5e5;':90,'&#x5e7;':100,'&#x5e8;':200,'&#x5e9;':300,'&#x5ea;':400
-  };
-  // Map actual Unicode chars - we need the actual chars
-  const chars={
-    '\u05d0':1,'\u05d1':2,'\u05d2':3,'\u05d3':4,'\u05d4':5,'\u05d5':6,'\u05d6':7,'\u05d7':8,'\u05d8':9,'\u05d9':10,
-    '\u05db':20,'\u05da':20,'\u05dc':30,'\u05de':40,'\u05dd':40,'\u05df':50,'\u05e1':60,'\u05e2':70,'\u05e4':80,'\u05e3':80,
-    '\u05e6':90,'\u05e5':90,'\u05e7':100,'\u05e8':200,'\u05e9':300,'\u05ea':400
-  };
-  for(const ch of str){
-    if(chars[ch])total+=chars[ch];
+/* click on tree canvas */
+document.getElementById('treeCanvas').addEventListener('click',function(e){
+  var canvas=this;
+  var rect=canvas.getBoundingClientRect();
+  var mx=(e.clientX-rect.left)*(canvas.width/rect.width);
+  var my=(e.clientY-rect.top)*(canvas.height/rect.height);
+  var closest=-1,closestDist=20;
+  for(var i=0;i<treePaths.length;i++){
+    var p=treePaths[i];
+    var from=sephirothPos[p.from];
+    var to=sephirothPos[p.to];
+    var dist=pointToLineDistance(mx,my,from.x,from.y,to.x,to.y);
+    if(dist<closestDist){closestDist=dist;closest=p.id;}
   }
-  return total;
-}
-
-calcBtn.addEventListener('click',()=>{
-  const val=gematriaInput.value.trim();
-  if(!val){resultDiv.textContent='请输入希伯来文字母';return}
-  const total=calcGematriaValue(val);
-  resultDiv.innerHTML=`${val} = <strong>${total}</strong>`;
-  // Find matching meaning
-  const famous=famousGematria.find(f=>f.value===total);
-  if(famous)resultDiv.innerHTML+=` &rarr; ${famous.hebrew} (${famous.meaning})`;
+  if(closest>=0){
+    highlightedPath=closest;
+    drawTree();
+    var path=treePaths.find(function(p){return p.id===closest;});
+    if(path){
+      document.getElementById('treePathInfo').innerHTML=
+        '<strong>路径 '+path.id+'</strong> · '+path.letter+' · '+path.tarot+'<br>'+
+        '<span style="color:var(--text-dim)">'+path.meaning+'</span>';
+    }
+  }
 });
-gematriaInput.addEventListener('keydown',e=>{if(e.key==='Enter')calcBtn.click()});
-// Initial calc
-setTimeout(()=>calcBtn.click(),100);
 
-const famousGematria=[
-  {value:1,hebrew:'&#x5d0;&#x5d7;&#x5d3;',meaning:'Echad - &#x4e00;&#x552f;',desc:'&#x795e;&#x7684;&#x4e00;&#x552f;&#x6027;'},
-  {value:13,hebrew:'&#x5d0;&#x5d4;&#x5d1;&#x5d4;',meaning:'Ahavah - &#x7231;',desc:'&#x795e;&#x4e4b;&#x7231;'},
-  {value:18,hebrew:'&#x5d7;&#x5d9;',meaning:'Chai - &#x751f;&#x547d;',desc:'&#x751f;&#x547d;&#x4e4b;&#x529b;&#xff0c;&#x5e38;&#x7528;&#x4e8e;&#x62a4;&#x8eab;&#x7b26;'},
-  {value:26,hebrew:'&#x5d9;&#x5d4;&#x5d5;&#x5d4;',meaning:'YHVH - &#x56db;&#x5b57;&#x795e;&#x540d;',desc:'&#x6700;&#x5723;&#x7684;&#x795e;&#x540d;'},
-  {value:32,hebrew:'&#x5dc;&#x5d1;',meaning:'Lev - &#x5fc3;',desc:'&#x667a;&#x6167;&#x4e4b;&#x5fc3;'},
-  {value:40,hebrew:'&#x5de;&#x5d9;&#x5dd;',meaning:'Mayim - &#x6c34;',desc:'&#x539f;&#x521d;&#x4e4b;&#x6c34;'},
-  {value:65,hebrew:'&#x5d0;&#x5d3;&#x5e0;&#x5d9;',meaning:'Adonai - &#x6211;&#x4e3b;',desc:'&#x5c0a;&#x79f0;'},
-  {value:72,hebrew:'&#x5d7;&#x5e1;&#x5d3;',meaning:'Chesed - &#x60c5;&#x8c6a;',desc:'&#x60c5;&#x8c6a;&#x4e4b;&#x4e3b;'},
-  {value:86,hebrew:'&#x5d0;&#x5dc;&#x5d4;&#x5d9;&#x5dd;',meaning:'Elohim - &#x795e;',desc:'&#x521b;&#x9020;&#x4e4b;&#x795e;'},
-  {value:108,hebrew:'&#x5d0;&#x5de;&#x5ea;',meaning:'Emet - &#x771f;&#x7406;',desc:'&#x771f;&#x7406;&#x4e0e;&#x5b9e;&#x5728;'},
-  {value:365,hebrew:'&#x5e9;&#x5e0;&#x5ea;',meaning:'Shanah - &#x5e74;',desc:'&#x592a;&#x9633;&#x5e74;&#x7684;&#x5929;&#x6570;'},
-  {value:666,hebrew:'&#x5e9;&#x5e8;&#x5e9;',meaning:'Shesh - &#x517d;&#x7684;&#x6570;&#x76ee;',desc:'&#x201c;&#x667a;&#x6167;&#x5728;&#x5176;&#x4e2d;&#x201d;'},
-  {value:777,hebrew:'&#x5ea;&#x5e8;&#x5e2;&#x5d2;',meaning:'ThROG - &#x5929;&#x5347;',desc:'&#x5361;&#x5df4;&#x62c9;&#x5b8c;&#x7f8e;&#x6570;'},
-  {value:913,hebrew:'&#x5d1;&#x5e8;&#x5d0;&#x5e9;&#x5d9;&#x5ea;',meaning:'B&#x2019;reshit - &#x8d77;&#x59cb;',desc:'&#x57fa;&#x7763;&#x6559;&#x5723;&#x7ecf;&#x7b2c;&#x4e00;&#x4e2a;&#x8bcd;'}
-];
-function renderFamous(){
-  const tbody=document.getElementById('famousValues');
-  tbody.innerHTML='';
-  famousGematria.forEach(f=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td><strong>${f.value}</strong></td><td>${f.hebrew}</td><td>${f.meaning}</td><td>${f.desc}</td>`;
-    tbody.appendChild(tr);
-  });
+function pointToLineDistance(px,py,x1,y1,x2,y2){
+  var A=px-x1,B=py-y1,C=x2-x1,D=y2-y1;
+  var dot=A*C+B*D;
+  var lenSq=C*C+D*D;
+  var param=lenSq!==0?dot/lenSq:-1;
+  var xx,yy;
+  if(param<0){xx=x1;yy=y1;}
+  else if(param>1){xx=x2;yy=y2;}
+  else{xx=x1+param*C;yy=y1+param*D;}
+  var dx=px-xx,dy=py-yy;
+  return Math.sqrt(dx*dx+dy*dy);
 }
-renderFamous();
-
-// ===== TAB 3: TREE OF LIFE =====
-const treeCanvas=document.getElementById('treeCanvas');
-const treeCtx=treeCanvas.getContext('2d');
-const treeInfoContent=document.getElementById('treeInfoContent');
-
-const sephiroth = [
-  {id:1,name:'Kether',nameZh:'&#x738b;&#x51a0;',cx:0.5,cy:0.04,color:'#fff'},
-  {id:2,name:'Chokhmah',nameZh:'&#x667a;&#x6167;',cx:0.25,cy:0.14,color:'#8888cc'},
-  {id:3,name:'Binah',nameZh:'&#x7406;&#x89e3;',cx:0.75,cy:0.14,color:'#cc88cc'},
-  {id:4,name:'Chesed',nameZh:'&#x60c5;&#x8c6a;',cx:0.2,cy:0.32,color:'#88cccc'},
-  {id:5,name:'Geburah',nameZh:'&#x4e25;&#x5389;',cx:0.8,cy:0.32,color:'#cc8888'},
-  {id:6,name:'Tiphareth',nameZh:'&#x7f8e;',cx:0.5,cy:0.38,color:'#cccc88'},
-  {id:7,name:'Netzach',nameZh:'&#x80dc;&#u5229;',cx:0.2,cy:0.58,color:'#88cc88'},
-  {id:8,name:'Hod',nameZh:'&#x8363;&#x8000;',cx:0.8,cy:0.58,color:'#8888aa'},
-  {id:9,name:'Yesod',nameZh:'&#x57fa;&#x7840;',cx:0.5,cy:0.68,color:'#aaaa88'},
-  {id:10,name:'Malkuth',nameZh:'&#x738b;&#x56fd;',cx:0.5,cy:0.92,color:'#886644'}
-];
-
-const treePaths = [
-  {from:1,to:2,letterIdx:0,letter:'&#x5d0;',name:'Aleph',tarot:'&#x611a;&#x8005;(0)',meaning:'&#x725b;&#x3001;&#x795e;&#x5723;&#x547c;&#x5438;'},
-  {from:1,to:3,letterIdx:1,letter:'&#x5d1;',name:'Beth',tarot:'&#x9b54;&#x672f;&#x5e08;(I)',meaning:'&#x623f;&#x5c4b;&#x3001;&#x5305;&#x5bb9;'},
-  {from:1,to:6,letterIdx:2,letter:'&#x5d2;',name:'Gimel',tarot:'&#x5973;&#x796d;&#x53f8;(II)',meaning:'&#x9a7c;&#x9a7c;&#x3001;&#x8f6c;&#x53d8;'},
-  {from:2,to:3,letterIdx:3,letter:'&#x5d3;',name:'Dalet',tarot:'&#x7687;&#x540e;(III)',meaning:'&#x95e8;&#x3001;&#x8fdb;&#x5165;'},
-  {from:2,to:6,letterIdx:4,letter:'&#x5d4;',name:'He',tarot:'&#x7687;&#x5e1d;(IV)',meaning:'&#x7a97;&#x6237;&#x3001;&#x542f;&#x793a;'},
-  {from:2,to:4,letterIdx:5,letter:'&#x5d5;',name:'Vav',tarot:'&#x6559;&#x7687;(V)',meaning:'&#x9489;&#x5b50;&#x3001;&#x8fde;&#x63a5;'},
-  {from:3,to:6,letterIdx:6,letter:'&#x5d6;',name:'Zayin',tarot:'&#x604b;&#x4eba;(VI)',meaning:'&#x5251;&#x3001;&#x51b3;&#x65ad;'},
-  {from:3,to:5,letterIdx:7,letter:'&#x5d7;',name:'Chet',tarot:'&#x6218;&#x8f66;(VII)',meaning:'&#x6805;&#x680f;&#x3001;&#x8d85;&#x8d8a;'},
-  {from:4,to:5,letterIdx:8,letter:'&#x5d8;',name:'Tet',tarot:'&#x529b;&#x91cf;(VIII)',meaning:'&#x86c7;&#x3001;&#x5305;&#x88f9;'},
-  {from:4,to:6,letterIdx:9,letter:'&#x5d9;',name:'Yod',tarot:'&#
+</script>
+</body>
+</html>
