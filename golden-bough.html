@@ -249,6 +249,17 @@ a:hover { color:#c41e3a; }
   .tab-panel h2 { font-size:1.4rem; }
   .comparison-table { font-size:0.78rem; }
 }
+
+.hamburger{display:none;cursor:pointer;padding:5px;background:none;border:none}
+.hamburger span{display:block;width:25px;height:3px;background:#d4a843;margin:5px 0;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;width:100%;background:rgba(10,10,10,.95);padding:20px;z-index:998}
+.mobile-menu.show{display:flex;flex-direction:column;gap:10px}
+.mobile-menu a{color:#d4a843;text-decoration:none;padding:10px;border-bottom:1px solid rgba(212,168,67,.2)}
+@media(max-width:768px){.hamburger{display:block}.nav-bar.open .nav-link{display:none}}
+
 </style>
 </head>
 <body>
@@ -256,6 +267,7 @@ a:hover { color:#c41e3a; }
 <canvas id="particleCanvas"></canvas>
 
 <nav class="nav-bar" id="navBar">
+<button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   <span class="nav-brand">阿波菲斯</span>
   <a href="index.html" class="nav-link">主书</a>
   <a href="sigil-game.html" class="nav-link">符印工坊</a>
@@ -298,6 +310,7 @@ a:hover { color:#c41e3a; }
   <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
   <a href="magick-practice.html" class="nav-link">Magick实践</a>
 </nav>
+<div class="mobile-menu" id="mobileMenu"></div>
 
 <section class="hero">
   <h1>金 枝</h1>
@@ -856,18 +869,20 @@ tabButtons.forEach(btn => {
     const target = tabPanels[this.dataset.tab];
     if (target) target.classList.add('active');
     // close mobile nav
-    document.getElementById('navLinks').classList.remove('open');
-    document.getElementById('hamburger').classList.remove('active');
+    var navLinks=document.getElementById('navLinks');
+    if(navLinks)navLinks.classList.remove('open');
+    var hamburger=document.getElementById('hamburger');
+    if(hamburger)hamburger.classList.remove('active');
   });
 });
 
 /* ===== Hamburger ===== */
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('navLinks');
-hamburger.addEventListener('click', function() {
+var hamburger = document.getElementById('hamburger');
+var navLinks = document.getElementById('navLinks');
+if(hamburger){hamburger.addEventListener('click', function() {
   this.classList.toggle('active');
-  navLinks.classList.toggle('open');
-});
+  if(navLinks)navLinks.classList.toggle('open');
+});}
 
 /* ===== Magic Classifier ===== */
 const magicKeywords = {

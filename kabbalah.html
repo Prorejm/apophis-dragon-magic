@@ -62,6 +62,7 @@ html{scroll-behavior:smooth}body{font-family:'Noto Serif SC',serif;background:va
 </head>
 <body>
 <nav class="nav-bar" id="navBar">
+<button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   <span class="nav-brand">阿波菲斯</span>
   <a href="index.html" class="nav-link">主书</a>
   <a href="sigil-game.html" class="nav-link">符印工坊</a>
@@ -104,6 +105,7 @@ html{scroll-behavior:smooth}body{font-family:'Noto Serif SC',serif;background:va
   <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
   <a href="magick-practice.html" class="nav-link">Magick实践</a>
 </nav>
+<div class="mobile-menu" id="mobileMenu"></div>
 <canvas id="particleCanvas"></canvas>
 <section class="hero">
 <h1>卡巴拉 <span>生命之树</span></h1>
@@ -113,14 +115,14 @@ html{scroll-behavior:smooth}body{font-family:'Noto Serif SC',serif;background:va
 </section>
 <div class="tab-container">
 <div class="tab-bar" id="tabBar">
-<button class="tab-btn active" onclick="switchTab('tab1')">生命之树总览</button>
-<button class="tab-btn" onclick="switchTab('tab2')">十大质点详解</button>
-<button class="tab-btn" onclick="switchTab('tab3')">22条路径</button>
-<button class="tab-btn" onclick="switchTab('tab4')">四世界与层面</button>
-<button class="tab-btn" onclick="switchTab('tab5')">冥想修行</button>
-<button class="tab-btn" onclick="switchTab('tab6')">卡巴拉魔法</button>
-<button class="tab-btn" onclick="switchTab('tab7')">对应系统</button>
-<button class="tab-btn" onclick="switchTab('tab8')">卡巴拉与东方思想</button>
+<button class="tab-btn active" data-tab="tab1">生命之树总览</button>
+<button class="tab-btn" data-tab="tab2">十大质点详解</button>
+<button class="tab-btn" data-tab="tab3">22条路径</button>
+<button class="tab-btn" data-tab="tab4">四世界与层面</button>
+<button class="tab-btn" data-tab="tab5">冥想修行</button>
+<button class="tab-btn" data-tab="tab6">卡巴拉魔法</button>
+<button class="tab-btn" data-tab="tab7">对应系统</button>
+<button class="tab-btn" data-tab="tab8">卡巴拉与东方思想</button>
 </div>
 <!-- TAB 1: 生命之树总览 -->
 <div class="tab-content active" id="tab1">
@@ -474,32 +476,36 @@ html{scroll-behavior:smooth}body{font-family:'Noto Serif SC',serif;background:va
 })();
 
 // ==================== HAMBURGER ====================
-document.getElementById('hamburger').addEventListener('click', function(){
+var hamburgerBtn=document.getElementById('hamburger');
+if(hamburgerBtn){hamburgerBtn.addEventListener('click', function(){
   this.classList.toggle('open');
-  document.getElementById('navBar').classList.toggle('open');
-});
+  var navBar=document.getElementById('navBar');
+  if(navBar)navBar.classList.toggle('open');
+});}
 
 // ==================== TAB SYSTEM ====================
 function switchTab(tabId){
-  var btns = document.querySelectorAll('.tab-btn');
-  var contents = document.querySelectorAll('.tab-content');
-  for(var i = 0; i < btns.length; i++){ btns[i].classList.remove('active'); }
-  for(var j = 0; j < contents.length; j++){ contents[j].classList.remove('active'); }
-  var target = document.getElementById(tabId);
-  if(target) target.classList.add('active');
-  for(var k = 0; k < btns.length; k++){
-    if(btns[k].getAttribute('onclick') && btns[k].getAttribute('onclick').indexOf(tabId) !== -1){
-      btns[k].classList.add('active');
-    }
-  }
-  document.getElementById('navBar').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
+  var panels=document.querySelectorAll('.tab-panel');
+  for(var i=0;i<panels.length;i++){panels[i].classList.remove('active');}
+  var btns=document.querySelectorAll('.tab-btn');
+  for(var i=0;i<btns.length;i++){btns[i].classList.remove('active');}
+  var target=document.getElementById(tabId);
+  if(target)target.classList.add('active');
+  var btn=document.querySelector('[data-tab="'+tabId+'"]');
+  if(btn)btn.classList.add('active');
+  var navBar=document.getElementById('navBar');
+  if(navBar)navBar.classList.remove('open');
+  var hamburger=document.getElementById('hamburger');
+  if(hamburger)hamburger.classList.remove('open');
   if(tabId === 'tab1') initTree();
   if(tabId === 'tab3') initPathCanvas();
   if(tabId === 'tab4') { initPlanesCanvas(); initNestedCanvas(); }
   if(tabId === 'tab5') drawTimerRing(0);
   if(tabId === 'tab7') initCorrCanvas();
 }
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){switchTab(this.getAttribute('data-tab'));});
+});
 
 // ==================== SEPHIROTH DATA ====================
 var sephirothData = [

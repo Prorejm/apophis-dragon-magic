@@ -161,11 +161,23 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold-dim)}
+
+.hamburger{display:none;cursor:pointer;padding:5px;background:none;border:none}
+.hamburger span{display:block;width:25px;height:3px;background:#d4a843;margin:5px 0;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;width:100%;background:rgba(10,10,10,.95);padding:20px;z-index:998}
+.mobile-menu.show{display:flex;flex-direction:column;gap:10px}
+.mobile-menu a{color:#d4a843;text-decoration:none;padding:10px;border-bottom:1px solid rgba(212,168,67,.2)}
+@media(max-width:768px){.hamburger{display:block}.nav-bar.open .nav-link{display:none}}
+
 </style>
 </head>
 <body>
 <canvas id="particleCanvas"></canvas>
 <nav class="nav-bar" id="navBar">
+<button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   <span class="nav-brand">阿波菲斯</span>
   <a href="index.html" class="nav-link">主书</a>
   <a href="sigil-game.html" class="nav-link">符印工坊</a>
@@ -208,12 +220,13 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
   <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
   <a href="magick-practice.html" class="nav-link">Magick实践</a>
 </nav>
+<div class="mobile-menu" id="mobileMenu"></div>
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('alefbet')">字母表 Alefbet</button>
-  <button class="tab-btn" onclick="switchTab('gematria')">数值学 Gematria</button>
-  <button class="tab-btn" onclick="switchTab('paths')">生命树路径</button>
-  <button class="tab-btn" onclick="switchTab('divine')">神名与冥想</button>
-  <button class="tab-btn" onclick="switchTab('magic')">卡巴拉魔法</button>
+  <button class="tab-btn active" data-tab="tab-alefbet">字母表 Alefbet</button>
+  <button class="tab-btn" data-tab="tab-gematria">数值学 Gematria</button>
+  <button class="tab-btn" data-tab="tab-paths">生命树路径</button>
+  <button class="tab-btn" data-tab="tab-divine">神名与冥想</button>
+  <button class="tab-btn" data-tab="tab-magic">卡巴拉魔法</button>
 </div>
 <div class="content">
 
@@ -849,22 +862,24 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 })();
 
 /* ===== TAB SWITCHING ===== */
-function switchTab(tabName){
+function switchTab(tabId){
   var panels=document.querySelectorAll('.tab-panel');
   for(var i=0;i<panels.length;i++){panels[i].classList.remove('active');}
   var btns=document.querySelectorAll('.tab-btn');
   for(var i=0;i<btns.length;i++){btns[i].classList.remove('active');}
-  var navLinks=document.querySelectorAll('.nav-link');
-  for(var i=0;i<navLinks.length;i++){navLinks[i].classList.remove('active');}
-  var target=document.getElementById('tab-'+tabName);
+  var target=document.getElementById(tabId);
   if(target)target.classList.add('active');
-  var tabNames=['alefbet','gematria','paths','divine','magic'];
-  var idx=tabNames.indexOf(tabName);
-  if(idx>=0&&btns[idx])btns[idx].classList.add('active');
-  if(idx>=0&&navLinks[idx])navLinks[idx].classList.add('active');
+  var btn=document.querySelector('[data-tab="'+tabId+'"]');
+  if(btn)btn.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
-  if(tabName==='paths'){setTimeout(drawTree,100);}
+  if(tabId==='tab-paths'){setTimeout(drawTree,100);}
 }
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var tabId=this.getAttribute('data-tab');
+    if(tabId)switchTab(tabId);
+  });
+});
 
 /* ===== HAMBURGER MENU ===== */
 (function(){
@@ -1069,6 +1084,25 @@ function pointToLineDistance(px,py,x1,y1,x2,y2){
   var dx=px-xx,dy=py-yy;
   return Math.sqrt(dx*dx+dy*dy);
 }
+
+var hamburgerBtn=document.getElementById('hamburger');
+var navBar=document.getElementById('navBar');
+var mobileMenu=document.getElementById('mobileMenu');
+if(hamburgerBtn){
+hamburgerBtn.addEventListener('click',function(){
+  hamburgerBtn.classList.toggle('active');
+  if(mobileMenu)mobileMenu.classList.toggle('show');
+  if(navBar)navBar.classList.toggle('open');
+});
+}
+if(mobileMenu){
+var navLinks=document.querySelectorAll('.nav-link');
+for(var i=0;i<navLinks.length;i++){
+  var clone=navLinks[i].cloneNode(true);
+  mobileMenu.appendChild(clone);
+}
+}
+
 </script>
 </body>
 </html>
