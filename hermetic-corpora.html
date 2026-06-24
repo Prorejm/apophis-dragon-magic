@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赫耳墨斯秘籍 - Apophis Dragon Magic</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --gold: #d4a843;
+            --gold-light: #e8c76a;
+            --crimson: #c41e3a;
+            --crimson-dark: #8b1530;
+            --border: #2a2a2a;
+            --glow-gold: rgba(212, 168, 67, 0.3);
+            --glow-crimson: rgba(196, 30, 58, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gold);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-brand::before {
+            content: "☿";
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+            background: rgba(212, 168, 67, 0.1);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(180deg, rgba(212, 168, 67, 0.05) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px var(--glow-gold);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .meta {
+            color: var(--crimson);
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .hero .meta span {
+            margin: 0 1rem;
+        }
+
+        /* Sections */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        /* Introduction */
+        .intro-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro-content p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .intro-content .highlight {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Table of Contents */
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .toc-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .toc-item:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px var(--glow-gold);
+        }
+
+        .toc-item .number {
+            color: var(--gold);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .toc-item .title {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .toc-item .desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--crimson));
+        }
+
+        .concept-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--glow-gold);
+        }
+
+        .concept-card h3 {
+            color: var(--gold);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-card .greek {
+            color: var(--crimson);
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .concept-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Poimandres Section */
+        .poimandres-section {
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.05), rgba(196, 30, 58, 0.05));
+            border: 1px solid var(--gold);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 3rem auto;
+            max-width: 1200px;
+        }
+
+        .poimandres-section h2 {
+            color: var(--gold);
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .poimandres-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .poimandres-card {
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .poimandres-card h3 {
+            color: var(--crimson);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .poimandres-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Treatise Summaries */
+        .treatise-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .treatise-item {
+            background: var(--bg-card);
+            border-left: 3px solid var(--gold);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s;
+        }
+
+        .treatise-item:hover {
+            background: rgba(212, 168, 67, 0.05);
+            border-left-width: 5px;
+        }
+
+        .treatise-item h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .treatise-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--gold);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        footer .copyright {
+            color: var(--gold);
+            margin-top: 1rem;
+        }
+
+        /* Scroll to top */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--gold);
+            color: var(--bg-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 999;
+            font-size: 1.5rem;
+            border: none;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px var(--glow-gold);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.5rem;
+                border-bottom: 1px solid var(--gold);
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 0.8rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+
+            .poimandres-section {
+                padding: 2rem 1rem;
+                margin: 2rem 1rem;
+            }
+
+            .concept-grid,
+            .toc-grid,
+            .treatise-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Quote styling */
+        .quote-box {
+            background: rgba(212, 168, 67, 0.05);
+            border-left: 4px solid var(--gold);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote-box .source {
+            color: var(--gold);
+            font-style: normal;
+            margin-top: 0.5rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <!-- Navigation -->
+        <nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link">怪物娘探险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+  <a href="gnostic-religion.html" class="nav-link">诺斯替宗教</a>
+  <a href="avesta.html" class="nav-link">阿维斯塔</a>
+  <a href="hermetic-corpora.html" class="nav-link active">赫耳莫斯秘籍</a>
+  <a href="kabbalah-condensed.html" class="nav-link">卡巴拉精要</a>
+  <a href="cthulhu-dreams.html" class="nav-link">克苏鲁梦境</a>
+  <a href="exu-quimbanda.html" class="nav-link">昆班达</a>
+  <a href="history-of-magic.html" class="nav-link">魔法史</a>
+  <a href="holy-daymon.html" class="nav-link">圣灵</a>
+  <a href="yuanhai-ziping-detail.html" class="nav-link">渊海子平详</a>
+</nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>赫耳墨斯秘籍</h1>
+            <p class="subtitle">Corpus Hermeticum / Hermetica</p>
+            <p class="meta">
+                <span>作者：三倍最伟大者赫耳墨斯 (Hermes Trismegistus)</span><br>
+                <span>译者：肖霄</span><br>
+                <span>出版社：华东师范大学出版社 2019</span>
+            </p>
+        </section>
+
+        <!-- Introduction -->
+        <section class="section">
+            <h2 class="section-title">赫耳墨斯主义导论</h2>
+            <div class="intro-content">
+                <p>赫耳墨斯教（Hermeticism）指公元前3世纪时发端于<span class="highlight">地中海东部地区</span>的炼金术崇拜，其源头据说可上溯至埃及法老阿赫那吞（Akhenaten，公元前1353-前1336）的那场著名的宗教改革，并在距今开罗约80公里外的阿玛尔纳建立新城。</p>
+
+                <p>赫耳墨斯教文献（Hermetica）大多用希腊文写成，成文时间跨度很长，据今人考订，大约在<span class="highlight">公元前2世纪至公元3世纪的500年间</span>。这些文献涉及炼金术、占星术、地理学、数学和医学，还有诸神崇拜颂歌，更不用说高深莫测的神秘哲学。</p>
+
+                <p>佛罗伦萨城的<span class="highlight">斐奇诺（Marsilio Ficino，1433-1499）</span>迷恋新柏拉图主义，他从恩主那里得到14篇赫耳墨斯教对话残篇的希腊文抄件，随即将这些从拜占庭流落到意大利的抄件译成拉丁文（<span class="highlight">1463年</span>）。这部以《论神的权柄和智慧》为名的赫耳墨斯教残篇集在意大利乃至阿尔卑斯山以北的西欧地区很快走红，至1500年已经印行16版次。</p>
+
+                <p>30多年后，诗人、新柏拉图主义哲学家<span class="highlight">拉扎雷利（Lodovico Lazzarelli，1447-1500）</span>也辑佚和翻译了3篇赫耳墨斯教对话残篇，1507年首次刊印，附有公元5世纪时司铎拜俄斯编的《古训集》中的赫耳墨斯教残篇的拉丁语译本。</p>
+
+                <div class="quote-box">
+                    "极少数种子来自神，但是它们具有力量，且美且善——美德、节制和虔敬。虔敬是对神的知识，已经认识神的人，充满种种善物，具有神圣的、不同于大众的想法。"
+                    <span class="source">—— 《赫耳墨斯秘籍》卷九 第4节</span>
+                </div>
+
+                <p>《赫耳墨斯秘籍》的作者被尊为"三倍最伟大者赫耳墨斯"（Hermes Trismegistus）。据说，他是公元前希腊化时期亚历山大里亚城的一个隐姓埋名的炼金术高士，公开身份则是埃及祭司。"三倍最伟大者赫耳墨斯"并不是真实人名，而是尼罗河三角洲的某个隐秘高士的尊称，表示他身怀古埃及神话中的托忒神（Thoth）拥有的绝艺，又传承了古希腊神话中的赫耳墨斯神点石成金的魔法。</p>
+
+                <p>古代炼金术并非是单纯的技术科学知识，而是与<span class="highlight">灵魂内修</span>交织在一起的神秘学说。炼金术士相信，精馏和提纯贱质金属是一道让物质经由死亡、复活而完善的过程，这与炼金者自己的灵魂由死亡、复活而臻于完善的过程相一致。炼金炉中的颜色变化寓意灵魂修炼的不同阶段，金属的变形则寓意灵魂的再生。</p>
+            </div>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="section">
+            <h2 class="section-title">十八篇论说目录</h2>
+            <div class="toc-grid">
+                <div class="toc-item">
+                    <span class="number">卷一</span>
+                    <span class="title">珀伊曼德热斯</span>
+                    <p class="desc">Poimandres - 统御权之心灵的启示</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷二</span>
+                    <span class="title">从赫耳墨斯到塔特：普遍论说</span>
+                    <p class="desc">普遍论说，关于宇宙秩序</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷三</span>
+                    <span class="title">赫耳墨斯的神圣论说</span>
+                    <p class="desc">神圣论说，关于神性本质</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷四</span>
+                    <span class="title">搅拌缸或"一元"</span>
+                    <p class="desc">Crater - 关于灵魂的器皿</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷五</span>
+                    <span class="title">赫耳墨斯对其子塔特的论说</span>
+                    <p class="desc">关于神与宇宙的关系</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷六</span>
+                    <span class="title">仅在神中，不在它处</span>
+                    <p class="desc">关于神的唯一性</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷七</span>
+                    <span class="title">对神的无知是人间最大的恶</span>
+                    <p class="desc">关于无知与知识</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷八</span>
+                    <span class="title">一切存在之物都不会被毁灭</span>
+                    <p class="desc">关于存在的永恒性</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷九</span>
+                    <span class="title">论理解和感受</span>
+                    <p class="desc">关于认知与感知</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷十</span>
+                    <span class="title">赫耳墨斯之论说：密匙</span>
+                    <p class="desc">Key - 关于灵知的钥匙</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷十一</span>
+                    <span class="title">心灵对赫耳墨斯</span>
+                    <p class="desc">Nous - 关于心灵</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷十二</span>
+                    <span class="title">赫耳墨斯之论说</span>
+                    <p class="desc">关于宇宙与人</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷十三</span>
+                    <span class="title">山上秘密对话</span>
+                    <p class="desc">赫耳墨斯与其子塔特的秘密对话</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷十四</span>
+                    <span class="title">心灵的健康</span>
+                    <p class="desc">赫耳墨斯对阿斯克勒庇俄斯</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷十五</span>
+                    <span class="title">阿斯克勒庇俄斯的定义</span>
+                    <p class="desc">关于宇宙的定义</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷十六</span>
+                    <span class="title">阿斯克勒庇俄斯向阿蒙王定义宇宙</span>
+                    <p class="desc">关于宇宙的完满教诲</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷十七</span>
+                    <span class="title">定义宇宙（续）</span>
+                    <p class="desc">阿斯克勒庇俄斯向阿蒙王</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">卷十八</span>
+                    <span class="title">论受身体情感妨碍的灵魂</span>
+                    <p class="desc">关于灵魂与身体</p>
+                </div>
+                <div class="toc-item">
+                    <span class="number">附录</span>
+                    <span class="title">阿斯克勒庇俄斯的圣书</span>
+                    <p class="desc">拉丁文译本 Asclepius</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Concepts -->
+        <section class="section">
+            <h2 class="section-title">核心概念</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Nous</h3>
+                    <p class="greek">心灵 / 心智</p>
+                    <p>统御权之心灵，神与生命的连结。Nous是赫耳墨斯主义中的最高原则，是光、是生命、是神本身。珀伊曼德热斯自称"统御权之心灵"（Nous of Authentia），它是认知与启示的源泉，引导灵魂走向灵知。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>Logos</h3>
+                    <p class="greek">圣言 / 理性</p>
+                    <p>来自心灵的给予光明的圣言是神子。Logos是创造的力量，是神性的话语，通过它万物得以形成。在珀伊曼德热斯的异象中，圣言从光中降临水质的事物，赋予其秩序与生命。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>God</h3>
+                    <p class="greek">神</p>
+                    <p>雌雄同体，万有之父。神是生命与光，通过言语诞育了第二位心灵——造物者。神爱着自身的形态，将全部造物赐予人子。神性超越一切力量与美德，比赞美更伟大。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>Cosmos</h3>
+                    <p class="greek">宇宙 / 秩序宇宙</p>
+                    <p>七位统治者，命运。宇宙由七位行星统治者管辖，他们以疆界包围可感知的世界，其统治称为命运（Heimarmene）。宇宙是神意的产物，仿照神圣原型而造。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>Anthropos</h3>
+                    <p class="greek">人子 / 原人</p>
+                    <p>双重性，身体必朽精髓不朽。人类是双重的——身体必朽，人之精髓却不朽。人子有父的形象，拥有支配万物的权力，却受制于命运。他是雌雄同体的，从一位不眠者而来。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>Gnosis</h3>
+                    <p class="greek">灵知 / 知识</p>
+                    <p>认识神，理解存在之物的本质。灵知是灵魂上升的道路，是脱离物质束缚、回归神性的关键。获得灵知者将被造成神，这是那些接受知识者的最终善果。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Poimandres Detailed Section -->
+        <section class="poimandres-section">
+            <h2>卷一详解：珀伊曼德热斯</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">Poimandres - 牧养者/统领者，寓指赫耳墨斯式的Nous（心灵）</p>
+
+            <div class="poimandres-grid">
+                <div class="poimandres-card">
+                    <h3>☿ 宇宙创生</h3>
+                    <p>起初，光从黑暗中显现——澄净而欣悦。随后黑暗升起，恐怖而忧郁，蜿蜒如蛇。黑暗变成水质的事物，躁动着、冒着烟，如火一般。从那光中，圣言登上水质的事物，无瑕的火向上跃起。气随吹息向着火升起，远离土和水。土和水留在下方，被圣灵之言搅动。</p>
+                    <p style="margin-top: 1rem;">心灵是神，是雌雄同体的，作为生命和光存在，通过言语诞育了第二位心灵——造物者，作为火与吹息之神，匠造了七位统治者。</p>
+                </div>
+                <div class="poimandres-card">
+                    <h3>☿ 人的堕落</h3>
+                    <p>心灵，万有之父，诞育了人子，像他自己。人子最为俊美，有父的形象。人子观察到造物者所创造的事物后，也愿望造些造物。他进入造物者的天球，观察了兄弟的造物；统治者们爱这人子，每位都将各自的秩序与他分享。</p>
+                    <p style="margin-top: 1rem;">人子愿望冲破疆界，屈身察看秩序宇宙的构架。当自然看到这位俊美的人子时，她出于爱而微笑了。人子在水中看到和自己相像的形态，便爱上了它，愿望栖身其中——愿望与行为同时产生，他便栖居在了无理性的形态之中。</p>
+                </div>
+                <div class="poimandres-card">
+                    <h3>☿ 灵魂上升</h3>
+                    <p>首先，离弃物质身体时，你将身体交给变换。身体的感觉上升，流回它们特定的源头。感情和渴望则继续向无理性的自然行进。</p>
+                    <p style="margin-top: 1rem;">人向上冲过秩序宇宙的构架，在七个区域逐一弃让各种影响：增加和减少、罪恶阴谋、渴念之幻象、支配者之高傲、渎神的推断、由财富而来的罪恶冲动、潜藏的欺骗。</p>
+                    <p style="margin-top: 1rem;">剥离了秩序宇宙构架的影响之后，人进入八元域，同有福者一起唱诵父。他们按秩序上升到父，将自身弃让给那些力量，成为力量之后，便进入神。这就是那些接受知识者的最终善果：<span style="color: var(--gold);">被造成神</span>。</p>
+                </div>
+            </div>
+
+            <div class="quote-box" style="margin-top: 2rem;">
+                "众人啊，生在地上的人们，你们这些沉湎于醉酒、嗜睡和对神的无知的人，清醒过来、结束你们醉酒的疾病吧，因为你们在无理性的睡眠中受了蛊惑。你们有权力分享不朽，却为何将自身弃让给了必朽性？"
+                <span class="source">—— 珀伊曼德热斯 卷一 第28节</span>
+            </div>
+        </section>
+
+        <!-- All 18 Treatises Summaries -->
+        <section class="section">
+            <h2 class="section-title">十八篇论说概要</h2>
+            <div class="treatise-list">
+                <div class="treatise-item">
+                    <h4>卷一 珀伊曼德热斯</h4>
+                    <p>全书最核心的篇章，描述赫耳墨斯的神秘异象：光与黑暗的分离、宇宙创生、人子的堕落与灵魂通过七重天球上升回归神性的道路。提出"灵知使人成神"的核心教义。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷二 普遍论说</h4>
+                    <p>赫耳墨斯向塔特阐述宇宙的整体秩序，讨论神、宇宙与人之间的关系，强调宇宙是有生命的、有理性的存在，人应当通过认识宇宙来认识神。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷三 神圣论说</h4>
+                    <p>关于神性本质的论说，阐述神是万物之源、超越一切存在，同时又内在于万物之中。讨论神的不可名状与可通过宇宙显现的矛盾统一。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷四 搅拌缸（Crater）</h4>
+                    <p>以"搅拌缸"为喻，讨论灵魂如何通过神圣的智慧之杯获得净化与重生。强调只有被神选中的人才能获得灵知，从物质的沉睡中觉醒。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷五 对其子塔特的论说</h4>
+                    <p>赫耳墨斯教导其子塔特关于神与宇宙的关系，讨论宇宙的美与秩序，以及人如何通过虔敬和知识接近神性。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷六 仅在神中，不在它处</h4>
+                    <p>强调神的唯一性和无所不在，一切善都在神中，离开神则无善可言。批判那些将神性与物质世界分离的错误观念。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷七 对神的无知是最大之恶</h4>
+                    <p>论述无知与知识的对立，将"对神的无知"定义为最大的恶。强调通过学习和修行获得灵知的重要性，以及知识如何带来灵魂的拯救。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷八 一切存在之物不会被毁灭</h4>
+                    <p>讨论存在的永恒性和变化的本质，论证一切存在之物都不会被真正毁灭，只是改变形态。为灵魂不朽提供哲学论证。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷九 论理解和感受</h4>
+                    <p>区分理解（nous）与感受（aisthesis），讨论理性认知与感官知觉的不同层次。强调真正的知识来自心灵而非感官。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷十 密匙（Key）</h4>
+                    <p>提供理解赫耳墨斯教义的"钥匙"，总结前面各篇的核心教导，强调灵知是打开神圣奥秘之门的唯一途径。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷十一 心灵对赫耳墨斯</h4>
+                    <p>以对话形式讨论心灵的本质与功能，Nous作为神性在人内的显现，以及如何唤醒内在的心灵力量。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷十二 赫耳墨斯之论说</h4>
+                    <p>进一步阐述宇宙论和人类学，讨论宇宙与人之间的对应关系，以及人作为小宇宙（microcosm）如何反映大宇宙（macrocosm）。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷十三 山上秘密对话</h4>
+                    <p>赫耳墨斯与其子塔特在山上进行的秘密教导，涉及更高层次的神秘知识，包括灵魂的再生和神圣化的秘密仪式。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷十四 心灵的健康</h4>
+                    <p>赫耳墨斯对阿斯克勒庇俄斯讨论心灵的健康与疾病，将医学与灵魂修养结合，提出治疗身体必先治疗心灵的观点。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷十五 阿斯克勒庇俄斯的定义</h4>
+                    <p>关于宇宙本质的定义性论述，以精确的语言界定宇宙、神、人、灵魂等核心概念，具有哲学词典的性质。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷十六 向阿蒙王定义宇宙</h4>
+                    <p>阿斯克勒庇俄斯向埃及阿蒙王解释宇宙的结构与运作，将赫耳墨斯教义以适合统治者理解的方式呈现。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷十七 定义宇宙（续）</h4>
+                    <p>继续卷十六的论述，进一步展开宇宙论的细节，讨论天体运行、元素变化与灵魂命运之间的关系。</p>
+                </div>
+                <div class="treatise-item">
+                    <h4>卷十八 论受身体情感妨碍的灵魂</h4>
+                    <p>讨论身体情感如何妨碍灵魂的自由与上升，分析各种情感（愤怒、欲望、恐惧等）对灵魂修行的负面影响及克服方法。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>《赫耳墨斯秘籍》中文版由华东师范大学出版社2019年出版</p>
+            <p>译者：肖霄 | 丛书主编：刘小枫</p>
+            <p class="copyright">Apophis Dragon Magic - 西方神秘学文献库</p>
+        </footer>
+    </div>
+
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Hamburger menu toggle
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.scrollY > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        // Particle canvas
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = Math.random() > 0.5 ? '#d4a843' : '#c41e3a';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(100, Math.floor((canvas.width * canvas.height) / 15000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Draw connections
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = '#d4a843';
+                        ctx.globalAlpha = 0.1 * (1 - dist / 100);
+                        ctx.stroke();
+                        ctx.globalAlpha = 1;
+                    }
+                });
+            });
+
+            animationId = requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.concept-card, .treatise-item, .toc-item, .poimandres-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            cancelAnimationFrame(animationId);
+        });
+    </script>
+</body>
+</html>

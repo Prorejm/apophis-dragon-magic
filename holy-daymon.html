@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>神圣Daemon - Holy Daimon - Apophis Dragon Magic</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0a;--gold:#d4a843;--crimson:#c41e3a;--text:#e8e0d0;--muted:#8a8278;--card-bg:#141414;--border:rgba(212,168,67,0.15)}
+body{font-family:'Georgia','Times New Roman',serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;min-height:100vh}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px}
+header{background:linear-gradient(180deg,rgba(10,10,10,0.95) 0%,rgba(10,10,10,0.8) 100%);padding:20px 0;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.logo{font-size:1.6rem;font-weight:bold;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo::before{content:'\262F';font-size:1.8rem}
+.nav-desktop{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.82rem;padding:4px 8px;border-radius:4px;transition:all 0.3s;white-space:nowrap}
+.nav-links a:hover{color:var(--gold);background:rgba(212,168,67,0.1)}
+.nav-links a.active{color:var(--gold);border-bottom:1px solid var(--gold)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
+.hamburger span{width:25px;height:2px;background:var(--gold);transition:0.3s}
+.nav-mobile{display:none;position:absolute;top:100%;left:0;width:100%;background:rgba(10,10,10,0.98);border-bottom:1px solid var(--border);padding:15px;max-height:70vh;overflow-y:auto}
+.nav-mobile.active{display:block}
+.nav-mobile a{display:block;color:var(--muted);text-decoration:none;padding:6px 0;font-size:0.85rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+.nav-mobile a:hover{color:var(--gold)}
+.hero{padding:80px 0 50px;text-align:center;border-bottom:1px solid var(--border)}
+.hero h1{font-size:2.6rem;color:var(--gold);margin-bottom:15px;text-shadow:0 0 30px rgba(212,168,67,0.3);font-weight:normal}
+.hero .subtitle{font-size:1.1rem;color:var(--muted);margin-bottom:10px;font-style:italic}
+.hero .meta{color:var(--crimson);font-size:0.95rem;margin-bottom:25px}
+.hero .quote{max-width:700px;margin:0 auto;padding:20px;border-left:3px solid var(--gold);background:rgba(212,168,67,0.05);font-style:italic;color:var(--text);font-size:1.05rem}
+.section{padding:50px 0;border-bottom:1px solid var(--border)}
+.section-title{font-size:1.8rem;color:var(--gold);margin-bottom:30px;text-align:center;position:relative}
+.section-title::after{content:'';display:block;width:80px;height:1px;background:var(--gold);margin:15px auto 0;opacity:0.5}
+.part-header{background:linear-gradient(135deg,rgba(196,30,58,0.1) 0%,rgba(212,168,67,0.08) 100%);border:1px solid var(--border);border-radius:8px;padding:25px;margin-bottom:30px}
+.part-header h3{color:var(--crimson);font-size:1.3rem;margin-bottom:8px}
+.part-header p{color:var(--muted);font-size:0.95rem}
+.content-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px}
+.content-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:25px;transition:all 0.3s}
+.content-card:hover{border-color:rgba(212,168,67,0.4);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+.content-card h4{color:var(--gold);font-size:1.1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.content-card h4::before{content:'\2726';color:var(--crimson);font-size:0.85rem}
+.content-card p{color:var(--muted);font-size:0.92rem;line-height:1.8}
+.content-card ul{margin-top:12px;padding-left:18px;color:var(--muted);font-size:0.9rem}
+.content-card li{margin-bottom:6px}
+.stage-card{border-left:3px solid var(--crimson);padding-left:20px;margin-bottom:25px}
+.stage-card h4{color:var(--gold);font-size:1.15rem;margin-bottom:10px}
+.stage-card p{color:var(--muted);font-size:0.92rem;line-height:1.8}
+.concepts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.concept-card{background:linear-gradient(135deg,rgba(196,30,58,0.08) 0%,rgba(212,168,67,0.05) 100%);border:1px solid var(--border);border-radius:8px;padding:22px}
+.concept-card h4{color:var(--gold);font-size:1.1rem;margin-bottom:10px}
+.concept-card p{color:var(--muted);font-size:0.9rem;line-height:1.7}
+.ritual-box{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:25px;margin-top:20px}
+.ritual-box h4{color:var(--crimson);margin-bottom:12px;font-size:1.1rem}
+.ritual-box ol{padding-left:20px;color:var(--muted);font-size:0.9rem}
+.ritual-box li{margin-bottom:8px;line-height:1.7}
+.footer{text-align:center;padding:40px 0;color:var(--muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:30px}
+@media(max-width:768px){.hamburger{display:flex}.nav-links{display:none}.hero h1{font-size:2rem}.content-grid,.concepts-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<header>
+<div class="container">
+<div class="nav-desktop">
+<a href="index.html" class="logo">Apophis Dragon Magic</a>
+<ul class="nav-links">
+<li><a href="index.html">首页</a></li>
+<li><a href="sigil-game.html">符印游戏</a></li>
+<li><a href="iching-divination.html">易经占卜</a></li>
+<li><a href="goetia-demons.html">所罗门魔神</a></li>
+<li><a href="astrology-hub.html">占星中心</a></li>
+<li><a href="kabbalah.html">卡巴拉</a></li>
+<li><a href="blog.html">博客</a></li>
+<li><a href="generators.html">生成器</a></li>
+<li><a href="mini-games.html">小游戏</a></li>
+</ul>
+<div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</div>
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link">怪物娘探险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+  <a href="gnostic-religion.html" class="nav-link">诺斯替宗教</a>
+  <a href="avesta.html" class="nav-link">阿维斯塔</a>
+  <a href="hermetic-corpora.html" class="nav-link">赫耳莫斯秘籍</a>
+  <a href="kabbalah-condensed.html" class="nav-link">卡巴拉精要</a>
+  <a href="cthulhu-dreams.html" class="nav-link">克苏鲁梦境</a>
+  <a href="exu-quimbanda.html" class="nav-link">昆班达</a>
+  <a href="history-of-magic.html" class="nav-link">魔法史</a>
+  <a href="holy-daymon.html" class="nav-link active">圣灵</a>
+  <a href="yuanhai-ziping-detail.html" class="nav-link">渊海子平详</a>
+</nav>
+</div>
+</header>
+
+<div class="container">
+<section class="hero">
+<h1>Holy Daimon</h1>
+<p class="subtitle">Communion with Your Holy Guardian Angel</p>
+<p class="meta">Frater Acher &middot; Scarlet Imprint / Biblioth&egrave;que Rouge &middot; London, 2018</p>
+<div class="quote">
+"For you are I, and I am you; your name is mine, and mine is yours. For I am your image." &mdash; PGM VIII, 36-38
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">核心概念</h2>
+<div style="max-width:800px;margin:0 auto;text-align:center;margin-bottom:30px">
+<p style="color:var(--muted);font-size:1.05rem;line-height:1.9">Holy Daimon（神圣Daemon）是你的"更高自我"(higher self)、神圣自我(divine self)、在出生时被分配的个人守护者。它是西方魔法传统中最核心的存在——一旦魔术师达成了与神圣守护天使的知识与对话，他便完全交托于那位天使的手中，由祂引领跨越深渊，达到圣殿大师之阶。</p>
+</div>
+<div class="concepts-grid">
+<div class="concept-card">
+<h4>Daemon (Daimon)</h4>
+<p>隐藏的力量，驱动命运的力量。在古希腊，daimon最初并不特指某一类灵体，也不暗示任何道德属性——它描述的是一种特定的存在状态，一种巨大的驱动力，既非善也非恶，通过危险的张力提升经验层次。它定义了一个人命运的品质。</p>
+</div>
+<div class="concept-card">
+<h4>Holy Guardian Angel</h4>
+<p>西方魔法传统的核心与本质工作。Crowley明确指出："魔术师的核心与本质工作乃是达成对其神圣守护天使的知识与对话。"这是每个魔法师必须经历的终极入门，是通往更高阶位的必经之路。</p>
+</div>
+<div class="concept-card">
+<h4>Abramelin</h4>
+<p>《亚伯拉梅林之书》记载的18个月仪式，是西方最著名的与HGA（Holy Guardian Angel）建立联系的传统方法。这一漫长的净化与祈祷过程要求修行者离开世俗生活，专注于与神圣守护者的合一。</p>
+</div>
+<div class="concept-card">
+<h4>Crowley &amp; Thelema</h4>
+<p>Aleister Crowley将HGA工作置于Thelema体系的核心。他的名言"Every man and woman is a star"（每个人都是一颗星）呼应了柏拉图的观点——每个灵魂都有其原生之星，死后将回归那里。神圣Daemon正是连接人与星辰的链条。</p>
+</div>
+<div class="concept-card">
+<h4>Systasis</h4>
+<p>希腊语"systasis"意为"会面"、"联合"或"共融"——指魔法师与神圣Daemon之间建立的深层联结。在PGM（希腊魔法纸莎草）中，这个词被广泛用于描述魔法师渴望与各种灵体、神祇建立的关系。</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">Part 1: History</h2>
+<div class="part-header">
+<h3>历史溯源</h3>
+<p>探索神圣Daemon概念在三种古代文明中的起源与发展：迦勒底人的星灵崇拜、琐罗亚斯德教的双重守护灵传统、以及古希腊哲学中的Nous与Daimonion概念。</p>
+</div>
+<div class="content-grid">
+<div class="content-card">
+<h4>Among the Chaldeans</h4>
+<p>迦勒底人是西方魔法传统最早的影响源之一。然而，他们并没有后来所知的"个人神圣Daemon"概念。在迦勒底人的万物有灵世界观中，每个元素都有对应的灵体，但他们关注的是与特定星辰建立精神联盟，而非追求单一的超越性合一。</p>
+<ul>
+<li>最早的魔法仪式记录</li>
+<li>无个人Daemon概念</li>
+<li>星灵作为中介力量</li>
+<li>善恶恶魔的动态二元论</li>
+<li>魔法的目标是逐日获胜，而非超越</li>
+</ul>
+</div>
+<div class="content-card">
+<h4>Among the Zoroastrians</h4>
+<p>琐罗亚斯德教对神圣Daemon概念的发展至关重要。其核心是阿胡拉·马兹达(Ahura Mazda)与安格拉·曼纽(Ahriman)之间的永恒斗争。每个人体内都有两个"孪生"灵体：善灵与恶灵。而Fravashi（守护灵）则是每个人在出生时被分配的个人守护者。</p>
+<ul>
+<li>Fravashi：个人守护灵</li>
+<li>善恶孪生灵体</li>
+<li>善思、善言、善行</li>
+<li>圣火仪式</li>
+<li>Barsom（圣枝）与Haoma（圣草）</li>
+</ul>
+</div>
+<div class="content-card">
+<h4>Among the Ancient Greeks</h4>
+<p>古希腊人将灵魂比作由两匹有翼马拉着的战车。理性(logos)是驭手，thumos（精神/勇气）是 noble horse，eros（欲望）是 unruly horse。而nous（灵知/直觉）则是超越这三者的神圣功能——柏拉图称其为"人中的daimon"。</p>
+<ul>
+<li>Plato的三元灵魂论</li>
+<li>Nous：神圣灵知</li>
+<li>Socrates的Daimonion</li>
+<li>Xenocrates的三重领域</li>
+<li>Agathodaimon vs Kakodaimon</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">Part 2: Memory</h2>
+<div class="part-header">
+<h3>与我的神圣Daemon共融</h3>
+<p>Frater Acher分享了他于2010年土星退行期间达成与神圣Daemon共融的个人经历——一个历时四周的深层灵性转化过程。</p>
+</div>
+<div class="content-grid">
+<div class="content-card">
+<h4>Saturn Retreat (2010)</h4>
+<p>2010年，Frater Acher进行了一次为期四周的土星退行(Saturn Retreat)。这不是物理上的隔离，而是灵性工作的隔离。在这四周中，他经历了深刻的内在转化，最终达成了与神圣Daemon的首次有意识接触。</p>
+<ul>
+<li>四周的结构化退行</li>
+<li>每日冥想与祈祷</li>
+<li>与世俗世界的隔绝</li>
+<li>内在声音的逐渐清晰</li>
+</ul>
+</div>
+<div class="content-card">
+<h4>Ritus Thanatos</h4>
+<p>埋葬仪式(Ritus Thanatos)——一种象征性的死亡与重生仪式。通过这一仪式，修行者将旧我埋葬，为神圣Daemon的降临创造空间。这是古代入会仪式在现代语境中的复活。</p>
+<ul>
+<li>象征性的死亡仪式</li>
+<li>旧我的埋葬</li>
+<li>为新存在腾出空间</li>
+<li>古代入会仪式的现代应用</li>
+</ul>
+</div>
+<div class="content-card">
+<h4>Angel Pollux</h4>
+<p>在共融之夜，Frater Acher的神圣Daemon以天使Pollux的形象显现。Pollux是希腊神话中的双子星神之一，象征着神圣兄弟/更高自我的原型。这一显现带来了深刻的身体与灵性转化。</p>
+<ul>
+<li>Daemon的显现形式</li>
+<li>Pollux的象征意义</li>
+<li>身体与灵性的双重转化</li>
+<li>神圣共融的直接体验</li>
+</ul>
+</div>
+<div class="content-card">
+<h4>The Flower Body</h4>
+<p>"花体"(Flower Body)——Frater Acher用来描述在共融过程中体验到的灵性身体。这是一种超越物质形态的存在状态，是神圣Daemon与修行者合一后形成的新的灵性载体。</p>
+<ul>
+<li>超越物质的灵性身体</li>
+<li>Daemon合一后的新载体</li>
+<li>持续的日常转化</li>
+<li>与神圣力量的持续联结</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">Part 3: Practice</h2>
+<div class="part-header">
+<h3>与你的神圣Daemon建立Systasis</h3>
+<p>从信任到喜乐，从黑暗到相遇——四个阶段的实践路径，最终通过PGM VII.505-528的古老仪式达成与神圣Daemon的共融。</p>
+</div>
+
+<div class="stage-card">
+<h4>Stage 1: Trust 信任</h4>
+<p>信任是神圣共融的基础。这一阶段包括极性伸展(polarity stretching)、Tratak（专注与周边视觉练习）、以及"蛇与蛋"(Serpent and Egg)冥想——通过凝视练习扩展感知能力，为后续的灵性工作奠定基础。</p>
+</div>
+
+<div class="stage-card">
+<h4>Stage 2: Joy 喜乐</h4>
+<p>Hitlahavut（内在燃烧）——一种通过声音与运动点燃内在神圣火焰的犹太神秘主义实践。与行星共歌，用阳光封印——这些练习将修行者的振动频率提升至与神圣Daemon共振的水平。</p>
+</div>
+
+<div class="stage-card">
+<h4>Stage 3: Darkness 黑暗</h4>
+<p>站在门槛上，跨越门槛，计算Daemon之名——这是最具挑战性的阶段。修行者必须面对内在的阴影，通过黑暗中的冥想和计算（基于出生星盘的Daemon名字推算）来准备最终的相遇。</p>
+</div>
+
+<div class="stage-card">
+<h4>Stage 4: Encounter 相遇</h4>
+<p>基于PGM VII.505-528的古老仪式，分为五个阶段：剥皮(Skinning)、净化(Purifying)、充能(Charging)、点燃(Inflaming)、共融(Communion)。这是西方魔法传统中最古老、最直接的与神圣Daemon建立联系的方法之一。</p>
+</div>
+
+<div class="ritual-box">
+<h4>PGM VII.505-528 仪式五阶段</h4>
+<ol>
+<li><strong>Skinning 剥皮：</strong>剥离日常感知的外层皮肤，暴露内在的灵性敏感度。修行者通过特定的呼吸和观想技术，逐层剥离阻碍灵性视见的"皮肤"。</li>
+<li><strong>Purifying 净化：</strong>通过元素净化（通常使用火、水、香）清除身体与灵气场中的杂质。这一阶段确保修行者以纯净的状态迎接神圣存在。</li>
+<li><strong>Charging 充能：</strong>通过特定的咒语、圣名和视觉化技术，为仪式空间和个人灵气场充入神圣能量。通常涉及神圣元音和行星力量的调用。</li>
+<li><strong>Inflaming 点燃：</strong>点燃内在的神圣火焰——这是仪式的高潮前奏。修行者体验到一种强烈的灵性热感，标志着神圣Daemon的接近。</li>
+<li><strong>Communion 共融：</strong>最终的合一体验。神圣Daemon以某种形式显现（视觉、听觉、感觉或直觉），与修行者建立直接的沟通渠道。这是整个仪式的目的——达成systasis（共融）。</li>
+</ol>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">关于本书</h2>
+<div class="content-card" style="max-width:800px;margin:0 auto">
+<p>《Holy Daimon》由Frater Acher著于2018年，Scarlet Imprint出版社以Biblioth&egrave;que Rouge系列出版。本书分为三个部分：历史(History)、记忆(Memory)与实践(Practice)，可按任意顺序阅读。</p>
+<p style="margin-top:15px">Frater Acher在书中强调：魔法若不为更伟大的事物服务便毫无价值。最好的魔法服务于生命。与神圣Daemon建立共融的魔法是服务于生命的最强有力形式之一——不仅是我们自己的生命，更是周围无数可见与不可见生灵的生命。</p>
+<p style="margin-top:15px">本书的核心洞见是：神圣Daemon不是外在的实体，而是我们自身最神圣的部分——那个从出生起就不断向我们祈祷的存在。我们可以通过在日常生活和魔法实践中"向上祈祷"来与祂 halfway 相遇。</p>
+<p style="margin-top:15px">Crowley曾言："无法为一个人达成其神圣守护天使的知识与对话制定精确规则；因为那是我们每个人特有的秘密，不可告诉甚至不可被他人推测。那是至圣所，每个人都是自己的大祭司，无人知晓其兄弟之神的名，或召唤祂的仪式。"</p>
+</div>
+</section>
+</div>
+
+<footer class="footer">
+<div class="container">
+<p>Apophis Dragon Magic - 探索神秘学的深邃世界</p>
+<p style="margin-top:8px;font-size:0.8rem">内容来源于 Frater Acher, Holy Daimon (2018) | 仅供学术研究与神秘学探索</p>
+</div>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobileNav').classList.toggle('active')}
+(function(){
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+let w,h,particles=[];
+function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight}
+resize();
+window.addEventListener('resize',resize);
+class Particle{
+constructor(){this.reset()}
+reset(){this.x=Math.random()*w;this.y=Math.random()*h;this.size=Math.random()*2+0.5;this.speedX=(Math.random()-0.5)*0.3;this.speedY=(Math.random()-0.5)*0.3;this.opacity=Math.random()*0.5+0.1;this.life=Math.random()*200+100}
+update(){this.x+=this.speedX;this.y+=this.speedY;this.life--;if(this.life<=0||this.x<0||this.x>w||this.y<0||this.y>h)this.reset()}
+draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle='rgba(212,168,67,'+this.opacity+')';ctx.fill()}
+}
+for(let i=0;i<80;i++)particles.push(new Particle());
+function animate(){ctx.clearRect(0,0,w,h);particles.forEach(p=>{p.update();p.draw()});for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x;const dy=particles[i].y-particles[j].y;const dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle='rgba(212,168,67,'+(0.08*(1-dist/120))+')';ctx.stroke()}}}requestAnimationFrame(animate)}
+animate();
+})();
+</script>
+</body>
+</html>

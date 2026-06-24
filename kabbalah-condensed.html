@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡巴拉精要 - Apophis Dragon Magic</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --gold: #d4a843;
+            --gold-light: #e8c76a;
+            --crimson: #c41e3a;
+            --crimson-dark: #8b1530;
+            --border: #2a2a2a;
+            --glow-gold: rgba(212, 168, 67, 0.3);
+            --glow-crimson: rgba(196, 30, 58, 0.3);
+            --blue-kabbalah: #4a90d9;
+            --red-kabbalah: #d94a4a;
+            --green-kabbalah: #4ad994;
+            --purple-kabbalah: #9b4ad9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gold);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-brand::before {
+            content: "🜔";
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+            background: rgba(212, 168, 67, 0.1);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(180deg, rgba(212, 168, 67, 0.05) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px var(--glow-gold);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .meta {
+            color: var(--crimson);
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .hero .meta span {
+            margin: 0 1rem;
+        }
+
+        /* Sections */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        /* Part Header */
+        .part-header {
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.1), rgba(196, 30, 58, 0.1));
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .part-header h3 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .part-header p {
+            color: var(--text-secondary);
+        }
+
+        /* Tree of Life SVG */
+        .tree-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .tree-container h3 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .tree-svg {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+        }
+
+        .sephirah {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sephirah:hover circle {
+            filter: drop-shadow(0 0 10px var(--gold));
+            transform: scale(1.1);
+        }
+
+        .sephirah text {
+            font-size: 12px;
+            font-weight: bold;
+            fill: var(--text-primary);
+            pointer-events: none;
+        }
+
+        .path-line {
+            stroke: var(--border);
+            stroke-width: 2;
+            transition: all 0.3s;
+        }
+
+        .path-line:hover {
+            stroke: var(--gold);
+            stroke-width: 3;
+        }
+
+        /* Sephiroth Table */
+        .sephiroth-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .sephiroth-table th {
+            background: rgba(212, 168, 67, 0.2);
+            color: var(--gold);
+            padding: 1rem;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .sephiroth-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .sephiroth-table tr:hover td {
+            background: rgba(212, 168, 67, 0.05);
+            color: var(--text-primary);
+        }
+
+        .sephiroth-table .number {
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .sephiroth-table .name {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .color-box {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Concept Cards */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--crimson));
+        }
+
+        .concept-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--glow-gold);
+        }
+
+        .concept-card h3 {
+            color: var(--gold);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-card .hebrew {
+            color: var(--crimson);
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .concept-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Three Paths */
+        .paths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .path-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .path-card.orphic {
+            border-left: 4px solid #ffffff;
+        }
+
+        .path-card.hermetic {
+            border-left: 4px solid #000000;
+        }
+
+        .path-card.mystic {
+            border-left: 4px solid var(--gold);
+        }
+
+        .path-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .path-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .path-card.orphic h3 { color: #ffffff; }
+        .path-card.hermetic h3 { color: #666666; }
+        .path-card.mystic h3 { color: var(--gold); }
+
+        .path-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Practical Elements */
+        .practical-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .practical-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .practical-card h3 {
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .practical-card p, .practical-card li {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .practical-card ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .practical-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tarot Table */
+        .tarot-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .tarot-table th {
+            background: rgba(212, 168, 67, 0.2);
+            color: var(--gold);
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .tarot-table td {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .tarot-table tr:hover td {
+            background: rgba(212, 168, 67, 0.05);
+        }
+
+        /* Quote box */
+        .quote-box {
+            background: rgba(212, 168, 67, 0.05);
+            border-left: 4px solid var(--gold);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .quote-box .source {
+            color: var(--gold);
+            font-style: normal;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--gold);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        footer .copyright {
+            color: var(--gold);
+            margin-top: 1rem;
+        }
+
+        /* Scroll to top */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--gold);
+            color: var(--bg-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 999;
+            font-size: 1.5rem;
+            border: none;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px var(--glow-gold);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0.5rem;
+                border-bottom: 1px solid var(--gold);
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 0.8rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+
+            .concept-grid,
+            .paths-grid,
+            .practical-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sephiroth-table {
+                font-size: 0.85rem;
+            }
+
+            .sephiroth-table th,
+            .sephiroth-table td {
+                padding: 0.6rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Tooltip for Tree */
+        .tree-tooltip {
+            position: absolute;
+            background: var(--bg-card);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+            max-width: 250px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .tree-tooltip.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="tree-tooltip" id="treeTooltip"></div>
+
+    <div class="content-wrapper">
+        <!-- Navigation -->
+        <nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link">怪物娘探险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+  <a href="gnostic-religion.html" class="nav-link">诺斯替宗教</a>
+  <a href="avesta.html" class="nav-link">阿维斯塔</a>
+  <a href="hermetic-corpora.html" class="nav-link">赫耳莫斯秘籍</a>
+  <a href="kabbalah-condensed.html" class="nav-link active">卡巴拉精要</a>
+  <a href="cthulhu-dreams.html" class="nav-link">克苏鲁梦境</a>
+  <a href="exu-quimbanda.html" class="nav-link">昆班达</a>
+  <a href="history-of-magic.html" class="nav-link">魔法史</a>
+  <a href="holy-daymon.html" class="nav-link">圣灵</a>
+  <a href="yuanhai-ziping-detail.html" class="nav-link">渊海子平详</a>
+</nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>卡巴拉精要</h1>
+            <p class="subtitle">Condensation of Kabbalah</p>
+            <p class="meta">
+                <span>作者：William G. Gray</span><br>
+                <span>版权：Jacobus G. Swart</span>
+            </p>
+        </section>
+
+        <!-- Part One -->
+        <section class="section">
+            <div class="part-header">
+                <h3>第一部分：神降临于人</h3>
+                <p>PART ONE: GOD TO MAN — 卡巴拉如何描述神通过生命之树降临到人类层面</p>
+            </div>
+
+            <div class="intro-content" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; margin-bottom: 2rem;">
+                <p>卡巴拉（Kabbalah）源自希伯来语KBL，字面意思是"接受教导"。它涵盖了一个巨大的探究领域，意味着从纯粹灵性立场对整个宇宙的完整研究。</p>
+
+                <p>卡巴拉主义者采用"一、二、三、四"的方法：从一个单一观念开始，推导出第二个，将两者结合产生第三个，继续推进直到第四个，依此类推。由于人类有十根手指，他们决定采用<span style="color: var(--gold);">十进制系统</span>来处理关于神性和所有相关灵性主题的观念。</p>
+
+                <p>既然教导说神从虚无开始，为什么不从那里开始呢？希伯来语中"虚无"（Ayn）本身就是一个问题，源自"Eh na"，意思是"现在怎么办？"或"从这里往哪里走？"这产生了另一个无形的观念，于是加上了Sof（限制），成为<span style="color: var(--gold);">Ayn Sof（无限）</span>。</p>
+
+                <div class="quote-box">
+                    "神的创造最初被认为是光，尚未显现为任何事物，因此Ayn Sof Aur（未知无限之光）的否定状态被构想为零或密码=0，据说神从其中创造了存在的一切。"
+                    <span class="source">—— William G. Gray</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tree of Life SVG -->
+        <section class="section">
+            <h2 class="section-title">生命之树</h2>
+            <div class="tree-container">
+                <h3>Tree of Life - 十重 Sephiroth</h3>
+                <svg class="tree-svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Paths -->
+                    <line class="path-line" x1="200" y1="50" x2="120" y2="130"/>
+                    <line class="path-line" x1="200" y1="50" x2="280" y2="130"/>
+                    <line class="path-line" x1="200" y1="50" x2="200" y2="210"/>
+                    <line class="path-line" x1="120" y1="130" x2="280" y2="130"/>
+                    <line class="path-line" x1="120" y1="130" x2="120" y2="290"/>
+                    <line class="path-line" x1="120" y1="130" x2="200" y2="210"/>
+                    <line class="path-line" x1="280" y1="130" x2="280" y2="290"/>
+                    <line class="path-line" x1="280" y1="130" x2="200" y2="210"/>
+                    <line class="path-line" x1="200" y1="210" x2="120" y2="290"/>
+                    <line class="path-line" x1="200" y1="210" x2="280" y2="290"/>
+                    <line class="path-line" x1="200" y1="210" x2="200" y2="370"/>
+                    <line class="path-line" x1="120" y1="290" x2="280" y2="290"/>
+                    <line class="path-line" x1="120" y1="290" x2="200" y2="370"/>
+                    <line class="path-line" x1="280" y1="290" x2="200" y2="370"/>
+                    <line class="path-line" x1="200" y1="370" x2="200" y2="450"/>
+                    <line class="path-line" x1="120" y1="290" x2="120" y2="370"/>
+                    <line class="path-line" x1="280" y1="290" x2="280" y2="370"/>
+                    <line class="path-line" x1="120" y1="370" x2="200" y2="450"/>
+                    <line class="path-line" x1="280" y1="370" x2="200" y2="450"/>
+                    <line class="path-line" x1="120" y1="370" x2="280" y2="370"/>
+                    <line class="path-line" x1="120" y1="370" x2="280" y2="290"/>
+                    <line class="path-line" x1="280" y1="370" x2="120" y2="290"/>
+
+                    <!-- Sephiroth -->
+                    <g class="sephirah" data-name="Keter" data-meaning="王冠" data-color="纯白光辉">
+                        <circle cx="200" cy="50" r="25" fill="#ffffff" stroke="#d4a843" stroke-width="2"/>
+                        <text x="200" y="55" text-anchor="middle" fill="#0a0a0a" font-size="10">1 Keter</text>
+                    </g>
+                    <g class="sephirah" data-name="Chochmah" data-meaning="智慧" data-color="浅灰">
+                        <circle cx="120" cy="130" r="25" fill="#c0c0c0" stroke="#d4a843" stroke-width="2"/>
+                        <text x="120" y="135" text-anchor="middle" fill="#0a0a0a" font-size="9">2 Chochmah</text>
+                    </g>
+                    <g class="sephirah" data-name="Binah" data-meaning="理解" data-color="深灰">
+                        <circle cx="280" cy="130" r="25" fill="#606060" stroke="#d4a843" stroke-width="2"/>
+                        <text x="280" y="135" text-anchor="middle" fill="#ffffff" font-size="10">3 Binah</text>
+                    </g>
+                    <g class="sephirah" data-name="Chesed" data-meaning="慈悲" data-color="蓝色">
+                        <circle cx="120" cy="290" r="25" fill="#4a90d9" stroke="#d4a843" stroke-width="2"/>
+                        <text x="120" y="295" text-anchor="middle" fill="#ffffff" font-size="10">4 Chesed</text>
+                    </g>
+                    <g class="sephirah" data-name="Gevurah" data-meaning="严厉" data-color="红色">
+                        <circle cx="280" cy="290" r="25" fill="#d94a4a" stroke="#d4a843" stroke-width="2"/>
+                        <text x="280" y="295" text-anchor="middle" fill="#ffffff" font-size="10">5 Gevurah</text>
+                    </g>
+                    <g class="sephirah" data-name="Tiferet" data-meaning="美丽" data-color="金黄色">
+                        <circle cx="200" cy="210" r="25" fill="#d4a843" stroke="#ffffff" stroke-width="2"/>
+                        <text x="200" y="215" text-anchor="middle" fill="#0a0a0a" font-size="10">6 Tiferet</text>
+                    </g>
+                    <g class="sephirah" data-name="Netzach" data-meaning="胜利" data-color="绿色">
+                        <circle cx="120" cy="370" r="25" fill="#4ad994" stroke="#d4a843" stroke-width="2"/>
+                        <text x="120" y="375" text-anchor="middle" fill="#0a0a0a" font-size="10">7 Netzach</text>
+                    </g>
+                    <g class="sephirah" data-name="Hod" data-meaning="荣耀" data-color="橙色">
+                        <circle cx="280" cy="370" r="25" fill="#d9944a" stroke="#d4a843" stroke-width="2"/>
+                        <text x="280" y="375" text-anchor="middle" fill="#0a0a0a" font-size="10">8 Hod</text>
+                    </g>
+                    <g class="sephirah" data-name="Yesod" data-meaning="基础" data-color="淡紫/月白">
+                        <circle cx="200" cy="370" r="25" fill="#d9d9f0" stroke="#d4a843" stroke-width="2"/>
+                        <text x="200" y="375" text-anchor="middle" fill="#0a0a0a" font-size="10">9 Yesod</text>
+                    </g>
+                    <g class="sephirah" data-name="Malchut" data-meaning="王国" data-color="四季色">
+                        <circle cx="200" cy="450" r="25" fill="#4a6b3a" stroke="#d4a843" stroke-width="2"/>
+                        <text x="200" y="455" text-anchor="middle" fill="#ffffff" font-size="10">10 Malchut</text>
+                    </g>
+
+                    <!-- Abyss label -->
+                    <text x="200" y="175" text-anchor="middle" fill="#c41e3a" font-size="11" font-style="italic">深渊 Abyss</text>
+                </svg>
+                <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.9rem;">悬停查看各Sephirah详情 | 点击探索对应路径</p>
+            </div>
+        </section>
+
+        <!-- Sephiroth Table -->
+        <section class="section">
+            <h2 class="section-title">十重 Sephiroth 详表</h2>
+            <table class="sephiroth-table">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>希伯来名</th>
+                        <th>含义</th>
+                        <th>颜色</th>
+                        <th>神名</th>
+                        <th>大天使</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number">1</td>
+                        <td class="name">Keter</td>
+                        <td>כתר</td>
+                        <td>王冠 / 顶点</td>
+                        <td><span class="color-box" style="background: #ffffff;"></span>纯白光辉</td>
+                        <td>Ehyeh (我是)</td>
+                        <td>Metatron</td>
+                    </tr>
+                    <tr>
+                        <td class="number">2</td>
+                        <td class="name">Chochmah</td>
+                        <td>חכמה</td>
+                        <td>智慧</td>
+                        <td><span class="color-box" style="background: #c0c0c0;"></span>浅灰</td>
+                        <td>YHVH</td>
+                        <td>Raziel</td>
+                    </tr>
+                    <tr>
+                        <td class="number">3</td>
+                        <td class="name">Binah</td>
+                        <td>בינה</td>
+                        <td>理解 / 直觉</td>
+                        <td><span class="color-box" style="background: #606060;"></span>深灰</td>
+                        <td>YHVH Elohim</td>
+                        <td>Tzafkiel</td>
+                    </tr>
+                    <tr>
+                        <td class="number">4</td>
+                        <td class="name">Chesed</td>
+                        <td>חסד</td>
+                        <td>慈悲 / 仁慈</td>
+                        <td><span class="color-box" style="background: #4a90d9;"></span>蓝色</td>
+                        <td>El</td>
+                        <td>Tzadkiel</td>
+                    </tr>
+                    <tr>
+                        <td class="number">5</td>
+                        <td class="name">Gevurah</td>
+                        <td>גבורה</td>
+                        <td>严厉 / 力量</td>
+                        <td><span class="color-box" style="background: #d94a4a;"></span>红色</td>
+                        <td>Elohim Gibur</td>
+                        <td>Chamael</td>
+                    </tr>
+                    <tr>
+                        <td class="number">6</td>
+                        <td class="name">Tiferet</td>
+                        <td>תפארת</td>
+                        <td>美丽 / 和谐</td>
+                        <td><span class="color-box" style="background: #d4a843;"></span>金黄/太阳色</td>
+                        <td>YHVH Eloah</td>
+                        <td>Michael</td>
+                    </tr>
+                    <tr>
+                        <td class="number">7</td>
+                        <td class="name">Netzach</td>
+                        <td>נצח</td>
+                        <td>胜利 / 成就</td>
+                        <td><span class="color-box" style="background: #4ad994;"></span>绿色</td>
+                        <td>YHVH Tzva'ot</td>
+                        <td>Haniel</td>
+                    </tr>
+                    <tr>
+                        <td class="number">8</td>
+                        <td class="name">Hod</td>
+                        <td>הוד</td>
+                        <td>荣耀 / 光辉</td>
+                        <td><span class="color-box" style="background: #d9944a;"></span>橙色</td>
+                        <td>Elohim Tzva'ot</td>
+                        <td>Raphael</td>
+                    </tr>
+                    <tr>
+                        <td class="number">9</td>
+                        <td class="name">Yesod</td>
+                        <td>יסוד</td>
+                        <td>基础 / 根基</td>
+                        <td><span class="color-box" style="background: #d9d9f0;"></span>淡紫/月白</td>
+                        <td>Shadai El Chai</td>
+                        <td>Gabriel</td>
+                    </tr>
+                    <tr>
+                        <td class="number">10</td>
+                        <td class="name">Malchut</td>
+                        <td>מלכות</td>
+                        <td>王国 / 物质世界</td>
+                        <td><span class="color-box" style="background: #4a6b3a;"></span>四季色</td>
+                        <td>Adonai ha-Aretz</td>
+                        <td>Sandalfon</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Key Concepts -->
+        <section class="section">
+            <h2 class="section-title">核心概念</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Ein Sof</h3>
+                    <p class="hebrew">אין סוף — 无限</p>
+                    <p>Ayn Sof（无限）是卡巴拉中神的最高、最抽象的概念，意为"没有终点"。它是所有存在的源头，超越一切描述与限定。Ayn Sof Aur（无限之光）是从中涌出的创造性光芒，尚未显现为任何事物。这是"0"的状态，从中神创造了存在的一切。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>生命之树</h3>
+                    <p class="hebrew">Etz Chaim — עץ חיים</p>
+                    <p>生命之树由三柱构成：右柱白色（慈悲柱）、左柱黑色（严厉柱）、中柱金色（温和柱）。神的创造通过"闪电之路"（Lightning Flash）从Keter下降到Malchut。而人类的回归则通过"蛇之上升"（Serpent Ascent）沿22条路径逐步攀升。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>四世界</h3>
+                    <p class="hebrew">Arba Olamot — ארבע עולמות</p>
+                    <p><strong>Atzilut（原型界）</strong>：神直接构想观念的世界；<strong>Briah（创造界）</strong>：由大天使将观念具体化；<strong>Yetzirah（形成界）</strong>：天使将形态塑造成形；<strong>Assiah（物质界）</strong>：最终在时空事件中物质化显现。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>Shekinah</h3>
+                    <p class="hebrew">שכינה — 神圣临在</p>
+                    <p>Shekinah是神在地球上的神圣临在，被拟人化为一位迷人的女性——自然的新娘。她是Malchut（王国）的人格化，代表神性在物质世界中的显现。她是人类的合适伴侣，象征着神与人之间的联结。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>Tikkun</h3>
+                    <p class="hebrew">תיקון — 修复</p>
+                    <p>Tikkun意为"修复"，指修复由"堕落"（Fall）造成的分离。卡巴拉认为，人类有责任通过灵性修行修复宇宙的断裂，使被分散的神圣火花重新统一。这是卡巴拉实践的核心目标——不仅是个人的救赎，更是整个宇宙的修复。</p>
+                </div>
+                <div class="concept-card">
+                    <h3>深渊</h3>
+                    <p class="hebrew">Tehom — תהום</p>
+                    <p>深渊（Abyss）是位于上三质点（Supernals：Keter、Chochmah、Binah）与下七质点之间的巨大鸿沟。它象征着神圣思维与人类思维之间的差异，也象征着我们传说中的"堕落"。要跨越深渊，需要Da'at（知识）作为桥梁，照亮黑暗与无知的深渊。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part Two -->
+        <section class="section">
+            <div class="part-header">
+                <h3>第二部分：回归之路</h3>
+                <p>PART TWO: THE WAY BACK — 人类如何通过生命之树回归神性</p>
+            </div>
+
+            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; margin-bottom: 2rem;">
+                <p>卡巴拉主义者当然不能通过"闪电之路"返回神，因此他们想出了另一个主意——传说中伊甸园的蛇必须通过缓慢而谨慎的爬行，从一枝到另一枝地展示上升之路。这些枝条就是通过路径将质点连接起来，<span style="color: var(--gold);">蛇之上升意味着向上攀登，每条路径至少穿越一次，直到在顶端的零点清晰地出来</span>，从而完成宇宙的课程。</p>
+
+                <p>每条路径是两个质点的组合，我们必须体验或知晓在两种能量类型影响下的生命状态。在神秘实践中，每条路径都被视觉化和冥想，直到它深深铭刻在卡巴拉工作者的意识中，足以作为引导生命朝向神的指南。这需要相当长的时间，被称为<span style="color: var(--gold);">Pathworking（路径工作）</span>。</p>
+
+                <div class="quote-box">
+                    "没有异象，民就灭亡""你们的少年人要见异象，老年人要做异梦。"
+                    <span class="source">—— 《圣经》</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Three Paths -->
+        <section class="section">
+            <h2 class="section-title">三条道路</h2>
+            <div class="paths-grid">
+                <div class="path-card orphic">
+                    <h3>⚪ 俄耳甫斯之道</h3>
+                    <p><strong>白色支柱 — 慈悲柱</strong></p>
+                    <p>以俄耳甫斯命名，他是歌曲、舞蹈和自由表达的守护神。倾向俄耳甫斯之道的人通常在情感和艺术的层面寻找神，热爱欢乐与魅力。他们不喜欢死板的规则，更喜欢追随自己认为的自然冲动和内在本能。他们与生命之树的白色支柱相关联。</p>
+                </div>
+                <div class="path-card hermetic">
+                    <h3>⚫ 赫耳墨斯之道</h3>
+                    <p><strong>黑色支柱 — 严厉柱</strong></p>
+                    <p>以三倍伟大者赫耳墨斯命名，他是赫耳墨斯秘仪的守护神。这涉及有序的仪式、智力追求、科学以及由明确规则和计算公式支配的精确程序。通常被视为俄耳甫斯程序的对立面。此处理性与逻辑是主宰。赫耳墨斯主义者通常与生命之树的黑色支柱（严厉柱）相关联。</p>
+                </div>
+                <div class="path-card mystic">
+                    <h3>🟡 神秘之道</h3>
+                    <p><strong>金色中柱 — 温和柱</strong></p>
+                    <p>最困难的接近神性的方式。它通过对宇宙事业的绝对奉献和 dedication 来实现。追随此道需要极大的自我牺牲感，几乎没有普通的灵魂能够走这条进步之路。许多人开始，然后通常偏向一侧或另一侧，因为它们比这条要求苛刻的中道更安全、更舒适。少数人被自然地吸引到中心。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practical Elements -->
+        <section class="section">
+            <h2 class="section-title">实践要素</h2>
+            <div class="practical-grid">
+                <div class="practical-card">
+                    <h3>路径工作 Pathworking</h3>
+                    <p>路径工作是卡巴拉的核心实践。工作者从底部三条路径开始，通常从中柱开始。通过冥想和仪式程序，将每条路径的条件深深铭刻在意识中。</p>
+                    <ul>
+                        <li><strong>31st Path</strong>：Malchut到Hod（10-8）——荣耀与荣誉之路</li>
+                        <li><strong>30th Path</strong>：Malchut到Netzach（10-7）——胜利之路</li>
+                        <li><strong>29th Path</strong>：Malchut到Yesod（10-9）——基础之路</li>
+                    </ul>
+                    <p>每条路径需要数月甚至数年的工作，直到图像服从控制者的命令，才能进入下一条路径。</p>
+                </div>
+
+                <div class="practical-card">
+                    <h3>塔罗对应 Tarot Correspondences</h3>
+                    <p>22张大阿尔卡那对应生命之树的22条路径，形成完整的意识编码系统：</p>
+                    <table class="tarot-table">
+                        <thead>
+                            <tr><th>路径</th><th>连接</th><th>塔罗牌</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1-2</td><td>王冠-智慧</td><td>教皇 Hierophant</td></tr>
+                            <tr><td>1-3</td><td>王冠-理解</td><td>隐士 Hermit</td></tr>
+                            <tr><td>1-6</td><td>王冠-美丽</td><td>星星 Star</td></tr>
+                            <tr><td>2-3</td><td>智慧-理解</td><td>审判 Judgment</td></tr>
+                            <tr><td>2-4</td><td>智慧-慈悲</td><td>皇帝 Emperor</td></tr>
+                            <tr><td>2-6</td><td>智慧-美丽</td><td>节制 Temperance</td></tr>
+                            <tr><td>3-5</td><td>理解-严厉</td><td>死神 Death</td></tr>
+                            <tr><td>3-6</td><td>理解-美丽</td><td>倒吊人 Hanged Man</td></tr>
+                            <tr><td>4-5</td><td>慈悲-严厉</td><td>正义 Justice</td></tr>
+                            <tr><td>4-6</td><td>慈悲-美丽</td><td>力量 Strength</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="practical-card">
+                    <h3>Keshet 与 Chetz</h3>
+                    <p><strong>Keshet（弓）</strong>与<strong>Chetz（金箭）</strong>是卡巴拉中重要的象征：</p>
+                    <ul>
+                        <li><strong>Keshet（弓）</strong>：位于Yesod（基础）下方，由彩虹象征，由所有光谱颜色组成</li>
+                        <li><strong>Chetz（箭）</strong>：金色之箭，直射中柱朝向神性的方向</li>
+                        <li>弓代表从每个质点汲取的投射能量</li>
+                        <li>箭象征纯粹的有意向往，瞄准超越正常范围的目标</li>
+                    </ul>
+                    <p>生命之树的果实有时可以被从"野心与成就层面"正确瞄准的箭射下，而不必从更高处的"理性阶段"用手触及。</p>
+                </div>
+
+                <div class="practical-card">
+                    <h3>四世界与天使层级</h3>
+                    <p>每个Sephirah在四世界中都有对应的神名、大天使、天使秩序和表达层面：</p>
+                    <ul>
+                        <li><strong>Atzilut（原型界）</strong>：神名 — 神的纯粹观念</li>
+                        <li><strong>Briah（创造界）</strong>：大天使 — 将观念具体化</li>
+                        <li><strong>Yetzirah（形成界）</strong>：天使秩序 — 塑造形态</li>
+                        <li><strong>Assiah（物质界）</strong>：行星/元素 — 时空中的具体显现</li>
+                    </ul>
+                    <p>例如Keter：神名Ehyeh，大天使Metatron，天使Chaiot ha-Kodesh（神圣活物），表达为Reshit ha-Gilgalim（星云）。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>《Condensation of Kabbalah》by William G. Gray</p>
+            <p>Copyright © Jacobus G. Swart</p>
+            <p class="copyright">Apophis Dragon Magic - 西方神秘学文献库</p>
+        </footer>
+    </div>
+
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Hamburger menu toggle
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show/hide scroll to top button
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.scrollY > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        // Particle canvas
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = Math.random() > 0.5 ? '#d4a843' : '#c41e3a';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(100, Math.floor((canvas.width * canvas.height) / 15000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Draw connections
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = '#d4a843';
+                        ctx.globalAlpha = 0.1 * (1 - dist / 100);
+                        ctx.stroke();
+                        ctx.globalAlpha = 1;
+                    }
+                });
+            });
+
+            animationId = requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // Tree tooltip
+        const tooltip = document.getElementById('treeTooltip');
+        document.querySelectorAll('.sephirah').forEach(seph => {
+            seph.addEventListener('mouseenter', (e) => {
+                const name = seph.dataset.name;
+                const meaning = seph.dataset.meaning;
+                const color = seph.dataset.color;
+                tooltip.innerHTML = `<strong>${name}</strong><br>含义：${meaning}<br>颜色：${color}`;
+                tooltip.classList.add('visible');
+            });
+
+            seph.addEventListener('mousemove', (e) => {
+                tooltip.style.left = e.pageX + 15 + 'px';
+                tooltip.style.top = e.pageY + 15 + 'px';
+            });
+
+            seph.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('visible');
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.concept-card, .path-card, .practical-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            cancelAnimationFrame(animationId);
+        });
+    </script>
+</body>
+</html>

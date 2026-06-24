@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿维斯塔 — 琐罗亚斯德教圣书 | 阿波菲斯</title>
+<meta name="description" content="贾利尔·杜斯特哈赫选编《阿维斯塔》全书导读：伽萨、亚斯纳、亚什特、万迪达德、维斯帕拉德、胡尔达·阿维斯塔，善恶二元论、阿胡拉·马兹达、六大善神">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#111;--bg-card:#0d0d0d;--ink:#e8e0d4;--ink-dim:#a09080;--muted:#6a5e4e;--accent:#c41e3a;--accent2:#d4a843;--gold:#d4a843;--crimson:#c41e3a;--rule:#1e1e1e;--rule-light:#2a2a2a;--font:'Noto Serif SC','Songti SC',serif;--font-display:'Ma Shan Zheng','Noto Serif SC',cursive;--font-en:'Cormorant Garamond','Georgia',serif;--radius:6px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.8;overflow-x:hidden;min-height:100vh}
+::selection{background:rgba(212,168,67,0.3);color:#fff}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--rule-light);border-radius:3px}
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.nav-bar{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:999;padding:.5rem 1.2rem;display:flex;align-items:center;gap:.8rem;overflow-x:auto;scrollbar-width:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:.85rem;white-space:nowrap;letter-spacing:.1em;text-decoration:none}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.78rem;white-space:nowrap;padding:.3rem .5rem;border-radius:4px;transition:all .3s}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,0.1)}
+.hamburger{display:none;flex-direction:column;cursor:pointer;background:none;border:none;padding:4px;gap:4px;margin-left:auto}
+.hamburger span{display:block;width:22px;height:2px;background:var(--accent2);border-radius:2px;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.mobile-menu{display:none;position:fixed;top:46px;left:0;right:0;background:rgba(10,10,10,0.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:998;padding:.5rem 1rem;flex-direction:column;gap:2px;max-height:80vh;overflow-y:auto}
+.mobile-menu.show{display:flex}
+.mobile-link{color:var(--muted);text-decoration:none;font-size:.85rem;padding:.6rem .8rem;border-radius:4px;transition:all .2s}
+.mobile-link:hover,.mobile-link.active{color:var(--accent2);background:rgba(212,168,67,0.08)}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:70px 20px 40px}
+.page-header{text-align:center;padding:36px 16px 24px;border-bottom:1px solid rgba(212,168,67,0.12);margin-bottom:24px}
+.page-header h1{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,3.8rem);color:var(--accent2);letter-spacing:6px;text-shadow:0 0 40px rgba(212,168,67,0.2)}
+.page-header .subtitle{font-size:.95rem;color:var(--muted);letter-spacing:3px;margin-top:6px;font-family:var(--font-en);font-style:italic}
+.page-header .subtitle-zh{font-size:.85rem;color:var(--ink-dim);margin-top:4px}
+.page-header .divider{width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:14px auto}
+.book-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:12px;font-size:.8rem;color:var(--muted)}
+.book-meta span{padding:3px 10px;border:1px solid rgba(212,168,67,0.15);border-radius:4px}
+.tab-nav{display:flex;gap:2px;margin-bottom:24px;border-bottom:1px solid var(--rule);overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
+.tab-btn{padding:10px 16px;border:none;background:transparent;color:var(--muted);font-family:var(--font);font-size:.82rem;cursor:pointer;transition:all .3s;white-space:nowrap;border-bottom:2px solid transparent;letter-spacing:1px;flex-shrink:0}
+.tab-btn:hover{color:var(--accent2)}.tab-btn.active{color:var(--accent2);border-bottom-color:var(--accent2);background:rgba(212,168,67,0.05)}
+.tab-content{display:none;animation:fadeIn .5s ease}.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:20px 24px;margin-bottom:18px;transition:all .3s}
+.card:hover{border-color:rgba(212,168,67,0.15)}
+.card-title{font-family:var(--font-display);font-size:1.25rem;color:var(--accent2);margin-bottom:10px;letter-spacing:2px}
+.volume-card{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:18px 22px;margin-bottom:14px;transition:all .3s}
+.volume-card:hover{border-color:rgba(212,168,67,0.2);transform:translateY(-2px)}
+.volume-card .vol-num{color:var(--accent);font-family:var(--font-en);font-size:.85rem;font-weight:700;margin-bottom:4px;letter-spacing:1px}
+.volume-card .vol-title{color:var(--accent2);font-size:1.15rem;font-weight:700;margin-bottom:8px;letter-spacing:1px}
+.volume-card .vol-desc{color:var(--ink-dim);font-size:.88rem;line-height:1.7;margin-bottom:10px}
+.volume-card .vol-sections{color:var(--muted);font-size:.82rem;line-height:1.8}
+.volume-card .vol-sections strong{color:var(--accent2)}
+.deity-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:20px 0}
+.deity-card{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:18px;transition:all .3s;text-align:center}
+.deity-card:hover{border-color:rgba(212,168,67,0.2)}
+.deity-card .deity-name{color:var(--accent2);font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.deity-card .deity-en{color:var(--muted);font-size:.8rem;font-family:var(--font-en);margin-bottom:10px}
+.deity-card .deity-role{color:var(--ink-dim);font-size:.85rem;line-height:1.6}
+.deity-card .deity-icon{font-size:2rem;margin-bottom:8px}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0}
+.concept-card{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:18px;transition:all .3s}
+.concept-card:hover{border-color:rgba(212,168,67,0.2)}
+.concept-card h4{color:var(--accent2);font-size:1.05rem;margin-bottom:8px;font-weight:700}
+.concept-card p{color:var(--ink-dim);font-size:.88rem;line-height:1.7}
+.toc-list{list-style:none;padding:0}
+.toc-list li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;align-items:baseline;gap:10px}
+.toc-list li:last-child{border-bottom:none}
+.toc-list .toc-ch{color:var(--accent);font-size:.85rem;font-weight:700;min-width:80px}
+.toc-list .toc-title{color:var(--ink);font-size:.9rem}
+.toc-list .toc-page{color:var(--muted);font-size:.8rem;margin-left:auto;font-family:var(--font-en)}
+.part-header{color:var(--accent);font-size:1.1rem;font-weight:700;margin:24px 0 12px;padding-left:12px;border-left:3px solid var(--accent);letter-spacing:1px}
+.expandable-section{margin-bottom:16px;border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
+.expandable-header{padding:14px 18px;background:var(--bg2);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .3s}
+.expandable-header:hover{background:rgba(212,168,67,0.04)}
+.expandable-header h3{color:var(--accent2);font-size:1.05rem;font-weight:700;letter-spacing:1px}
+.expandable-header .toggle-icon{color:var(--accent2);font-size:1.2rem;transition:transform .3s}
+.expandable-section.open .toggle-icon{transform:rotate(180deg)}
+.expandable-body{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease}
+.expandable-section.open .expandable-body{padding:16px 18px;max-height:2000px}
+.hymn-quote{border-left:3px solid var(--accent2);padding:12px 16px;background:rgba(212,168,67,0.04);margin:12px 0;font-style:italic;color:var(--ink-dim);font-size:.9rem;line-height:1.8}
+.footer{text-align:center;padding:3rem 2rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);letter-spacing:.1em;margin-top:40px}
+.back-to-top{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:rgba(26,26,26,0.9);border:1px solid var(--rule);color:var(--accent2);font-size:1.2rem;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all .3s ease;z-index:998;backdrop-filter:blur(8px)}
+.back-to-top.show{opacity:1;transform:translateY(0)}
+.back-to-top:hover{background:var(--accent);color:var(--ink);border-color:var(--accent);box-shadow:0 0 20px rgba(196,30,58,0.4)}
+@media(max-width:768px){
+  .hamburger{display:flex}
+  .nav-bar{flex-wrap:wrap;position:relative;padding:0.5rem 0.8rem;gap:0.3rem;max-height:52px;overflow:hidden;transition:max-height 0.4s ease}
+  .nav-bar.open{max-height:100vh;overflow-y:auto}
+  .nav-bar .nav-link{width:100%;font-size:0.7rem;padding:0.35rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.03)}
+  .nav-brand{font-size:0.75rem}
+  .deity-grid,.concept-grid{grid-template-columns:1fr}
+  .page-header h1{font-size:2rem}
+  .tab-btn{font-size:.75rem;padding:8px 12px}
+}
+@media(max-width:480px){
+  .container{padding:60px 12px 30px}
+  .page-header h1{font-size:1.6rem}
+  .volume-card{padding:14px 16px}
+}
+</style>
+</head>
+<body>
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link">怪物娘探险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+  <a href="gnostic-religion.html" class="nav-link">诺斯替宗教</a>
+  <a href="avesta.html" class="nav-link active">阿维斯塔</a>
+  <a href="hermetic-corpora.html" class="nav-link">赫耳莫斯秘籍</a>
+  <a href="kabbalah-condensed.html" class="nav-link">卡巴拉精要</a>
+  <a href="cthulhu-dreams.html" class="nav-link">克苏鲁梦境</a>
+  <a href="exu-quimbanda.html" class="nav-link">昆班达</a>
+  <a href="history-of-magic.html" class="nav-link">魔法史</a>
+  <a href="holy-daymon.html" class="nav-link">圣灵</a>
+  <a href="yuanhai-ziping-detail.html" class="nav-link">渊海子平详</a>
+</nav>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<div class="container">
+  <div class="page-header">
+    <h1>阿维斯塔</h1>
+    <div class="subtitle">The Avesta</div>
+    <div class="subtitle-zh">琐罗亚斯德教圣书</div>
+    <div class="divider"></div>
+    <div class="book-meta">
+      <span>[伊朗] 贾利尔·杜斯特哈赫 选编</span>
+      <span>译者：元文琪</span>
+      <span>商务印书馆 2005年·北京</span>
+      <span>ISBN: 7-100-04084-1</span>
+      <span>宗教文化丛书</span>
+    </div>
+  </div>
+
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="overview">全书总览</button>
+    <button class="tab-btn" data-tab="toc">目录</button>
+    <button class="tab-btn" data-tab="preface">前言部分</button>
+    <button class="tab-btn" data-tab="gathas">第一卷·伽萨</button>
+    <button class="tab-btn" data-tab="yasna">第二卷·亚斯纳</button>
+    <button class="tab-btn" data-tab="yasht">第三卷·亚什特</button>
+    <button class="tab-btn" data-tab="vendidad">第四卷·万迪达德</button>
+    <button class="tab-btn" data-tab="visperad">第五卷·维斯帕拉德</button>
+    <button class="tab-btn" data-tab="khordad">第六卷·胡尔达</button>
+    <button class="tab-btn" data-tab="concepts">核心概念</button>
+    <button class="tab-btn" data-tab="deities">六大善神</button>
+  </div>
+
+  <!-- 全书总览 -->
+  <div class="tab-content active" id="tab-overview">
+    <div class="card">
+      <div class="card-title">《阿维斯塔》简介</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.92rem;margin-bottom:12px">
+        《阿维斯塔》（Avesta）是琐罗亚斯德教（Zoroastrianism）的圣书，也是伊朗民族最古老的宗教文献。"阿维斯塔"一词意为"知识""谕令"或"经典"。这部圣书原本篇幅浩繁，但在历史的长河中大量散佚，现存部分仅为原书的一小部分，却仍是研究古代波斯宗教、语言和文化的最珍贵资料。
+      </p>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.92rem">
+        本书由伊朗学者贾利尔·杜斯特哈赫（Jalil Dustkhah）选编，中国学者元文琪翻译。编选本着适用和有益的原则，未对古经进行逐章逐句的直译，而是酌加变动，必要时增加词句以方括号[]标出，注释简略，每卷前面均附有导言。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">琐罗亚斯德教概览</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.92rem;margin-bottom:12px">
+        琐罗亚斯德教由先知琐罗亚斯德（Zarathustra，又译查拉图斯特拉）于约公元前1500-1000年间在伊朗东部创立，是世界上最早的一神教之一。该教以<strong style="color:var(--accent2)">善恶二元论</strong>为核心教义，崇奉唯一的善界神主阿胡拉·马兹达（Ahura Mazda）。
+      </p>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.92rem">
+        在善与恶两大势力之间，始终存在着尖锐激烈的斗争。心地善良、品德高尚和笃信正教的人们，将与阿胡拉·马兹达和众善神站在一起，同邪恶的阿赫里曼及其众妖魔展开不懈的斗争。生活就是斯潘德·迈纽与阿赫里曼、纯洁与污秽、美好与丑陋、幸福与恶运激烈的搏斗。人类乃是这场伟大斗争的参与者，是战场上的英雄。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">全书六卷结构</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px">
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:14px">
+          <div style="color:var(--accent2);font-weight:700;margin-bottom:6px">第一卷 伽萨 Gāthā</div>
+          <div style="color:var(--ink-dim);font-size:.85rem">琐罗亚斯德本人吟咏的颂歌，最古老、最神圣的部分</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:14px">
+          <div style="color:var(--accent2);font-weight:700;margin-bottom:6px">第二卷 亚斯纳 Yasna</div>
+          <div style="color:var(--ink-dim);font-size:.85rem">祭祀祷文，包含对神主和众善神的赞颂</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:14px">
+          <div style="color:var(--accent2);font-weight:700;margin-bottom:6px">第三卷 亚什特 Yašt</div>
+          <div style="color:var(--ink-dim);font-size:.85rem">对各路神祇的颂诗，共二十一章</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:14px">
+          <div style="color:var(--accent2);font-weight:700;margin-bottom:6px">第四卷 万迪达德 Vendidad</div>
+          <div style="color:var(--ink-dim);font-size:.85rem">律法与驱邪，关于洁净与污染的法规</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:14px">
+          <div style="color:var(--accent2);font-weight:700;margin-bottom:6px">第五卷 维斯帕拉德 Visperad</div>
+          <div style="color:var(--ink-dim);font-size:.85rem">对众善神的颂扬，用于重要节庆</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.15);border-radius:6px;padding:14px">
+          <div style="color:var(--accent2);font-weight:700;margin-bottom:6px">第六卷 胡尔达·阿维斯塔</div>
+          <div style="color:var(--ink-dim);font-size:.85rem">小阿维斯塔，日常祈祷用书</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">欧洲学者研究史</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:10px">
+        <strong style="color:var(--accent2)">1700年</strong> — 英国东方学者托马斯·海德（Thomas Hyde）根据希腊、罗马、伊朗和阿拉伯的有关著述用拉丁文编写而成关于琐罗亚斯德教的著作。
+      </p>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:10px">
+        <strong style="color:var(--accent2)">1755年</strong> — 法国学者昂克蒂尔·德佩龙（Anquetil du Perron）赴印度学习，在苏拉特向琐罗亚斯德教"达斯图尔"达拉布学习三年，后于1771年在巴黎出版《赞德·阿维斯塔》。
+      </p>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        <strong style="color:var(--accent2)">19世纪</strong> — 法国东方学者比尔努夫（Eugene Burnouf）认识到梵语与阿维斯塔语有近缘关系，从1833年起发表《亚斯纳》译注。
+      </p>
+    </div>
+  </div>
+
+  <!-- 目录 -->
+  <div class="tab-content" id="tab-toc">
+    <div class="card">
+      <div class="card-title">全书目录</div>
+      <ul class="toc-list">
+        <li><span class="toc-ch">序言</span><span class="toc-title">回顾《阿维斯塔》研究的历史</span><span class="toc-page">p.1</span></li>
+        <li><span class="toc-ch">编者前言</span><span class="toc-title">普尔·达乌德教授阐述编选宗旨</span><span class="toc-page">p.14</span></li>
+        <li><span class="toc-ch">马兹达·亚斯纳颂歌</span><span class="toc-title">易卜拉欣·普尔·达乌德作词</span><span class="toc-page">p.25</span></li>
+      </ul>
+    </div>
+
+    <div class="part-header">第一卷 伽萨</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">第一篇</span><span class="toc-title">阿胡纳瓦德·伽萨（阿胡纳·瓦伊里尤）</span><span class="toc-page">p.4</span></li>
+      <li><span class="toc-ch">第二篇</span><span class="toc-title">奥什塔瓦德·伽萨</span><span class="toc-page">p.34</span></li>
+      <li><span class="toc-ch">第三篇</span><span class="toc-title">塞潘特马德·伽萨</span><span class="toc-page">p.56</span></li>
+      <li><span class="toc-ch">第四篇</span><span class="toc-title">沃胡赫什塔尔·伽萨</span><span class="toc-page">p.69</span></li>
+      <li><span class="toc-ch">第五篇</span><span class="toc-title">瓦希什图伊什特·伽萨</span><span class="toc-page">p.76</span></li>
+    </ul>
+
+    <div class="part-header">第二卷 亚斯纳</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">第九章</span><span class="toc-title"></span><span class="toc-page">p.84</span></li>
+      <li><span class="toc-ch">第十章</span><span class="toc-title"></span><span class="toc-page">p.94</span></li>
+      <li><span class="toc-ch">第十二章</span><span class="toc-title"></span><span class="toc-page">p.101</span></li>
+    </ul>
+
+    <div class="part-header">第三卷 亚什特</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">第五篇</span><span class="toc-title">阿邦·亚什特（水神颂）</span><span class="toc-page">p.106</span></li>
+      <li><span class="toc-ch">第八篇</span><span class="toc-title">蒂尔·亚什特（雨神颂）</span><span class="toc-page">p.144</span></li>
+      <li><span class="toc-ch">第十篇</span><span class="toc-title">梅赫尔·亚什特（光明神颂）</span><span class="toc-page">p.164</span></li>
+      <li><span class="toc-ch">第十三篇</span><span class="toc-title">法尔瓦尔丁·亚什特（灵体颂）</span><span class="toc-page">p.211</span></li>
+      <li><span class="toc-ch">第十四篇</span><span class="toc-title">巴赫拉姆·亚什特（战神颂）</span><span class="toc-page">p.244</span></li>
+      <li><span class="toc-ch">第十九篇</span><span class="toc-title">扎姆亚德·亚什特（土地神颂）</span><span class="toc-page">p.264</span></li>
+    </ul>
+
+    <div class="part-header">第四卷 万迪达德</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">第五章</span><span class="toc-title">关于洁净与污染的法规</span><span class="toc-page">p.291</span></li>
+      <li><span class="toc-ch">第七章</span><span class="toc-title"></span><span class="toc-page">p.296</span></li>
+    </ul>
+
+    <div class="part-header">第五卷 维斯帕拉德</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">第七章</span><span class="toc-title"></span><span class="toc-page">p.301</span></li>
+      <li><span class="toc-ch">第十五章</span><span class="toc-title"></span><span class="toc-page">p.304</span></li>
+    </ul>
+
+    <div class="part-header">第六卷 胡尔达·阿维斯塔</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">一</span><span class="toc-title">大西鲁泽篇</span><span class="toc-page">p.313</span></li>
+      <li><span class="toc-ch">二</span><span class="toc-title">阿法林甘篇</span><span class="toc-page">p.323</span></li>
+      <li><span class="toc-ch"></span><span class="toc-title">（一）阿法林甘·达赫曼</span><span class="toc-page">p.323</span></li>
+      <li><span class="toc-ch"></span><span class="toc-title">（二）阿法林甘·伽萨</span><span class="toc-page">p.327</span></li>
+      <li><span class="toc-ch"></span><span class="toc-title">（三）阿法林甘·伽罕巴尔</span><span class="toc-page">p.331</span></li>
+      <li><span class="toc-ch"></span><span class="toc-title">（四）阿法林甘·拉皮特温</span><span class="toc-page">p.338</span></li>
+    </ul>
+
+    <div class="part-header">《阿维斯塔》导读</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">一</span><span class="toc-title">《阿维斯塔》及其帕拉维语文献</span><span class="toc-page">p.342</span></li>
+      <li><span class="toc-ch">二</span><span class="toc-title">《伽萨》——琐罗亚斯德如是说</span><span class="toc-page">p.389</span></li>
+      <li><span class="toc-ch">三</span><span class="toc-title">《阿维斯塔》神话的体系结构</span><span class="toc-page">p.436</span></li>
+      <li><span class="toc-ch">四</span><span class="toc-title">《阿维斯塔》神话及其哲学蕴含</span><span class="toc-page">p.459</span></li>
+    </ul>
+
+    <div class="part-header">附录</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">一</span><span class="toc-title">《阿维斯塔》神话中的主要善神和恶魔</span><span class="toc-page">p.539</span></li>
+      <li><span class="toc-ch">二</span><span class="toc-title">琐罗亚斯德教传说中的先知圣徒和帝王英雄</span><span class="toc-page">p.551</span></li>
+    </ul>
+  </div>
+
+  <!-- 前言部分 -->
+  <div class="tab-content" id="tab-preface">
+    <div class="expandable-section open">
+      <div class="expandable-header" onclick="toggleSection(this)">
+        <h3>序言</h3>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+      <div class="expandable-body">
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          本书由贾利尔·杜斯特哈赫·伊斯法罕尼先生选编而成。序言回顾了《阿维斯塔》研究的历史：
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          <strong style="color:var(--accent2)">1700年</strong>，英国东方学者托马斯·海德根据希腊、罗马、伊朗和阿拉伯的有关著述用拉丁文编写而成关于琐罗亚斯德教的著作。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          <strong style="color:var(--accent2)">1755年</strong>，法国学者昂克蒂尔·德佩龙赴印度学习，在苏拉特向琐罗亚斯德教"达斯图尔"达拉布学习三年，后于1771年在巴黎出版《赞德·阿维斯塔》。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+          <strong style="color:var(--accent2)">19世纪</strong>，法国东方学者比尔努夫认识到梵语与阿维斯塔语有近缘关系，从1833年起发表《亚斯纳》译注。
+        </p>
+      </div>
+    </div>
+
+    <div class="expandable-section">
+      <div class="expandable-header" onclick="toggleSection(this)">
+        <h3>编者前言</h3>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+      <div class="expandable-body">
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          编者普尔·达乌德教授阐述了编选此书的宗旨：现存《阿维斯塔》虽然支离破碎、残缺不全，但却是吉光片羽、弥足珍贵的。透过波斯古经残卷，我们仍可窥见自己祖先的功业和伊朗民族的光辉历程。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          <strong style="color:var(--accent2)">宇宙观：</strong>按照他们的宇宙观，世界和世界上的一切事物全是阿胡拉·马兹达（惟一、万能之善界神主），或称斯潘德·迈纽（圣洁的智慧）所创造的，因而无不是美好的、可爱的和值得颂扬的。世上所见到的一切丑恶、污秽、黑暗和灾难，全都是由恶魔阿赫里曼或称安格拉·迈纽（卑鄙、邪恶的本原）制造出来、带到人间的。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          <strong style="color:var(--accent2)">善恶二元论：</strong>在善与恶两大势力之间，始终存在着尖锐激烈的斗争。心地善良、品德高尚和笃信正教的人们，将与阿胡拉·马兹达和众善神站在一起，同邪恶的阿赫里曼及其众妖魔展开不懈的斗争。生活就是斯潘德·迈纽与阿赫里曼、纯洁与污秽、美好与丑陋、幸福与恶运激烈的搏斗。人类乃是这场伟大斗争的参与者，是战场上的英雄。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+          <strong style="color:var(--accent2)">人类自由意志：</strong>作为独立自主、自由自在的被造物，人类不应受任何命运法则的限制，外力不能强迫他选择自己的生活道路。世上每个人都有权利，也应该自由自在地生活，尽情地享受符合自己心愿的一切体现真、善、美的东西。
+        </p>
+      </div>
+    </div>
+
+    <div class="expandable-section">
+      <div class="expandable-header" onclick="toggleSection(this)">
+        <h3>马兹达·亚斯纳颂歌</h3>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+      <div class="expandable-body">
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          这是易卜拉欣·普尔·达乌德作词、古拉姆·侯塞因·敏巴希扬作曲的颂歌，是琐罗亚斯德教两首重要的祈祷诗。
+        </p>
+        <div class="hymn-quote">
+          天色破晓，雄鸡啼鸣，皇宫内传出阵阵鼓声<br>
+          黑檀树上，洗涤器齐整，穆贝德呵，请起身洗漱<br>
+          (唱):"阿谢姆·沃胡"，(诵):"亚塔·阿胡"<br>
+          欲求欢乐，先须经受折磨，竭力推翻阿赫里曼的宝座<br>
+          让祖国摆脱那妖魔的枷锁，到那时功成名就光耀千古
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第一卷 伽萨 -->
+  <div class="tab-content" id="tab-gathas">
+    <div class="volume-card">
+      <div class="vol-num">VOLUME I</div>
+      <div class="vol-title">伽萨 Gāthā</div>
+      <div class="vol-desc">
+        《伽萨》又称"琐罗亚斯德之歌"，是《阿维斯塔》中最古老的诗篇。《伽萨》原为《亚斯纳》的组成部分，因是"马兹达·亚斯纳"的先知琐罗亚斯德本人吟咏的颂歌，享有特殊地位，故被抽出来，作为单独的一卷。
+      </div>
+      <div class="vol-sections">
+        <strong>语言特点：</strong>《伽萨》颂歌的语言不同于《阿维斯塔》各卷以及《亚斯纳》其余部分，在韵律节奏、遣词造句和写作方法等方面，显得尤为古朴。<br><br>
+        <strong>结构：</strong>《亚斯纳》共有七十二章，"章"称为"哈"(Ha)或"哈特"(Hat)；《伽萨》包括《亚斯纳》的十七章。《伽萨》每章(哈特)分为若干节。根据诗节中颂歌的韵律变化和音节多少，可将《伽萨》划分为五篇。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">五篇伽萨颂歌</div>
+      <ul class="toc-list">
+        <li><span class="toc-ch">第一篇</span><span class="toc-title">阿胡纳瓦德·伽萨（Ahunavaiti Gāthā）</span><span class="toc-page">p.4</span></li>
+        <li><span class="toc-ch">第二篇</span><span class="toc-title">奥什塔瓦德·伽萨（Ushtavaiti Gāthā）</span><span class="toc-page">p.34</span></li>
+        <li><span class="toc-ch">第三篇</span><span class="toc-title">塞潘特马德·伽萨（Spentamainyū Gāthā）</span><span class="toc-page">p.56</span></li>
+        <li><span class="toc-ch">第四篇</span><span class="toc-title">沃胡赫什塔尔·伽萨（Vohukhshathra Gāthā）</span><span class="toc-page">p.69</span></li>
+        <li><span class="toc-ch">第五篇</span><span class="toc-title">瓦希什图伊什特·伽萨（Vahishtōishti Gāthā）</span><span class="toc-page">p.76</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">阿胡纳瓦德·伽萨核心内容</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:10px">
+        对应《亚斯纳》第二十八章。核心颂词：
+      </p>
+      <div class="hymn-quote">
+        呵，马兹达！当此致祭行礼之际，我高擎双手，为所有斯潘德·迈纽的造物祈求安宁、庇护和欢乐。
+      </div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.88rem;margin-top:10px">
+        此篇首次系统阐述了阿胡拉·马兹达的至高地位、六大善神的职能，以及善恶二元斗争的基本框架。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">奥什塔瓦德·伽萨核心内容</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:10px">
+        对应《亚斯纳》第四十三章。
+      </p>
+      <div class="hymn-quote">
+        我由衷地祈求令人遂愿的马兹达·阿胡拉，让每个人都能称心如意。<br>
+        呵，塞潘达尔马兹！请把获得永恒力量、具备真诚美德、享有优厚嘉奖和美好生活的恩惠赐予我。
+      </div>
+    </div>
+  </div>
+
+  <!-- 第二卷 亚斯纳 -->
+  <div class="tab-content" id="tab-yasna">
+    <div class="volume-card">
+      <div class="vol-num">VOLUME II</div>
+      <div class="vol-title">亚斯纳 Yasna</div>
+      <div class="vol-desc">
+        《亚斯纳》是琐罗亚斯德教最重要的祭祀祷文集，共七十二章。"亚斯纳"（Yasna）意为"崇拜""祭祀""祈祷"。在祭祀仪式中，祭司吟诵《亚斯纳》的篇章，向阿胡拉·马兹达和众善神献上祭品——尤其是豪麻（Haoma）汁液。
+      </div>
+      <div class="vol-sections">
+        <strong>核心内容：</strong>对神主和众善神的赞颂、对六大善神的祈求、对豪麻的赞美、对火与水的颂扬、以及对正义和真诚的歌唱。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">本书收录章节</div>
+      <ul class="toc-list">
+        <li><span class="toc-ch">第九章</span><span class="toc-title">对豪麻的赞美与祭祀仪式</span><span class="toc-page">p.84</span></li>
+        <li><span class="toc-ch">第十章</span><span class="toc-title">继续对豪麻的颂扬</span><span class="toc-page">p.94</span></li>
+        <li><span class="toc-ch">第十二章</span><span class="toc-title">对阿胡拉·马兹达的祈祷</span><span class="toc-page">p.101</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">豪麻（Haoma）的神圣意义</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        豪麻是一种从同名药草中榨取的汁液，在宗教节日和致祭行礼时供人饮用。"祛除死亡"是它的固定修饰语。在印度传统中，同样的植物被称为苏摩（Soma）。豪麻汁被视为神圣的饮料，能赋予饮用者力量、智慧和长寿。
+      </p>
+    </div>
+  </div>
+
+  <!-- 第三卷 亚什特 -->
+  <div class="tab-content" id="tab-yasht">
+    <div class="volume-card">
+      <div class="vol-num">VOLUME III</div>
+      <div class="vol-title">亚什特 Yašt</div>
+      <div class="vol-desc">
+        《亚什特》是《阿维斯塔》中对各路神祇的颂诗集，共二十一章。"亚什特"意为"崇拜""颂扬"。每一篇亚什特都是向一位特定的神祇或神圣概念致敬的诗歌，充满了丰富的神话意象和祷文。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">本书收录的亚什特</div>
+      <ul class="toc-list">
+        <li><span class="toc-ch">第五篇</span><span class="toc-title">阿邦·亚什特（Ābān Yašt）— 水神颂</span><span class="toc-page">p.106</span></li>
+        <li><span class="toc-ch">第八篇</span><span class="toc-title">蒂尔·亚什特（Tīr Yašt）— 雨神颂</span><span class="toc-page">p.144</span></li>
+        <li><span class="toc-ch">第十篇</span><span class="toc-title">梅赫尔·亚什特（Mihr Yašt）— 光明神颂</span><span class="toc-page">p.164</span></li>
+        <li><span class="toc-ch">第十三篇</span><span class="toc-title">法尔瓦尔丁·亚什特（Farvardīn Yašt）— 灵体颂</span><span class="toc-page">p.211</span></li>
+        <li><span class="toc-ch">第十四篇</span><span class="toc-title">巴赫拉姆·亚什特（Bahrām Yašt）— 战神颂</span><span class="toc-page">p.244</span></li>
+        <li><span class="toc-ch">第十九篇</span><span class="toc-title">扎姆亚德·亚什特（Zamyād Yašt）— 土地神颂</span><span class="toc-page">p.264</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">阿邦·亚什特（水神颂）</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        颂扬阿娜希塔（Anāhitā）——江河女神、水源的庇护者。她是纯洁、丰产和治愈的象征，被描绘为一位美丽而威严的女神，身穿金线织成的长袍，头戴八角王冠，手持巴尔萨姆枝条。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">梅赫尔·亚什特（光明神颂）</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        颂扬密特拉（Mithra）——光明、契约与正义之神。密特拉是琐罗亚斯德教中最重要的神祇之一，他驾驶着金色的战车穿越天空，用一千只眼睛监视着人间的一切，维护着真理与契约的神圣性。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">法尔瓦尔丁·亚什特（灵体颂）</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        颂扬法拉瓦希（Fravashi）——守护灵体。每个人、每个神祇、甚至每个自然物都有其法拉瓦希——一种先于创造而存在的神圣原型。法拉瓦丁月（正月）是专门纪念这些守护灵体的月份。
+      </p>
+    </div>
+  </div>
+
+  <!-- 第四卷 万迪达德 -->
+  <div class="tab-content" id="tab-vendidad">
+    <div class="volume-card">
+      <div class="vol-num">VOLUME IV</div>
+      <div class="vol-title">万迪达德 Vendidad</div>
+      <div class="vol-desc">
+        《万迪达德》是《阿维斯塔》中的律法书，主要内容包括驱邪仪式、洁净法规、丧葬规定和道德戒律。"万迪达德"（Vendidad）意为"驱除恶魔的法规"。它是琐罗亚斯德教祭司在日常宗教生活中最常使用的文献之一。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">本书收录章节</div>
+      <ul class="toc-list">
+        <li><span class="toc-ch">第五章</span><span class="toc-title">关于洁净与污染的法规</span><span class="toc-page">p.291</span></li>
+        <li><span class="toc-ch">第七章</span><span class="toc-title">关于丧葬与尸体的禁忌</span><span class="toc-page">p.296</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">洁净与污染</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        《万迪达德》详细规定了各种洁净仪式：如何净化被污染的水、如何清洁被死者触碰过的物品、如何处理尸体（琐罗亚斯德教实行天葬，将尸体置于"寂静之塔"中让秃鹫食用，以免污染土、水、火三大元素）。
+      </p>
+    </div>
+  </div>
+
+  <!-- 第五卷 维斯帕拉德 -->
+  <div class="tab-content" id="tab-visperad">
+    <div class="volume-card">
+      <div class="vol-num">VOLUME V</div>
+      <div class="vol-title">维斯帕拉德 Visperad</div>
+      <div class="vol-desc">
+        "维斯帕拉德"（Visperad）意为"对众善神的颂扬"。它是在重要宗教节日——尤其是每年的六个伽罕巴尔（Gahanbar）节期间——由祭司吟诵的祷文集。《维斯帕拉德》是对《亚斯纳》的补充和扩展，包含对所有善神、天使和神圣存在的全面赞颂。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">本书收录章节</div>
+      <ul class="toc-list">
+        <li><span class="toc-ch">第七章</span><span class="toc-title">对众善神的全面颂扬</span><span class="toc-page">p.301</span></li>
+        <li><span class="toc-ch">第十五章</span><span class="toc-title">节庆祷文</span><span class="toc-page">p.304</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">伽罕巴尔节（Gahanbar）</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        琐罗亚斯德教一年中有六个重要的宗教节日，统称为伽罕巴尔节，分别对应创世神话中阿胡拉·马兹达创造天、水、地、植物、动物和人类的六个阶段。每个节日持续五天，是信徒们聚集祈祷、宴饮和行善的重要时刻。
+      </p>
+    </div>
+  </div>
+
+  <!-- 第六卷 胡尔达 -->
+  <div class="tab-content" id="tab-khordad">
+    <div class="volume-card">
+      <div class="vol-num">VOLUME VI</div>
+      <div class="vol-title">胡尔达·阿维斯塔 Khordad Avesta</div>
+      <div class="vol-desc">
+        "胡尔达·阿维斯塔"（Khordad Avesta）意为"小阿维斯塔"或"简本阿维斯塔"，是琐罗亚斯德教徒日常祈祷使用的祷文集。它从《亚斯纳》《亚什特》《维斯帕拉德》等卷中精选出最常用的篇章，汇编成便于日常使用的祈祷书。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">本书收录内容</div>
+      <ul class="toc-list">
+        <li><span class="toc-ch">一</span><span class="toc-title">大西鲁泽篇（Sīrōza）</span><span class="toc-page">p.313</span></li>
+        <li><span class="toc-ch">二</span><span class="toc-title">阿法林甘篇（Āfrīnagān）</span><span class="toc-page">p.323</span></li>
+        <li><span class="toc-ch"></span><span class="toc-title">（一）阿法林甘·达赫曼</span><span class="toc-page">p.323</span></li>
+        <li><span class="toc-ch"></span><span class="toc-title">（二）阿法林甘·伽萨</span><span class="toc-page">p.327</span></li>
+        <li><span class="toc-ch"></span><span class="toc-title">（三）阿法林甘·伽罕巴尔</span><span class="toc-page">p.331</span></li>
+        <li><span class="toc-ch"></span><span class="toc-title">（四）阿法林甘·拉皮特温</span><span class="toc-page">p.338</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">大西鲁泽篇（Sīrōza）</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        "西鲁泽"意为"三十天"，是向一个月中每一天所对应的神祇致敬的祷文。琐罗亚斯德教的历法中，每个月的三十天各有一位守护神，同时一年中的十二个月也各有其守护神。西鲁泽篇是日常祈祷中最常使用的部分。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">阿法林甘篇（Āfrīnagān）</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        "阿法林甘"意为"祝福""祈祷"。这一组祷文用于特定的宗教场合：达赫曼（Dahmān）祷文用于纪念亡者；伽萨祷文用于伽萨颂歌的仪式；伽罕巴尔祷文用于六个节庆日；拉皮特温（Rapithwin）祷文用于正午时分的祈祷。
+      </p>
+    </div>
+  </div>
+
+  <!-- 核心概念 -->
+  <div class="tab-content" id="tab-concepts">
+    <div class="part-header">琐罗亚斯德教六大核心概念</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>善恶二元论</h4>
+        <p>世界由善与恶两大势力构成。善的代表：阿胡拉·马兹达、斯潘德·迈纽、众善神；恶的代表：阿赫里曼（安格拉·迈纽）、众妖魔。人类必须在两者之间做出选择，生活就是这场伟大斗争的体现。</p>
+      </div>
+      <div class="concept-card">
+        <h4>阿胡拉·马兹达</h4>
+        <p>琐罗亚斯德教崇奉的最高神主和造物主，位于诸大天神之上，是众善神的统领。词义为"智慧的首领"。又称"马兹达教"，后称琐罗亚斯德教。他是惟一、万能之善界神主。</p>
+      </div>
+      <div class="concept-card">
+        <h4>阿赫里曼</h4>
+        <p>恶魔，邪恶的本原，制造丑恶、污秽、黑暗和灾难。与马兹达代表的光明、纯洁、善良相对立。又称安格拉·迈纽（Angra-Mainyu），意为"卑鄙、邪恶的本原"。</p>
+      </div>
+      <div class="concept-card">
+        <h4>六大善神（阿姆沙斯潘丹）</h4>
+        <p>阿胡拉·马兹达的六大从属神，分别代表善思、真诚、权威、虔诚、完美和不朽。每位善神在天国代表马兹达的某种美德，在尘世庇护某种自然元素或人类活动。</p>
+      </div>
+      <div class="concept-card">
+        <h4>自由意志</h4>
+        <p>人类是独立自主的被造物，不应受任何命运法则的限制。有权利自由自在地生活，应尽情地享受符合自己心愿的真、善、美。外力不能强迫人选择自己的生活道路。</p>
+      </div>
+      <div class="concept-card">
+        <h4>末日审判</h4>
+        <p>复活日到来之际，邪恶者将遭受惩罚，伪信者和作恶者将跌落地狱，真诚的信徒将进入永恒的天国。苏什扬特（Saoshyant）——三位拯救者——将在琐罗亚斯德过世后的三个千年中相继降世，拯救世界。</p>
+      </div>
+    </div>
+
+    <div class="part-header">其他重要概念</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>斯潘德·迈纽 Spand-Mainyu</h4>
+        <p>造物主之纯洁的智慧，有时他的名字排列在诸大天神的最前面。代表阿胡拉·马兹达的真诚和纯洁，在尘世为火的庇护神。</p>
+      </div>
+      <div class="concept-card">
+        <h4>豪麻 Haoma</h4>
+        <p>一种从同名药草中榨取的汁液，在宗教节日和致祭行礼时供人饮用。"祛除死亡"是它的固定修饰语。印度人称之为苏摩（Soma）。</p>
+      </div>
+      <div class="concept-card">
+        <h4>苏什扬特 Saoshyant</h4>
+        <p>词义为"拯救者"，即正教的三位隐遁先知。在琐罗亚斯德过世后的第一、第二和第三个千年中，他的三个后裔将相继降世，拯救世界于阿赫里曼造成的灾难之中。</p>
+      </div>
+      <div class="concept-card">
+        <h4>真诚与纯洁</h4>
+        <p>真诚乃是幸福的最佳食粮和源泉。幸福属于品行端正和渴求至诚之人。纯洁而善良，一如先宗列祖。对自然的尊重：水、火、土、植物、动物都是神圣的。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 六大善神 -->
+  <div class="tab-content" id="tab-deities">
+    <div class="part-header">阿姆沙斯潘丹（Amesha Spenta）— 六大善神</div>
+    <p style="color:var(--ink-dim);font-size:.9rem;margin-bottom:16px">阿姆沙斯潘丹是阿胡拉·马兹达的六大从属神，每位代表一种神圣美德，并在尘世庇护一种自然元素。</p>
+
+    <div class="deity-grid">
+      <div class="deity-card">
+        <div class="deity-icon">&#128161;</div>
+        <div class="deity-name">巴赫曼</div>
+        <div class="deity-en">Bahman / Vohu Manah</div>
+        <div class="deity-role">
+          <strong>第一位大天神</strong><br>
+          代表阿胡拉·马兹达的善思和智慧<br>
+          负责向人类传授善言<br>
+          在尘世庇护牲畜
+        </div>
+      </div>
+      <div class="deity-card">
+        <div class="deity-icon">&#128293;</div>
+        <div class="deity-name">奥尔迪贝赫什特</div>
+        <div class="deity-en">Ordībehesht / Asha Vahishta</div>
+        <div class="deity-role">
+          <strong>第二位大天神</strong><br>
+          在天国代表真诚和纯洁<br>
+          在尘世为火的庇护神<br>
+          象征最高真理与正义
+        </div>
+      </div>
+      <div class="deity-card">
+        <div class="deity-icon">&#9874;</div>
+        <div class="deity-name">沙赫里瓦尔</div>
+        <div class="deity-en">Shahrīvar / Khshathra Vairya</div>
+        <div class="deity-role">
+          <strong>第三位大天神</strong><br>
+          在天国代表统治和威严<br>
+          在尘世负责保护金属<br>
+          救助贫苦百姓
+        </div>
+      </div>
+      <div class="deity-card">
+        <div class="deity-icon">&#127793;</div>
+        <div class="deity-name">塞潘达尔马兹</div>
+        <div class="deity-en">Sepandārmaz / Spenta Ārmaiti</div>
+        <div class="deity-role">
+          <strong>第四位大天神</strong><br>
+          在天国代表虔诚和谦恭<br>
+          在尘世负责保护土地<br>
+          被认为是女性神
+        </div>
+      </div>
+      <div class="deity-card">
+        <div class="deity-icon">&#10024;</div>
+        <div class="deity-name">霍尔达德</div>
+        <div class="deity-en">Khordād / Haurvatāt</div>
+        <div class="deity-role">
+          <strong>第五位大天神</strong><br>
+          代表完美和健康<br>
+          在尘世庇护水<br>
+          象征完整性
+        </div>
+      </div>
+      <div class="deity-card">
+        <div class="deity-icon">&#9851;</div>
+        <div class="deity-name">阿莫尔达德</div>
+        <div class="deity-en">Amordād / Ameretāt</div>
+        <div class="deity-role">
+          <strong>第六位大天神</strong><br>
+          代表不朽和永生<br>
+          在尘世庇护植物<br>
+          象征生命的延续
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">其他重要神祇</div>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h4>阿希 Ashī</h4>
+          <p>司财富和奖赏之神，又称阿尔特（Art）或阿尔德（Ard）。她赐予勤劳善良者以财富和好运。</p>
+        </div>
+        <div class="concept-card">
+          <h4>密特拉 Mithra</h4>
+          <p>光明、契约与正义之神。驾驶金色战车穿越天空，用一千只眼睛监视人间，维护真理与契约。</p>
+        </div>
+        <div class="concept-card">
+          <h4>阿娜希塔 Anāhitā</h4>
+          <p>江河女神、水源的庇护者。纯洁、丰产和治愈的象征，身穿金线长袍，头戴八角王冠。</p>
+        </div>
+        <div class="concept-card">
+          <h4>法拉瓦希 Fravashi</h4>
+          <p>守护灵体。每个人、神祇、自然物都有其法拉瓦希——先于创造而存在的神圣原型。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>阿维斯塔 — 琐罗亚斯德教圣书</p>
+  <p>阿波菲斯 · Apophis Dragon Magic · 左手道的智慧圣殿</p>
+  <p style="margin-top:0.5rem;font-size:0.7rem;">"在光明与黑暗的永恒斗争中，选择善的道路。"</p>
+</footer>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到顶部">&#9650;</button>
+
+<script>
+/* ===== Particle Canvas ===== */
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let w, h;
+function resizeCanvas() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * w; this.y = Math.random() * h;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3 - 0.1;
+    this.opacity = Math.random() * 0.4 + 0.1;
+    this.life = Math.random() * 300 + 200;
+    this.maxLife = this.life;
+    this.hue = Math.random() > 0.5 ? 35 : 50;
+  }
+  update() {
+    this.x += this.speedX; this.y += this.speedY;
+    this.life--;
+    this.opacity = (this.life / this.maxLife) * 0.4;
+    if (this.life <= 0 || this.x < -10 || this.x > w + 10 || this.y < -10 || this.y > h + 10) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    const color = this.hue === 35 ? '212,168,67' : '255,200,50';
+    ctx.fillStyle = 'rgba(' + color + ',' + this.opacity + ')';
+    ctx.fill();
+  }
+}
+function initParticles(count) { particles = []; for (let i = 0; i < count; i++) { particles.push(new Particle()); } }
+function animateParticles() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => { p.update(); p.draw(); });
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = 'rgba(212,168,67,' + (0.04 * (1 - dist / 120)) + ')';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animateParticles);
+}
+initParticles(80);
+animateParticles();
+
+/* ===== Tab Switching ===== */
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', function() {
+    tabButtons.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    const target = document.getElementById('tab-' + this.dataset.tab);
+    if (target) target.classList.add('active');
+  });
+});
+
+/* ===== Expandable Sections ===== */
+function toggleSection(header) {
+  const section = header.parentElement;
+  section.classList.toggle('open');
+}
+
+/* ===== Mobile Menu ===== */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const navBar = document.getElementById('navBar');
+if (hamburger) {
+  hamburger.addEventListener('click', function() {
+    this.classList.toggle('active');
+    mobileMenu.classList.toggle('show');
+    navBar.classList.toggle('open');
+  });
+}
+
+/* Populate mobile menu */
+const navLinks = document.querySelectorAll('.nav-bar .nav-link');
+navLinks.forEach(link => {
+  const mobileLink = document.createElement('a');
+  mobileLink.href = link.href;
+  mobileLink.textContent = link.textContent;
+  mobileLink.className = 'mobile-link' + (link.classList.contains('active') ? ' active' : '');
+  mobileMenu.appendChild(mobileLink);
+});
+
+/* ===== Back to Top ===== */
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 400) backToTop.classList.add('show');
+  else backToTop.classList.remove('show');
+});
+</script>
+</body>
+</html>

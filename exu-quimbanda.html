@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exu与昆班达之夜与火 | 阿波菲斯龙魔法</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Cormorant+Garamond:wght@400;600;700&display=swap');
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-card: #1a1a1a;
+  --text-primary: #e8e0d0;
+  --text-secondary: #a09080;
+  --text-muted: #6a6050;
+  --accent-gold: #d4a843;
+  --accent-crimson: #c41e3a;
+  --accent-fire: #e85d04;
+  --accent-ember: #9d0208;
+  --border-color: #2a2520;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#particle-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.nav-brand {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.3rem;
+  color: var(--accent-gold);
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--accent-gold);
+  background: rgba(212,168,67,0.1);
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  background: linear-gradient(180deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.4) 50%, var(--bg-primary) 100%);
+}
+.hero h1 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 3rem;
+  color: var(--accent-fire);
+  text-shadow: 0 0 30px rgba(232,93,4,0.5), 0 0 60px rgba(232,93,4,0.2);
+  margin-bottom: 0.5rem;
+}
+.hero .subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: var(--accent-gold);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+.hero .author {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+.section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.section h2 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.8rem;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent-fire);
+}
+.section h3 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.4rem;
+  color: var(--accent-crimson);
+  margin: 1.5rem 0 1rem;
+}
+.section p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.quote-box {
+  border-left: 3px solid var(--accent-fire);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.line-section {
+  background: linear-gradient(135deg, var(--bg-card), rgba(232,93,4,0.05));
+  border-left: 4px solid var(--accent-fire);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+.line-section h4 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.2rem;
+  color: var(--accent-gold);
+  margin-bottom: 0.8rem;
+}
+.line-section .line-color {
+  font-size: 0.85rem;
+  color: var(--accent-fire);
+  margin-bottom: 0.8rem;
+}
+.line-section ul {
+  list-style: none;
+  padding: 0;
+}
+.line-section li {
+  padding: 0.3rem 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+.line-section li::before {
+  content: "🔥 ";
+}
+.line-section .pomba {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px dashed var(--border-color);
+  color: var(--accent-crimson);
+  font-style: italic;
+}
+
+.spirit-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1.2rem;
+  margin: 1rem 0;
+}
+.spirit-card h4 {
+  color: var(--accent-gold);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.spirit-card .spirit-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.8rem;
+}
+.spirit-card .spirit-items {
+  font-size: 0.85rem;
+  color: var(--accent-fire);
+}
+.spirit-card .spirit-icon {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.kingdoms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.kingdom-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+.kingdom-card h4 {
+  color: var(--accent-gold);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.kingdom-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.hours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.hour-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.6rem;
+  text-align: center;
+  font-size: 0.85rem;
+}
+.hour-card .name {
+  color: var(--accent-gold);
+  font-weight: bold;
+}
+.hour-card .desc {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border-color);
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2rem; }
+  .hero .subtitle { font-size: 1rem; }
+  .section { padding: 1.5rem; }
+  .kingdoms-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<canvas id="particle-canvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link">怪物娘探险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+  <a href="gnostic-religion.html" class="nav-link">诺斯替宗教</a>
+  <a href="avesta.html" class="nav-link">阿维斯塔</a>
+  <a href="hermetic-corpora.html" class="nav-link">赫耳莫斯秘籍</a>
+  <a href="kabbalah-condensed.html" class="nav-link">卡巴拉精要</a>
+  <a href="cthulhu-dreams.html" class="nav-link">克苏鲁梦境</a>
+  <a href="exu-quimbanda.html" class="nav-link active">昆班达</a>
+  <a href="history-of-magic.html" class="nav-link">魔法史</a>
+  <a href="holy-daymon.html" class="nav-link">圣灵</a>
+  <a href="yuanhai-ziping-detail.html" class="nav-link">渊海子平详</a>
+</nav>
+
+<div class="hero">
+  <h1>Exu与昆班达之夜与火</h1>
+  <div class="subtitle">Exu & the Quimbanda of Night and Fire</div>
+  <div class="author">Nicholaj de Mattos Frisvold, 2012 | Bibliothèque Rouge / Scarlet Imprint</div>
+</div>
+
+<div class="container">
+
+<div class="section">
+  <h2>前言</h2>
+  <p>关于昆班达有很多可说，在这本书中我将揭示我被允许揭示的一切，并在此过程中触及禁忌。我这样做是因为这本书是我对昆班达的见证，也揭示了精神所允许的度量。</p>
+  <p>我坚定地相信，一个传统只有在它为与源头和精神的真正连接铺平道路时才是活的。这种连接应该如此强烈和生动，以至于传统从书本中撕裂出来，与精神的连接向朝圣者打开真实而永生的自然之书。</p>
+  <div class="quote-box">
+    "这本书是我给许多人的鞋中之石。它是打开世界所有门户的草药芬芳。这本书作为真理、呼吸、虚假和欺骗的蒸汽给予你，并以此来鞭打你的注意力，让你看到真理如何像从极点到地狱的钉子一样延伸。"
+  </div>
+</div>
+
+<div class="section">
+  <h2>第一章：黑日升起</h2>
+  <p>昆班达是大地与火的崇拜，一个死灵术崇拜，死亡作为我们的朋友、盟友或宿敌行走在世界中。昆班达是我们阴影的镜像世界，在那里我们不断地沉思自己的深渊。这是一个火星军团在土星领域中上演的崇拜，被火之无花果和金星硫磺酒所陶醉和迷醉。</p>
+  <p>正如庞巴吉拉是崇拜的女王，女性物质及其多样性的完整镜像，埃舒是这个崇拜的国王，也是每个男人的考验。在埃舒中，人可以见证自己的缺陷，并启迪他最黑暗的角落和最高的抱负。</p>
+  
+  <h3>昆班达的黑根</h3>
+  <p>像丰特内勒这样的人将黑魔法视为治疗术（精通草药知识和与灵魂交易）和巫术（意为魔法）的融合。技术在昆班达的玛库姆巴和乌班达的米龙加中相当相似，变化的是所使用的灵魂和工作的目的。</p>
+  <p>这些工作通常被视为不同于普雷托斯维略斯（字面意思是老黑人，主要是刚果血统的被迫移民）和卡博克洛斯（本土印第安人）所使用的祈祷和魔法。当丰特内勒评论乌班达和卡德克灵主义的多元遗产时，这种丰富性变得明显。</p>
+  
+  <h3>基督教的哈罗宁与地狱</h3>
+  <p>在夜间传说中，正如我们在福音书中读到的，在上帝之子的受难和钉十字架期间，天军聚集在他周围；地狱之军也是如此。在这一点上，化身为神的上帝拒绝了诱惑，拒绝了他提供的没药和鸦片，拒绝了酒和水，因为他在朗吉努斯之矛上放弃了呼吸。</p>
+  <p>亚利马太的约瑟和尼哥底母，法利赛人和公会成员出席了他的死亡并保存了他的血、汗和遗物。约瑟继续他的教会，但通过尼哥底母维持了不同的遗产。尼哥底母有一本归于他名下的伪经文本《尼哥底母福音》，其中我们找到了重要的章节《地狱的哈罗宁》，描述了基督下降到炼狱和地狱，在那里地狱之主对他的力量感到惊讶。</p>
+  
+  <h3>埃舒莫尔与埃舒梅亚诺伊特</h3>
+  <p>埃舒莫尔已被与山羊门德斯和利维的巴弗梅特的图标认同——这不是随机的，而是非常适合这个灵魂。同样，埃舒梅亚诺伊特（午夜埃舒）也倾向于适合他的物理形态，那些在神学方面有学识的人，如拉比、牧师或主教——或魔鬼。</p>
+  <p>因此，虽然埃舒莫尔与所罗门王联系在一起，埃舒梅亚诺伊特与圣西普里安和圣尼哥底母联系在一起。由此可以推断，灵感的精神可以被感知为教皇亚历山大六世在魔鬼之火光环中的恶魔漫画。</p>
+  
+  <h3>太阳无敌——死者之父</h3>
+  <p>从第六小时（六是太阳的神秘数字）到第九小时（月亮的神秘数字）发生了日食，黑曜石蝴蝶使世界黑暗了三小时。第九小时是太阳进入地狱领域和月亮从地狱升起以给沉睡物质之夜以暗淡光芒的时间。</p>
+  <p>在这里我们发现了一个隐藏在启示录兽数666中的大奥秘，索拉斯，点燃努斯的精神，是太阳在其完美中的精神。六是希伯来语的Vau，Tiphareth和美的字母。</p>
+</div>
+
+<div class="section">
+  <h2>昆班达的起源</h2>
+  <p>昆班达诞生于巴西本土、非洲和欧洲路径的交汇。随着埃舒和庞巴吉拉走向世界，他们需要适应新的栖息地，我们发现了一种变异和适应正在发生。</p>
+  <p>所有特雷罗都说，我们生来就有一个埃舒和庞巴吉拉，他们在生活中与我们同行，无论我们是否意识到这一点。关键在于提供人与精神之间坚定不移的联系，以便真实的遗产可以传承下去。</p>
+  <p>昆班达的遗产存在于人类的夜间历史和激情的考验中，在笑声和泪水中。昆班达是一个在人类皮肤上展开的崇拜，皮肤仍然滴着记忆的血液。正是因为这些灵魂是最有帮助的盟友，因为他们理解的记忆，也因为同样的记忆和理解，我们可以将这面镜子转向自己，变得明智。也就是说，如果我们敢于这样做。</p>
+  
+  <h3>埃舒的本质</h3>
+  <p>埃舒被 demonised 和误代表了几十年，从他被视为冥界的邪恶力量，到被视为奥里萨的奴隶，到被视为与奥里萨埃舒相同——而他是埃舒的奴隶！</p>
+  <p>丰特内勒将构成昆班达军团的精神阶级定义为进化或未进化的灵魂。在这些段落中，他还提到了第三类灵魂，他称之为黑暗灵魂。这种精神侍从被理解为边缘类型，被描述为紧张的灵魂，在灵魂世界中被视为优越的，超越善恶，对维持月下活动有特殊的兴趣。</p>
+  
+  <h3>从玛库姆巴到昆班达</h3>
+  <p>随着奴隶制的废除，玛库姆巴繁荣起来。在被遗弃和留在街头的相互残酷命运中，在那些被解放的人之间产生了兄弟情谊的亲属纽带。特别是在萨尔瓦多、巴伊亚和里约热内卢，玛库姆巴房屋迅速而有力地发展起来。</p>
+  <p>这些实际上是卡布拉的继承者，但现在有了越来越多的欧洲影响，这种影响在美好年代期间被带到较大的城市。埃舒和他的崇拜被赋予了多种血统的魔法知识，包括本土、非洲和欧洲血统。</p>
+</div>
+
+<div class="section">
+  <h2>七大王国的划分</h2>
+  <p>灵魂以王国的形式组织如下：十字路口（Encruzilhadas）、大十字架（Cruzeiro，指墓地中央的大型 votary 十字架）、田野（Matas）、墓地（Calunga）、灵魂（Almas）、竖琴（Liras）和海滩（Praia）。</p>
+  <p>这种分类将在本书的灵魂目录中使用。王国还展示了埃舒和庞巴吉拉在其原始位置，作为自然特定门户和力量之地的守护灵魂。在王国中，我们以原始力量遇见埃舒和庞巴吉拉，而在线中，我们遇见教导灵魂。</p>
+  
+  <div class="kingdoms-grid">
+    <div class="kingdom-card">
+      <h4>🔥 十字路口</h4>
+      <p>Encruzilhadas<br>道路交汇之处</p>
+    </div>
+    <div class="kingdom-card">
+      <h4>✝️ 大十字架</h4>
+      <p>Cruzeiro<br>墓地中央的十字架</p>
+    </div>
+    <div class="kingdom-card">
+      <h4>🌿 田野</h4>
+      <p>Matas<br>荒野与原野</p>
+    </div>
+    <div class="kingdom-card">
+      <h4>💀 墓地</h4>
+      <p>Calunga<br>死亡与记忆之地</p>
+    </div>
+    <div class="kingdom-card">
+      <h4>👻 灵魂</h4>
+      <p>Almas<br>灵魂过渡之域</p>
+    </div>
+    <div class="kingdom-card">
+      <h4>🎵 竖琴</h4>
+      <p>Liras<br>音乐与预言</p>
+    </div>
+    <div class="kingdom-card">
+      <h4>🌊 海滩</h4>
+      <p>Praia<br>海洋与边界</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>七大夜晚时辰</h2>
+  <p>七个地狱王国被划分为七个夜晚时辰，每个时辰持有特定的振动，据说某些工作在特定时辰更有效。在中世纪，夜晚时辰被划分为以下部分：</p>
+  
+  <div class="hours-grid">
+    <div class="hour-card">
+      <div class="name">Crepusculum</div>
+      <div class="desc">黄昏时分</div>
+    </div>
+    <div class="hour-card">
+      <div class="name">Vesperum</div>
+      <div class="desc">傍晚时分</div>
+    </div>
+    <div class="hour-card">
+      <div class="name">Conticinium</div>
+      <div class="desc">寂静之时</div>
+    </div>
+    <div class="hour-card">
+      <div class="name">Intempestiva</div>
+      <div class="desc">午夜最深</div>
+    </div>
+    <div class="hour-card">
+      <div class="name">Gallicinium</div>
+      <div class="desc">鸡鸣之时</div>
+    </div>
+    <div class="hour-card">
+      <div class="name">Matutinum</div>
+      <div class="desc">清晨时分</div>
+    </div>
+    <div class="hour-card">
+      <div class="name">Diluculum</div>
+      <div class="desc">黎明破晓</div>
+    </div>
+  </div>
+  <p>只有Intempestiva（午夜最深，最黑暗的时刻）被认为适合夜间飞行，而黄昏时辰被视为混合时辰，可用于多种工作。鸡鸣之时Gallicinium被赋予黑色，Matutinum红色，Diluculum白色。</p>
+</div>
+
+<div class="section">
+  <h2>昆班达的七条线</h2>
+  <p>埃舒的军团被组织成特定的线。这些是将呈现的等级制度，但等级制度中也有等级制度。每个埃舒都是其自己神秘线中的首领，有其随从灵魂。</p>
+  
+  <div class="line-section">
+    <h4>第一线：马雷线</h4>
+    <div class="line-color">颜色：黑、红、深绿、金 | 首领：埃舒雷伊</div>
+    <p>这条线与卡廷博的实践有关，最近获得了作为黑魔法学校的声誉，某种昆班达的黑暗面。这条线由一些最智慧和仁慈的力量组成，但也正是因为这些埃舒的贵族和智慧品质，使得在这条线中与基翁巴斯（即外壳、幼虫）的工作可能比任何其他线都更安全。</p>
+    <ul>
+      <li>埃舒雷伊达塞特恩克鲁齐尔哈达斯</li>
+      <li>埃舒马拉博</li>
+      <li>埃舒曼盖拉</li>
+      <li>埃舒特兰卡鲁阿斯达萨尔马斯</li>
+      <li>埃舒蒂里里</li>
+      <li>埃舒维卢多</li>
+      <li>埃舒多斯里奥斯或坎皮纳斯</li>
+    </ul>
+    <div class="pomba">庞巴吉拉：庞巴吉拉雷伊娜达塞特恩克鲁齐尔哈达斯</div>
+  </div>
+
+  <div class="line-section">
+    <h4>第二线：灵魂线</h4>
+    <div class="line-color">颜色：红、黑、白 | 首领：奥莫卢</div>
+    <p>这条线处理灵魂在层面之间的过渡；因此，所有这些埃舒有时被理解为奥莫卢，墓地的灵魂。这条线的工作具有治疗性质，我们发现这里有很多约鲁巴影响。例如，经常使用帕德，以及称为阿马拉的食物和各种形式的白色埃博。这些埃舒是灵媒艺术的优秀老师。</p>
+    <ul>
+      <li>埃舒米林</li>
+      <li>埃舒皮门塔</li>
+      <li>埃舒达塞特蒙塔尼亚斯</li>
+      <li>埃舒甘加</li>
+      <li>埃舒卡米纳洛阿</li>
+      <li>埃舒马雷</li>
+      <li>埃舒基龙博</li>
+    </ul>
+    <div class="pomba">庞巴吉拉：庞巴吉拉达萨尔马斯</div>
+  </div>
+
+  <div class="line-section">
+    <h4>第三线：墓地线</h4>
+    <div class="line-color">颜色：红、黑、黄 | 首领：埃舒卡韦拉</div>
+    <p>这些灵魂生活在墓地中，以头骨和骨骼的形式出现。这条线以不死生物、还魂尸、吸血鬼和各种夜行生物为标志。在墓地线中，我们发现死亡以最活跃的形式存在。这些灵魂可能是邪恶的、性的和危险的，但它们也是解决不可能情况或疏通道路的最有效灵魂。</p>
+    <ul>
+      <li>埃舒塔塔卡韦拉</li>
+      <li>埃舒布拉萨</li>
+      <li>埃舒彭巴</li>
+      <li>埃舒多罗多</li>
+      <li>埃舒卡兰戈拉</li>
+      <li>埃舒阿兰卡托科</li>
+      <li>埃舒帕冈</li>
+    </ul>
+    <div class="pomba">庞巴吉拉：庞巴吉拉雷伊娜多斯塞米特里奥斯</div>
+  </div>
+
+  <div class="line-section">
+    <h4>第四线：纳戈线</h4>
+    <div class="line-color">颜色：黑、红 | 首领：埃舒格雷雷</div>
+    <p>这条线被认为是较高级的线之一，来自贝宁和尼日利亚边境的纳戈地区。这些埃舒控制魔法艺术、星体旅行，并精通巫毒艺术。埃舒格雷雷经常与埃舒甘加混淆，但实际上是格雷的轻微变体，指在坎多布雷中从事巫毒工作的人。</p>
+    <ul>
+      <li>埃舒凯布拉加略</li>
+      <li>埃舒塞特克鲁泽斯</li>
+      <li>埃舒吉拉蒙多</li>
+      <li>埃舒多塞米特里奥</li>
+      <li>埃舒卡帕普雷塔</li>
+      <li>埃舒库拉多尔</li>
+      <li>埃舒甘加</li>
+    </ul>
+    <div class="pomba">庞巴吉拉：庞巴吉拉玛丽亚帕迪利亚</div>
+  </div>
+
+  <div class="line-section">
+    <h4>第五线：莫索鲁比线</h4>
+    <div class="line-color">颜色：红、黑、深蓝 | 首领：埃舒卡米纳洛阿</div>
+    <p>这条线由有能力影响人们心智、引起疾病和激发疯狂的灵魂组成。那些从事这条线工作的人倾向于发展成为优秀的梦想家和占卜者。这是一条阿拉伯影响的线，在那里我们找到战士和酋长。据说这条线倾向于给从事它的人带来亚洲影响，如佛教和苯教。</p>
+    <ul>
+      <li>埃舒多斯文托斯</li>
+      <li>埃舒莫塞戈</li>
+      <li>埃舒塞特波尔塔斯</li>
+      <li>埃舒特兰卡图多</li>
+      <li>埃舒马拉巴</li>
+      <li>埃舒塞特松布拉斯</li>
+      <li>埃舒卡伦加</li>
+    </ul>
+    <div class="pomba">庞巴吉拉：庞巴吉拉玛丽亚穆兰博</div>
+  </div>
+
+  <div class="line-section">
+    <h4>第六线：卡博克洛斯昆班德罗线</h4>
+    <div class="line-color">颜色：黑、红、绿、白 | 首领：埃舒潘特拉内格拉</div>
+    <p>这条线由印第安人和昆班德罗组成，他们是治疗、诅咒和变形术的专家。野外的知识在这里，以及卡博克洛斯的遗产和他们的魔法。这些灵魂经常扮演他们选择与之同行的人的个人向导。</p>
+    <ul>
+      <li>埃舒塞特卡舒埃拉斯</li>
+      <li>埃舒特龙凯拉</li>
+      <li>埃舒塞特波埃拉斯</li>
+      <li>埃舒达什马塔斯</li>
+      <li>埃舒达塞特佩德拉斯</li>
+      <li>埃舒多谢罗</li>
+      <li>埃舒佩德拉内格拉</li>
+    </ul>
+    <div class="pomba">庞巴吉拉：庞巴吉拉达菲盖拉和/或西加纳</div>
+  </div>
+
+  <div class="line-section">
+    <h4>第七线：混合线</h4>
+    <div class="line-color">颜色：多变 | 首领：埃舒多斯里奥斯或埃舒达什坎皮纳斯</div>
+    <p>这条线不仅由严格意义上的埃舒组成，还包括各种恶毒灵魂和粗糙实体的巨大多样性，可用于攻击和恶意的作品。这些灵魂也可以成为昆班德罗的向导和老师，但许多这些埃舒有不可靠的声誉，因为它们以破坏、痴迷和浩劫为食。</p>
+    <p>这条线是1920年代重新定义的非洲线，在这里被视为无数灵魂的集合。这条线中恒定的灵魂似乎是泽佩林特拉和普雷托斯维略斯昆班德罗。</p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>著名埃舒介绍</h2>
+  
+  <div class="spirit-card">
+    <h4>埃舒卡兰戈拉 (Sidragosum)</h4>
+    <div class="spirit-desc">一个安哥拉埃舒，正如名字所示，卡兰戈拉以使人迷失方向和混乱而闻名。他引起各种歇斯底里和疯狂。有人说他是启发旋转托钵僧旋转舞蹈的灵魂；这是因为他以类似的旋转运动进入附体状态。</div>
+    <div class="spirit-items">神圣物品：昂贵的布料、三叉戟、雪茄、威士忌和马拉福</div>
+    <div class="spirit-icon">图像：一个中年埃舒，满脸胡须，马尾辫，穿着以红色为主的多色斗篷。他手持三叉戟和一本书。</div>
+  </div>
+
+  <div class="spirit-card">
+    <h4>埃舒皮门塔 (Trimasel) — 辣椒埃舒</h4>
+    <div class="spirit-desc">皮门塔是埃舒中的化学家，炼金术和草药艺术的专家，爱情药水和魔法粉末是他的专长。有人说他的"身体"太流动了，无法进入任何马，附体通常以灵感的形式出现。他的颜色是热红色，据说他的外表是一个年轻英俊的男人，喜欢香槟和甜马拉福。</div>
+    <div class="spirit-items">神圣物品：卡沙萨（马拉福）、威士忌、草药、根、三叉戟和药袋</div>
+    <div class="spirit-icon">图像：一个年轻的红色埃舒，穿着腰布，手持药袋和三叉戟。</div>
+  </div>
+
+  <div class="spirit-card">
+    <h4>埃舒平加法戈 — 滴火埃舒</h4>
+    <div class="spirit-desc">滴火埃舒在非洲灵魂线工作，称为约里马。在这条线中，我们找到来自刚果的普雷托斯维略斯，如帕伊阿鲁达、帕伊刚果和帕伊几内亚。滴火埃舒与帕伊几内亚密切合作，几内亚草（Petiveria alliacea）对他们两者都是神圣的。</div>
+    <div class="spirit-items">神圣物品：加蜂蜜的干邑、雪茄和卡沙萨、黑白红三色蜡烛和吉阿（项链）</div>
+    <div class="spirit-icon">图像：一个中年红色埃舒，穿着破烂的衣服，手持火炬和三叉戟，两者都滴着火。</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>乌班达与昆班达的关系</h2>
+  <p>为了完整起见，值得看看昆班达与乌班达在线方面的关系。这种组织将昆班达视为乌班达的奴隶线，因此奥里萨斯被认为是昆班达的真正首领。</p>
+  <ul style="list-style:none;padding:0;">
+    <li style="padding:0.3rem 0;">🔥 奥沙拉线与马雷线相关</li>
+    <li style="padding:0.3rem 0;">🔥 奥贡线与墓地线相关</li>
+    <li style="padding:0.3rem 0;">🔥 奥索西线与卡博克洛斯昆班德罗线相关</li>
+    <li style="padding:0.3rem 0;">🔥 尚戈线与莫索鲁比线相关</li>
+    <li style="padding:0.3rem 0;">🔥 约里马线与灵魂线相关</li>
+    <li style="padding:0.3rem 0;">🔥 耶曼贾线与纳戈线相关</li>
+    <li style="padding:0.3rem 0;">🔥 伊贝吉线与混合线相关</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>结语</h2>
+  <p>埃舒是变化、交换和转化的最恰当图标，可以将人类存在的痛苦之路转化为慰藉和胜利。我会说，正如庞巴吉拉是世界的慰藉，埃舒是胜利的力量。</p>
+  <p>胜利呼唤着自己的阴影——傲慢、自负、唯我论和复仇。然而胜利的阴影是失败，在失败中我们可以开始滋养最负面的所有毒药：仇恨和愤怒。在失败中，愤怒和仇恨成形，当这丑陋的火太难以承受时，我们将这向外投射，整个世界都被我们病态的愿景所着色。</p>
+  <div class="quote-box">
+    "毒药之路是为真正的男人或女人准备的，他们在地狱之火中变得温柔和理解；通过痛苦和磨难变得明智，将自己视为准备好接受生活的战士，无论其代价如何。这确实是一条黑暗骑士之路，一条毒药之路，要么给你骑士的盔甲，要么给你蝎子的甲壳。"
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>内容源自 Nicholaj de Mattos Frisvold, Exu & the Quimbanda of Night and Fire (2012)</p>
+  <p>阿波菲斯龙魔法 | 仅供学习研究</p>
+</div>
+
+<script>
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let w, h;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3 - 0.2;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.color = Math.random() > 0.5 ? '232,93,4' : Math.random() > 0.3 ? '212,168,67' : '157,2,8';
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animate() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>

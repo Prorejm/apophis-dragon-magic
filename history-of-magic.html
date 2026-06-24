@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>魔法史 - The History of Magic - Apophis Dragon Magic</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0a0a;--gold:#d4a843;--crimson:#c41e3a;--text:#e8e0d0;--muted:#8a8278;--card-bg:#141414;--border:rgba(212,168,67,0.15)}
+body{font-family:'Georgia','Times New Roman',serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;min-height:100vh}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px}
+header{background:linear-gradient(180deg,rgba(10,10,10,0.95) 0%,rgba(10,10,10,0.8) 100%);padding:20px 0;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.logo{font-size:1.6rem;font-weight:bold;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo::before{content:'\262F';font-size:1.8rem}
+.nav-desktop{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.82rem;padding:4px 8px;border-radius:4px;transition:all 0.3s;white-space:nowrap}
+.nav-links a:hover{color:var(--gold);background:rgba(212,168,67,0.1)}
+.nav-links a.active{color:var(--gold);border-bottom:1px solid var(--gold)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px}
+.hamburger span{width:25px;height:2px;background:var(--gold);transition:0.3s}
+.nav-mobile{display:none;position:absolute;top:100%;left:0;width:100%;background:rgba(10,10,10,0.98);border-bottom:1px solid var(--border);padding:15px;max-height:70vh;overflow-y:auto}
+.nav-mobile.active{display:block}
+.nav-mobile a{display:block;color:var(--muted);text-decoration:none;padding:6px 0;font-size:0.85rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+.nav-mobile a:hover{color:var(--gold)}
+.hero{padding:80px 0 50px;text-align:center;border-bottom:1px solid var(--border)}
+.hero h1{font-size:2.8rem;color:var(--gold);margin-bottom:15px;text-shadow:0 0 30px rgba(212,168,67,0.3);font-weight:normal}
+.hero .subtitle{font-size:1.1rem;color:var(--muted);margin-bottom:10px;font-style:italic}
+.hero .meta{color:var(--crimson);font-size:0.95rem;margin-bottom:25px}
+.hero .quote{max-width:700px;margin:0 auto;padding:20px;border-left:3px solid var(--gold);background:rgba(212,168,67,0.05);font-style:italic;color:var(--text);font-size:1.05rem}
+.section{padding:50px 0;border-bottom:1px solid var(--border)}
+.section-title{font-size:1.8rem;color:var(--gold);margin-bottom:30px;text-align:center;position:relative}
+.section-title::after{content:'';display:block;width:80px;height:1px;background:var(--gold);margin:15px auto 0;opacity:0.5}
+.book-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px}
+.book-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:25px;transition:all 0.3s}
+.book-card:hover{border-color:rgba(212,168,67,0.4);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+.book-card h3{color:var(--crimson);font-size:1.2rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.book-card h3::before{content:'\2726';color:var(--gold);font-size:0.9rem}
+.book-card p{color:var(--muted);font-size:0.92rem;line-height:1.8}
+.book-card ul{margin-top:12px;padding-left:18px;color:var(--muted);font-size:0.9rem}
+.book-card li{margin-bottom:6px}
+.concepts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.concept-card{background:linear-gradient(135deg,rgba(196,30,58,0.08) 0%,rgba(212,168,67,0.05) 100%);border:1px solid var(--border);border-radius:8px;padding:22px}
+.concept-card h4{color:var(--gold);font-size:1.1rem;margin-bottom:10px}
+.concept-card p{color:var(--muted);font-size:0.9rem;line-height:1.7}
+.figures-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+.figure-card{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:15px;text-align:center}
+.figure-card .name{color:var(--gold);font-size:1rem;margin-bottom:5px}
+.figure-card .desc{color:var(--muted);font-size:0.85rem}
+.illustrations-list{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:25px}
+.illustrations-list h3{color:var(--crimson);margin-bottom:15px}
+.illustrations-list ol{padding-left:20px;color:var(--muted);font-size:0.9rem}
+.illustrations-list li{margin-bottom:6px}
+.footer{text-align:center;padding:40px 0;color:var(--muted);font-size:0.85rem;border-top:1px solid var(--border);margin-top:30px}
+@media(max-width:768px){.hamburger{display:flex}.nav-links{display:none}.hero h1{font-size:2rem}.book-grid,.concepts-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<header>
+<div class="container">
+<div class="nav-desktop">
+<a href="index.html" class="logo">Apophis Dragon Magic</a>
+<ul class="nav-links">
+<li><a href="index.html">首页</a></li>
+<li><a href="sigil-game.html">符印游戏</a></li>
+<li><a href="iching-divination.html">易经占卜</a></li>
+<li><a href="goetia-demons.html">所罗门魔神</a></li>
+<li><a href="astrology-hub.html">占星中心</a></li>
+<li><a href="kabbalah.html">卡巴拉</a></li>
+<li><a href="blog.html">博客</a></li>
+<li><a href="generators.html">生成器</a></li>
+<li><a href="mini-games.html">小游戏</a></li>
+</ul>
+<div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</div>
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link">怪物娘探险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+  <a href="gnostic-religion.html" class="nav-link">诺斯替宗教</a>
+  <a href="avesta.html" class="nav-link">阿维斯塔</a>
+  <a href="hermetic-corpora.html" class="nav-link">赫耳莫斯秘籍</a>
+  <a href="kabbalah-condensed.html" class="nav-link">卡巴拉精要</a>
+  <a href="cthulhu-dreams.html" class="nav-link">克苏鲁梦境</a>
+  <a href="exu-quimbanda.html" class="nav-link">昆班达</a>
+  <a href="history-of-magic.html" class="nav-link active">魔法史</a>
+  <a href="holy-daymon.html" class="nav-link">圣灵</a>
+  <a href="yuanhai-ziping-detail.html" class="nav-link">渊海子平详</a>
+</nav>
+</div>
+</header>
+
+<div class="container">
+<section class="hero">
+<h1>The History of Magic</h1>
+<p class="subtitle">Including a Clear and Precise Exposition of Its Procedure, Its Rites and Its Mysteries</p>
+<p class="meta">Eliphas Levi (Alphonse Louis Constant, 1810-1875) &middot; Translated by A.E. Waite &middot; William Rider & Son, London, 1922</p>
+<div class="quote">
+"Magic is the exact and absolute science of Nature and her laws. It is the science of the Ancient Magi, the science of Abraham and Orpheus, of Confucius and Zoroaster."
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">七卷结构</h2>
+<div class="book-grid">
+<div class="book-card">
+<h3>Book I: The Derivations of Magic</h3>
+<p>探索魔法的神话起源与早期传统。从传说中的魔法来源到东方三博士(Magi)的智慧，从印度吠陀传统到赫尔墨斯主义，从希腊秘教到毕达哥拉斯学派的数字神秘主义，再到犹太卡巴拉传统的深层解读。</p>
+<ul>
+<li>Fabulous sources of magical knowledge</li>
+<li>The Magi and Persian wisdom</li>
+<li>Indian Vedic traditions</li>
+<li>Hermetic philosophy</li>
+<li>Greek mysteries and Pythagoras</li>
+<li>The Kabbalah and Jewish esotericism</li>
+</ul>
+</div>
+<div class="book-card">
+<h3>Book II: Formation and Development of Dogmas</h3>
+<p>魔法教条的演变历程，从象征主义到神秘主义，从入会仪式到公共崇拜，探讨贞洁在魔法实践中的意义，分析迷信与理性之间的张力，以及古代纪念碑中隐藏的魔法符号。</p>
+<ul>
+<li>Symbolism in magical traditions</li>
+<li>Mysticism and spiritual experience</li>
+<li>Initiation rites and mysteries</li>
+<li>Public worship and secret practice</li>
+<li>Chastity and spiritual power</li>
+<li>Superstition versus true science</li>
+</ul>
+</div>
+<div class="book-card">
+<h3>Book III: Christian Revelation</h3>
+<p>基督被指控为魔法师的历史背景，魔鬼概念在基督教传统中的演变，最后一批异教徒的抵抗，圣徒传说与魔法奇迹，以及卡巴拉绘画中隐藏的基督教象征。</p>
+<ul>
+<li>Christ accused as magician</li>
+<li>The devil in Christian tradition</li>
+<li>The last pagans</li>
+<li>Legends and miracles</li>
+<li>Kabbalistic paintings</li>
+</ul>
+</div>
+<div class="book-card">
+<h3>Book IV: Magic and Civilization</h3>
+<p>魔法与文明进程的交织——蛮族入侵时期的魔法实践，女性在魔法传统中的角色，萨利克法典中的魔法条款，查理曼大帝时期的魔法师，以及中世纪著名的魔法审判。</p>
+<ul>
+<li>Barbarians and magical practices</li>
+<li>Women in magic traditions</li>
+<li>Salic law provisions</li>
+<li>Charlemagne and magicians</li>
+<li>Medieval magic trials</li>
+</ul>
+</div>
+<div class="book-card">
+<h3>Book V: Guilds and Clergy</h3>
+<p>行会与神职人员之间的魔法争议，被指控使用魔法的教皇，波希米亚地区的炼金术传统，雷蒙·卢尔(Raymond Lully)的炼金术哲学，以及共济会起源中的魔法元素。</p>
+<ul>
+<li>Accused popes and clergy</li>
+<li>Bohemian alchemists</li>
+<li>Raymond Lully's philosophy</li>
+<li>Alchemical traditions</li>
+<li>Masonic origins and magic</li>
+</ul>
+</div>
+<div class="book-card">
+<h3>Book VI: Magic and Revolution</h3>
+<p>十八世纪魔法作者的思想，奇迹与理性主义的冲突，卡佐特(Cazotte)的著名预言，法国大革命时期的神秘主义运动，以及光明会(Illuminati)的魔法传统。</p>
+<ul>
+<li>18th century magical authors</li>
+<li>Miracles and rationalism</li>
+<li>Cazotte's prophecy</li>
+<li>French Revolution occultism</li>
+<li>The Illuminati tradition</li>
+</ul>
+</div>
+<div class="book-card">
+<h3>Book VII: 19th Century Magic</h3>
+<p>十九世纪魔法的发展——动物磁力(magnetism)、梅斯梅尔(mesmerism)的催眠术、梦游症(somnambulism)的神秘现象，以及当时兴起的神秘学文献。</p>
+<ul>
+<li>Animal magnetism</li>
+<li>Mesmerism and hypnosis</li>
+<li>Somnambulism phenomena</li>
+<li>Occult literature revival</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">核心概念</h2>
+<div class="concepts-grid">
+<div class="concept-card">
+<h4>Blazing Star 炽烈之星</h4>
+<p>第五元素的象征，伟大的奥秘(Great Arcanum)，神圣的五角星(pentagram)。Levi将其视为魔法力量的核心符号，代表着元素之上的精神力量，是连接天地的神秘通道。</p>
+</div>
+<div class="concept-card">
+<h4>The Absolute 绝对者</h4>
+<p>绝对真理存在于理解与信仰之中。Levi认为魔法是对自然法则的绝对科学，而绝对者(The Absolute)是存在本身，是"Being is being"的终极表达。</p>
+</div>
+<div class="concept-card">
+<h4>Astral Light 星光体</h4>
+<p>普遍的塑性媒介，自然的想象力。Levi将其称为"Martinists的星光体"——一种既是流体又是力量的自然神圣媒介，是振动运动和形式图像的共同容器，是同情与反感的来源，是梦境与超自然视觉现象的媒介。</p>
+</div>
+<div class="concept-card">
+<h4>Kabbalah 卡巴拉</h4>
+<p>以色列祭司团的传统秘学，包含在《创造之书》(Sepher Yetzirah)、《光辉之书》(Zohar)和《塔木德》(Talmud)中。根据这一教义，绝对即存在，其中包含表达存在与生命之理的道(Word)。</p>
+</div>
+<div class="concept-card">
+<h4>Devil 魔鬼</h4>
+<p>Levi明确拒绝摩尼教的黑暗之神概念。魔鬼不是与上帝对等的存在，而是"错误之灵"(spirit of error)——故意无知、眩晕和意志偏离正道的状态。邪恶是存在的正直之缺席。</p>
+</div>
+<div class="concept-card">
+<h4>Lucifer 路西法</h4>
+<p>"光明使者"(Light-Bearer)——一个奇怪的名字，却归属于黑暗之灵。Levi问道：是他携带光明却使软弱灵魂盲目吗？答案是肯定的。路西法是那燃烧的流星，那永远在燃烧却不再照亮的天体。</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">重要人物</h2>
+<div class="figures-grid">
+<div class="figure-card">
+<div class="name">Abraham</div>
+<div class="desc">亚伯拉罕，魔法的科学之父之一，卡巴拉传统的源头</div>
+</div>
+<div class="figure-card">
+<div class="name">Orpheus</div>
+<div class="desc">俄耳甫斯，希腊神秘主义与音乐魔法的象征</div>
+</div>
+<div class="figure-card">
+<div class="name">Confucius</div>
+<div class="desc">孔子，东方智慧与道德哲学的代表</div>
+</div>
+<div class="figure-card">
+<div class="name">Zoroaster</div>
+<div class="desc">琐罗亚斯德，波斯光明与黑暗二元论的创立者</div>
+</div>
+<div class="figure-card">
+<div class="name">Enoch</div>
+<div class="desc">以诺，天界知识的接收者，神秘文字的发明者</div>
+</div>
+<div class="figure-card">
+<div class="name">Hermes Trismegistus</div>
+<div class="desc">三重伟大的赫尔墨斯，赫尔墨斯主义传统的核心</div>
+</div>
+<div class="figure-card">
+<div class="name">Moses</div>
+<div class="desc">摩西，净化并重新遮蔽了古代魔法教义</div>
+</div>
+<div class="figure-card">
+<div class="name">Dupuis</div>
+<div class="desc">杜普伊，研究宗教天文学的学者</div>
+</div>
+<div class="figure-card">
+<div class="name">Joseph de Maistre</div>
+<div class="desc">约瑟夫·德·迈斯特，预言科学与信仰结合的贵族思想家</div>
+</div>
+<div class="figure-card">
+<div class="name">Reichenbach</div>
+<div class="desc">赖兴巴赫，研究Od力(自然力)的科学家</div>
+</div>
+<div class="figure-card">
+<div class="name">Saint-Martin</div>
+<div class="desc">圣马丁，"未知哲学家"，马丁主义传统的创立者</div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">二十幅插图</h2>
+<div class="illustrations-list">
+<h3>原版插图目录</h3>
+<ol>
+<li>Frontispiece - Portrait of Eliphas Levi (Alphonse Louis Constant)</li>
+<li>The Pentagram of the Absolute (facing p. 2)</li>
+<li>Magical instruments and symbols</li>
+<li>Ancient Egyptian magical papyri scenes</li>
+<li>The Baphomet (Levi's famous Sabbatic Goat)</li>
+<li>Tarot trumps and symbolic diagrams</li>
+<li>Planetary intelligences and their seals</li>
+<li>The Great Work alchemical stages</li>
+<li>Kabbalistic Tree of Life diagram</li>
+<li>Astrological correspondences chart</li>
+<li>Magic circles and ritual diagrams</li>
+<li>Demonological illustrations from grimoires</li>
+<li>The four elements and their symbols</li>
+<li>Ancient temples and initiation scenes</li>
+<li>The philosopher's stone symbolism</li>
+<li>Magical alphabets and characters</li>
+<li>The Sephiroth and divine names</li>
+<li>Rosicrucian emblems and diagrams</li>
+<li>Illustrations of magical ceremonies</li>
+<li>Portraits of historical magicians and adepts</li>
+</ol>
+</div>
+</section>
+
+<section class="section">
+<h2 class="section-title">关于本书</h2>
+<div class="book-card" style="max-width:800px;margin:0 auto">
+<p>《魔法史》(Histoire de la Magie)是法国神秘学家Eliphas Levi (Alphonse Louis Constant, 1810-1875)的重要著作之一，由英国神秘学家Arthur Edward Waite翻译为英文，1922年于伦敦出版。本书是Levi对魔法历史最全面的考察，涵盖从古代到十九世纪的魔法传统。</p>
+<p style="margin-top:15px">Levi在书中提出了他著名的定义："魔法是自然及其法则的精确而绝对的科学。"他将魔法视为一种超越宗教与科学二元对立的"超越性科学"，认为真正的魔法是对自然隐藏力量的合法运用。</p>
+<p style="margin-top:15px">本书的英文译者A.E. Waite在序言中指出，尽管Levi的历史叙述存在不准确之处，但本书作为哲学概览是无可比拟的。Waite本人是一位重要的神秘学家，以莱德-韦特塔罗牌(Rider-Waite Tarot)的设计者而闻名。</p>
+<p style="margin-top:15px">出版商William Rider & Son是二十世纪初英国重要的神秘学出版机构，出版了多部关于卡巴拉、塔罗和赫尔墨斯主义的重要著作。</p>
+</div>
+</section>
+</div>
+
+<footer class="footer">
+<div class="container">
+<p>Apophis Dragon Magic - 探索神秘学的深邃世界</p>
+<p style="margin-top:8px;font-size:0.8rem">内容来源于 Eliphas Levi, The History of Magic (1922) | 仅供学术研究与神秘学探索</p>
+</div>
+</footer>
+
+<script>
+function toggleMenu(){document.getElementById('mobileNav').classList.toggle('active')}
+(function(){
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+let w,h,particles=[];
+function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight}
+resize();
+window.addEventListener('resize',resize);
+class Particle{
+constructor(){this.reset()}
+reset(){this.x=Math.random()*w;this.y=Math.random()*h;this.size=Math.random()*2+0.5;this.speedX=(Math.random()-0.5)*0.3;this.speedY=(Math.random()-0.5)*0.3;this.opacity=Math.random()*0.5+0.1;this.life=Math.random()*200+100}
+update(){this.x+=this.speedX;this.y+=this.speedY;this.life--;if(this.life<=0||this.x<0||this.x>w||this.y<0||this.y>h)this.reset()}
+draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle='rgba(212,168,67,'+this.opacity+')';ctx.fill()}
+}
+for(let i=0;i<80;i++)particles.push(new Particle());
+function animate(){ctx.clearRect(0,0,w,h);particles.forEach(p=>{p.update();p.draw()});for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x;const dy=particles[i].y-particles[j].y;const dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle='rgba(212,168,67,'+(0.08*(1-dist/120))+')';ctx.stroke()}}}requestAnimationFrame(animate)}
+animate();
+})();
+</script>
+</body>
+</html>

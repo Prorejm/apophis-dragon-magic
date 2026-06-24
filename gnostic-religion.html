@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诺斯替宗教 — 异乡神的信息与基督教的开端 | 阿波菲斯</title>
+<meta name="description" content="汉斯·约纳斯《诺斯替宗教》全书导读：诺斯替文献、思想体系与古典精神，二元论、异乡神、诺斯、造物主、拯救论、宇宙论">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#111;--bg-card:#0d0d0d;--ink:#e8e0d4;--ink-dim:#a09080;--muted:#6a5e4e;--accent:#c41e3a;--accent2:#d4a843;--gold:#d4a843;--crimson:#c41e3a;--rule:#1e1e1e;--rule-light:#2a2a2a;--font:'Noto Serif SC','Songti SC',serif;--font-display:'Ma Shan Zheng','Noto Serif SC',cursive;--font-en:'Cormorant Garamond','Georgia',serif;--radius:6px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.8;overflow-x:hidden;min-height:100vh}
+::selection{background:rgba(212,168,67,0.3);color:#fff}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--rule-light);border-radius:3px}
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.nav-bar{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:999;padding:.5rem 1.2rem;display:flex;align-items:center;gap:.8rem;overflow-x:auto;scrollbar-width:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:.85rem;white-space:nowrap;letter-spacing:.1em;text-decoration:none}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.78rem;white-space:nowrap;padding:.3rem .5rem;border-radius:4px;transition:all .3s}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,0.1)}
+.hamburger{display:none;flex-direction:column;cursor:pointer;background:none;border:none;padding:4px;gap:4px;margin-left:auto}
+.hamburger span{display:block;width:22px;height:2px;background:var(--accent2);border-radius:2px;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.mobile-menu{display:none;position:fixed;top:46px;left:0;right:0;background:rgba(10,10,10,0.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:998;padding:.5rem 1rem;flex-direction:column;gap:2px;max-height:80vh;overflow-y:auto}
+.mobile-menu.show{display:flex}
+.mobile-link{color:var(--muted);text-decoration:none;font-size:.85rem;padding:.6rem .8rem;border-radius:4px;transition:all .2s}
+.mobile-link:hover,.mobile-link.active{color:var(--accent2);background:rgba(212,168,67,0.08)}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:70px 20px 40px}
+.page-header{text-align:center;padding:36px 16px 24px;border-bottom:1px solid rgba(212,168,67,0.12);margin-bottom:24px}
+.page-header h1{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,3.8rem);color:var(--accent2);letter-spacing:6px;text-shadow:0 0 40px rgba(212,168,67,0.2)}
+.page-header .subtitle{font-size:.95rem;color:var(--muted);letter-spacing:3px;margin-top:6px;font-family:var(--font-en);font-style:italic}
+.page-header .subtitle-zh{font-size:.85rem;color:var(--ink-dim);margin-top:4px}
+.page-header .divider{width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin:14px auto}
+.book-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:12px;font-size:.8rem;color:var(--muted)}
+.book-meta span{padding:3px 10px;border:1px solid rgba(212,168,67,0.15);border-radius:4px}
+.tab-nav{display:flex;gap:2px;margin-bottom:24px;border-bottom:1px solid var(--rule);overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
+.tab-btn{padding:10px 16px;border:none;background:transparent;color:var(--muted);font-family:var(--font);font-size:.82rem;cursor:pointer;transition:all .3s;white-space:nowrap;border-bottom:2px solid transparent;letter-spacing:1px;flex-shrink:0}
+.tab-btn:hover{color:var(--accent2)}.tab-btn.active{color:var(--accent2);border-bottom-color:var(--accent2);background:rgba(212,168,67,0.05)}
+.tab-content{display:none;animation:fadeIn .5s ease}.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:20px 24px;margin-bottom:18px;transition:all .3s}
+.card:hover{border-color:rgba(212,168,67,0.15)}
+.card-title{font-family:var(--font-display);font-size:1.25rem;color:var(--accent2);margin-bottom:10px;letter-spacing:2px}
+.chapter-card{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:16px 20px;margin-bottom:12px;transition:all .3s;cursor:pointer}
+.chapter-card:hover{border-color:rgba(212,168,67,0.25);transform:translateY(-2px)}
+.chapter-card .ch-num{color:var(--accent);font-family:var(--font-en);font-size:.9rem;font-weight:700;margin-bottom:4px}
+.chapter-card .ch-title{color:var(--accent2);font-size:1.05rem;font-weight:700;margin-bottom:6px}
+.chapter-card .ch-desc{color:var(--ink-dim);font-size:.85rem;line-height:1.6}
+.chapter-card .ch-page{color:var(--muted);font-size:.75rem;margin-top:6px;font-family:var(--font-en)}
+.expandable-section{margin-bottom:16px;border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
+.expandable-header{padding:14px 18px;background:var(--bg2);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .3s}
+.expandable-header:hover{background:rgba(212,168,67,0.04)}
+.expandable-header h3{color:var(--accent2);font-size:1.05rem;font-weight:700;letter-spacing:1px}
+.expandable-header .toggle-icon{color:var(--accent2);font-size:1.2rem;transition:transform .3s}
+.expandable-section.open .toggle-icon{transform:rotate(180deg)}
+.expandable-body{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease}
+.expandable-section.open .expandable-body{padding:16px 18px;max-height:2000px}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0}
+.concept-card{background:var(--bg-card);border:1px solid var(--rule);border-radius:var(--radius);padding:18px;transition:all .3s}
+.concept-card:hover{border-color:rgba(212,168,67,0.2)}
+.concept-card h4{color:var(--accent2);font-size:1.05rem;margin-bottom:8px;font-weight:700}
+.concept-card p{color:var(--ink-dim);font-size:.88rem;line-height:1.7}
+.toc-list{list-style:none;padding:0}
+.toc-list li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;align-items:baseline;gap:10px}
+.toc-list li:last-child{border-bottom:none}
+.toc-list .toc-ch{color:var(--accent);font-size:.85rem;font-weight:700;min-width:60px}
+.toc-list .toc-title{color:var(--ink);font-size:.9rem}
+.toc-list .toc-page{color:var(--muted);font-size:.8rem;margin-left:auto;font-family:var(--font-en)}
+.part-header{color:var(--accent);font-size:1.1rem;font-weight:700;margin:24px 0 12px;padding-left:12px;border-left:3px solid var(--accent);letter-spacing:1px}
+.footer{text-align:center;padding:3rem 2rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);letter-spacing:.1em;margin-top:40px}
+.back-to-top{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:rgba(26,26,26,0.9);border:1px solid var(--rule);color:var(--accent2);font-size:1.2rem;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all .3s ease;z-index:998;backdrop-filter:blur(8px)}
+.back-to-top.show{opacity:1;transform:translateY(0)}
+.back-to-top:hover{background:var(--accent);color:var(--ink);border-color:var(--accent);box-shadow:0 0 20px rgba(196,30,58,0.4)}
+@media(max-width:768px){
+  .hamburger{display:flex}
+  .nav-bar{flex-wrap:wrap;position:relative;padding:0.5rem 0.8rem;gap:0.3rem;max-height:52px;overflow:hidden;transition:max-height 0.4s ease}
+  .nav-bar.open{max-height:100vh;overflow-y:auto}
+  .nav-bar .nav-link{width:100%;font-size:0.7rem;padding:0.35rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.03)}
+  .nav-brand{font-size:0.75rem}
+  .concept-grid{grid-template-columns:1fr}
+  .page-header h1{font-size:2rem}
+  .tab-btn{font-size:.75rem;padding:8px 12px}
+}
+@media(max-width:480px){
+  .container{padding:60px 12px 30px}
+  .page-header h1{font-size:1.6rem}
+  .chapter-card{padding:12px 14px}
+}
+</style>
+</head>
+<body>
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link">怪物娘探险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+  <a href="gnostic-religion.html" class="nav-link active">诺斯替宗教</a>
+  <a href="avesta.html" class="nav-link">阿维斯塔</a>
+  <a href="hermetic-corpora.html" class="nav-link">赫耳莫斯秘籍</a>
+  <a href="kabbalah-condensed.html" class="nav-link">卡巴拉精要</a>
+  <a href="cthulhu-dreams.html" class="nav-link">克苏鲁梦境</a>
+  <a href="exu-quimbanda.html" class="nav-link">昆班达</a>
+  <a href="history-of-magic.html" class="nav-link">魔法史</a>
+  <a href="holy-daymon.html" class="nav-link">圣灵</a>
+  <a href="yuanhai-ziping-detail.html" class="nav-link">渊海子平详</a>
+</nav>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<div class="container">
+  <div class="page-header">
+    <h1>诺斯替宗教</h1>
+    <div class="subtitle">The Gnostic Religion</div>
+    <div class="subtitle-zh">异乡神的信息与基督教的开端</div>
+    <div class="divider"></div>
+    <div class="book-meta">
+      <span>[美] 汉斯·约纳斯 Hans Jonas</span>
+      <span>译者：张新樟</span>
+      <span>上海三联书店</span>
+      <span>ISBN: 7-5426-2300-1</span>
+      <span>417页</span>
+    </div>
+  </div>
+
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="overview">全书总览</button>
+    <button class="tab-btn" data-tab="toc">目录</button>
+    <button class="tab-btn" data-tab="part1">第一部分</button>
+    <button class="tab-btn" data-tab="part2">第二部分</button>
+    <button class="tab-btn" data-tab="part3">第三部分</button>
+    <button class="tab-btn" data-tab="concepts">核心概念</button>
+    <button class="tab-btn" data-tab="prefaces">前言导论</button>
+  </div>
+
+  <!-- 全书总览 -->
+  <div class="tab-content active" id="tab-overview">
+    <div class="card">
+      <div class="card-title">作者简介</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.92rem">
+        汉斯·约纳斯（Hans Jonas, 1903-1993）是国际学术界研究诺斯替主义的著名学者，也是古代诺斯替主义进行哲学研究的开创者。他同时是存在主义哲学家海德格尔（Martin Heidegger）和新约学者布尔特曼（Rudolf Bultmann）的学生。《诺斯替宗教》动笔于二十世纪二十年代，经历两次世界大战，五十年代完稿。约纳斯的思想发展经历了三个阶段：存在主义阶段、形而上学阶段和神学阶段。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">著作地位</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.92rem;margin-bottom:12px">
+        本书是诺斯替主义研究领域的里程碑式著作。在《拿戈·玛第文集》（Nag Hammadi）发现之前，它是理解诺斯替主义的主要学术来源。约纳斯不是对诺斯替主义"下定义"，而是理解其精神——从人类生存的客观化回复到人类生存的自我理解。
+      </p>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.92rem">
+        诺斯替主义的自我理解的特征就是<strong style="color:var(--accent2)">反宇宙主义</strong>的倾向：否定世界，从世界中解放出来、逃离出来。约纳斯将诺斯替主义视为"人类处境的经久不衰的范式"——自我与世界之间的分裂、人异化于自然、对于自然的形而上学的贬低、普遍的精神的孤独感、对世俗准则的虚无化。
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">全书结构</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.92rem;margin-bottom:16px">
+        全书分为三大部分，外加导论和附录：
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
+        <div style="border:1px solid rgba(196,30,58,0.2);border-radius:6px;padding:14px">
+          <div style="color:var(--accent);font-weight:700;margin-bottom:6px">第一部分</div>
+          <div style="color:var(--ink-dim);font-size:.88rem">诺斯替文献——主要教义与象征性语言（第2-3章）</div>
+        </div>
+        <div style="border:1px solid rgba(212,168,67,0.2);border-radius:6px;padding:14px">
+          <div style="color:var(--accent2);font-weight:700;margin-bottom:6px">第二部分</div>
+          <div style="color:var(--ink-dim);font-size:.88rem">诺斯替思想体系（第4-9章）</div>
+        </div>
+        <div style="border:1px solid rgba(196,30,58,0.2);border-radius:6px;padding:14px">
+          <div style="color:var(--accent);font-weight:700;margin-bottom:6px">第三部分</div>
+          <div style="color:var(--ink-dim);font-size:.88rem">诺斯替主义与古典精神（第10-13章）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">约纳斯的七个先验图式</div>
+      <p style="color:var(--ink-dim);font-size:.9rem;margin-bottom:12px">约纳斯提出诺斯替主义包含七个先验图式，构成了其世界观的深层结构：</p>
+      <ol style="color:var(--ink-dim);font-size:.88rem;line-height:1.9;padding-left:20px">
+        <li>这个世界与神之间的距离（距离的先验图式）</li>
+        <li>这个封闭的世界（洞穴的先验图式）</li>
+        <li>人被囚禁在这个世界中（低处或此世的先验图式）</li>
+        <li>迷路的体验（迷宫的先验图式）</li>
+        <li>自我不属于这个世界（否定或孤独的图式）</li>
+        <li>神是绝对地高于这个世界（高处、外面、或彼岸的先验图式）</li>
+        <li>堕落、失去本源，以及向上与向下运动的先验图式</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 目录 -->
+  <div class="tab-content" id="tab-toc">
+    <div class="card">
+      <div class="card-title">全书目录</div>
+      <ul class="toc-list">
+        <li><span class="toc-ch">中译本导言</span><span class="toc-title">张新樟撰写，约50余页</span></li>
+        <li><span class="toc-ch">初版前言</span><span class="toc-title">作者汉斯·约纳斯撰写</span></li>
+        <li><span class="toc-ch">再版前言</span><span class="toc-title">增补拿戈·玛第大发现</span></li>
+        <li><span class="toc-ch">第三次印刷按语</span><span class="toc-title">补充至1970年初的书目</span></li>
+      </ul>
+    </div>
+
+    <div class="part-header">导论</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">第一章</span><span class="toc-title">导论：希腊文化的东方与西方</span></li>
+    </ul>
+
+    <div class="part-header">第一部分：诺斯替文献——主要教义与象征性语言</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">第二章</span><span class="toc-title">诺斯的含义与诺斯替运动的范围</span><span class="toc-page">p.25</span></li>
+      <li><span class="toc-ch">第三章</span><span class="toc-title">诺斯替意象与象征性语言</span><span class="toc-page">p.42</span></li>
+    </ul>
+
+    <div class="part-header">第二部分：诺斯替思想体系</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">第四章</span><span class="toc-title">西门·马古</span><span class="toc-page">p.97</span></li>
+      <li><span class="toc-ch">第五章</span><span class="toc-title">《珍珠之歌》</span><span class="toc-page">p.105</span></li>
+      <li><span class="toc-ch">第六章</span><span class="toc-title">创造世界的天使；《马克安福音》</span><span class="toc-page">p.121</span></li>
+      <li><span class="toc-ch">第七章</span><span class="toc-title">赫尔墨斯的《波依曼德拉》</span><span class="toc-page">p.136</span></li>
+      <li><span class="toc-ch">第八章</span><span class="toc-title">瓦伦廷派的思辨</span><span class="toc-page">p.160</span></li>
+      <li><span class="toc-ch">第九章</span><span class="toc-title">摩尼论创造、世界历史与拯救</span><span class="toc-page">p.190</span></li>
+    </ul>
+
+    <div class="part-header">第三部分：诺斯替主义与古典精神</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">第十章</span><span class="toc-title">希腊与诺斯替评价中的宇宙</span><span class="toc-page">p.221</span></li>
+      <li><span class="toc-ch">第十一章</span><span class="toc-title">希腊与诺斯替学说中的美德与灵魂</span><span class="toc-page">p.244</span></li>
+      <li><span class="toc-ch">第十二章</span><span class="toc-title">诺斯替主义领域的最新发现</span><span class="toc-page">p.266</span></li>
+      <li><span class="toc-ch">第十三章</span><span class="toc-title">跋：诺斯替主义、虚无主义与存在主义</span><span class="toc-page">p.295</span></li>
+    </ul>
+
+    <div class="part-header">附录</div>
+    <ul class="toc-list">
+      <li><span class="toc-ch">订正与补充</span><span class="toc-title"></span><span class="toc-page">p.316</span></li>
+      <li><span class="toc-ch">文献书目</span><span class="toc-title"></span><span class="toc-page">p.317</span></li>
+      <li><span class="toc-ch">补充文献书目</span><span class="toc-title"></span><span class="toc-page">p.332</span></li>
+      <li><span class="toc-ch">索引</span><span class="toc-title"></span><span class="toc-page">p.340</span></li>
+    </ul>
+  </div>
+
+  <!-- 第一部分 -->
+  <div class="tab-content" id="tab-part1">
+    <div class="part-header">第一部分：诺斯替文献——主要教义与象征性语言</div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 02</div>
+      <div class="ch-title">诺斯的含义与诺斯替运动的范围</div>
+      <div class="ch-desc">探讨"诺斯"（Gnosis）概念的四种实践性含义：工具性的技术知识、圣事实践、神秘出神体验中的解脱预期、以及从神话客观性中逐步解脱的禁欲主义修行。</div>
+      <div class="ch-page">第25页</div>
+    </div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 03</div>
+      <div class="ch-title">诺斯替意象与象征性语言</div>
+      <div class="ch-desc">分析诺斯替主义丰富而复杂的象征系统——从光明与黑暗、上与下、异乡与故乡等空间隐喻，到灵魂坠落、迷途、觉醒与回归的叙事模式。</div>
+      <div class="ch-page">第42页</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">诺斯替运动的范围</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        在西方，诺斯替主义包括希腊化时期的神秘教（密斯拉教、赫尔墨斯文献）、新柏拉图主义。在东方，包括更强而有力、更富原创性的启示论与末世论运动。庞大的诺斯替思想体系，以及直至摩尼教的新兴宗教，马克安主义（Marcionism）——都包括在内。
+      </p>
+    </div>
+  </div>
+
+  <!-- 第二部分 -->
+  <div class="tab-content" id="tab-part2">
+    <div class="part-header">第二部分：诺斯替思想体系</div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 04</div>
+      <div class="ch-title">西门·马古</div>
+      <div class="ch-desc">《使徒行传》中的著名人物，被视为诺斯替主义的早期先驱。约纳斯分析其"大能"（dynamis）概念与神圣流溢的学说。</div>
+      <div class="ch-page">第97页</div>
+    </div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 05</div>
+      <div class="ch-title">《珍珠之歌》</div>
+      <div class="ch-desc">一首优美的诺斯替诗歌，讲述灵魂从天上坠落、在尘世迷失、最终觉醒并回归本源的故事。珍珠象征被遗忘的神圣本质。</div>
+      <div class="ch-page">第105页</div>
+    </div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 06</div>
+      <div class="ch-title">创造世界的天使；《马克安福音》</div>
+      <div class="ch-desc">探讨造物主（Demiurge）的概念——一位低级的、无知的或邪恶的神创造了物质世界，将神圣火花囚禁于肉体之中。</div>
+      <div class="ch-page">第121页</div>
+    </div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 07</div>
+      <div class="ch-title">赫尔墨斯的《波依曼德拉》</div>
+      <div class="ch-desc">赫尔墨斯文献的核心文本，呈现了一位神圣心灵（Nous）向赫尔墨斯启示宇宙起源、人类堕落与拯救之道的神秘对话。</div>
+      <div class="ch-page">第136页</div>
+    </div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 08</div>
+      <div class="ch-title">瓦伦廷派的思辨</div>
+      <div class="ch-desc">瓦伦廷是诺斯替主义最重要的系统神学家之一。本章深入分析其复杂的流溢论（pleroma）、索菲亚神话与基督论。</div>
+      <div class="ch-page">第160页</div>
+    </div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 09</div>
+      <div class="ch-title">摩尼论创造、世界历史与拯救</div>
+      <div class="ch-desc">摩尼教创始人摩尼的宇宙论与历史哲学——光明与黑暗两大王国的永恒战争，以及灵魂如何从物质囚禁中解放出来。</div>
+      <div class="ch-page">第190页</div>
+    </div>
+  </div>
+
+  <!-- 第三部分 -->
+  <div class="tab-content" id="tab-part3">
+    <div class="part-header">第三部分：诺斯替主义与古典精神</div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 10</div>
+      <div class="ch-title">希腊与诺斯替评价中的宇宙</div>
+      <div class="ch-desc">对比希腊古典宇宙观（宇宙是有序、和谐、值得赞叹的整体）与诺斯替的反宇宙主义（宇宙是监狱、是堕落、是黑暗力量的产物）。</div>
+      <div class="ch-page">第221页</div>
+    </div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 11</div>
+      <div class="ch-title">希腊与诺斯替学说中的美德与灵魂</div>
+      <div class="ch-desc">探讨两种传统对"美德"（arete）和"灵魂"（psyche）的根本不同理解：希腊的和谐、节制与诺斯替的超越、否定。</div>
+      <div class="ch-page">第244页</div>
+    </div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 12</div>
+      <div class="ch-title">诺斯替主义领域的最新发现</div>
+      <div class="ch-desc">第二版新增章节，讨论埃及拿戈·玛第（Nag Hammadi）大发现对诺斯替主义研究的革命性影响。</div>
+      <div class="ch-page">第266页</div>
+    </div>
+
+    <div class="chapter-card" onclick="toggleExpand(this)">
+      <div class="ch-num">CHAPTER 13</div>
+      <div class="ch-title">跋：诺斯替主义、虚无主义与存在主义</div>
+      <div class="ch-desc">约纳斯将诺斯替主义与现代虚无主义和存在主义进行深刻比较，揭示古代诺斯替精神与现代性危机之间的深层联系。</div>
+      <div class="ch-page">第295页</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">拿戈·玛第文献的发现</div>
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+        1945年，一位名叫穆罕默德·阿里·哈利比（Muhammad Ali al-Khalidi）的埃及农民在上埃及的拿戈·玛第（Nag Hammadi）附近发现了13册用皮革装订的科普特语抄本，包含52篇诺斯替文献。这一发现标志着对诺斯替主义知识的一个转折点——在此之前，学者们主要依赖教父们的引文和批判来了解诺斯替主义；拿戈·玛第文献则提供了诺斯替主义者自己的声音。
+      </p>
+    </div>
+  </div>
+
+  <!-- 核心概念 -->
+  <div class="tab-content" id="tab-concepts">
+    <div class="part-header">诺斯替主义六大核心概念</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h4>二元论 Dualism</h4>
+        <p>诺斯替主义是有史以来最激进的二元论。它不仅区分精神与物质，更将二者置于永恒的敌对关系中：光明与黑暗、善与恶、神性世界与物质宇宙、灵魂与肉体。这种二元论不是抽象的哲学思辨，而是对生存处境的深刻体验——"自我不属于这个世界"。</p>
+      </div>
+      <div class="concept-card">
+        <h4>异乡神 The Alien God</h4>
+        <p>诺斯替主义的神是绝对地高于这个世界的"异乡神"——他不在宇宙中，而在宇宙之外；他不创造世界，世界的创造是一位低级的、无知的造物主（Demiurge）所为。人与这位异乡神之间有着本质的亲属关系，但人却迷失在异乡。</p>
+      </div>
+      <div class="concept-card">
+        <h4>诺斯 Gnosis</h4>
+        <p>"诺斯"不是一般意义上的知识，而是拯救性的启示知识——关于人自身神圣起源、关于世界本质、关于回归之路的觉醒。诺斯不是通过理性学习获得，而是通过神圣的启示、神秘的体验或先知的教导而获得。</p>
+      </div>
+      <div class="concept-card">
+        <h4>造物主 Demiurge</h4>
+        <p>德谬哥（Demiurge）是诺斯替神话中的世界创造者——一位低级、无知、甚至邪恶的神。他将神圣火花囚禁于物质肉体中，创造了这个充满苦难与死亡的宇宙。在有些系统中，德谬哥被等同于旧约的耶和华。</p>
+      </div>
+      <div class="concept-card">
+        <h4>拯救论 Soteriology</h4>
+        <p>诺斯替的拯救不是通过信仰或善行，而是通过"诺斯"——觉醒的知识。拯救的本质是从物质世界的囚禁中解放出来，回归神圣的本源。基督在诺斯替主义中主要是一位启示者，而不是赎罪的牺牲者。</p>
+      </div>
+      <div class="concept-card">
+        <h4>宇宙论 Cosmology</h4>
+        <p>诺斯替宇宙论呈现为一个复杂的层级结构：最上层是神圣的完满（Pleroma），充满纯粹的光明；中间是各种中介存在（执政官、天使等）；最下层是黑暗的物质世界。灵魂从完满坠落，必须经过层层中介才能回归。</p>
+      </div>
+    </div>
+
+    <div class="part-header">约纳斯的解释原则</div>
+    <div class="card">
+      <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+        约纳斯提出了一套独特的解释方法论：
+      </p>
+      <ul style="color:var(--ink-dim);font-size:.88rem;line-height:1.9;padding-left:20px">
+        <li>神话与教义都是精神的客观化</li>
+        <li>"取消神话化的意识"等同于"取消教义化的意识"</li>
+        <li>解释上的回归：任务在于发现真正的作者，即作为整体来理解的历史存在</li>
+        <li>古代晚期的宗教史才显现为诺斯替精神的历史</li>
+      </ul>
+    </div>
+
+    <div class="part-header">诺斯的概念（四种实践性概念）</div>
+    <div class="card">
+      <ol style="color:var(--ink-dim);font-size:.88rem;line-height:1.9;padding-left:20px">
+        <li><strong style="color:var(--accent2)">工具性的技术知识</strong>——用于定义诺斯替主义的诺斯</li>
+        <li><strong style="color:var(--accent2)">圣事实践</strong>——转动客观原因，让诺斯替主义者逃出这个世界</li>
+        <li><strong style="color:var(--accent2)">神秘出神体验</strong>——人的自我可以在神秘的出神体验中预期从这个世界解脱出来的那种诺斯</li>
+        <li><strong style="color:var(--accent2)">禁欲主义的修行</strong>——一种更为持久，但循序渐进地从神话的客观性中解脱出来的诺斯</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 前言导论 -->
+  <div class="tab-content" id="tab-prefaces">
+    <div class="expandable-section">
+      <div class="expandable-header" onclick="toggleSection(this)">
+        <h3>中译本导言（张新樟）</h3>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+      <div class="expandable-body">
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          译者张新樟在约50余页的导言中详细介绍了约纳斯的学术地位、思想发展阶段、核心概念以及本书的研究方法。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          约纳斯是国际学术界研究诺斯替主义的著名学者，也是古代诺斯替主义进行哲学研究的开创者。作为海德格尔和布尔特曼的学生，他将存在主义的洞见带入古代宗教研究。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+          诺斯替主义的核心是<strong style="color:var(--accent2)">二元论</strong>——自我与世界之间的分裂、人异化于自然、对于自然的形而上学的贬低、普遍的精神的孤独感、对世俗准则的虚无化。约纳斯将其视为"是人类处境的经久不衰的范式"。
+        </p>
+      </div>
+    </div>
+
+    <div class="expandable-section">
+      <div class="expandable-header" onclick="toggleSection(this)">
+        <h3>初版前言（汉斯·约纳斯）</h3>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+      <div class="expandable-body">
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          约纳斯回顾了诺斯替主义研究的历史：早期教会的教父们力图证明诺斯替主义在本质上是非基督教的。十九世纪末以来，学术界展开了关于诺斯替主义之性质的学术争论。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          德国历史学家哈纳克（Adolf von Harnack）基于教父的立场，认为诺斯替主义是基督教的异端；英国学者诺克（Arthur Darby Nock）赞同此观点。随着诺斯替原始文献的出现，这一看法被取代：诺斯替主义绝非基督教的异端，而是一场独立的宗教运动。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+          本书的研究方法不是对诺斯替主义"下定义"，而是理解其精神——从人类生存的客观化回复到人类生存的自我理解。诺斯替主义的自我理解的特征就是<strong style="color:var(--accent2)">反宇宙主义</strong>的倾向。
+        </p>
+      </div>
+    </div>
+
+    <div class="expandable-section">
+      <div class="expandable-header" onclick="toggleSection(this)">
+        <h3>再版前言</h3>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+      <div class="expandable-body">
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+          第二版增补了两项重要内容：(1) 增加了一个新的章节（第十二章），讨论埃及的拿戈·玛第（Nag Hammadi）大发现；(2) 增加了一篇后记《跋：诺斯替主义、虚无主义与存在主义》。
+        </p>
+      </div>
+    </div>
+
+    <div class="expandable-section">
+      <div class="expandable-header" onclick="toggleSection(this)">
+        <h3>第三次印刷按语</h3>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+      <div class="expandable-body">
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+          自本书出版以来，诺斯替主义研究的领域发生了极大的变化。拿戈·玛第文献的发现标志着对诺斯替主义知识的一个转折点。一九六二年为止所取得的进展，已在本书第二版中有说明（第十二章）；增加了直到一九七〇年初为止的补充书目。
+        </p>
+      </div>
+    </div>
+
+    <div class="expandable-section">
+      <div class="expandable-header" onclick="toggleSection(this)">
+        <h3>第一章：导论——希腊文化的东方与西方</h3>
+        <span class="toggle-icon">&#9662;</span>
+      </div>
+      <div class="expandable-body">
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem;margin-bottom:12px">
+          任何对于希腊化时期的描述，都必须要从亚历山大大帝（Alexander the Great）开始。他对东方的征服（公元前334-323）标志着古代世界历史的一个转折点。
+        </p>
+        <p style="color:var(--ink-dim);line-height:1.8;font-size:.9rem">
+          亚历山大所缔造的新的历史事实使得西方与东方的联合成为可能。"西方"指坐落在爱琴海周围的地域，"东方"指古老的东方文明地区。在罗马帝国这一更大的地理范围中，"东方"与"西方"的术语有了新的含义。
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>诺斯替宗教 — 异乡神的信息与基督教的开端</p>
+  <p>阿波菲斯 · Apophis Dragon Magic · 左手道的智慧圣殿</p>
+  <p style="margin-top:0.5rem;font-size:0.7rem;">"从异乡回归，从黑暗中觉醒——诺斯是拯救之光。"</p>
+</footer>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到顶部">&#9650;</button>
+
+<script>
+/* ===== Particle Canvas ===== */
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let w, h;
+function resizeCanvas() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * w; this.y = Math.random() * h;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3 - 0.1;
+    this.opacity = Math.random() * 0.4 + 0.1;
+    this.life = Math.random() * 300 + 200;
+    this.maxLife = this.life;
+    this.hue = Math.random() > 0.5 ? 35 : 350;
+  }
+  update() {
+    this.x += this.speedX; this.y += this.speedY;
+    this.life--;
+    this.opacity = (this.life / this.maxLife) * 0.4;
+    if (this.life <= 0 || this.x < -10 || this.x > w + 10 || this.y < -10 || this.y > h + 10) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    const color = this.hue === 35 ? '212,168,67' : '196,30,58';
+    ctx.fillStyle = 'rgba(' + color + ',' + this.opacity + ')';
+    ctx.fill();
+  }
+}
+function initParticles(count) { particles = []; for (let i = 0; i < count; i++) { particles.push(new Particle()); } }
+function animateParticles() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => { p.update(); p.draw(); });
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = 'rgba(212,168,67,' + (0.04 * (1 - dist / 120)) + ')';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animateParticles);
+}
+initParticles(80);
+animateParticles();
+
+/* ===== Tab Switching ===== */
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', function() {
+    tabButtons.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    const target = document.getElementById('tab-' + this.dataset.tab);
+    if (target) target.classList.add('active');
+  });
+});
+
+/* ===== Expandable Sections ===== */
+function toggleSection(header) {
+  const section = header.parentElement;
+  section.classList.toggle('open');
+}
+
+/* ===== Mobile Menu ===== */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const navBar = document.getElementById('navBar');
+if (hamburger) {
+  hamburger.addEventListener('click', function() {
+    this.classList.toggle('active');
+    mobileMenu.classList.toggle('show');
+    navBar.classList.toggle('open');
+  });
+}
+
+/* Populate mobile menu */
+const navLinks = document.querySelectorAll('.nav-bar .nav-link');
+navLinks.forEach(link => {
+  const mobileLink = document.createElement('a');
+  mobileLink.href = link.href;
+  mobileLink.textContent = link.textContent;
+  mobileLink.className = 'mobile-link' + (link.classList.contains('active') ? ' active' : '');
+  mobileMenu.appendChild(mobileLink);
+});
+
+/* ===== Back to Top ===== */
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 400) backToTop.classList.add('show');
+  else backToTop.classList.remove('show');
+});
+</script>
+</body>
+</html>

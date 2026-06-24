@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>克苏鲁 - 梦境之主 | 阿波菲斯龙魔法</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Cormorant+Garamond:wght@400;600;700&display=swap');
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-card: #1a1a1a;
+  --text-primary: #e8e0d0;
+  --text-secondary: #a09080;
+  --text-muted: #6a6050;
+  --accent-gold: #d4a843;
+  --accent-crimson: #c41e3a;
+  --accent-purple: #6b3fa0;
+  --accent-green: #2d5a3d;
+  --border-color: #2a2520;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#particle-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.nav-brand {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.3rem;
+  color: var(--accent-gold);
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--accent-gold);
+  background: rgba(212,168,67,0.1);
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  background: linear-gradient(180deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.4) 50%, var(--bg-primary) 100%);
+}
+.hero h1 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 3.5rem;
+  color: var(--accent-purple);
+  text-shadow: 0 0 30px rgba(107,63,160,0.5), 0 0 60px rgba(107,63,160,0.2);
+  margin-bottom: 0.5rem;
+}
+.hero .subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: var(--accent-gold);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+.hero .author {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+.section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.section h2 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.8rem;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent-purple);
+}
+.section h3 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.4rem;
+  color: var(--accent-crimson);
+  margin: 1.5rem 0 1rem;
+}
+.section p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.mantra-box {
+  background: linear-gradient(135deg, rgba(107,63,160,0.15), rgba(196,30,58,0.1));
+  border: 1px solid var(--accent-purple);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+.mantra-box .mantra {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: var(--accent-purple);
+  font-style: italic;
+  letter-spacing: 1px;
+}
+.mantra-box .translation {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.item-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1rem;
+}
+.item-card h4 {
+  color: var(--accent-gold);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.item-card p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.day-section {
+  background: linear-gradient(135deg, var(--bg-card), rgba(107,63,160,0.05));
+  border-left: 4px solid var(--accent-purple);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+.day-section h4 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.3rem;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+}
+
+.invocation-box {
+  background: linear-gradient(135deg, rgba(196,30,58,0.1), rgba(107,63,160,0.1));
+  border: 1px solid var(--accent-crimson);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+.invocation-box h4 {
+  color: var(--accent-crimson);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.invocation-box p {
+  font-style: italic;
+  text-align: center;
+  line-height: 2;
+  color: var(--text-primary);
+}
+
+.quote-box {
+  border-left: 3px solid var(--accent-gold);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border-color);
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.2rem; }
+  .hero .subtitle { font-size: 1.1rem; }
+  .section { padding: 1.5rem; }
+  .items-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<canvas id="particle-canvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link">怪物娘探险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+  <a href="gnostic-religion.html" class="nav-link">诺斯替宗教</a>
+  <a href="avesta.html" class="nav-link">阿维斯塔</a>
+  <a href="hermetic-corpora.html" class="nav-link">赫耳莫斯秘籍</a>
+  <a href="kabbalah-condensed.html" class="nav-link">卡巴拉精要</a>
+  <a href="cthulhu-dreams.html" class="nav-link active">克苏鲁梦境</a>
+  <a href="exu-quimbanda.html" class="nav-link">昆班达</a>
+  <a href="history-of-magic.html" class="nav-link">魔法史</a>
+  <a href="holy-daymon.html" class="nav-link">圣灵</a>
+  <a href="yuanhai-ziping-detail.html" class="nav-link">渊海子平详</a>
+</nav>
+
+<div class="hero">
+  <h1>克苏鲁 - 梦境之主</h1>
+  <div class="subtitle">Cthulhu - Lord of Dreams</div>
+  <div class="author">Asenath Mason & Temple of Ascending Flame, 2017</div>
+</div>
+
+<div class="container">
+
+<div class="section">
+  <h2>项目概述</h2>
+  <p>本项目以克苏鲁作为梦境之主为中心，探索梦境意识的奥秘。所有仪式和冥想由升腾火焰圣殿成员撰写和设计。项目包含五个独立的工作，需要在连续五天内逐一完成，最好在睡前进行。</p>
+  <p>第一个工作将打开克苏鲁能量流在你内在意识中的门户，随后的三个冥想将带你踏上前往失落之城拉莱耶的旅程，最后的仪式将通过召唤和梦境魔法将你转化为梦境之主。</p>
+  <p>项目目的是通过星体魔法和清醒梦技术，向实践者介绍《死灵之书》的诺斯替智慧，克苏鲁作为启蒙者和人类心智与旧日支配者之间的中介。</p>
+</div>
+
+<div class="section">
+  <h2>所需物品</h2>
+  <div class="items-grid">
+    <div class="item-card">
+      <h4>五支黑蜡烛</h4>
+      <p>用于仪式照明，可根据需要增加数量照亮房间</p>
+    </div>
+    <div class="item-card">
+      <h4>一支紫蜡烛</h4>
+      <p>仅在最后一天使用</p>
+    </div>
+    <div class="item-card">
+      <h4>克苏鲁符印</h4>
+      <p>以银色背景绘黑色，或黑底白底亦可</p>
+    </div>
+    <div class="item-card">
+      <h4>熏香</h4>
+      <p>推荐使用莲花、艾草或乳香</p>
+    </div>
+    <div class="item-card">
+      <h4>取血工具</h4>
+      <p>匕首、刀、剃刀或采血针，仅需几滴血</p>
+    </div>
+    <div class="item-card">
+      <h4>圣餐杯</h4>
+      <p>装满圣餐的红酒混合艾草，用于占卜和饮用</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>克苏鲁 - 梦境之主</h2>
+  <p>克苏鲁在《死灵之书》诺斯替体系中被尊为梦境之主——他沉睡在失落的拉莱耶城中，做梦并向沉睡者的心智发送他的传讯。通过梦境，他作为旧日支配者与人类之间的中介，发送心灵感应的波动，到达那些足够敏感以接收这些传讯的个体心智。</p>
+  <p>就像曾在过去开放项目中探索过的奈亚拉托提普一样，克苏鲁能代表其他星界神灵作为他们的声音和调解者。奈亚拉托提普主要通过物质层面行动，可以在清醒世界中遇见，而克苏鲁则通过梦境和睡眠领域行动。</p>
+  <p>通过克苏鲁，我们可以与对人类意识完全陌生的实体交流，如阿撒托斯或犹格·索托斯，或其他那些意识与我们如此不同的存在，以至于我们无法以任何其他方式与它们互动。它们的形象通过无意识心智传递，并被翻译成人类感知的语言。由于这个功能，克苏鲁有时被称为旧日支配者的大祭司。</p>
+  
+  <h3>其他称号</h3>
+  <div class="quote-box">
+    "拉莱耶之主"、"深渊水域之主"、"将要来临者"
+  </div>
+  
+  <p>克苏鲁"死而复梦"地躺在拉莱耶的沉没墓穴中——这座神秘的城市代表着无意识的深处。虽然他无法进入人类世界，但他可以做梦，通过这些梦境他可以接触人类心智——影响我们的梦境，发送关于旧时代和被遗忘神灵的幻象。</p>
+  
+  <h3>召唤咒语</h3>
+  <div class="mantra-box">
+    <div class="mantra">Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn</div>
+    <div class="translation">"在拉莱耶的宅邸中，死去的克苏鲁等待做梦"</div>
+  </div>
+  <p>这是克苏鲁崇拜和仪式中最具意义的咒语，唤醒他从古老沉睡中苏醒的召唤。肯尼斯·格兰特在他的《泰风三部曲》中将其描述为"打开外神之门的四十一字母咒语"。</p>
+</div>
+
+<div class="section">
+  <h2>五天梦境仪式</h2>
+  
+  <div class="day-section">
+    <h4>第一天：克苏鲁的召唤</h4>
+    <p>在这个工作中，你将向梦境之主能量流敞开自己，并将你的意识调谐到他的跨维度传讯。你还将开始你的拉莱耶之旅，通过构建一个梦境场景，这个场景将在项目的后续日子中发展。</p>
+    <p>准备你的圣殿，将符印放在面前。在符印上滴几滴你的血来激活它，作为通往梦境之主能量流的门户，同时吟唱召唤咒语：</p>
+    <div class="mantra-box">
+      <div class="mantra">Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn</div>
+    </div>
+    <p>当你吟唱时，凝视符印，想象它不再是一个平面图像，而是连接你与克苏鲁的门户。观想符印发光并活过来。向它发送信息，邀请克苏鲁进入并与你的意识融合。</p>
+    <p>闭上眼睛，观想符印在你面前发光脉动，最终变形为一张张开的嘴，里面充满活的黑暗。让自己被吸入这黑暗中，让它带你到达存在于睡眠与清醒边界的拉莱耶门槛。</p>
+    <p>观想你在黑暗海洋的水域中游泳，向下游向拉莱耶的黑色堡垒——这座沉没的城市有着对人类知识和感知而言完全陌生的建筑。奇怪的角和诡异的光随处可见。观想一团绿色的雾气在你周围形成，像斗篷一样包裹着你，将你与外界隔离，并将你的心智调谐到梦境之主的传讯。</p>
+    <p>听到从四面八方传来的吟唱声，数百万个声音吟唱着同样的咒语。当你在心中构建这个图像时，许下你的梦境意图：<em>"我会在梦中回到这里。当我梦见这座城市时，我会记得我在做梦。"</em></p>
+    <p>喝下圣餐，直接上床睡觉。将笔记本放在床边，醒来时立即写下你的梦境。</p>
+  </div>
+
+  <div class="day-section">
+    <h4>第二天：拉莱耶之旅，第一部分</h4>
+    <p>今天你将返回失落的拉莱耶城，但不再是对任何可能出现的事物敞开自己，而是专注于一个特定的意图。这个意图由你自己决定——你可以通过添加梦境之主本人的幻象来发展你的梦境场景，探索城市及其建筑，遇见特定的实体，甚至在拉莱耶中心建造你自己的圣殿。</p>
+    <p>在执行当天的工作之前，拿一张纸写下你的梦境场景。从描述你前一天看到的城市本身开始——旅程、门户——你已经熟悉的一切。然后添加新元素——你希望在返回城市时梦到的内容。</p>
+    <p>当一切准备就绪，像第一天一样开始工作：点燃蜡烛，燃烧熏香，将符印放在面前。站立或坐在舒适的位置，将所有注意力集中在图像上。再次凝视它，观想符印成为通往梦境之主能量流的门户。看着它在你面前生长，形成张开的门户，并吟唱召唤咒语。</p>
+    <p>当你吟唱时，感受周围的氛围如何转变，充满通过符印流动的能量。这些能量以绿色雾气的形式包围你，将你拉入张开的门户。让它发生。闭上眼睛或吹灭蜡烛，专注于你的梦境场景——一步一步，正如你所描述的——在你内在心智中形成一个生动的幻象。</p>
+    <p>让图像活过来，但不要过于努力——如果某些元素开始自行活动、变化和变形，让它发生，随幻象流动。当你到达当天场景的结尾时，陈述你的意图：<em>"我会在梦中回到这里。当我梦见……时，我会记得我在做梦。"</em></p>
+    <p>完成冥想，喝下圣餐，直接上床睡觉，不做任何其他事情。观想自己梦见你刚刚体验的幻象，并在梦中回忆起它。在入睡时冥想你的意图，避免其他思绪和图像。</p>
+  </div>
+
+  <div class="day-section">
+    <h4>第三天：拉莱耶之旅，第二部分</h4>
+    <p>在这一天，你应该将你的梦境场景提升到新的水平，并添加新元素。从你离开的地方开始，通过添加新的东西来发展风景或故事。如果你在前一天的清醒梦练习中成功了，你可以将你在梦中看到的添加到你已经存在的场景中，甚至根据你的梦境重写它。</p>
+    <p>像以前一样，通过准备圣殿、蜡烛、熏香、圣餐杯和符印来开始冥想。再次，站立或坐在舒适的位置，将所有注意力集中在符印上。观想它作为通往梦境之主能量流的门户，同时吟唱召唤咒语。</p>
+    <p>继续吟唱，直到你感觉到房间的氛围已经改变，你感到准备好继续工作。再次，观想自己被从失落的拉莱耶城通过符印流出的绿色雾气包围，观想符印变形为张开的门户。穿越门户，专注于你的梦境场景——一步一步想象自己在其中，让图像和幻象在你内在心智中活过来。</p>
+    <p>当你到达当天场景的结尾时，许下你在梦中继续的意图。再次喝下圣餐，吹灭蜡烛（如果还在燃烧），直接上床睡觉。在入睡时冥想你在梦中变得清醒并回忆起你的梦境场景的意图。</p>
+  </div>
+
+  <div class="day-section">
+    <h4>第四天：拉莱耶之旅，第三部分</h4>
+    <p>这一天的程序与前一天完全相同——你需要做的就是将你的梦境场景提升到新的水平。再次，你可以使用你的梦境作为基础，前一天的幻象，或者简单地使用你的想象力。</p>
+    <p>当一切准备就绪，遵循与前一天冥想相同的步骤：准备你的圣殿，舒适地坐着或站着，将所有注意力集中在符印上。再次，观想它作为通往梦境之主能量流的门户，同时吟唱咒语。</p>
+    <p>继续吟唱，直到你听到"克苏鲁的召唤"并感到准备好继续梦境工作。然后观想符印变形为张开的门户，让自己被绿色雾气包裹，前往失落的拉莱耶城。当你在心中构建这个图像时，专注于你的梦境场景，让图像和幻象在你内在心智中活过来。</p>
+    <p>再次喝下圣餐，吹灭蜡烛，直接上床睡觉。在入睡时冥想你在梦中变得清醒的意图。不要忘记醒来时写下你的梦境，并观察这些工作如何影响你的世俗意识。</p>
+  </div>
+
+  <div class="day-section">
+    <h4>第五天：梦境之主的召唤</h4>
+    <p>这是项目的最后一天，在这个工作中，你将把你的梦境旅程带向结束，或者也许是新的开始。这次你不需要向你的梦境场景添加任何东西。相反，专注于召唤克苏鲁的意识，并尝试通过他的心智来接近你的梦境场景。</p>
+    <p>想象你自己作为梦境之主——他沉睡在拉莱耶的心脏——并通过他的眼睛看整个画面。这将给你一个完全不同的视角来看待你的梦境场景，将其转化为一次新的冒险。</p>
+    <p>对于这个召唤，确保你的祭坛上至少有一支黑色和一支紫色蜡烛。还应该使用龙血熏香，如果没有，可以使用莲花或其他花香熏香。点燃蜡烛，凝视符印，开始吟唱：</p>
+    <div class="mantra-box">
+      <div class="mantra">IA! IA! Cthulhu Fhtagn!</div>
+    </div>
+    <p>继续吟唱，直到你感觉到房间中的能量已经改变。如果可能，确保房间中有大量烟雾。当能量改变时，宣告以下内容：</p>
+    <div class="invocation-box">
+      <h4>梦境之主召唤文</h4>
+      <p>克苏鲁！沉睡于海底者，我向你呼唤！<br>
+      梦境之地的领航者，我睁开我的眼睛以便看见！<br>
+      卡达斯之主，梦境的潜行者，噩梦的传递者，<br>
+      带我去那中间之地。<br>
+      向我的旅程打开梦境之地，引导我穿越心智的迷雾到达欢愉的想象。<br>
+      克苏鲁，心智之主，我向你呼唤！<br>
+      可怕的启蒙者，恐怖的制造者，<br>
+      用疯狂充满我，剥夺我的理智。<br>
+      通过梦境领域向我展示你的智慧，让我记起我不知道我已遗忘的一切。<br>
+      克苏鲁，古老睡眠方式之主，我召唤你带我去你的领域，向我展示你永恒的智慧！<br>
+      IA! IA!</p>
+    </div>
+    <p>你可以根据需要重复召唤几次以使其更加强烈。然后喝下圣餐，闭上眼睛，观想你自己作为梦境之主。让他的意识与你的融合，向他可能拥有的任何幻象或信息敞开自己。</p>
+    <p>当这一切完成，你感到准备好继续时，进入你的梦境场景，通过克苏鲁的眼睛看它。这种意识一开始可能显得陌生和原始，但一段时间后你应该能够掌握这种体验，将你的梦境场景转化为具有多种可能性和许多可能结局的幻象。</p>
+    <p>当你醒来时，写下你所有的梦境、幻象和观察。感谢克苏鲁的临在和协助，在祭坛上留下一个小礼物作为感谢——熏香、石头或水晶，或你选择其他供品。</p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>梦境魔法技巧</h2>
+  <p>洛夫克拉夫特魔法中的梦境实践技巧与其他梦境工作方法没有太大区别，但其中一些是《死灵之书》诺斯替体系独有的。例如，在入睡前我们可以阅读克苏鲁神话中的故事，随机选择或描述克苏鲁或其他选定的实体。</p>
+  <p>或者我们可以观看具有洛夫克拉夫特主题的电影，如《克苏鲁的呼唤》、《异次元》等。然后，在入睡时，我们可以可视化故事中的场景，或专注于名字或图像——在心中或大声将它们作为咒语吟唱，绘制由构成字母代表的符号，等等。</p>
+  <p>记住对地点和实体的描述也很有帮助，然后在入睡时，将它们用作进入清醒梦境的门户，例如通过在脑海中可视化它们，扩展它们，或想象你在这些风景中，被它们的居民包围并与他们交流。</p>
+  <p>梦境工作总是主观的，影响一个人心智的东西并不总是对另一个人有效。因此，我们在这里提供基本指导，让你开始与梦境之主的自我启蒙工作，但我们也为你自己的创造力和工作的个性化留出空间。</p>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>内容源自 Asenath Mason & Temple of Ascending Flame (2017)</p>
+  <p>阿波菲斯龙魔法 | 仅供学习研究</p>
+</div>
+
+<script>
+// Particle background
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let w, h;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * w;
+    this.y = Math.random() * h;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.color = Math.random() > 0.6 ? '107,63,160' : Math.random() > 0.3 ? '212,168,67' : '196,30,58';
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animate() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>
