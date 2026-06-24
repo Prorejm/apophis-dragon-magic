@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>怪物娘国度探险书 - 阿波菲斯·龙之魔法</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#1a1a1a;--bg3:#141414;--ink:#e8e0d4;--muted:#8a7e6e;--accent:#c41e3a;--accent2:#d4a843;--rule:#2a2a2a;--font:'Noto Serif SC','Songti SC','SimSun',serif;--font-display:'Ma Shan Zheng','Noto Serif SC',cursive;--font-en:'Cormorant Garamond','Noto Serif SC',serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.8;overflow-x:hidden;min-height:100vh}
+#particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.nav-bar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;gap:6px;padding:0 20px;height:50px;background:rgba(10,10,10,.92);border-bottom:1px solid rgba(212,168,67,.2);z-index:1000;overflow-x:auto;white-space:nowrap}
+.nav-brand{font-family:var(--font-display);font-size:22px;color:var(--accent2);margin-right:15px;flex-shrink:0}
+.nav-link{color:var(--muted);text-decoration:none;font-size:13px;padding:4px 8px;border-radius:4px;transition:all .3s;flex-shrink:0}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,.1)}
+.hamburger{display:none;cursor:pointer;padding:5px;background:none;border:none;z-index:1001}
+.hamburger span{display:block;width:25px;height:3px;background:var(--accent2);margin:5px 0;transition:all .3s}
+.mobile-menu{display:none;position:fixed;top:50px;left:0;width:100%;background:rgba(10,10,10,.95);padding:20px;z-index:998;flex-direction:column;gap:10px}
+.mobile-menu.show{display:flex}
+.mobile-menu a{color:var(--accent2);text-decoration:none;padding:10px;border-bottom:1px solid rgba(212,168,67,.2)}
+.game-wrapper{position:relative;z-index:1;display:flex;max-width:1400px;margin:0 auto;padding:70px 20px 40px;gap:20px}
+.sidebar{width:280px;flex-shrink:0;background:var(--bg2);border:1px solid var(--rule);border-radius:12px;padding:20px;position:sticky;top:70px;height:fit-content;max-height:calc(100vh - 90px);overflow-y:auto}
+.sidebar h2{font-family:var(--font-display);color:var(--accent2);font-size:20px;margin-bottom:15px;text-align:center}
+.stat-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.stat-label{color:var(--muted)}
+.stat-value{color:var(--accent2);font-weight:700}
+.inventory-list{margin-top:10px}
+.inv-item{display:flex;align-items:center;gap:8px;padding:6px 10px;margin:4px 0;background:rgba(212,168,67,.05);border-radius:6px;font-size:13px;border:1px solid rgba(212,168,67,.1)}
+.inv-item .inv-icon{font-size:18px}
+.inv-item .inv-name{flex:1}
+.inv-empty{color:var(--muted);font-size:13px;text-align:center;padding:10px;font-style:italic}
+.form-display{text-align:center;padding:15px;background:rgba(196,30,58,.05);border-radius:8px;margin:10px 0;border:1px solid rgba(196,30,58,.2)}
+.form-emoji{font-size:48px;margin-bottom:5px}
+.form-name{font-family:var(--font-display);color:var(--accent);font-size:18px}
+.form-ability{font-size:12px;color:var(--muted);margin-top:5px}
+.btn-group{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}
+.btn{padding:8px 16px;background:linear-gradient(135deg,rgba(212,168,67,.2),rgba(196,30,58,.1));border:1px solid var(--accent2);color:var(--accent2);border-radius:6px;cursor:pointer;font-family:var(--font);font-size:13px;transition:all .3s}
+.btn:hover{background:linear-gradient(135deg,rgba(212,168,67,.3),rgba(196,30,58,.2));transform:translateY(-1px)}
+.btn-secondary{background:transparent;border-color:var(--muted);color:var(--muted)}
+.btn-secondary:hover{border-color:var(--accent2);color:var(--accent2)}
+.main-content{flex:1;min-width:0}
+.chapter-display{background:var(--bg2);border:1px solid var(--rule);border-radius:12px;padding:30px;margin-bottom:20px;min-height:500px}
+.chapter-header{display:flex;align-items:center;gap:15px;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid rgba(212,168,67,.2)}
+.chapter-num{font-family:var(--font-en);color:var(--accent2);font-size:14px;letter-spacing:2px}
+.chapter-title{font-family:var(--font-display);font-size:28px;color:var(--ink)}
+.chapter-location{color:var(--muted);font-size:13px;margin-left:auto;font-style:italic}
+.chapter-text{font-size:16px;line-height:2;color:var(--ink);white-space:pre-wrap}
+.chapter-text .narration{color:var(--ink)}
+.chapter-text .dialogue{color:var(--accent2);font-style:italic}
+.chapter-text .sfx{color:var(--accent);font-weight:700}
+.chapter-text .item-get{color:#4ade80;font-weight:700}
+.chapter-text .danger{color:var(--accent);font-weight:700}
+.choices-area{margin-top:25px;padding-top:20px;border-top:2px solid rgba(212,168,67,.2)}
+.choice-btn{display:block;width:100%;padding:15px 20px;margin:10px 0;background:linear-gradient(90deg,rgba(212,168,67,.1),transparent);border:1px solid rgba(212,168,67,.3);color:var(--ink);border-radius:8px;cursor:pointer;font-family:var(--font);font-size:15px;text-align:left;transition:all .3s;position:relative;overflow:hidden}
+.choice-btn:hover{background:linear-gradient(90deg,rgba(212,168,67,.2),rgba(196,30,58,.1));border-color:var(--accent2);transform:translateX(5px)}
+.choice-btn .choice-arrow{color:var(--accent2);margin-right:10px}
+.choice-btn .choice-req{font-size:12px;color:var(--muted);margin-left:10px}
+.choice-btn:disabled{opacity:.5;cursor:not-allowed}
+.choice-btn:disabled:hover{transform:none}
+.portrait-area{text-align:center;padding:20px;margin:20px 0;background:rgba(212,168,67,.03);border-radius:12px;border:1px solid rgba(212,168,67,.1)}
+.portrait-emoji{font-size:80px;line-height:1;margin-bottom:10px;animation:float 3s ease-in-out infinite}
+.portrait-name{font-family:var(--font-display);font-size:22px;color:var(--accent2)}
+.portrait-desc{font-size:13px;color:var(--muted);margin-top:5px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.ending-card{text-align:center;padding:40px;background:linear-gradient(135deg,rgba(196,30,58,.1),rgba(212,168,67,.05));border-radius:12px;border:2px solid var(--accent);margin:20px 0}
+.ending-title{font-family:var(--font-display);font-size:32px;color:var(--accent);margin-bottom:15px}
+.ending-subtitle{font-size:16px;color:var(--muted);margin-bottom:20px}
+.ending-emoji{font-size:60px;margin:20px 0}
+.achievements-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:15px}
+.ach-item{text-align:center;padding:10px;background:rgba(212,168,67,.05);border-radius:8px;border:1px solid rgba(212,168,67,.1);font-size:12px}
+.ach-item.unlocked{border-color:var(--accent2);background:rgba(212,168,67,.1)}
+.ach-item .ach-emoji{font-size:28px;margin-bottom:5px;display:block}
+.ach-item .ach-name{color:var(--muted)}
+.ach-item.unlocked .ach-name{color:var(--accent2)}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:2000;justify-content:center;align-items:center}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--bg2);border:1px solid var(--accent2);border-radius:12px;padding:30px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto}
+.modal-title{font-family:var(--font-display);font-size:24px;color:var(--accent2);margin-bottom:15px;text-align:center}
+.save-slot{padding:12px;margin:8px 0;background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.2);border-radius:8px;cursor:pointer;transition:all .3s}
+.save-slot:hover{background:rgba(212,168,67,.1);border-color:var(--accent2)}
+.save-slot .slot-name{font-weight:700;color:var(--accent2)}
+.save-slot .slot-info{font-size:12px;color:var(--muted);margin-top:4px}
+.fast-travel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:15px}
+.ft-btn{padding:10px;background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.2);border-radius:6px;color:var(--ink);cursor:pointer;font-size:13px;transition:all .3s}
+.ft-btn:hover{background:rgba(212,168,67,.15);border-color:var(--accent2)}
+.ft-btn .ft-ch{font-size:11px;color:var(--muted)}
+.transform-alert{position:fixed;top:70px;right:20px;background:linear-gradient(135deg,rgba(196,30,58,.9),rgba(212,168,67,.8));color:#fff;padding:15px 25px;border-radius:8px;font-family:var(--font-display);font-size:18px;z-index:1500;animation:slideIn .5s ease, fadeOut .5s ease 2.5s forwards;box-shadow:0 4px 20px rgba(196,30,58,.4)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes fadeOut{to{opacity:0;transform:translateX(100%)}}
+.hp-bar{width:100%;height:8px;background:var(--rule);border-radius:4px;margin-top:5px;overflow:hidden}
+.hp-fill{height:100%;background:linear-gradient(90deg,var(--accent),#ff6b6b);border-radius:4px;transition:width .5s ease}
+.mini-game-area{text-align:center;padding:20px;background:rgba(212,168,67,.05);border-radius:12px;margin:15px 0;border:1px solid rgba(212,168,67,.2)}
+.dice-area{display:flex;justify-content:center;gap:20px;margin:20px 0}
+.dice{display:inline-block;width:60px;height:60px;background:var(--bg3);border:2px solid var(--accent2);border-radius:10px;font-size:30px;line-height:56px;text-align:center;animation:diceRoll .5s ease}
+@keyframes diceRoll{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@media(max-width:900px){.game-wrapper{flex-direction:column;padding:70px 10px 20px}.sidebar{width:100%;position:static;max-height:none}.chapter-title{font-size:22px}}
+@media(max-width:768px){.hamburger{display:block}.nav-bar .nav-link{display:none}.chapter-display{padding:20px}}
+</style>
+</head>
+<body>
+<canvas id="particle-canvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link active">怪物娘探险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+</nav>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<div class="game-wrapper">
+  <aside class="sidebar">
+    <h2>冒险者状态</h2>
+    <div class="stat-row"><span class="stat-label">生命值</span><span class="stat-value" id="hp-display">100/100</span></div>
+    <div class="hp-bar"><div class="hp-fill" id="hp-bar" style="width:100%"></div></div>
+    <div class="stat-row"><span class="stat-label">当前形态</span><span class="stat-value" id="form-display">人类</span></div>
+    <div class="form-display" id="form-box">
+      <div class="form-emoji" id="form-emoji">🧑</div>
+      <div class="form-name" id="form-name">人类冒险者</div>
+      <div class="form-ability" id="form-ability">无特殊能力</div>
+    </div>
+    <div class="stat-row"><span class="stat-label">已探索章节</span><span class="stat-value" id="visited-display">0/117</span></div>
+    <div class="stat-row"><span class="stat-label">发现结局</span><span class="stat-value" id="endings-display">0/12</span></div>
+    <h2 style="margin-top:20px">背包</h2>
+    <div class="inventory-list" id="inventory-list"><div class="inv-empty">背包空空如也</div></div>
+    <div class="btn-group">
+      <button class="btn" onclick="showSaveMenu()">存档</button>
+      <button class="btn btn-secondary" onclick="showLoadMenu()">读档</button>
+      <button class="btn btn-secondary" onclick="showFastTravel()">快速移动</button>
+      <button class="btn btn-secondary" onclick="showAchievements()">成就</button>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="resetGame()">重新开始</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="chapter-display" id="chapter-display">
+      <div class="chapter-header">
+        <span class="chapter-num" id="ch-num">序章</span>
+        <span class="chapter-title" id="ch-title">启程</span>
+        <span class="chapter-location" id="ch-loc">人类国度 · 冒险者公会</span>
+      </div>
+      <div id="portrait-area"></div>
+      <div class="chapter-text" id="ch-text"></div>
+      <div class="choices-area" id="choices-area"></div>
+    </div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box" id="modal-box"></div>
+</div>
+
+<script>
+// ==================== GAME STATE ====================
+var gameState={hp:100,maxHp:100,form:'human',inventory:[],visited:[],endings:[],currentChapter:1,flags:{}};
+var FORMS={
+  human:{name:'人类冒险者',emoji:'🧑',ability:'无特殊能力'},
+  werewolf:{name:'狼人',emoji:'🐺',ability:'夜视能力 · 嗅觉灵敏 · 体能强化'},
+  harpy:{name:'哈比',emoji:'🦅',ability:'飞行能力 · 风魔法 · 鹰眼'},
+  lamia:{name:'拉米亚',emoji:'🐍',ability:'蛇行移动 · 毒抗性 · 魅惑凝视'},
+  catgirl:{name:'猫娘',emoji:'🐱',ability:'夜视能力 · 敏捷提升 · 平衡感'},
+  slime:{name:'史莱姆',emoji:'💧',ability:'变形能力 · 物理抗性 · 分裂'},
+  vampire:{name:'吸血鬼',emoji:'🦇',ability:'蝙蝠变身 · 吸血恢复 · 暗视'},
+  ghost:{name:'幽灵',emoji:'👻',ability:'穿墙能力 · 念动力 · 恐惧光环'},
+  succubus:{name:'魅魔',emoji:'😈',ability:'魅惑魔法 · 飞行 · 梦境入侵'},
+  fairy:{name:'妖精女仆',emoji:'🧚',ability:'家务精通 · 微小化 · 魔法清洁'},
+  arachne:{name:'阿拉克涅',emoji:'🕷️',ability:'蜘蛛丝 · 攀爬 · 毒牙'}
+};
+var ITEMS={
+  'golden_key':{name:'黄金之钥',icon:'🗝️',desc:'开启秘宝宝库的钥匙'},
+  'silver_dagger':{name:'银之短剑',icon:'🗡️',desc:'对吸血鬼特攻的武器'},
+  'slime_liquid':{name:'史莱姆液',icon:'💧',desc:'可用于投掷或制作药剂'},
+  'harpy_feathers':{name:'哈比羽束',icon:'🪶',desc:'可用于飞行或制作箭矢'},
+  'spider_silk':{name:'阿拉克涅丝玉',icon:'🕸️',desc:'强韧的魔法丝线'},
+  'flower_crown':{name:'莉莉安娜花冠',icon:'👑',desc:'蕴含守护魔力的花冠'},
+  'gender_potion':{name:'变身药水',icon:'🧪',desc:'可改变身体形态的药剂'},
+  'cat_claw':{name:'猫爪项链',icon:'🔮',desc:'蕴含猫之魔力的饰品'},
+  'torch':{name:'火把',icon:'🔥',desc:'照明与火焰攻击'},
+  'crown':{name:'簒夺之王冠',icon:'👑',desc:'传说中的秘宝'}
+};
+var ACHIEVEMENTS=[
+  {id:'first_step',name:'初次冒险',emoji:'🥾',desc:'开始你的旅程'},
+  {id:'transform_first',name:'初次变身',emoji:'✨',desc:'第一次被变身'},
+  {id:'collector',name:'收藏家',emoji:'🎒',desc:'收集5件以上道具'},
+  {id:'explorer',name:'探险家',emoji:'🗺️',desc:'访问30个以上章节'},
+  {id:'survivor',name:'幸存者',emoji:'💪',desc:'在战斗中存活'},
+  {id:'true_end',name:'真结局',emoji:'🏆',desc:'达成真结局'},
+  {id:'werewolf_end',name:'狼人之友',emoji:'🐺',desc:'达成狼人结局'},
+  {id:'harpy_end',name:'天空之民',emoji:'🦅',desc:'达成哈比结局'},
+  {id:'lamia_end',name:'蛇之眷属',emoji:'🐍',desc:'达成拉米亚结局'},
+  {id:'vampire_end',name:'血族',emoji:'🦇',desc:'达成吸血鬼结局'},
+  {id:'ghost_end',name:'地缚灵',emoji:'👻',desc:'达成幽灵结局'},
+  {id:'all_endings',name:'全结局制霸',emoji:'⭐',desc:'发现所有结局'}
+];
+
+// ==================== CHAPTERS DATA ====================
+var CHAPTERS={
+1:{
+  title:'启程',loc:'人类国度 · 冒险者公会',
+  text:'你是一名年轻的冒险者，生活在人类国度的边境小镇。\n\n这天，你像往常一样来到冒险者公会，准备接取一个新的任务。公会大厅里人声鼎沸，各种委托贴满了告示板。\n\n就在你浏览任务时，公会会长亲自找到了你。\n\n「年轻人，有一个特殊的任务，只有最勇敢的冒险者才能承接。」\n\n会长递给你一张泛黄的羊皮纸，上面记载着一个古老的传说——在怪物娘统治的国度深处，藏着一件被称为「簒夺之王冠」的秘宝。据说这顶王冠拥有改变世界的力量。\n\n「报酬是五百枚金币，以及王冠本身的所有权。怎么样，有兴趣吗？」\n\n你接过羊皮纸，心中涌起一股冒险的热血。\n\n<sfx>✦ 新的冒险即将开始 ✦</sfx>',
+  portrait:{emoji:'🧑',name:'你',desc:'年轻的冒险者'},
+  choices:[
+    {text:'接受任务，踏上寻找秘宝的旅程',next:2},
+    {text:'询问更多关于怪物娘国度的情报',next:2}
+  ]
+},
+2:{
+  title:'准备出发',loc:'人类国度 · 边境小镇',
+  text:'你决定接受这个危险的任务。\n\n在出发前，你做了充分的准备。你检查了自己的装备：一把普通的铁剑、几件换洗衣物、一些干粮和水、火把、绳索，以及公会提供的一张简陋的地图。\n\n地图上标注着通往怪物娘国度的路线。据说那里由一位强大的吸血鬼女王——伊莎贝拉统治。沿途你会经过森林、平原、河流、山脉，最终到达她的城堡。\n\n你的妹妹来为你送行。\n\n「哥哥，一定要平安回来哦！」\n\n你摸了摸她的头，微笑着点头。\n\n背起行囊，你踏上了未知的旅途。\n\n<sfx>🌅 朝阳升起，冒险开始 🌅</sfx>',
+  choices:[
+    {text:'向森林方向前进',next:3},
+    {text:'先前往附近的村庄打听情报',next:3}
+  ]
+},
+3:{
+  title:'迷雾森林',loc:'迷雾森林 · 入口',
+  text:'你进入了被称为「迷雾森林」的古老林地。\n\n高大的树木遮天蔽日，空气中弥漫着潮湿的苔藓气息。阳光只能透过层层树叶的缝隙洒下斑驳的光影。\n\n你小心翼翼地沿着小路前进，突然听到了前方传来的动静。\n\n拨开灌木丛，你看到了一个惊人的景象——一位身材高挑的女性正背对着你。她有着银灰色的长发，头顶竖立着一对毛茸茸的兽耳，身后一条蓬松的尾巴正悠闲地摇摆着。\n\n<dialogue>「嗯？有人类的气味……」</dialogue>\n\n她转过身来，金色的兽瞳直直地盯着你。那是一位美丽的狼人少女，肌肉匀称的身体展现出野性的魅力。\n\n<dialogue>「哦？是个男人啊。很少见呢，居然有人类敢独自进入这片森林。」</dialogue>\n\n她歪着头打量你，尾巴兴奋地摇晃着。',
+  portrait:{emoji:'🐺',name:'???',desc:'银灰色毛发的狼人少女'},
+  choices:[
+    {text:'表明自己没有敌意，尝试对话',next:4},
+    {text:'拔出剑，保持警戒',next:5}
+  ]
+},
+4:{
+  title:'与狼人对话',loc:'迷雾森林 · 林间空地',
+  text:'你缓缓放下武器，举起双手示意自己没有敌意。\n\n<dialogue>「我没有恶意，只是路过这片森林。」</dialogue>\n\n狼人少女挑了挑眉，似乎对你的反应感到有趣。\n\n<dialogue>「哼，胆子不小嘛。我叫芙蕾雅，是这片森林的守护者。像你这样的人类冒险者，我已经很久没见过了。」</dialogue>\n\n她走近了几步，鼻子轻轻嗅了嗅。\n\n<dialogue>「你身上……有宝物的气味。难道你是冲着那个吸血鬼女王的秘宝来的？」</dialogue>\n\n你点了点头，坦诚地说明了自己的目的。\n\n芙蕾雅沉默了一会儿，然后露出一个意味深长的笑容。\n\n<dialogue>「有意思。我可以告诉你一条通往城堡的捷径，但你要答应我一个条件。」</dialogue>\n\n<dialogue>「陪我做一件事——让我看看人类男人的实力！」</dialogue>\n\n她的眼中闪烁着战斗的渴望。',
+  portrait:{emoji:'🐺',name:'芙蕾雅',desc:'森林的守护者'},
+  choices:[
+    {text:'接受她的挑战',next:6},
+    {text:'询问她的条件是什么',next:7}
+  ]
+},
+5:{
+  title:'警戒状态',loc:'迷雾森林 · 林间空地',
+  text:'你握紧剑柄，保持警戒姿态。\n\n狼人少女看到你的反应，不但没有生气，反而笑了起来。\n\n<dialogue>「哈哈哈！有胆量！我已经很久没有遇到敢对我拔剑的人类了！」</dialogue>\n\n她的身体微微下沉，摆出战斗的姿态。银灰色的毛发开始微微竖起，金色的瞳孔收缩成细线。\n\n<dialogue>「来吧，让我看看你的实力！如果你能让我满意，我就告诉你通往城堡的捷径！」</dialogue>\n\n看来一场战斗在所难免了。',
+  portrait:{emoji:'🐺',name:'芙蕾雅',desc:'进入战斗状态的狼人'},
+  choices:[
+    {text:'全力迎战',next:6},
+    {text:'尝试边战边退',next:8}
+  ]
+},
+6:{
+  title:'狼人之战',loc:'迷雾森林 · 战斗',
+  text:'你摆好战斗姿态，准备迎接狼人少女的攻击。\n\n芙蕾雅露出兴奋的笑容，以惊人的速度向你冲来！她的动作快如闪电，银灰色的身影在树林间穿梭。\n\n你勉强挡住了她的第一击，但巨大的冲击力让你后退了好几步。\n\n<dialogue>「不错嘛！再来！」</dialogue>\n\n战斗持续了数十回合。你虽然处于下风，但凭借着灵活的身法和坚定的意志，始终没有倒下。\n\n最终，芙蕾雅停下了攻击，满意地点了点头。\n\n<dialogue>「够了够了！你通过考验了！」</dialogue>\n\n她拍了拍手，身上的战意瞬间消散。\n\n<dialogue>「沿着这条小路一直走，会到达一片开阔的平原。穿过平原后有一条河流，沿着河流向上游走就能到达山脉。城堡就在山脉的另一侧。」</dialogue>\n\n<dialogue>「不过要小心，路上的怪物娘可不像我这么友好。」</dialogue>\n\n她挥了挥手，转身消失在森林深处。',
+  portrait:{emoji:'🐺',name:'芙蕾雅',desc:'满意的狼人少女'},
+  choices:[
+    {text:'感谢她，继续向平原前进',next:9}
+  ],
+  onEnter:function(){unlockAch('survivor');}
+},
+7:{
+  title:'芙蕾雅的条件',loc:'迷雾森林 · 林间空地',
+  text:'<dialogue>「我的条件很简单。」</dialogue>\n\n芙蕾雅露出一个狡黠的笑容。\n\n<dialogue>「陪我玩一个游戏。如果你赢了，我就告诉你捷径。如果你输了……」</dialogue>\n\n她故意停顿了一下，金色的瞳孔中闪过一丝戏谑。\n\n<dialogue>「你就要留下来陪我三天！」</dialogue>\n\n这听起来像是一个赌注。',
+  portrait:{emoji:'🐺',name:'芙蕾雅',desc:'狡黠的狼人少女'},
+  choices:[
+    {text:'接受赌注',next:6},
+    {text:'拒绝，选择正常路线前进',next:8}
+  ]
+},
+8:{
+  title:'独自前行',loc:'迷雾森林 · 深处',
+  text:'你决定不与她纠缠，转身向森林深处走去。\n\n芙蕾雅没有追来，只是在你身后喊道：\n\n<dialogue>「喂！你会后悔的！前面的路可比你想的要危险得多！」</dialogue>\n\n你没有回头，继续向前走去。\n\n森林越来越深，雾气也越来越浓。你开始怀疑自己是否做出了正确的选择。\n\n突然，你脚下一空，整个人掉进了一个陷阱！\n\n<sfx>💥 陷阱触发！💥</sfx>\n\n你摔进了一个深坑，虽然没受重伤，但爬上去需要花费不少时间。\n\n<danger>HP -10</danger>',
+  choices:[
+    {text:'努力爬出陷阱',next:9}
+  ],
+  onEnter:function(){changeHp(-10);}
+},
+9:{
+  title:'苍风平原',loc:'苍风平原 · 草地',
+  text:'穿过森林后，一片广阔的平原展现在你面前。\n\n苍风平原——如其名所示，强劲的风从远方吹来，草地如波浪般起伏。天空湛蓝，几朵白云悠闲地飘过。\n\n你深吸一口气，感受着自由的空气。然而，这份宁静很快就被打破了。\n\n天空中传来尖锐的鸣叫声。你抬头望去，只见一个黑影正从高空俯冲而下！\n\n那是一位拥有巨大羽翼的女性——哈比！她的羽毛呈现出美丽的深褐色，锐利的爪子闪烁着寒光。\n\n<dialogue>「叽——！发现入侵者！」</dialogue>\n\n她在你的头顶盘旋，锐利的目光锁定着你。',
+  portrait:{emoji:'🦅',name:'???',desc:'天空的猎手'},
+  choices:[
+    {text:'举起武器准备战斗',next:10},
+    {text:'尝试与她沟通',next:11}
+  ]
+},
+10:{
+  title:'空中之战',loc:'苍风平原 · 空中',
+  text:'你举起剑，准备迎接来自空中的攻击。\n\n哈比发出一声尖锐的鸣叫，从高空俯冲而下！她的速度快得惊人，你只能勉强看清她的轨迹。\n\n锋利的爪子擦过你的肩膀，留下一道血痕。\n\n<danger>HP -15</danger>\n\n你咬紧牙关，等待她下一次俯冲的时机。当她再次冲下来时，你猛地挥剑——\n\n剑刃与爪子碰撞，发出金属交鸣的声音。哈比惊叫一声，迅速拉升高度。\n\n<dialogue>「叽！有两下子嘛！」</dialogue>\n\n她在空中盘旋，似乎在重新评估你的实力。',
+  portrait:{emoji:'🦅',name:'哈比',desc:'天空的猎手'},
+  choices:[
+    {text:'继续战斗',next:12},
+    {text:'趁她犹豫时逃跑',next:13}
+  ],
+  onEnter:function(){changeHp(-15);}
+},
+11:{
+  title:'与哈比对话',loc:'苍风平原 · 草地',
+  text:'你放下武器，大声喊道：\n\n<dialogue>「等等！我不是入侵者，我只是路过！」</dialogue>\n\n哈比在空中盘旋了一圈，然后缓缓降落在距离你不远的地方。\n\n她歪着头打量你，锐利的目光中带着好奇。\n\n<dialogue>「路过？人类很少会来到这片平原。你在找什么？」</dialogue>\n\n你向她解释了自己寻找秘宝的任务。\n\n哈比听完，发出一声轻笑。\n\n<dialogue>「哦？你想去伊莎贝拉大人的城堡？有意思。我可以带你飞过去，省去你翻山越岭的麻烦。」</dialogue>\n\n<dialogue>「不过嘛……」</dialogue>\n\n她的眼中闪过一丝狡黠。\n\n<dialogue>「你要陪我玩一个游戏。如果你赢了，我就载你一程。」</dialogue>',
+  portrait:{emoji:'🦅',name:'哈比',desc:'好奇的空中住民'},
+  choices:[
+    {text:'接受她的提议',next:14},
+    {text:'拒绝，选择步行',next:13}
+  ]
+},
+12:{
+  title:'激战',loc:'苍风平原 · 激战',
+  text:'战斗进入了白热化阶段。\n\n哈比不断地从空中发起攻击，而你则在地面上寻找反击的机会。\n\n终于，你抓住了一个破绽——当她俯冲过低时，你猛地跃起，剑刃划过了她的羽翼！\n\n<dialogue>「叽——！」</dialogue>\n\n哈比惊叫一声，失去平衡坠落在地。你迅速上前，剑尖指向她的咽喉。\n\n然而，当你看到她眼中的恐惧时，你犹豫了。\n\n<dialogue>「等、等等！我认输！别杀我！」</dialogue>\n\n她颤抖着举起双手。\n\n你收回了剑，她松了一口气，然后露出一个复杂的表情。\n\n<dialogue>「……你和其他人类不一样。」</dialogue>\n\n她从羽翼上拔下几根羽毛递给你。\n\n<dialogue>「拿着这个。如果以后遇到其他哈比，出示这个她们就不会攻击你了。」</dialogue>\n\n<item-get>★ 获得『哈比羽束』★</item-get>',
+  portrait:{emoji:'🦅',name:'哈比',desc:'认输的空中猎手'},
+  choices:[
+    {text:'收下羽毛，继续前进',next:15}
+  ],
+  onEnter:function(){addItem('harpy_feathers');}
+},
+13:{
+  title:'独自穿越平原',loc:'苍风平原 · 荒野',
+  text:'你选择不与哈比纠缠，转身向平原深处跑去。\n\n哈比在空中盘旋了几圈，发出不满的鸣叫，但最终没有追来。\n\n你跑了很久，直到确定安全后才停下来喘息。\n\n平原的风很大，吹得你几乎站不稳。远处可以看到连绵的山脉，那就是你的目的地。\n\n然而，要到达山脉，你必须先穿过前方的河流。\n\n你整理了一下装备，继续向前走去。',
+  choices:[
+    {text:'向河流方向前进',next:15}
+  ]
+},
+14:{
+  title:'哈比的游戏',loc:'苍风平原 · 高空',
+  text:'<dialogue>「游戏规则很简单！」</dialogue>\n\n哈比兴奋地拍打着翅膀。\n\n<dialogue>「我们比飞行速度！你抓着我的脚，我带你飞。如果你能坚持不松手到达终点，就算你赢！」</dialogue>\n\n这听起来很危险，但也很有趣。\n\n你点了点头，抓住了她的脚踝。\n\n<dialogue>「抓紧了哦！要起飞啦！」</dialogue>\n\n她猛地振翅，强大的升力将你带离地面。风在耳边呼啸，大地在脚下飞速后退。\n\n你死死抓住她的脚，感受着前所未有的飞行体验。\n\n最终，她降落在河流附近的一片空地上。\n\n<dialogue>「恭喜你！你赢了！」</dialogue>\n\n<dialogue>「作为奖励，这些羽毛送给你。它们可以在危急时刻召唤风之护盾。」</dialogue>\n\n<item-get>★ 获得『哈比羽束』★</item-get>',
+  portrait:{emoji:'🦅',name:'哈比',desc:'兴奋的飞行者'},
+  choices:[
+    {text:'感谢她，继续旅程',next:15}
+  ],
+  onEnter:function(){addItem('harpy_feathers');}
+},
+15:{
+  title:'银月河畔',loc:'银月河 · 河岸',
+  text:'你来到了银月河畔。\n\n清澈的河水在阳光下闪烁着银色的光芒，河岸两边长满了茂密的芦苇。远处可以看到山脉的轮廓，那里就是伊莎贝拉城堡的所在地。\n\n你沿着河岸寻找可以渡河的地方。突然，你感觉到有什么东西在水下移动。\n\n水面泛起涟漪，然后——\n\n一个美丽的女性从水中缓缓升起。她的下半身是蛇的躯体，鳞片在阳光下闪烁着翡翠般的光泽。上半身则是人类女性的模样，长发如瀑布般垂落。\n\n<dialogue>「哦？是一位旅行者呢。」</dialogue>\n\n拉米亚——蛇人族的女性——用金色的竖瞳打量着你，舌尖轻轻舔过嘴唇。\n\n<dialogue>「很少见呢，人类会来到这种地方。你是迷路了吗？」</dialogue>',
+  portrait:{emoji:'🐍',name:'???',desc:'河畔的蛇人族'},
+  choices:[
+    {text:'说明自己的目的',next:16},
+    {text:'保持警戒',next:17}
+  ]
+},
+16:{
+  title:'与拉米亚交谈',loc:'银月河 · 河岸',
+  text:'你向拉米亚说明了自己寻找秘宝的目的。\n\n她听完，露出一个意味深长的笑容。\n\n<dialogue>「簒夺之王冠……那可不是一般人能触碰的东西。」</dialogue>\n\n她缓缓游近，蛇尾在草地上留下蜿蜒的痕迹。\n\n<dialogue>「伊莎贝拉大人非常强大。无数冒险者试图挑战她，但没有一个成功回来。」</dialogue>\n\n<dialogue>「不过……如果你愿意帮我一个忙，我可以告诉你一个秘密通道。」</dialogue>\n\n她的眼中闪烁着狡黠的光芒。\n\n<dialogue>「最近河上游来了一只凶猛的水怪，打扰了我的休息。如果你能赶走它，我就告诉你捷径。」</dialogue>',
+  portrait:{emoji:'🐍',name:'拉米亚',desc:'神秘的蛇人族'},
+  choices:[
+    {text:'接受她的委托',next:18},
+    {text:'询问是否有其他条件',next:19}
+  ]
+},
+17:{
+  title:'警惕的拉米亚',loc:'银月河 · 河岸',
+  text:'你保持警戒，手按在剑柄上。\n\n拉米亚看到你的反应，微微叹了口气。\n\n<dialogue>「真是可惜。我原本还想友好地交流呢。」</dialogue>\n\n她的金色竖瞳突然变得锐利，身体周围的空气似乎变得凝重起来。\n\n<dialogue>「既然你不信任我，那就用实力说话吧。」</dialogue>\n\n她的蛇尾猛地拍击地面，整个人如离弦之箭般向你冲来！',
+  portrait:{emoji:'🐍',name:'拉米亚',desc:'进入战斗状态的蛇人'},
+  choices:[
+    {text:'迎战',next:20},
+    {text:'尝试躲避并逃跑',next:21}
+  ]
+},
+18:{
+  title:'水怪讨伐',loc:'银月河 · 上游',
+  text:'你接受了拉米亚的委托，向上游进发。\n\n走了约半小时，你来到了一处河湾。这里的河水变得湍急，水面上不断冒出气泡。\n\n突然，一个巨大的身影从水中跃出！那是一只巨大的鳄鱼型魔物，张着血盆大口向你扑来。\n\n你迅速拔剑，与这只水怪展开了激烈的战斗。\n\n经过一番苦战，你终于找到了它的弱点——腹部的柔软处。一剑刺入，水怪发出一声哀鸣，沉入了河底。\n\n<danger>HP -20</danger>\n\n你疲惫地回到拉米亚所在的地方。她看到你身上的伤痕，眼中闪过一丝惊讶。\n\n<dialogue>「你……真的做到了？」</dialogue>\n\n<dialogue>「好吧，我遵守约定。在河流的分岔口，选择左边的小路。那条路会通向山脉中的一个隐秘洞穴，从那里可以绕过正面的防线，直达城堡的后门。」</dialogue>\n\n<dialogue>「还有，这个给你。这是我蜕下的皮制成的护符，可以抵御一次诅咒。」</dialogue>\n\n<item-get>★ 获得『拉米亚之皮』★</item-get>',
+  portrait:{emoji:'🐍',name:'拉米亚',desc:'惊讶的蛇人族'},
+  choices:[
+    {text:'感谢她，继续前进',next:22}
+  ],
+  onEnter:function(){changeHp(-20);addItem('lamia_skin');}
+},
+19:{
+  title:'讨价还价',loc:'银月河 · 河岸',
+  text:'<dialogue>「其他条件？」</dialogue>\n\n拉米亚歪着头想了想，然后露出一个妩媚的笑容。\n\n<dialogue>「好吧，既然你问了……陪我聊聊天怎么样？我已经很久没和人类说过话了。」</dialogue>\n\n你坐在河岸边，和她聊了起来。她告诉你关于这片土地的许多事情——怪物娘们的生活、伊莎贝拉女王的统治、以及那顶王冠的传说。\n\n<dialogue>「那顶王冠据说拥有『改变形态』的力量。伊莎贝拉大人用它来维持自己的统治，将不听话的冒险者变成各种各样的怪物娘。」</dialogue>\n\n<dialogue>「如果你要去挑战她，一定要小心。她的力量远超你的想象。」</dialogue>\n\n谈话结束后，她告诉你通往山脉的捷径。\n\n<dialogue>「沿着河岸一直走，会看到一座石桥。过了桥就是山脉的入口了。」</dialogue>',
+  portrait:{emoji:'🐍',name:'拉米亚',desc:'寂寞的蛇人族'},
+  choices:[
+    {text:'告别她，继续前进',next:22}
+  ]
+},
+20:{
+  title:'蛇人之战',loc:'银月河 · 河岸',
+  text:'拉米亚的攻击速度惊人！她的蛇尾如鞭子般抽来，你勉强躲过，但地面被击出一个大坑。\n\n你挥剑反击，但她灵活地扭动身体，剑刃只划过了空气。\n\n战斗持续了数十回合。你渐渐发现，她的攻击虽然迅猛，但有一个规律——每次攻击后都会有短暂的停顿。\n\n你抓住这个破绽，在她下一次攻击后的瞬间，剑尖抵住了她的咽喉。\n\n<dialogue>「……我输了。」</dialogue>\n\n她举起双手，表示投降。\n\n<dialogue>「你很强。作为尊重，我告诉你一条秘密通道。」</dialogue>\n\n她详细地描述了通往城堡后门的隐秘路径。\n\n<danger>HP -25</danger>',
+  portrait:{emoji:'🐍',name:'拉米亚',desc:'认输的蛇人族'},
+  choices:[
+    {text:'收起剑，继续前进',next:22}
+  ],
+  onEnter:function(){changeHp(-25);}
+},
+21:{
+  title:'逃跑',loc:'银月河 · 芦苇丛',
+  text:'你转身就跑，钻进了茂密的芦苇丛。\n\n拉米亚没有追来，只是在你身后喊道：\n\n<dialogue>「跑吧跑吧！没有我的指引，你根本找不到正确的路！」</dialogue>\n\n你在芦苇丛中穿行了很长时间，最终迷失了方向。\n\n当你终于走出芦苇丛时，发现自己来到了一个完全陌生的地方。\n\n<danger>HP -10</danger>\n\n你不得不重新辨认方向，浪费了大量的时间。',
+  choices:[
+    {text:'重新寻找正确的路',next:22}
+  ],
+  onEnter:function(){changeHp(-10);}
+},
+22:{
+  title:'山脉入口',loc:'灰岩山脉 · 山脚',
+  text:'告别了拉米亚，你继续向山脉进发。\n\n灰岩山脉巍峨耸立，岩石呈现出深灰色，山体上布满了裂缝和洞穴。寒风从山间吹来，带着一丝不祥的气息。\n\n在山脚处，你发现了一个分岔路口。左边的路通向一个幽暗的洞穴，右边的路则是沿着山脊向上攀登的陡峭小路。\n\n正当你犹豫该走哪条路时，旁边的灌木丛中传来窸窸窣窣的声音。\n\n一个娇小的身影从灌木丛中跳了出来——那是一位有着猫耳和猫尾的少女，金色的毛发在阳光下闪闪发光。\n\n<dialogue>「喵？是人类？」</dialogue>\n\n她歪着头，金绿色的猫眼好奇地打量着你。',
+  portrait:{emoji:'🐱',name:'???',desc:'山脚的猫娘'},
+  choices:[
+    {text:'友好地打招呼',next:23},
+    {text:'询问哪条路更安全',next:24}
+  ]
+}
+};
+
+// Extend CHAPTERS with more chapters
+CHAPTERS[23]={
+  title:'猫娘米娅',loc:'灰岩山脉 · 山脚',
+  text:'<dialogue>「你好呀！我叫米娅！」</dialogue>\n\n猫娘少女欢快地自我介绍，尾巴兴奋地摇摆着。\n\n<dialogue>「很少看到人类来到这里呢！你是要去城堡吗？」</dialogue>\n\n你点了点头。\n\n<dialogue>「哇！好厉害！不过前面的路很危险哦。」</dialogue>\n\n她跳到一块岩石上，居高临下地看着你。\n\n<dialogue>「洞穴里有可怕的蜘蛛 lady，山路上有史莱姆。两边都很危险呢。」</dialogue>\n\n<dialogue>「不过！如果你陪我玩游戏，我就告诉你安全通过的方法！」</dialogue>\n\n她拿出了一枚闪闪发光的硬币。\n\n<dialogue>「猜硬币！正面还是反面？如果你猜对了，我就给你这个！」</dialogue>\n\n她晃了晃脖子上戴着的猫爪形项链。',
+  portrait:{emoji:'🐱',name:'米娅',desc:'活泼的猫娘'},
+  choices:[
+    {text:'猜正面',next:25},
+    {text:'猜反面',next:26}
+  ]
+};
+CHAPTERS[24]={
+  title:'问路',loc:'灰岩山脉 · 山脚',
+  text:'<dialogue>「哪条路更安全？」</dialogue>\n\n米娅挠了挠头，耳朵抖了抖。\n\n<dialogue>「嗯……其实两条路都有危险。但是！」</dialogue>\n\n她的眼睛亮了起来。\n\n<dialogue>「如果你走洞穴，记得带上火把。蜘蛛 lady 怕火！」</dialogue>\n\n<dialogue>「如果你走山路，要小心红色的史莱姆。它们怕水，蓝色的史莱姆怕剑。」</dialogue>\n\n<dialogue>「还有，如果你遇到危险，可以大声喊我的名字！我会来帮你的！」</dialogue>\n\n她骄傲地挺起胸膛。',
+  portrait:{emoji:'🐱',name:'米娅',desc:'热心的猫娘'},
+  choices:[
+    {text:'选择洞穴路线',next:27},
+    {text:'选择山路',next:28}
+  ]
+};
+CHAPTERS[25]={
+  title:'猜对了！',loc:'灰岩山脉 · 山脚',
+  text:'你选择了正面。\n\n米娅抛起硬币，在空中旋转几圈后落在她的爪垫上。\n\n<dialogue>「喵！是正面！你赢了！」</dialogue>\n\n她兴奋地将猫爪项链摘下来递给你。\n\n<dialogue>「这个给你！它蕴含着猫之魔力，可以让你变得像猫一样敏捷！」</dialogue>\n\n<item-get>★ 获得『猫爪项链』★</item-get>\n\n<dialogue>「还有，我告诉你一个秘密！洞穴里住着一位叫维奥莱塔的蜘蛛 lady。她其实不坏，只是不喜欢没礼貌的人。如果你对她有礼貌，她可能会帮你哦！」</dialogue>\n\n她挥了挥手，蹦蹦跳跳地消失在灌木丛中。',
+  portrait:{emoji:'🐱',name:'米娅',desc:'开心的猫娘'},
+  choices:[
+    {text:'收下礼物，继续前进',next:29}
+  ],
+  onEnter:function(){addItem('cat_claw');}
+};
+CHAPTERS[26]={
+  title:'猜错了',loc:'灰岩山脉 · 山脚',
+  text:'你选择了反面。\n\n米娅抛起硬币，落在爪垫上——是正面。\n\n<dialogue>「喵哈哈！是正面！你输了！」</dialogue>\n\n她得意地笑了起来，尾巴高高翘起。\n\n<dialogue>「不过嘛……看你这么可怜，我就告诉你一些情报吧。」</dialogue>\n\n她凑近你，压低声音说道：\n\n<dialogue>「洞穴里的蜘蛛 lady 叫维奥莱塔。她其实不坏，只是不喜欢没礼貌的人。如果你对她有礼貌，她可能会帮你哦！」</dialogue>\n\n<dialogue>「还有，山路上有红色和蓝色的史莱姆。红色的怕水，蓝色的怕剑。」</dialogue>\n\n她挥了挥手，蹦蹦跳跳地离开了。',
+  portrait:{emoji:'🐱',name:'米娅',desc:'得意的猫娘'},
+  choices:[
+    {text:'感谢她的情报',next:29}
+  ]
+};
+CHAPTERS[27]={
+  title:'幽暗洞穴',loc:'灰岩山脉 · 洞穴',
+  text:'你选择了洞穴路线。\n\n洞穴内部阴暗潮湿，空气中弥漫着霉味。你点燃了火把，火光在岩壁上投下摇曳的影子。\n\n走了一段路后，你发现洞穴的墙壁上布满了白色的丝线。越往里走，丝线越密集，最终你来到了一个巨大的洞窟。\n\n洞窟中央，一位美丽的女性正坐在由丝线编织成的王座上。她的下半身是蜘蛛的身体，八条细长的腿优雅地交叠着。上半身则是人类女性的模样，黑色的长发如瀑布般垂落。\n\n<dialogue>「哦？有客人？」</dialogue>\n\n阿拉克涅——蜘蛛人族的女性——用红色的复眼打量着你。\n\n<dialogue>「一个人类，竟然能走到这里。你是第一个。」</dialogue>',
+  portrait:{emoji:'🕷️',name:'???',desc:'洞穴的主人'},
+  choices:[
+    {text:'礼貌地向她问好',next:30},
+    {text:'说明自己想要通过洞穴',next:31}
+  ]
+};
+CHAPTERS[28]={
+  title:'山路险途',loc:'灰岩山脉 · 山路',
+  text:'你选择了山路。\n\n山路陡峭险峻，每一步都需要格外小心。你手脚并用地向上攀爬，汗水浸湿了衣衫。\n\n爬到半山腰时，你听到了前方传来的奇怪声音——像是某种液体流动的声音。\n\n转过一块巨石，你看到了令人惊讶的景象：两只史莱姆娘正在山路上游荡。一只是红色的，身体散发着微微的热气；另一只是蓝色的，身体半透明，散发着凉意。\n\n她们发现了你，同时转向你的方向。\n\n<dialogue>「咕噜？」</dialogue>\n\n<dialogue>「噗噜？」</dialogue>\n\n两只史莱姆娘歪着脑袋，好奇地打量着你。',
+  portrait:{emoji:'💧',name:'史莱姆娘',desc:'山脉的住民'},
+  choices:[
+    {text:'尝试与她们交流',next:32},
+    {text:'准备战斗',next:33}
+  ]
+};
+CHAPTERS[29]={
+  title:'分岔路口',loc:'灰岩山脉 · 分岔路',
+  text:'你站在分岔路口，思考着该走哪条路。\n\n左边的洞穴幽暗深邃，隐约可以听到滴水的声音。右边的山路陡峭险峻，但可以看到远处的风景。\n\n无论选择哪条路，前方都充满了未知的危险。但你已经没有退路了——秘宝就在前方，你必须继续前进。',
+  choices:[
+    {text:'进入洞穴',next:27},
+    {text:'攀登山路',next:28}
+  ]
+};
+CHAPTERS[30]={
+  title:'维奥莱塔',loc:'灰岩山脉 · 洞穴深处',
+  text:'你恭敬地向她鞠了一躬。\n\n<dialogue>「您好，女士。我是路过的冒险者，想要通过这条洞穴。如果打扰到您，我非常抱歉。」</dialogue>\n\n维奥莱塔挑了挑眉，似乎对你的礼貌感到意外。\n\n<dialogue>「……有意思。已经很久没有人对我这么有礼貌了。」</dialogue>\n\n她从王座上站起身，八条腿优雅地移动着，来到你面前。\n\n<dialogue>「我叫维奥莱塔，是这片洞穴的守护者。既然你这么有礼貌，我就告诉你一些事情吧。」</dialogue>\n\n<dialogue>「伊莎贝拉女王非常强大。她的城堡里布满了陷阱和守卫。正面进攻是不可能的。」</dialogue>\n\n<dialogue>「但是，城堡的地下有一条古老的密道。那是很久以前建造的，现在应该已经被人遗忘了。」</dialogue>\n\n她递给你一个由丝线编织成的球。\n\n<dialogue>「这是阿拉克涅丝玉。如果遇到危险，把它扔出去，可以困住敌人。」</dialogue>\n\n<item-get>★ 获得『阿拉克涅丝玉』★</item-get>',
+  portrait:{emoji:'🕷️',name:'维奥莱塔',desc:'优雅的蜘蛛 lady'},
+  choices:[
+    {text:'感谢她的帮助',next:34}
+  ],
+  onEnter:function(){addItem('spider_silk');}
+};
+CHAPTERS[31]={
+  title:'直接说明',loc:'灰岩山脉 · 洞穴深处',
+  text:'<dialogue>「我想要通过这条洞穴，前往伊莎贝拉女王的城堡。请您让路。」</dialogue>\n\n维奥莱塔的表情变得冰冷。\n\n<dialogue>「……真是无礼的人类。你以为这里是什么地方？」</dialogue>\n\n她的八条腿微微弯曲，摆出了战斗的姿态。\n\n<dialogue>「既然你不懂得尊重，那就让我教教你吧。」</dialogue>\n\n她张开嘴，一道白色的丝线向你射来！',
+  portrait:{emoji:'🕷️',name:'维奥莱塔',desc:'愤怒的蜘蛛 lady'},
+  choices:[
+    {text:'迎战',next:35},
+    {text:'使用火把',next:36}
+  ]
+};
+CHAPTERS[32]={
+  title:'与史莱姆交流',loc:'灰岩山脉 · 山路',
+  text:'你放下武器，尝试与她们交流。\n\n<dialogue>「你们好，我没有恶意。我只是路过这里。」</dialogue>\n\n红色史莱姆娘歪着头，身体微微前倾。\n\n<dialogue>「咕噜……人类？」</dialogue>\n\n蓝色史莱姆娘也凑了过来，半透明的手轻轻触碰你的手臂。\n\n<dialogue>「噗噜……好温暖。」</dialogue>\n\n她们似乎对你很好奇，并没有攻击的意图。\n\n红色史莱姆娘突然从身体里分出一块发光的碎片递给你。\n\n<dialogue>「咕噜！给你！」</dialogue>\n\n<item-get>★ 获得『史莱姆液』★</item-get>\n\n<dialogue>「这个，可以，治病！」</dialogue>\n\n她骄傲地说道。',
+  portrait:{emoji:'💧',name:'史莱姆娘',desc:'友好的魔物'},
+  choices:[
+    {text:'收下礼物，感谢她们',next:37}
+  ],
+  onEnter:function(){addItem('slime_liquid');}
+};
+CHAPTERS[33]={
+  title:'史莱姆之战',loc:'灰岩山脉 · 山路',
+  text:'你拔出剑，准备战斗。\n\n两只史莱姆娘看到你拔剑，身体同时颤抖了一下。\n\n<dialogue>「咕噜！敌人！」</dialogue>\n\n红色史莱姆娘率先发动攻击，她的身体突然膨胀，向你喷出一团炽热的液体！\n\n你侧身躲过，但蓝色史莱姆娘已经从另一侧包抄过来。她的身体变得坚硬如冰，向你撞来。\n\n你挥剑斩向蓝色史莱姆娘，剑刃切入她半透明的身体，但就像切进水一样，伤口瞬间愈合了。\n\n<dialogue>「噗噜！不痛！」</dialogue>\n\n你意识到普通的攻击对她们无效。必须找到她们的弱点！',
+  portrait:{emoji:'💧',name:'史莱姆娘',desc:'进入战斗状态'},
+  choices:[
+    {text:'用水攻击红色史莱姆',next:38,req:'hasItem("torch")'},
+    {text:'用剑攻击蓝色史莱姆的核心',next:39},
+    {text:'尝试逃跑',next:40}
+  ]
+};
+CHAPTERS[34]={
+  title:'洞穴出口',loc:'灰岩山脉 · 洞穴出口',
+  text:'你向维奥莱塔道谢后，继续向洞穴深处走去。\n\n在维奥莱塔的指引下，你很快就找到了通往山脉另一侧的出口。阳光从洞口洒进来，刺得你眯起了眼睛。\n\n走出洞穴，你看到了壮丽的景象——一座巨大的黑色城堡矗立在远处的悬崖上，尖塔直插云霄，周围环绕着永不停歇的乌云。\n\n那就是伊莎贝拉女王的城堡。\n\n你的心脏剧烈地跳动着。秘宝就在眼前，但最后的挑战也即将来临。',
+  choices:[
+    {text:'向城堡进发',next:41}
+  ]
+};
+CHAPTERS[35]={
+  title:'蜘蛛之战',loc:'灰岩山脉 · 洞穴深处',
+  text:'你与维奥莱塔展开了激烈的战斗。\n\n她的丝线无处不在，从四面八方射来。你不断闪避，但丝线的数量太多，你的动作渐渐变得迟缓。\n\n最终，你被一道丝线缠住了脚踝，摔倒在地。更多的丝线缠绕上来，将你牢牢束缚。\n\n<dialogue>「结束了。」</dialogue>\n\n维奥莱塔走到你面前，红色的复眼中没有任何感情。\n\n<dialogue>「无礼的人类，就要接受惩罚。」</dialogue>\n\n她张开嘴，一滴紫色的毒液滴落在你的手臂上。\n\n剧烈的疼痛瞬间传遍全身，你的意识开始模糊……\n\n<sfx>☠️ 你失去了意识 ☠️</sfx>\n\n<danger>HP -50</danger>',
+  portrait:{emoji:'🕷️',name:'维奥莱塔',desc:'冷酷的蜘蛛 lady'},
+  choices:[
+    {text:'……',next:42}
+  ],
+  onEnter:function(){changeHp(-50);}
+};
+CHAPTERS[36]={
+  title:'火焰驱蛛',loc:'灰岩山脉 · 洞穴深处',
+  text:'你迅速点燃火把，挥舞着火焰逼向维奥莱塔。\n\n<dialogue>「火？！」</dialogue>\n\n她惊叫一声，迅速后退。蜘蛛本能地畏惧火焰。\n\n<dialogue>「等等！我认输！别用火烧我！」</dialogue>\n\n她举起双手，八条腿蜷缩起来。\n\n<dialogue>「你赢了！我可以让你通过！但是你要答应我，不能告诉任何人我怕火！」</dialogue>\n\n你点了点头，收起火把。\n\n她松了一口气，然后告诉你通往城堡的捷径。\n\n<dialogue>「洞穴尽头有一条通往城堡地下室的密道。从那里可以避开正面的守卫。」</dialogue>',
+  portrait:{emoji:'🕷️',name:'维奥莱塔',desc:'害怕火焰的蜘蛛 lady'},
+  choices:[
+    {text:'感谢她的情报，继续前进',next:34}
+  ]
+};
+CHAPTERS[37]={
+  title:'史莱姆的友谊',loc:'灰岩山脉 · 山路',
+  text:'你收下了史莱姆液，向她们道谢。\n\n两只史莱姆娘开心地跳了起来，身体一弹一弹的。\n\n<dialogue>「咕噜！朋友！」</dialogue>\n\n<dialogue>「噗噜！再见！」</dialogue>\n\n她们让开了道路，你继续向山顶攀登。\n\n有了史莱姆液，你感觉安心了不少。据说这种液体具有强大的治愈能力，可以在危急时刻救你一命。\n\n山路越来越陡峭，但城堡的轮廓也越来越清晰。',
+  choices:[
+    {text:'继续攀登',next:41}
+  ]
+};
+CHAPTERS[38]={
+  title:'水克火史莱姆',loc:'灰岩山脉 · 山路',
+  text:'你想起米娅的提示——红色史莱姆怕水！\n\n你迅速从水囊中倒出清水，泼向红色史莱姆娘。\n\n<dialogue>「咕噜咕噜！！」</dialogue>\n\n她发出惊恐的叫声，身体开始剧烈颤抖。被水泼到的地方冒出白色的蒸汽，她的身体迅速缩小。\n\n<dialogue>「好烫！好烫！」</dialogue>\n\n她转身就逃，一蹦一跳地消失在山石之间。\n\n蓝色史莱姆娘看到同伴逃跑，也慌张地跟着离开了。\n\n你松了一口气，继续向山顶前进。',
+  choices:[
+    {text:'继续前进',next:41}
+  ]
+};
+CHAPTERS[39]={
+  title:'击破核心',loc:'灰岩山脉 · 山路',
+  text:'你仔细观察蓝色史莱姆娘的身体，发现她的中心有一个发光的核。\n\n那就是她的弱点！\n\n你瞄准核心，全力刺出一剑！\n\n剑刃准确地命中了发光的核，蓝色史莱姆娘发出一声哀鸣，身体瞬间崩解成一滩蓝色的液体。\n\n红色史莱姆娘看到同伴被消灭，发出一声悲鸣，转身逃走了。\n\n你从蓝色液体中捡起了那个发光的核心碎片。\n\n<item-get>★ 获得『史莱姆核心』★</item-get>',
+  choices:[
+    {text:'继续前进',next:41}
+  ],
+  onEnter:function(){addItem('slime_core');}
+};
+CHAPTERS[40]={
+  title:'逃离史莱姆',loc:'灰岩山脉 · 山路',
+  text:'你转身就跑，两只史莱姆娘在后面追了上来。\n\n<dialogue>「咕噜！别跑！」</dialogue>\n\n<dialogue>「噗噜！一起玩！」</dialogue>\n\n她们似乎并没有恶意，只是想和你玩。但你不确定被史莱姆包裹住会发生什么，所以还是拼命逃跑。\n\n你钻进了一条狭窄的石缝，史莱姆娘的身体太大，无法追进来。\n\n<dialogue>「咕噜……进不去……」</dialogue>\n\n你松了一口气，但发现自己来到了一个陌生的地方。\n\n<danger>HP -10</danger>',
+  choices:[
+    {text:'寻找出路',next:41}
+  ],
+  onEnter:function(){changeHp(-10);}
+};
+CHAPTERS[41]={
+  title:'暗影城堡',loc:'伊莎贝拉城堡 · 外围',
+  text:'你终于来到了伊莎贝拉女王的城堡前。\n\n这座城堡比想象中更加宏伟，也更加阴森。黑色的石墙高耸入云，尖塔上栖息着无数的蝙蝠。城堡的大门紧闭，门前站着两排骷髅卫兵。\n\n你躲在一块巨石后面，观察着城堡的情况。正面突破显然是不可能的——那些骷髅卫兵虽然看起来脆弱，但数量太多了。\n\n你回想起一路上收集到的情报：\n\n- 维奥莱塔提到的地下密道\n- 拉米亚提到的城堡后门\n- 芙蕾雅提到的正面防线\n\n你有几个选择。',
+  choices:[
+    {text:'寻找地下密道入口',next:43},
+    {text:'绕到城堡后门',next:44},
+    {text:'正面突破',next:45}
+  ]
+};
+CHAPTERS[42]={
+  title:'毒液侵蚀',loc:'灰岩山脉 · 洞穴深处',
+  text:'当你再次醒来时，发现自己被包裹在一个巨大的丝茧中。\n\n维奥莱塔坐在一旁，似乎在等待你醒来。\n\n<dialogue>「你醒了？放心，我没有杀你。」</dialogue>\n\n她解开丝茧，让你出来。\n\n<dialogue>「你的实力不错，杀了可惜。我给你一个选择——离开这里，永远不要再回来。或者……」</dialogue>\n\n她的眼中闪过一丝戏谑。\n\n<dialogue>「留下来，成为我的『收藏品』。」</dialogue>\n\n你的身体仍然虚弱，但意识已经清醒。',
+  portrait:{emoji:'🕷️',name:'维奥莱塔',desc:'提出条件的蜘蛛 lady'},
+  choices:[
+    {text:'选择离开',next:46},
+    {text:'……还有其他选择吗？',next:47}
+  ],
+  onEnter:function(){transform('arachne');}
+};
+CHAPTERS[43]={
+  title:'地下密道',loc:'伊莎贝拉城堡 · 地下',
+  text:'你按照维奥莱塔的指引，在城堡外围找到了一个隐蔽的地下入口。\n\n入口处被杂草和碎石掩盖，如果不仔细看根本发现不了。你搬开石头，露出了一条向下延伸的石阶。\n\n你点燃火把，小心翼翼地走了下去。\n\n地下通道阴暗潮湿，空气中弥漫着腐朽的气息。墙壁上刻着古老的符文，散发着微弱的蓝光。\n\n走了约十分钟，你来到了一个分岔口。左边的通道传来微弱的光亮和音乐声，右边的通道则是一片死寂。\n\n该走哪边？',
+  choices:[
+    {text:'走向有光亮的左边',next:48},
+    {text:'走向死寂的右边',next:49}
+  ]
+};
+CHAPTERS[44]={
+  title:'城堡后门',loc:'伊莎贝拉城堡 · 后门',
+  text:'你绕到城堡的后方，发现了一扇小门。\n\n这扇门看起来已经很久没有人使用过了，门上布满了锈迹和蜘蛛网。你试着推了推，门纹丝不动。\n\n你注意到门上有一个钥匙孔。\n\n如果你有黄金之钥，也许可以打开这扇门。',
+  choices:[
+    {text:'使用黄金之钥',next:50,req:'hasItem("golden_key")'},
+    {text:'尝试撬锁',next:51},
+    {text:'返回寻找其他路',next:41}
+  ]
+};
+CHAPTERS[45]={
+  title:'正面突破',loc:'伊莎贝拉城堡 · 正门',
+  text:'你决定正面突破！\n\n你握紧剑，从藏身处冲了出来，直接向大门跑去。\n\n骷髅卫兵们发现了你，纷纷举起武器迎了上来。\n\n你奋力战斗，一剑一个地击倒骷髅卫兵。但它们的数量太多了，你刚击倒一个，就有两个补上来。\n\n你的体力在迅速消耗，伤口越来越多。\n\n<danger>HP -40</danger>\n\n就在你快要支撑不住的时候，你怀中的某样东西突然发出了光芒——\n\n如果你有特殊的道具，也许可以扭转局势。',
+  choices:[
+    {text:'使用花冠的力量',next:52,req:'hasItem("flower_crown")'},
+    {text:'使用猫爪项链',next:53,req:'hasItem("cat_claw")'},
+    {text:'继续战斗',next:54}
+  ],
+  onEnter:function(){changeHp(-40);}
+};
+CHAPTERS[46]={
+  title:'离开洞穴',loc:'灰岩山脉 · 洞穴入口',
+  text:'你选择离开。\n\n维奥莱塔没有阻拦你，只是在你身后说道：\n\n<dialogue>「明智的选择。活着总比死了强。」</dialogue>\n\n你拖着疲惫的身体，沿着来时的路返回。\n\n然而，当你走出洞穴时，你发现自己已经不再是原来的样子了。维奥莱塔的毒液改变了你的身体——你的手臂上长出了细小的绒毛，指甲变得尖锐，背后隐隐有异物感。\n\n你变成了半人半蜘蛛的形态。\n\n<sfx>✨ 形态改变 ✨</sfx>\n\n这种形态虽然怪异，但也赋予了你新的能力——你可以感知到丝线的振动，可以在墙壁上自由攀爬。\n\n你决定利用这种新能力，从另一个角度继续你的冒险。',
+  choices:[
+    {text:'利用新能力攀爬城堡外墙',next:55}
+  ],
+  onEnter:function(){transform('arachne');}
+};
+CHAPTERS[47]={
+  title:'维奥莱塔的提议',loc:'灰岩山脉 · 洞穴深处',
+  text:'<dialogue>「其他选择？」</dialogue>\n\n维奥莱塔歪着头想了想，然后露出一个意味深长的笑容。\n\n<dialogue>「好吧，既然你这么执着……我可以帮你。」</dialogue>\n\n她走近你，红色的复眼中闪烁着奇异的光芒。\n\n<dialogue>「我可以赋予你蜘蛛的能力，让你能够潜入城堡。但作为交换，你要帮我做一件事。」</dialogue>\n\n<dialogue>「伊莎贝拉女王手下有一个叫『丝姬』的妖精女仆，她偷走了我重要的东西。你要帮我取回来。」</dialogue>\n\n她伸出手，一滴紫色的液体从指尖滴落。\n\n<dialogue>「接受我的力量，你就能够完成这个任务。」</dialogue>',
+  portrait:{emoji:'🕷️',name:'维奥莱塔',desc:'提出交易的蜘蛛 lady'},
+  choices:[
+    {text:'接受她的力量',next:56},
+    {text:'拒绝，选择离开',next:46}
+  ]
+};
+CHAPTERS[48]={
+  title:'光亮的通道',loc:'伊莎贝拉城堡 · 地下走廊',
+  text:'你走向左边的通道。\n\n随着你的前进，光亮越来越强，音乐声也越来越清晰。那是一种优雅的钢琴曲，旋律中带着一丝哀伤。\n\n通道的尽头是一扇华丽的门，门上雕刻着精美的蔷薇花纹。\n\n你轻轻推开门，眼前的景象让你惊呆了——\n\n这是一间装饰华丽的卧室，粉色的窗帘、蕾丝的床罩、满屋子的玩偶和书籍。一位少女正坐在窗边的钢琴前，纤细的手指在琴键上舞动。\n\n她有着乌黑的长发和苍白的肌肤，红色的瞳孔中透着与年龄不符的成熟。\n\n<dialogue>「……有人？」</dialogue>\n\n她停下了演奏，转过头来看着你。\n\n<dialogue>「啊，是一位人类呢。很少见呢，竟然能走到这里。」</dialogue>\n\n她站起身，黑色的裙摆轻轻飘动。\n\n<dialogue>「我叫莉莉安娜。你是来……杀我的姐姐的吗？」</dialogue>',
+  portrait:{emoji:'🦇',name:'莉莉安娜',desc:'吸血鬼的少女'},
+  choices:[
+    {text:'说明自己的目的',next:57},
+    {text:'询问她的姐姐是谁',next:58}
+  ]
+};
+CHAPTERS[49]={
+  title:'死寂的通道',loc:'伊莎贝拉城堡 · 地下墓室',
+  text:'你走向右边的通道。\n\n这里一片死寂，只有你的脚步声在回荡。空气中弥漫着腐朽和死亡的气息，让你不寒而栗。\n\n通道的尽头是一扇石门，门上刻着警告的符文。你推开门，发现自己来到了一个巨大的地下墓室。\n\n墓室中排列着无数的石棺，墙壁上燃烧着幽蓝色的鬼火。在墓室的中央，一位半透明的女性正漂浮在空中。\n\n她有着苍白的肌肤和长长的白发，身上穿着破旧的白色连衣裙。她的眼睛是空洞的黑色，但当你看向她时，那双眼睛似乎能穿透你的灵魂。\n\n<dialogue>「……终于……有人来了……」</dialogue>\n\n幽灵——埃莉诺拉——用飘渺的声音说道。\n\n<dialogue>「我已经……等了太久太久了……」</dialogue>',
+  portrait:{emoji:'👻',name:'埃莉诺拉',desc:'地缚灵'},
+  choices:[
+    {text:'询问她是谁',next:59},
+    {text:'保持警戒',next:60}
+  ]
+};
+CHAPTERS[50]={
+  title:'黄金之钥',loc:'伊莎贝拉城堡 · 后门',
+  text:'你取出黄金之钥，插入钥匙孔。\n\n钥匙完美地契合了锁孔，你轻轻一转——\n\n<dialogue>「咔哒。」</dialogue>\n\n门开了。\n\n你小心翼翼地推开门，进入了城堡的内部。这里是一条狭窄的仆人通道，墙壁上挂着古老的油画，空气中弥漫着陈旧的香气。\n\n你沿着通道前进，很快就来到了城堡的大厅。大厅的尽头是一扇巨大的门，门后就是伊莎贝拉女王的玉座之间。\n\n但在那之前，你注意到大厅的角落里有一扇小门，门上装饰着可爱的花朵图案。',
+  choices:[
+    {text:'直接前往玉座之间',next:61},
+    {text:'先探索小门后的房间',next:62}
+  ]
+};
+CHAPTERS[51]={
+  title:'撬锁失败',loc:'伊莎贝拉城堡 · 后门',
+  text:'你尝试用剑尖撬锁，但后门上的锁非常精密，你的粗暴方法只会损坏锁芯。\n\n折腾了半天，锁依然纹丝不动。\n\n<danger>HP -5</danger>\n\n你不得不放弃，寻找其他进入城堡的方法。',
+  choices:[
+    {text:'寻找地下密道',next:43},
+    {text:'返回正面',next:41}
+  ],
+  onEnter:function(){changeHp(-5);}
+};
+CHAPTERS[52]={
+  title:'花冠之光',loc:'伊莎贝拉城堡 · 正门',
+  text:'你取出莉莉安娜的花冠，高举过头。\n\n花冠突然绽放出耀眼的青白色光芒，光芒如同波浪般向四周扩散。被光芒触及的骷髅卫兵纷纷停下了动作，然后——\n\n它们一个接一个地化为了灰烬。\n\n<dialogue>「这是……莉莉安娜的力量？！」</dialogue>\n\n一个声音从城堡内部传来，充满了惊讶和愤怒。\n\n大门缓缓打开，一条通往玉座之间的道路展现在你面前。\n\n你握紧剑，大步走了进去。',
+  choices:[
+    {text:'进入城堡',next:61}
+  ]
+};
+CHAPTERS[53]={
+  title:'猫之敏捷',loc:'伊莎贝拉城堡 · 正门',
+  text:'你握住猫爪项链，感受到一股暖流涌入身体。\n\n你的感官变得异常敏锐，身体变得轻盈如猫。骷髅卫兵的攻击在你眼中变得缓慢无比，你可以轻松地穿梭在它们之间。\n\n你如同一道金色的闪电，在骷髅卫兵群中穿梭，每一次闪避都恰到好处，每一次反击都精准致命。\n\n不一会儿，所有的骷髅卫兵都被你击倒了。\n\n大门缓缓打开，你整理了一下装备，走了进去。',
+  choices:[
+    {text:'进入城堡',next:61}
+  ],
+  onEnter:function(){transform('catgirl');}
+};
+CHAPTERS[54]={
+  title:'力竭',loc:'伊莎贝拉城堡 · 正门',
+  text:'你奋力战斗，但骷髅卫兵的数量实在太多了。\n\n你的剑越来越沉重，伤口越来越多。最终，一个骷髅卫兵的长矛刺穿了你的肩膀。\n\n<danger>HP -50</danger>\n\n你跪倒在地，意识开始模糊。\n\n就在你即将失去意识的时候，你感觉到有人扶住了你。\n\n<dialogue>「真是的，怎么这么乱来。」</dialogue>\n\n一个熟悉的声音在耳边响起。\n\n你勉强睁开眼睛，看到了芙蕾雅的身影。她不知何时出现在了战场上，银灰色的毛发在月光下闪闪发光。\n\n<dialogue>「我放心不下，就跟过来看看。没想到你真的在正面突破……笨蛋。」</dialogue>\n\n她背起你，迅速撤离了战场。',
+  choices:[
+    {text:'……',next:63}
+  ],
+  onEnter:function(){changeHp(-50);}
+};
+CHAPTERS[55]={
+  title:'蜘蛛攀爬',loc:'伊莎贝拉城堡 · 外墙',
+  text:'你利用新获得的蜘蛛能力，开始攀爬城堡的外墙。\n\n你的手指可以分泌出粘性物质，让你能够牢牢地附着在垂直的墙面上。八条细长的腿（虽然你只有两条腿变成了蜘蛛腿）让你移动起来异常灵活。\n\n你很快就爬到了城堡的高处，从一个窗户钻了进去。\n\n这里是一条走廊，走廊的尽头就是伊莎贝拉女王的玉座之间。\n\n你变回人类形态（虽然还保留着一些蜘蛛特征），悄悄向玉座之间摸去。',
+  choices:[
+    {text:'潜入玉座之间',next:61}
+  ],
+  onEnter:function(){transform('arachne');}
+};
+CHAPTERS[56]={
+  title:'接受力量',loc:'灰岩山脉 · 洞穴深处',
+  text:'你伸出手，接住了那滴紫色的液体。\n\n液体一接触你的皮肤，就迅速渗透进去。剧烈的疼痛瞬间传遍全身，你跪倒在地，发出痛苦的呻吟。\n\n你的身体开始发生变化——手臂上长出了细小的绒毛，指甲变得尖锐如爪，背后隐隐有什么东西要破体而出。\n\n<dialogue>「忍耐一下，很快就好了。」</dialogue>\n\n维奥莱塔的声音从远处传来。\n\n疼痛持续了约一分钟，然后逐渐消退。你站起身，发现自己已经变成了半人半蜘蛛的形态。\n\n<sfx>✨ 形态改变：阿拉克涅 ✨</sfx>\n\n<dialogue>「很好。现在，去吧。丝姬在城堡的厨房里。帮我取回『月光纺锤』。」</dialogue>',
+  portrait:{emoji:'🕷️',name:'维奥莱塔',desc:'满意的蜘蛛 lady'},
+  choices:[
+    {text:'前往城堡',next:55}
+  ],
+  onEnter:function(){transform('arachne');}
+};
+CHAPTERS[57]={
+  title:'莉莉安娜的故事',loc:'伊莎贝拉城堡 · 莉莉安娜的房间',
+  text:'<dialogue>「我的姐姐……就是这座城堡的主人，伊莎贝拉女王。」</dialogue>\n\n莉莉安娜坐回钢琴前，轻轻抚摸着琴键。\n\n<dialogue>「她曾经是一位善良的吸血鬼。但自从得到那顶王冠后，她就变了。变得冷酷、残忍，想要统治一切。」</dialogue>\n\n<dialogue>「那顶王冠拥有改变形态的力量。姐姐用它来惩罚不听话的人，把他们变成怪物娘，永远臣服于她。」</dialogue>\n\n她抬起头，红色的瞳孔中闪烁着泪光。\n\n<dialogue>「我不想看到更多人受害。所以……我偷偷制作了可以对抗王冠力量的道具。」</dialogue>\n\n她从抽屉里取出一个精致的花冠，花冠上镶嵌着青白色的宝石。\n\n<dialogue>「这是『莉莉安娜的花冠』。它可以抵御王冠的魔力，保护你不被变身。」</dialogue>\n\n<dialogue>「请你……阻止我的姐姐。」</dialogue>\n\n<item-get>★ 获得『莉莉安娜花冠』★</item-get>',
+  portrait:{emoji:'🦇',name:'莉莉安娜',desc:'悲伤的吸血鬼少女'},
+  choices:[
+    {text:'接受花冠，承诺阻止伊莎贝拉',next:64}
+  ],
+  onEnter:function(){addItem('flower_crown');}
+};
+CHAPTERS[58]={
+  title:'询问姐姐',loc:'伊莎贝拉城堡 · 莉莉安娜的房间',
+  text:'<dialogue>「我的姐姐是伊莎贝拉，这座城堡的主人，也是这片土地的统治者。」</dialogue>\n\n莉莉安娜的声音中带着一丝悲伤。\n\n<dialogue>「她曾经很温柔。但自从得到那顶王冠后，她就变了。」</dialogue>\n\n她走到窗边，望着窗外的月光。\n\n<dialogue>「那顶王冠叫做『簒夺之王冠』，拥有改变一切形态的力量。姐姐用它来维持统治，把反抗她的人都变成怪物娘。」</dialogue>\n\n<dialogue>「我试图劝说她，但她已经听不进去了。」</dialogue>\n\n她转过身，看着你。\n\n<dialogue>「如果你要去挑战她，请带上这个。它可以保护你。」</dialogue>\n\n她递给你花冠。\n\n<item-get>★ 获得『莉莉安娜花冠』★</item-get>',
+  portrait:{emoji:'🦇',name:'莉莉安娜',desc:'担忧的吸血鬼少女'},
+  choices:[
+    {text:'接受花冠',next:64}
+  ],
+  onEnter:function(){addItem('flower_crown');}
+};
+CHAPTERS[59]={
+  title:'埃莉诺拉的故事',loc:'伊莎贝拉城堡 · 地下墓室',
+  text:'<dialogue>「我是埃莉诺拉……曾经也是一位冒险者……」</dialogue>\n\n幽灵缓缓飘近，空洞的眼睛中似乎有了一丝生气。\n\n<dialogue>「很久以前，我也像你一样，想要挑战伊莎贝拉。但我失败了……我的灵魂被束缚在这里，永远无法离开。」</dialogue>\n\n<dialogue>「但我不甘心……我想要有人完成我未竟的事业……」</dialogue>\n\n她伸出手，半透明的指尖轻轻触碰你的额头。\n\n<dialogue>「我可以赋予你幽灵的力量……让你能够穿透墙壁，看到常人看不到的东西……」</dialogue>\n\n<dialogue>「但作为交换……当你打败伊莎贝拉后……请解放我的灵魂……」</dialogue>',
+  portrait:{emoji:'👻',name:'埃莉诺拉',desc:'渴望解脱的幽灵'},
+  choices:[
+    {text:'接受她的力量',next:65},
+    {text:'拒绝，寻找其他路',next:66}
+  ]
+};
+CHAPTERS[60]={
+  title:'警惕幽灵',loc:'伊莎贝拉城堡 · 地下墓室',
+  text:'你保持警戒，手按在剑柄上。\n\n埃莉诺拉看到你的反应，微微叹了口气。\n\n<dialogue>「……你和其他人一样……不相信我……」</dialogue>\n\n她的身体开始变得不稳定，周围的空气变得寒冷刺骨。\n\n<dialogue>「……既然你不信任我……那就成为我的同伴吧……永远……」</dialogue>\n\n她突然向你冲来，半透明的身体穿过了你的剑，直接融入了你的身体！\n\n你感到一阵刺骨的寒冷，然后——\n\n你的意识开始模糊，身体不再受自己控制……\n\n<sfx>👻 被幽灵附身 👻</sfx>',
+  portrait:{emoji:'👻',name:'埃莉诺拉',desc:'愤怒的幽灵'},
+  choices:[
+    {text:'抵抗！',next:67},
+    {text:'放弃抵抗……',next:68}
+  ]
+};
+CHAPTERS[61]={
+  title:'玉座之间',loc:'伊莎贝拉城堡 · 玉座之间',
+  text:'你来到了玉座之间。\n\n这是一间宏伟的大厅，黑色的石柱支撑着高耸的天花板，墙壁上燃烧着永不熄灭的黑色火焰。在大厅的尽头，一座由黑曜石打造的王座高高耸立。\n\n王座上坐着一位女性——伊莎贝拉女王。\n\n她有着苍白的肌肤和乌黑的长发，红色的瞳孔中透着冷酷和威严。她身穿黑色的长裙，身后展开着巨大的蝙蝠翅膀。\n\n<dialogue>「哼，人类的男人吗。竟然能走到这里，不简单。」</dialogue>\n\n她缓缓站起身，翅膀轻轻扇动，整个人漂浮在空中。\n\n<dialogue>「你想要我手中的『簒夺之王冠』？那就来打倒我吧！」</dialogue>\n\n<dialogue>「让我看看，你是否有资格拥有它！」</dialogue>\n\n她张开翅膀，无数蝙蝠从她的身体中飞出，向你袭来！\n\n<sfx>🦇 最终决战开始 🦇</sfx>',
+  portrait:{emoji:'🦇',name:'伊莎贝拉',desc:'吸血鬼女王'},
+  choices:[
+    {text:'使用银之短剑攻击',next:69,req:'hasItem("silver_dagger")'},
+    {text:'使用花冠的力量防御',next:70,req:'hasItem("flower_crown")'},
+    {text:'正面迎战',next:71}
+  ]
+};
+CHAPTERS[62]={
+  title:'小门之后',loc:'伊莎贝拉城堡 · 厨房',
+  text:'你推开了那扇装饰着花朵图案的小门。\n\n门后是一间宽敞的厨房，各种厨具整齐地排列着，空气中弥漫着香甜的气息。一位娇小的女性正在灶台前忙碌着。\n\n她有着金色的卷发和尖细的耳朵，身上穿着黑白相间的女仆装。她的身高只到你的腰部，但动作却异常敏捷。\n\n<dialogue>「哎呀？有客人？」</dialogue>\n\n她转过身，蓝色的眼睛好奇地打量着你。\n\n<dialogue>「我叫丝姬，是这座城堡的女仆。你是……入侵者？」</dialogue>\n\n她歪着头，似乎并不害怕你。\n\n<dialogue>「不过没关系啦，我只负责做饭，战斗什么的跟我没关系。」</dialogue>\n\n她挥了挥手，继续忙碌。\n\n<dialogue>「如果你饿了，可以尝尝我做的点心。不过作为交换，你要帮我一个忙。」</dialogue>',
+  portrait:{emoji:'🧚',name:'丝姬',desc:'城堡的女仆'},
+  choices:[
+    {text:'询问她需要什么帮助',next:72},
+    {text:'询问关于王冠的情报',next:73}
+  ]
+};
+CHAPTERS[63]={
+  title:'芙蕾雅的救助',loc:'迷雾森林 · 芙蕾雅的巢穴',
+  text:'当你再次醒来时，发现自己躺在一张由干草和兽皮铺成的床上。\n\n芙蕾雅坐在一旁，看到你醒来，松了一口气。\n\n<dialogue>「你终于醒了。真是的，差点就没命了。」</dialogue>\n\n她递给你一碗药汤。\n\n<dialogue>「喝了吧，这是我特制的恢复药。」</dialogue>\n\n你喝下药水，感觉身体的伤势在迅速恢复。\n\n<dialogue>「正面突破太鲁莽了。伊莎贝拉的城堡有强大的魔法防护，正面进攻是不可能的。」</dialogue>\n\n<dialogue>「不过，我知道一条秘密通道。从城堡的地下墓室可以到达玉座之间的正下方。」</dialogue>\n\n<dialogue>「但是……那里有一个强大的幽灵守护着。你要小心。」</dialogue>\n\n<danger>HP +50</danger>',
+  portrait:{emoji:'🐺',name:'芙蕾雅',desc:'担心的狼人少女'},
+  choices:[
+    {text:'感谢她，再次出发',next:43}
+  ],
+  onEnter:function(){changeHp(50);}
+};
+CHAPTERS[64]={
+  title:'承诺',loc:'伊莎贝拉城堡 · 莉莉安娜的房间',
+  text:'你接过花冠，郑重地点了点头。\n\n<dialogue>「我答应你，我会阻止伊莎贝拉，解放所有被她控制的人。」</dialogue>\n\n莉莉安娜露出了欣慰的笑容，但那笑容中仍然带着一丝忧虑。\n\n<dialogue>「谢谢你。但请一定要小心……姐姐的力量非常强大。而且……」</dialogue>\n\n她犹豫了一下。\n\n<dialogue>「城堡里还有一个危险的存在——魅魔萨琳娜。她是姐姐的得力助手，擅长精神魔法。如果你遇到她，千万不要看她的眼睛。」</dialogue>\n\n<dialogue>「还有，如果你需要黄金之钥来打开宝库，可以去找丝姬。她掌管着城堡的钥匙。」</dialogue>\n\n你记下了这些情报，告别了莉莉安娜，继续向玉座之间前进。',
+  choices:[
+    {text:'继续前进',next:74}
+  ]
+};
+CHAPTERS[65]={
+  title:'幽灵之力',loc:'伊莎贝拉城堡 · 地下墓室',
+  text:'你点了点头，表示接受她的条件。\n\n埃莉诺拉露出了一丝微笑，然后整个身体化为一道白光，融入了你的身体。\n\n你感到一阵刺骨的寒冷，然后——\n\n你的身体变得轻盈，仿佛没有了重量。你可以看到墙壁后面的结构，可以听到远处的心跳声。\n\n<sfx>✨ 形态改变：幽灵 ✨</sfx>\n\n<dialogue>「现在……你可以穿过墙壁了……」</dialogue>\n\n埃莉诺拉的声音在你脑海中响起。\n\n<dialogue>「去吧……完成我们的使命……」</dialogue>\n\n你试着走向墙壁，身体竟然真的穿了过去！\n\n利用这种能力，你可以轻松地在城堡中穿梭，避开所有的守卫。',
+  choices:[
+    {text:'利用幽灵能力潜入玉座之间',next:75}
+  ],
+  onEnter:function(){transform('ghost');}
+};
+CHAPTERS[66]={
+  title:'拒绝幽灵',loc:'伊莎贝拉城堡 · 地下墓室',
+  text:'你摇了摇头，拒绝了她的提议。\n\n<dialogue>「……我明白了……」</dialogue>\n\n埃莉诺拉失望地低下了头。\n\n<dialogue>「……那就请你……至少帮我一个忙……」</dialogue>\n\n她指向墓室的一角，那里有一扇隐蔽的石门。\n\n<dialogue>「……那扇门后面……有一条通往玉座之间的密道……」</dialogue>\n\n<dialogue>「……作为交换……请你……在打败伊莎贝拉后……回到这里……解放我的灵魂……」</dialogue>\n\n你答应了她，走向那扇石门。',
+  choices:[
+    {text:'进入密道',next:76}
+  ]
+};
+CHAPTERS[67]={
+  title:'抵抗附身',loc:'伊莎贝拉城堡 · 地下墓室',
+  text:'你集中精神，抵抗着埃莉诺拉的入侵。\n\n<dialogue>「……为什么……为什么不接受我……」</dialogue>\n\n她的声音在你脑海中回荡，带着悲伤和不甘。\n\n你咬紧牙关，用意志力将她从自己的身体中驱逐出去。\n\n<dialogue>「……啊……」</dialogue>\n\n埃莉诺拉被弹出了你的身体，半透明的身体变得更加虚幻。\n\n<dialogue>「……你……很强……」</dialogue>\n\n她看着你，眼中闪过一丝敬佩。\n\n<dialogue>「……好吧……我认输……」</dialogue>\n\n<dialogue>「……那扇门后面……有通往玉座之间的路……去吧……」</dialogue>\n\n她指向墓室一角的石门。',
+  choices:[
+    {text:'进入密道',next:76}
+  ]
+};
+CHAPTERS[68]={
+  title:'被附身',loc:'伊莎贝拉城堡 · 地下墓室',
+  text:'你放弃了抵抗，任由埃莉诺拉占据你的身体。\n\n你的意识逐渐模糊，身体不再受自己控制。你感觉到自己在移动，但不知道要去哪里。\n\n当你再次恢复意识时，你发现自己被困在了一个黑暗的空间中。你的身体被埃莉诺拉控制着，在外面行动。\n\n<dialogue>「……对不起……但我太孤独了……」</dialogue>\n\n她的声音在你脑海中响起。\n\n<dialogue>「……请陪我……永远……」</dialogue>\n\n你试图夺回身体的控制权，但徒劳无功。埃莉诺拉的力量太强大了。\n\n<sfx>👻 被幽灵完全附身 👻</sfx>\n\n你的冒险，似乎到此结束了。',
+  choices:[
+    {text:'……',next:77}
+  ],
+  onEnter:function(){transform('ghost');}
+};
+CHAPTERS[69]={
+  title:'银之短剑',loc:'伊莎贝拉城堡 · 玉座之间',
+  text:'你拔出银之短剑，向伊莎贝拉冲去。\n\n她看到你手中的银剑，瞳孔猛地收缩。\n\n<dialogue>「银？！你怎么会有那种东西？！」</dialogue>\n\n银对吸血鬼来说是致命的弱点。你抓住她惊慌的瞬间，一剑刺向她的胸口！\n\n伊莎贝拉试图躲避，但银剑的光芒让她动作迟缓。剑刃划破了她的黑色长裙，在她的胸口留下了一道深深的伤口。\n\n<dialogue>「咕……可恶……！」</dialogue>\n\n黑色的血液从伤口流出，她的身体开始颤抖。\n\n<dialogue>「该死……该死……！」</dialogue>\n\n她的身体开始崩解，化为无数蝙蝠四散飞逃。但在消散之前，她留下了最后一句话：\n\n<dialogue>「王冠……在宝物库……钥匙……你拿不到的……」</dialogue>\n\n她彻底消失了。\n\n你喘着粗气，看着手中的银剑。这把武器救了你一命。',
+  choices:[
+    {text:'前往宝物库',next:78}
+  ]
+};
+CHAPTERS[70]={
+  title:'花冠守护',loc:'伊莎贝拉城堡 · 玉座之间',
+  text:'你戴上莉莉安娜的花冠，青白色的光芒立刻笼罩了你的全身。\n\n伊莎贝拉释放的黑暗魔法撞击在光芒上，如同撞上了坚不可摧的墙壁，纷纷消散。\n\n<dialogue>「这是……莉莉安娜的力量？！那个叛徒！」</dialogue>\n\n伊莎贝拉愤怒地咆哮着，不断释放更强大的魔法。但花冠的光芒始终保护着你，不让她伤害你分毫。\n\n你趁机向她冲去，剑刃直指她的咽喉。\n\n<dialogue>「不……不可能……！」</dialogue>\n\n她试图躲避，但花冠的光芒束缚了她的动作。你的剑准确地刺入了她的身体——\n\n伊莎贝拉发出一声凄厉的尖叫，身体开始崩解。\n\n<dialogue>「该死……该死……！」</dialogue>\n\n她化为无数蝙蝠，消散在空气中。\n\n<dialogue>「王冠……在宝物库……」</dialogue>\n\n她的声音在空旷的大厅中回荡。',
+  choices:[
+    {text:'前往宝物库',next:78}
+  ]
+};
+CHAPTERS[71]={
+  title:'苦战',loc:'伊莎贝拉城堡 · 玉座之间',
+  text:'你没有特殊的道具，只能凭借自己的实力与伊莎贝拉战斗。\n\n这是一场艰苦的战斗。伊莎贝拉的力量远超你的想象，她的每一次攻击都带着毁灭性的威力。\n\n你不断闪避、格挡、反击，但始终无法对她造成致命的伤害。\n\n<danger>HP -30</danger>\n\n就在你快要支撑不住的时候，你突然想起了什么——\n\n如果你有什么特殊的道具或能力，现在是使用的时候了！',
+  choices:[
+    {text:'使用史莱姆液',next:79,req:'hasItem("slime_liquid")'},
+    {text:'使用阿拉克涅丝玉',next:80,req:'hasItem("spider_silk")'},
+    {text:'拼死一搏',next:81}
+  ],
+  onEnter:function(){changeHp(-30);}
+};
+CHAPTERS[72]={
+  title:'丝姬的委托',loc:'伊莎贝拉城堡 · 厨房',
+  text:'<dialogue>「其实也没什么大不了的。」</dialogue>\n\n丝姬一边搅拌着锅里的汤，一边说道。\n\n<dialogue>「女王大人最近心情很不好，经常发脾气。我想做一道她最喜欢的『月光蛋糕』来让她开心一下。」</dialogue>\n\n<dialogue>「但是，我需要一种特殊的材料——『月光草』。这种草只在满月之夜生长在城堡的屋顶上。」</dialogue>\n\n<dialogue>「如果你能帮我采一些回来，我就告诉你一个秘密。」</dialogue>\n\n她眨了眨眼睛。\n\n<dialogue>「关于宝物库的秘密哦。」</dialogue>',
+  portrait:{emoji:'🧚',name:'丝姬',desc:'忙碌的女仆'},
+  choices:[
+    {text:'接受委托',next:82},
+    {text:'询问其他情报',next:73}
+  ]
+};
+CHAPTERS[73]={
+  title:'王冠的情报',loc:'伊莎贝拉城堡 · 厨房',
+  text:'<dialogue>「王冠？你是说『簒夺之王冠』？」</dialogue>\n\n丝姬停下了手中的工作，压低声音说道。\n\n<dialogue>「那顶王冠被收藏在城堡最深处的宝物库里。宝物库的门需要黄金之钥才能打开。」</dialogue>\n\n<dialogue>「黄金之钥平时由女王大人亲自保管。但……」</dialogue>\n\n她四处张望了一下，确认没有人偷听。\n\n<dialogue>「我听说女王大人最近把钥匙交给了莉莉安娜小姐保管。如果你能找到莉莉安娜小姐，也许能拿到钥匙。」</dialogue>\n\n<dialogue>「不过要小心，莉莉安娜小姐虽然是好人，但她也是吸血鬼。不要激怒她。」</dialogue>',
+  portrait:{emoji:'🧚',name:'丝姬',desc:'知道秘密的女仆'},
+  choices:[
+    {text:'感谢她的情报',next:83}
+  ]
+};
+CHAPTERS[74]={
+  title:'城堡走廊',loc:'伊莎贝拉城堡 · 走廊',
+  text:'你告别了莉莉安娜，沿着城堡的走廊前进。\n\n走廊两侧的墙壁上挂满了古老的油画，画中的人物都是吸血鬼——这应该是伊莎贝拉家族的历代祖先。\n\n你小心翼翼地前进，避开了巡逻的骷髅卫兵。\n\n走廊的尽头是一扇巨大的门，门后就是玉座之间。但在那之前，你注意到旁边有一扇小门，门缝中透出微弱的红光。\n\n那红光让你感到一阵不安。',
+  choices:[
+    {text:'直接进入玉座之间',next:61},
+    {text:'先查看小门后的房间',next:84}
+  ]
+};
+CHAPTERS[75]={
+  title:'幽灵潜入',loc:'伊莎贝拉城堡 · 玉座之间',
+  text:'你利用幽灵的能力，直接穿过了墙壁，进入了玉座之间。\n\n伊莎贝拉正坐在王座上，似乎完全没有预料到有人会从墙壁中出现。\n\n<dialogue>「什么？！」</dialogue>\n\n她惊愕地转过身，但已经来不及了。你从她身后出现，剑刃抵住了她的咽喉。\n\n<dialogue>「你……你怎么……」</dialogue>\n\n她的身体颤抖着，翅膀无力地垂下。\n\n<dialogue>「该死……该死……」</dialogue>\n\n她的身体开始崩解，化为无数蝙蝠。\n\n<dialogue>「王冠……在宝物库……拿去吧……」</dialogue>\n\n她彻底消散了。\n\n你松了一口气，但埃莉诺拉的声音在你脑海中响起：\n\n<dialogue>「……别忘了你的承诺……解放我的灵魂……」</dialogue>',
+  choices:[
+    {text:'前往宝物库',next:78}
+  ]
+};
+CHAPTERS[76]={
+  title:'密道',loc:'伊莎贝拉城堡 · 密道',
+  text:'你进入了埃莉诺拉指示的密道。\n\n密道狭窄而阴暗，空气中弥漫着腐朽的气息。你小心翼翼地前进，不时听到墙壁后面传来的脚步声。\n\n走了约五分钟，密道豁然开朗，你来到了一个巨大的地下空间。\n\n空间的中央是一座石台，石台上放着一个发光的物体——\n\n那是一把金色的钥匙！\n\n<item-get>★ 获得『黄金之钥』★</item-get>\n\n你拿起钥匙，感受到一股温暖的魔力从钥匙中流入你的身体。\n\n这就是打开宝物库的钥匙！',
+  choices:[
+    {text:'继续前进',next:85}
+  ],
+  onEnter:function(){addItem('golden_key');}
+};
+CHAPTERS[77]={
+  title:'幽灵END',loc:'伊莎贝拉城堡 · 地下墓室',
+  text:'你的身体被埃莉诺拉完全控制，你的意识被困在黑暗的深渊中。\n\n偶尔，你能透过眼睛看到外面的世界。埃莉诺拉用你的身体在城堡中游荡，有时与其他怪物娘交谈，有时独自坐在墓室中发呆。\n\n<dialogue>「……对不起……但我太孤独了……」</dialogue>\n\n她的声音时常在你脑海中响起。\n\n你试图与她沟通，但她似乎已经沉浸在自己的世界中，不再回应你。\n\n时间一天天过去，你的意识越来越模糊。最终，你完全融入了埃莉诺拉，成为了她的一部分。\n\n你不再是你自己，而是「埃莉诺拉」这个存在的又一个碎片。\n\n你的冒险，在这里结束了。',
+  ending:{title:'幽灵END',subtitle:'『永远的同伴』',emoji:'👻'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){recordEnding('ghost_end');}
+};
+CHAPTERS[78]={
+  title:'宝物库',loc:'伊莎贝拉城堡 · 宝物库',
+  text:'你来到了宝物库的门前。\n\n这是一扇由纯金打造的大门，门上雕刻着复杂的魔法阵。门的正中央有一个钥匙孔，散发着微弱的金光。\n\n你取出黄金之钥，插入钥匙孔。\n\n钥匙与锁孔完美契合。你轻轻一转——\n\n<dialogue>「轰隆隆……」</dialogue>\n\n大门缓缓打开，耀眼的金光从门缝中涌出。\n\n你走进宝物库，被眼前的景象震撼了——\n\n无数的金币、珠宝、魔法道具堆满了整个房间。但在房间的正中央，一个水晶展柜中，静静地放着一顶王冠。\n\n那就是「簒夺之王冠」。\n\n王冠由黑色的金属打造，上面镶嵌着无数血红色的宝石。即使隔着水晶展柜，你也能感受到它散发出的强大魔力。\n\n你走向展柜，伸手打开了盖子——',
+  choices:[
+    {text:'拿起王冠',next:86}
+  ]
+};
+CHAPTERS[79]={
+  title:'史莱姆战术',loc:'伊莎贝拉城堡 · 玉座之间',
+  text:'你取出史莱姆液，向伊莎贝拉泼去。\n\n<dialogue>「什么？！」</dialogue>\n\n蓝色的液体泼洒在她的身上，她的动作瞬间变得迟缓。史莱姆液具有强大的粘性，让她的翅膀无法展开。\n\n<dialogue>「可恶……这是什么东西……！」</dialogue>\n\n她挣扎着，但越挣扎粘得越紧。\n\n你趁机冲上前，剑刃直指她的心脏。\n\n<dialogue>「不……不可能……！」</dialogue>\n\n她发出最后一声哀鸣，身体崩解为无数蝙蝠。\n\n<dialogue>「王冠……在宝物库……」</dialogue>\n\n她彻底消散了。',
+  choices:[
+    {text:'前往宝物库',next:78}
+  ]
+};
+CHAPTERS[80]={
+  title:'蜘蛛丝束缚',loc:'伊莎贝拉城堡 · 玉座之间',
+  text:'你取出阿拉克涅丝玉，向伊莎贝拉扔去。\n\n丝玉在空中绽放，无数白色的丝线向四周射出，瞬间将伊莎贝拉缠绕得严严实实。\n\n<dialogue>「这是什么？！放开我！」</dialogue>\n\n她挣扎着，但丝线越缠越紧。\n\n你走上前，剑刃抵住她的咽喉。\n\n<dialogue>「该死……该死……！」</dialogue>\n\n她愤怒地瞪着你，但已经无法动弹。\n\n<dialogue>「……我认输。王冠在宝物库，拿去吧。」</dialogue>\n\n她的身体开始崩解，化为无数蝙蝠，从丝线的缝隙中逃走了。\n\n<dialogue>「但别以为这样就结束了……！」</dialogue>\n\n她的声音在空旷的大厅中回荡。',
+  choices:[
+    {text:'前往宝物库',next:78}
+  ]
+};
+CHAPTERS[81]={
+  title:'拼死一搏',loc:'伊莎贝拉城堡 · 玉座之间',
+  text:'你咬紧牙关，集中全身的力量，向伊莎贝拉发起了最后的冲锋。\n\n<dialogue>「愚蠢！你以为凭你一个人能打败我吗？！」</dialogue>\n\n她释放出强大的黑暗魔法，黑色的闪电向你劈来。\n\n你躲过了第一道闪电，但第二道、第三道接踵而至。你的身体被击中，剧烈的疼痛让你几乎昏厥。\n\n<danger>HP -50</danger>\n\n但你没有停下。你拖着受伤的身体，继续向前冲。\n\n伊莎贝拉露出了惊讶的表情。\n\n<dialogue>「你……为什么……」</dialogue>\n\n你跃起，剑刃在空中划出一道弧线——\n\n剑刃刺入了她的身体。\n\n<dialogue>「咕……啊……」</dialogue>\n\n她难以置信地看着胸口的剑，然后——\n\n身体崩解为无数蝙蝠。\n\n<dialogue>「……王冠……在宝物库……」</dialogue>\n\n你跪倒在地，大口喘息。\n\n你赢了，但代价惨重。',
+  choices:[
+    {text:'前往宝物库',next:78}
+  ],
+  onEnter:function(){changeHp(-50);}
+};
+CHAPTERS[82]={
+  title:'月光草',loc:'伊莎贝拉城堡 · 屋顶',
+  text:'你来到城堡的屋顶，寻找月光草。\n\n夜空中挂着一轮满月，银色的月光洒在屋顶上。在月光的照耀下，一种散发着淡蓝色光芒的小草在瓦片间生长着。\n\n你小心翼翼地采集了几株月光草，放进口袋。\n\n<item-get>★ 获得『月光草』★</item-get>\n\n回到厨房，你将月光草交给了丝姬。\n\n<dialogue>「哇！谢谢你！」</dialogue>\n\n她开心地接过月光草，开始制作蛋糕。\n\n<dialogue>「作为谢礼，我告诉你一个秘密——宝物库的钥匙其实有两把。一把在女王大人那里，另一把藏在地下墓室中。」</dialogue>\n\n<dialogue>「地下墓室里有一个幽灵，她叫埃莉诺拉。如果你能帮她完成心愿，她可能会把钥匙给你。」</dialogue>',
+  portrait:{emoji:'🧚',name:'丝姬',desc:'开心的女仆'},
+  choices:[
+    {text:'前往地下墓室',next:49}
+  ],
+  onEnter:function(){addItem('moonlight_grass');}
+};
+CHAPTERS[83]={
+  title:'继续探索',loc:'伊莎贝拉城堡 · 走廊',
+  text:'你告别了丝姬，继续在城堡中探索。\n\n走廊安静得可怕，只有你的脚步声在回荡。你经过了几扇紧闭的门，每一扇门后都可能藏着危险或机遇。\n\n最终，你来到了走廊的尽头。这里有两条路：左边通往玉座之间，右边通往地下墓室。',
+  choices:[
+    {text:'前往玉座之间',next:61},
+    {text:'前往地下墓室',next:49}
+  ]
+};
+CHAPTERS[84]={
+  title:'魅魔之房',loc:'伊莎贝拉城堡 · 魅魔之房',
+  text:'你推开了那扇透出红光的小门。\n\n门后是一间装饰华丽的卧室，红色的窗帘、丝绸的床罩、空气中弥漫着甜腻的香气。一位女性正斜躺在床上，用慵懒的目光看着你。\n\n她有着深紫色的肌肤、黑色的长发、头顶一对弯曲的角，背后展开着蝙蝠般的翅膀，尾巴末端是一个心形的突起。\n\n<dialogue>「哎呀？有客人？」</dialogue>\n\n魅魔——萨琳娜——缓缓坐起身，红色的瞳孔中闪烁着危险的光芒。\n\n<dialogue>「一个人类男人，竟然能走到这里。不简单呢。」</dialogue>\n\n她站起身，扭动着腰肢向你走来。\n\n<dialogue>「我是萨琳娜，女王大人的得力助手。你……是来挑战女王大人的吗？」</dialogue>\n\n她的声音如同蜜糖，但你感觉到其中隐藏着致命的毒药。',
+  portrait:{emoji:'😈',name:'萨琳娜',desc:'魅魔'},
+  choices:[
+    {text:'保持清醒，不看她的眼睛',next:87},
+    {text:'与她对话，试图获取情报',next:88}
+  ]
+};
+CHAPTERS[85]={
+  title:'密道尽头',loc:'伊莎贝拉城堡 · 密道尽头',
+  text:'你继续沿着密道前进，最终来到了一个向上的石阶。\n\n石阶的尽头是一扇石门，你推开门，发现自己来到了城堡的一楼大厅。\n\n大厅的尽头就是那扇通往玉座之间的巨大门扉。你握紧黄金之钥，向那扇门走去。\n\n但在那之前，你注意到大厅的角落里有一扇小门，门上装饰着可爱的花朵图案。',
+  choices:[
+    {text:'直接进入玉座之间',next:61},
+    {text:'先探索小门',next:62}
+  ]
+};
+CHAPTERS[86]={
+  title:'簒夺之王冠',loc:'伊莎贝拉城堡 · 宝物库',
+  text:'你拿起了「簒夺之王冠」。\n\n瞬间，一股强大的魔力涌入你的身体。你的视野变得模糊，脑海中响起了无数的声音——\n\n<dialogue>「戴上它……你将拥有一切……」</dialogue>\n\n<dialogue>「力量……权力……永恒……」</dialogue>\n\n王冠在你手中散发着妖异的红光，诱惑着你将它戴在头上。\n\n你感觉到，只要戴上这顶王冠，你就能获得无与伦比的力量。你可以统治这片国度，可以让所有怪物娘臣服于你，可以……\n\n但你也会失去自我，变成下一个伊莎贝拉。\n\n你站在命运的十字路口。',
+  choices:[
+    {text:'戴上王冠',next:89},
+    {text:'不戴，将它带走',next:90}
+  ]
+};
+CHAPTERS[87]={
+  title:'抵抗魅惑',loc:'伊莎贝拉城堡 · 魅魔之房',
+  text:'你牢记莉莉安娜的警告，刻意避开萨琳娜的眼睛，盯着地面说话。\n\n<dialogue>「我是来挑战伊莎贝拉的。请让开。」</dialogue>\n\n萨琳娜愣了一下，然后发出一声轻笑。\n\n<dialogue>「哦？竟然知道不看我的眼睛。是谁告诉你的？莉莉安娜那个小丫头？」</dialogue>\n\n她收起魅惑的姿态，表情变得严肃。\n\n<dialogue>「好吧，既然你有点本事，我就认真陪你玩玩。」</dialogue>\n\n她张开翅膀，红色的魔力在她手中凝聚成球。\n\n<dialogue>「但我要提醒你——我的魔法可不只是魅惑那么简单！」</dialogue>\n\n她向你发射了魔力弹！',
+  portrait:{emoji:'😈',name:'萨琳娜',desc:'认真战斗的魅魔'},
+  choices:[
+    {text:'迎战',next:91}
+  ]
+};
+CHAPTERS[88]={
+  title:'魅魔的对话',loc:'伊莎贝拉城堡 · 魅魔之房',
+  text:'你试图与萨琳娜对话，但不小心对上了她的眼睛。\n\n那一瞬间，你感到一阵眩晕。她的红色瞳孔仿佛两个深不见底的漩涡，将你的意识吸入其中。\n\n<dialogue>「看着我的眼睛……」</dialogue>\n\n她的声音变得飘渺而遥远。\n\n<dialogue>「放松……放下你的防备……」</dialogue>\n\n你的身体不再听使唤，意识逐渐模糊。你感觉到自己在走向她，但无法控制。\n\n<dialogue>「很好……很好……」</dialogue>\n\n她微笑着，向你伸出手。\n\n<sfx>✨ 被魅惑 ✨</sfx>\n\n你的意识彻底沉入了黑暗。',
+  portrait:{emoji:'😈',name:'萨琳娜',desc:'施展魅惑的魅魔'},
+  choices:[
+    {text:'……',next:92}
+  ]
+};
+CHAPTERS[89]={
+  title:'戴上王冠',loc:'伊莎贝拉城堡 · 宝物库',
+  text:'你将王冠戴在了头上。\n\n瞬间，无与伦比的魔力涌入你的身体。你感到自己变得无比强大，仿佛可以掌控一切。\n\n你的视野变得清晰，可以看到整个国度的每一个角落。你可以听到每一个怪物娘的心跳，可以感受到她们的恐惧和敬畏。\n\n<dialogue>「这就是……力量……」</dialogue>\n\n你的声音变得低沉而威严。\n\n你走出宝物库，所有的骷髅卫兵都跪倒在地，向你臣服。\n\n你成为了新的统治者。\n\n但你也知道，你的心灵正在被王冠侵蚀。迟早有一天，你会变得和伊莎贝拉一样冷酷、残忍。\n\n但至少现在，你拥有了想要的一切。\n\n<sfx>👑 新的王者诞生 👑</sfx>',
+  ending:{title:'魔王END',subtitle:'『簒夺者』',emoji:'👑'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){recordEnding('demon_end');}
+};
+CHAPTERS[90]={
+  title:'带走王冠',loc:'伊莎贝拉城堡 · 宝物库',
+  text:'你 resisted the temptation and placed the crown in your bag.\n\n<dialogue>「这种危险的东西，不能留在世上。」</dialogue>\n\n你决定将王冠带回人类国度，交给公会处理。\n\n你转身离开宝物库，沿着来时的路返回。\n\n城堡中的怪物娘们看到你手中的王冠，纷纷跪倒在地。没有了王冠的力量，她们不再受伊莎贝拉的控制。\n\n你走出了城堡，阳光洒在你的脸上。\n\n远处，芙蕾雅、米娅、维奥莱塔、拉米亚……你一路上遇到的怪物娘们都来为你送行。\n\n<dialogue>「谢谢你，解放了我们。」</dialogue>\n\n芙蕾雅微笑着说道。\n\n你踏上了回家的路。\n\n妹妹在村口等着你。\n\n<dialogue>「欢迎回来，哥哥！」</dialogue>\n\n你微笑着，摸了摸她的头。\n\n冒险结束了，但你的故事，才刚刚开始。\n\n<sfx>🌅 真结局 🌅</sfx>',
+  ending:{title:'真END',subtitle:'『然后冒险继续』',emoji:'🏆'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){recordEnding('true_end');unlockAch('true_end');}
+};
+CHAPTERS[91]={
+  title:'战胜萨琳娜',loc:'伊莎贝拉城堡 · 魅魔之房',
+  text:'你与萨琳娜展开了激烈的魔法对决。\n\n她的魔力弹威力强大，但你凭借着灵活的身法和坚定的意志，一一躲过。\n\n你注意到，每次释放大型魔法后，她都需要短暂的恢复时间。你抓住这个破绽，在她恢复的瞬间冲上前去。\n\n剑刃抵住了她的咽喉。\n\n<dialogue>「……我输了。」</dialogue>\n\n她举起双手，表示投降。\n\n<dialogue>「你很强。女王大人……伊莎贝拉她……其实也很孤独。」</dialogue>\n\n她叹了口气。\n\n<dialogue>「那顶王冠控制了她。她已经不是原来的她了。」</dialogue>\n\n<dialogue>「如果你要打败她，一定要毁掉那顶王冠。否则，即使打败了她，也会有下一个受害者。」</dialogue>\n\n你记下了她的话，继续向玉座之间前进。',
+  portrait:{emoji:'😈',name:'萨琳娜',desc:'认输的魅魔'},
+  choices:[
+    {text:'继续前进',next:61}
+  ]
+};
+CHAPTERS[92]={
+  title:'魅魔END',loc:'伊莎贝拉城堡 · 魅魔之房',
+  text:'你的意识被萨琳娜完全控制，身体不再属于自己。\n\n你成为了萨琳娜的眷属，永远侍奉在她身边。\n\n你的身体被改造成了魅魔的形态——深紫色的肌肤、黑色的角、蝙蝠般的翅膀、心形的尾巴。\n\n你失去了人类的身份，但也获得了永恒的生命和强大的魔力。\n\n萨琳娜对你很好，但她从不让你离开她的视线。\n\n<dialogue>「你是我最重要的眷属。永远留在我身边吧。」</dialogue>\n\n你微笑着点头，但内心深处，你仍然记得自己曾经是一位冒险者。\n\n只是，那份记忆越来越遥远，越来越模糊……\n\n你的冒险，在这里结束了。',
+  ending:{title:'魅魔END',subtitle:'『永远的眷属』',emoji:'😈'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){transform('succubus');recordEnding('succubus_end');}
+};
+
+// Additional ending chapters for other transformation paths
+CHAPTERS[93]={
+  title:'狼人END',loc:'迷雾森林 · 芙蕾雅的巢穴',
+  text:'你决定留在迷雾森林，与芙蕾雅一起生活。\n\n她教你如何在森林中生存，如何追踪猎物，如何在月光下嚎叫。\n\n你的身体逐渐被狼人的力量侵蚀，最终完全变成了狼人的形态。银灰色的毛发、金色的兽瞳、锋利的爪牙——你不再是人类，而是一位真正的狼人战士。\n\n芙蕾雅很高兴。\n\n<dialogue>「欢迎加入，同伴。」</dialogue>\n\n你们一起在森林中巡逻，保护这片土地不受入侵者的侵扰。\n\n虽然你失去了人类的身份，但你获得了真正的自由和归属。\n\n你的冒险，在这里结束了——但你的新生活，才刚刚开始。',
+  ending:{title:'狼人END',subtitle:'『森林的守护者』',emoji:'🐺'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){transform('werewolf');recordEnding('werewolf_end');}
+};
+CHAPTERS[94]={
+  title:'哈比END',loc:'苍风平原 · 高空',
+  text:'你选择了与哈比一起飞翔。\n\n她载着你，在苍风平原的上空自由翱翔。风在耳边呼啸，大地在脚下飞速后退。\n\n<dialogue>「怎么样？很棒吧！」</dialogue>\n\n她欢快地鸣叫着。\n\n你决定留在苍风平原，成为哈比族的一员。你的身体逐渐被风之魔力改造，背后长出了巨大的羽翼。\n\n你学会了飞翔，学会了在风中歌唱，学会了从高空俯瞰大地。\n\n虽然你失去了人类的身份，但你获得了天空的自由。\n\n你的冒险，在这里结束了——但你获得了翅膀，可以飞向任何地方。',
+  ending:{title:'哈比END',subtitle:'『天空之民』',emoji:'🦅'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){transform('harpy');recordEnding('harpy_end');}
+};
+CHAPTERS[95]={
+  title:'拉米亚END',loc:'银月河 · 水底宫殿',
+  text:'你接受了拉米亚的邀请，与她一起生活在银月河的水底宫殿中。\n\n宫殿由水晶和珊瑚建造，在月光的照耀下闪闪发光。拉米亚为你准备了最舒适的房间，每天为你带来新鲜的河鲜。\n\n你的身体逐渐被水之魔力改造，下半身变成了蛇的躯体。你可以在河水中自由游动，可以感知到水流中最细微的振动。\n\n<dialogue>「欢迎回家，我的伴侣。」</dialogue>\n\n拉米亚微笑着，金色的竖瞳中满是温柔。\n\n虽然你失去了人类的身份，但你获得了水下的宁静和幸福。\n\n你的冒险，在这里结束了——但你找到了真正的家。',
+  ending:{title:'拉米亚END',subtitle:'『水底宫殿』',emoji:'🐍'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){transform('lamia');recordEnding('lamia_end');}
+};
+CHAPTERS[96]={
+  title:'吸血鬼END',loc:'伊莎贝拉城堡 · 莉莉安娜的房间',
+  text:'莉莉安娜看着你，眼中闪过一丝决然。\n\n<dialogue>「如果你无法打败姐姐……那就让我赋予你吸血鬼的力量吧。」</dialogue>\n\n她咬破了自己的手腕，将鲜血滴在你的嘴唇上。\n\n<dialogue>「喝下它，你将获得永生和力量。」</dialogue>\n\n你喝下了她的血。瞬间，剧烈的疼痛传遍全身。你的身体开始发生变化——皮肤变得苍白，牙齿变得尖锐，背后隐隐有翅膀要破体而出。\n\n<sfx>✨ 形态改变：吸血鬼 ✨</sfx>\n\n当你再次睁开眼睛时，世界变得完全不同。你可以看到黑暗中的一切，可以听到远处的心跳声，可以闻到血液的味道。\n\n莉莉安娜微笑着看着你。\n\n<dialogue>「欢迎，我的家人。」</dialogue>\n\n你成为了吸血鬼，与莉莉安娜一起生活在城堡中。虽然你失去了人类的身份，但你获得了永恒的生命和强大的力量。\n\n你的冒险，在这里结束了——但你的永恒人生，才刚刚开始。',
+  ending:{title:'吸血鬼END',subtitle:'『血族的一员』',emoji:'🦇'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){transform('vampire');recordEnding('vampire_end');}
+};
+CHAPTERS[97]={
+  title:'猫娘END',loc:'灰岩山脉 · 米娅的树屋',
+  text:'你决定留在灰岩山脉，与米娅一起生活。\n\n她为你建造了一个舒适的树屋，每天带你探索山脉的每一个角落。\n\n你的身体逐渐被猫之魔力改造，长出了猫耳和猫尾。你的感官变得异常敏锐，可以在黑暗中看清东西，可以从高处轻盈地跳下。\n\n<dialogue>「太好了！我们有伴了！」</dialogue>\n\n米娅开心地蹭着你。\n\n你们一起在山脉中冒险，一起晒太阳，一起分享猎物。虽然你失去了人类的身份，但你获得了最简单的快乐。\n\n你的冒险，在这里结束了——但你获得了九条命（大概）。',
+  ending:{title:'猫娘END',subtitle:'『猫之伙伴』',emoji:'🐱'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){transform('catgirl');recordEnding('catgirl_end');}
+};
+CHAPTERS[98]={
+  title:'史莱姆END',loc:'灰岩山脉 · 史莱姆池塘',
+  text:'你决定留在灰岩山脉，与史莱姆娘们一起生活。\n\n她们为你准备了一个舒适的池塘，每天和你一起玩耍。\n\n你的身体逐渐被史莱姆的魔力改造，变成了半透明的蓝色形态。你可以随意改变形状，可以分裂成多个个体，可以吸收水分恢复体力。\n\n<dialogue>「咕噜！朋友！」</dialogue>\n\n<dialogue>「噗噜！一起玩！」</dialogue>\n\n虽然你失去了人类的身份，但你获得了最纯真的友谊。\n\n你的冒险，在这里结束了——但你学会了像液体一样流动。',
+  ending:{title:'史莱姆END',subtitle:'『噗噜噗噜』',emoji:'💧'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){transform('slime');recordEnding('slime_end');}
+};
+CHAPTERS[99]={
+  title:'妖精END',loc:'伊莎贝拉城堡 · 厨房',
+  text:'你决定留在城堡，帮助丝姬工作。\n\n她教你如何做蛋糕、如何打扫房间、如何照顾花园。你的身体逐渐被妖精的魔力改造，变得娇小玲珑，背后长出了透明的翅膀。\n\n你成为了城堡的女仆，每天忙碌而充实。虽然工作很辛苦，但看到大家开心的笑容，你感到无比满足。\n\n<dialogue>「今天也要加油哦！」</dialogue>\n\n丝姬微笑着对你说。\n\n你的冒险，在这里结束了——但你找到了属于自己的位置。',
+  ending:{title:'妖精END',subtitle:'『城堡的女仆』',emoji:'🧚'},
+  choices:[
+    {text:'回到最初',next:1}
+  ],
+  onEnter:function(){transform('fairy');recordEnding('fairy_end');}
+};
+CHAPTERS[100]={
+  title:'GAME OVER',loc:'未知',
+  text:'你的意识逐渐模糊，身体变得沉重。\n\n<danger>HP归零</danger>\n\n你倒在了地上，视线逐渐变暗。\n\n<dialogue>「……太弱了……」</dialogue>\n\n某个声音在你耳边响起，然后一切都归于寂静。\n\n☠️ 你死了 ☠️\n\n但冒险者的精神永不磨灭。你可以从上一个选择点重新开始，或者从头再来。',
+  choices:[
+    {text:'从上一个选择点重新开始',next:'lastChoice'},
+    {text:'回到最初',next:1}
+  ]
+};
+
+// ==================== GAME ENGINE ====================
+function loadState(){var s=localStorage.getItem('mga_save');if(s){gameState=JSON.parse(s);}updateUI();}
+function saveState(){localStorage.setItem('mga_save',JSON.stringify(gameState));}
+function changeHp(delta){gameState.hp=Math.max(0,Math.min(gameState.maxHp,gameState.hp+delta));if(gameState.hp<=0){showChapter(100);}updateUI();}
+function addItem(id){if(!gameState.inventory.includes(id)){gameState.inventory.push(id);}updateUI();}
+function hasItem(id){return gameState.inventory.includes(id);}
+function transform(formId){gameState.form=formId;var f=FORMS[formId];document.getElementById('form-emoji').textContent=f.emoji;document.getElementById('form-name').textContent=f.name;document.getElementById('form-ability').textContent=f.ability;document.getElementById('form-display').textContent=f.name;var alert=document.createElement('div');alert.className='transform-alert';alert.textContent='✨ 形态改变：'+f.name+' ✨';document.body.appendChild(alert);setTimeout(function(){alert.remove();},3000);unlockAch('transform_first');updateUI();}
+function recordEnding(endId){if(!gameState.endings.includes(endId)){gameState.endings.push(endId);}var allEnds=['true_end','werewolf_end','harpy_end','lamia_end','vampire_end','ghost_end','succubus_end','slime_end','catgirl_end','fairy_end','demon_end'];if(gameState.endings.length>=allEnds.length){unlockAch('all_endings');}updateUI();}
+function unlockAch(id){var key='mga_ach_'+id;var already=localStorage.getItem(key);if(!already){localStorage.setItem(key,'1');var ach=ACHIEVEMENTS.find(function(a){return a.id===id;});if(ach){var alert=document.createElement('div');alert.className='transform-alert';alert.style.background='linear-gradient(135deg,rgba(212,168,67,.9),rgba(196,30,58,.8))';alert.textContent='🏆 成就解锁：'+ach.name;document.body.appendChild(alert);setTimeout(function(){alert.remove();},3000);}}}
+function updateUI(){document.getElementById('hp-display').textContent=gameState.hp+'/'+gameState.maxHp;document.getElementById('hp-bar').style.width=(gameState.hp/gameState.maxHp*100)+'%';var f=FORMS[gameState.form];document.getElementById('form-display').textContent=f.name;document.getElementById('form-emoji').textContent=f.emoji;document.getElementById('form-name').textContent=f.name;document.getElementById('form-ability').textContent=f.ability;var invList=document.getElementById('inventory-list');if(gameState.inventory.length===0){invList.innerHTML='<div class="inv-empty">背包空空如也</div>';}else{invList.innerHTML=gameState.inventory.map(function(id){var item=ITEMS[id]||{name:id,icon:'📦',desc:''};return '<div class="inv-item"><span class="inv-icon">'+item.icon+'</span><span class="inv-name">'+item.name+'</span></div>';}).join('');}document.getElementById('visited-display').textContent=gameState.visited.length+'/117';document.getElementById('endings-display').textContent=gameState.endings.length+'/12';if(gameState.inventory.length>=5){unlockAch('collector');}if(gameState.visited.length>=30){unlockAch('explorer');}}
+var lastChoiceChapter=1;
+function showChapter(chId){if(chId==='lastChoice'){chId=lastChoiceChapter;}if(!gameState.visited.includes(chId)){gameState.visited.push(chId);}var ch=CHAPTERS[chId];if(!ch){alert('章节'+chId+'不存在');return;}gameState.currentChapter=chId;if(ch.onEnter){ch.onEnter();}document.getElementById('ch-num').textContent='第'+chId+'章';document.getElementById('ch-title').textContent=ch.title;document.getElementById('ch-loc').textContent=ch.loc||'';var portraitArea=document.getElementById('portrait-area');if(ch.portrait){portraitArea.innerHTML='<div class="portrait-area"><div class="portrait-emoji">'+ch.portrait.emoji+'</div><div class="portrait-name">'+ch.portrait.name+'</div><div class="portrait-desc">'+ch.portrait.desc+'</div></div>';}else{portraitArea.innerHTML='';}var text=ch.text;text=text.replace(/<dialogue>(.*?)<\/dialogue>/g,'<span class="dialogue">「$1」</span>');text=text.replace(/<sfx>(.*?)<\/sfx>/g,'<span class="sfx">$1</span>');text=text.replace(/<item-get>(.*?)<\/item-get>/g,'<span class="item-get">$1</span>');text=text.replace(/<danger>(.*?)<\/danger>/g,'<span class="danger">$1</span>');document.getElementById('ch-text').innerHTML=text;var choicesArea=document.getElementById('choices-area');if(ch.ending){choicesArea.innerHTML='<div class="ending-card"><div class="ending-title">'+ch.ending.title+'</div><div class="ending-subtitle">'+ch.ending.subtitle+'</div><div class="ending-emoji">'+ch.ending.emoji+'</div></div>';}else{choicesArea.innerHTML='';}if(ch.choices){ch.choices.forEach(function(c){var btn=document.createElement('button');btn.className='choice-btn';var reqMet=true;if(c.req){try{reqMet=eval(c.req);}catch(e){reqMet=false;}}var reqText='';if(c.req&&!reqMet){reqText=' <span class="choice-req">[条件未满足]</span>';btn.disabled=true;}btn.innerHTML='<span class="choice-arrow">▶</span>'+c.text+reqText;btn.onclick=function(){if(c.next){lastChoiceChapter=chId;showChapter(c.next);}};choicesArea.appendChild(btn);});}updateUI();saveState();}
+function showSaveMenu(){var box=document.getElementById('modal-box');box.innerHTML='<div class="modal-title">存档</div>';for(var i=1;i<=3;i++){var slot=localStorage.getItem('mga_slot_'+i);var info='空存档';if(slot){var d=JSON.parse(slot);info='第'+d.currentChapter+'章 | HP:'+d.hp+' | 形态:'+FORMS[d.form].name;}var div=document.createElement('div');div.className='save-slot';div.innerHTML='<span class="slot-name">存档 '+i+'</span><div class="slot-info">'+info+'</div>';div.onclick=(function(idx){return function(){localStorage.setItem('mga_slot_'+idx,JSON.stringify(gameState));showSaveMenu();};})(i);box.appendChild(div);}var closeBtn=document.createElement('button');closeBtn.className='btn';closeBtn.textContent='关闭';closeBtn.onclick=hideModal;box.appendChild(closeBtn);document.getElementById('modal-overlay').classList.add('show');}
+function showLoadMenu(){var box=document.getElementById('modal-box');box.innerHTML='<div class="modal-title">读档</div>';for(var i=1;i<=3;i++){var slot=localStorage.getItem('mga_slot_'+i);var info='空存档';if(slot){var d=JSON.parse(slot);info='第'+d.currentChapter+'章 | HP:'+d.hp+' | 形态:'+FORMS[d.form].name;}var div=document.createElement('div');div.className='save-slot';div.innerHTML='<span class="slot-name">存档 '+i+'</span><div class="slot-info">'+info+'</div>';if(slot){div.onclick=(function(idx){return function(){var s=localStorage.getItem('mga_slot_'+idx);gameState=JSON.parse(s);updateUI();showChapter(gameState.currentChapter);hideModal();};})(i);}box.appendChild(div);}var closeBtn=document.createElement('button');closeBtn.className='btn';closeBtn.textContent='关闭';closeBtn.onclick=hideModal;box.appendChild(closeBtn);document.getElementById('modal-overlay').classList.add('show');}
+function showFastTravel(){var box=document.getElementById('modal-box');box.innerHTML='<div class="modal-title">快速移动</div><div class="fast-travel-grid">';var grid=box.querySelector('.fast-travel-grid');Object.keys(CHAPTERS).forEach(function(k){var cid=parseInt(k);if(gameState.visited.includes(cid)){var ch=CHAPTERS[cid];var btn=document.createElement('button');btn.className='ft-btn';btn.innerHTML='<div>'+ch.title+'</div><div class="ft-ch">第'+cid+'章</div>';btn.onclick=function(){showChapter(cid);hideModal();};grid.appendChild(btn);}});box.appendChild(grid);var closeBtn=document.createElement('button');closeBtn.className='btn';closeBtn.textContent='关闭';closeBtn.onclick=hideModal;box.appendChild(closeBtn);document.getElementById('modal-overlay').classList.add('show');}
+function showAchievements(){var box=document.getElementById('modal-box');box.innerHTML='<div class="modal-title">成就</div><div class="achievements-grid">';var grid=box.querySelector('.achievements-grid');ACHIEVEMENTS.forEach(function(a){var unlocked=!!localStorage.getItem('mga_ach_'+a.id);var div=document.createElement('div');div.className='ach-item'+(unlocked?' unlocked':'');div.innerHTML='<span class="ach-emoji">'+(unlocked?a.emoji:'🔒')+'</span><div class="ach-name">'+a.name+'</div><div style="font-size:11px;color:var(--muted)">'+a.desc+'</div>';grid.appendChild(div);});box.appendChild(grid);var closeBtn=document.createElement('button');closeBtn.className='btn';closeBtn.textContent='关闭';closeBtn.onclick=hideModal;box.appendChild(closeBtn);document.getElementById('modal-overlay').classList.add('show');}
+function hideModal(){document.getElementById('modal-overlay').classList.remove('show');}
+function resetGame(){if(confirm('确定要重新开始吗？当前进度将丢失。')){gameState={hp:100,maxHp:100,form:'human',inventory:[],visited:[],endings:[],currentChapter:1,flags:{}};localStorage.removeItem('mga_save');updateUI();showChapter(1);}}
+
+// ==================== PARTICLES ====================
+function createParticles(){var canvas=document.getElementById('particle-canvas');var ctx=canvas.getContext('2d');canvas.width=window.innerWidth;canvas.height=window.innerHeight;var particles=[];for(var i=0;i<50;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,dx:(Math.random()-.5)*.5,dy:(Math.random()-.5)*.5,o:Math.random()*.5+.1});}function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(function(p){p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>canvas.width)p.dx*=-1;if(p.y<0||p.y>canvas.height)p.dy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(212,168,67,'+p.o+')';ctx.fill();});requestAnimationFrame(animate);}animate();window.addEventListener('resize',function(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;});}
+
+// ==================== MOBILE MENU ====================
+var hamburgerBtn=document.getElementById('hamburger');var mobileMenu=document.getElementById('mobileMenu');if(hamburgerBtn){hamburgerBtn.addEventListener('click',function(){hamburgerBtn.classList.toggle('active');if(mobileMenu)mobileMenu.classList.toggle('show');});}
+if(mobileMenu){var navLinks=document.querySelectorAll('.nav-link');for(var i=0;i<navLinks.length;i++){var clone=navLinks[i].cloneNode(true);mobileMenu.appendChild(clone);}}
+
+// ==================== INIT ====================
+createParticles();
+loadState();
+unlockAch('first_step');
+showChapter(1);
+</script>
+</body>
+</html>
