@@ -324,7 +324,7 @@ input:focus{border-color:var(--accent2)}
 /* ===== PROGRESS BAR ===== */
 window.addEventListener('scroll',function(){var h=document.documentElement.scrollHeight-window.innerHeight;var p=h>0?(window.scrollY/h)*100:0;document.getElementById('progressBar').style.width=p+'%'});
 /* ===== HAMBURGER MENU ===== */
-document.getElementById('hamburger').addEventListener('click',function(){this.classList.toggle('active');document.getElementById('mobileMenu').classList.toggle('show')});
+var hamburgerBtn=document.getElementById('hamburger');var navBar=document.getElementById('navBar');var mobileMenu=document.getElementById('mobileMenu');if(hamburgerBtn){hamburgerBtn.addEventListener('click',function(){hamburgerBtn.classList.toggle('active');if(mobileMenu)mobileMenu.classList.toggle('show');if(navBar)navBar.classList.toggle('open')})};
 /* ===== TAB SWITCHING ===== */
 function switchTab(tabId){var tabs=document.querySelectorAll('.tab-content');for(var i=0;i<tabs.length;i++){tabs[i].classList.remove('active')}var btns=document.querySelectorAll('.tab-btn');for(var i=0;i<btns.length;i++){btns[i].classList.remove('active')}var el=document.getElementById(tabId);if(el)el.classList.add('active');var t=document.querySelector('[data-tab="'+tabId+'"]');if(t)t.classList.add('active');if(tabId==='tab1')initQuoteCanvas()}
 document.querySelectorAll('.tab-btn').forEach(function(btn){btn.addEventListener('click',function(){switchTab(this.getAttribute('data-tab'))})});

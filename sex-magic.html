@@ -1527,9 +1527,7 @@ function drawParticles() {
 drawParticles();
 
 // ============== Hamburger Menu ==============
-document.getElementById('hamburgerBtn').addEventListener('click', function() {
-  document.getElementById('navLinks').classList.toggle('open');
-});
+var hamburgerBtn=document.getElementById('hamburger');var navBar=document.getElementById('navBar');var mobileMenu=document.getElementById('mobileMenu');if(hamburgerBtn){hamburgerBtn.addEventListener('click',function(){hamburgerBtn.classList.toggle('active');if(mobileMenu)mobileMenu.classList.toggle('show');if(navBar)navBar.classList.toggle('open')})};
 
 // ============== Tab System ==============
 const tabBtns = document.querySelectorAll('.tab-btn');
