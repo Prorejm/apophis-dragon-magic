@@ -3,353 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>卡巴拉生命之树 - 神秘学百科全书</title>
-<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<title>卡巴拉生命之树 - 阿波菲斯·龙之魔法</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-:root {
-  --bg: #0a0a0a;
-  --gold: #d4a843;
-  --gold-dim: #a07830;
-  --crimson: #c41e3a;
-  --purple: #6b2fa0;
-  --purple-dim: #4a1d75;
-  --text: #d4c9a8;
-  --text-dim: #8a7e6a;
-  --card-bg: #141414;
-  --border: #2a1f0e;
-}
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Noto Serif SC', serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  min-height: 100vh;
-}
-h1, h2, h3 { font-family: 'Ma Shan Zheng', cursive; }
-h1 { font-size: 2.8em; color: var(--gold); }
-.garamond { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--gold:#d4a843;--gold-dim:#a07830;--gold-bright:#ffe080;--crimson:#c41e3a;--purple:#6b2fa0;--purple-dim:#4a1d75;--purple-light:#9b59b6;--text:#d4c9a8;--text-dim:#8a7e6a;--card-bg:#111;--card-bg2:#161616;--border:#2a1f0e}
+html{scroll-behavior:smooth}body{font-family:'Noto Serif SC',serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh}h1,h2,h3,h4{font-family:'Ma Shan Zheng',cursive}h1{font-size:2.8em;color:var(--gold)}.garamond{font-family:'Cormorant Garamond',serif;font-style:italic}#particleCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}.nav-bar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none}.nav-bar::-webkit-scrollbar{display:none}.nav-brand{font-family:'Cormorant Garamond',serif;font-size:1.3em;color:var(--gold);white-space:nowrap;letter-spacing:2px;margin-right:8px;flex-shrink:0}.nav-link{color:var(--text-dim);text-decoration:none;font-size:.78em;padding:6px 10px;border-radius:4px;transition:all .3s;font-family:'Noto Serif SC',serif;white-space:nowrap;flex-shrink:0}.nav-link:hover,.nav-link.active{color:var(--gold);background:rgba(212,168,67,.1)}.hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;background:none;border:none;padding:6px;flex-shrink:0;z-index:1001}.hamburger span{display:block;width:22px;height:2px;background:var(--gold);transition:all .3s}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}.hero{position:relative;z-index:1;min-height:45vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px 20px 30px}.hero h1{font-size:3.2em;text-shadow:0 0 40px rgba(212,168,67,.3)}.hero h1 span{color:var(--crimson)}.hero p{font-size:1.05em;color:var(--text-dim);max-width:700px;margin-top:12px;line-height:1.9}.hero .sub{font-family:'Cormorant Garamond',serif;font-size:1.2em;color:var(--gold-dim);margin-top:8px}.tab-container{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:0 20px 80px}.tab-bar{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--border);padding-bottom:0;margin-bottom:30px;scrollbar-width:thin}.tab-bar::-webkit-scrollbar{height:3px}.tab-bar::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px}.tab-btn{background:0 0;border:none;color:var(--text-dim);cursor:pointer;padding:12px 18px;font-family:'Noto Serif SC',serif;font-size:.88em;white-space:nowrap;transition:all .3s;position:relative}.tab-btn::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--gold);transition:width .3s}.tab-btn:hover{color:var(--gold)}.tab-btn.active{color:var(--gold)}.tab-btn.active::after{width:80%}.tab-content{display:none}.tab-content.active{display:block;animation:fadeIn .5s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:20px;transition:all .3s}.card:hover{border-color:var(--gold-dim)}.card h3{color:var(--gold);margin-bottom:10px;font-size:1.3em}.card p{line-height:1.9;color:var(--text-dim)}.tree-container{position:relative;width:100%;max-width:600px;margin:0 auto;background:radial-gradient(ellipse at center,rgba(107,47,160,.08),transparent);border-radius:12px;border:1px solid var(--border)}#treeCanvas{width:100%;height:auto;display:block;cursor:pointer}.info-panel{position:fixed;top:0;left:0;right:0;bottom:0;z-index:2000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88);backdrop-filter:blur(8px)}.info-panel.open{display:flex}.info-panel-content{background:var(--card-bg);border:1px solid var(--gold-dim);border-radius:12px;padding:32px;max-width:560px;width:92%;max-height:85vh;overflow-y:auto;position:relative;animation:fadeIn .3s ease}.info-panel-content h2{color:var(--gold);font-size:1.5em;margin-bottom:5px}.info-panel-content .subtitle{color:var(--purple);font-family:'Cormorant Garamond',serif;font-size:1.1em}.info-panel-content p{line-height:1.9;margin-top:10px;color:var(--text-dim)}.info-panel-content .close-btn{position:absolute;top:12px;right:16px;background:0 0;border:none;color:var(--text-dim);font-size:1.5em;cursor:pointer;transition:color .3s}.info-panel-content .close-btn:hover{color:var(--gold)}.attr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.attr-item{padding:8px;background:rgba(255,255,255,.03);border-radius:4px}.attr-item .label{font-size:.72em;color:var(--purple);text-transform:uppercase;letter-spacing:1px}.attr-item .value{font-size:.88em;color:var(--text);margin-top:2px}.sephira-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}.sephira-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px;cursor:pointer;transition:all .3s}.sephira-card:hover{border-color:var(--gold-dim);transform:translateY(-2px)}.sephira-card .num{display:inline-block;width:32px;height:32px;line-height:32px;text-align:center;background:var(--gold);color:var(--bg);border-radius:50%;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:.9em;margin-bottom:8px}.sephira-card h3{font-size:1.15em}.sephira-card .hebrew{font-size:1.4em;color:var(--gold-dim);font-family:serif}.sephira-card .meaning{font-size:.82em;color:var(--text-dim);margin-top:4px}.sephira-card .info-line{font-size:.75em;color:var(--purple);margin-top:3px}.sephira-detail{display:none;background:var(--card-bg2);border:1px solid var(--gold-dim);border-radius:8px;padding:24px;margin:12px 0;animation:fadeIn .3s ease}.sephira-detail.open{display:block}.sephira-detail h4{color:var(--gold);margin-bottom:8px;font-size:1.1em}.sephira-detail p{font-size:.88em;color:var(--text-dim);line-height:1.9}.path-list{display:flex;flex-direction:column;gap:6px}.path-item{background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:12px 16px;cursor:pointer;transition:all .3s;display:flex;align-items:center;gap:12px}.path-item:hover,.path-item.active{border-color:var(--gold-dim);background:rgba(212,168,67,.05)}.path-item .pnum{font-family:'Cormorant Garamond',serif;color:var(--gold);font-weight:700;min-width:28px}.path-item .conn{color:var(--text);font-size:.82em;flex:1}.path-item .letter{color:var(--purple);font-size:1.1em;font-family:serif;min-width:28px;text-align:center}.path-item .tarot{color:var(--crimson);font-size:.8em;min-width:70px;text-align:right}.path-detail{display:none;background:var(--card-bg2);border:1px solid var(--gold-dim);border-radius:8px;padding:24px;margin-top:10px;animation:fadeIn .3s ease}.path-detail.open{display:block}.worlds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}.world-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;transition:all .3s}.world-card:hover{border-color:var(--gold-dim);transform:translateY(-2px)}.world-card h3{color:var(--gold)}.world-card .hebrew-name{color:var(--purple);font-family:serif;font-size:1.1em;margin:5px 0}.world-card p{font-size:.82em;color:var(--text-dim);line-height:1.8}.world-card .sephira-list{font-size:.75em;color:var(--gold-dim);margin-top:8px}.worlds-diagram{display:flex;flex-direction:column;align-items:center;gap:4px;margin:20px 0;padding:20px}.world-level{width:100%;max-width:420px;padding:16px;text-align:center;border-radius:6px;cursor:pointer;transition:all .3s;border:1px solid transparent}.world-level:hover{border-color:var(--gold-dim);transform:scale(1.02)}.world-level .wl-name{font-family:'Ma Shan Zheng',cursive;font-size:1.1em}.world-level .wl-hebrew{font-family:serif;font-size:.85em;opacity:.8}.world-level .wl-desc{font-size:.75em;opacity:.7;margin-top:3px}.world-level.atzi{background:linear-gradient(135deg,rgba(212,168,67,.2),rgba(212,168,67,.05));color:var(--gold)}.world-level.beri{background:linear-gradient(135deg,rgba(107,47,160,.2),rgba(107,47,160,.05));color:#a070d0}.world-level.yetz{background:linear-gradient(135deg,rgba(100,149,237,.2),rgba(100,149,237,.05));color:#6a8fd8}.world-level.assi{background:linear-gradient(135deg,rgba(196,30,58,.2),rgba(196,30,58,.05));color:var(--crimson)}.timer-container{text-align:center;padding:30px}.timer-canvas-wrap{position:relative;width:220px;height:220px;margin:0 auto 20px}#timerCanvas{width:220px;height:220px;display:block}.timer-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}.timer-overlay .time{font-family:'Cormorant Garamond',serif;font-size:3.2em;color:var(--gold);text-shadow:0 0 20px rgba(212,168,67,.2);letter-spacing:3px}.timer-overlay .phase{font-size:.8em;color:var(--text-dim);margin-top:4px}.timer-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}.timer-btn{background:0 0;border:1px solid var(--gold-dim);color:var(--gold);padding:10px 22px;border-radius:6px;cursor:pointer;font-family:'Noto Serif SC',serif;font-size:.88em;transition:all .3s}.timer-btn:hover{background:rgba(212,168,67,.15)}.timer-btn.primary{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}.timer-btn.primary:hover{background:var(--gold-dim)}.meditation-steps{margin-top:20px;text-align:left}.meditation-step{background:var(--card-bg);border-left:3px solid var(--purple);padding:16px 20px;margin-bottom:12px;border-radius:0 6px 6px 0}.meditation-step h4{color:var(--gold);margin-bottom:5px}.meditation-step p{font-size:.85em;color:var(--text-dim);line-height:1.9}.magic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}.magic-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:24px;transition:all .3s}.magic-card:hover{border-color:var(--gold-dim)}.magic-card h3{color:var(--gold);margin-bottom:8px}.magic-card p{font-size:.85em;color:var(--text-dim);line-height:1.8}.ritual-text{background:rgba(0,0,0,.3);border:1px solid rgba(212,168,67,.2);border-radius:6px;padding:16px;margin-top:12px;font-family:'Cormorant Garamond',serif;font-size:.9em;color:var(--text);line-height:1.9}.ritual-text .hb{color:var(--gold);font-family:serif;font-size:1.05em}.section-title{margin:30px 0 20px;padding-bottom:10px;border-bottom:1px solid var(--border)}.section-title h2{color:var(--gold);font-size:1.7em}.philosophy-box{background:linear-gradient(135deg,rgba(212,168,67,.05),rgba(107,47,160,.05));border:1px solid var(--border);border-radius:8px;padding:24px;margin:20px 0;line-height:2}.philosophy-box .quote{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);font-size:1.1em;text-align:center;margin:20px 0;padding:15px;border-left:3px solid var(--gold-dim)}.ain-chain{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin:20px 0}.ain-chain span{font-family:'Cormorant Garamond',serif;font-size:1.1em;position:relative}.ain-chain .ain{color:var(--text-dim)}.ain-chain .ain-soph{color:var(--purple)}.ain-chain .ain-soph-aur{color:var(--gold-dim)}.ain-chain .arrow{color:var(--gold);font-size:1.5em}.pillars-info{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}.pillar-card{padding:20px;border-radius:8px;text-align:center;border:1px solid var(--border)}.pillar-card.mercy{border-color:rgba(212,168,67,.3);background:rgba(212,168,67,.05)}.pillar-card.mildness{border-color:rgba(107,47,160,.3);background:rgba(107,47,160,.05)}.pillar-card.severity{border-color:rgba(196,30,58,.3);background:rgba(196,30,58,.05)}.pillar-card h4{font-size:1em;margin-bottom:4px}.pillar-card p{font-size:.78em;color:var(--text-dim)}.pillar-card.mercy h4{color:var(--gold)}.pillar-card.mildness h4{color:var(--purple)}.pillar-card.severity h4{color:var(--crimson)}.daath-section{background:linear-gradient(135deg,rgba(107,47,160,.08),rgba(196,30,58,.05));border:1px solid var(--purple-dim);border-radius:8px;padding:20px;margin:20px 0}.daath-section h3{color:var(--purple)}.daath-section p{color:var(--text-dim);line-height:1.9}.triangles-info{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:20px 0}.triangle-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px}.triangle-card h4{color:var(--gold);margin-bottom:8px}.triangle-card p{font-size:.85em;color:var(--text-dim);line-height:1.8}.triangle-card .sephira-list{color:var(--purple);font-size:.8em;margin-top:6px}.flash-btn{background:0 0;border:1px solid var(--gold-dim);color:var(--gold);padding:10px 28px;border-radius:6px;cursor:pointer;font-family:'Noto Serif SC',serif;font-size:.9em;transition:all .3s}.flash-btn:hover{background:rgba(212,168,67,.15)}.corr-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.85em}.corr-table th{background:rgba(212,168,67,.1);color:var(--gold);padding:10px 12px;text-align:left;border-bottom:2px solid var(--gold-dim);font-family:'Noto Serif SC',serif}.corr-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text-dim)}.corr-table tr:hover td{background:rgba(212,168,67,.03);color:var(--text)}.gematria-box{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:24px;margin:20px 0;text-align:center}.gematria-box input{background:var(--bg);border:1px solid var(--border);color:var(--gold);padding:12px 16px;border-radius:6px;font-size:1.1em;font-family:'Cormorant Garamond',serif;width:100%;max-width:300px;text-align:center;letter-spacing:4px}.gematria-box input:focus{outline:none;border-color:var(--gold-dim)}.gematria-box .result{margin-top:15px;font-size:1.8em;color:var(--gold);font-family:'Cormorant Garamond',serif}.gematria-box .detail{margin-top:8px;font-size:.85em;color:var(--text-dim)}.gematria-box button{margin-top:12px;background:var(--gold);color:var(--bg);border:none;padding:10px 28px;border-radius:6px;cursor:pointer;font-family:'Noto Serif SC',serif;font-size:.9em;transition:all .3s}.gematria-box button:hover{background:var(--gold-dim)}.query-box{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:24px;margin:20px 0}.query-box select{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 16px;border-radius:6px;font-size:.9em;font-family:'Noto Serif SC',serif;min-width:200px}.query-box select:focus{outline:none;border-color:var(--gold-dim)}.query-box button{margin-left:10px;background:var(--gold);color:var(--bg);border:none;padding:10px 22px;border-radius:6px;cursor:pointer;font-family:'Noto Serif SC',serif;font-size:.9em;transition:all .3s}.query-box button:hover{background:var(--gold-dim)}.query-result{margin-top:15px;background:rgba(0,0,0,.3);border:1px solid rgba(212,168,67,.15);border-radius:6px;padding:16px;display:none}.query-result.open{display:block;animation:fadeIn .3s ease}.east-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin:20px 0}.east-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:24px;transition:all .3s}.east-card:hover{border-color:var(--gold-dim)}.east-card h3{color:var(--gold);margin-bottom:8px;font-size:1.15em}.east-card p{font-size:.85em;color:var(--text-dim);line-height:1.9}.east-card .comparison{margin-top:10px;font-size:.82em;color:var(--purple)}.compare-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.82em}.compare-table th{background:rgba(107,47,160,.15);color:var(--purple-light);padding:10px 12px;text-align:left;border-bottom:2px solid var(--purple-dim)}.compare-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text-dim)}.compare-table tr:hover td{background:rgba(107,47,160,.03)}.canvas-wrap{position:relative;width:100%;max-width:700px;margin:20px auto;border-radius:12px;border:1px solid var(--border);overflow:hidden;background:rgba(0,0,0,.3)}.canvas-wrap canvas{width:100%;display:block;cursor:pointer}@media(max-width:768px){.hamburger{display:flex}.nav-bar .nav-link{display:none}.nav-bar.open .nav-link{display:flex;flex-direction:column;position:absolute;top:56px;left:0;right:0;background:rgba(10,10,10,.98);padding:10px;border-bottom:1px solid var(--border);z-index:999}.hero h1{font-size:2.2em}.pillars-info{grid-template-columns:1fr}.path-item{flex-wrap:wrap}.path-item .tarot{text-align:left}.info-panel-content{padding:20px}.philosophy-box .ain-chain{gap:10px}.sephira-grid,.magic-grid,.east-grid{grid-template-columns:1fr}}@media(max-width:640px){.hero h1{font-size:1.8em}.tab-btn{padding:10px 14px;font-size:.82em}.card{padding:18px}.timer-overlay .time{font-size:2.5em}}@media(max-width:480px){.hero h1{font-size:1.5em}.hero p{font-size:.92em}.section-title h2{font-size:1.4em}.corr-table,.compare-table{font-size:.75em}.corr-table th,.corr-table td,.compare-table th,.compare-table td{padding:6px 8px}}
 
-/* Particle Canvas */
-#particleCanvas {
-  position: fixed; top:0; left:0; width:100%; height:100%;
-  z-index:0; pointer-events:none;
+.nested-tree{max-width:700px;margin:20px auto;text-align:center}
+.nested-tree canvas{width:100%;display:block}
+.chakra-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:20px 0}
+.chakra-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center}
+.chakra-card h4{font-size:.95em;margin-bottom:6px}
+.chakra-card p{font-size:.78em;color:var(--text-dim);line-height:1.7}
+.element-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.element-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:15px;text-align:center;transition:all .3s}
+.element-card:hover{transform:translateY(-3px);box-shadow:0 4px 15px rgba(212,168,67,.1)}
+.element-card h4{margin-bottom:6px;font-size:1em}
+.element-card p{font-size:.78em;color:var(--text-dim);line-height:1.7}
+.element-card.fire{border-top:3px solid #e74c3c}
+.element-card.fire h4{color:#e74c3c}
+.element-card.water{border-top:3px solid #3498db}
+.element-card.water h4{color:#3498db}
+.element-card.air{border-top:3px solid #f1c40f}
+.element-card.air h4{color:#f1c40f}
+.element-card.earth{border-top:3px solid #27ae60}
+.element-card.earth h4{color:#27ae60}
+.tarot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin:20px 0}
+.tarot-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;transition:all .3s;cursor:default}
+.tarot-card:hover{border-color:var(--gold-dim);transform:translateY(-2px)}
+.tarot-card .tnum{font-size:.75em;color:var(--purple-light);font-family:'Cormorant Garamond',serif}
+.tarot-card .tname{font-size:.88em;color:var(--gold);margin-top:4px}
+.tarot-card .tpath{font-size:.75em;color:var(--text-dim);margin-top:4px}
+.timeline{position:relative;padding-left:30px;margin:20px 0}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--gold),var(--purple),var(--crimson))}
+.timeline-item{position:relative;margin-bottom:20px;padding:12px 15px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px}
+.timeline-item::before{content:'';position:absolute;left:-24px;top:18px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
+.timeline-item h4{color:var(--gold);font-size:.95em;margin-bottom:4px}
+.timeline-item p{font-size:.82em;color:var(--text-dim);line-height:1.7}
+.formula-box{background:rgba(196,30,58,.06);border:1px solid rgba(196,30,58,.2);border-radius:8px;padding:15px;margin:15px 0;font-size:.88em;line-height:1.9}
+.formula-box h4{color:var(--crimson);margin-bottom:8px}
+@keyframes glow{0%,100%{box-shadow:0 0 5px rgba(212,168,67,.2)}50%{box-shadow:0 0 20px rgba(212,168,67,.4)}}
+.glow-text{animation:glow 3s ease-in-out infinite}
+@media(max-width:768px){
+  .element-grid{grid-template-columns:repeat(2,1fr)}
+  .chakra-grid{grid-template-columns:repeat(2,1fr)}
+  .tarot-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
 }
-
-/* Navigation */
-.navbar {
-  position: fixed; top:0; left:0; right:0; z-index:1000;
-  background: rgba(10,10,10,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 20px; height:60px;
-  display:flex; align-items:center; justify-content:space-between;
+@media(max-width:640px){
+  .attr-grid{grid-template-columns:1fr}
 }
-.navbar .logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4em; color: var(--gold);
-  text-decoration: none; letter-spacing: 2px;
-}
-.navbar .logo span { color: var(--crimson); }
-.nav-links { display:flex; gap:4px; }
-.nav-links a {
-  color: var(--text-dim); text-decoration:none; font-size:0.82em;
-  padding:8px 12px; border-radius:4px; transition: all 0.3s;
-  font-family: 'Noto Serif SC', serif;
-  white-space:nowrap;
-}
-.nav-links a:hover, .nav-links a.active { color: var(--gold); background: rgba(212,168,67,0.1); }
-
-/* Hamburger */
-.hamburger {
-  display:none; flex-direction:column; gap:5px; cursor:pointer;
-  background:none; border:none; padding:5px;
-}
-.hamburger span {
-  display:block; width:24px; height:2px; background:var(--gold);
-  transition: all 0.3s;
-}
-
-/* Hero */
-.hero {
-  position:relative; z-index:1; min-height:50vh;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; padding:100px 20px 40px;
-}
-.hero h1 { font-size:3.5em; text-shadow:0 0 40px rgba(212,168,67,0.3); }
-.hero h1 span { color: var(--crimson); }
-.hero p { font-size:1.1em; color:var(--text-dim); max-width:700px; margin-top:15px; line-height:1.8; }
-.hero .sub { font-family:'Cormorant Garamond',serif; font-size:1.3em; color:var(--gold-dim); margin-top:8px; }
-
-/* Tabs */
-.tab-container { position:relative; z-index:1; max-width:1300px; margin:0 auto; padding:0 20px 60px; }
-.tab-bar {
-  display:flex; gap:2px; overflow-x:auto; border-bottom:1px solid var(--border);
-  padding-bottom:0; margin-bottom:30px;
-}
-.tab-bar::-webkit-scrollbar { height:3px; }
-.tab-bar::-webkit-scrollbar-thumb { background:var(--gold-dim); border-radius:2px; }
-.tab-btn {
-  background:transparent; border:none; color:var(--text-dim); cursor:pointer;
-  padding:12px 20px; font-family:'Noto Serif SC',serif; font-size:0.9em;
-  white-space:nowrap; transition:all 0.3s; position:relative;
-}
-.tab-btn::after {
-  content:''; position:absolute; bottom:-1px; left:50%; transform:translateX(-50%);
-  width:0; height:2px; background:var(--gold); transition:width 0.3s;
-}
-.tab-btn:hover { color:var(--gold); }
-.tab-btn.active { color:var(--gold); }
-.tab-btn.active::after { width:80%; }
-.tab-content { display:none; }
-.tab-content.active { display:block; animation:fadeIn 0.5s ease; }
-@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-
-/* Cards */
-.card {
-  background:var(--card-bg); border:1px solid var(--border); border-radius:8px;
-  padding:24px; margin-bottom:20px; transition:all 0.3s;
-}
-.card:hover { border-color:var(--gold-dim); }
-.card h3 { color:var(--gold); margin-bottom:10px; font-size:1.3em; }
-.card p { line-height:1.8; color:var(--text-dim); }
-
-/* Tree of Life Canvas */
-.tree-container {
-  position:relative; width:100%; max-width:600px; margin:0 auto;
-  background:radial-gradient(ellipse at center, rgba(107,47,160,0.08), transparent);
-  border-radius:12px; border:1px solid var(--border);
-}
-#treeCanvas { width:100%; height:auto; display:block; cursor:pointer; }
-
-/* Info Panel */
-.info-panel {
-  position:fixed; top:0; left:0; right:0; bottom:0; z-index:2000;
-  display:none; align-items:center; justify-content:center;
-  background:rgba(0,0,0,0.85); backdrop-filter:blur(8px);
-}
-.info-panel.open { display:flex; }
-.info-panel-content {
-  background:var(--card-bg); border:1px solid var(--gold-dim); border-radius:12px;
-  padding:32px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto;
-  position:relative; animation:fadeIn 0.3s ease;
-}
-.info-panel-content h2 { color:var(--gold); font-size:1.6em; margin-bottom:5px; }
-.info-panel-content .subtitle { color:var(--purple); font-family:'Cormorant Garamond',serif; font-size:1.1em; }
-.info-panel-content p { line-height:1.8; margin-top:12px; color:var(--text-dim); }
-.info-panel-content .close-btn {
-  position:absolute; top:12px; right:16px; background:none; border:none;
-  color:var(--text-dim); font-size:1.5em; cursor:pointer; transition:color 0.3s;
-}
-.info-panel-content .close-btn:hover { color:var(--gold); }
-.info-panel-content .attr-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:15px;
-}
-.info-panel-content .attr-item { padding:8px; background:rgba(255,255,255,0.03); border-radius:4px; }
-.info-panel-content .attr-item .label { font-size:0.75em; color:var(--purple); text-transform:uppercase; }
-.info-panel-content .attr-item .value { font-size:0.9em; color:var(--text); margin-top:2px; }
-
-/* Tab2 Grid */
-.sephira-grid {
-  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px;
-}
-.sephira-card {
-  background:var(--card-bg); border:1px solid var(--border); border-radius:8px;
-  padding:20px; cursor:pointer; transition:all 0.3s;
-}
-.sephira-card:hover { border-color:var(--gold-dim); transform:translateY(-2px); }
-.sephira-card .num {
-  display:inline-block; width:32px; height:32px; line-height:32px; text-align:center;
-  background:var(--gold); color:var(--bg); border-radius:50%;
-  font-family:'Cormorant Garamond',serif; font-weight:700; font-size:0.9em; margin-bottom:8px;
-}
-.sephira-card h3 { font-size:1.2em; }
-.sephira-card .hebrew { font-size:1.5em; color:var(--gold-dim); font-family:serif; }
-.sephira-card .meaning { font-size:0.85em; color:var(--text-dim); margin-top:4px; }
-.sephira-card .info-line { font-size:0.78em; color:var(--purple); margin-top:4px; }
-
-/* Paths */
-.path-list { display:flex; flex-direction:column; gap:8px; }
-.path-item {
-  background:var(--card-bg); border:1px solid var(--border); border-radius:6px;
-  padding:14px 18px; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; gap:15px;
-}
-.path-item:hover, .path-item.active { border-color:var(--gold-dim); background:rgba(212,168,67,0.05); }
-.path-item .num { font-family:'Cormorant Garamond',serif; color:var(--gold); font-weight:700; min-width:30px; }
-.path-item .conn { color:var(--text); font-size:0.85em; flex:1; }
-.path-item .letter { color:var(--purple); font-size:1.2em; font-family:serif; min-width:30px; text-align:center; }
-.path-item .tarot { color:var(--crimson); font-size:0.82em; min-width:80px; text-align:right; }
-.path-detail {
-  display:none; background:var(--card-bg); border:1px solid var(--gold-dim); border-radius:8px;
-  padding:24px; margin-top:10px; animation:fadeIn 0.3s ease;
-}
-.path-detail.open { display:block; }
-
-/* Four Worlds */
-.worlds-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:16px; }
-.world-card {
-  background:var(--card-bg); border:1px solid var(--border); border-radius:8px;
-  padding:24px; text-align:center; transition:all 0.3s;
-}
-.world-card:hover { border-color:var(--gold-dim); transform:translateY(-2px); }
-.world-card .icon { font-size:2em; margin-bottom:10px; }
-.world-card h3 { color:var(--gold); }
-.world-card .hebrew-name { color:var(--purple); font-family:serif; font-size:1.1em; margin:5px 0; }
-.world-card p { font-size:0.85em; color:var(--text-dim); line-height:1.7; }
-.world-card .sephira-list { font-size:0.78em; color:var(--gold-dim); margin-top:8px; }
-
-/* Meditation Timer */
-.timer-container { text-align:center; padding:40px; }
-.timer-display {
-  font-family:'Cormorant Garamond',serif; font-size:5em; color:var(--gold);
-  text-shadow:0 0 30px rgba(212,168,67,0.2); letter-spacing:4px;
-}
-.timer-controls { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
-.timer-btn {
-  background:transparent; border:1px solid var(--gold-dim); color:var(--gold);
-  padding:10px 24px; border-radius:6px; cursor:pointer; font-family:'Noto Serif SC',serif;
-  font-size:0.9em; transition:all 0.3s;
-}
-.timer-btn:hover { background:rgba(212,168,67,0.15); }
-.timer-btn.primary { background:var(--gold); color:var(--bg); border-color:var(--gold); }
-.timer-btn.primary:hover { background:var(--gold-dim); }
-.meditation-steps { margin-top:30px; text-align:left; }
-.meditation-step {
-  background:var(--card-bg); border-left:3px solid var(--purple);
-  padding:16px 20px; margin-bottom:12px; border-radius:0 6px 6px 0;
-}
-.meditation-step h4 { color:var(--gold); margin-bottom:5px; }
-.meditation-step p { font-size:0.85em; color:var(--text-dim); line-height:1.7; }
-
-/* Magic Section */
-.magic-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:16px; }
-.magic-card {
-  background:var(--card-bg); border:1px solid var(--border); border-radius:8px;
-  padding:24px; transition:all 0.3s;
-}
-.magic-card:hover { border-color:var(--gold-dim); }
-.magic-card h3 { color:var(--gold); margin-bottom:8px; }
-.magic-card p { font-size:0.85em; color:var(--text-dim); line-height:1.7; }
-.magic-card .ritual-text {
-  background:rgba(0,0,0,0.3); border:1px solid rgba(212,168,67,0.2);
-  border-radius:6px; padding:16px; margin-top:12px; font-family:'Cormorant Garamond',serif;
-  font-size:0.9em; color:var(--text); line-height:1.8;
-}
-.magic-card .ritual-text .hebrew { color:var(--gold); font-family:serif; font-size:1.1em; }
-
-/* Sections */
-.section-title { margin:30px 0 20px; padding-bottom:10px; border-bottom:1px solid var(--border); }
-.section-title h2 { color:var(--gold); font-size:1.8em; }
-.section-title p { color:var(--text-dim); font-size:0.85em; margin-top:4px; }
-
-/* Philosophy intro */
-.philosophy-box {
-  background:linear-gradient(135deg, rgba(212,168,67,0.05), rgba(107,47,160,0.05));
-  border:1px solid var(--border); border-radius:8px; padding:24px; margin:20px 0;
-  line-height:2;
-}
-.philosophy-box .quote {
-  font-family:'Cormorant Garamond',serif; font-style:italic;
-  color:var(--gold); font-size:1.15em; text-align:center; margin:20px 0;
-  padding:15px; border-left:3px solid var(--gold-dim);
-}
-.philosophy-box .ain-chain {
-  display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin:20px 0;
-}
-.philosophy-box .ain-chain span {
-  font-family:'Cormorant Garamond',serif; font-size:1.1em;
-  position:relative;
-}
-.philosophy-box .ain-chain .ain { color:var(--text-dim); }
-.philosophy-box .ain-chain .ain-soph { color:var(--purple); }
-.philosophy-box .ain-chain .ain-soph-aur { color:var(--gold-dim); }
-.philosophy-box .ain-chain .arrow { color:var(--gold); font-size:1.5em; }
-
-/* Pillars */
-.pillars-info {
-  display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:20px 0;
-}
-.pillar-card {
-  padding:20px; border-radius:8px; text-align:center; border:1px solid var(--border);
-}
-.pillar-card.mercy { border-color:rgba(212,168,67,0.3); background:rgba(212,168,67,0.05); }
-.pillar-card.mildness { border-color:rgba(107,47,160,0.3); background:rgba(107,47,160,0.05); }
-.pillar-card.severity { border-color:rgba(196,30,58,0.3); background:rgba(196,30,58,0.05); }
-.pillar-card h4 { font-size:1em; margin-bottom:4px; }
-.pillar-card p { font-size:0.8em; color:var(--text-dim); }
-.pillar-card.mercy h4 { color:var(--gold); }
-.pillar-card.mildness h4 { color:var(--purple); }
-.pillar-card.severity h4 { color:var(--crimson); }
-
-.daath-section {
-  background:linear-gradient(135deg, rgba(107,47,160,0.08), rgba(196,30,58,0.05));
-  border:1px solid var(--purple-dim); border-radius:8px; padding:20px; margin:20px 0;
-}
-.daath-section h3 { color:var(--purple); }
-.daath-section p { color:var(--text-dim); line-height:1.8; }
-
-/* Lightning Flash Animation Container */
-.flash-container {
-  text-align:center; margin:20px 0; padding:20px;
-  background:rgba(0,0,0,0.3); border-radius:8px; border:1px solid var(--border);
-}
-.flash-btn {
-  background:transparent; border:1px solid var(--gold-dim); color:var(--gold);
-  padding:10px 28px; border-radius:6px; cursor:pointer; font-family:'Noto Serif SC',serif;
-  font-size:0.9em; transition:all 0.3s;
-}
-.flash-btn:hover { background:rgba(212,168,67,0.15); }
-
-/* Triangle info */
-.triangles-info {
-  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; margin:20px 0;
-}
-.triangle-card {
-  background:var(--card-bg); border:1px solid var(--border); border-radius:8px; padding:20px;
-}
-.triangle-card h4 { color:var(--gold); margin-bottom:8px; }
-.triangle-card p { font-size:0.85em; color:var(--text-dim); line-height:1.7; }
-.triangle-card .sephira-list { color:var(--purple); font-size:0.8em; margin-top:6px; }
-
-/* Four Worlds Diagram */
-.worlds-diagram {
-  display:flex; flex-direction:column; align-items:center; gap:4px; margin:20px 0; padding:20px;
-}
-.world-level {
-  width:100%; max-width:400px; padding:16px; text-align:center; border-radius:6px;
-  cursor:pointer; transition:all 0.3s; border:1px solid transparent;
-}
-.world-level:hover { border-color:var(--gold-dim); transform:scale(1.02); }
-.world-level .wl-name { font-family:'Ma Shan Zheng',cursive; font-size:1.1em; }
-.world-level .wl-hebrew { font-family:serif; font-size:0.85em; opacity:0.8; }
-.world-level .wl-desc { font-size:0.78em; opacity:0.7; margin-top:3px; }
-.world-level.atzi { background:linear-gradient(135deg, rgba(212,168,67,0.2), rgba(212,168,67,0.05)); color:var(--gold); }
-.world-level.beri { background:linear-gradient(135deg, rgba(107,47,160,0.2), rgba(107,47,160,0.05)); color:#a070d0; }
-.world-level.yetz { background:linear-gradient(135deg, rgba(100,149,237,0.2), rgba(100,149,237,0.05)); color:#6a8fd8; }
-.world-level.assi { background:linear-gradient(135deg, rgba(196,30,58,0.2), rgba(196,30,58,0.05)); color:var(--crimson); }
-
-/* Responsive */
-@media (max-width:768px) {
-  .hamburger { display:flex; }
-  .nav-links {
-    display:none; position:absolute; top:60px; left:0; right:0;
-    background:rgba(10,10,10,0.98); flex-direction:column; padding:10px;
-    border-bottom:1px solid var(--border);
-  }
-  .nav-links.open { display:flex; }
-  .hero h1 { font-size:2.2em; }
-  .pillars-info { grid-template-columns:1fr; }
-  .path-item { flex-wrap:wrap; }
-  .path-item .tarot { text-align:left; }
-  .info-panel-content { padding:24px; }
-  .timer-display { font-size:3em; }
-  .philosophy-box .ain-chain { gap:10px; }
+@media(max-width:480px){
+  .element-grid{grid-template-columns:1fr}
+  .path-list{grid-template-columns:1fr}
+  .tarot-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
-
 <nav class="nav-bar" id="navBar">
   <span class="nav-brand">阿波菲斯</span>
   <a href="index.html" class="nav-link">主书</a>
@@ -390,1202 +101,1142 @@ h1 { font-size: 2.8em; color: var(--gold); }
   <a href="golden-bough.html" class="nav-link">金枝</a>
   <a href="sex-magic.html" class="nav-link">性魔法</a>
   <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
 </nav>
-
 <canvas id="particleCanvas"></canvas>
-
 <section class="hero">
-  <h1>卡巴拉 <span>生命之树</span></h1>
-  <p class="garamond">"As above, so below. The Tree of Life is the map of all creation."</p>
-  <p>卡巴拉（Kabbalah）是犹太神秘主义的核心传统，其象征体系"生命之树"（Etz Chaim）描绘了从无限神性到物质世界的创世过程。十章萨菲罗斯（Sephiroth）与二十二条路径构成了存在的完整地图。</p>
-  <div class="sub">— 基于所罗门之钥与金色黎明传承 —</div>
+<h1>卡巴拉 <span>生命之树</span></h1>
+<p class="garamond">"As above, so below. The Tree of Life is the map of all creation."</p>
+<p>卡巴拉（Kabbalah）是犹太神秘主义的核心传统，其象征体系"生命之树"（Etz Chaim）描绘了从无限神性到物质世界的创世过程。十个Sephiroth（质点）与二十二条路径构成了存在的完整地图，是西方神秘学的基石之一。</p>
+<div class="sub">— 基于所罗门之钥与金色黎明传承 —</div>
 </section>
-
 <div class="tab-container">
-  <div class="tab-bar" id="tabBar">
-    <button class="tab-btn active" data-tab="tab1">生命之树总览</button>
-    <button class="tab-btn" data-tab="tab2">十大Sephira详解</button>
-    <button class="tab-btn" data-tab="tab3">22条路径</button>
-    <button class="tab-btn" data-tab="tab4">四世界</button>
-    <button class="tab-btn" data-tab="tab5">冥想与修行</button>
-    <button class="tab-btn" data-tab="tab6">卡巴拉魔法</button>
-  </div>
-
-  <!-- TAB 1: Tree Overview -->
-  <div class="tab-content active" id="tab1">
-    <div class="card">
-      <h3>生命之树总览</h3>
-      <p>卡巴拉生命之树由十枚萨菲罗斯（Sephirah，单数Sephirah意为"计数"）与二十二条连接路径构成。它描绘了神性从无限（Ein Sof）流溢至物质界的过程，被称为"创世之闪电"（Lightning Flash）。三柱——慈悲之柱（右）、温和之柱（中）、严厉之柱（左）——体现了宇宙的平衡法则。</p>
-    </div>
-
-    <div class="pillars-info">
-      <div class="pillar-card mercy">
-        <h4>慈悲之柱</h4>
-        <p>Chochmah · Chesed · Netzach</p>
-        <p style="margin-top:6px;font-size:0.72em;">扩张 · 给予 · 创造</p>
-      </div>
-      <div class="pillar-card mildness">
-        <h4>温和之柱</h4>
-        <p>Kether · Tiphareth · Yesod · Malkuth</p>
-        <p style="margin-top:6px;font-size:0.72em;">平衡 · 意识 · 显现</p>
-      </div>
-      <div class="pillar-card severity">
-        <h4>严厉之柱</h4>
-        <p>Binah · Geburah · Hod</p>
-        <p style="margin-top:6px;font-size:0.72em;">收缩 · 审判 · 界限</p>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-bottom:10px;">
-      <button class="flash-btn" id="lightningBtn">⚡ 播放创世闪电动画</button>
-    </div>
-
-    <div class="tree-container">
-      <canvas id="treeCanvas"></canvas>
-    </div>
-
-    <div class="philosophy-box">
-      <h3 style="color:var(--gold);margin-bottom:15px;">卡巴拉哲学基础</h3>
-      <p>卡巴拉认为神性本身是不可知的无限（Ein Sof 无穷），祂通过三重自我限制逐步显现：</p>
-      <div class="ain-chain">
-        <span class="ain">Ain<br><small>无</small></span>
-        <span class="arrow">→</span>
-        <span class="ain-soph">Ain Soph<br><small>无限</small></span>
-        <span class="arrow">→</span>
-        <span class="ain-soph-aur">Ain Soph Aur<br><small>无限光</small></span>
-        <span class="arrow">→</span>
-        <span style="color:var(--gold);">Kether<br><small>王冠</small></span>
-      </div>
-      <p>从Kether（王冠）开始，神性通过九层逐步流溢，最终到达Malkuth（王国）——我们的物质世界。这三层"Veils of Negative Existence"（否定存在的面纱）并非空无，而是超越人类理解的纯粹潜能的领域。</p>
-      <div class="quote">"Ein Sof — 无尽者，无界限者，不可名状者。从祂的压缩中诞生了空间，从祂的静默中诞生了声音。"</div>
-      <p>创世之闪电（Lightning Flash）描述了神性能量从Kether至Malkuth的逐层下降过程。修行者则逆流而上，通过路径工作（Pathworking）从物质界回归神性源头，穿越位于Tiphareth与Kether之间的深渊（Abyss），那里坐落着隐藏的萨菲罗斯——Daath（知识）。</p>
-    </div>
-
-    <div class="section-title"><h2>卡巴拉历史传承</h2></div>
-    <div class="card">
-      <h3>从犹太神秘主义到金色黎明</h3>
-      <p>卡巴拉（Kabbalah，希伯来语意为"接受"或"传承"）的根源可追溯至公元一世纪的犹太神秘主义传统"梅尔卡瓦"（Merkabah，天战车）神秘主义。早期的犹太贤哲在《光辉之书》（Sefer Ha-Bahir，约12世纪）和《光辉之书》的姊妹篇《佐哈尔》（Zohar，约13世纪末由摩西·德·里昂编纂）中系统化了这些深奥的教义。《佐哈尔》以对《摩西五经》的神秘注释形式写成，揭示了隐藏在经文背后的灵性密码，成为卡巴拉文学的核心经典。</p>
-      <p style="margin-top:10px;">16世纪的萨法德学派（Safed Kabbalah）以以撒·卢里亚（Isaac Luria）为代表，提出了"创世收缩"（Tzimtzum）理论——无限神性为腾出创造空间而自我收缩，这一思想深刻影响了后世的卡巴拉发展。18世纪东欧的哈西迪运动（Hasidism）将卡巴拉从学术精英推向民间，强调通过喜悦与虔诚直接体验神性。</p>
-      <p style="margin-top:10px;">19世纪末至20世纪初，卡巴拉通过赫密斯主义（Hermeticism）进入西方神秘学主流。埃利法斯·列维（Eliphas Levi）将塔罗与卡巴拉的对应关系系统化；金色黎明协会（Golden Dawn，1888年成立）融合了卡巴拉、塔罗、炼金术和仪式魔法，建立了完整的实践体系。麦克格雷格·马瑟斯（MacGregor Mathers）翻译了《所罗门之钥》，阿莱斯特·克劳利（Aleister Crowley）和以色列·雷加德（Israel Regardie）进一步发展了这一传统，使卡巴拉成为现代西方神秘学的基石。</p>
-    </div>
-
-    <div class="card">
-      <h3>生命之树的哲学意义</h3>
-      <p>生命之树不仅是一个神秘学符号，更是一张关于存在的完整地图——它同时是宇宙的蓝图和人类意识的地图。在宏观层面，它描绘了从无限神性（Ein Sof）到物质世界（Malkuth）的整个创世过程，每一个萨菲罗斯代表存在的一个基本层面或原型。在微观层面，生命之树映射了人类意识的结构：从最高层的灵性觉知（Kether）到最底层的物质感知（Malkuth），中间经历了思维、情感、直觉和潜意识等多个层面。</p>
-      <p style="margin-top:10px;">"如其在上，如其在下"（As above, so below）——这句赫密斯箴言在生命之树中得到了最精确的表达。宇宙的结构与人的结构是同构的，理解生命之树就是理解自身存在的本质。三柱体系揭示了宇宙运作的基本法则：慈悲之柱代表扩张与给予的力量，严厉之柱代表收缩与限制的力量，温和之柱则是两者的动态平衡。一切存在都是这三股力量的交织。</p>
-      <p style="margin-top:10px;">对于修行者而言，生命之树是一条回归之路。创世之闪电描述了神性向下的流溢，而修行者则沿路径逆流而上，从物质界的局限意识逐步扩展至与神性合一的至高体验。每一次在路径上的移动，都是一次意识的转化与提升。</p>
-    </div>
-
-    <div class="card">
-      <h3>三重否定面纱详解</h3>
-      <p>在生命之树的最顶端，Kether之上，存在着三重"否定存在的面纱"（Veils of Negative Existence）。它们并非"什么都没有"，而是超越了人类概念化思维的纯粹潜能领域——我们只能通过否定来描述它们（否定神学，Apophatic Theology）。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">Ain（无）</strong>：最绝对的否定，超越一切存在与非存在、有与无的二元对立。Ain不是"空无"，而是"连空无这个概念都无法适用"的终极状态。它代表了一种连意识都无法触及的纯粹——所有语言和思维在此完全失效。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--purple);">Ain Soph（无限）</strong>：从Ain中"闪烁"的第一道微光。Ain Soph是无限的纯粹存在，没有边界、没有定义、没有属性。它是"可能性的无限海洋"——一切潜能都蕴含其中，但尚未有任何事物被区分或限定。在犹太神学中，Ain Soph等同于神在创造世界之前的原始状态。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold-dim);">Ain Soph Aur（无限之光）</strong>：无限存在的第一次"运动"或"倾向"——无限开始"想要"显化自身。这无限之光是创造的最初冲动，是从纯粹潜能向具体存在过渡的临界点。当这无限之光凝聚为第一焦点时，Kether（王冠）便诞生了。</p>
-    </div>
-
-    <div class="card">
-      <h3>创世过程的详细描述</h3>
-      <p>卡巴拉的创世论以"流溢"（Emanation）而非"从无到有的创造"为核心概念。神性并非从外部创造世界，而是像光芒从光源中自然散发一样，通过层层递减的流溢过程将自身显现为多样化的存在。</p>
-      <p style="margin-top:10px;">这一过程被称为"创世之闪电"（Lightning Flash）：神性之光首先凝聚为<strong style="color:var(--gold);">Kether</strong>（王冠），这是最接近Ein Sof的存在层面，代表纯粹的、无差别的神性意志。从Kether，光分裂为两极——<strong style="color:var(--gold);">Chokmah</strong>（智慧，阳性原则）和<strong style="color:var(--gold);">Binah</strong>（理解，阴性原则），形成了最初的二元性。</p>
-      <p style="margin-top:10px;">能量继续下降：经过<strong style="color:var(--gold);">Chesed</strong>（慈悲）与<strong style="color:var(--gold);">Geburah</strong>（严厉）的道德极性，汇聚于<strong style="color:var(--gold);">Tiphareth</strong>（美）——生命之树的中心与太阳，是整个宇宙的和谐核心。再经过<strong style="color:var(--gold);">Netzach</strong>（胜利）与<strong style="color:var(--gold);">Hod</strong>（荣耀）的情感-理智极性，通过<strong style="color:var(--gold);">Yesod</strong>（基础）的星光过滤器，最终凝结为<strong style="color:var(--gold);">Malkuth</strong>（王国）——我们所能感知的物质世界。每一层的流溢都伴随着能量的"致密化"，从最精微的灵性本质逐渐变为最粗重的物质形态。</p>
-    </div>
-
-    <div class="card">
-      <h3>生命之树与塔罗的关系</h3>
-      <p>生命之树与塔罗牌之间存在着精密而深刻的对应关系，这是金色黎明体系的核心贡献之一。二十二条连接萨菲罗斯的路径精确对应二十二张塔罗大阿卡纳（Major Arcana），每条路径的希伯来字母、占星对应和塔罗牌共同构成了一个多维度的象征网络。</p>
-      <p style="margin-top:10px;">例如，连接Malkuth与Yesod的路径对应希伯来字母Tau（ת）、行星土星和塔罗牌"世界"（The Universe/World）；连接Tiphareth与Kether的路径对应希伯来字母Samekh（ס）、占星射手座和塔罗牌"节制"（Temperance/Art）。这种对应不是随意的——每条路径的意识品质与对应塔罗牌的灵性寓意完美吻合。</p>
-      <p style="margin-top:10px;">此外，四个塔罗小阿卡纳牌组（权杖、圣杯、宝剑、星币）分别对应生命之树的三柱和四世界体系。通过塔罗牌的冥想，修行者可以直接体验对应路径的能量特质，这使得塔罗成为卡巴拉路径工作的实用工具。金色黎明将这一对应体系发展为一套完整的自我启蒙系统。</p>
-    </div>
-  </div>
-
-  <!-- TAB 2: Sephiroth Details -->
-  <div class="tab-content" id="tab2">
-    <div class="card">
-      <h3>十大萨菲罗斯详解</h3>
-      <p>十个萨菲罗斯构成了三个三角（Triads）：神圣三角（Kether-Chochmah-Binah）、道德三角（Chesed-Geburah-Tiphareth）、星光三角（Netzach-Hod-Yesod）。Malkuth独立于三角之外，代表物质界的完成。Daath是隐藏的第十一个萨菲罗斯，位于深渊之上。</p>
-    </div>
-
-    <div class="section-title"><h2>三个大三角</h2></div>
-    <div class="triangles-info">
-      <div class="triangle-card">
-        <h4>神圣三角（Supernal Triad）</h4>
-        <p>超越人类理解的纯粹神性领域。Kether是纯粹意识，Chochmah是动态智慧，Binah是结构性理解。这一三角代表了神的头脑层面。</p>
-        <div class="sephira-list">Kether · Chochmah · Binah</div>
-      </div>
-      <div class="triangle-card">
-        <h4>道德三角（Moral Triad）</h4>
-        <p>神性在道德层面的显现。Chesed是慈悲与爱，Geburah是力量与审判，Tiphareth是美与平衡——两者的和谐统一。</p>
-        <div class="sephira-list">Chesed · Geburah · Tiphareth</div>
-      </div>
-      <div class="triangle-card">
-        <h4>星光三角（Astral Triad）</h4>
-        <p>连接高我与物质世界的桥梁。Netzach是情感与本能，Hod是理智与形式，Yesod是潜意识与梦境的根基。</p>
-        <div class="sephira-list">Netzach · Hod · Yesod</div>
-      </div>
-    </div>
-
-    <div class="daath-section">
-      <h3>隐藏的萨菲罗斯 — Daath（知识）</h3>
-      <p>Daath（Da'at）并非正式的第十一个萨菲罗斯，而是Kether、Chochmah和Binah三者的交汇点。它位于深渊（Abyss）的位置，代表"知识"——当神圣三者的流溢通过Daath进入下界时，二元性开始显现。在路径工作中，穿越Daath意味着直面个体自我（Ego）的消亡，是灵性修行的关键门槛。</p>
-    </div>
-
-    <div class="section-title"><h2>三个大三角的详细哲学</h2></div>
-    <div class="card">
-      <h3>神圣三角（Supernal Triad）— 原型之三角</h3>
-      <p>神圣三角由Kether（王冠）、Chokmah（智慧）和Binah（理解）构成，是生命之树中最超越、最抽象的层面。这一三角代表了"神的头脑"——神性在开始显化之前纯粹的原型状态。Kether是原始的统一意志，Chokmah是这一意志的动态外推（阳性力量，如同父亲的种子），Binah则是对这股力量的接收、成形和限定（阴性力量，如同母亲的子宫）。</p>
-      <p style="margin-top:10px;">在哲学上，神圣三角对应柏拉图的理念世界——一切具体事物在此都有其永恒的原型。修行者几乎无法直接体验这一三角，因为人类的意识结构本身就属于较低层面。对神圣三角的任何描述都只能是近似的比喻。在金色黎明体系中，这一三角对应塔罗的三张首牌：愚者（The Fool，对应Kether与Chokmah之间的路径）、魔术师（The Magician，对应Kether与Binah之间的路径）和女祭司（The High Priestess，对应Chokmah与Binah之间的路径）。</p>
-      <p style="margin-top:10px;">神圣三角的三个萨菲罗斯共同构成了"大面庞"（Macroprosopus，Arikh Anpin），代表宇宙的宏观层面。它们的能量通过Daath（知识）向下传递，但在传递的过程中经历了根本性的质变——从无限的一元性进入有限的二元性。</p>
-    </div>
-
-    <div class="card">
-      <h3>道德三角（Moral Triad）— 灵魂之三角</h3>
-      <p>道德三角由Chesed（慈悲/恩典）、Geburah（严厉/力量）和Tiphareth（美/和谐）构成，位于生命之树的中间区域，是人性体验的核心领域。这一三角被称为"灵魂之三角"，因为它处理的是灵魂层面的核心议题：如何在慈悲与严厉之间找到平衡，如何在给予与接受之间维持和谐。</p>
-      <p style="margin-top:10px;">Chesed是神性的慈爱与扩张——它无条件地给予，如同一位仁慈的君王慷慨地赐予恩典。Geburah是神性的纪律与限制——它审判和筛选，如同一位严厉的法官执行正义。Tiphareth是两者的完美平衡点——"美"不是表面的漂亮，而是所有对立力量在中心点的和谐统一。Tiphareth对应太阳，是生命之树的心脏，也是修行者在回归之路上的关键里程碑。</p>
-      <p style="margin-top:10px;">在灵性修行中，道德三角是"个体化"（Individuation）完成的层面。当修行者到达Tiphareth时，小我与高我（Holy Guardian Angel）相遇，这是金色黎明体系的核心目标之一。在此层面，修行者不再是被动承受命运的凡人，而是成为自觉参与宇宙运作的"真实的人"。</p>
-    </div>
-
-    <div class="card">
-      <h3>星光三角（Astral Triad）— 魔法之三角</h3>
-      <p>星光三角由Netzach（胜利）、Hod（荣耀）和Yesod（基础）构成，是连接较高灵性层面与物质世界的桥梁区域。这一三角被称为"魔法之三角"，因为它涉及潜意识、想象力、梦境和仪式魔法运作的核心机制。</p>
-      <p style="margin-top:10px;">Netzach代表情感、本能、欲望和自然的生命力——它是维纳斯的领域，与美、爱、艺术和自然界的繁衍力量相关。Hod代表理性、思维、语言和智力秩序——它是水星的领域，与逻辑、沟通、学习和形式化的知识相关。两者之间的张力构成了人类心理的基本矛盾：情感与理智、直觉与逻辑、自然与文明。</p>
-      <p style="margin-top:10px;">Yesod是星光三角的整合点，也是整个生命之树的"潜意识"层面。它对应月亮，是梦境、想象力和 astral light（星光）的领域。一切在较高层面的灵性体验都必须经过Yesod的"过滤"才能在物质层面被感知。因此，Yesod也是魔法操作的关键——魔法师在此层面塑造 astral 形象，然后让它们在物质界显现。在塔罗对应中，Yesod关联"高塔"（The Tower）的变革力量——它是旧结构被打破、新秩序被建立的转化之门。</p>
-    </div>
-
-    <div class="daath-section">
-      <h3>Daath（知识）的深度解析</h3>
-      <p>Daath在希伯来语中意为"知识"（Da'at，דעת），但它所指的并非普通的理性知识，而是一种超越性的、整合性的"知晓"——当Chokmah（智慧）与Binah（理解）结合时所产生的第三种认知。在卡巴拉哲学中，Daath代表了"知识的悖论"：当Adam（亚当）吃了知识之树的果实后获得了Daath，但同时也失去了伊甸园的纯真——知识带来了分离的意识，而分离正是痛苦的根源。</p>
-      <p style="margin-top:10px;">在生命之树的位置上，Daath横跨在深渊（Abyss）之上，连接了神圣三角与下方的世界。它是一个"虚位"——不属于十个正式萨菲罗斯之列，却在实践中扮演着至关重要的角色。当能量从神圣三角向下流溢时，必须经过Daath的"转化"——在这里，无限的一元性被"折叠"为有限的二元性，纯粹的光被"着色"为具体的形式。</p>
-      <p style="margin-top:10px;">在路径工作中，Daath是修行者面临的最大考验。穿越Daath意味着直面一个恐怖的真相：个体的"自我"（Ego）本身就是一个幻象——它不过是神性之光通过Daath时被"折射"出的暂时形态。要穿越Daath，修行者必须愿意让这个"自我"消亡。在金色黎明的象征体系中，Daath与Choronzon（混沌之魔）相关联——Choronzon是"散布者"，它将一切凝聚的东西打散，代表自我消解时产生的恐惧和混乱。</p>
-      <p style="margin-top:10px;">然而，Daath也被称为"隐藏的智慧之门"。那些成功穿越它的修行者会发现，Daath并非终点，而是通往神圣三角的入口。在Daath处，修行者不再是分离的个体，而是成为了神性流溢的自觉通道——"知者与被知者合一"。</p>
-    </div>
-
-    <div class="card">
-      <h3>色彩对应体系</h3>
-      <p>金色黎明体系为每个萨菲罗斯建立了一套精密的四重色彩对应，称为"国王色-皇后色-骑士色-侍从色"（King-Queen-Knight-Page Color Scale）。这四层色彩对应于四世界的层级，从最精微到最粗重，为修行者的可视化冥想提供了精确的色彩指导。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">国王色（King Scale / Atziluth）</strong>：对应原型界，是最精微、最纯粹的色彩振动。这些色彩直接关联神性的原型力量，用于最高层级的灵性工作和神圣名字的冥想。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--purple);">皇后色（Queen Scale / Briah）</strong>：对应创造界，色彩更加柔和、具有渗透性。这些色彩关联大天使层面的能量，用于与守护天使的沟通和创造性的灵性工作。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--crimson);">骑士色（Knight Scale / Yetzirah）</strong>：对应形成界，色彩更加鲜明、活跃。这些色彩关联天使层面的力量，用于仪式魔法和 astral 工作的能量调动。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--text);">侍从色（Page Scale / Assiah）</strong>：对应物质界，是最致密、最具体的色彩表现。这些色彩关联物质层面的能量，用于物质世界的魔法操作和日常生活中的灵性实践。</p>
-      <p style="margin-top:10px;">以Tiphareth为例：国王色为金色（对应太阳的神性本质），皇后色为黄色（对应太阳的光芒），骑士色为橙黄色（对应太阳的热力），侍从色为琥珀色/暗黄色（对应太阳在物质界的显现）。修行者在不同层面的冥想中使用不同层级的色彩，可以精确地激活对应层面的能量。</p>
-    </div>
-
-    <div class="section-title"><h2>十大萨菲罗斯详细对应表</h2></div>
-    <div class="sephira-grid" id="sephiraGrid"></div>
-  </div>
-
-  <!-- TAB 3: 22 Paths -->
-  <div class="tab-content" id="tab3">
-    <div class="card">
-      <h3>二十二条路径</h3>
-      <p>二十二条路径（Paths）将十个萨菲罗斯连接在一起，对应二十二个希伯来字母与二十二张塔罗大阿卡纳。每条路径代表一种特定的意识状态或存在层面，修行者通过路径工作（Pathworking）来探索和整合这些能量。</p>
-    </div>
-    <div class="path-detail" id="pathDetail">
-      <div id="pathDetailContent"></div>
-    </div>
-    <div class="path-list" id="pathList"></div>
-
-    <div class="section-title"><h2>路径工作（Pathworking）详解</h2></div>
-    <div class="card">
-      <h3>路径工作的方法与实践</h3>
-      <p>路径工作（Pathworking）是卡巴拉修行者探索二十二条路径的核心方法。它是一种结构化的引导冥想，修行者在放松的意识状态下，想象自己沿着某条路径从一个萨菲罗斯走向另一个萨菲罗斯，沿途体验该路径特有的象征、色彩、声音和灵性品质。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">准备工作：</strong>选择一条路径，研究其所有对应关系——希伯来字母、塔罗牌、占星对应、色彩、神名和天使名。在开始之前，对路径的两端萨菲罗斯进行冥想，建立能量连接。准备一个安静、光线柔和的空间，可以点燃对应颜色的蜡烛或使用对应颜色的织物。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">进入路径：</strong>从路径的较低端萨菲罗斯开始，想象自己站在该萨菲罗斯的神殿中。感受该萨菲罗斯的色彩和能量包围着你。然后，想象前方出现一条发光的通道——它的颜色是路径对应的天空色彩（Sky Color）。深呼吸，迈入通道。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">路径上的体验：</strong>在通道中行走时，留意出现的一切景象、声音、人物和感受。路径对应的塔罗牌中的图像可能会以变形的方式出现——不要试图控制，而是观察和接纳。如果遇到守护者或挑战，以尊重和勇气应对。每条路径都有其独特的"课程"，这些体验往往与修行者当前的生命课题直接相关。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">到达与回归：</strong>到达路径较高端的萨菲罗斯后，在其神殿中停留片刻，吸收该层面的能量。然后沿原路返回，或者选择另一条路径回到出发点。结束后，记录冥想日志——梦境般的意象往往包含深层的信息。</p>
-    </div>
-
-    <div class="section-title"><h2>22条路径按三大三角分组</h2></div>
-    <div class="card">
-      <h3>神圣三角区域路径（第11-13号路径）</h3>
-      <p>连接神圣三角三个萨菲罗斯的三条路径是最超越、最难以用语言描述的路径。路径11（Aleph/愚者）连接Kether与Chokmah，代表从纯粹统一到最初二元性的过渡——愚者牌中那即将踏入虚空的人物，象征着神性智慧的大胆跃迁。路径12（Bet/魔术师）连接Kether与Binah，代表统一意志与形式化理解之间的通道——魔术师将上方的一转化为下方的多。路径13（Gimel/女祭司）连接Kether与Tiphareth，横跨整个生命之树，是最长的路径之一——女祭司端坐于两柱之间，守护着深渊的秘密，代表直觉对理性的超越。</p>
-      <p style="margin-top:10px;">这三条路径的修行通常在修行者已经完成了较低层面所有路径的工作之后才进行，因为它们要求极高的意识纯化程度。在实践中，对这三条路径的冥想往往产生最为深刻但也最为难以解读的体验。</p>
-    </div>
-
-    <div class="card">
-      <h3>道德三角区域路径（第14-17号路径）</h3>
-      <p>连接道德三角区域和相邻萨菲罗斯的路径涉及灵魂的核心体验。路径14（Dalet/皇后）连接Chokmah与Binah（经过Chesed），代表爱与美的流溢——皇后牌中那丰饶的自然景象象征着Chesed的慈悲力量。路径15（He/皇帝）连接Chokmah与Chesed，代表智慧转化为行动的力量——皇帝牌的权威与秩序象征着结构化的神性意志。</p>
-      <p style="margin-top:10px;">路径16（Vav/教皇）连接Chesed与Geburah，横跨慈悲与严厉之间的鸿沟——教皇作为中间人，象征着在二元对立中找到第三条道路的智慧。路径17（Zayin/恋人）连接Binah与Tiphareth，代表理解与美之间的神圣结合——恋人牌不仅关乎浪漫，更象征着所有对立面的终极和解。这组路径的修行直接触及人际关系、道德选择和灵魂整合的核心议题。</p>
-    </div>
-
-    <div class="card">
-      <h3>星光三角区域路径（第18-32号路径）</h3>
-      <p>连接星光三角及物质界区域的路径数量最多，涵盖了从潜意识到物质感知的广阔领域。路径18（Chet/战车）连接Binah与Geburah，代表理解通过纪律转化为力量——战车牌中驾驭对立力量的意象，正是Geburah的核心课题。路径19（Tet/力量）连接Chesed与Netzach，代表慈悲通过情感获得活力——力量牌中那位温柔驯服狮子的女性，象征着内在力量的觉醒。</p>
-      <p style="margin-top:10px;">路径25-32号连接星光三角与Malkuth的路径，是修行者从物质世界开始回归之路的起点。路径32（Tav/世界）连接Yesod与Malkuth，是"回归之路"的第一步——世界牌中的舞者象征着从物质局限中解放的第一步。路径29（Qof/月亮）连接Netzach与Malkuth，路径28（Tzaddi/星星）连接Netzach与Hod，路径27（Peh/塔）连接Netzach与Hod——这些路径涉及潜意识、直觉和想象力与物质世界的互动，是日常魔法操作的主要领域。</p>
-      <p style="margin-top:10px;">这组路径的修行最为"接地气"——它们的体验往往直接反映在日常生活的情感、思维和身体感知中，是初学者最容易产生共鸣的路径。</p>
-    </div>
-
-    <div class="card">
-      <h3>路径与塔罗大阿卡纳的对应关系</h3>
-      <p>二十二条路径与二十二张塔罗大阿卡纳的对应是金色黎明体系最精妙的贡献之一。这一对应不是简单的编号配对，而是基于深层的象征共振——每条路径的希伯来字母、占星对应和塔罗牌共同指向同一种原型能量。</p>
-      <p style="margin-top:10px;">希伯来字母提供了路径的"音"的维度——每个字母都有其独特的振动频率和灵性含义。占星对应提供了"势"的维度——行星和星座的力量为路径注入了特定的能量模式。塔罗牌则提供了"像"的维度——牌面图像是路径能量的视觉化呈现，为冥想提供了具体的焦点。</p>
-      <p style="margin-top:10px;">例如，路径15对应希伯来字母He（ה）、白羊座和塔罗"皇帝"（The Emperor）。He的数值是5，代表力量与权威；白羊座的主动性和开创力与皇帝牌的领导力完美吻合。路径21对应希伯来字母Kaph（כ）、木星和塔罗"命运之轮"（Wheel of Fortune）。Kaph的形态象征手掌的张合，木星代表扩展与幸运，命运之轮描绘了宇宙循环的法则——三者共同传达了"宇宙律动"的原型。</p>
-      <p style="margin-top:10px;">在实际修行中，修行者通常先通过塔罗牌的冥想来建立与路径的初步连接，然后通过希伯来字母的发音冥想深化这一连接，最后通过占星对应的能量工作来整合体验。这种多维度的方法确保了路径工作的深度和完整性。</p>
-    </div>
-  </div>
-
-  <!-- TAB 4: Four Worlds -->
-  <div class="tab-content" id="tab4">
-    <div class="card">
-      <h3>四重世界（Four Worlds）</h3>
-      <p>卡巴拉宇宙论将存在分为四个重叠的世界（Olamim），从最纯净的神性到最粗重的物质。每个世界都包含完整的生命之树结构，但各自的能量密度不同。这四个世界对应YHVH四个字母：Yod、Heh、Vav、Heh。</p>
-    </div>
-
-    <div class="worlds-diagram" id="worldsDiagram">
-      <div class="world-level atzi" data-world="atziluth">
-        <div class="wl-name">Atziluth 原型界</div>
-        <div class="wl-hebrew">אצילות · Yod · 火</div>
-        <div class="wl-desc">纯粹神性 · 最接近Ein Sof · 对应Kether</div>
-      </div>
-      <div style="font-size:0.8em;color:var(--gold-dim);">↓ 流溢</div>
-      <div class="world-level beri" data-world="beriah">
-        <div class="wl-name">Beriah 创造界</div>
-        <div class="wl-hebrew">בריאה · Heh · 水</div>
-        <div class="wl-desc">大天使界 · 原型理念 · 对应Chochmah-Binah</div>
-      </div>
-      <div style="font-size:0.8em;color:var(--gold-dim);">↓ 流溢</div>
-      <div class="world-level yetz" data-world="yetzirah">
-        <div class="wl-name">Yetzirah 形成界</div>
-        <div class="wl-hebrew">יצירה · Vav · 风</div>
-        <div class="wl-desc">天使界 · 情感与形式 · 对应Chesed至Yesod</div>
-      </div>
-      <div style="font-size:0.8em;color:var(--gold-dim);">↓ 物质化</div>
-      <div class="world-level assi" data-world="assiah">
-        <div class="wl-name">Assiah 物质界</div>
-        <div class="wl-hebrew">עשייה · Heh · 土</div>
-        <div class="wl-desc">物质世界 · 行动界 · 对应Malkuth</div>
-      </div>
-    </div>
-
-    <div class="worlds-grid" id="worldsGrid"></div>
-
-    <div class="section-title"><h2>四世界的详细哲学</h2></div>
-    <div class="card">
-      <h3>Atziluth（原型界）— 神圣意志的世界</h3>
-      <p>Atziluth（אצילות，意为"接近"或"流溢"）是最高的世界，最接近Ein Sof的纯粹神性。在四世界的体系中，Atziluth对应神圣四字名YHVH的第一个字母Yod（י），对应火元素——火是所有元素中最活跃、最精微的，象征着神性意志的纯粹冲动。</p>
-      <p style="margin-top:10px;">在Atziluth中，神性以最纯粹的形式存在——这里没有分化，没有二元对立，只有神圣意志的单一脉动。这一世界的主要居民是神圣名字（Divine Names）和神性火花（Divine Sparks）。当修行者在Atziluth层面工作时，他们接触的是"神的面"——不是人格化的神，而是纯粹的神性意志本身。</p>
-      <p style="margin-top:10px;">在生命之树的对应中，Atziluth主要关联Kether和Chokmah。在塔罗体系中，Atziluth对应权杖牌组（Wands）——权杖代表原始的创造力、意志力和灵性冲动。在色彩体系中，Atziluth对应"国王色"（King Scale），是最精微的色彩振动。Atziluth的灵性体验通常被描述为"与神性意志的完全合一"——一种超越个体性的至高体验。</p>
-    </div>
-
-    <div class="card">
-      <h3>Beriah（创造界）— 神圣智慧的世界</h3>
-      <p>Beriah（בריאה，意为"创造"）是第二个世界，对应YHVH的第一个He（ה），对应水元素。水是流动的、接受性的、具有成形能力的——它象征着神性智慧开始"成形"的过程。如果说Atziluth是"想要创造"的冲动，那么Beriah就是"知道如何创造"的蓝图。</p>
-      <p style="margin-top:10px;">在Beriah中，神性意志开始分化为具体的形式和理念——但仍然保持在极高的精微度。这一世界的主要居民是大天使（Archangels），他们是神性理念的直接承载者。例如，大天使Metatron（梅塔特隆）是Kether在Beriah层面的显现，大天使Raziel（拉齐尔）是Chokmah层面的智慧守护者。</p>
-      <p style="margin-top:10px;">在生命之树的对应中，Beriah主要关联Binah和Chesed。在塔罗体系中，Beriah对应圣杯牌组（Cups）——圣杯代表情感、直觉和灵性接受力。在色彩体系中，Beriah对应"皇后色"（Queen Scale）。Beriah的灵性体验通常被描述为"在神圣智慧之海中遨游"——一种被深层理解和洞见充满的状态。</p>
-    </div>
-
-    <div class="card">
-      <h3>Yetzirah（形成界）— 天使的世界</h3>
-      <p>Yetzirah（יצירה，意为"形成"）是第三个世界，对应YHVH的Vav（ו），对应风元素。Vav是连接词"和"，象征着连接和沟通——正如风是看不见的连接力量。Yetzirah是"从蓝图到模型"的阶段：Beriah中的神圣理念在这里被进一步细化和组织，形成具体的"设计图"。</p>
-      <p style="margin-top:10px;">在Yetzirah中，能量已经足够"致密"到可以支持个体化的存在形式——这一世界的主要居民是天使（Angels）和天使军团（Angel Choirs）。天使是"信使"——他们在不同世界之间传递信息和能量。每一阶天使军团对应一个萨菲罗斯，执行该层面的特定功能。</p>
-      <p style="margin-top:10px;">在生命之树的对应中，Yetzirah关联从Chesed到Yesod的萨菲罗斯。在塔罗体系中，Yetzirah对应宝剑牌组（Swords）——宝剑代表思维、分析和决断力。在色彩体系中，Yetzirah对应"骑士色"（Knight Scale）。Yetzirah的灵性体验通常被描述为"在星光界中与天使对话"——一种清晰的、充满意象的内在交流。</p>
-    </div>
-
-    <div class="card">
-      <h3>Assiah（物质界）— 行动的世界</h3>
-      <p>Assiah（עשייה，意为"行动"或"作为"）是最低的世界，对应YHVH的最终He（ה），对应土元素。土是最稳固、最致密的元素——它象征着一切灵性能量最终"凝结"为可感知的物质现实。Assiah是我们日常生活的世界，但它并非与神性分离——它是神性流溢的最终显现。</p>
-      <p style="margin-top:10px;">在Assiah中，所有较高世界的能量都以最致密的形式存在。这一世界的"居民"包括物质实体、自然力量和人类灵魂的物理体现。在卡巴拉的宇宙观中，物质世界不是"低级的"或"不灵性的"——它是神性自我显现的完整表达。Malkuth（王国）是Assiah中唯一完全显现的萨菲罗斯，但其他九个萨菲罗斯也在物质界有其"回声"或"投影"。</p>
-      <p style="margin-top:10px;">在塔罗体系中，Assiah对应星币牌组（Pentacles/Disks）——星币代表物质财富、身体体验和实际成就。在色彩体系中，Assiah对应"侍从色"（Page Scale），是最致密的色彩表现。Assiah的灵性体验在于"在日常中发现神圣"——认识到每一个物质现象背后都有灵性力量的支撑。</p>
-    </div>
-
-    <div class="card">
-      <h3>四世界与塔罗牌组的关系</h3>
-      <p>四世界与塔罗四个小阿卡纳牌组之间存在着精密的对应关系，这是金色黎明体系将卡巴拉与塔罗整合的核心框架之一。每一组小阿卡纳牌代表一个世界的能量在物质层面的特定表现方式。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">权杖（Wands / Atziluth）</strong>：对应火元素和原型界。权杖牌组代表创造力、热情、意志力和灵性追求。从Ace到Ten的序列描绘了从纯粹灵性冲动到具体行动的完整过程。宫廷牌（侍从、骑士、皇后、国王）则代表原型力量在不同意识层面的显现。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--purple);">圣杯（Cups / Briah）</strong>：对应水元素和创造界。圣杯牌组代表情感、关系、直觉和内在体验。它描绘了情感从萌芽到成熟的生命周期，以及人际关系中的各种动态。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--text);">宝剑（Swords / Yetzirah）</strong>：对应风元素和形成界。宝剑牌组代表思维、冲突、挑战和智力活动。它是四个牌组中最具挑战性的——宝剑的"切割"力量象征着真相的揭示往往伴随着痛苦。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--crimson);">星币（Pentacles / Assiah）</strong>：对应土元素和物质界。星币牌组代表物质财富、身体健康、实际工作和物质世界的成就。它描绘了从种子到收获的完整物质循环。</p>
-    </div>
-
-    <div class="card">
-      <h3>四世界中的灵魂旅程</h3>
-      <p>在卡巴拉的宇宙观中，灵魂的旅程穿越所有四个世界。灵魂最初从Atziluth的神性火花中诞生，经过Beriah的"设计"阶段获得其独特的蓝图，在Yetzirah中形成astral身体（星光体），最终在Assiah中披上物理身体进行物质世界的体验。</p>
-      <p style="margin-top:10px;">在物质世界中的生活是灵魂"学习"的阶段——通过物质体验，灵魂整合在较高世界中无法获得的品质：耐心、慈悲、勇气和智慧。当物理身体死亡时，灵魂逐步"脱去"各层的覆盖，依次经过Assiah、Yetzirah、Beriah的净化过程，最终回到Atziluth与神性合一——然后，根据灵魂的需要，再次开始新的旅程（轮回，Gilgul）。</p>
-      <p style="margin-top:10px;">对于修行者而言，理解四世界的结构意味着可以在意识中主动穿越这些层面。通过冥想和路径工作，修行者可以在物质世界中访问Yetzirah的星光界、Beriah的理念界，甚至短暂地触及Atziluth的原型界——这不是幻想，而是意识频率的主动调谐。每一次成功的"上升"都会带回对较高世界的理解，丰富和深化物质世界的体验。</p>
-    </div>
-  </div>
-
-  <!-- TAB 5: Meditation -->
-  <div class="tab-content" id="tab5">
-    <div class="card">
-      <h3>卡巴拉冥想与修行</h3>
-      <p>卡巴拉的修行路径被称为"回归之路"（Return Path），其方向与创世之闪电相反——从Malkuth的物质世界逐步攀升至Kether的神性源头。修行者通过冥想、可视化与路径工作，逐层净化与提升意识。</p>
-    </div>
-
-    <div class="timer-container">
-      <div class="timer-display" id="timerDisplay">15:00</div>
-      <div class="timer-controls">
-        <select id="timerSelect" style="background:var(--card-bg);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:6px;font-size:0.9em;">
-          <option value="5">5 分钟</option>
-          <option value="10">10 分钟</option>
-          <option value="15" selected>15 分钟</option>
-          <option value="20">20 分钟</option>
-          <option value="30">30 分钟</option>
-        </select>
-        <button class="timer-btn primary" id="timerStartBtn">开始冥想</button>
-        <button class="timer-btn" id="timerPauseBtn">暂停</button>
-        <button class="timer-btn" id="timerResetBtn">重置</button>
-      </div>
-      <div style="margin-top:12px;font-size:0.85em;color:var(--text-dim);" id="timerPhase">准备就绪</div>
-    </div>
-
-    <div class="section-title"><h2>从Malkuth到Kether的修行路径</h2></div>
-    <div class="meditation-steps" id="meditationSteps"></div>
-
-    <div class="card" style="margin-top:20px;">
-      <h3>穿越深渊（Crossing the Abyss）</h3>
-      <p>深渊（Abyss）位于神圣三角与道德三角之间，是修行者面临的最大挑战。在卡巴拉体系中，深渊代表了小我（Ego）的彻底消解——个体必须放下所有对分离自我的认同，才能进入纯粹神性的领域。</p>
-      <p style="margin-top:10px;">穿越深渊的关键步骤包括：</p>
-      <ol style="color:var(--text-dim);line-height:2;padding-left:20px;margin-top:8px;">
-        <li><strong style="color:var(--gold);">臣服</strong> — 放下对结果的执着，完全信任神圣意志</li>
-        <li><strong style="color:var(--gold);">Daath的冥想</strong> — 面对隐藏的知识，领悟自我即幻象</li>
-        <li><strong style="color:var(--gold);">与高我合一</strong> — 在Tiphareth层面完成个体化，然后超越它</li>
-        <li><strong style="color:var(--gold);">虚空中的信任</strong> — 在无可依靠的深渊中，仅凭信念前行</li>
-      </ol>
-      <div class="quote" style="margin-top:15px;">"在深渊面前，所有知识都化为无知。唯有纯粹的意志能够穿越。"</div>
-    </div>
-
-    <div class="card">
-      <h3>结合呼吸的卡巴拉冥想</h3>
-      <p>卡巴拉呼吸冥想是一种将呼吸与生命之树可视化结合的修行方法：</p>
-      <ol style="color:var(--text-dim);line-height:2;padding-left:20px;margin-top:8px;">
-        <li><strong style="color:var(--gold);">吸气（从Malkuth到Kether）</strong> — 想象能量从脚下的大地（Malkuth）沿着中柱上升至头顶的王冠（Kether）</li>
-        <li><strong style="color:var(--gold);">屏息（与神性合一）</strong> — 在Kether处暂停，体验与无限（Ein Sof）的连接</li>
-        <li><strong style="color:var(--gold);">呼气（从Kether到Malkuth）</strong> — 想象神性的光沿着中柱下降，经过各个萨菲罗斯，最终回归大地</li>
-        <li><strong style="color:var(--gold);">空息（静默）</strong> — 在呼气后的自然停顿中，体验纯粹存在的状态</li>
-      </ol>
-    </div>
-
-    <div class="section-title"><h2>穿越深渊的详细指导</h2></div>
-    <div class="card">
-      <h3>什么是Abyss（深渊）</h3>
-      <p>在卡巴拉生命之树中，Abyss（深渊）是位于Tiphareth（美）与Daath（知识）之间的巨大裂隙，将上方的神圣三角（Supernal Triad）与下方的七个萨菲罗斯完全隔开。Abyss不是一个"地方"，而是一种意识状态——它代表了神性流溢的"断裂点"，是无限一元性与有限二元性之间的不可逾越的鸿沟。</p>
-      <p style="margin-top:10px;">在象征意义上，Abyss对应创世记中"深渊"（Tehom）的概念——在创世之前覆盖大地的原始黑暗。在心理学层面，Abyss对应荣格所说的"自性化"过程的终极阶段——当个体人格的所有内容被彻底清空后，真正的"自性"（Self）才能显现。Abyss是"无底之空"——一切概念、身份、记忆和信念在此都失去了意义。</p>
-    </div>
-
-    <div class="card">
-      <h3>如何准备穿越Abyss</h3>
-      <p>穿越Abyss是卡巴拉修行中最危险的阶段，绝不可轻率尝试。修行者必须在以下方面做好充分准备：</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">1. 完成所有路径工作：</strong>在尝试穿越Abyss之前，修行者应该已经完成了从Malkuth到Tiphareth的所有路径工作，并在Tiphareth层面实现了与高我（Holy Guardian Angel）的稳定连接。这是最低限度的前提条件。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">2. 建立坚实的日常修行：</strong>长期的冥想、祈祷和自我观察实践是基础。修行者的意识必须足够稳定，才能在Abyss的混沌中保持清明。建议至少有三年的持续修行经验。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">3. 净化所有执念：</strong>Abyss会放大一切未解决的执念和恐惧。修行者需要在日常生活中逐步放下对身份、成就、关系甚至灵性体验本身的执着。任何残留的"灵性物质主义"（将灵性体验当作自我膨胀的工具）都会在Abyss中成为致命的障碍。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">4. 寻找灵性导师：</strong>穿越Abyss的过程最好在有经验的导师指导下进行。导师不一定需要亲自在场，但其经验和指导可以在关键时刻提供关键的锚定和支持。</p>
-    </div>
-
-    <div class="card">
-      <h3>Daath的意义与Choronzon的挑战</h3>
-      <p>Daath（知识）是Abyss中唯一的"立足点"——但它是一个极其不稳定的立足点。Daath同时是"知识的深渊"和"知识的桥梁"：它揭示了自我即幻象的真相，但也提供了超越幻象的可能性。</p>
-      <p style="margin-top:10px;">在金色黎明的体系中，Abyss的守护者是<strong style="color:var(--crimson);">Choronzon</strong>（כורוזון），被称为"散布者"或"混沌之魔"。Choronzon不是外在的恶魔，而是自我消解过程本身的拟人化——当修行者的"自我"开始瓦解时，它会产生极度的恐惧、愤怒和绝望，这些负面体验的集合就是Choronzon的"形态"。</p>
-      <p style="margin-top:10px;">Choronzon的"攻击"采取多种形式：它可能以逻辑的诡辩来动摇修行者的信念，以恐怖的幻象来引发恐惧，以诱惑来唤醒修行者的欲望，以孤独感来制造绝望。应对Choronzon的唯一方法是"不反应"——既不战斗也不逃跑，而是保持完全的静默和觉知。正如克劳利在穿越Abyss的记录中所描述的：Choronzon是"无物"——当你停止给它能量时，它便消散。</p>
-      <p style="margin-top:10px;">成功穿越Abyss的修行者会获得"秘法师"（Magister Templi）的等级——但这不是一种"成就"或"头衔"，而是一种存在状态：修行者不再以分离的个体身份行动，而是成为神性意志的自觉工具。此后，修行者的所有行为都源自与神性的合一，而非来自小我的欲望。</p>
-    </div>
-
-    <div class="section-title"><h2>卡巴拉冥想的准备工作</h2></div>
-    <div class="card">
-      <h3>净化、禁食与祈祷</h3>
-      <p>卡巴拉冥想的效果在很大程度上取决于修行者的准备状态。传统的卡巴拉修行强调三个方面的准备：身体净化、心智净化和灵性净化。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">身体净化：</strong>在重要的冥想之前，建议进行身体的清洁——沐浴或淋浴，穿着干净、宽松的衣物。传统的卡巴拉修行者会在冥想前进行微型的禁食（如24小时的清水禁食），以降低身体的物质密度，使意识更容易进入精微状态。饮食方面，建议在冥想前数日避免过量饮食、酒精和刺激性食物。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">心智净化：</strong>在冥想前，花15-30分钟进行"意识清空"练习——观察自己的思维流，但不跟随任何念头。可以书写日记来释放积压的情绪和思绪。设定明确的冥想意图："我将在此次冥想中探索XX萨菲罗斯的能量"。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">灵性净化：</strong>以祈祷开始和结束每一次冥想。传统的卡巴拉祈祷包括Shema Israel（"以色列啊，你要听！耶和华我们的神是独一的主"）和Kaddish（圣哉之名）。即使不使用传统犹太祈祷文，修行者也应该以谦卑和敬畏之心开始冥想——承认自己的局限性，请求灵性指引和保护。</p>
-      <p style="margin-top:10px;">环境方面，选择一个安静、温度适宜的房间。可以布置一个简单的祭坛：白色或对应颜色的蜡烛、熏香（乳香、没药或檀香是传统选择）、一个小型生命之树的图像。面朝东方（传统上认为东方是灵性能量的来源方向）。</p>
-    </div>
-
-    <div class="section-title"><h2>每个Sephira的冥想引导</h2></div>
-    <div class="meditation-steps">
-      <div class="meditation-step">
-        <h4>10. Malkuth（王国）</h4>
-        <p>想象自己站在一座巨大的、四方的石殿中，地面是黑白相间的棋盘格。感受双脚与大地的连接，体会重力、稳定和物质世界的坚实。这里的一切都是可触摸的、真实的。呼吸这里的空气——它是沉重的、泥土芬芳的。在Malkuth中，学习接纳物质存在，认识到身体是灵魂的神殿。</p>
-      </div>
-      <div class="meditation-step">
-        <h4>9. Yesod（基础）</h4>
-        <p>想象自己来到一片银色的月光湖畔。水面如镜，倒映着星空。Yesod的能量是流动的、梦幻的、直觉的。凝视湖面，让潜意识的内容自然浮现——不要分析，只是观察。感受月光的柔和渗透力。在Yesod中，学习信任直觉，与潜意识建立友好的关系。</p>
-      </div>
-      <div class="meditation-step">
-        <h4>8. Hod（荣耀）</h4>
-        <p>想象自己置身于一座巨大的图书馆中，书架延伸至无穷。Hod的能量是秩序、分析、语言和思维。翻开一本书，发现其中的文字在变化和重组——这是思维的本质。感受Hod的精确与清晰。在这里，学习观察自己的思维模式，理解语言如何塑造现实。</p>
-      </div>
-      <div class="meditation-step">
-        <h4>7. Netzach（胜利）</h4>
-        <p>想象自己走进一片茂盛的、充满生命力的花园。Netzach的能量是情感、本能、美和自然的生命力。花朵在绽放，溪流在歌唱，一切都在生长和变化。感受Netzach的持久和坚韧——生命力不是暴烈的，而是持续的。在这里，学习与情感共处，发现美中的灵性力量。</p>
-      </div>
-      <div class="meditation-step">
-        <h4>6. Tiphareth（美）</h4>
-        <p>想象自己站在一片金色的光海中央，太阳就在正上方。Tiphareth是生命之树的心脏，是所有对立的和谐点。感受金色的温暖穿透每一个细胞。在这里，小我与高我相遇——你看到自己的"神圣守护天使"（Holy Guardian Angel），它不是外在的存在，而是你最深层的真实自我。在Tiphareth中，学习无条件的爱与自我接纳。</p>
-      </div>
-      <div class="meditation-step">
-        <h4>5. Geburah（严厉）</h4>
-        <p>想象自己来到一座火山口边缘，感受大地深处翻涌的力量。Geburah的能量是纪律、审判、力量和变革。这股力量是可怕的，但也是必要的——没有Geburah的筛选，一切将陷入混乱。感受Geburah的正义——它不残忍，而是精确。在这里，学习面对自己的阴影，接受必要的痛苦作为成长的催化剂。</p>
-      </div>
-      <div class="meditation-step">
-        <h4>4. Chesed（慈悲）</h4>
-        <p>想象自己置身于一座宏伟的、穹顶覆盖的神殿中，到处是蓝色和紫色的光辉。Chesed的能量是慈爱、扩展、给予和包容。这里的一切都是丰裕的——没有匮乏，没有竞争，只有无尽的给予。感受Chesed的温暖如同一位仁慈的父亲。在这里，学习无条件地给予，体验"施比受更有福"的真理。</p>
-      </div>
-      <div class="meditation-step">
-        <h4>3. Binah（理解）</h4>
-        <p>想象自己漂浮在一片深黑色的、宁静的虚空中。Binah的能量是形式、限制、时间和空间——它是"容器"，是赋予一切以形状的力量。这里的黑暗不是恐惧的黑暗，而是孕育一切的原始黑暗——如同种子在泥土中的黑暗中发芽。感受Binah的深邃智慧。在这里，学习接受限制和形式，理解"死亡"只是转化的另一种形式。</p>
-      </div>
-      <div class="meditation-step">
-        <h4>2. Chokmah（智慧）</h4>
-        <p>想象自己被一道耀眼的、纯白色的光包围。Chokmah的能量是纯粹的、动态的智慧——它是"推动者"，是一切创造力的源头。这道光不是静止的，而是不断流动和扩展的。感受Chokmah的无限潜能——一切可能性都蕴含在这道光中。在这里，学习放下对结果的执着，信任创造力的自然流动。</p>
-      </div>
-      <div class="meditation-step">
-        <h4>1. Kether（王冠）</h4>
-        <p>想象一切光、一切形、一切声音都消融了。Kether是纯粹的"存在"——没有内容，没有属性，没有边界。这里没有"你"和"非你"的分别，只有纯粹的、无限的觉知。不要试图"理解"Kether——只需"是"。这是修行者能到达的最高点——与神性源头的短暂合一。在这里，学习放下一切，成为纯粹的觉知本身。</p>
-      </div>
-    </div>
-
-    <div class="section-title"><h2>结合呼吸的四步冥想法详细步骤</h2></div>
-    <div class="card">
-      <h3>卡巴拉呼吸冥想完整指南</h3>
-      <p>这种四步呼吸冥想法将呼吸的节奏与生命之树的结构完美对应，是一种极为有效的整合修行。建议在掌握了基础的放松技巧后进行练习。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">第一步：吸气（Puraka）— 从Malkuth到Kether（约8秒）</strong></p>
-      <p>以舒适的姿势坐直，脊柱自然挺直。闭上眼睛，将注意力集中在脚底或会阴部（Malkuth的位置）。缓慢地、均匀地通过鼻子吸气。随着吸气，想象一道纯净的白色光芒从Malkuth开始，沿着中柱缓缓上升——经过Yesod（感觉腹部区域微微发热），经过Tiphareth（感受心脏区域打开），经过Daath（感受喉部区域的振动），最终到达头顶的Kether。整条中柱被这道光充满，如同一条发光的河流从大地流向天空。吸气结束时，想象头顶上方有一个微小的、极其明亮的光点——那是Kether与Ein Sof的连接点。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">第二步：屏息（Kumbhaka）— 与神性合一（约4-8秒）</strong></p>
-      <p>在吸气达到顶峰时，轻轻地关闭声门，保持肺部充满。在这个停顿中，感受Kether的光点扩大，将整个头部充满。体验一种"超越"的感觉——思维暂时停止，只有纯粹的觉知存在。不要强迫这种体验，只是允许它自然发生。如果思维开始活动，温柔地将注意力带回光点。这个停顿是整个冥想的关键时刻——它是"创世的间隙"，无限在此显现。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">第三步：呼气（Rechaka）— 从Kether到Malkuth（约8秒）</strong></p>
-      <p>缓慢地、均匀地通过鼻子呼气。随着呼气，想象一道金色的光芒从头顶的Kether开始，沿着中柱缓缓下降——经过Daath（感受喉部区域的净化），经过Tiphareth（感受心脏区域充满温暖），经过Yesod（感受腹部区域的稳定），最终回到Malkuth（感受双脚与大地的连接加深）。这道金色的光将神性的祝福带入每一个层面。呼气结束时，想象光芒从脚底流入大地，回归地球的核心。</p>
-      <p style="margin-top:10px;"><strong style="color:var(--gold);">第四步：空息（Shunyaka）— 静默（约4秒）</strong></p>
-      <p>在呼气完全结束后，保持肺部自然空虚的短暂停顿。在这个"空"的瞬间，不要急于开始下一次吸气。体验这个间隙——它是"呼吸之间的虚空"，对应Ain的否定存在。在这个间隙中，一切概念暂时消融，只有纯粹的、未分化的存在。这是最深层的安息——在每一次呼吸循环中，你短暂地回到了源头。</p>
-      <p style="margin-top:10px;">重复以上四步循环15-30分钟。结束时，缓慢地将注意力带回身体，感受呼吸的自然节奏，轻轻活动手指和脚趾，缓慢睁开眼睛。记录冥想中的任何体验。</p>
-    </div>
-  </div>
-
-  <!-- TAB 6: Kabbalistic Magic -->
-  <div class="tab-content" id="tab6">
-    <div class="card">
-      <h3>金色黎明传承的卡巴拉魔法</h3>
-      <p>金色黎明（Hermetic Order of the Golden Dawn）将卡巴拉体系与西方仪式魔法深度融合，发展出一套完整的魔法实践体系。以下为基于卡巴拉的核心魔法修行。</p>
-    </div>
-
-    <div class="magic-grid">
-      <div class="magic-card">
-        <h3>四字神名 YHVH 的冥想</h3>
-        <p>四字神名（Tetragrammaton）יהוה 是卡巴拉魔法中最神圣的神名，代表宇宙的四重结构：</p>
-        <div class="ritual-text">
-          <strong style="color:var(--gold);">Yod (י)</strong> — 火 · Atziluth · 圣父 · 主动<br>
-          <strong style="color:var(--gold);">Heh (ה)</strong> — 水 · Beriah · 圣母 · 被动<br>
-          <strong style="color:var(--gold);">Vav (ו)</strong> — 风 · Yetzirah · 圣子 · 连接<br>
-          <strong style="color:var(--gold);">Heh (ה)</strong> — 土 · Assiah · 新娘 · 完成<br><br>
-          冥想时，在每次呼吸中默念一个字母，观想对应元素的光色，从Yod的白色火焰到最终Heh的黑色大地。
-        </div>
-      </div>
-
-      <div class="magic-card">
-        <h3>卡巴拉十字仪式</h3>
-        <p>卡巴拉十字（Qabalistic Cross）是金色黎明体系中最核心的日常仪式，用于建立灵性能量保护场：</p>
-        <div class="ritual-text">
-          1. 站立面朝东方，双手举至肩高，掌心朝前<br>
-          2. 观想白色光球在头顶上方（Kether）<br>
-          3. 念诵 <span class="hebrew">"Atah"</span>（אתה — 您），将光从头顶引至脚底<br>
-          4. 念诵 <span class="hebrew">"Malkuth"</span>（מלכות — 王国）<br>
-          5. 念诵 <span class="hebrew">"Ve-Geburah"</span>（וגבורה — 力量），光延伸至右肩<br>
-          6. 念诵 <span class="hebrew">"Ve-Gedulah"</span>（וגדולה — 荣耀），光延伸至左肩<br>
-          7. 双手合十于胸前，念诵 <span class="hebrew">"Le-Olam, Amen"</span>（לעולם אמן — 永远，阿门）<br>
-          8. 观想自身成为发光十字
-        </div>
-      </div>
-
-      <div class="magic-card">
-        <h3>小五芒星驱逐仪式</h3>
-        <p>小五芒星驱逐仪式（Lesser Banishing Ritual of the Pentagram, LBRP）是金色黎明最著名的日常保护仪式，基于卡巴拉的宇宙结构：</p>
-        <div class="ritual-text">
-          <strong>第一部分：卡巴拉十字</strong>（如前述）<br><br>
-          <strong>第二部分：五芒星</strong><br>
-          面东：以金色光芒在东面绘制五芒星，念诵 <span class="hebrew">"Yod Heh Vav Heh"</span><br>
-          面南：绘制五芒星，念诵 <span class="hebrew">"Adonai"</span><br>
-          面西：绘制五芒星，念诵 <span class="hebrew">"Eheieh"</span><br>
-          面北：绘制五芒星，念诵 <span class="hebrew">"Agla"</span><br><br>
-          <strong>第三部分：召唤四天使</strong><br>
-          面东：<span class="hebrew">"Raphael"</span>（风）<br>
-          面西：<span class="hebrew">"Gabriel"</span>（水）<br>
-          面南：<span class="hebrew">"Michael"</span>（火）<br>
-          面北：<span class="hebrew">"Auriel"</span>（土）<br><br>
-          <strong>第四部分：再次卡巴拉十字</strong>
-        </div>
-      </div>
-
-      <div class="magic-card">
-        <h3>路径工作（Pathworking）方法</h3>
-        <p>路径工作是卡巴拉魔法中最深刻的探索方式，修行者通过可视化进入生命之树的特定路径：</p>
-        <div class="ritual-text">
-          <strong>准备工作：</strong><br>
-          · 选择一条路径（建议初学者从第32路径 Tav 开始）<br>
-          · 研究该路径对应的塔罗牌与希伯来字母<br>
-          · 准备对应的颜色、香气与意象<br><br>
-          <strong>冥想流程：</strong><br>
-          1. 进行卡巴拉十字仪式建立保护<br>
-          2. 放松身体，调整呼吸<br>
-          3. 可视化自己站在路径起点的萨菲罗斯<br>
-          4. 想象自己沿着路径前行，观察沿途出现的象征与意象<br>
-          5. 与路径尽头的萨菲罗斯能量连接<br>
-          6. 记录所有经历与洞察<br><br>
-          <strong>注意事项：</strong><br>
-          · 每次只探索一条路径<br>
-          · 在路径工作中遇到任何困难，立刻回到身体并做卡巴拉十字<br>
-          · 路径工作不应在情绪不稳或身体疲惫时进行
-        </div>
-      </div>
-
-      <div class="magic-card">
-        <h3>希伯来神名对应的萨菲罗斯</h3>
-        <p>PDF中记载的卡巴拉对应关系：</p>
-        <div class="ritual-text">
-          <strong>Kether</strong> — Eheie — 万能之神，他的住所在天堂最高处<br>
-          <strong>Chochmah</strong> — Iehovah — 全能之神<br>
-          <strong>Binah</strong> — Elohim — 与我们同在的神<br>
-          <strong>Chesed</strong> — El — 伟大的神，行星的统治者<br>
-          <strong>Geburah</strong> — Elohim Geber — 最万能永恒的神<br>
-          <strong>Tiphareth</strong> — Eloha — 哦，万能的神！<br>
-          <strong>Netzach</strong> — Iehovah Sabaoth — 伟大的Sabaoth之神<br>
-          <strong>Hod</strong> — Elohim Sabaoth — 伟大的Sabioth之神<br>
-          <strong>Yesod</strong> — Shaddai El Chai — 伟大的智能和知识之神<br>
-          <strong>Malkuth</strong> — Adonai Ha-Aretz — 万能的主
-        </div>
-      </div>
-
-      <div class="magic-card">
-        <h3>天使对应</h3>
-        <p>PDF中记载的各萨菲罗斯对应的天使：</p>
-        <div class="ritual-text">
-          <strong>Kether</strong> — Methratton（梅塔特隆）<br>
-          <strong>Chochmah</strong> — Iophiel（约菲厄尔）<br>
-          <strong>Binah</strong> — Zabbathi（萨巴提）<br>
-          <strong>Chesed</strong> — Hasmalim（哈斯马林）<br>
-          <strong>Geburah</strong> — Camael（卡玛尔）<br>
-          <strong>Tiphareth</strong> — Raphael（拉斐尔）<br>
-          <strong>Netzach</strong> — Haniel（哈尼爾）<br>
-          <strong>Hod</strong> — Michael（米迦勒）<br>
-          <strong>Yesod</strong> — Gabriel（加百列）<br>
-          <strong>Malkuth</strong> — Sandalphon（桑达尔丰）
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="tab-bar" id="tabBar">
+<button class="tab-btn active" onclick="switchTab('tab1')">生命之树总览</button>
+<button class="tab-btn" onclick="switchTab('tab2')">十大质点详解</button>
+<button class="tab-btn" onclick="switchTab('tab3')">22条路径</button>
+<button class="tab-btn" onclick="switchTab('tab4')">四世界与层面</button>
+<button class="tab-btn" onclick="switchTab('tab5')">冥想修行</button>
+<button class="tab-btn" onclick="switchTab('tab6')">卡巴拉魔法</button>
+<button class="tab-btn" onclick="switchTab('tab7')">对应系统</button>
+<button class="tab-btn" onclick="switchTab('tab8')">卡巴拉与东方思想</button>
+</div>
+<!-- TAB 1: 生命之树总览 -->
+<div class="tab-content active" id="tab1">
+<div class="card"><h3>生命之树总览</h3><p>卡巴拉生命之树由十个Sephiroth（质点，单数Sephirah，意为"计数"或"流出"）与二十二条连接路径构成。它描绘了神性从无限（Ein Sof）流溢至物质界的过程，被称为"创世之闪电"（Lightning Flash）。三柱——慈悲之柱（右/阳）、严厉之柱（左/阴）、平衡之柱（中）——体现了宇宙的平衡法则。生命之树不仅是一个神秘学符号，更是一张关于存在的完整地图——它同时是宇宙的蓝图和人类意识的地图。在宏观层面，它描绘了从无限神性到物质世界的整个创世过程。在微观层面，它映射了人类意识的结构：从最高层的灵性觉知到最底层的物质感知，中间经历了思维、情感、直觉和潜意识等多个层面。</p></div>
+<div class="pillars-info">
+<div class="pillar-card mercy"><h4>慈悲之柱（右/阳）</h4><p>Chochmah &middot; Chesed &middot; Netzach</p><p style="margin-top:6px;font-size:.72em">扩张 &middot; 给予 &middot; 创造 &middot; 阳性力量</p></div>
+<div class="pillar-card mildness"><h4>平衡之柱（中）</h4><p>Kether &middot; Tiphareth &middot; Yesod &middot; Malkuth</p><p style="margin-top:6px;font-size:.72em">平衡 &middot; 意识 &middot; 显现 &middot; 和谐</p></div>
+<div class="pillar-card severity"><h4>严厉之柱（左/阴）</h4><p>Binah &middot; Geburah &middot; Hod</p><p style="margin-top:6px;font-size:.72em">收缩 &middot; 审判 &middot; 界限 &middot; 阴性力量</p></div>
+</div>
+<div class="section-title"><h2>三个大三角</h2></div>
+<div class="triangles-info">
+<div class="triangle-card"><h4>神圣大三角（Supernal Triad）</h4><p>超越人类理解的纯粹神性领域。Kether是纯粹意识，Chochmah是动态智慧，Binah是结构性理解。这一三角代表了"神的头脑"层面——神性在开始显化之前纯粹的原型状态。修行者几乎无法直接体验这一三角，因为人类的意识结构本身就属于较低层面。在这里，一切概念和语言都失去了意义，只有纯粹的、无限的觉知。</p><div class="sephira-list">Kether &middot; Chochmah &middot; Binah</div></div>
+<div class="triangle-card"><h4>道德大三角（Moral Triad）</h4><p>神性在道德层面的显现。Chesed是慈悲与爱，Geburah是力量与审判，Tiphareth是美与平衡——两者的和谐统一。这一三角被称为"灵魂之三角"，处理灵魂层面的核心议题：如何在慈悲与严厉之间找到平衡。Tiphareth是生命之树的心脏，也是修行者回归之路的关键里程碑。</p><div class="sephira-list">Chesed &middot; Geburah &middot; Tiphareth</div></div>
+<div class="triangle-card"><h4>魔法大三角（Astral Triad）</h4><p>连接高我与物质世界的桥梁。Netzach是情感与本能，Hod是理智与形式，Yesod是潜意识与梦境的根基。这一三角被称为"魔法之三角"，涉及潜意识、想象力、梦境和仪式魔法运作的核心机制。Yesod是星光三角的整合点，也是整个生命之树的"潜意识"层面。</p><div class="sephira-list">Netzach &middot; Hod &middot; Yesod</div></div>
+</div>
+<div style="text-align:center;margin-bottom:10px"><button class="flash-btn" id="lightningBtn">&#9889; 播放创世闪电动画</button></div>
+<div class="tree-container"><canvas id="treeCanvas"></canvas></div>
+<p style="text-align:center;font-size:.78em;color:var(--text-dim);margin-top:8px">点击任意质点查看详情</p>
+<div class="philosophy-box">
+<h3 style="color:var(--gold);margin-bottom:15px">卡巴拉哲学基础</h3>
+<p>卡巴拉认为神性本身是不可知的无限（Ein Sof，无穷），祂通过三重自我限制逐步显现。这三层"Veils of Negative Existence"（否定存在的面纱）并非空无，而是超越人类理解的纯粹潜能的领域。我们只能通过否定来描述它们（否定神学，Apophatic Theology）。</p>
+<div class="ain-chain">
+<span class="ain">Ain<br><small>无</small></span>
+<span class="arrow">&rarr;</span>
+<span class="ain-soph">Ain Soph<br><small>无限</small></span>
+<span class="arrow">&rarr;</span>
+<span class="ain-soph-aur">Ain Soph Aur<br><small>无限光</small></span>
+<span class="arrow">&rarr;</span>
+<span style="color:var(--gold)">Kether<br><small>王冠</small></span>
+</div>
+<p><strong style="color:var(--gold)">Ain（无）</strong>：最绝对的否定，超越一切存在与非存在、有与无的二元对立。Ain不是"空无"，而是"连空无这个概念都无法适用"的终极状态。它代表了一种连意识都无法触及的纯粹——所有语言和思维在此完全失效。</p>
+<p style="margin-top:10px"><strong style="color:var(--purple)">Ain Soph（无限）</strong>：从Ain中"闪烁"的第一道微光。Ain Soph是无限的纯粹存在，没有边界、没有定义、没有属性。它是"可能性的无限海洋"——一切潜能都蕴含其中，但尚未有任何事物被区分或限定。</p>
+<p style="margin-top:10px"><strong style="color:var(--gold-dim)">Ain Soph Aur（无限之光）</strong>：无限存在的第一次"运动"或"倾向"——无限开始"想要"显化自身。这无限之光是创造的最初冲动，是从纯粹潜能向具体存在过渡的临界点。当这无限之光凝聚为第一焦点时，Kether（王冠）便诞生了。</p>
+<div class="quote">"Ein Soph — 无尽者，无界限者，不可名状者。从祂的压缩中诞生了空间，从祂的静默中诞生了声音。"</div>
+<p>从Kether开始，神性通过九层逐步流溢，最终到达Malkuth（王国）——我们的物质世界。创世之闪电（Lightning Flash）描述了神性能量从Kether至Malkuth的逐层下降过程。修行者则逆流而上，通过路径工作（Pathworking）从物质界回归神性源头，穿越位于Tiphareth与Kether之间的深渊（Abyss），那里坐落着隐藏的质点——Daath（知识）。</p>
+</div>
+<div class="daath-section"><h3>隐藏的质点 — Daath（知识）</h3><p>Daath（Da'at，דעת）并非正式的第十一个质点，而是Kether、Chochmah和Binah三者的交汇点。它位于深渊（Abyss）的位置，代表"知识"——当Chochmah（智慧）与Binah（理解）结合时所产生的第三种认知。在路径工作中，穿越Daath意味着直面个体自我（Ego）的消亡，是灵性修行的关键门槛。Daath同时是"知识的深渊"和"知识的桥梁"：它揭示了自我即幻象的真相，但也提供了超越幻象的可能性。在金色黎明的象征体系中，Daath与Choronzon（混沌之魔）相关联。</p></div>
+<div class="section-title"><h2>卡巴拉历史传承</h2></div>
+<div class="card"><h3>从犹太神秘主义到金色黎明</h3><p>卡巴拉（Kabbalah，希伯来语意为"接受"或"传承"）的根源可追溯至公元一世纪的犹太神秘主义传统"梅尔卡瓦"（Merkabah，天战车）神秘主义。早期的犹太贤哲在《光辉之书》（Sefer Ha-Bahir，约12世纪）和《佐哈尔》（Zohar，约13世纪末由摩西·德·里昂编纂）中系统化了这些深奥的教义。《佐哈尔》以对《摩西五经》的神秘注释形式写成，揭示了隐藏在经文背后的灵性密码，成为卡巴拉文学的核心经典。</p><p style="margin-top:10px">16世纪的萨法德学派（Safed Kabbalah）以以撒·卢里亚（Isaac Luria）为代表，提出了"创世收缩"（Tzimtzum）理论——无限神性为腾出创造空间而自我收缩，这一思想深刻影响了后世的卡巴拉发展。18世纪东欧的哈西迪运动（Hasidism）将卡巴拉从学术精英推向民间，强调通过喜悦与虔诚直接体验神性。</p><p style="margin-top:10px">19世纪末至20世纪初，卡巴拉通过赫密斯主义（Hermeticism）进入西方神秘学主流。埃利法斯·列维（Eliphas Levi）将塔罗与卡巴拉的对应关系系统化；金色黎明协会（Golden Dawn，1888年成立）融合了卡巴拉、塔罗、炼金术和仪式魔法，建立了完整的实践体系。麦克格雷格·马瑟斯（MacGregor Mathers）翻译了《所罗门之钥》，阿莱斯特·克劳利（Aleister Crowley）和以色列·雷加德（Israel Regardie）进一步发展了这一传统，使卡巴拉成为现代西方神秘学的基石。</p></div>
+<div class="card"><h3>生命之树的哲学意义</h3><p>生命之树不仅是一个神秘学符号，更是一张关于存在的完整地图。在宏观层面，它描绘了从无限神性（Ein Sof）到物质世界（Malkuth）的整个创世过程，每一个质点代表存在的一个基本层面或原型。在微观层面，生命之树映射了人类意识的结构：从最高层的灵性觉知（Kether）到最底层的物质感知（Malkuth），中间经历了思维、情感、直觉和潜意识等多个层面。</p><p style="margin-top:10px">"如其在上，如其在下"（As above, so below）——这句赫密斯箴言在生命之树中得到了最精确的表达。宇宙的结构与人的结构是同构的，理解生命之树就是理解自身存在的本质。三柱体系揭示了宇宙运作的基本法则：慈悲之柱代表扩张与给予的力量，严厉之柱代表收缩与限制的力量，平衡之柱则是两者的动态平衡。一切存在都是这三股力量的交织。</p><p style="margin-top:10px">对于修行者而言，生命之树是一条回归之路。创世之闪电描述了神性向下的流溢，而修行者则沿路径逆流而上，从物质界的局限意识逐步扩展至与神性合一的至高体验。每一次在路径上的移动，都是一次意识的转化与提升。生命之树与塔罗牌之间也存在着精密的对应关系——二十二条连接质点的路径精确对应二十二张塔罗大阿卡纳，每条路径的希伯来字母、占星对应和塔罗牌共同构成了一个多维度的象征网络。</p></div>
+<div class="card"><h3>创世过程的详细描述</h3><p>卡巴拉的创世论以"流溢"（Emanation）而非"从无到有的创造"为核心概念。神性并非从外部创造世界，而是像光芒从光源中自然散发一样，通过层层递减的流溢过程将自身显现为多样化的存在。</p><p style="margin-top:10px">这一过程被称为"创世之闪电"（Lightning Flash）：神性之光首先凝聚为<strong style="color:var(--gold)">Kether</strong>（王冠），这是最接近Ein Sof的存在层面，代表纯粹的、无差别的神性意志。从Kether，光分裂为两极——<strong style="color:var(--gold)">Chochmah</strong>（智慧，阳性原则）和<strong style="color:var(--gold)">Binah</strong>（理解，阴性原则），形成了最初的二元性。</p><p style="margin-top:10px">能量继续下降：经过<strong style="color:var(--gold)">Chesed</strong>（慈悲）与<strong style="color:var(--gold)">Geburah</strong>（严厉）的道德极性，汇聚于<strong style="color:var(--gold)">Tiphareth</strong>（美）——生命之树的中心与太阳，是整个宇宙的和谐核心。再经过<strong style="color:var(--gold)">Netzach</strong>（胜利）与<strong style="color:var(--gold)">Hod</strong>（宏伟）的情感-理智极性，通过<strong style="color:var(--gold)">Yesod</strong>（基础）的星光过滤器，最终凝结为<strong style="color:var(--gold)">Malkuth</strong>（王国）——我们所能感知的物质世界。每一层的流溢都伴随着能量的"致密化"，从最精微的灵性本质逐渐变为最粗重的物质形态。</p></div>
+<div class="card"><h3>色彩对应体系</h3><p>金色黎明体系为每个质点建立了一套精密的四重色彩对应，称为"国王色-皇后色-骑士色-侍从色"（King-Queen-Knight-Page Color Scale）。这四层色彩对应于四世界的层级，从最精微到最粗重，为修行者的可视化冥想提供了精确的色彩指导。</p><p style="margin-top:10px"><strong style="color:var(--gold)">国王色（King Scale / Atziluth）</strong>：对应原型界，是最精微、最纯粹的色彩振动，关联神性的原型力量，用于最高层级的灵性工作和神圣名字的冥想。</p><p style="margin-top:10px"><strong style="color:var(--purple)">皇后色（Queen Scale / Briah）</strong>：对应创造界，色彩更加柔和、具有渗透性，关联大天使层面的能量，用于与守护天使的沟通和创造性的灵性工作。</p><p style="margin-top:10px"><strong style="color:var(--crimson)">骑士色（Knight Scale / Yetzirah）</strong>：对应形成界，色彩更加鲜明、活跃，关联天使层面的力量，用于仪式魔法和星光工作的能量调动。</p><p style="margin-top:10px"><strong style="color:var(--text)">侍从色（Page Scale / Assiah）</strong>：对应物质界，是最致密、最具体的色彩表现，关联物质层面的能量，用于物质世界的魔法操作和日常生活中的灵性实践。</p></div>
 </div>
 
-<!-- Info Panel -->
+<div class="section-title"><h2>卡巴拉历史传承</h2></div>
+<div class="timeline">
+<div class="timeline-item"><h4>公元1-6世纪：梅尔卡瓦神秘主义</h4><p>最早的犹太神秘主义传统，以《以西结书》中"天战车"的异象为核心。修行者通过冥想和咒语试图重现天战车的异象，体验神圣领域的奥秘。</p></div>
+<div class="timeline-item"><h4>12世纪：《光辉之书》（Sefer Ha-Bahir）</h4><p>第一部系统化的卡巴拉文献，首次提出了质点（Sephiroth）的概念和生命之树的基本结构。</p></div>
+<div class="timeline-item"><h4>13世纪末：《佐哈尔》（Zohar）</h4><p>由摩西·德·里昂编纂的卡巴拉核心经典，以对《摩西五经》的神秘注释形式写成，揭示了隐藏在经文背后的灵性密码。</p></div>
+<div class="timeline-item"><h4>16世纪：萨法德学派</h4><p>以撒·卢里亚提出Tzimtzum（创世收缩）和Tikkun（修复）理论，深刻改变了卡巴拉的面貌。约瑟夫·卡罗和摩西·科尔多维罗也是重要人物。</p></div>
+<div class="timeline-item"><h4>18世纪：哈西迪运动</h4><p>Baal Shem Tov创立哈西迪运动，将卡巴拉推向民间，强调通过喜悦、舞蹈和虔诚直接体验神性。</p></div>
+<div class="timeline-item"><h4>19世纪：埃利法斯·列维</h4><p>将塔罗与卡巴拉的对应关系系统化，连接了犹太神秘主义与西方赫密斯传统。</p></div>
+<div class="timeline-item"><h4>1888年：金色黎明协会</h4><p>融合卡巴拉、塔罗、炼金术和仪式魔法，建立了完整的实践体系，成为现代西方神秘学的基石。</p></div>
+<div class="timeline-item"><h4>20世纪至今：现代卡巴拉</h4><p>克劳利、雷加德等人发展Thelema和现代魔法体系。卡巴拉思想也影响了心理学（荣格）、哲学和当代灵性运动。</p></div>
+</div>
+<div class="card"><h3>生命之树与心理学</h3><p>20世纪瑞士心理学家卡尔·荣格（Carl Jung）对卡巴拉的象征体系产生了浓厚兴趣。他将生命之树视为人类心理结构的原型映射——十个质点对应意识的不同层面和功能，路径对应心理发展的不同阶段。荣格的"个体化"（Individuation）过程与卡巴拉的"回归之路"有着惊人的结构相似性：两者都描述了一条从碎片化的自我意识走向完整自性的旅程。</p><p style="margin-top:10px">在荣格的框架中，Malkuth对应"人格面具"（Persona）——我们在社会中的表面角色；Yesod对应"阴影"（Shadow）——被压抑的潜意识内容；Netzach和Hod对应"情感"与"思维"功能；Tiphareth对应"自性"（Self）的显现——个体化的核心里程碑；深渊（Abyss）对应个体化过程中最危险的阶段——当旧有的自我结构彻底瓦解，新的、更完整的自我尚未成形时，修行者会经历深刻的"存在性危机"。</p><p style="margin-top:10px">现代超个人心理学（Transpersonal Psychology）进一步发展了卡巴拉与心理学的对话。肯·威尔伯（Ken Wilber）的"意识光谱"理论将生命之树作为意识发展的基本框架，认为不同的心理治疗方法和灵性修行传统都对应生命之树的不同层面。</p></div>
+
+<!-- TAB 2: 十大质点详解 -->
+<div class="tab-content" id="tab2">
+<div class="card"><h3>十大Sephiroth（质点）详解</h3><p>十个质点构成了三个大三角：神圣大三角（Kether-Chochmah-Binah）、道德大三角（Chesed-Geburah-Tiphareth）、魔法大三角（Netzach-Hod-Yesod）。Malkuth独立于三角之外，代表物质界的完成。Daath是隐藏的第十一个质点，位于深渊之上。每个质点都包含丰富的对应关系：神名、大天使、众天使、行星、颜色、塔罗、身体部位等，构成了一个精密的多维度象征网络。点击卡片展开完整信息。</p></div>
+<div class="section-title"><h2>点击展开每个质点的完整信息</h2></div>
+<div class="sephira-grid" id="sephiraGrid"></div>
+</div>
+<!-- TAB 3: 22条路径 -->
+<div class="tab-content" id="tab3">
+<div class="card"><h3>二十二条路径</h3><p>二十二条路径（Paths）将十个质点连接在一起，对应二十二个希伯来字母与二十二张塔罗大阿卡纳。每条路径代表一种特定的意识状态或存在层面，修行者通过路径工作（Pathworking）来探索和整合这些能量。路径的编号从11到32，对应希伯来字母的顺序。</p></div>
+<div class="canvas-wrap"><canvas id="pathCanvas"></canvas></div>
+<p style="text-align:center;font-size:.78em;color:var(--text-dim);margin-top:8px">路径可视化 — 点击路径查看详情</p>
+<div class="path-detail" id="pathDetail"><div id="pathDetailContent"></div></div>
+<div class="path-list" id="pathList"></div>
+<div class="section-title"><h2>路径工作（Pathworking）详解</h2></div>
+<div class="card"><h3>路径工作的方法与实践</h3><p>路径工作（Pathworking）是卡巴拉修行者探索二十二条路径的核心方法。它是一种结构化的引导冥想，修行者在放松的意识状态下，想象自己沿着某条路径从一个质点走向另一个质点，沿途体验该路径特有的象征、色彩、声音和灵性品质。</p><p style="margin-top:10px"><strong style="color:var(--gold)">准备工作：</strong>选择一条路径，研究其所有对应关系——希伯来字母、塔罗牌、占星对应、色彩、神名和天使名。在开始之前，对路径的两端质点进行冥想，建立能量连接。准备一个安静、光线柔和的空间，可以点燃对应颜色的蜡烛或使用对应颜色的织物。</p><p style="margin-top:10px"><strong style="color:var(--gold)">进入路径：</strong>从路径的较低端质点开始，想象自己站在该质点的神殿中。感受该质点的色彩和能量包围着你。然后，想象前方出现一条发光的通道——它的颜色是路径对应的天空色彩（Sky Color）。深呼吸，迈入通道。</p><p style="margin-top:10px"><strong style="color:var(--gold)">路径上的体验：</strong>在通道中行走时，留意出现的一切景象、声音、人物和感受。路径对应的塔罗牌中的图像可能会以变形的方式出现——不要试图控制，而是观察和接纳。如果遇到守护者或挑战，以尊重和勇气应对。</p><p style="margin-top:10px"><strong style="color:var(--gold)">到达与回归：</strong>到达路径较高端的质点后，在其神殿中停留片刻，吸收该层面的能量。然后沿原路返回，或者选择另一条路径回到出发点。结束后，记录冥想日志——梦境般的意象往往包含深层的信息。</p></div>
+<div class="card"><h3>路径按区域分组</h3><p><strong style="color:var(--gold)">神圣三角区域路径（第11-13号）</strong>：连接神圣三角三个质点的三条路径是最超越、最难以用语言描述的路径。路径11（Aleph/愚者）连接Kether与Chochmah，代表从纯粹统一到最初二元性的过渡——愚者牌中那即将踏入虚空的人物，象征着神性智慧的大胆跃迁。路径12（Beth/魔术师）连接Kether与Binah，代表统一意志与形式化理解之间的通道。路径13（Gimel/女祭司）连接Kether与Tiphareth，横跨整个生命之树，是最长的路径之一——女祭司端坐于两柱之间，守护着深渊的秘密。</p><p style="margin-top:10px"><strong style="color:var(--gold)">道德三角区域路径（第14-17号）</strong>：连接道德三角区域的路径涉及灵魂的核心体验。路径14（Dalet/皇后）连接Chochmah与Binah，代表爱与美的流溢。路径15（He/皇帝）连接Chochmah与Chesed，代表智慧转化为行动的力量。路径16（Vav/教皇）连接Chesed与Geburah，横跨慈悲与严厉之间的鸿沟。路径17（Zayin/恋人）连接Binah与Tiphareth，代表理解与美之间的神圣结合。</p><p style="margin-top:10px"><strong style="color:var(--gold)">星光三角区域路径（第18-32号）</strong>：连接星光三角及物质界区域的路径数量最多，涵盖了从潜意识到物质感知的广阔领域。路径18（Cheth/战车）连接Binah与Geburah，代表理解通过纪律转化为力量。路径19（Teth/力量）连接Chesed与Netzach，代表慈悲通过情感获得活力。路径25-32号连接星光三角与Malkuth的路径，是修行者从物质世界开始回归之路的起点。路径32（Tav/世界）连接Yesod与Malkuth，是"回归之路"的第一步。</p></div>
+<div class="card"><h3>路径与塔罗大阿卡纳的对应关系</h3><p>二十二条路径与二十二张塔罗大阿卡纳的对应是金色黎明体系最精妙的贡献之一。希伯来字母提供了路径的"音"的维度——每个字母都有其独特的振动频率和灵性含义。占星对应提供了"势"的维度——行星和星座的力量为路径注入了特定的能量模式。塔罗牌则提供了"像"的维度——牌面图像是路径能量的视觉化呈现。在实际修行中，修行者通常先通过塔罗牌的冥想来建立与路径的初步连接，然后通过希伯来字母的发音冥想深化这一连接，最后通过占星对应的能量工作来整合体验。这种多维度的方法确保了路径工作的深度和完整性。</p></div>
+</div>
+<div class="section-title"><h2>二十二张大阿卡纳与路径对应一览</h2></div>
+<div class="tarot-grid" id="tarotGrid"><div class="tarot-card"><div class="tnum">路径 0</div><div class="tname">愚者 The Fool</div><div class="tpath">Aleph (א) — Kether→Chochmah</div></div><div class="tarot-card"><div class="tnum">路径 I</div><div class="tname">魔术师 The Magician</div><div class="tpath">Beth (ב) — Kether→Binah</div></div><div class="tarot-card"><div class="tnum">路径 II</div><div class="tname">女祭司 The High Priestess</div><div class="tpath">Gimel (ג) — Kether→Tiphareth</div></div><div class="tarot-card"><div class="tnum">路径 III</div><div class="tname">女皇 The Empress</div><div class="tpath">Daleth (ד) — Chochmah→Binah</div></div><div class="tarot-card"><div class="tnum">路径 IV</div><div class="tname">皇帝 The Emperor</div><div class="tpath">Heh (ה) — Chochmah→Chesed</div></div><div class="tarot-card"><div class="tnum">路径 V</div><div class="tname">教皇 The Hierophant</div><div class="tpath">Vav (ו) — Chesed→Geburah</div></div><div class="tarot-card"><div class="tnum">路径 VI</div><div class="tname">恋人 The Lovers</div><div class="tpath">Zayin (ז) — Binah→Tiphareth</div></div><div class="tarot-card"><div class="tnum">路径 VII</div><div class="tname">战车 The Chariot</div><div class="tpath">Cheth (ח) — Binah→Geburah</div></div><div class="tarot-card"><div class="tnum">路径 VIII</div><div class="tname">力量 Strength</div><div class="tpath">Teth (ט) — Chesed→Netzach</div></div><div class="tarot-card"><div class="tnum">路径 IX</div><div class="tname">隐者 The Hermit</div><div class="tpath">Yod (י) — Chesed→Tiphareth</div></div><div class="tarot-card"><div class="tnum">路径 X</div><div class="tname">命运之轮 Wheel of Fortune</div><div class="tpath">Kaph (כ) — Chesed→Netzach</div></div><div class="tarot-card"><div class="tnum">路径 XI</div><div class="tname">正义 Justice</div><div class="tpath">Lamed (ל) — Geburah→Tiphareth</div></div><div class="tarot-card"><div class="tnum">路径 XII</div><div class="tname">倒吊人 The Hanged Man</div><div class="tpath">Mem (מ) — Geburah→Hod</div></div><div class="tarot-card"><div class="tnum">路径 XIII</div><div class="tname">死神 Death</div><div class="tpath">Nun (נ) — Tiphareth→Netzach</div></div><div class="tarot-card"><div class="tnum">路径 XIV</div><div class="tname">节制 Temperance</div><div class="tpath">Samekh (ס) — Tiphareth→Yesod</div></div><div class="tarot-card"><div class="tnum">路径 XV</div><div class="tname">恶魔 The Devil</div><div class="tpath">Ayin (ע) — Tiphareth→Yesod</div></div><div class="tarot-card"><div class="tnum">路径 XVI</div><div class="tname">塔 The Tower</div><div class="tpath">Peh (פ) — Netzach→Hod</div></div><div class="tarot-card"><div class="tnum">路径 XVII</div><div class="tname">星星 The Star</div><div class="tpath">Tzaddi (צ) — Netzach→Yesod</div></div><div class="tarot-card"><div class="tnum">路径 XVIII</div><div class="tname">月亮 The Moon</div><div class="tpath">Qoph (ק) — Netzach→Malkuth</div></div><div class="tarot-card"><div class="tnum">路径 XIX</div><div class="tname">太阳 The Sun</div><div class="tpath">Resh (ר) — Hod→Yesod</div></div><div class="tarot-card"><div class="tnum">路径 XX</div><div class="tname">审判 Judgement</div><div class="tpath">Shin (ש) — Hod→Malkuth</div></div><div class="tarot-card"><div class="tnum">路径 XXI</div><div class="tname">世界 The World</div><div class="tpath">Tav (ת) — Yesod→Malkuth</div></div></div>
+<!-- TAB 4: 四世界与层面 -->
+<div class="tab-content" id="tab4">
+<div class="card"><h3>四重世界（Four Worlds）与多层面存在</h3><p>卡巴拉宇宙论将存在分为四个重叠的世界（Olamim），从最纯净的神性到最粗重的物质。每个世界都包含完整的生命之树结构，但各自的能量密度不同。这四个世界对应YHVH四个字母：Yod、Heh、Vav、Heh。同时，卡巴拉还描述了人类存在的多个层面：物质体、以太体、星光体、心智体和灵性体，每个层面对应生命之树的不同区域。</p></div>
+<div class="worlds-diagram">
+<div class="world-level atzi"><div class="wl-name">Atzilut 圣光之界</div><div class="wl-hebrew">אצילות &middot; Yod &middot; 火 &middot; 杖</div><div class="wl-desc">纯粹神性 &middot; 最接近Ein Soph &middot; 神的世界</div></div>
+<div style="font-size:.8em;color:var(--gold-dim)">&darr; 流溢</div>
+<div class="world-level beri"><div class="wl-name">Beriah 创造之界</div><div class="wl-hebrew">בריאה &middot; Heh &middot; 水 &middot; 杯</div><div class="wl-desc">大天使界 &middot; 原型理念 &middot; 大天使的世界</div></div>
+<div style="font-size:.8em;color:var(--gold-dim)">&darr; 流溢</div>
+<div class="world-level yetz"><div class="wl-name">Yetzirah 形成之界</div><div class="wl-hebrew">יצירה &middot; Vav &middot; 风 &middot; 剑</div><div class="wl-desc">天使界 &middot; 情感与形式 &middot; 众天使的世界</div></div>
+<div style="font-size:.8em;color:var(--gold-dim)">&darr; 物质化</div>
+<div class="world-level assi"><div class="wl-name">Asiyah 行动之界</div><div class="wl-hebrew">עשייה &middot; Heh &middot; 土 &middot; 星</div><div class="wl-desc">物质世界 &middot; 行动界 &middot; 众人的世界</div></div>
+</div>
+<div class="worlds-grid" id="worldsGrid"></div>
+<div class="canvas-wrap"><canvas id="planesCanvas"></canvas></div>
+<p style="text-align:center;font-size:.78em;color:var(--text-dim);margin-top:8px">多层面存在示意图</p>
+<div class="section-title"><h2>四世界的详细哲学</h2></div>
+<div class="card"><h3>Atzilut（圣光之界）— 神圣意志的世界</h3><p>Atzilut（אצילות，意为"接近"或"流溢"）是最高的世界，最接近Ein Sof的纯粹神性。在四世界的体系中，Atzilut对应神圣四字名YHVH的第一个字母Yod（י），对应火元素——火是所有元素中最活跃、最精微的，象征着神性意志的纯粹冲动。在Atzilut中，神性以最纯粹的形式存在——这里没有分化，没有二元对立，只有神圣意志的单一脉动。这一世界的主要居民是神圣名字（Divine Names）和神性火花（Divine Sparks）。在塔罗体系中，Atzilut对应权杖牌组（Wands）。</p></div>
+<div class="card"><h3>Beriah（创造之界）— 神圣智慧的世界</h3><p>Beriah（בריאה，意为"创造"）是第二个世界，对应YHVH的第一个He（ה），对应水元素。水是流动的、接受性的、具有成形能力的——它象征着神性智慧开始"成形"的过程。如果说Atzilut是"想要创造"的冲动，那么Beriah就是"知道如何创造"的蓝图。这一世界的主要居民是大天使（Archangels），他们是神性理念的直接承载者。例如，大天使Metatron是Kether在Beriah层面的显现，大天使Ratziel是Chochmah层面的智慧守护者。在塔罗体系中，Beriah对应圣杯牌组（Cups）。</p></div>
+<div class="card"><h3>Yetzirah（形成之界）— 天使的世界</h3><p>Yetzirah（יצירה，意为"形成"）是第三个世界，对应YHVH的Vav（ו），对应风元素。Vav是连接词"和"，象征着连接和沟通。Yetzirah是"从蓝图到模型"的阶段：Beriah中的神圣理念在这里被进一步细化和组织，形成具体的"设计图"。这一世界的主要居民是天使（Angels）和天使军团（Angel Choirs）。天使是"信使"——他们在不同世界之间传递信息和能量。在塔罗体系中，Yetzirah对应宝剑牌组（Swords）。</p></div>
+<div class="card"><h3>Asiyah（行动之界）— 行动的世界</h3><p>Asiyah（עשייה，意为"行动"或"作为"）是最低的世界，对应YHVH的最终He（ה），对应土元素。土是最稳固、最致密的元素——它象征着一切灵性能量最终"凝结"为可感知的物质现实。Asiyah是我们日常生活的世界，但它并非与神性分离——它是神性流溢的最终显现。Malkuth（王国）是Asiyah中唯一完全显现的质点。在塔罗体系中，Asiyah对应星币牌组（Pentacles/Disks）。</p></div>
+<div class="section-title"><h2>多层面存在体系</h2></div>
+<div class="card"><h3>从物质到灵性的五个层面</h3><p>卡巴拉描述了人类存在的五个层面，每个层面对应生命之树的不同区域和四世界体系中的特定世界。这些层面并非彼此分离，而是相互渗透、相互影响的整体。</p><p style="margin-top:10px"><strong style="color:var(--crimson)">物质体（Physical Body）</strong>：对应Malkuth和Asiyah。这是我们在物理世界中感知到的身体，由四元素构成。物质体是灵魂在物质世界的"容器"和"工具"。</p><p style="margin-top:10px"><strong style="color:var(--text-dim)">以太体（Etheric Body）</strong>：对应Yesod和Asiyah的高层。以太体是物质体的能量模板，也称为"生命体"（Vital Body）。它通过经络和脉轮系统分配生命能量。</p><p style="margin-top:10px"><strong style="color:var(--purple)">星光体（Astral Body）</strong>：对应Netzach-Hod和Yetzirah。星光体是情感、欲望和想象力的载体。它是梦境、灵视和魔法操作的主要层面。</p><p style="margin-top:10px"><strong style="color:var(--gold)">心智体（Mental Body）</strong>：对应Tiphareth-Geburah-Chesed和Beriah。心智体是理性思维、抽象概念和高等知识的载体。它分为低等心智（具体思维）和高等心智（抽象直觉）。</p><p style="margin-top:10px"><strong style="color:var(--gold-bright)">灵性体（Spiritual Body / Causal Body）</strong>：对应Kether-Chochmah-Binah和Atzilut。灵性体是灵魂的核心本质，是永恒不变的"神圣火花"。它是与神性直接连接的层面。</p></div>
+<div class="card"><h3>四世界中的灵魂旅程</h3><p>在卡巴拉的宇宙观中，灵魂的旅程穿越所有四个世界。灵魂最初从Atzilut的神性火花中诞生，经过Beriah的"设计"阶段获得其独特的蓝图，在Yetzirah中形成星光体，最终在Asiyah中披上物理身体进行物质世界的体验。在物质世界中的生活是灵魂"学习"的阶段——通过物质体验，灵魂整合在较高世界中无法获得的品质：耐心、慈悲、勇气和智慧。当物理身体死亡时，灵魂逐步"脱去"各层的覆盖，依次经过净化过程，最终回到Atzilut与神性合一。</p></div>
+</div>
+
+<div class="section-title"><h2>嵌套生命之树</h2></div>
+<div class="card"><h3>四世界中的嵌套生命之树结构</h3><p>卡巴拉的一个深奥概念是"嵌套生命之树"——每一个世界都包含完整的十个质点结构，但各自的能量密度和意识层级不同。在Atzilut中，生命之树是纯粹的原型；在Beriah中，它分化为理念；在Yetzirah中，它组织为形式；在Asiyah中，它凝结为物质。这意味着每一个质点本身都包含一个完整的生命之树——正如全息图中每一个部分都包含整体的信息。</p><p style="margin-top:10px">这一概念的实际应用是：修行者可以在任何一个质点中找到通往所有其他质点的路径。例如，在Malkuth中进行深度冥想时，修行者可以接触到Malkuth内部"隐藏的"Kether——物质世界中的神性火花。这种"微观中的宏观"的洞见使得卡巴拉修行者能够在日常生活的每一个层面中发现灵性的维度。</p></div>
+<div class="nested-tree"><canvas id="nestedCanvas"></canvas></div>
+<p style="text-align:center;font-size:.78em;color:var(--text-dim);margin-top:8px">嵌套生命之树示意图</p>
+
+<!-- TAB 5: 冥想修行 -->
+<div class="tab-content" id="tab5">
+<div class="card"><h3>卡巴拉冥想与修行</h3><p>卡巴拉的修行路径被称为"回归之路"（Return Path），其方向与创世之闪电相反——从Malkuth的物质世界逐步攀升至Kether的神性源头。修行者通过冥想、可视化与路径工作，逐层净化与提升意识。主要的修行方法包括：中柱冥想、路径工作（Pathworking）、质点冥想、颜色冥想和呼吸冥想。这些方法构成了一个完整的灵性训练体系，从基础的能量平衡到高级的神性合一体验。</p></div>
+<div class="timer-container">
+<div class="timer-canvas-wrap"><canvas id="timerCanvas" width="440" height="440"></canvas><div class="timer-overlay"><div class="time" id="timerDisplay">15:00</div><div class="phase" id="timerPhase">准备就绪</div></div></div>
+<div class="timer-controls">
+<select id="timerSelect" style="background:var(--card-bg);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:6px;font-size:.9em"><option value="5">5 分钟</option><option value="10">10 分钟</option><option value="15" selected>15 分钟</option><option value="20">20 分钟</option><option value="30">30 分钟</option><option value="45">45 分钟</option><option value="60">60 分钟</option></select>
+<button class="timer-btn primary" id="timerStartBtn">开始冥想</button>
+<button class="timer-btn" id="timerPauseBtn">暂停</button>
+<button class="timer-btn" id="timerResetBtn">重置</button>
+</div>
+</div>
+<div class="section-title"><h2>中柱冥想（Middle Pillar）</h2></div>
+<div class="card"><h3>中柱冥想完整指南</h3><p>中柱冥想是金色黎明体系中最基础也最重要的日常修行之一。它通过激活生命之树中柱上的四个质点（Malkuth、Yesod、Tiphareth、Kether），建立从大地到神性源头的能量通道，平衡左右两柱的能量。</p><p style="margin-top:10px"><strong style="color:var(--gold)">第一步：卡巴拉十字</strong>（建立保护场）<br>站立面朝东方，双手举至肩高，掌心朝前。观想白色光球在头顶上方（Kether），念诵"Atah"（אתה），将光从头顶引至脚底，念诵"Malkuth"（מלכות）。念诵"Ve-Geburah"（וגבורה），光延伸至右肩。念诵"Ve-Gedulah"（וגדולה），光延伸至左肩。双手合十于胸前，念诵"Le-Olam, Amen"（לעולם אמן）。观想自身成为发光十字。</p><p style="margin-top:10px"><strong style="color:var(--gold)">第二步：激活质点</strong><br>依次在中柱的四个质点位置（脚底/Malkuth、腹股沟/Yesod、心脏/Tiphareth、头顶/Kether）观想对应颜色的光球，并振动对应的神名。每个质点停留至少一分钟，感受能量在该位置聚集和辐射。</p><p style="margin-top:10px"><strong style="color:var(--gold)">第三步：能量循环</strong><br>想象光能量从头顶的Kether沿着中柱缓缓下降至脚底的Malkuth，然后从Malkuth沿身体两侧上升回Kether，形成一个完整的能量循环。重复此循环数次，感受整个能量场越来越稳定和明亮。</p></div>
+<div class="section-title"><h2>从Malkuth到Kether的修行路径</h2></div>
+<div class="meditation-steps" id="meditationSteps"></div>
+<div class="section-title"><h2>每个质点的冥想引导</h2></div>
+<div class="meditation-steps">
+<div class="meditation-step"><h4>10. Malkuth（王国）</h4><p>想象自己站在一座巨大的、四方的石殿中，地面是黑白相间的棋盘格。感受双脚与大地的连接，体会重力、稳定和物质世界的坚实。这里的一切都是可触摸的、真实的。呼吸这里的空气——它是沉重的、泥土芬芳的。在Malkuth中，学习接纳物质存在，认识到身体是灵魂的神殿。念诵"Adonai Ha-Aretz"。</p></div>
+<div class="meditation-step"><h4>9. Yesod（基础）</h4><p>想象自己来到一片银色的月光湖畔。水面如镜，倒映着星空。Yesod的能量是流动的、梦幻的、直觉的。凝视湖面，让潜意识的内容自然浮现——不要分析，只是观察。感受月光的柔和渗透力。在Yesod中，学习信任直觉，与潜意识建立友好的关系。念诵"Shaddai El Chai"。</p></div>
+<div class="meditation-step"><h4>8. Hod（宏伟）</h4><p>想象自己置身于一座巨大的图书馆中，书架延伸至无穷。Hod的能量是秩序、分析、语言和思维。翻开一本书，发现其中的文字在变化和重组——这是思维的本质。感受Hod的精确与清晰。在这里，学习观察自己的思维模式，理解语言如何塑造现实。念诵"Elohim Sabaoth"。</p></div>
+<div class="meditation-step"><h4>7. Netzach（胜利）</h4><p>想象自己走进一片茂盛的、充满生命力的花园。Netzach的能量是情感、本能、美和自然的生命力。花朵在绽放，溪流在歌唱，一切都在生长和变化。感受Netzach的持久和坚韧——生命力不是暴烈的，而是持续的。在这里，学习与情感共处，发现美中的灵性力量。念诵"Iehovah Sabaoth"。</p></div>
+<div class="meditation-step"><h4>6. Tiphareth（美丽）</h4><p>想象自己站在一片金色的光海中央，太阳就在正上方。Tiphareth是生命之树的心脏，是所有对立的和谐点。感受金色的温暖穿透每一个细胞。在这里，小我与高我相遇——你看到自己的"神圣守护天使"（Holy Guardian Angel），它不是外在的存在，而是你最深层的真实自我。在Tiphareth中，学习无条件的爱与自我接纳。念诵"Eloha"。</p></div>
+<div class="meditation-step"><h4>5. Geburah（严厉）</h4><p>想象自己来到一座火山口边缘，感受大地深处翻涌的力量。Geburah的能量是纪律、审判、力量和变革。这股力量是可怕的，但也是必要的——没有Geburah的筛选，一切将陷入混乱。感受Geburah的正义——它不残忍，而是精确。在这里，学习面对自己的阴影，接受必要的痛苦作为成长的催化剂。念诵"Elohim Geber"。</p></div>
+<div class="meditation-step"><h4>4. Chesed（慈悲）</h4><p>想象自己置身于一座宏伟的、穹顶覆盖的神殿中，到处是蓝色和紫色的光辉。Chesed的能量是慈爱、扩展、给予和包容。这里的一切都是丰裕的——没有匮乏，没有竞争，只有无尽的给予。感受Chesed的温暖如同一位仁慈的父亲。在这里，学习无条件地给予，体验"施比受更有福"的真理。念诵"El"。</p></div>
+<div class="meditation-step"><h4>3. Binah（理解）</h4><p>想象自己漂浮在一片深黑色的、宁静的虚空中。Binah的能量是形式、限制、时间和空间——它是"容器"，是赋予一切以形状的力量。这里的黑暗不是恐惧的黑暗，而是孕育一切的原始黑暗——如同种子在泥土中的黑暗中发芽。感受Binah的深邃智慧。在这里，学习接受限制和形式，理解"死亡"只是转化的另一种形式。念诵"Elohim"。</p></div>
+<div class="meditation-step"><h4>2. Chochmah（智慧）</h4><p>想象自己被一道耀眼的、纯白色的光包围。Chochmah的能量是纯粹的、动态的智慧——它是"推动者"，是一切创造力的源头。这道光不是静止的，而是不断流动和扩展的。感受Chochmah的无限潜能——一切可能性都蕴含在这道光中。在这里，学习放下对结果的执着，信任创造力的自然流动。念诵"YHVH"。</p></div>
+<div class="meditation-step"><h4>1. Kether（王冠）</h4><p>想象一切光、一切形、一切声音都消融了。Kether是纯粹的"存在"——没有内容，没有属性，没有边界。这里没有"你"和"非你"的分别，只有纯粹的、无限的觉知。不要试图"理解"Kether——只需"是"。这是修行者能到达的最高点——与神性源头的短暂合一。在这里，学习放下一切，成为纯粹的觉知本身。念诵"Eheieh"（我是之所是）。</p></div>
+</div>
+<div class="section-title"><h2>穿越深渊（Crossing the Abyss）</h2></div>
+<div class="card"><h3>什么是Abyss（深渊）</h3><p>在卡巴拉生命之树中，Abyss（深渊）是位于Tiphareth（美）与Daath（知识）之间的巨大裂隙，将上方的神圣三角与下方的七个质点完全隔开。Abyss不是一个"地方"，而是一种意识状态——它代表了神性流溢的"断裂点"，是无限一元性与有限二元性之间的不可逾越的鸿沟。在象征意义上，Abyss对应创世记中"深渊"（Tehom）的概念。在心理学层面，Abyss对应荣格所说的"自性化"过程的终极阶段——当个体人格的所有内容被彻底清空后，真正的"自性"（Self）才能显现。</p></div>
+<div class="card"><h3>如何准备穿越Abyss</h3><p>穿越Abyss是卡巴拉修行中最危险的阶段，绝不可轻率尝试。修行者必须在以下方面做好充分准备：</p><ol style="color:var(--text-dim);line-height:2;padding-left:20px;margin-top:8px"><li><strong style="color:var(--gold)">完成所有路径工作</strong> — 在尝试穿越Abyss之前，应已完成从Malkuth到Tiphareth的所有路径工作，并在Tiphareth层面实现了与高我的稳定连接</li><li><strong style="color:var(--gold)">建立坚实的日常修行</strong> — 长期的冥想、祈祷和自我观察实践是基础。建议至少有三年的持续修行经验</li><li><strong style="color:var(--gold)">净化所有执念</strong> — Abyss会放大一切未解决的执念和恐惧。任何残留的"灵性物质主义"都会成为致命的障碍</li><li><strong style="color:var(--gold)">寻找灵性导师</strong> — 穿越Abyss的过程最好在有经验的导师指导下进行</li></ol><div class="quote" style="margin-top:15px">"在深渊面前，所有知识都化为无知。唯有纯粹的意志能够穿越。"</div></div>
+<div class="card"><h3>结合呼吸的卡巴拉冥想</h3><p>卡巴拉呼吸冥想是一种将呼吸与生命之树可视化结合的修行方法：</p><ol style="color:var(--text-dim);line-height:2;padding-left:20px;margin-top:8px"><li><strong style="color:var(--gold)">吸气（从Malkuth到Kether，约8秒）</strong> — 想象能量从脚下的大地沿着中柱上升至头顶的王冠</li><li><strong style="color:var(--gold)">屏息（与神性合一，约4-8秒）</strong> — 在Kether处暂停，体验与无限的连接</li><li><strong style="color:var(--gold)">呼气（从Kether到Malkuth，约8秒）</strong> — 想象神性的光沿着中柱下降，经过各个质点，最终回归大地</li><li><strong style="color:var(--gold)">空息（静默，约4秒）</strong> — 在呼气后的自然停顿中，体验纯粹存在的状态</li></ol><p style="margin-top:10px">重复以上四步循环15-30分钟。结束时，缓慢地将注意力带回身体，感受呼吸的自然节奏，轻轻活动手指和脚趾，缓慢睁开眼睛。</p></div>
+<div class="section-title"><h2>颜色冥想</h2></div>
+<div class="card"><h3>四重色彩冥想方法</h3><p>颜色冥想是卡巴拉修行中最实用的技术之一。每个质点都有四层色彩对应（国王色、皇后色、骑士色、侍从色），分别对应四个世界。修行者可以根据修行目标选择不同层级的色彩进行冥想。</p><p style="margin-top:10px"><strong style="color:var(--gold)">国王色冥想</strong>：用于连接神性原型力量。在深度冥想中，观想对应质点的国王色光芒从上方降临，充满整个意识空间。例如，Tiphareth的国王色为金色——观想纯金色的光芒从太阳的位置倾泻而下。</p><p style="margin-top:10px"><strong style="color:var(--purple)">皇后色冥想</strong>：用于与大天使层面沟通。观想对应质点的皇后色光芒如水般流动，温柔地包围着你。例如，Tiphareth的皇后色为黄色——观想柔和的黄色光芒如同温暖的阳光。</p><p style="margin-top:10px"><strong style="color:var(--crimson)">骑士色冥想</strong>：用于仪式魔法和能量调动。观想对应质点的骑士色光芒活跃地闪烁和跳动。例如，Tiphareth的骑士色为橙黄色——观想充满活力的橙黄色火焰。</p><p style="margin-top:10px"><strong style="color:var(--text)">侍从色冥想</strong>：用于物质世界的灵性实践。观想对应质点的侍从色光芒在物质环境中显现。例如，Tiphareth的侍从色为琥珀色——观想琥珀色的光芒在周围的物体中流动。</p></div>
+</div>
+<!-- TAB 6: 卡巴拉魔法 -->
+<div class="tab-content" id="tab6">
+<div class="card"><h3>金色黎明传承的卡巴拉魔法</h3><p>金色黎明（Hermetic Order of the Golden Dawn）将卡巴拉体系与西方仪式魔法深度融合，发展出一套完整的魔法实践体系。卡巴拉魔法基于生命之树的对应系统，通过神名、天使名、色彩、塔罗和希伯来字母等多维度的象征工具，实现从物质界到神性源头的能量运作。以下为基于卡巴拉的核心魔法修行。</p></div>
+<div class="magic-grid">
+<div class="magic-card"><h3>四字神名 YHVH 的冥想</h3><p>四字神名（Tetragrammaton）יהוה 是卡巴拉魔法中最神圣的神名，代表宇宙的四重结构：</p><div class="ritual-text"><strong style="color:var(--gold)">Yod (י)</strong> — 火 &middot; Atzilut &middot; 圣父 &middot; 主动<br><strong style="color:var(--gold)">Heh (ה)</strong> — 水 &middot; Beriah &middot; 圣母 &middot; 被动<br><strong style="color:var(--gold)">Vav (ו)</strong> — 风 &middot; Yetzirah &middot; 圣子 &middot; 连接<br><strong style="color:var(--gold)">Heh (ה)</strong> — 土 &middot; Asiyah &middot; 新娘 &middot; 完成<br><br>冥想时，在每次呼吸中默念一个字母，观想对应元素的光色，从Yod的白色火焰到最终Heh的黑色大地。这种冥想能够整合四世界的能量，建立完整的宇宙意识。</div></div>
+<div class="magic-card"><h3>卡巴拉十字仪式</h3><p>卡巴拉十字（Qabalistic Cross）是金色黎明体系中最核心的日常仪式，用于建立灵性能量保护场：</p><div class="ritual-text">1. 站立面朝东方，双手举至肩高，掌心朝前<br>2. 观想白色光球在头顶上方（Kether）<br>3. 念诵 <span class="hb">"Atah"</span>（אתה），将光从头顶引至脚底<br>4. 念诵 <span class="hb">"Malkuth"</span>（מלכות）<br>5. 念诵 <span class="hb">"Ve-Geburah"</span>（וגבורה），光延伸至右肩<br>6. 念诵 <span class="hb">"Ve-Gedulah"</span>（וגדולה），光延伸至左肩<br>7. 双手合十于胸前，念诵 <span class="hb">"Le-Olam, Amen"</span>（לעולם אמן）<br>8. 观想自身成为发光十字</div></div>
+<div class="magic-card"><h3>小五芒星驱逐仪式（LBRP）</h3><p>小五芒星驱逐仪式是金色黎明最著名的日常保护仪式，基于卡巴拉的宇宙结构：</p><div class="ritual-text"><strong>第一部分：卡巴拉十字</strong>（如前述）<br><br><strong>第二部分：五芒星</strong><br>面东：绘制五芒星，念诵 <span class="hb">"Yod Heh Vav Heh"</span><br>面南：绘制五芒星，念诵 <span class="hb">"Adonai"</span><br>面西：绘制五芒星，念诵 <span class="hb">"Eheieh"</span><br>面北：绘制五芒星，念诵 <span class="hb">"Agla"</span><br><br><strong>第三部分：召唤四天使</strong><br>面东：<span class="hb">"Raphael"</span>（风）&middot; 面西：<span class="hb">"Gabriel"</span>（水）<br>面南：<span class="hb">"Michael"</span>（火）&middot; 面北：<span class="hb">"Auriel"</span>（土）<br><br><strong>第四部分：再次卡巴拉十字</strong></div></div>
+<div class="magic-card"><h3>希伯来神名对应</h3><p>每个质点都有其对应的神名（Divine Name），在魔法仪式中用于调用特定层面的神性力量：</p><div class="ritual-text"><strong>Kether</strong> — <span class="hb">Eheieh</span>（אהיה）— 我是之所是<br><strong>Chochmah</strong> — <span class="hb">YHVH</span>（יהוה）— 四字神名<br><strong>Binah</strong> — <span class="hb">Elohim</span>（אלהים）— 众神<br><strong>Chesed</strong> — <span class="hb">El</span>（אל）— 伟大的神<br><strong>Geburah</strong> — <span class="hb">Elohim Geber</span>（אלהים גבור）<br><strong>Tiphareth</strong> — <span class="hb">Eloha</span>（אלוה）<br><strong>Netzach</strong> — <span class="hb">YHVH Sabaoth</span>（יהוה צבאות）<br><strong>Hod</strong> — <span class="hb">Elohim Sabaoth</span>（אלהים צבאות）<br><strong>Yesod</strong> — <span class="hb">Shaddai El Chai</span>（שדי אל חי）<br><strong>Malkuth</strong> — <span class="hb">Adonai Ha-Aretz</span>（אדני הארץ）</div></div>
+<div class="magic-card"><h3>大天使与天使军团</h3><p>每个质点都有其对应的大天使（Archangel）和天使军团（Angel Choir），在魔法仪式中用于召唤特定层面的灵性力量：</p><div class="ritual-text"><strong>Kether</strong> — Metatron &middot; Chayoth Ha-Qadesh（圣活物）<br><strong>Chochmah</strong> — Ratziel &middot; Auphanim（轮中轮）<br><strong>Binah</strong> — Tzaphkiel &middot; Aralim（王座）<br><strong>Chesed</strong> — Tzadkiel &middot; Chashmalim（闪耀者）<br><strong>Geburah</strong> — Camael &middot; Seraphim（炽天使）<br><strong>Tiphareth</strong> — Raphael &middot; Malachim（王者）<br><strong>Netzach</strong> — Haniel &middot; Elohim（神之众）<br><strong>Hod</strong> — Michael &middot; Beni Elohim（神之子）<br><strong>Yesod</strong> — Gabriel &middot; Cherubim（智天使）<br><strong>Malkuth</strong> — Sandalphon &middot; Ishim（灵魂之众）</div></div>
+<div class="magic-card"><h3>塔罗与生命之树</h3><p>塔罗牌是卡巴拉路径工作的核心工具。二十二张大阿卡纳对应二十二条路径，四组小阿卡纳对应四世界和四元素：</p><div class="ritual-text"><strong>权杖（Wands）</strong> — 火 &middot; Atzilut &middot; 创造力与意志<br><strong>圣杯（Cups）</strong> — 水 &middot; Beriah &middot; 情感与直觉<br><strong>宝剑（Swords）</strong> — 风 &middot; Yetzirah &middot; 思维与冲突<br><strong>星币（Pentacles）</strong> — 土 &middot; Asiyah &middot; 物质与实际</div></div>
+</div>
+<div class="section-title"><h2>Gematria 数值计算器</h2></div>
+<div class="gematria-box"><p style="color:var(--text-dim);margin-bottom:15px">Gematria是希伯来字母的数值系统，每个字母对应一个数值。在卡巴拉中，具有相同数值的词语被认为具有深层的灵性联系。</p><input type="text" id="gematriaInput" placeholder="输入英文单词" autocomplete="off"><br><button id="gematriaBtn">计算数值</button><div class="result" id="gematriaResult"></div><div class="detail" id="gematriaDetail"></div></div>
+
+<div class="card"><h3>Gematria的重要对应</h3><p>Gematria是卡巴拉中最深奥的解读工具之一。以下是一些重要的Gematria对应：</p><div class="formula-box"><h4>经典Gematria对应</h4><p><strong style="color:var(--gold)">数值 13</strong>：Ahavah（爱，אהבה）= Echad（一，אחד）——"爱即合一"</p><p><strong style="color:var(--gold)">数值 26</strong>：YHVH（יהוה）= 10+5+6+5 = 26——四字神名的数值</p><p><strong style="color:var(--gold)">数值 72</strong>：Shemhamphorash（扩展的神名）——由Exodus 14:19-21三节经文各72个字母组成</p><p><strong style="color:var(--gold)">数值 136</strong>：多种方法计算——标准值（Mispar Hechachi）、序数值（Mispar Siduri）、完整值（Mispar Katan，将多位数简化为个位数）等。</p></div></div>
+<div class="section-title"><h2>创造与显化的魔法应用</h2></div>
+<div class="card"><h3>从Kether到Malkuth的显化过程</h3><p>卡巴拉魔法中的创造和显化遵循生命之树的流溢模式。魔法师首先在Kether层面确立意图（纯粹的意志），然后让这个意图通过Chochmah（获得灵感）、Binah（形成计划）、Chesed（扩展能量）、Geburah（聚焦和筛选）、Tiphareth（注入生命力）、Netzach（赋予情感驱动力）、Hod（构建形式）、Yesod（在星光层面凝聚），最终在Malkuth层面显化为物质现实。</p><p style="margin-top:10px">这个过程的每一步都需要修行者有意识地参与。在Kether层面，魔法师必须确保自己的意图是纯粹的——不掺杂个人欲望或小我的动机。在Chochmah层面，需要开放自己接收灵感。在Binah层面，需要将灵感转化为具体的计划。在Chesed和Geburah层面，需要平衡扩展与聚焦。在Tiphareth层面，需要将个人意志与神圣意志对齐。在Netzach和Hod层面，需要整合情感与理性。在Yesod层面，需要在星光界构建精确的意象。最终，在Malkuth层面，需要采取具体的物质行动来"锚定"魔法效果。</p></div>
+<div class="card"><h3>色彩魔法的应用</h3><p>色彩是卡巴拉魔法中最直接的能量工具。每个质点的四重色彩对应可以用于各种魔法目的。例如，使用Tiphareth的金色光芒可以治愈情感创伤和增强自信；使用Chesed的深蓝色光芒可以促进宽容和慈悲；使用Geburah的红色光芒可以增强勇气和决断力。色彩可以通过蜡烛、织物、宝石、可视化等多种方式运用。</p><p style="margin-top:10px">在实际操作中，魔法师首先选择对应目标质点的色彩，然后通过可视化将该色彩的光芒充满目标对象（自己、他人或特定情境）。色彩的振动频率会直接影响星光体和以太体，从而间接影响物质层面的现实。这种方法特别适合用于疗愈、保护和祝福等目的。</p></div>
+<div class="card"><h3>与西方魔法传统的关系</h3><p>卡巴拉是西方魔法传统的核心骨架。几乎所有现代西方魔法体系——从金色黎明到Thelema，从Wicca到现代赫密斯主义——都以卡巴拉生命之树作为其理论基础和操作框架。炼金术的 stages（黑化、白化、黄化、红化）对应生命之树的不同层面；占星术的行星体系与质点的行星对应完美吻合；塔罗牌的整个结构都建立在生命之树的路径对应之上。</p><p style="margin-top:10px">在当代的魔法实践中，卡巴拉提供了最完整的"象征语法"——通过生命之树的对应系统，魔法师可以将不同传统的符号和工具整合为一个统一的操作体系。例如，一个同时使用塔罗、水晶、香薰和行星魔法的修行者，可以通过生命之树的对应关系确定这些工具之间的精确关系，从而创造出高度个性化的魔法操作。</p></div>
+</div>
+<!-- TAB 7: 对应系统 -->
+<div class="tab-content" id="tab7">
+<div class="card"><h3>卡巴拉对应系统</h3><p>卡巴拉对应系统是整个卡巴拉体系的核心工具。"如其在上，如其在下"（As above, so below）——宇宙的每一个层面都与其它层面存在着精确的对应关系。通过掌握这些对应，修行者可以在不同层面之间建立能量通道，实现从物质到灵性的完整整合。以下表格展示了十个质点的主要对应关系。</p></div>
+<div class="section-title"><h2>十大质点完整对应表</h2></div>
+<div style="overflow-x:auto"><table class="corr-table" id="corrTable"></table></div>
+<div class="section-title"><h2>交互式对应查询</h2></div>
+<div class="query-box"><p style="color:var(--text-dim);margin-bottom:12px">选择一个质点查看其所有对应关系：</p><select id="querySelect"></select><button id="queryBtn">查询</button><div class="query-result" id="queryResult"></div></div>
+<div class="canvas-wrap"><canvas id="corrCanvas"></canvas></div>
+<p style="text-align:center;font-size:.78em;color:var(--text-dim);margin-top:8px">对应关系网络图</p>
+<div class="philosophy-box"><h3 style="color:var(--gold);margin-bottom:15px">"如其在上，如其在下"的哲学</h3><p>这句著名的赫密斯箴言（"As above, so below"）出自《赫密斯文集》（Corpus Hermeticum）的"翠玉录"（Emerald Tablet），是整个西方神秘学的基本公理。在卡巴拉的语境中，它意味着宇宙的每一个层面都反映了其它层面的结构——宏观宇宙（大宇宙，Macrocosm）与微观宇宙（小宇宙，Microcosm）是同构的。</p><div class="quote">"Quod est superius est quod est inferius, et quod est inferius est quod est superius."</div><p>在实践层面，这一原理意味着：理解生命之树的结构就是理解宇宙的结构，也是理解人类意识的结构。行星的运行模式与人体内的能量流动模式是同一的；塔罗牌的象征与人类心理的原型是共振的；希伯来字母的振动频率与宇宙的基本力量是同调的。掌握对应系统，就是掌握了在不同层面之间"翻译"和"传递"信息与能量的能力。</p><p style="margin-top:10px">对应系统的另一个重要应用是"同步性"（Synchronicity）的解读。当修行者在物质世界遇到与某个质点对应的象征物（例如在关键时刻看到太阳图案，对应Tiphareth），这往往意味着该层面的能量正在活跃地影响当前情境。通过对应系统的知识，修行者可以解读这些"巧合"背后的灵性信息。</p></div>
+<div class="card"><h3>四元素分配体系</h3><p>卡巴拉将四元素（火、水、风、土）与生命之树的关系精确对应。纯粹之火对应Chochmah（创造力的原始火花），纯粹之水对应Binah（形态的原始容器）。在较低层面，火元素通过Netzach（情感的热力）和Geburah（变革的烈焰）表达；水元素通过Chesed（慈悲的海洋）和Yesod（潜意识的湖面）表达；风元素通过Hod（思维的流动）和Tiphareth（生命的气息）表达；土元素通过Malkuth（物质的大地）表达。</p><p style="margin-top:10px">四元素还与四世界、四塔罗牌组、四个基本方位精确对应：火-Atzilut-权杖-东方；水-Beriah-圣杯-西方；风-Yetzirah-宝剑-南方；土-Asiyah-星币-北方。这种多维度的对应使得四元素成为卡巴拉魔法中最实用的操作框架之一。</p></div>
+<div class="card"><h3>塔罗大阿卡纳完整对应</h3><p>0 愚者(Aleph)-Kether/Chochmah &middot; I 魔术师(Beth)-Kether/Binah &middot; II 女祭司(Gimel)-Kether/Tiphareth &middot; III 女皇(Daleth)-Chochmah/Binah &middot; IV 皇帝(Heh)-Chochmah/Chesed &middot; V 教皇(Vav)-Chesed/Geburah &middot; VI 恋人(Zayin)-Binah/Tiphareth &middot; VII 战车(Cheth)-Binah/Geburah &middot; VIII 力量(Teth)-Chesed/Netzach &middot; IX 隐者(Yod)-Chesed/Tiphareth &middot; X 命运之轮(Kaph)-Chesed/Netzach &middot; XI 正义(Lamed)-Geburah/Tiphareth &middot; XII 倒吊人(Mem)-Geburah/Hod &middot; XIII 死神(Nun)-Tiphareth/Netzach &middot; XIV 节制(Samekh)-Tiphareth/Yesod &middot; XV 恶魔(Ayin)-Tiphareth/Yesod &middot; XVI 塔(Peh)-Netzach/Hod &middot; XVII 星星(Tzaddi)-Netzach/Yesod &middot; XVIII 月亮(Qoph)-Netzach/Malkuth &middot; XIX 太阳(Resh)-Hod/Yesod &middot; XX 审判(Shin)-Hod/Malkuth &middot; XXI 世界(Tav)-Yesod/Malkuth</p></div>
+</div>
+
+<div class="card"><h3>四元素分配体系</h3><p>卡巴拉将四元素（火、水、风、土）与生命之树的关系精确对应。纯粹之火对应Chochmah（创造力的原始火花），纯粹之水对应Binah（形态的原始容器）。在较低层面，火元素通过Netzach（情感的热力）和Geburah（变革的烈焰）表达；水元素通过Chesed（慈悲的海洋）和Yesod（潜意识的湖面）表达；风元素通过Hod（思维的流动）和Tiphareth（生命的气息）表达；土元素通过Malkuth（物质的大地）表达。</p></div>
+<div class="element-grid">
+<div class="element-card fire"><h4>火 Fire</h4><p>Chochmah &middot; Geburah &middot; Netzach<br>Atzilut &middot; 权杖 &middot; 东方<br>Yod &middot; 创造力 &middot; 意志<br>红色 &middot; 热情 &middot; 变革</p></div>
+<div class="element-card water"><h4>水 Water</h4><p>Binah &middot; Chesed &middot; Yesod<br>Beriah &middot; 圣杯 &middot; 西方<br>Heh &middot; 情感 &middot; 直觉<br>蓝色 &middot; 接受 &middot; 滋养</p></div>
+<div class="element-card air"><h4>风 Air</h4><p>Tiphareth &middot; Hod<br>Yetzirah &middot; 宝剑 &middot; 南方<br>Vav &middot; 思维 &middot; 沟通<br>黄色 &middot; 智慧 &middot; 自由</p></div>
+<div class="element-card earth"><h4>土 Earth</h4><p>Malkuth<br>Asiyah &middot; 星币 &middot; 北方<br>最终Heh &middot; 物质 &middot; 稳定<br>绿色/黑色 &middot; 实际 &middot; 丰饶</p></div>
+</div>
+
+<!-- TAB 8: 卡巴拉与东方思想 -->
+<div class="tab-content" id="tab8">
+<div class="card"><h3>卡巴拉与东方思想的对话</h3><p>虽然卡巴拉起源于犹太神秘主义传统，但其核心概念与东方哲学的诸多体系有着惊人的相似性。这种跨传统的共鸣并非偶然——它们都指向了同一个终极实在，只是使用了不同的语言和象征系统。通过比较研究，我们可以更深入地理解卡巴拉的哲学内涵，同时也能发现不同智慧传统之间的深层联系。</p></div>
+<div class="section-title"><h2>卡巴拉与佛教</h2></div>
+<div class="east-grid">
+<div class="east-card"><h3>空性（Sunyata）与 Kether</h3><p>佛教的核心概念"空性"（Sunyata）与卡巴拉的Kether有着深刻的对应关系。空性并非"什么都没有"，而是指一切现象都缺乏固有的、独立的存在——它们是因缘和合的产物。同样，Kether是"纯粹的 existence"——它超越了所有属性和描述，是"连存在与非存在都无法适用"的状态。两者都指向一种超越二元思维的终极实在。佛教的"中观"（Madhyamaka）学派通过逻辑推理来揭示空性，而卡巴拉则通过否定神学（Apophatic Theology）来描述Kether——两者都采用了"不是这个，不是那个"的方法论。</p><div class="comparison">Kether = 空性（Sunyata）= 真如（Tathata）= 法身（Dharmakaya）</div></div>
+<div class="east-card"><h3>轮回（Samsara）与 Malkuth</h3><p>佛教的"轮回"（Samsara）概念与卡巴拉的Malkuth有着有趣的对应。轮回不是指一次性的生死循环，而是指众生因无明（Avidya）而在六道中不断流转的状态。Malkuth作为物质世界，是灵魂"学习"的场所——通过物质体验，灵魂整合在较高世界中无法获得的品质。在佛教中，解脱（Moksha/Nirvana）意味着从轮回中觉醒；在卡巴拉中，"回归之路"意味着从Malkuth的物质局限中解放，回到Kether的神性源头。两者都描述了一条从"沉睡"到"觉醒"的灵性旅程。</p><div class="comparison">Malkuth = 轮回（Samsara）= 物质世界的束缚</div></div>
+<div class="east-card"><h3>菩提（Bodhi）与 Tiphareth</h3><p>佛教的"菩提"（Bodhi，觉悟）与卡巴拉的Tiphareth有着深刻的对应。Tiphareth是生命之树的中心，是高我（Higher Self）的所在，也是修行者"个体化"（Individuation）完成的层面。在佛教中，菩提是"觉醒"的状态——从无明中解脱，看到事物的本来面目。两者都代表了一种"中间状态"——既不是完全沉浸在物质世界中（Malkuth/Samsara），也不是完全超越了一切形式（Kether/Nirvana）。Tiphareth的"牺牲"主题也与佛教的"菩萨"（Bodhisattva）理想共鸣——为了众生的利益而放弃个人的解脱。</p><div class="comparison">Tiphareth = 菩提（Bodhi）= 觉悟的中心</div></div>
+</div>
+<div class="section-title"><h2>卡巴拉与道教</h2></div>
+<div class="east-grid">
+<div class="east-card"><h3>阴阳与两柱</h3><p>道教的阴阳学说与卡巴拉的慈悲之柱（右/阳）和严厉之柱（左/阴）有着精确的对应关系。慈悲之柱对应阳——扩张、给予、创造、主动；严厉之柱对应阴——收缩、限制、形式、被动。正如阴阳不是对立的而是互补的，两柱也不是对立的而是相互依存的。没有慈悲之柱的扩张，严厉之柱的限制就失去了意义；没有严厉之柱的限制，慈悲之柱的扩张就变成了无序的膨胀。这种动态平衡正是道教"道"的核心——"一阴一阳之谓道"。</p><div class="comparison">慈悲之柱 = 阳（Yang）&middot; 严厉之柱 = 阴（Yin）&middot; 平衡之柱 = 道（Tao）</div></div>
+<div class="east-card"><h3>无为（Wu-Wei）与 Kether</h3><p>道教的"无为"（Wu-Wei，不行动/自然行动）概念与Kether的"纯粹存在"有着深刻的共鸣。无为不是"什么都不做"，而是"顺应自然的流动"——让事物按照其本性自然发展，不加人为的干预。Kether是"纯粹的意志"——不是个人意志的强加，而是神性意志的自然流露。在Kether中，创造者与被造物是同一的——正如在无为的状态中，行动者与行动是合一的。两者都指向一种超越了"做"与"不做"二元对立的至高状态。</p><div class="comparison">Kether = 无为（Wu-Wei）= 道（Tao）= 自然（Ziran）</div></div>
+<div class="east-card"><h3>气（Qi）与生命之树的能量</h3><p>道教的"气"（Qi）概念与生命之树中的能量流溢有着相似之处。气是宇宙的基本能量，它在人体中沿着经络运行，维持生命活动。生命之树中的能量从Kether流溢至Malkuth，沿着路径和中柱流动，维持着宇宙的运转。道家的内丹术（Neidan）通过修炼将气从下丹田提升至上丹田，最终实现"还虚"——这与卡巴拉的"回归之路"（从Malkuth到Kether）惊人地相似。两者都描述了一种通过内在修炼来逆转"堕落"方向的灵性技术。</p><div class="comparison">生命之树能量流 = 气（Qi）&middot; 回归之路 = 内丹修炼</div></div>
+</div>
+<div class="section-title"><h2>卡巴拉与印度吠檀多</h2></div>
+<div class="east-grid">
+<div class="east-card"><h3>梵（Brahman）与 Ein Soph</h3><p>印度吠檀多哲学的"梵"（Brahman）概念与卡巴拉的"Ein Soph"（无限）是跨传统神秘学中最精确的对应之一。梵是终极实在，是一切存在的源头和归宿，超越一切属性和描述。正如Ein Soph是"无界限者"，梵是"Neti, Neti"（不是这个，不是这个）——无法通过概念或语言来把握。两者都代表了同一终极实在的不同文化表达。吠檀多的"不二论"（Advaita Vedanta）认为个体灵魂（Atman）与梵（Brahman）本质上是同一的——这与卡巴拉中"个体灵魂是神性火花"的概念完全共鸣。</p><div class="comparison">Ein Soph = 梵（Brahman）&middot; Kether = 梵的显化</div></div>
+<div class="east-card"><h3>昆达里尼（Kundalini）与回归之路</h3><p>印度瑜伽中的昆达里尼（Kundalini）概念与卡巴拉的"回归之路"有着惊人的结构相似性。昆达里尼是沉睡在海底轮（Muladhara，对应Malkuth）的灵性能量，通过修炼被唤醒后沿着中脉（Sushumna，对应中柱）上升，依次经过六个脉轮（对应中间的六个质点），最终到达顶轮（Sahasrara，对应Kether），实现与神性的合一。两者都描述了一条从底部到顶部的垂直灵性旅程，都涉及能量在脊柱/中柱中的上升，都以与终极神性的合一为目标。</p><div class="comparison">Malkuth = 海底轮 &middot; 中柱 = 中脉 &middot; Kether = 顶轮（Sahasrara）</div></div>
+</div>
+<div class="section-title"><h2>卡巴拉与中国五行</h2></div>
+<div class="card"><h3>五行与生命之树的对应</h3><p>中国五行学说（金、木、水、火、土）与卡巴拉的四元素体系虽然结构不同，但都描述了宇宙基本力量的相互作用模式。以下是一种可能的对应关系：</p><p style="margin-top:10px"><strong style="color:var(--crimson)">火</strong> — 对应Chochmah（创造力的原始火花）和Geburah（变革的烈焰）。火是五行中最为活跃的元素，代表上升、扩张和转化的力量。</p><p style="margin-top:10px"><strong style="color:var(--purple)">水</strong> — 对应Binah（形态的原始容器）和Chesed（慈悲的海洋）。水是五行中最具包容性的元素，代表下降、接受和滋养的力量。</p><p style="margin-top:10px"><strong style="color:var(--text)">木</strong> — 对应Netzach（自然生命力和成长的力量）。木是五行中代表生长和扩展的元素，与Netzach作为维纳斯/自然之力的属性完美吻合。</p><p style="margin-top:10px"><strong style="color:var(--gold)">金</strong> — 对应Hod（秩序、结构和精确的力量）。金是五行中代表秩序和提炼的元素，与Hod作为水星/智慧之力的属性对应。</p><p style="margin-top:10px"><strong style="color:var(--text-dim)">土</strong> — 对应Malkuth（物质世界的大地）和Yesod（基础和根基）。土是五行中最稳定的元素，代表中心、平衡和物质化。</p></div>
+<div class="section-title"><h2>跨传统神秘学对照表</h2></div>
+<div style="overflow-x:auto">
+<table class="compare-table">
+<thead><tr><th>卡巴拉</th><th>佛教</th><th>道教</th><th>吠檀多</th><th>脉轮体系</th></tr></thead>
+<tbody>
+<tr><td style="color:var(--gold)">Ein Soph</td><td>空性 Sunyata</td><td>道 Tao</td><td>梵 Brahman</td><td>超越一切</td></tr>
+<tr><td style="color:var(--gold)">Kether</td><td>法身 Dharmakaya</td><td>无极 Wuji</td><td>梵的显化</td><td>顶轮 Sahasrara</td></tr>
+<tr><td style="color:var(--gold)">Tiphareth</td><td>菩提 Bodhi</td><td>太极 Taiji</td><td>内在导师 Antaryamin</td><td>心轮 Anahata</td></tr>
+<tr><td style="color:var(--gold)">Yesod</td><td>阿赖耶识 Alaya</td><td>下丹田</td><td>潜意识 Chitta</td><td>海底轮/生殖轮</td></tr>
+<tr><td style="color:var(--gold)">Malkuth</td><td>轮回 Samsara</td><td>有形世界</td><td>物质界 Prakriti</td><td>海底轮 Muladhara</td></tr>
+<tr><td style="color:var(--gold)">Abyss</td><td>轮回与涅槃之间</td><td>生死之间</td><td>Maya的面纱</td><td>眉心轮与顶轮之间</td></tr>
+<tr><td style="color:var(--gold)">回归之路</td><td>菩提道 Bodhi-path</td><td>内丹修炼</td><td>解脱 Moksha</td><td>昆达里尼上升</td></tr>
+<tr><td style="color:var(--gold)">慈悲之柱</td><td>慈悲 Karuna</td><td>阳 Yang</td><td>创造力量 Rajas</td><td>右脉 Pingala</td></tr>
+<tr><td style="color:var(--gold)">严厉之柱</td><td>智慧 Prajna</td><td>阴 Yin</td><td>维持力量 Tamas</td><td>左脉 Ida</td></tr>
+<tr><td style="color:var(--gold)">平衡之柱</td><td>中道 Madhyamaka</td><td>中脉 Sushumna</td><td>平衡力量 Sattva</td><td>中脉 Sushumna</td></tr>
+</tbody>
+</table>
+</div>
+<div class="card"><h3>跨传统对话的意义</h3><p>卡巴拉与东方思想的比较研究不仅具有学术价值，更具有深远的灵性意义。通过比较，我们发现不同文化、不同时代的灵性传统都指向了同一个终极实在——它们只是用了不同的"语言"来描述同一种"体验"。这种发现打破了"只有一种正确的灵性道路"的狭隘观念，开启了一种更加包容和整合的灵性视野。</p><p style="margin-top:10px">在实践层面，跨传统的对话使得修行者可以借鉴不同体系的方法和技术来丰富自己的修行。例如，一个卡巴拉修行者可以运用佛教的"内观"（Vipassana）技术来深化对质点的冥想体验，或者运用道家的"站桩"来增强中柱冥想的身体感受。同样，一个佛教修行者可以通过生命之树的对应系统来理解自己冥想体验中出现的象征和意象。</p><p style="margin-top:10px">然而，跨传统的整合需要谨慎和尊重。每个传统都有其独特的历史背景、文化语境和修行方法，简单地"混搭"可能导致浅薄化或误解。真正的跨传统对话建立在深度理解每一个传统的基础上——只有深入理解了"差异"，才能真正欣赏"共鸣"。</p></div>
+
+<div class="card"><h3>佛教与卡巴拉的修行方法比较</h3><p>佛教的"内观"（Vipassana，毗婆舍那）冥想与卡巴拉的质点冥想在方法上有相似之处：两者都要求修行者以不加评判的觉知来观察内在体验。内观侧重于观察身心的无常、苦和无我三个特征；卡巴拉的质点冥想则侧重于体验每个质点特有的能量品质和灵性启示。两者都认为，直接的体验性认知远比概念性理解更为重要。</p><p style="margin-top:10px">佛教的"四无量心"（慈、悲、喜、舍）与卡巴拉的慈悲之柱（Chesed-Netzach-Chochmah）也有着对应关系。慈（Maitri）对应Chesed的无条件给予；悲（Karuna）对应Netzach的持久忍耐；喜（Mudita）对应Chochmah的创造性喜悦；舍（Upeksha）对应Tiphareth的超越性平衡。</p></div>
+<div class="card"><h3>道教内丹与卡巴拉回归之路的详细比较</h3><p>道家的内丹术将修炼过程分为"炼精化气"、"炼气化神"、"炼神还虚"、"炼虚合道"四个阶段，这与卡巴拉回归之路的四个主要阶段有着精确的对应：</p><p style="margin-top:10px"><strong style="color:var(--gold)">炼精化气</strong>（Malkuth-Yesod阶段）：将物质体的能量（精）转化为生命能量（气）。对应卡巴拉中从Malkuth到Yesod的路径工作。</p><p style="margin-top:10px"><strong style="color:var(--gold)">炼气化神</strong>（Yesod-Tiphareth阶段）：将生命能量（气）转化为灵性觉知（神）。对应卡巴拉中从Yesod到Tiphareth的路径工作。</p><p style="margin-top:10px"><strong style="color:var(--gold)">炼神还虚</strong>（Tiphareth-Kether阶段）：将灵性觉知（神）融入虚空（虚）。对应卡巴拉中从Tiphareth穿越Abyss到达Kether的过程。</p><p style="margin-top:10px"><strong style="color:var(--gold)">炼虚合道</strong>（Kether-Ein Soph阶段）：将虚空（虚）与道（Tao/Ein Soph）合一。对应卡巴拉中从Kether融入Ein Soph的终极体验。</p></div>
+<div class="chakra-grid">
+<div class="chakra-card"><h4 style="color:#c41e3a">海底轮 Muladhara</h4><p>Malkuth &middot; 物质世界<br>四元素 &middot; 大地之母<br>红色 &middot; 生存本能</p></div>
+<div class="chakra-card"><h4 style="color:#d04020">生殖轮 Svadhisthana</h4><p>Yesod &middot; 潜意识<br>水元素 &middot; 月亮<br>橙色 &middot; 情感与欲望</p></div>
+<div class="chakra-card"><h4 style="color:#f0d060">脐轮 Manipura</h4><p>Netzach/Hod &middot; 意志<br>火元素 &middot; 太阳神经丛<br>黄色 &middot; 力量与行动</p></div>
+<div class="chakra-card"><h4 style="color:#40b040">心轮 Anahata</h4><p>Tiphareth &middot; 高我<br>风元素 &middot; 太阳<br>绿色 &middot; 爱与慈悲</p></div>
+<div class="chakra-card"><h4 style="color:#4060c0">喉轮 Vishuddha</h4><p>Daath &middot; 知识<br>以太 &middot; 沟通<br>蓝色 &middot; 表达与真理</p></div>
+<div class="chakra-card"><h4 style="color:#6b2fa0">眉心轮 Ajna</h4><p>Binah/Chochmah &middot; 直觉<br>光 &middot; 第三眼<br>靛蓝 &middot; 洞察与智慧</p></div>
+<div class="chakra-card"><h4 style="color:#b0c0d0">顶轮 Sahasrara</h4><p>Kether &middot; 纯粹存在<br>无限 &middot; 神性合一<br>白色/紫 &middot; 超越一切</p></div>
+</div>
+</div>
+<div class="card"><h3>卡巴拉与中国五行详细对应</h3><p>中国五行学说（金、木、水、火、土）与卡巴拉的四元素体系虽然结构不同，但都描述了宇宙基本力量的相互作用模式。五行之间的相生相克关系与生命之树中质点之间的动态平衡有着深刻的类比。五行相生（木生火、火生土、土生金、金生水、水生木）描述了宇宙力量的滋养关系；五行相克（木克土、土克水、水克火、火克金、金克木）描述了宇宙力量的制约关系。</p><p style="margin-top:10px">在生命之树中，类似的动态平衡通过三柱体系体现：慈悲之柱（阳/扩张）与严厉之柱（阴/收缩）之间的持续互动，通过平衡之柱（中/和谐）得到调节。Chesed（水/慈悲）与Geburah（火/严厉）之间的平衡产生了Tiphareth（美/和谐）——正如五行中水与火的平衡产生了土（中心/稳定）。</p><p style="margin-top:10px">值得注意的是，五行体系比四元素体系多了一个维度——"木"元素。在卡巴拉的框架中，"木"的能量可以通过Netzach（自然/维纳斯）来理解。Netzach是生命力、成长和自然循环的力量，与五行中"木"的属性完美吻合。这种对应使得卡巴拉的四元素体系可以通过Netzach的加入而"升级"为五元素体系，从而与中国五行建立更精确的对应。</p></div>
+<div class="card"><h3>跨传统对话的意义与方法论</h3><p>卡巴拉与东方思想的比较研究不仅具有学术价值，更具有深远的灵性意义。通过比较，我们发现不同文化、不同时代的灵性传统都指向了同一个终极实在——它们只是用了不同的"语言"来描述同一种"体验"。这种发现打破了"只有一种正确的灵性道路"的狭隘观念，开启了一种更加包容和整合的灵性视野。</p><p style="margin-top:10px">在实践层面，跨传统的对话使得修行者可以借鉴不同体系的方法和技术来丰富自己的修行。例如，一个卡巴拉修行者可以运用佛教的"内观"（Vipassana）技术来深化对质点的冥想体验，或者运用道家的"站桩"来增强中柱冥想的身体感受。同样，一个佛教修行者可以通过生命之树的对应系统来理解自己冥想体验中出现的象征和意象。</p><p style="margin-top:10px">然而，跨传统的整合需要谨慎和尊重。每个传统都有其独特的历史背景、文化语境和修行方法，简单地"混搭"可能导致浅薄化或误解。真正的跨传统对话建立在深度理解每一个传统的基础上——只有深入理解了"差异"，才能真正欣赏"共鸣"。正如一位智者所言："所有的道路都通向同一座山峰，但每条路上的风景是不同的。"</p></div>
+<div class="philosophy-box">
+<h3 style="color:var(--gold);margin-bottom:15px">总结：卡巴拉作为普世的灵性语言</h3>
+<p>卡巴拉生命之树之所以能够与如此多样的东方传统产生共鸣，是因为它本质上是一种"普世的灵性语言"——它描述的不是某一特定文化的宗教体验，而是人类意识结构的普遍规律。从犹太神秘主义到佛教禅定，从道教内丹到印度瑜伽，从炼金术到现代心理学，所有这些传统都在不同程度上"发现"了同一个真理：存在的本质是意识的层层显化，而灵性修行的本质是意识从较低层面向较高层面的回归。</p>
+<p style="margin-top:10px">生命之树提供了一个精确的"地图"来描述这一过程。无论你使用哪种传统的"交通工具"——佛教的禅坐、道家的气功、瑜伽的体式、还是卡巴拉的路径工作——你都在同一张地图上旅行。理解这张地图，就是理解所有灵性传统的共同基础。这正是卡巴拉对当代灵性研究最宝贵的贡献——它不是另一种"宗教"，而是一种理解所有宗教和灵性传统的元语言。</p>
+<div class="quote">"生命之树是宇宙的DNA——它包含了所有存在形式的原型密码。理解它，就是理解一切。"</div>
+</div>
+
+</div><!-- end tab-container -->
 <div class="info-panel" id="infoPanel">
-  <div class="info-panel-content" id="infoPanelContent">
-    <button class="close-btn" id="infoPanelClose">&times;</button>
-    <div id="infoPanelBody"></div>
-  </div>
+<div class="info-panel-content" id="infoPanelContent">
+<button class="close-btn" id="infoPanelClose">&times;</button>
+<div id="infoPanelBody"></div>
 </div>
-
+</div>
 <script>
-// Particle System
-const canvas = document.getElementById('particleCanvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-class Particle {
-  constructor() {
-    this.reset();
+// ==================== PARTICLE SYSTEM ====================
+(function(){
+  var canvas = document.getElementById('particleCanvas');
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
-  reset() {
+  resize();
+  window.addEventListener('resize', resize);
+  function Particle(){ this.reset(); }
+  Particle.prototype.reset = function(){
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
     this.size = Math.random() * 2 + 0.5;
     this.speedX = (Math.random() - 0.5) * 0.3;
     this.speedY = (Math.random() - 0.5) * 0.3;
     this.opacity = Math.random() * 0.5 + 0.1;
-    this.color = ['#d4a843', '#c41e3a', '#6b2fa0', '#d4a843'][Math.floor(Math.random()*4)];
-  }
-  update() {
+    var colors = ['#d4a843','#c41e3a','#6b2fa0','#d4a843'];
+    this.color = colors[Math.floor(Math.random()*4)];
+  };
+  Particle.prototype.update = function(){
     this.x += this.speedX;
     this.y += this.speedY;
-    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-      this.reset();
-    }
-  }
-  draw() {
+    if(this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height){ this.reset(); }
+  };
+  Particle.prototype.draw = function(){
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fillStyle = this.color;
     ctx.globalAlpha = this.opacity;
     ctx.fill();
-  }
-}
-
-function initParticles(count) {
-  particles = [];
-  for (let i = 0; i < count; i++) {
-    particles.push(new Particle());
-  }
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => { p.update(); p.draw(); });
-  // Draw connections
-  particles.forEach((a, i) => {
-    for (let j = i + 1; j < particles.length; j++) {
-      const b = particles[j];
-      const dx = a.x - b.x;
-      const dy = a.y - b.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < 150) {
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(212,168,67,${0.06 * (1 - dist/150)})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
+  };
+  for(var i = 0; i < 80; i++){ particles.push(new Particle()); }
+  function animate(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for(var i = 0; i < particles.length; i++){
+      particles[i].update();
+      particles[i].draw();
+    }
+    for(var a = 0; a < particles.length; a++){
+      for(var b = a + 1; b < particles.length; b++){
+        var dx = particles[a].x - particles[b].x;
+        var dy = particles[a].y - particles[b].y;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 150){
+          ctx.beginPath();
+          ctx.moveTo(particles[a].x, particles[a].y);
+          ctx.lineTo(particles[b].x, particles[b].y);
+          ctx.strokeStyle = 'rgba(212,168,67,' + (0.06 * (1 - dist/150)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
       }
     }
-  });
-  requestAnimationFrame(animateParticles);
-}
-initParticles(80);
-animateParticles();
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
 
-// Hamburger
-document.getElementById('hamburger').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
+// ==================== HAMBURGER ====================
+document.getElementById('hamburger').addEventListener('click', function(){
+  this.classList.toggle('open');
+  document.getElementById('navBar').classList.toggle('open');
 });
 
-// Tab System
-const tabBtns = document.querySelectorAll('.tab-btn');
-const tabContents = document.querySelectorAll('.tab-content');
-
-tabBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    tabBtns.forEach(b => b.classList.remove('active'));
-    tabContents.forEach(c => c.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.tab).classList.add('active');
-    if (btn.dataset.tab === 'tab1') initTree();
-    document.getElementById('navLinks').classList.remove('open');
-  });
-});
-
-// ============== TREE OF LIFE ==============
-const treeCanvas = document.getElementById('treeCanvas');
-const tctx = treeCanvas.getContext('2d');
-
-const sephirothData = [
-  { id: 'kether', name: 'Kether', nameZh: '王冠', num: 1, x: 0.5, y: 0.03, color: '#ffffff', pillar: 'middle',
-    meaning: '空性、不二、起源',
-    hebrew: 'כתר', godName: 'Eheieh', angel: 'Methratton', colorAttr: '纯白', gem: '钻石',
-    number: '1', body: '头顶的冠', tarot: '四张Aces',
-    hebrewName: 'Haioth ha-Qadesh', planet: 'Primum Mobile',
-    desc: 'Kether是生命之树的第一道流溢，是一切存在的起源。它代表了纯粹的存在、无限的意识、以及不二的境界。在Kether中，所有对立面尚未分裂——主体与客体、创造者与被造物是同一的。Kether被称为"王冠"，因为它位于头脑之上，超越一切理解。它对应神的"存在"层面，是所有萨菲罗斯中最难以言说的。"},
-  { id: 'chochmah', name: 'Chochmah', nameZh: '智慧', num: 2, x: 0.72, y: 0.09, color: '#b0c0d0', pillar: 'right',
-    meaning: '伟大的父亲、阳性之始、动力',
-    hebrew: 'חכמה', godName: 'Iehovah', angel: 'Iophiel', colorAttr: '灰色', gem: '蓝宝石',
-    number: '2', body: '大脑右半球', tarot: '愚者/魔术师',
-    hebrewName: 'Methratton', planet: '黄道带（Mazloth）',
-    desc: 'Chochmah是智慧，是宇宙的第一道冲动。它代表了纯粹的动力、创造性的灵感、以及阳性的穿透力。Chochmah被称为"伟大的父亲"，是将潜能转化为动能的第一推动力。在卡巴拉中，Chochmah对应YHVH中的第一个字母Yod，象征着创造的种子、初始的灵感火花。"},
-  { id: 'binah', name: 'Binah', nameZh: '理解', num: 3, x: 0.28, y: 0.09, color: '#8a2a3a', pillar: 'left',
-    meaning: '伟大的母亲、形态之创造者',
-    hebrew: 'בינה', godName: 'Elohim', angel: 'Zabbathi', colorAttr: '深红', gem: '珍珠',
-    number: '3', body: '大脑左半球', tarot: '女皇',
-    hebrewName: 'Aralim', planet: '土星（Shabbathai）',
-    desc: 'Binah是理解，是宇宙的形态赋予者。它接收Chochmah的原始能量并赋予其结构与界限。Binah被称为"伟大的母亲"，是阴性的、包容的、塑造的力量。在Binah中，无限的潜能被约束成有限的形式——这是创造的必要条件。Binah对应YHVH中的第一个Heh，代表子宫与孕育的容器。"},
-  { id: 'chesed', name: 'Chesed', nameZh: '慈悲', num: 4, x: 0.72, y: 0.27, color: '#4060c0', pillar: 'right',
-    meaning: '王座上的国王、爱',
-    hebrew: 'חסד', godName: 'El', angel: 'Hasmalim', colorAttr: '深蓝', gem: '蓝宝石',
-    number: '4', body: '右臂', tarot: '皇帝',
-    hebrewName: 'Chashmalim', planet: '木星（Zedeq）',
-    desc: 'Chesed是慈悲，是神性无条件的爱和宽恕。它代表着扩张、给予和慷慨的力量。Chesed如同坐在王座上的国王，以仁慈和智慧治理宇宙。在Chesed中，我们体验到被宇宙无条件接纳的安全感。然而，纯粹的慈悲若不加以节制也可能变成纵容——因此需要Geburah作为其平衡。"},
-  { id: 'geburah', name: 'Geburah', nameZh: '严厉', num: 5, x: 0.28, y: 0.27, color: '#d04020', pillar: 'left',
-    meaning: '战车上的国王、正义',
-    hebrew: 'גבורה', godName: 'Elohim Geber', angel: 'Camael', colorAttr: '橙色', gem: '红宝石',
-    number: '5', body: '左臂', tarot: '战车/力量',
-    hebrewName: 'Seraphim', planet: '火星（Madim）',
-    desc: 'Geburah是严厉，是力量、审判和界限的力量。它代表着收缩、鉴别和正义。Geburah如同战车上的国王，以力量和决断维护宇宙的法则。没有Geburah的限制，Chesed的慈悲将失去方向；没有Chesed的慈悲，Geburah的审判将变为残酷。两者的平衡产生了Tiphareth——美。"},
-  { id: 'tiphareth', name: 'Tiphareth', nameZh: '美丽', num: 6, x: 0.50, y: 0.42, color: '#f0d060', pillar: 'middle',
-    meaning: '平衡、高我、牺牲',
-    hebrew: 'תפארת', godName: 'Eloha', angel: 'Raphael', colorAttr: '金黃', gem: '黄玉',
-    number: '6', body: '心脏', tarot: '太阳/四位国王',
-    hebrewName: 'Malachim', planet: '太阳（Shemesh）',
-    desc: 'Tiphareth是美丽，是生命之树的中心与平衡点。它代表高我（Higher Self）、个体的真实意志、以及牺牲与救赎的力量。Tiphareth是Chesed（慈悲）与Geburah（严厉）的和谐统一，如同太阳居于太阳系的中心，给予生命与光明。在神秘学中，Tiphareth对应耶稣基督式的牺牲之神——为了更高的目标而放下自我。"},
-  { id: 'netzach', name: 'Netzach', nameZh: '胜利', num: 7, x: 0.72, y: 0.58, color: '#40b040', pillar: 'right',
-    meaning: '艺术、本能、美丽',
-    hebrew: 'נצח', godName: 'Iehovah Sabaoth', angel: 'Haniel', colorAttr: '绿色', gem: '祖母绿',
-    number: '7', body: '右腿', tarot: '星星',
-    hebrewName: 'Elohim', planet: '金星（Nogah）',
-    desc: 'Netzach是胜利，代表情感、艺术、本能和自然的力量。它是驱使我们创造、爱与连接的原始能量。Netzach掌管自然界中所有美丽与和谐的事物——花朵的色彩、鸟类的歌唱、爱情的悸动。在卡巴拉中，Netzach是直觉和灵感的源泉，但也需要Hod的理性来赋予形式。"},
-  { id: 'hod', name: 'Hod', nameZh: '宏伟', num: 8, x: 0.28, y: 0.58, color: '#b060d0', pillar: 'left',
-    meaning: '知识、科学、神秘学',
-    hebrew: 'הוד', godName: 'Elohim Sabaoth', angel: 'Michael', colorAttr: '橙色', gem: '紫水晶',
-    number: '8', body: '左腿', tarot: '月亮',
-    hebrewName: 'Beni Elohim', planet: '水星（Kochav）',
-    desc: 'Hod是宏伟，代表理智、科学、沟通和形式的力量。它将Netzach的原始情感转化为结构化的知识体系。Hod是学习、写作、数学和魔法仪式背后的力量。在Hod中，我们分析和理解宇宙的规律。Hod对应Hermes/Mercury，是沟通诸界之间的桥梁。"},
-  { id: 'yesod', name: 'Yesod', nameZh: '基础', num: 9, x: 0.50, y: 0.76, color: '#9090d0', pillar: 'middle',
-    meaning: '月亮、潜意识、灵通',
-    hebrew: 'יסוד', godName: 'Shaddai El Chai', angel: 'Gabriel', colorAttr: '紫色', gem: '石英',
-    number: '9', body: '生殖系统', tarot: '月亮',
-    hebrewName: 'Cherubim', planet: '月亮（Levanah）',
-    desc: 'Yesod是基础，是潜意识与梦境的领域。它如同月光，反射来自上层萨菲罗斯的光芒，并将其传递到物质世界。Yesod掌管直觉、灵通能力、以及所有尚未显化的潜能。它是连接内在世界与外在世界的桥梁，如同树根般既深入大地又连接着整棵生命之树。在Yesod中，所有可能性都被孕育着。"},
-  { id: 'malkuth', name: 'Malkuth', nameZh: '王国', num: 10, x: 0.50, y: 0.93, color: '#6a5040', pillar: 'middle',
-    meaning: '大地之母、物质界',
-    hebrew: 'מלכות', godName: 'Adonai Ha-Aretz', angel: 'Sandalphon', colorAttr: '柠檬黄/棕', gem: '水晶',
-    number: '10', body: '全身', tarot: '世界',
-    hebrewName: 'Ishim', planet: '地球（Olam Yesodoth）',
-    desc: 'Malkuth是王国，是生命之树的第十道流溢，代表物质世界、地球和我们的物理身体。它是神性创造的最终完成，也是修行者开始回归之路的起点。Malkuth对应大地之母、四季的循环、以及所有物理层面的生命。在Malkuth中，神圣的能量以最稠密的形式存在——正如金色黎明所言："Malkuth中亦有神性。"上界如是，下界亦然。"}
-];
-
-// Lightning Flash path order
-const lightningOrder = ['kether','chochmah','binah','chesed','geburah','tiphareth','netzach','hod','yesod','malkuth'];
-
-// 22 Paths data
-const pathsData = [
-  { id:1, from:'kether', to:'chochmah', letter:'Aleph', letterHb:'א', tarot:'愚者', meaning:'狂喜 · 神圣的愚昧', num:11 },
-  { id:2, from:'kether', to:'binah', letter:'Beth', letterHb:'ב', tarot:'魔术师', meaning:'智慧 · 神圣的创造力', num:12 },
-  { id:3, from:'kether', to:'tiphareth', letter:'Gimel', letterHb:'ג', tarot:'女祭司', meaning:'统一 · 通过Daath的路径', num:13 },
-  { id:4, from:'chochmah', to:'binah', letter:'Daleth', letterHb:'ד', tarot:'女皇', meaning:'爱 · 神圣的孕育力', num:14 },
-  { id:5, from:'chochmah', to:'tiphareth', letter:'Heh', letterHb:'ה', tarot:'皇帝', meaning:'启示 · 神圣的权威', num:15 },
-  { id:6, from:'chochmah', to:'chesed', letter:'Vav', letterHb:'ו', tarot:'教皇', meaning:'引导 · 神圣的教诲', num:16 },
-  { id:7, from:'binah', to:'tiphareth', letter:'Zayin', letterHb:'ז', tarot:'恋人', meaning:'选择 · 神圣的合一', num:17 },
-  { id:8, from:'binah', to:'geburah', letter:'Cheth', letterHb:'ח', tarot:'战车', meaning:'驾驭 · 神圣的力量', num:18 },
-  { id:9, from:'chesed', to:'geburah', letter:'Teth', letterHb:'ט', tarot:'力量', meaning:'勇气 · 神圣的毅力', num:19 },
-  { id:10, from:'chesed', to:'tiphareth', letter:'Yod', letterHb:'י', tarot:'隐士', meaning:'内省 · 神圣的光', num:20 },
-  { id:11, from:'chesed', to:'netzach', letter:'Kaph', letterHb:'כ', tarot:'命运之轮', meaning:'循环 · 神圣的机遇', num:21 },
-  { id:12, from:'geburah', to:'tiphareth', letter:'Lamed', letterHb:'ל', tarot:'正义', meaning:'平衡 · 神圣的审判', num:22 },
-  { id:13, from:'geburah', to:'hod', letter:'Mem', letterHb:'מ', tarot:'倒吊人', meaning:'牺牲 · 神圣的臣服', num:23 },
-  { id:14, from:'tiphareth', to:'netzach', letter:'Nun', letterHb:'נ', tarot:'死神', meaning:'转化 · 神圣的蜕变', num:24 },
-  { id:15, from:'tiphareth', to:'hod', letter:'Samekh', letterHb:'ס', tarot:'节制', meaning:'调和 · 神圣的炼金术', num:25 },
-  { id:16, from:'tiphareth', to:'yesod', letter:'Ayin', letterHb:'ע', tarot:'恶魔', meaning:'诱惑 · 神圣的考验', num:26 },
-  { id:17, from:'netzach', to:'hod', letter:'Peh', letterHb:'פ', tarot:'塔', meaning:'崩塌 · 神圣的启示', num:27 },
-  { id:18, from:'netzach', to:'yesod', letter:'Tzaddi', letterHb:'צ', tarot:'星星', meaning:'希望 · 神圣的引导', num:28 },
-  { id:19, from:'netzach', to:'malkuth', letter:'Qoph', letterHb:'ק', tarot:'月亮', meaning:'幻象 · 神圣的梦境', num:29 },
-  { id:20, from:'hod', to:'yesod', letter:'Resh', letterHb:'ר', tarot:'太阳', meaning:'觉醒 · 神圣的光辉', num:30 },
-  { id:21, from:'hod', to:'malkuth', letter:'Shin', letterHb:'ש', tarot:'审判', meaning:'重生 · 神圣的召唤', num:31 },
-  { id:22, from:'yesod', to:'malkuth', letter:'Tav', letterHb:'ת', tarot:'世界', meaning:'完成 · 神圣的圆满', num:32 }
-];
-
-function getSephira(id) { return sephirothData.find(s => s.id === id); }
-
-function drawTree(highlight) {
-  const w = treeCanvas.parentElement.clientWidth || 600;
-  const dpr = window.devicePixelRatio || 1;
-  treeCanvas.width = w * dpr;
-  treeCanvas.height = w * 1.2 * dpr;
-  treeCanvas.style.width = w + 'px';
-  treeCanvas.style.height = (w * 1.2) + 'px';
-  tctx.scale(dpr, dpr);
-  const cw = w;
-  const ch = w * 1.2;
-
-  tctx.clearRect(0, 0, cw, ch);
-
-  // Draw paths
-  pathsData.forEach(p => {
-    const from = getSephira(p.from);
-    const to = getSephira(p.to);
-    const x1 = from.x * cw;
-    const y1 = from.y * ch;
-    const x2 = to.x * cw;
-    const y2 = to.y * ch;
-    tctx.beginPath();
-    tctx.moveTo(x1, y1);
-    tctx.lineTo(x2, y2);
-    tctx.strokeStyle = 'rgba(212,168,67,0.25)';
-    tctx.lineWidth = 1.5;
-    tctx.stroke();
-    // Path number
-    const mx = (x1 + x2) / 2;
-    const my = (y1 + y2) / 2;
-    tctx.fillStyle = 'rgba(212,168,67,0.15)';
-    tctx.font = '7px Cormorant Garamond, serif';
-    tctx.textAlign = 'center';
-    tctx.fillText(p.num, mx, my + 2);
-  });
-
-  // Draw Sephiroth
-  sephirothData.forEach(s => {
-    const cx = s.x * cw;
-    const cy = s.y * ch;
-    const radius = s.id === 'malkuth' ? 16 : 14;
-    const isHighlight = highlight === s.id;
-
-    // Glow
-    const glow = tctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 3);
-    if (isHighlight) {
-      glow.addColorStop(0, 'rgba(212,168,67,0.4)');
-      glow.addColorStop(1, 'rgba(212,168,67,0)');
-    } else {
-      glow.addColorStop(0, 'rgba(212,168,67,0.15)');
-      glow.addColorStop(1, 'rgba(212,168,67,0)');
+// ==================== TAB SYSTEM ====================
+function switchTab(tabId){
+  var btns = document.querySelectorAll('.tab-btn');
+  var contents = document.querySelectorAll('.tab-content');
+  for(var i = 0; i < btns.length; i++){ btns[i].classList.remove('active'); }
+  for(var j = 0; j < contents.length; j++){ contents[j].classList.remove('active'); }
+  var target = document.getElementById(tabId);
+  if(target) target.classList.add('active');
+  for(var k = 0; k < btns.length; k++){
+    if(btns[k].getAttribute('onclick') && btns[k].getAttribute('onclick').indexOf(tabId) !== -1){
+      btns[k].classList.add('active');
     }
-    tctx.fillStyle = glow;
-    tctx.beginPath();
-    tctx.arc(cx, cy, radius * 3, 0, Math.PI * 2);
-    tctx.fill();
-
-    // Circle
-    tctx.beginPath();
-    tctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    const grad = tctx.createRadialGradient(cx - 4, cy - 4, 2, cx, cy, radius);
-    grad.addColorStop(0, isHighlight ? '#ffe080' : s.color);
-    grad.addColorStop(1, isHighlight ? '#d4a843' : 'rgba(0,0,0,0.6)');
-    tctx.fillStyle = grad;
-    tctx.fill();
-    tctx.strokeStyle = isHighlight ? '#ffd700' : 'rgba(212,168,67,0.6)';
-    tctx.lineWidth = isHighlight ? 2.5 : 1.5;
-    tctx.stroke();
-
-    // Number
-    tctx.fillStyle = '#0a0a0a';
-    tctx.font = `bold ${radius * 0.8}px Cormorant Garamond, serif`;
-    tctx.textAlign = 'center';
-    tctx.textBaseline = 'middle';
-    tctx.fillText(s.num, cx, cy);
-
-    // Name
-    tctx.fillStyle = 'rgba(255,255,255,0.7)';
-    tctx.font = `${radius * 0.5}px Cormorant Garamond, serif`;
-    tctx.textBaseline = 'top';
-    tctx.fillText(s.name, cx, cy + radius + 4);
-  });
-
-  // Pillar labels
-  tctx.fillStyle = 'rgba(212,168,67,0.15)';
-  tctx.font = '10px Cormorant Garamond, serif';
-  tctx.textAlign = 'center';
-  tctx.textBaseline = 'bottom';
-  tctx.fillText('Severity', 0.10 * cw, ch);
-  tctx.fillStyle = 'rgba(107,47,160,0.15)';
-  tctx.fillText('Mildness', 0.50 * cw, ch);
-  tctx.fillStyle = 'rgba(212,168,67,0.15)';
-  tctx.fillText('Mercy', 0.90 * cw, ch);
+  }
+  document.getElementById('navBar').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  if(tabId === 'tab1') initTree();
+  if(tabId === 'tab3') initPathCanvas();
+  if(tabId === 'tab4') { initPlanesCanvas(); initNestedCanvas(); }
+  if(tabId === 'tab5') drawTimerRing(0);
+  if(tabId === 'tab7') initCorrCanvas();
 }
 
-// Initialize Tree
-let treeInitialized = false;
-function initTree() {
-  if (treeInitialized) return;
-  drawTree(null);
-  treeInitialized = true;
+// ==================== SEPHIROTH DATA ====================
+var sephirothData = [
+  { id:'kether', name:'Kether', nameZh:'王冠', num:1, x:0.5, y:0.04, color:'#ffffff', pillar:'middle',
+    meaning:'空性、不二、起源、纯粹存在', hebrew:'כתר', godName:'Eheieh (אהיה)', archangel:'Metatron', angelChoir:'Chayoth Ha-Qadesh', colorAttr:'光辉/纯白', gem:'钻石',
+    number:'1', body:'头顶的冠', tarot:'四张Aces', planet:'Primum Mobile/海王星',
+    magicImage:'一位古老的白须国王半面朝前',
+    colors:{king:'光辉',queen:'纯白',knight:'白',page:'珠光灰'},
+    virtue:'与神合一', vice:'无缺点', spiritualExp:'与神性合一的至高体验', tarotMajor:'—',
+    symbols:'点、王冠、天鹅绒',
+    philosophy:'Kether是生命之树的第一道流溢，是一切存在的起源。它代表了纯粹的存在、无限的意识、以及不二的境界。在Kether中，所有对立面尚未分裂——主体与客体、创造者与被造物是同一的。Kether被称为"王冠"，因为它位于一切之上，超越一切理解。它对应神的"存在"层面，是所有质点中最难以言说的。Kether的魔法形象是一位古老国王的半面——暗示着神性只能被部分地认知。在灵性修行中，Kether是"回归之路"的终极目标，也是修行者能到达的最高体验。'
+  },
+  { id:'chochmah', name:'Chochmah', nameZh:'智慧', num:2, x:0.73, y:0.10, color:'#b0c0d0', pillar:'right',
+    meaning:'伟大的父亲、阳性之始、宇宙动力之源', hebrew:'חכמה', godName:'YHVH (יהוה)', archangel:'Ratziel', angelChoir:'Auphanim', colorAttr:'灰色', gem:'星彩蓝宝石',
+    number:'2', body:'大脑左半/面部', tarot:'愚者/魔术师', planet:'黄道十二宫/天王星',
+    magicImage:'一位有胡子的男性形象',
+    colors:{king:'纯蓝',queen:'灰',knight:'黑蓝带白斑',page:'蓝灰'},
+    virtue:'奉献', vice:'无缺点', spiritualExp:'对神圣智慧的直面', tarotMajor:'0 愚者',
+    symbols:'直线、权杖、圆塔、剑、羽翼',
+    philosophy:'Chochmah是智慧，是宇宙的第一道冲动。它代表了纯粹的动力、创造性的灵感、以及阳性的穿透力。Chochmah被称为"伟大的父亲"，是将潜能转化为动能的第一推动力。在卡巴拉中，Chochmah对应YHVH中的第一个字母Yod，象征着创造的种子、初始的灵感火花。Chochmah对应十二黄道星座——它是宇宙动力的总源头，一切行星力量都从其中流出。'
+  },
+  { id:'binah', name:'Binah', nameZh:'理解', num:3, x:0.27, y:0.10, color:'#8a2a3a', pillar:'left',
+    meaning:'伟大的母亲、形态之创造者、悲伤之景', hebrew:'בינה', godName:'Elohim (אלהים)', archangel:'Tzaphkiel', angelChoir:'Aralim', colorAttr:'深红/黑', gem:'珍珠',
+    number:'3', body:'大脑左半', tarot:'女祭司', planet:'土星',
+    magicImage:'一位成熟女性形象',
+    colors:{king:'深红',queen:'黑',knight:'深蓝带黄',page:'暗褐带柠檬黄'},
+    virtue:'沉默', vice:'贪婪', spiritualExp:'神圣悲伤之景', tarotMajor:'II 女祭司',
+    symbols:'圣杯、鱼形、子宫',
+    philosophy:'Binah是理解，是宇宙的形态赋予者。它接收Chochmah的原始能量并赋予其结构与界限。Binah被称为"伟大的母亲"，是阴性的、包容的、塑造的力量。在Binah中，无限的潜能被约束成有限的形式——这是创造的必要条件。Binah对应土星——时间、限制和因果律的主宰。Binah的灵性经验是"神圣悲伤之景"——这不是消极的悲伤，而是对存在之有限性的深刻感悟。'
+  },
+  { id:'chesed', name:'Chesed', nameZh:'慈悲', num:4, x:0.73, y:0.28, color:'#4060c0', pillar:'right',
+    meaning:'王座上的国王、爱之景、顺服', hebrew:'חסד', godName:'El (אל)', archangel:'Tzadkiel', angelChoir:'Chashmalim', colorAttr:'深蓝/紫', gem:'蓝宝石',
+    number:'4', body:'右臂', tarot:'皇帝', planet:'木星',
+    magicImage:'一位坐在王座上的国王',
+    colors:{king:'深紫',queen:'蓝',knight:'深蓝带黄',page:'深蓝带红斑'},
+    virtue:'顺服', vice:'残忍/暴政', spiritualExp:'神圣慈悲之景', tarotMajor:'III 女皇 / IV 皇帝',
+    symbols:'权杖、立方体、圆规、祭坛',
+    philosophy:'Chesed是慈悲，是神性无条件的爱和宽恕。它代表着扩张、给予和慷慨的力量。Chesed如同坐在王座上的国王，以仁慈和智慧治理宇宙。在Chesed中，我们体验到被宇宙无条件接纳的安全感。Chesed对应木星——扩展、幸运和丰饶的行星。然而，纯粹的慈悲若不加以节制也可能变成纵容——因此需要Geburah作为其平衡。'
+  },
+  { id:'geburah', name:'Geburah', nameZh:'严厉', num:5, x:0.27, y:0.28, color:'#d04020', pillar:'left',
+    meaning:'战车上的国王、恐惧与力量', hebrew:'גבורה', godName:'Elohim Geber (אלהים גבור)', archangel:'Camael', angelChoir:'Seraphim', colorAttr:'橙红', gem:'红宝石',
+    number:'5', body:'左臂', tarot:'战车/力量', planet:'火星',
+    magicImage:'一位站在战车上的国王',
+    colors:{king:'橙',queen:'红',knight:'明红带蓝',page:'红带金'},
+    virtue:'勇气/能量', vice:'残忍/破坏', spiritualExp:'神圣力量之景', tarotMajor:'VII 战车 / XI 力量',
+    symbols:'剑、五角星、闪电、战车',
+    philosophy:'Geburah是严厉，是力量、审判和界限的力量。它代表着收缩、鉴别和正义。Geburah如同战车上的国王，以力量和决断维护宇宙的法则。没有Geburah的限制，Chesed的慈悲将失去方向；没有Chesed的慈悲，Geburah的审判将变为残酷。两者的平衡产生了Tiphareth——美。Geburah对应火星——战争、勇气和变革的行星。'
+  },
+  { id:'tiphareth', name:'Tiphareth', nameZh:'美丽', num:6, x:0.50, y:0.44, color:'#f0d060', pillar:'middle',
+    meaning:'平衡、高我所在、牺牲与十字架、救赎者', hebrew:'תפארת', godName:'Eloha (אלוה)', archangel:'Raphael', angelChoir:'Malachim', colorAttr:'金黄', gem:'黄玉',
+    number:'6', body:'心脏/胸', tarot:'太阳/四位国王', planet:'太阳',
+    magicImage:'一位被献祭的国王',
+    colors:{king:'金',queen:'黄',knight:'橙黄',page:'琥珀/暗黄'},
+    virtue:'自我牺牲', vice:'自负', spiritualExp:'神圣合一之景/高我显现', tarotMajor:'XIX 太阳',
+    symbols:'十字架、六芒星、玫瑰、狮子、面包',
+    philosophy:'Tiphareth是美丽，是生命之树的中心与平衡点。它代表高我（Higher Self）、个体的真实意志、以及牺牲与救赎的力量。Tiphareth是Chesed与Geburah的和谐统一，如同太阳居于太阳系的中心，给予生命与光明。在神秘学中，Tiphareth对应耶稣基督式的牺牲之神——为了更高的目标而放下自我。Tiphareth的灵性经验是"神圣合一之景"——修行者在此与高我（Holy Guardian Angel）相遇。'
+  },
+  { id:'netzach', name:'Netzach', nameZh:'胜利', num:7, x:0.73, y:0.60, color:'#40b040', pillar:'right',
+    meaning:'艺术、情感、美、慈悲之柱基座', hebrew:'נצח', godName:'YHVH Sabaoth (יהוה צבאות)', archangel:'Haniel', angelChoir:'Elohim', colorAttr:'绿', gem:'祖母绿',
+    number:'7', body:'右腿/髋', tarot:'星星', planet:'金星',
+    magicImage:'一位美丽裸体女性',
+    colors:{king:'琥珀',queen:'绿',knight:'绿蓝',page:'柠檬绿'},
+    virtue:'无私', vice:'虚荣/不真诚', spiritualExp:'神圣美之景', tarotMajor:'XVII 星星',
+    symbols:'灯、玫瑰、镜子、花环',
+    philosophy:'Netzach是胜利，代表情感、艺术、本能和自然的力量。它是驱使我们创造、爱与连接的原始能量。Netzach掌管自然界中所有美丽与和谐的事物——花朵的色彩、鸟类的歌唱、爱情的悸动。在卡巴拉中，Netzach是直觉和灵感的源泉，但也需要Hod的理性来赋予形式。Netzach对应金星——美、爱与和谐的行星。'
+  },
+  { id:'hod', name:'Hod', nameZh:'宏伟', num:8, x:0.27, y:0.60, color:'#b060d0', pillar:'left',
+    meaning:'知识、科学、神秘学、水星/Thoth/Hermes', hebrew:'הוד', godName:'Elohim Sabaoth (אלהים צבאות)', archangel:'Michael', angelChoir:'Beni Elohim', colorAttr:'紫/橙', gem:'紫水晶',
+    number:'8', body:'左腿/髋', tarot:'月亮/隐士', planet:'水星',
+    magicImage:'一位女性形象（有时为Hermes）',
+    colors:{king:'紫',queen:'橙',knight:'橙蓝',page:'黄褐带紫'},
+    virtue:'诚实', vice:'虚伪/不真诚', spiritualExp:'神圣幻象之景', tarotMajor:'IX 隐者',
+    symbols:'名字、数字、塔、信使、面具',
+    philosophy:'Hod是宏伟，代表理智、科学、沟通和形式的力量。它将Netzach的原始情感转化为结构化的知识体系。Hod是学习、写作、数学和魔法仪式背后的力量。在Hod中，我们分析和理解宇宙的规律。Hod对应Hermes/Mercury/Thoth——沟通诸界之间的桥梁，科学与神秘学的守护者。'
+  },
+  { id:'yesod', name:'Yesod', nameZh:'基础', num:9, x:0.50, y:0.78, color:'#9090d0', pillar:'middle',
+    meaning:'月亮、潜意识、灵通中心、星光过滤器', hebrew:'יסוד', godName:'Shaddai El Chai (שדי אל חי)', archangel:'Gabriel', angelChoir:'Cherubim', colorAttr:'紫/靛蓝', gem:'石英/水晶',
+    number:'9', body:'生殖系统', tarot:'月亮/高塔', planet:'月亮',
+    magicImage:'一位美丽裸体男性',
+    colors:{king:'靛蓝',queen:'紫',knight:'深蓝带黄',page:'柠檬紫带蓝'},
+    virtue:'独立', vice:'懒惰', spiritualExp:'灵通/梦境之景', tarotMajor:'XVIII 月亮',
+    symbols:'新月、香炉、十字架、塔、面具',
+    philosophy:'Yesod是基础，是潜意识与梦境的领域。它如同月光，反射来自上层质点的光芒，并将其传递到物质世界。Yesod掌管直觉、灵通能力、以及所有尚未显化的潜能。它是连接内在世界与外在世界的桥梁，如同树根般既深入大地又连接着整棵生命之树。Yesod对应月亮——梦境、幻想和潜意识的行星。'
+  },
+  { id:'malkuth', name:'Malkuth', nameZh:'王国', num:10, x:0.50, y:0.94, color:'#6a5040', pillar:'middle',
+    meaning:'大地之母、物质界、四元素交汇', hebrew:'מלכות', godName:'Adonai Ha-Aretz (אדני הארץ)', archangel:'Sandalphon', angelChoir:'Ishim', colorAttr:'柠檬黄/棕/黑', gem:'水晶/盐',
+    number:'10', body:'全身/双脚', tarot:'世界', planet:'地球',
+    magicImage:'一位年轻女性戴冠坐于王座',
+    colors:{king:'黄',queen:'柠檬/黑/橄榄',knight:'斑驳',page:'黑'},
+    virtue:'辨别', vice:'贪婪/惯性', spiritualExp:'神圣合一之景（在物质中）', tarotMajor:'XXI 世界',
+    symbols:'十字、圆、球体、门、城',
+    philosophy:'Malkuth是王国，是生命之树的第十道流溢，代表物质世界、地球和我们的物理身体。它是神性创造的最终完成，也是修行者开始回归之路的起点。Malkuth对应大地之母、四季的循环、以及所有物理层面的生命。在Malkuth中，神圣的能量以最稠密的形式存在——正如金色黎明所言："Malkuth中亦有神性。"Malkuth是四元素交汇之处——火、水、风、土在此融合。'
+  }
+];
+
+// ==================== PATHS DATA ====================
+var pathsData = [
+  {id:1,from:'kether',to:'chochmah',letter:'Aleph',letterHb:'א',tarot:'愚者(The Fool)',meaning:'狂喜 · 神圣的愚昧 · 纯粹的灵性冲动',num:11,astro:'风'},
+  {id:2,from:'kether',to:'binah',letter:'Beth',letterHb:'ב',tarot:'魔术师(The Magician)',meaning:'智慧 · 神圣的创造力 · 意志的显化',num:12,astro:'水星'},
+  {id:3,from:'kether',to:'tiphareth',letter:'Gimel',letterHb:'ג',tarot:'女祭司(The High Priestess)',meaning:'统一 · 通过Daath的路径 · 直觉的超越',num:13,astro:'月亮'},
+  {id:4,from:'chochmah',to:'binah',letter:'Daleth',letterHb:'ד',tarot:'女皇(The Empress)',meaning:'爱 · 神圣的孕育力 · 丰饶',num:14,astro:'金星'},
+  {id:5,from:'chochmah',to:'chesed',letter:'Heh',letterHb:'ה',tarot:'皇帝(The Emperor)',meaning:'启示 · 神圣的权威 · 结构与秩序',num:15,astro:'白羊座'},
+  {id:6,from:'chochmah',to:'tiphareth',letter:'Vav',letterHb:'ו',tarot:'教皇(The Hierophant)',meaning:'引导 · 神圣的教诲 · 传统的传递',num:16,astro:'金牛座'},
+  {id:7,from:'binah',to:'tiphareth',letter:'Zayin',letterHb:'ז',tarot:'恋人(The Lovers)',meaning:'选择 · 神圣的合一 · 对立的和解',num:17,astro:'双子座'},
+  {id:8,from:'binah',to:'geburah',letter:'Cheth',letterHb:'ח',tarot:'战车(The Chariot)',meaning:'驾驭 · 神圣的力量 · 对立力量的统御',num:18,astro:'巨蟹座'},
+  {id:9,from:'chesed',to:'geburah',letter:'Teth',letterHb:'ט',tarot:'力量(Strength)',meaning:'勇气 · 神圣的毅力 · 内在力量的觉醒',num:19,astro:'狮子座'},
+  {id:10,from:'chesed',to:'tiphareth',letter:'Yod',letterHb:'י',tarot:'隐者(The Hermit)',meaning:'内省 · 神圣的孤独 · 内在智慧的探索',num:20,astro:'处女座'},
+  {id:11,from:'geburah',to:'tiphareth',letter:'Kaph',letterHb:'כ',tarot:'命运之轮(Wheel of Fortune)',meaning:'循环 · 神圣的轮转 · 命运的流转',num:21,astro:'木星'},
+  {id:12,from:'chesed',to:'netzach',letter:'Lamed',letterHb:'ל',tarot:'正义(Justice)',meaning:'平衡 · 神圣的公正 · 因果的法则',num:22,astro:'天秤座'},
+  {id:13,from:'geburah',to:'hod',letter:'Mem',letterHb:'מ',tarot:'倒吊人(The Hanged Man)',meaning:'牺牲 · 神圣的倒转 · 视角的转换',num:23,astro:'水'},
+  {id:14,from:'tiphareth',to:'netzach',letter:'Nun',letterHb:'נ',tarot:'死神(Death)',meaning:'转化 · 神圣的蜕变 · 旧事物的消亡',num:24,astro:'天蝎座'},
+  {id:15,from:'tiphareth',to:'yesod',letter:'Samekh',letterHb:'ס',tarot:'节制(Temperance)',meaning:'融合 · 神圣的调和 · 对立面的统一',num:25,astro:'射手座'},
+  {id:16,from:'tiphareth',to:'yesod',letter:'Ayin',letterHb:'ע',tarot:'恶魔(The Devil)',meaning:'束缚 · 神圣的考验 · 幻象的揭示',num:26,astro:'摩羯座'},
+  {id:17,from:'netzach',to:'hod',letter:'Peh',letterHb:'פ',tarot:'塔(The Tower)',meaning:'解放 · 神圣的崩塌 · 旧结构的瓦解',num:27,astro:'火星'},
+  {id:18,from:'netzach',to:'yesod',letter:'Tzaddi',letterHb:'צ',tarot:'星星(The Star)',meaning:'希望 · 神圣的灵感 · 灵性光芒的照耀',num:28,astro:'水瓶座'},
+  {id:19,from:'netzach',to:'malkuth',letter:'Qoph',letterHb:'ק',tarot:'月亮(The Moon)',meaning:'幻象 · 神圣的梦境 · 潜意识的揭示',num:29,astro:'双鱼座'},
+  {id:20,from:'hod',to:'yesod',letter:'Resh',letterHb:'ר',tarot:'太阳(The Sun)',meaning:'启示 · 神圣的光明 · 真理的显现',num:30,astro:'太阳'},
+  {id:21,from:'hod',to:'malkuth',letter:'Shin',letterHb:'ש',tarot:'审判(Judgement)',meaning:'复活 · 神圣的觉醒 · 灵魂的升华',num:31,astro:'火/土'},
+  {id:22,from:'yesod',to:'malkuth',letter:'Tav',letterHb:'ת',tarot:'世界(The World)',meaning:'完成 · 神圣的圆满 · 创造的完成',num:32,astro:'土星'}
+];
+
+function getSephira(id){
+  for(var i=0;i<sephirothData.length;i++){
+    if(sephirothData[i].id===id) return sephirothData[i];
+  }
+  return null;
+}
+
+// ==================== BUILD SEPHIRA GRID (TAB 2) ====================
+(function(){
+  var grid = document.getElementById('sephiraGrid');
+  if(!grid) return;
+  sephirothData.forEach(function(s){
+    var card = document.createElement('div');
+    card.className = 'sephira-card';
+    card.innerHTML = '<span class="num">'+s.num+'</span><h3>'+s.name+' ('+s.nameZh+')</h3><div class="hebrew">'+s.hebrew+'</div><div class="meaning">'+s.meaning+'</div><div class="info-line">'+s.planet+' &middot; '+s.archangel+'</div>';
+    var detail = document.createElement('div');
+    detail.className = 'sephira-detail';
+    detail.id = 'detail-'+s.id;
+    detail.innerHTML = '<h4>'+s.name+' ('+s.nameZh+') — '+s.hebrew+'</h4>'+
+      '<div class="attr-grid">'+
+      '<div class="attr-item"><div class="label">神名</div><div class="value">'+s.godName+'</div></div>'+
+      '<div class="attr-item"><div class="label">大天使</div><div class="value">'+s.archangel+'</div></div>'+
+      '<div class="attr-item"><div class="label">天使军团</div><div class="value">'+s.angelChoir+'</div></div>'+
+      '<div class="attr-item"><div class="label">行星</div><div class="value">'+s.planet+'</div></div>'+
+      '<div class="attr-item"><div class="label">颜色</div><div class="value">'+s.colorAttr+'</div></div>'+
+      '<div class="attr-item"><div class="label">塔罗</div><div class="value">'+s.tarot+'</div></div>'+
+      '<div class="attr-item"><div class="label">身体</div><div class="value">'+s.body+'</div></div>'+
+      '<div class="attr-item"><div class="label">魔法形象</div><div class="value">'+s.magicImage+'</div></div>'+
+      '<div class="attr-item"><div class="label">灵性经验</div><div class="value">'+s.spiritualExp+'</div></div>'+
+      '<div class="attr-item"><div class="label">美德</div><div class="value">'+s.virtue+'</div></div>'+
+      '<div class="attr-item"><div class="label">象征</div><div class="value">'+s.symbols+'</div></div>'+
+      '<div class="attr-item"><div class="label">国王色</div><div class="value">'+s.colors.king+'</div></div>'+
+      '<div class="attr-item"><div class="label">皇后色</div><div class="value">'+s.colors.queen+'</div></div>'+
+      '</div>'+
+      '<p>'+s.philosophy+'</p>';
+    card.addEventListener('click', function(){
+      detail.classList.toggle('open');
+    });
+    grid.appendChild(card);
+    grid.appendChild(detail);
+  });
+})();
+
+// ==================== BUILD PATH LIST (TAB 3) ====================
+(function(){
+  var list = document.getElementById('pathList');
+  if(!list) return;
+  pathsData.forEach(function(p){
+    var fromS = getSephira(p.from);
+    var toS = getSephira(p.to);
+    var item = document.createElement('div');
+    item.className = 'path-item';
+    item.innerHTML = '<span class="pnum">'+p.num+'</span><span class="letter">'+p.letterHb+'</span><span class="conn">'+fromS.nameZh+' → '+toS.nameZh+'</span><span class="tarot">'+p.tarot+'</span>';
+    item.addEventListener('click', function(){
+      var detail = document.getElementById('pathDetail');
+      var content = document.getElementById('pathDetailContent');
+      detail.classList.toggle('open');
+      content.innerHTML = '<h4 style="color:var(--gold)">路径 '+p.num+': '+p.letter+' ('+p.letterHb+') — '+p.tarot+'</h4>'+
+        '<p><strong>连接：</strong>'+fromS.name+' ('+fromS.nameZh+') → '+toS.name+' ('+toS.nameZh+')</p>'+
+        '<p><strong>占星对应：</strong>'+p.astro+'</p>'+
+        '<p><strong>灵性意义：</strong>'+p.meaning+'</p>'+
+        '<p>这条路径连接了'+fromS.nameZh+'的'+fromS.meaning.split('、')[0]+'与'+toS.nameZh+'的'+toS.meaning.split('、')[0]+'，修行者在此路径上体验'+p.meaning.split('·')[0].trim()+'的灵性品质。通过塔罗牌"'+p.tarot+'"的冥想，可以更深入地理解这条路径的能量特质。</p>';
+    });
+    list.appendChild(item);
+  });
+})();
+
+// ==================== BUILD WORLDS GRID (TAB 4) ====================
+(function(){
+  var grid = document.getElementById('worldsGrid');
+  if(!grid) return;
+  var worlds = [
+    {name:'Atzilut 圣光之界',hb:'אצילות',cls:'atzi',icon:'🔥',desc:'最接近Ein Sof的纯粹神性。对应Yod、火元素、权杖牌组。主要居民：神圣名字。',seph:'Kether · Chochmah · Binah'},
+    {name:'Beriah 创造之界',hb:'בריאה',cls:'beri',icon:'💧',desc:'神性意志分化为具体理念。对应Heh、水元素、圣杯牌组。主要居民：大天使。',seph:'Kether · Chochmah · Binah'},
+    {name:'Yetzirah 形成之界',hb:'יצירה',cls:'yetz',icon:'🌬️',desc:'理念被细化和组织。对应Vav、风元素、宝剑牌组。主要居民：天使军团。',seph:'所有质点'},
+    {name:'Asiyah 行动之界',hb:'עשייה',cls:'assi',icon:'🌍',desc:'灵性能量凝结为物质现实。对应最终Heh、土元素、星币牌组。主要居民：人类灵魂。',seph:'Malkuth'}
+  ];
+  worlds.forEach(function(w){
+    var card = document.createElement('div');
+    card.className = 'world-card';
+    card.innerHTML = '<div class="icon">'+w.icon+'</div><h3>'+w.name+'</h3><div class="hebrew-name">'+w.hb+'</div><p>'+w.desc+'</p><div class="sephira-list">'+w.seph+'</div>';
+    grid.appendChild(card);
+  });
+})();
+
+// ==================== BUILD MEDITATION STEPS (TAB 5) ====================
+(function(){
+  var steps = document.getElementById('meditationSteps');
+  if(!steps) return;
+  var medSteps = [
+    {title:'第一步：Malkuth — 建立根基',desc:'从物质世界开始。感受身体的重量、呼吸的节奏、周围环境的声音。承认自己此刻的存在状态，不加评判。在Malkuth中扎根，是所有灵性工作的基础。'},
+    {title:'第二步：Yesod — 唤醒潜意识',desc:'通过路径32（Tav/世界）从Malkuth上升到Yesod。在Yesod中，开始接触梦境和直觉的层面。观察潜意识中浮现的意象，不加分析。'},
+    {title:'第三步：Hod — 发展理解',desc:'通过路径30（Shin/审判）或路径31（Qoph/月亮）到达Hod。在Hod中，运用理性思维来理解灵性知识。学习符号、语言和仪式的含义。'},
+    {title:'第四步：Netzach — 开放情感',desc:'通过路径29（Resh/太阳）到达Netzach。在Netzach中，打开自己的情感中心。体验美、爱和自然的生命力。让情感自由流动。'},
+    {title:'第五步：Tiphareth — 遇见高我',desc:'通过路径25（Samekh/节制）到达Tiphareth。这是生命之树的心脏，也是修行者回归之路的关键里程碑。在这里，你将与高我（Holy Guardian Angel）相遇。'},
+    {title:'第六步：Geburah — 面对力量',desc:'通过路径22（Lamed/正义）到达Geburah。在Geburah中，直面自己内在的力量和恐惧。接受必要的纪律和变革。'},
+    {title:'第七步：Chesed — 体验慈悲',desc:'通过路径21（Kaph/命运之轮）到达Chesed。在Chesed中，体验无条件的爱和慈悲。放下所有的怨恨和执着。'},
+    {title:'第八步：穿越Abyss — 放下自我',desc:'从Chesed和Geburah之间，穿越Abyss到达Daath。这是最危险的阶段——需要放下个体自我的一切执念。只有纯粹的意志能够穿越。'},
+    {title:'第九步：Binah — 接受形式',desc:'从Daath到达Binah。在Binah中，理解形式和限制的必要性。接受"死亡"只是转化的另一种形式。体验"神圣悲伤之景"。'},
+    {title:'第十步：Chochmah — 接收智慧',desc:'从Binah到达Chochmah。在Chochmah中，接收纯粹的、动态的智慧。体验创造力的原始火花。放下对结果的执着。'},
+    {title:'第十一步：Kether — 与神性合一',desc:'从Chochmah到达Kether。在Kether中，一切光、一切形、一切声音都消融了。只有纯粹的、无限的觉知。不要试图"理解"——只需"是"。这是修行者能到达的最高点。'}
+  ];
+  medSteps.forEach(function(s){
+    var step = document.createElement('div');
+    step.className = 'meditation-step';
+    step.innerHTML = '<h4>'+s.title+'</h4><p>'+s.desc+'</p>';
+    steps.appendChild(step);
+  });
+})();
+
+// ==================== TREE CANVAS (TAB 1) ====================
+var treeCanvas = document.getElementById('treeCanvas');
+var treeCtx = treeCanvas ? treeCanvas.getContext('2d') : null;
+var treeInit = false;
+var lightningAnim = false;
+var lightningStep = -1;
+
+function initTree(){
+  if(!treeCanvas) return;
+  var w = treeCanvas.parentElement.clientWidth || 600;
+  var dpr = window.devicePixelRatio || 1;
+  treeCanvas.width = w * dpr;
+  treeCanvas.height = w * 1.3 * dpr;
+  treeCanvas.style.height = (w * 1.3) + 'px';
+  treeCtx = treeCanvas.getContext('2d');
+  treeCtx.scale(dpr, dpr);
+  drawTree(false);
+  treeInit = true;
+}
+
+function drawTree(highlight){
+  var w = treeCanvas.width / (window.devicePixelRatio || 1);
+  var h = treeCanvas.height / (window.devicePixelRatio || 1);
+  treeCtx.clearRect(0, 0, w, h);
+  // Draw paths
+  pathsData.forEach(function(p){
+    var from = getSephira(p.from);
+    var to = getSephira(p.to);
+    treeCtx.beginPath();
+    treeCtx.moveTo(from.x * w, from.y * h);
+    treeCtx.lineTo(to.x * w, to.y * h);
+    treeCtx.strokeStyle = 'rgba(212,168,67,0.25)';
+    treeCtx.lineWidth = 1.5;
+    treeCtx.stroke();
+  });
+  // Draw pillars
+  treeCtx.setLineDash([4, 4]);
+  treeCtx.strokeStyle = 'rgba(212,168,67,0.1)';
+  treeCtx.lineWidth = 1;
+  // Middle pillar
+  treeCtx.beginPath();
+  treeCtx.moveTo(0.5 * w, 0.04 * h);
+  treeCtx.lineTo(0.5 * w, 0.94 * h);
+  treeCtx.stroke();
+  // Right pillar
+  treeCtx.beginPath();
+  treeCtx.moveTo(0.73 * w, 0.10 * h);
+  treeCtx.lineTo(0.73 * w, 0.60 * h);
+  treeCtx.stroke();
+  // Left pillar
+  treeCtx.beginPath();
+  treeCtx.moveTo(0.27 * w, 0.10 * h);
+  treeCtx.lineTo(0.27 * w, 0.60 * h);
+  treeCtx.stroke();
+  treeCtx.setLineDash([]);
+  // Lightning flash highlight
+  if(highlight && lightningStep >= 0){
+    var flashOrder = ['kether','chochmah','binah','chesed','geburah','tiphareth','netzach','hod','yesod','malkuth'];
+    for(var fi = 0; fi <= lightningStep && fi < flashOrder.length; fi++){
+      var fs = getSephira(flashOrder[fi]);
+      if(fs){
+        treeCtx.beginPath();
+        treeCtx.arc(fs.x * w, fs.y * h, 22, 0, Math.PI * 2);
+        treeCtx.fillStyle = 'rgba(212,168,67,0.15)';
+        treeCtx.fill();
+      }
+    }
+  }
+  // Draw sephiroth
+  sephirothData.forEach(function(s){
+    var cx = s.x * w;
+    var cy = s.y * h;
+    var r = 14;
+    treeCtx.beginPath();
+    treeCtx.arc(cx, cy, r, 0, Math.PI * 2);
+    var g = treeCtx.createRadialGradient(cx - 3, cy - 3, 2, cx, cy, r);
+    g.addColorStop(0, s.color);
+    g.addColorStop(1, 'rgba(0,0,0,0.6)');
+    treeCtx.fillStyle = g;
+    treeCtx.fill();
+    treeCtx.strokeStyle = 'rgba(212,168,67,0.6)';
+    treeCtx.lineWidth = 1.5;
+    treeCtx.stroke();
+    treeCtx.fillStyle = '#0a0a0a';
+    treeCtx.font = 'bold 10px Cormorant Garamond,serif';
+    treeCtx.textAlign = 'center';
+    treeCtx.textBaseline = 'middle';
+    treeCtx.fillText(s.num, cx, cy);
+  });
+  // Labels
+  sephirothData.forEach(function(s){
+    var cx = s.x * w;
+    var cy = s.y * h;
+    treeCtx.fillStyle = 'rgba(212,168,67,0.6)';
+    treeCtx.font = '9px Noto Serif SC,serif';
+    treeCtx.textAlign = 'center';
+    treeCtx.fillText(s.nameZh, cx, cy + 24);
+  });
 }
 
 // Tree click handler
-treeCanvas.addEventListener('click', (e) => {
-  const rect = treeCanvas.getBoundingClientRect();
-  const w = rect.width;
-  const h = rect.height;
-  const mx = (e.clientX - rect.left) / w;
-  const my = (e.clientY - rect.top) / h;
-  const dpr = window.devicePixelRatio || 1;
-
-  let found = null;
-  sephirothData.forEach(s => {
-    const sx = s.x;
-    const sy = s.y;
-    const dx = mx - sx;
-    const dy = my - sy;
-    const r = (s.id === 'malkuth' ? 16 : 14) / w;
-    if (dx*dx + dy*dy < r*r * 4) found = s;
-  });
-
-  if (found) {
-    showSephiraInfo(found.id);
-    drawTree(found.id);
-  } else {
-    drawTree(null);
-  }
-});
-
-// Lightning Flash Animation
-document.getElementById('lightningBtn').addEventListener('click', () => {
-  let i = 0;
-  const interval = setInterval(() => {
-    if (i >= lightningOrder.length) {
-      clearInterval(interval);
-      setTimeout(() => drawTree(null), 500);
-      return;
-    }
-    drawTree(lightningOrder[i]);
-    i++;
-  }, 600);
-});
-
-// Info Panel
-function showSephiraInfo(id) {
-  const s = getSephira(id);
-  if (!s) return;
-  const panel = document.getElementById('infoPanel');
-  const body = document.getElementById('infoPanelBody');
-  body.innerHTML = `
-    <h2>${s.name} (${s.nameZh})</h2>
-    <div class="subtitle">${s.hebrew} · 第${s.num}萨菲罗斯</div>
-    <p><strong style="color:var(--gold);">含义：</strong>${s.meaning}</p>
-    <p>${s.desc}</p>
-    <div class="attr-grid">
-      <div class="attr-item"><div class="label">神名</div><div class="value">${s.godName}</div></div>
-      <div class="attr-item"><div class="label">天使</div><div class="value">${s.angel}</div></div>
-      <div class="attr-item"><div class="label">颜色</div><div class="value">${s.colorAttr}</div></div>
-      <div class="attr-item"><div class="label">宝石</div><div class="value">${s.gem}</div></div>
-      <div class="attr-item"><div class="label">数字</div><div class="value">${s.number}</div></div>
-      <div class="attr-item"><div class="label">身体</div><div class="value">${s.body}</div></div>
-      <div class="attr-item"><div class="label">塔罗</div><div class="value">${s.tarot}</div></div>
-      <div class="attr-item"><div class="label">行星</div><div class="value">${s.planet}</div></div>
-      <div class="attr-item"><div class="label">希伯来名</div><div class="value">${s.hebrewName}</div></div>
-    </div>
-  `;
-  panel.classList.add('open');
-}
-
-document.getElementById('infoPanelClose').addEventListener('click', () => {
-  document.getElementById('infoPanel').classList.remove('open');
-  drawTree(null);
-});
-
-document.getElementById('infoPanel').addEventListener('click', (e) => {
-  if (e.target === e.currentTarget) {
-    document.getElementById('infoPanel').classList.remove('open');
-    drawTree(null);
-  }
-});
-
-// Init tree on load
-window.addEventListener('load', () => {
-  setTimeout(initTree, 200);
-});
-
-// ============== TAB 2: Sephiroth Grid ==============
-function buildSephiraGrid() {
-  const grid = document.getElementById('sephiraGrid');
-  sephirothData.forEach(s => {
-    const card = document.createElement('div');
-    card.className = 'sephira-card';
-    card.innerHTML = `
-      <div class="num">${s.num}</div>
-      <h3>${s.name} <span class="hebrew">${s.hebrew}</span></h3>
-      <div class="meaning">${s.nameZh} — ${s.meaning}</div>
-      <div class="info-line">神: ${s.godName} · 天使: ${s.angel}</div>
-      <div class="info-line">颜色: ${s.colorAttr} · 宝石: ${s.gem} · 行星: ${s.planet}</div>
-      <div class="info-line">身体: ${s.body} · 塔罗: ${s.tarot}</div>
-    `;
-    card.addEventListener('click', () => showSephiraInfo(s.id));
-    grid.appendChild(card);
-  });
-}
-buildSephiraGrid();
-
-// ============== TAB 3: Paths ==============
-function buildPaths() {
-  const list = document.getElementById('pathList');
-  pathsData.forEach(p => {
-    const from = getSephira(p.from);
-    const to = getSephira(p.to);
-    const item = document.createElement('div');
-    item.className = 'path-item';
-    item.dataset.pathId = p.id;
-    item.innerHTML = `
-      <span class="num">#${p.num}</span>
-      <span class="letter">${p.letterHb}</span>
-      <span class="conn">${from.name} → ${to.name}</span>
-      <span class="letter">${p.letter}</span>
-      <span class="tarot">${p.tarot}</span>
-    `;
-    item.addEventListener('click', () => showPathDetail(p.id));
-    list.appendChild(item);
-  });
-}
-
-function showPathDetail(id) {
-  const p = pathsData.find(x => x.id === id);
-  if (!p) return;
-  const from = getSephira(p.from);
-  const to = getSephira(p.to);
-  const detail = document.getElementById('pathDetail');
-  const content = document.getElementById('pathDetailContent');
-  detail.classList.add('open');
-
-  // Highlight active path
-  document.querySelectorAll('.path-item').forEach(el => el.classList.remove('active'));
-  document.querySelector(`.path-item[data-path-id="${id}"]`).classList.add('active');
-
-  content.innerHTML = `
-    <h3>第${p.num}路径: ${from.name} → ${to.name}</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0;">
-      <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:6px;">
-        <div style="font-size:0.75em;color:var(--purple);">希伯来字母</div>
-        <div style="font-size:2em;color:var(--gold);font-family:serif;">${p.letterHb}</div>
-        <div style="color:var(--text);">${p.letter}</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:6px;">
-        <div style="font-size:0.75em;color:var(--purple);">对应塔罗</div>
-        <div style="font-size:1.3em;color:var(--crimson);">${p.tarot}</div>
-        <div style="color:var(--text-dim);font-size:0.85em;">大阿卡纳第${p.num}号</div>
-      </div>
-    </div>
-    <p><strong style="color:var(--gold);">含义：</strong>${p.meaning}</p>
-    <p style="margin-top:10px;color:var(--text-dim);">路径${p.num}连接了${from.name}（${from.nameZh}）与${to.name}（${to.nameZh}），对应希伯来字母${p.letter}（${p.letterHb}）和大阿卡纳"${p.tarot}"。在卡巴拉修行中，这条路径代表了从${from.name}的${from.meaning.split('、')[0]}到${to.name}的${to.meaning.split('、')[0]}的意识转化过程。</p>
-  `;
-  detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-buildPaths();
-
-// ============== TAB 4: Four Worlds ==============
-const worldsData = [
-  { id:'atziluth', name:'Atziluth', nameZh:'原型界', hebrew:'אצילות', element:'火', yod:'Yod', color:'#d4a843',
-    desc:'原型界（Atziluth）是最高的世界，代表纯粹的神性领域。它是超越一切形式的纯粹存在，最接近Ein Sof（无限）。在这个世界中，神性以未分化的形式存在，是创造的原始蓝图。原型界对应YHVH中的第一个字母Yod，象征创造的火花与初始的推动力。',
-    sephira:'Kether（王冠）' },
-  { id:'beriah', name:'Beriah', nameZh:'创造界', hebrew:'בריאה', element:'水', yod:'Heh', color:'#6b2fa0',
-    desc:'创造界（Beriah）是原型理念被赋予形式的层面。在这个世界中，神性的原始能量开始被塑造成具体的"理念"或"原型"。创造界对应大天使（Archangels）的领域，是纯粹理性和结构的世界。它对应YHVH中的第一个Heh，代表子宫般的孕育力量。',
-    sephira:'Chochmah · Binah' },
-  { id:'yetzirah', name:'Yetzirah', nameZh:'形成界', hebrew:'יצירה', element:'风', yod:'Vav', color:'#4488cc',
-    desc:'形成界（Yetzirah）是情感、想象和天使的世界。在这个层面中，创造界的原型理念开始获得情感的色彩和动态的活力。形成界对应普通天使（Angels）的领域，是梦境、灵感和情感体验的源头。它对应YHVH中的Vav，代表连接与调和的桥梁。',
-    sephira:'Chesed · Geburah · Tiphareth · Netzach · Hod · Yesod' },
-  { id:'assiah', name:'Assiah', nameZh:'物质界', hebrew:'עשייה', element:'土', yod:'Heh', color:'#c41e3a',
-    desc:'物质界（Assiah）是行动与物质的世界，是我们日常生活经验的层面。这是四世界中最低也是最稠密的一层，神性在这里以最隐晦的方式存在。Assiah对应YHVH中的最后一个Heh，代表完成的行动和显化的成果。在Assiah中，上界的一切被具体化、物质化。',
-    sephira:'Malkuth（王国）' }
-];
-
-function buildWorlds() {
-  const grid = document.getElementById('worldsGrid');
-  worldsData.forEach(w => {
-    const card = document.createElement('div');
-    card.className = 'world-card';
-    card.style.borderLeft = `3px solid ${w.color}`;
-    card.innerHTML = `
-      <div class="icon" style="color:${w.color};">●</div>
-      <h3>${w.name}</h3>
-      <div class="hebrew-name">${w.hebrew}</div>
-      <p>${w.nameZh} · 元素: ${w.element} · YHVH: ${w.yod}</p>
-      <p style="margin-top:8px;">${w.desc}</p>
-      <div class="sephira-list">对应萨菲罗斯: ${w.sephira}</div>
-    `;
-    grid.appendChild(card);
-  });
-
-  // Click on diagram levels
-  document.querySelectorAll('.world-level').forEach(el => {
-    el.addEventListener('click', () => {
-      const world = worldsData.find(w => w.id === el.dataset.world);
-      if (world) {
-        document.querySelector('.worlds-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+if(treeCanvas){
+  treeCanvas.addEventListener('click', function(e){
+    var rect = treeCanvas.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width;
+    var y = (e.clientY - rect.top) / rect.height;
+    sephirothData.forEach(function(s){
+      var dx = x - s.x;
+      var dy = y - s.y;
+      if(Math.sqrt(dx*dx + dy*dy) < 0.04){
+        showInfoPanel(s);
       }
     });
   });
 }
-buildWorlds();
 
-// ============== TAB 5: Meditation ==============
-const meditationStepsData = [
-  { sephira:'Malkuth', title:'王国 — 根植大地', text:'躺下或静坐，将注意力集中在会阴和脚底。观想红色的光芒从大地升起，包围你的身体。感受大地的支持和滋养。念诵 "Adonai Ha-Aretz"。确认自己完全存在于当下，与物质世界和谐共处。' },
-  { sephira:'Yesod', title:'基础 — 连接潜意识', text:'将注意力转移到腹腔神经丛。观想紫色月光在腹部流转。感受情绪的流动和潜意识的低语。允许梦境般的意象自然浮现但不执着。念诵 "Shaddai El Chai"。' },
-  { sephira:'Hod', title:'宏伟 — 理性之光', text:'将注意力移到左肩和左臂。观想橙色光芒在那里闪耀——这是学习和分析的力量。默想某个知识领域中你遇到的困惑，让光的能量照亮答案。念诵 "Elohim Sabaoth"。' },
-  { sephira:'Netzach', title:'胜利 — 情感之泉', text:'将注意力移到右肩和右臂。观想绿色光芒流动——这是爱与艺术的力量。感受心中涌起的感恩和喜悦。让创造力自然地通过你表达。念诵 "Iehovah Sabaoth"。' },
-  { sephira:'Tiphareth', title:'美丽 — 高我之光', text:'将注意力集中在心脏位置。观想金色的太阳在胸口绽放光芒。在此处与你的高我（Higher Self）连接——那个超越所有角色的真实本质。感受慈悲与力量的平衡。念诵 "Eloha"。' },
-  { sephira:'Geburah', title:'严厉 — 内在力量', text:'将注意力移到左臂。观想深红色的光芒如火焰般燃烧。面对你内心的恐惧和阴影。以力量和勇气直面使你退缩的事物。念诵 "Elohim Geber"。' },
-  { sephira:'Chesed', title:'慈悲 — 无条件的爱', text:'将注意力移到右臂。观想深蓝色的光芒如海洋般广阔。向所有众生发送无条件的爱与祝福。宽恕自己与他人。念诵 "El"。' },
-  { sephira:'Binah', title:'理解 — 超越形式', text:'将注意力移到大脑后部。观想深红色/黑色的光芒。体验纯粹的理解——超越语言和形式的知识。感受"伟大的母亲"的怀抱。念诵 "Elohim"。' },
-  { sephira:'Chochmah', title:'智慧 — 初始灵感', text:'将注意力移到大脑右前方。观想灰色光芒闪耀。感受纯粹创造力的冲击——如闪电般划破黑暗。不分析、不评判，只是接纳灵感本身。念诵 "Iehovah"。' },
-  { sephira:'Kether', title:'王冠 — 与神合一', text:'将注意力移到头顶之上。观想纯白色的光芒如源泉般流经你的全身。放下所有概念和身份。在空性中安住。体验不二的合一。念诵 "Eheieh"（我是之所是）。' }
-];
-
-function buildMeditationSteps() {
-  const container = document.getElementById('meditationSteps');
-  meditationStepsData.forEach((step, i) => {
-    const div = document.createElement('div');
-    div.className = 'meditation-step';
-    div.innerHTML = `
-      <h4>${i+1}. ${step.sephira} — ${step.title}</h4>
-      <p>${step.text}</p>
-    `;
-    container.appendChild(div);
+// Lightning button
+var lightningBtn = document.getElementById('lightningBtn');
+if(lightningBtn){
+  lightningBtn.addEventListener('click', function(){
+    if(lightningAnim) return;
+    lightningAnim = true;
+    lightningStep = 0;
+    var interval = setInterval(function(){
+      drawTree(true);
+      lightningStep++;
+      if(lightningStep > 9){
+        clearInterval(interval);
+        lightningAnim = false;
+        lightningStep = -1;
+        drawTree(false);
+      }
+    }, 300);
   });
 }
-buildMeditationSteps();
 
-// Timer
-let timerInterval = null;
-let timerSeconds = 900;
-let timerRunning = false;
-let timerPhase = 'ready';
+// ==================== INFO PANEL ====================
+function showInfoPanel(s){
+  var panel = document.getElementById('infoPanel');
+  var body = document.getElementById('infoPanelBody');
+  body.innerHTML = '<h2>'+s.name+' ('+s.nameZh+')</h2>'+
+    '<div class="subtitle">'+s.hebrew+' — '+s.meaning+'</div>'+
+    '<div class="attr-grid">'+
+    '<div class="attr-item"><div class="label">神名</div><div class="value">'+s.godName+'</div></div>'+
+    '<div class="attr-item"><div class="label">大天使</div><div class="value">'+s.archangel+'</div></div>'+
+    '<div class="attr-item"><div class="label">天使军团</div><div class="value">'+s.angelChoir+'</div></div>'+
+    '<div class="attr-item"><div class="label">行星</div><div class="value">'+s.planet+'</div></div>'+
+    '<div class="attr-item"><div class="label">颜色</div><div class="value">'+s.colorAttr+'</div></div>'+
+    '<div class="attr-item"><div class="label">塔罗</div><div class="value">'+s.tarot+'</div></div>'+
+    '<div class="attr-item"><div class="label">身体</div><div class="value">'+s.body+'</div></div>'+
+    '<div class="attr-item"><div class="label">魔法形象</div><div class="value">'+s.magicImage+'</div></div>'+
+    '<div class="attr-item"><div class="label">灵性经验</div><div class="value">'+s.spiritualExp+'</div></div>'+
+    '<div class="attr-item"><div class="label">美德</div><div class="value">'+s.virtue+'</div></div>'+
+    '<div class="attr-item"><div class="label">象征</div><div class="value">'+s.symbols+'</div></div>'+
+    '<div class="attr-item"><div class="label">国王色</div><div class="value">'+s.colors.king+'</div></div>'+
+    '<div class="attr-item"><div class="label">皇后色</div><div class="value">'+s.colors.queen+'</div></div>'+
+    '</div>'+
+    '<p>'+s.philosophy+'</p>';
+  panel.classList.add('open');
+}
+document.getElementById('infoPanelClose').addEventListener('click', function(){
+  document.getElementById('infoPanel').classList.remove('open');
+});
+document.getElementById('infoPanel').addEventListener('click', function(e){
+  if(e.target === this) this.classList.remove('open');
+});
 
-const timerDisplay = document.getElementById('timerDisplay');
-const timerSelect = document.getElementById('timerSelect');
-const timerStartBtn = document.getElementById('timerStartBtn');
-const timerPauseBtn = document.getElementById('timerPauseBtn');
-const timerResetBtn = document.getElementById('timerResetBtn');
-const timerPhaseEl = document.getElementById('timerPhase');
-
-function updateTimerDisplay() {
-  const mins = Math.floor(timerSeconds / 60);
-  const secs = timerSeconds % 60;
-  timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+// ==================== PATH CANVAS (TAB 3) ====================
+function initPathCanvas(){
+  var pc = document.getElementById('pathCanvas');
+  if(!pc || pc.dataset.init) return;
+  pc.dataset.init = '1';
+  var ctx = pc.getContext('2d');
+  var w = pc.parentElement.clientWidth || 700;
+  var dpr = window.devicePixelRatio || 1;
+  pc.width = w * dpr;
+  pc.height = w * 1.2 * dpr;
+  pc.style.height = (w * 1.2) + 'px';
+  ctx.scale(dpr, dpr);
+  var cw = w, ch = w * 1.2;
+  ctx.clearRect(0, 0, cw, ch);
+  pathsData.forEach(function(p){
+    var from = getSephira(p.from), to = getSephira(p.to);
+    ctx.beginPath();
+    ctx.moveTo(from.x * cw, from.y * ch);
+    ctx.lineTo(to.x * cw, to.y * ch);
+    ctx.strokeStyle = 'rgba(212,168,67,0.3)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    var mx = (from.x + to.x) / 2 * cw;
+    var my = (from.y + to.y) / 2 * ch;
+    ctx.fillStyle = 'rgba(212,168,67,0.2)';
+    ctx.font = '8px Cormorant Garamond,serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(p.num, mx, my + 2);
+  });
+  sephirothData.forEach(function(s){
+    var cx = s.x * cw, cy = s.y * ch, r = 12;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    var g = ctx.createRadialGradient(cx - 3, cy - 3, 2, cx, cy, r);
+    g.addColorStop(0, s.color);
+    g.addColorStop(1, 'rgba(0,0,0,0.6)');
+    ctx.fillStyle = g;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(212,168,67,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = '#0a0a0a';
+    ctx.font = 'bold 9px Cormorant Garamond,serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(s.num, cx, cy);
+  });
 }
 
-function setTimerPhase(text) {
-  timerPhaseEl.textContent = text;
-}
-
-timerStartBtn.addEventListener('click', () => {
-  if (timerRunning) return;
-  if (timerSeconds <= 0) {
-    timerSeconds = parseInt(timerSelect.value) * 60;
-    updateTimerDisplay();
-  }
-  timerRunning = true;
-  timerPhase = 'meditating';
-  setTimerPhase('冥想进行中... 专注呼吸与可视化');
-  timerStartBtn.textContent = '运行中';
-  timerStartBtn.style.opacity = '0.6';
-  timerInterval = setInterval(() => {
-    timerSeconds--;
-    updateTimerDisplay();
-    if (timerSeconds <= 0) {
-      clearInterval(timerInterval);
-      timerRunning = false;
-      timerPhase = 'done';
-      setTimerPhase('冥想完成。慢慢回到平常意识。');
-      timerStartBtn.textContent = '开始冥想';
-      timerStartBtn.style.opacity = '1';
+// ==================== PLANES CANVAS (TAB 4) ====================
+function initPlanesCanvas(){
+  var pc = document.getElementById('planesCanvas');
+  if(!pc || pc.dataset.init) return;
+  pc.dataset.init = '1';
+  var ctx = pc.getContext('2d');
+  var w = pc.parentElement.clientWidth || 700;
+  var dpr = window.devicePixelRatio || 1;
+  pc.width = w * dpr;
+  pc.height = 300 * dpr;
+  pc.style.height = '300px';
+  ctx.scale(dpr, dpr);
+  var cw = w, ch = 300;
+  var planes = [
+    {name:'灵性体 Spiritual',y:30,color:'#ffe080',seph:'Kether-Chochmah-Binah'},
+    {name:'心智体 Mental',y:90,color:'#d4a843',seph:'Chesed-Geburah-Tiphareth'},
+    {name:'星光体 Astral',y:150,color:'#9b59b6',seph:'Netzach-Hod-Yesod'},
+    {name:'以太体 Etheric',y:210,color:'#6a8fd8',seph:'Yesod-Malkuth'},
+    {name:'物质体 Physical',y:270,color:'#c41e3a',seph:'Malkuth'}
+  ];
+  planes.forEach(function(pl){
+    ctx.fillStyle = pl.color;
+    ctx.globalAlpha = 0.15;
+    ctx.fillRect(40, pl.y - 20, cw - 80, 40);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = pl.color;
+    ctx.font = '13px Ma Shan Zheng,cursive';
+    ctx.textAlign = 'left';
+    ctx.fillText(pl.name, 50, pl.y + 5);
+    ctx.fillStyle = 'rgba(212,168,67,0.5)';
+    ctx.font = '10px Cormorant Garamond,serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(pl.seph, cw - 50, pl.y + 5);
+    if(pl.y < 270){
+      ctx.beginPath();
+      ctx.moveTo(cw / 2, pl.y + 20);
+      ctx.lineTo(cw / 2, pl.y + 70);
+      ctx.strokeStyle = 'rgba(212,168,67,0.15)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
     }
-  }, 1000);
-});
+  });
+}
 
-timerPauseBtn.addEventListener('click', () => {
-  if (!timerRunning) return;
-  clearInterval(timerInterval);
-  timerRunning = false;
-  timerPhase = 'paused';
-  setTimerPhase('已暂停。准备好后继续。');
-  timerStartBtn.textContent = '继续';
-  timerStartBtn.style.opacity = '1';
-});
+// ==================== TIMER RING (TAB 5) ====================
+var timerCanvas = document.getElementById('timerCanvas');
+var tctx = timerCanvas ? timerCanvas.getContext('2d') : null;
+var timerSeconds = 900;
+var timerRunning = false;
+var timerInterval = null;
 
-timerResetBtn.addEventListener('click', () => {
-  clearInterval(timerInterval);
-  timerRunning = false;
-  timerSeconds = parseInt(timerSelect.value) * 60;
-  updateTimerDisplay();
-  timerPhase = 'ready';
-  setTimerPhase('准备就绪');
-  timerStartBtn.textContent = '开始冥想';
-  timerStartBtn.style.opacity = '1';
-});
+function drawTimerRing(progress){
+  if(!tctx) return;
+  var w = 220, h = 220, cx = w / 2, cy = h / 2, r = 95;
+  tctx.clearRect(0, 0, w, h);
+  tctx.beginPath();
+  tctx.arc(cx, cy, r, 0, Math.PI * 2);
+  tctx.strokeStyle = 'rgba(107,47,160,0.2)';
+  tctx.lineWidth = 6;
+  tctx.stroke();
+  if(progress > 0){
+    tctx.beginPath();
+    tctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress);
+    tctx.strokeStyle = '#d4a843';
+    tctx.lineWidth = 6;
+    tctx.lineCap = 'round';
+    tctx.stroke();
+  }
+  var glow = tctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+  glow.addColorStop(0, 'rgba(107,47,160,0.05)');
+  glow.addColorStop(1, 'rgba(0,0,0,0)');
+  tctx.fillStyle = glow;
+  tctx.beginPath();
+  tctx.arc(cx, cy, r, 0, Math.PI * 2);
+  tctx.fill();
+}
 
-timerSelect.addEventListener('change', () => {
-  if (!timerRunning && timerPhase !== 'meditating') {
+function updateTimerDisplay(){
+  var m = Math.floor(timerSeconds / 60);
+  var s = timerSeconds % 60;
+  document.getElementById('timerDisplay').textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+var timerStartBtn = document.getElementById('timerStartBtn');
+var timerPauseBtn = document.getElementById('timerPauseBtn');
+var timerResetBtn = document.getElementById('timerResetBtn');
+var timerSelect = document.getElementById('timerSelect');
+
+if(timerStartBtn){
+  timerStartBtn.addEventListener('click', function(){
+    if(timerRunning) return;
+    if(timerSeconds <= 0){ timerSeconds = parseInt(timerSelect.value) * 60; updateTimerDisplay(); }
+    timerRunning = true;
+    document.getElementById('timerPhase').textContent = '冥想进行中...';
+    timerStartBtn.textContent = '运行中';
+    timerStartBtn.style.opacity = '0.6';
+    var totalSec = timerSeconds;
+    timerInterval = setInterval(function(){
+      timerSeconds--;
+      updateTimerDisplay();
+      var progress = 1 - (timerSeconds / totalSec);
+      drawTimerRing(progress);
+      if(timerSeconds <= 0){
+        clearInterval(timerInterval);
+        timerRunning = false;
+        document.getElementById('timerPhase').textContent = '冥想完成';
+        timerStartBtn.textContent = '开始冥想';
+        timerStartBtn.style.opacity = '1';
+        drawTimerRing(1);
+      }
+    }, 1000);
+  });
+}
+
+if(timerPauseBtn){
+  timerPauseBtn.addEventListener('click', function(){
+    if(!timerRunning) return;
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timerPhase').textContent = '已暂停';
+    timerStartBtn.textContent = '继续';
+    timerStartBtn.style.opacity = '1';
+  });
+}
+
+if(timerResetBtn){
+  timerResetBtn.addEventListener('click', function(){
+    clearInterval(timerInterval);
+    timerRunning = false;
     timerSeconds = parseInt(timerSelect.value) * 60;
     updateTimerDisplay();
-  }
-});
-
-updateTimerDisplay();
-setTimerPhase('准备就绪');
-
-// Observer for tree canvas visibility
-const treeObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) initTree();
+    drawTimerRing(0);
+    document.getElementById('timerPhase').textContent = '准备就绪';
+    timerStartBtn.textContent = '开始冥想';
+    timerStartBtn.style.opacity = '1';
   });
-});
-treeObserver.observe(document.getElementById('treeCanvas'));
+}
 
-console.log('卡巴拉生命之树页面完全加载');
+if(timerSelect){
+  timerSelect.addEventListener('change', function(){
+    if(!timerRunning){
+      timerSeconds = parseInt(this.value) * 60;
+      updateTimerDisplay();
+    }
+  });
+}
+
+// ==================== CORRESPONDENCE TABLE (TAB 7) ====================
+(function(){
+  var table = document.getElementById('corrTable');
+  if(!table) return;
+  var html = '<thead><tr><th>质点</th><th>希伯来</th><th>神名</th><th>大天使</th><th>天使军团</th><th>行星</th><th>颜色</th><th>塔罗</th><th>身体</th></tr></thead><tbody>';
+  sephirothData.forEach(function(s){
+    html += '<tr><td style="color:var(--gold)">'+s.name+' ('+s.nameZh+')</td><td>'+s.hebrew+'</td><td>'+s.godName+'</td><td>'+s.archangel+'</td><td>'+s.angelChoir+'</td><td>'+s.planet+'</td><td>'+s.colorAttr+'</td><td>'+s.tarot+'</td><td>'+s.body+'</td></tr>';
+  });
+  html += '</tbody>';
+  table.innerHTML = html;
+  var sel = document.getElementById('querySelect');
+  if(sel){
+    sephirothData.forEach(function(s){
+      var opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.name + ' (' + s.nameZh + ')';
+      sel.appendChild(opt);
+    });
+  }
+})();
+
+// ==================== QUERY TOOL (TAB 7) ====================
+document.getElementById('queryBtn').addEventListener('click', function(){
+  var id = document.getElementById('querySelect').value;
+  var s = getSephira(id);
+  if(!s) return;
+  var r = document.getElementById('queryResult');
+  r.innerHTML = '<h4 style="color:var(--gold)">'+s.name+' ('+s.nameZh+')</h4>'+
+    '<p><strong>希伯来：</strong>'+s.hebrew+'</p>'+
+    '<p><strong>含义：</strong>'+s.meaning+'</p>'+
+    '<p><strong>神名：</strong>'+s.godName+'</p>'+
+    '<p><strong>大天使：</strong>'+s.archangel+'</p>'+
+    '<p><strong>天使军团：</strong>'+s.angelChoir+'</p>'+
+    '<p><strong>行星：</strong>'+s.planet+'</p>'+
+    '<p><strong>颜色：</strong>'+s.colorAttr+'</p>'+
+    '<p><strong>塔罗：</strong>'+s.tarot+'</p>'+
+    '<p><strong>身体：</strong>'+s.body+'</p>'+
+    '<p><strong>魔法形象：</strong>'+(s.magicImage||'—')+'</p>'+
+    '<p><strong>灵性经验：</strong>'+(s.spiritualExp||'—')+'</p>'+
+    '<p><strong>美德：</strong>'+(s.virtue||'—')+'</p>'+
+    '<p><strong>象征：</strong>'+(s.symbols||'—')+'</p>';
+  r.classList.add('open');
+});
+
+// ==================== CORRESPONDENCE CANVAS (TAB 7) ====================
+function initCorrCanvas(){
+  var pc = document.getElementById('corrCanvas');
+  if(!pc || pc.dataset.init) return;
+  pc.dataset.init = '1';
+  var ctx = pc.getContext('2d');
+  var w = pc.parentElement.clientWidth || 700;
+  var dpr = window.devicePixelRatio || 1;
+  pc.width = w * dpr;
+  pc.height = 400 * dpr;
+  pc.style.height = '400px';
+  ctx.scale(dpr, dpr);
+  var cw = w, ch = 400;
+  ctx.beginPath();
+  ctx.arc(cw / 2, ch / 2, 30, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(212,168,67,0.2)';
+  ctx.fill();
+  ctx.strokeStyle = '#d4a843';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = '#d4a843';
+  ctx.font = 'bold 12px Cormorant Garamond,serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('Etz Chaim', cw / 2, ch / 2);
+  sephirothData.forEach(function(s, i){
+    var angle = (i / sephirothData.length) * Math.PI * 2 - Math.PI / 2;
+    var rx = Math.min(cw / 2 - 60, 200);
+    var ry = Math.min(ch / 2 - 60, 160);
+    var sx = cw / 2 + Math.cos(angle) * rx;
+    var sy = ch / 2 + Math.sin(angle) * ry;
+    ctx.beginPath();
+    ctx.moveTo(cw / 2, ch / 2);
+    ctx.lineTo(sx, sy);
+    ctx.strokeStyle = 'rgba(107,47,160,0.3)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(sx, sy, 18, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(17,17,17,0.9)';
+    ctx.fill();
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = s.color;
+    ctx.font = '8px Cormorant Garamond,serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(s.num, sx, sy - 3);
+    ctx.fillStyle = '#d4c9a8';
+    ctx.font = '7px Noto Serif SC,serif';
+    ctx.fillText(s.nameZh, sx, sy + 7);
+  });
+}
+
+// ==================== GEMATRIA CALCULATOR (TAB 6) ====================
+var gematriaValues = {a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:10,k:20,l:30,m:40,n:50,o:60,p:70,q:80,r:90,s:100,t:200,u:300,v:400,w:500,x:600,y:700,z:800};
+document.getElementById('gematriaBtn').addEventListener('click', function(){
+  var input = document.getElementById('gematriaInput').value.toLowerCase().replace(/[^a-z]/g, '');
+  var total = 0;
+  for(var i = 0; i < input.length; i++){ total += (gematriaValues[input[i]] || 0); }
+  document.getElementById('gematriaResult').textContent = total;
+  document.getElementById('gematriaDetail').textContent = '单词 "' + input + '" 的Gematria数值为 ' + total;
+});
+
+
+// ==================== NESTED TREE CANVAS (TAB 4) ====================
+function initNestedCanvas(){
+  var nc = document.getElementById('nestedCanvas');
+  if(!nc || nc.dataset.init) return;
+  nc.dataset.init = '1';
+  var ctx = nc.getContext('2d');
+  var w = nc.parentElement.clientWidth || 700;
+  var dpr = window.devicePixelRatio || 1;
+  nc.width = w * dpr;
+  nc.height = 500 * dpr;
+  nc.style.height = '500px';
+  ctx.scale(dpr, dpr);
+  var cw = w, ch = 500;
+  var worlds = [
+    {name:'Atzilut',y:40,h:80,color:'rgba(255,224,128,0.12)',border:'rgba(255,224,128,0.3)'},
+    {name:'Beriah',y:140,h:80,color:'rgba(155,89,182,0.12)',border:'rgba(155,89,182,0.3)'},
+    {name:'Yetzirah',y:240,h:80,color:'rgba(106,143,216,0.12)',border:'rgba(106,143,216,0.3)'},
+    {name:'Asiyah',y:340,h:80,color:'rgba(196,30,58,0.12)',border:'rgba(196,30,58,0.3)'}
+  ];
+  var sephNames = ['Kether','Chochmah','Binah','Chesed','Geburah','Tiphareth','Netzach','Hod','Yesod','Malkuth'];
+  worlds.forEach(function(wl){
+    ctx.fillStyle = wl.color;
+    ctx.strokeStyle = wl.border;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(30, wl.y, cw-60, wl.h, 10);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(212,168,67,0.7)';
+    ctx.font = '12px Ma Shan Zheng,cursive';
+    ctx.textAlign = 'left';
+    ctx.fillText(wl.name, 45, wl.y + 20);
+    var spacing = (cw - 120) / 10;
+    for(var i = 0; i < 10; i++){
+      var sx = 60 + i * spacing;
+      var sy = wl.y + 50;
+      ctx.beginPath();
+      ctx.arc(sx, sy, 6, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212,168,67,0.3)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(212,168,67,0.5)';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+    }
+  });
+  ctx.fillStyle = 'rgba(212,168,67,0.4)';
+  ctx.font = '10px Noto Serif SC,serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('每个世界都包含完整的十个质点 — 嵌套的生命之树结构', cw/2, 470);
+}
+
+// ==================== INIT ON LOAD ====================
+window.addEventListener('load', function(){ initTree(); });
+window.addEventListener('resize', function(){
+  if(treeInit){ initTree(); }
+  var pc = document.getElementById('pathCanvas');
+  if(pc && pc.dataset.init){ pc.dataset.init = ''; initPathCanvas(); }
+  var pl = document.getElementById('planesCanvas');
+  var nl = document.getElementById('nestedCanvas');
+  if(pl && pl.dataset.init){ pl.dataset.init = ''; initPlanesCanvas(); }
+  if(nl && nl.dataset.init){ nl.dataset.init = ''; initNestedCanvas(); }
+  var cc = document.getElementById('corrCanvas');
+  if(cc && cc.dataset.init){ cc.dataset.init = ''; initCorrCanvas(); }
+});
+
 </script>
 </body>
 </html>
