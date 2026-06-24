@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三命通会 - 阿波菲斯</title>
+<meta name="description" content="三命通会、论命基础、六亲论命、格局论、合婚论命、经典案例 - 阿波菲斯命理学">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#1a1a1a;--ink:#e8e0d4;--muted:#8a7e6e;--accent:#c41e3a;--accent2:#d4a843;--rule:#2a2a2a;--font:'Noto Serif SC','Songti SC','SimSun',serif;--font-display:'Ma Shan Zheng','Noto Serif SC',cursive}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:18px}
+body{font-family:var(--font);background-color:var(--bg);color:var(--ink);line-height:1.9;overflow-x:hidden}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:1000;transition:width .1s linear;box-shadow:0 0 10px rgba(196,30,58,.5)}
+.nav-bar{position:fixed;top:3px;left:0;right:0;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:999;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.2rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:.85rem;white-space:nowrap;letter-spacing:.1em}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.8rem;white-space:nowrap;padding:.3rem .6rem;border-radius:4px;transition:all .3s ease}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,.1)}
+.hamburger{display:none;cursor:pointer;padding:5px;background:none;border:none}
+.hamburger span{display:block;width:25px;height:3px;background:#d4a843;margin:5px 0;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;width:100%;background:rgba(10,10,10,.95);padding:20px;z-index:998}
+.mobile-menu.show{display:flex;flex-direction:column;gap:10px}
+.mobile-menu a{color:#d4a843;text-decoration:none;padding:10px;border-bottom:1px solid rgba(212,168,67,.2)}
+@media(max-width:768px){.hamburger{display:block}.nav-bar.open .nav-link{display:none}}
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.hero{position:relative;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:2rem}
+.hero-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,5rem);color:var(--accent2);letter-spacing:.15em;text-shadow:0 0 40px rgba(212,168,67,.3),0 0 80px rgba(196,30,58,.15);margin-bottom:1rem}
+.hero-subtitle{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--muted);letter-spacing:.3em;margin-bottom:2rem}
+.hero-divider{width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);margin:2rem auto}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);color:var(--accent2);margin:3rem 0 1.5rem;padding-left:1.2rem;border-left:4px solid transparent;border-image:linear-gradient(180deg,var(--accent),var(--accent2)) 1;letter-spacing:.1em}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0 1.5rem;border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.tab-btn{background:none;border:1px solid var(--rule);color:var(--muted);padding:.5rem 1rem;font-family:var(--font);font-size:.85rem;cursor:pointer;border-radius:4px;transition:all .3s}
+.tab-btn:hover{color:var(--accent2);border-color:var(--accent2)}
+.tab-btn.active{background:rgba(212,168,67,.15);color:var(--accent2);border-color:var(--accent2)}
+.tab-content{display:none}.tab-content.active{display:block}
+.card{background:var(--bg2);border:1px solid var(--rule);border-radius:8px;padding:1.5rem;margin:1.5rem 0;transition:border-color .3s}
+.card:hover{border-color:rgba(212,168,67,.3)}
+.card h3{color:var(--accent2);font-size:1.2rem;margin-bottom:1rem;font-family:var(--font-display)}
+.card p,.card li{color:var(--ink);font-size:.95rem;line-height:1.9}
+.card ul,.card ol{padding-left:1.5rem;margin:.5rem 0}
+.card li{margin:.3rem 0}
+.card table{width:100%;border-collapse:collapse;margin:1rem 0}
+.card th,.card td{border:1px solid var(--rule);padding:.5rem .8rem;text-align:left;font-size:.85rem}
+.card th{background:rgba(212,168,67,.1);color:var(--accent2)}
+.card td{color:var(--ink)}
+.highlight{color:var(--accent2);font-weight:600}
+.case-box{background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:1.5rem;margin:1rem 0}
+.case-box h4{color:var(--accent2);font-family:var(--font-display);font-size:1.1rem;margin-bottom:.8rem}
+.case-box .bazi{display:flex;gap:1rem;margin:.8rem 0;flex-wrap:wrap}
+.case-box .bazi span{background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2);padding:.3rem .8rem;border-radius:4px;font-family:var(--font-display);color:var(--accent2)}
+@media(max-width:768px){.tabs{gap:.3rem}.tab-btn{padding:.4rem .6rem;font-size:.75rem}.container{padding:1rem}.card{padding:1rem}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link active">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+</nav>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<header class="hero">
+<h1 class="hero-title">三命通会</h1>
+<div class="hero-divider"></div>
+<p class="hero-subtitle">万民英命理巨著</p>
+</header>
+
+<div class="container">
+<div class="tabs">
+<button class="tab-btn active" data-tab="tab1">三命通会概述</button>
+<button class="tab-btn" data-tab="tab2">论命基础</button>
+<button class="tab-btn" data-tab="tab3">六亲论命</button>
+<button class="tab-btn" data-tab="tab4">格局论</button>
+<button class="tab-btn" data-tab="tab5">合婚论命</button>
+<button class="tab-btn" data-tab="tab6">经典案例</button>
+</div>
+
+<!-- Tab1 -->
+<div class="tab-content active" id="tab1">
+<h2 class="section-title">三命通会概述</h2>
+<div class="card">
+<h3>万民英与《三命通会》</h3>
+<p>万民英（公元1522-1605年），字汝豪，号育吾，明代江西南昌人，是中国命理学史上集大成者之一。万民英出身官宦世家，曾任福建布政使司右参议等职，晚年辞官归隐，潜心研究命理之学。他博览群书，广泛收集历代命理文献，结合自身数十年的实践经验，编纂完成了命理学巨著《三命通会》。</p>
+<p>万民英治学严谨，不盲从一家之言，而是将各种命理学说加以比较分析，取其精华，去其糟粕。《三命通会》全书共十二卷，约三十万字，内容涵盖八字命理学的方方面面，从天干地支的基本属性到格局用神的精细分析，从六亲关系到大运流年的推算方法，堪称明代以前命理学知识的百科全书。</p>
+</div>
+<div class="card">
+<h3>本书在命理学中的地位</h3>
+<p>《三命通会》被后世命理学家尊为"命学四大名著"之一，与《渊海子平》、《滴天髓》、《子平真诠》并列为中国传统命理学的四大经典。其中《三命通会》以其内容的全面性和系统性独树一帜，是学习和研究八字命理学必读的参考书。</p>
+<p>《三命通会》的最大特点在于其"通会"二字。"通"是指贯通古今，将自先秦至明代的命理学发展脉络梳理清晰；"会"是指汇聚众说，将各种不同的命理观点和方法汇集一处，供读者比较参考。书中不仅收录了徐子平、李虚中等前贤的理论，还加入了万民英自己的独到见解和大量实践案例，使理论与实践紧密结合。</p>
+<p>在清代，《三命通会》被收入《四库全书》，获得了官方学术的认可。《四库全书总目提要》评价此书："其书虽不免有附会之处，然大抵本于阴阳五行之理，参以实验，较诸术士之凿空妄说者为有据矣。"这一评价虽然有所保留，但基本肯定了《三命通会》的学术价值。</p>
+</div>
+<div class="card">
+<h3>全书结构概览</h3>
+<p>《三命通会》全书分为十二卷，各卷内容如下：</p>
+<ul>
+<li><span class="highlight">卷一至卷三：</span>论述天干地支的基本属性、五行生克关系、十神配置、纳音五行等基础知识，为全书的理论根基。</li>
+<li><span class="highlight">卷四至卷六：</span>详细论述各种格局的判断方法，包括正官格、七杀格、食神格、伤官格、正财格、偏财格、正印格、偏印格等，以及格局的喜忌用神。</li>
+<li><span class="highlight">卷七至卷八：</span>论述六亲关系的推断方法，包括父母、兄弟、夫妻、子女等各方面的命理分析。</li>
+<li><span class="highlight">卷九至卷十：</span>论述大运、流年、小运的推算方法，以及命局与运岁的配合关系。</li>
+<li><span class="highlight">卷十一至卷十二：</span>收录大量命例分析，通过实际案例来说明理论的应用方法，是全书的精华所在。</li>
+</ul>
+</div>
+</div>
+
+<!-- Tab2 -->
+<div class="tab-content" id="tab2">
+<h2 class="section-title">论命基础</h2>
+<div class="card">
+<h3>论日主</h3>
+<p>日主是八字命理学的核心概念，指的是日柱的天干，代表命主本人。论命的第一步就是确定日主的强弱，因为日主的强弱直接决定了命局的用神和喜忌。判断日主强弱的方法，主要是看日主是否得令、得地、得势。</p>
+<p><span class="highlight">得令：</span>日主生于其五行当令的月份，称为得令。例如，甲木日主生于寅月（正月，木旺之月），即为得令。得令者日主偏强，需要泄耗克制来平衡。不得令者日主偏弱，需要生扶来增强。</p>
+<p><span class="highlight">得地：</span>日主在命局地支中有根气，称为得地。所谓根气，是指地支中藏有与日干相同五行的天干。例如，甲木日主，地支中有寅、卯或辰（辰中藏乙木），即为得地。得地者日主有根基，不易被克倒。</p>
+<p><span class="highlight">得势：</span>命局中与日主相同五行的天干地支较多，称为得势。例如，甲木日主，命局中又有乙木、寅木、卯木等，木的力量强大，即为得势。得势者日主党众，力量充沛。</p>
+</div>
+<div class="card">
+<h3>论月令</h3>
+<p>月令是月柱的地支，代表出生月份的节气和五行旺衰状态。月令是命局中力量最大的一个字，因为它掌管着整个命局的五行旺衰。在八字分析中，月令被称为"提纲"，是判断格局、确定用神的首要依据。</p>
+<p>十二个月令各有其五行属性和当令五行。寅卯月木旺，巳午月火旺，申酉月金旺，亥子月水旺，辰戌丑未月土旺。月令的五行旺衰决定了命局的基本格局方向。例如，月令为寅木，则命局以木为旺气，日主若为木则身强，日主若为金则受克，需要根据具体情况来判断格局和用神。</p>
+<p>月令还决定了四柱天干的透出情况。月令地支中所藏的天干，若在月干或时干上透出，则该五行的力量更为强大，往往成为命局的用神或格局的核心。例如，月令为寅，寅中藏甲丙戊，若月干透出甲木，则木的力量极旺，格局可能为印绶格或比肩格。</p>
+</div>
+<div class="card">
+<h3>论时辰</h3>
+<p>时柱代表一个人出生的时辰，在命理学中有着特殊的意义。时柱不仅反映一个人的晚年运势和子女情况，还代表一个人的归宿和最终成就。在四柱中，时柱虽然力量不如月柱强大，但其精准度最高，因为同一日出生的人，年月日三柱相同，只有时柱不同，因此时柱是区分同日出生者命运差异的关键。</p>
+<p>时辰的确定需要严格按照十二时辰的划分。子时为23:00至01:00，丑时为01:00至03:00，寅时为03:00至05:00，以此类推。需要注意的是，子时有"早子时"和"夜子时"之分，传统命理学中以23:00为日分界线，23:00至24:00为当日的夜子时，0:00至01:00为次日的早子时，两者的日柱不同，排出的八字也不同。</p>
+</div>
+<div class="card">
+<h3>论大运小运</h3>
+<p>大运是命理学中推断人生各阶段运势的重要工具。大运每十年一步，从月柱开始顺行或逆行排列。阳年出生的男性或阴年出生的女性，大运从月柱顺行；阴年出生的男性或阳年出生的女性，大运从月柱逆行。大运的天干地支与命局四柱发生生克关系，从而影响该十年间的运势走向。</p>
+<p>小运是辅助大运的精细分析工具，每年一步，从时柱开始排列。小运的力量虽然不如大运强大，但在某些关键时刻可以起到决定性的作用。在实际应用中，通常以大运为主、小运为辅，结合流年天干地支来综合分析某一年的具体运势。</p>
+<p>大运的吉凶判断，主要看大运天干地支与命局日主之间的生克关系。若大运为日主的喜用神，则该步大运期间运势较佳；若大运为日主的忌神，则该步大运期间运势较差。同时，还要看大运与命局其他天干地支之间的刑冲合害关系，以判断更细致的运势变化。</p>
+</div>
+</div>
+
+<!-- Tab3 -->
+<div class="tab-content" id="tab3">
+<h2 class="section-title">六亲论命</h2>
+<div class="card">
+<h3>六亲总论</h3>
+<p>六亲论命是八字命理学中通过十神配置来推断一个人与父母、兄弟、夫妻、子女等六亲关系的方法。六亲的推断以日干为"我"，通过分析命局中各十神的分布和强弱，来判断与各亲人的缘分深浅、关系好坏、助力大小等。</p>
+<p>在传统命理学中，六亲的对应关系为：父母以印绶为代表，父亲以偏财为代表，兄弟以比肩劫财为代表，丈夫（女命）以正官偏官为代表，妻子（男命）以正财偏财为代表，子女以食神伤官为代表。每个六亲星在命局中的位置、强弱和与其他天干地支的关系，都反映了命主与该亲人的具体关系状态。</p>
+</div>
+<div class="card">
+<h3>父母推断</h3>
+<p>父母在命局中以印绶和偏财为代表。正印代表母亲，偏财代表父亲。印绶旺而有力者，与母亲缘分深，能得母亲庇护和教导。偏财旺而有力者，与父亲缘分深，能得父亲财力和人脉的支持。</p>
+<p>若印绶受克或落空亡，可能预示与母亲缘分较薄，或母亲健康不佳。若偏财受克或落空亡，可能预示与父亲缘分较薄，或父亲事业不顺。年柱代表祖上和父母宫，年柱与日柱相合者，与父母关系和谐；年柱与日柱相冲者，可能与父母聚少离多。</p>
+</div>
+<div class="card">
+<h3>夫妻推断</h3>
+<p>夫妻关系的推断是六亲论命中最重要的部分。男命以正财为妻星，偏财为情人星；女命以正官为夫星，偏官（七杀）为情人星。日支为夫妻宫，代表配偶的家庭环境和婚姻生活的基本状态。</p>
+<p>男命正财旺而得位者，妻子贤惠能干，婚姻幸福。正财弱或受克者，可能妻子身体较弱或夫妻感情不和。偏财旺者，异性缘好，但容易有感情纠葛。女命正官旺而得位者，丈夫有担当，婚姻稳定。正官弱或受冲者，丈夫能力不足或婚姻有波折。</p>
+<p>夫妻宫（日支）的分析也很重要。日支与日干相合者，夫妻感情深厚。日支为喜用神者，配偶能给自己带来好运。日支被冲克者，婚姻可能不稳定。日支坐桃花者，配偶外貌出众但需注意感情纠纷。</p>
+</div>
+<div class="card">
+<h3>子女推断</h3>
+<p>子女在命局中以食神和伤官为代表。食神为正子女星，伤官为偏子女星。时柱为子女宫，代表子女的状况和晚年与子女的关系。</p>
+<p>食神旺而有力者，子女聪明孝顺，能得子女的赡养和照顾。伤官旺者，子女有才华但个性叛逆，与子女可能存在代沟。时柱为喜用神者，晚年子女有成，生活幸福。时柱被冲克者，可能与子女关系疏远或子女健康需注意。</p>
+</div>
+</div>
+
+<!-- Tab4 -->
+<div class="tab-content" id="tab4">
+<h2 class="section-title">格局论</h2>
+<div class="card">
+<h3>格局总论</h3>
+<p>格局是八字命理学中对命局类型进行分类的核心概念。所谓格局，就是以月令地支的藏干透出情况为基础，结合日主强弱和十神配置，将命局分为若干类型，每种类型都有其特定的运势特征和喜忌用神。《三命通会》中对格局的论述最为系统和全面，是后世格局论的重要参考。</p>
+<p>八格（又称"八字正格"）是格局论的基础，包括：正官格、七杀格（偏官格）、食神格、伤官格、正财格、偏财格、正印格、偏印格。每种格局都有其成格条件和喜忌用神，成格者通常在该格局所代表的领域有较好的发展前景。</p>
+</div>
+<div class="card">
+<h3>八格详解</h3>
+<table>
+<tr><th>格局</th><th>成格条件</th><th>性格特征</th><th>喜用神</th><th>忌神</th></tr>
+<tr><td class="highlight">正官格</td><td>月令藏干透正官</td><td>端正自律，有责任感，适合管理</td><td>印绶、食神</td><td>伤官、七杀</td></tr>
+<tr><td class="highlight">七杀格</td><td>月令藏干透七杀</td><td>果断刚毅，有魄力，适合创业</td><td>食神、印绶</td><td>正官、比肩</td></tr>
+<tr><td class="highlight">食神格</td><td>月令藏干透食神</td><td>温和有才华，生活有品味</td><td>偏财、印绶</td><td>偏印、七杀</td></tr>
+<tr><td class="highlight">伤官格</td><td>月令藏干透伤官</td><td>聪明叛逆，口才出众</td><td>偏财、正印</td><td>正官</td></tr>
+<tr><td class="highlight">正财格</td><td>月令藏干透正财</td><td>勤劳踏实，善于理财</td><td>正官、食神</td><td>比肩、劫财</td></tr>
+<tr><td class="highlight">偏财格</td><td>月令藏干透偏财</td><td>慷慨大方，社交能力强</td><td>七杀、食神</td><td>比肩、劫财</td></tr>
+<tr><td class="highlight">正印格</td><td>月令藏干透正印</td><td>聪慧仁慈，有学问，贵人运旺</td><td>正官、比肩</td><td>偏财、伤官</td></tr>
+<tr><td class="highlight">偏印格</td><td>月令藏干透偏印</td><td>思维独特，有偏门才华</td><td>比肩、正官</td><td>食神</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>特殊格局</h3>
+<p>除八格正格之外，《三命通会》还论述了多种特殊格局，这些格局的判断条件更为严格，一旦成格，其命理特征也更为鲜明。常见的特殊格局包括：</p>
+<ul>
+<li><span class="highlight">从格：</span>当日主极弱，命局中某一种五行力量极旺，日主不得不"从"于该旺势时，即为从格。从格分为从财格、从杀格、从儿格、从势格等。从格者往往能在特定领域取得极大成就，但人生起伏也较大。</li>
+<li><span class="highlight">化气格：</span>当天干五合成功化气时，命局以化气五行为主。如甲己合化土格、乙庚合化金格等。化气格者性格和命运受化气五行的影响极大。</li>
+<li><span class="highlight">专旺格：</span>当日主极旺，命局中几乎全是与日主相同或生扶日主的五行时，即为专旺格。如曲直格（木专旺）、炎上格（火专旺）等。专旺格者个性极为鲜明，在某一方面有超常的能力。</li>
+<li><span class="highlight">天元一气格：</span>四柱天干相同，地支也有特定配合时，可能形成天元一气格。此格极为罕见，成格者命运非凡。</li>
+</ul>
+</div>
+</div>
+
+<!-- Tab5 -->
+<div class="tab-content" id="tab5">
+<h2 class="section-title">合婚论命</h2>
+<div class="card">
+<h3>合婚原理</h3>
+<p>合婚是中国传统婚姻文化中重要的环节，其目的在于通过分析男女双方的八字命局，判断两人在性格、运势、家庭等方面是否匹配，从而为婚姻的幸福稳定提供参考。《三命通会》中对合婚论命有专门的论述，提出了多种合婚方法。</p>
+<p>传统合婚主要从以下几个方面进行分析：一是日干配合，看双方日干之间的五行生克关系；二是五行互补，看双方命局的五行旺衰是否能够互相补充和平衡；三是宫位配合，看双方四柱之间的刑冲合害关系；四是大运比较，看双方大运走势是否同步协调。</p>
+</div>
+<div class="card">
+<h3>日干配合</h3>
+<p>日干代表命主本人，双方日干之间的五行关系是合婚分析的首要因素。最佳配合是双方日干相合或相生，如甲己合、乙庚合、丙辛合、丁壬合、戊癸合。日干相合者，夫妻感情深厚，默契度高。日干相生者，一方能滋养另一方，关系和谐。</p>
+<p>需要避免的是双方日干相冲或相克。如甲庚冲（木金相克）、丙壬冲（水火相克）等。日干相冲者，性格差异大，容易产生矛盾。但需要注意的是，并非所有相克都是不利的，适度的克制有时反而能形成互补。例如，一方日干旺而另一方日干能适度克制，反而有利于平衡。</p>
+</div>
+<div class="card">
+<h3>五行互补</h3>
+<p>五行互补是合婚分析中最实用的方法之一。每个人的命局都有五行旺衰的差异，有些五行过旺，有些五行过弱。理想的婚姻配合是双方的五行能够互补：一方过旺的五行恰好是另一方过弱的五行，或者双方过弱的五行相同，可以共同补益。</p>
+<p>例如，男方命局火旺水弱，女方命局水旺火弱，两人的五行恰好互补，婚后运势能够互相促进。又如，双方命局都缺木，婚后可以共同在东方方位发展，或共同从事与木相关的行业，以补益共同的五行缺陷。</p>
+</div>
+<div class="card">
+<h3>宫位配合</h3>
+<p>宫位配合是指分析双方四柱各宫位之间的关系。年柱代表祖上和家庭背景，月柱代表性格和事业取向，日柱代表自身和婚姻，时柱代表子女和晚年。双方对应宫位之间的刑冲合害关系，反映了两人在各方面的配合程度。</p>
+<p>特别重要的是日柱之间的配合关系。双方日支相合者，夫妻宫和谐，婚姻生活美满。日支相冲者，夫妻宫不稳定，婚姻可能面临挑战。此外，一方的日干与另一方的日支相合，也是良好的配合信号，称为"天合地合"。</p>
+</div>
+</div>
+
+<!-- Tab6 -->
+<div class="tab-content" id="tab6">
+<h2 class="section-title">经典案例</h2>
+<div class="card">
+<h3>经典命例分析</h3>
+<p>以下精选《三命通会》中的经典命例，通过实际案例来说明八字命理的分析方法。每个案例都包含四柱八字、格局判断、运势分析和命运验证。</p>
+</div>
+<div class="case-box">
+<h4>案例一：正官格贵命</h4>
+<div class="bazi">
+<span>年柱：庚申</span><span>月柱：己卯</span><span>日柱：甲子</span><span>时柱：丙寅</span>
+</div>
+<p><span class="highlight">格局分析：</span>甲木日主生于卯月，当令得时，身旺。月干己土为正官，得月令卯木之生，正官有力。年柱庚申为偏官，但卯月木旺，金不能克木，反被木反克。日支子水为正印，生扶日主。时柱丙寅为食神，泄秀有力。</p>
+<p><span class="highlight">命局特点：</span>此命正官格成格，正官己土为用神。正官代表官职和权力，此人有管理才能，适合从事公务员或企业管理等工作。正印子水为喜神，代表有贵人相助，学识渊博。食神丙火泄秀，才华出众。</p>
+<p><span class="highlight">运势验证：</span>据《三命通会》记载，此命主为明代官员，官至知府，一生仕途顺利，晚年荣归故里。</p>
+</div>
+<div class="case-box">
+<h4>案例二：食神生财格</h4>
+<div class="bazi">
+<span>年柱：壬寅</span><span>月柱：辛亥</span><span>日柱：丙午</span><span>时柱：庚寅</span>
+</div>
+<p><span class="highlight">格局分析：</span>丙火日主生于亥月，不得令，身偏弱。月支亥水为正官，年干壬水为偏官，官杀混杂。但时干庚金为偏财，日支午火为比肩帮身，寅木为印绶生身。关键在于时支寅木为食神之根，食神生财，形成食神生财格。</p>
+<p><span class="highlight">命局特点：</span>此命以食神生财为用，食神代表才华和创造力，偏财代表商业头脑和社交能力。此人有经营才能，适合从事商业活动。虽然官杀混杂，但食神能制杀，化解了官杀的压力。</p>
+<p><span class="highlight">运势验证：</span>据记载，此命主为明代商人，经营丝绸生意，家资巨万，为当地首富。</p>
+</div>
+<div class="case-box">
+<h4>案例三：七杀格武职</h4>
+<div class="bazi">
+<span>年柱：戊辰</span><span>月柱：壬戌</span><span>日柱：庚申</span><span>时柱：丁丑</span>
+</div>
+<p><span class="highlight">格局分析：</span>庚金日主生于戌月，土旺生金，日主得令。月干壬水为食神，泄金之秀。年柱戊辰为偏印，生扶日主。时干丁火为正官，但被壬水合化，正官之力减弱。日支申金为比肩，帮身有力。此命七杀不显，以印绶格论之。</p>
+<p><span class="highlight">命局特点：</span>庚金日主刚毅果断，有武将之风。偏印戊土为用神，代表有谋略和策略。食神壬水泄秀，有军事才能。此命适合从事军事或武职工作。</p>
+<p><span class="highlight">运势验证：</span>据记载，此命主为明代武将，战功赫赫，官至总兵。</p>
+</div>
+<div class="case-box">
+<h4>案例四：从财格巨富</h4>
+<div class="bazi">
+<span>年柱：甲子</span><span>月柱：己巳</span><span>日柱：戊辰</span><span>时柱：庚午</span>
+</div>
+<p><span class="highlight">格局分析：</span>戊土日主生于巳月，火旺土相，看似身旺。但细看命局，甲木为偏官，子水为正财，己土为劫财，辰土为比肩，庚金为食神，午火为偏印。火土虽旺，但甲木克土，子水耗土，日主其实偏弱。以正财子水为用神，形成财星格。</p>
+<p><span class="highlight">命局特点：</span>此命财星有力，正财子水在年支，代表祖上殷实。食神庚金生财，有赚钱的能力和手段。偏印午火为忌，但巳午火旺，需要水来调节。行运到水旺之地时，财运大旺。</p>
+<p><span class="highlight">运势验证：</span>据记载，此命主出身富商之家，继承家业后经营有方，财富积累甚巨。</p>
+</div>
+<div class="case-box">
+<h4>案例五：伤官佩印格</h4>
+<div class="bazi">
+<span>年柱：癸酉</span><span>月柱：乙卯</span><span>日柱：甲戌</span><span>时柱：丙寅</span>
+</div>
+<p><span class="highlight">格局分析：</span>甲木日主生于卯月，当令身旺。月干乙木为比肩，帮身。年干癸水为正印，生扶日主。年支酉金为正官，但卯酉冲，官星受损。时干丙火为食神，时支寅木为比肩。此命伤官不显，以印绶格论之。</p>
+<p><span class="highlight">命局特点：</span>此命印绶癸水为用神，代表有学问和学识。卯酉冲使官星受损，仕途可能不顺，但正印有力，可以从事学术或教育工作。食神丙火泄秀，有文艺才华。</p>
+<p><span class="highlight">运势验证：</span>据记载，此命主为明代学者，一生著述颇丰，在地方上颇有声望。</p>
+</div>
+</div>
+</div>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active')});
+this.classList.add('active');
+document.getElementById(this.getAttribute('data-tab')).classList.add('active')})});
+(function(){
+var canvas=document.getElementById('particleCanvas');var ctx=canvas.getContext('2d');
+var particles=[];var count=60;
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+for(var i=0;i<count;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:Math.random()*2+1,a:Math.random()*.5+.2})}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);
+for(var i=0;i<particles.length;i++){var p=particles[i];p.x+=p.vx;p.y+=p.vy;
+if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(212,168,67,'+p.a+')';ctx.fill();
+for(var j=i+1;j<particles.length;j++){var q=particles[j];var dx=p.x-q.x,dy=p.y-q.y;var dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<150){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(212,168,67,'+(1-dist/150)*.15+')';ctx.stroke()}}}
+requestAnimationFrame(draw)}draw()})();
+window.addEventListener('scroll',function(){var bar=document.getElementById('progressBar');var max=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(window.scrollY/max*100)+'%'});
+var hamburgerBtn=document.getElementById('hamburger');var navBar=document.getElementById('navBar');var mobileMenu=document.getElementById('mobileMenu');
+if(hamburgerBtn){hamburgerBtn.addEventListener('click',function(){hamburgerBtn.classList.toggle('active');if(mobileMenu)mobileMenu.classList.toggle('show');if(navBar)navBar.classList.toggle('open')})}
+if(mobileMenu){var navLinks=document.querySelectorAll('.nav-link');for(var i=0;i<navLinks.length;i++){var clone=navLinks[i].cloneNode(true);mobileMenu.appendChild(clone)}}
+</script>
+</body>
+</html>

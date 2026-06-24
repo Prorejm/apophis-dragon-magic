@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>渊海子平 - 阿波菲斯</title>
+<meta name="description" content="渊海子平、十天干、十二地支、干支组合、十神、四柱排盘 - 阿波菲斯命理学">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#1a1a1a;--ink:#e8e0d4;--muted:#8a7e6e;--accent:#c41e3a;--accent2:#d4a843;--rule:#2a2a2a;--font:'Noto Serif SC','Songti SC','SimSun',serif;--font-display:'Ma Shan Zheng','Noto Serif SC',cursive}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:18px}
+body{font-family:var(--font);background-color:var(--bg);color:var(--ink);line-height:1.9;overflow-x:hidden}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:1000;transition:width .1s linear;box-shadow:0 0 10px rgba(196,30,58,.5)}
+.nav-bar{position:fixed;top:3px;left:0;right:0;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:999;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.2rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:.85rem;white-space:nowrap;letter-spacing:.1em}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.8rem;white-space:nowrap;padding:.3rem .6rem;border-radius:4px;transition:all .3s ease}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,.1)}
+.hamburger{display:none;cursor:pointer;padding:5px;background:none;border:none}
+.hamburger span{display:block;width:25px;height:3px;background:#d4a843;margin:5px 0;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;width:100%;background:rgba(10,10,10,.95);padding:20px;z-index:998}
+.mobile-menu.show{display:flex;flex-direction:column;gap:10px}
+.mobile-menu a{color:#d4a843;text-decoration:none;padding:10px;border-bottom:1px solid rgba(212,168,67,.2)}
+@media(max-width:768px){.hamburger{display:block}.nav-bar.open .nav-link{display:none}}
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.hero{position:relative;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:2rem}
+.hero-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,5rem);color:var(--accent2);letter-spacing:.15em;text-shadow:0 0 40px rgba(212,168,67,.3),0 0 80px rgba(196,30,58,.15);margin-bottom:1rem}
+.hero-subtitle{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--muted);letter-spacing:.3em;margin-bottom:2rem}
+.hero-divider{width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);margin:2rem auto}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);color:var(--accent2);margin:3rem 0 1.5rem;padding-left:1.2rem;border-left:4px solid transparent;border-image:linear-gradient(180deg,var(--accent),var(--accent2)) 1;letter-spacing:.1em}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0 1.5rem;border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.tab-btn{background:none;border:1px solid var(--rule);color:var(--muted);padding:.5rem 1rem;font-family:var(--font);font-size:.85rem;cursor:pointer;border-radius:4px;transition:all .3s}
+.tab-btn:hover{color:var(--accent2);border-color:var(--accent2)}
+.tab-btn.active{background:rgba(212,168,67,.15);color:var(--accent2);border-color:var(--accent2)}
+.tab-content{display:none}.tab-content.active{display:block}
+.card{background:var(--bg2);border:1px solid var(--rule);border-radius:8px;padding:1.5rem;margin:1.5rem 0;transition:border-color .3s}
+.card:hover{border-color:rgba(212,168,67,.3)}
+.card h3{color:var(--accent2);font-size:1.2rem;margin-bottom:1rem;font-family:var(--font-display)}
+.card p,.card li{color:var(--ink);font-size:.95rem;line-height:1.9}
+.card ul,.card ol{padding-left:1.5rem;margin:.5rem 0}
+.card li{margin:.3rem 0}
+.card table{width:100%;border-collapse:collapse;margin:1rem 0}
+.card th,.card td{border:1px solid var(--rule);padding:.5rem .8rem;text-align:left;font-size:.85rem}
+.card th{background:rgba(212,168,67,.1);color:var(--accent2)}
+.card td{color:var(--ink)}
+.highlight{color:var(--accent2);font-weight:600}
+.tool-input{background:var(--bg);border:1px solid var(--rule);color:var(--ink);padding:.6rem 1rem;font-family:var(--font);font-size:.95rem;border-radius:4px;width:100%;margin:.5rem 0;transition:border-color .3s}
+.tool-input:focus{outline:none;border-color:var(--accent2)}
+.tool-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:.6rem 1.5rem;font-family:var(--font);font-size:.95rem;border-radius:4px;cursor:pointer;transition:opacity .3s;margin:.5rem 0}
+.tool-btn:hover{opacity:.85}
+.result-box{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.2);border-radius:8px;padding:1.5rem;margin:1rem 0;min-height:60px}
+.result-box h4{color:var(--accent2);margin-bottom:.8rem}
+.pillar-box{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:1rem 0}
+.pillar-card{background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:1rem;text-align:center}
+.pillar-card .label{color:var(--muted);font-size:.8rem;margin-bottom:.5rem}
+.pillar-card .gan{font-size:2rem;font-family:var(--font-display);color:var(--accent2)}
+.pillar-card .zhi{font-size:1.5rem;font-family:var(--font-display);color:var(--accent)}
+.pillar-card .wx{color:var(--muted);font-size:.75rem;margin-top:.3rem}
+.shi-shen{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin:1rem 0}
+.shi-shen-item{background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:1rem;transition:all .3s}
+.shi-shen-item:hover{border-color:var(--accent2)}
+.shi-shen-item .name{color:var(--accent2);font-family:var(--font-display);font-size:1.1rem;margin-bottom:.5rem}
+.shi-shen-item .desc{color:var(--ink);font-size:.85rem;line-height:1.7}
+@media(max-width:768px){.tabs{gap:.3rem}.tab-btn{padding:.4rem .6rem;font-size:.75rem}.container{padding:1rem}.card{padding:1rem}.pillar-box{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link active">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+</nav>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<header class="hero">
+<h1 class="hero-title">渊海子平</h1>
+<div class="hero-divider"></div>
+<p class="hero-subtitle">八字命理之宗</p>
+</header>
+
+<div class="container">
+<div class="tabs">
+<button class="tab-btn active" data-tab="tab1">渊海子平总论</button>
+<button class="tab-btn" data-tab="tab2">十天干</button>
+<button class="tab-btn" data-tab="tab3">十二地支</button>
+<button class="tab-btn" data-tab="tab4">干支组合</button>
+<button class="tab-btn" data-tab="tab5">十神</button>
+<button class="tab-btn" data-tab="tab6">四柱排盘</button>
+</div>
+
+<!-- Tab1 -->
+<div class="tab-content active" id="tab1">
+<h2 class="section-title">渊海子平总论</h2>
+<div class="card">
+<h3>徐子平生平</h3>
+<p>徐子平（公元907-960年），名居易，字子平，五代末宋初人，是中国命理学史上最具影响力的人物之一。据传徐子平曾在五代时期担任朝廷官员，精通天文历法和易经八卦，后隐居山林，潜心研究命理之学。他将前人李虚中所创的年柱推命法加以革新，创立了以日干为核心的"四柱八字"推命体系，彻底改变了命理学的发展方向。</p>
+<p>徐子平的最大贡献在于确立了"以日干为命主"的基本原则。在他之前，命理学家主要以出生年份的天干地支来推断命运，这种方法虽然简单，但精度有限。徐子平提出，一个人出生的年、月、日、时各有一个天干和一个地支，共八个字，称为"四柱八字"，其中日柱的天干（日干）代表命主本人，是整个命局的核心。这一理论框架至今仍是八字命理学的基础。</p>
+</div>
+<div class="card">
+<h3>《渊海子平》一书</h3>
+<p>《渊海子平》是中国命理学史上最重要的经典著作之一，成书于宋代，由徐子平的弟子或后学整理编纂而成。全书以徐子平的命理思想为核心，汇集了当时命理学的精华理论和实践方法，被誉为"八字命理之宗"。书名"渊海"寓意命理之学如渊如海，深不可测；"子平"则表明此书传承徐子平之学说。</p>
+<p>《渊海子平》的内容涵盖四柱八字的各个方面，包括天干地支的基本属性、五行生克关系、十神的推演方法、格局的判断标准、大运流年的推算方法等。书中还收录了大量命例分析，通过实际案例来说明理论的应用方法，使读者能够在理论学习的基础上获得实践经验。此书对后世命理学的发展产生了深远影响，明代万民英的《三命通会》、清代任铁樵的《滴天髓阐微》等著作，都是在《渊海子平》的基础上发展而来的。</p>
+</div>
+<div class="card">
+<h3>四柱八字基本概念</h3>
+<p>四柱八字是中国传统命理学的核心概念。所谓"四柱"，指的是一个人出生时的年柱、月柱、日柱、时柱。每一柱由一个天干和一个地支组成，共八个字，故称"八字"。四柱分别代表不同的时间维度：年柱代表祖上和早年运势（1-16岁），月柱代表父母兄弟和青年运势（17-32岁），日柱代表自身和中年运势（33-48岁），时柱代表子女和晚年运势（49岁以后）。</p>
+<p>八字命理的分析方法，是以日干为命主（即"我"），通过分析其他七个字与日干之间的五行生克关系，来确定十神的配置，进而推断一个人的性格特征、六亲关系、事业财运、婚姻感情、健康寿元等各方面的情况。同时，还要结合大运和流年的变化，来分析不同人生阶段的运势起伏。</p>
+</div>
+</div>
+
+<!-- Tab2 -->
+<div class="tab-content" id="tab2">
+<h2 class="section-title">十天干</h2>
+<div class="card">
+<h3>十天干总论</h3>
+<p>十天干是中国古代历法和命理学的基础符号系统，由甲、乙、丙、丁、戊、己、庚、辛、壬、癸十个字组成。天干起源于远古时代的纪日方法，最初只有十个符号，用于记录十日为一旬的周期。后来天干与地支配合使用，形成了六十甲子的纪年体系。在命理学中，天干代表天之气、外在表现、阳刚之性，是八字分析的重要组成部分。</p>
+<p>十天干各有其独特的五行属性和阴阳归属。甲乙属木，丙丁属火，戊己属土，庚辛属金，壬癸属水。其中甲、丙、戊、庚、壬为阳干，乙、丁、己、辛、癸为阴干。阳干代表刚健、主动、外向，阴干代表柔顺、被动、内敛。天干的五行属性决定了其与其他天干地支之间的生克关系，是十神推演的基础。</p>
+</div>
+<div class="card">
+<h3>十天干详解</h3>
+<table>
+<tr><th>天干</th><th>阴阳</th><th>五行</th><th>方位</th><th>季节</th><th>象征</th><th>性格特征</th></tr>
+<tr><td class="highlight">甲</td><td>阳</td><td>木</td><td>东</td><td>春</td><td>参天大树</td><td>刚直不阿，积极进取，有领导才能，但过于固执</td></tr>
+<tr><td class="highlight">乙</td><td>阴</td><td>木</td><td>东</td><td>春</td><td>花草藤蔓</td><td>温柔善良，善于交际，适应力强，但优柔寡断</td></tr>
+<tr><td class="highlight">丙</td><td>阳</td><td>火</td><td>南</td><td>夏</td><td>太阳之火</td><td>热情开朗，光明磊落，乐于助人，但性急冲动</td></tr>
+<tr><td class="highlight">丁</td><td>阴</td><td>火</td><td>南</td><td>夏</td><td>灯烛之火</td><td>内敛温和，心思细腻，洞察力强，但多愁善感</td></tr>
+<tr><td class="highlight">戊</td><td>阳</td><td>土</td><td>中</td><td>四季</td><td>高山大地</td><td>厚重稳健，诚实守信，包容大度，但反应迟缓</td></tr>
+<tr><td class="highlight">己</td><td>阴</td><td>土</td><td>中</td><td>四季</td><td>田园沃土</td><td>谦逊务实，细心周到，善于策划，但过于保守</td></tr>
+<tr><td class="highlight">庚</td><td>阳</td><td>金</td><td>西</td><td>秋</td><td>刀剑斧钺</td><td>刚毅果断，义气豪爽，执行力强，但过于强硬</td></tr>
+<tr><td class="highlight">辛</td><td>阴</td><td>金</td><td>西</td><td>秋</td><td>珠宝首饰</td><td>精致高雅，追求完美，审美能力强，但过于挑剔</td></tr>
+<tr><td class="highlight">壬</td><td>阳</td><td>水</td><td>北</td><td>冬</td><td>江河湖海</td><td>智慧过人，胸怀宽广，适应力极强，但缺乏恒心</td></tr>
+<tr><td class="highlight">癸</td><td>阴</td><td>水</td><td>北</td><td>冬</td><td>雨露溪流</td><td>聪慧敏感，想象力丰富，直觉力强，但多疑多变</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>天干五合</h3>
+<p>天干之间存在着五组相合关系，称为"天干五合"。五合的基础是五行之间的化合关系，合化之后会产生新的五行属性。天干五合为：甲己合化土、乙庚合化金、丙辛合化水、丁壬合化木、戊癸合化火。</p>
+<p>天干五合在命理学中具有重要意义。当日干与月干或时干相合时，命主的性格和命运会受到合化五行的影响。例如，日干为甲，月干为己，甲己合化土，命主虽然本质属木，但会受到土性的影响，变得更加稳重务实。需要注意的是，合化需要一定的条件，如得时得地，否则只是"合而不化"，表现为关系亲密但不会改变原有属性。</p>
+</div>
+</div>
+
+<!-- Tab3 -->
+<div class="tab-content" id="tab3">
+<h2 class="section-title">十二地支</h2>
+<div class="card">
+<h3>十二地支总论</h3>
+<p>十二地支是中国古代历法和命理学的另一基础符号系统，由子、丑、寅、卯、辰、巳、午、未、申、酉、戌、亥十二个字组成。地支最初用于纪月，后来与天干配合形成六十甲子纪年体系。在命理学中，地支代表地之气、内在本质、阴柔之性，同时也对应十二生肖、十二月份、十二时辰等重要概念。</p>
+<p>十二地支各有其独特的五行属性和阴阳归属。子属水（阳），丑属土（阴），寅属木（阳），卯属木（阴），辰属土（阳），巳属火（阳），午属火（阳），未属土（阴），申属金（阳），酉属金（阴），戌属土（阳），亥属水（阴）。地支还蕴含着"藏干"的概念，即每个地支内部藏有一个或多个天干，代表该地支的深层五行力量。</p>
+</div>
+<div class="card">
+<h3>十二地支详解</h3>
+<table>
+<tr><th>地支</th><th>生肖</th><th>月份</th><th>时辰</th><th>五行</th><th>藏干</th><th>方位</th></tr>
+<tr><td class="highlight">子</td><td>鼠</td><td>十一月</td><td>23-1时</td><td>水</td><td>癸</td><td>北</td></tr>
+<tr><td class="highlight">丑</td><td>牛</td><td>十二月</td><td>1-3时</td><td>土</td><td>己癸辛</td><td>东北</td></tr>
+<tr><td class="highlight">寅</td><td>虎</td><td>正月</td><td>3-5时</td><td>木</td><td>甲丙戊</td><td>东</td></tr>
+<tr><td class="highlight">卯</td><td>兔</td><td>二月</td><td>5-7时</td><td>木</td><td>乙</td><td>东</td></tr>
+<tr><td class="highlight">辰</td><td>龙</td><td>三月</td><td>7-9时</td><td>土</td><td>戊乙癸</td><td>东南</td></tr>
+<tr><td class="highlight">巳</td><td>蛇</td><td>四月</td><td>9-11时</td><td>火</td><td>丙庚戊</td><td>东南</td></tr>
+<tr><td class="highlight">午</td><td>马</td><td>五月</td><td>11-13时</td><td>火</td><td>丁己</td><td>南</td></tr>
+<tr><td class="highlight">未</td><td>羊</td><td>六月</td><td>13-15时</td><td>土</td><td>己丁乙</td><td>西南</td></tr>
+<tr><td class="highlight">申</td><td>猴</td><td>七月</td><td>15-17时</td><td>金</td><td>庚壬戊</td><td>西</td></tr>
+<tr><td class="highlight">酉</td><td>鸡</td><td>八月</td><td>17-19时</td><td>金</td><td>辛</td><td>西</td></tr>
+<tr><td class="highlight">戌</td><td>狗</td><td>九月</td><td>19-21时</td><td>土</td><td>戊辛丁</td><td>西北</td></tr>
+<tr><td class="highlight">亥</td><td>猪</td><td>十月</td><td>21-23时</td><td>水</td><td>壬甲</td><td>西北</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>地支六合与三合</h3>
+<p>地支之间存在多种组合关系，其中最重要的是六合和三合。地支六合为：子丑合土、寅亥合木、卯戌合火、辰酉合金、巳申合水、午未合火/土。六合表示两个地支之间存在亲和力，合化后产生新的五行力量。</p>
+<p>地支三合是指三个地支组成一个完整的五行局，力量最为强大。三合局为：申子辰合水局、亥卯未合木局、寅午戌合火局、巳酉丑合金局。三合局在命局中出现时，代表该五行力量极旺，对命主的性格和命运产生重大影响。例如，命局中有申、子、辰三个地支，则形成水局，命主五行水旺，性格上偏向智慧灵活、善于变通。</p>
+</div>
+<div class="card">
+<h3>地支六冲与相害</h3>
+<p>地支六冲是指位置相对的两个地支之间存在冲突关系：子午冲、丑未冲、寅申冲、卯酉冲、辰戌冲、巳亥冲。六冲代表对立和冲突，在命局中出现时，往往意味着该方面的运势会有动荡和变化。例如，日支（夫妻宫）与年支相冲，可能预示着婚姻关系的不稳定。</p>
+<p>地支相害（又称六害）为：子未害、丑午害、寅巳害、卯辰害、申亥害、酉戌害。相害的关系比六冲稍弱，但也代表不和谐的因素。在命理分析中，六冲和相害需要结合具体位置和五行属性来综合判断其影响程度。</p>
+</div>
+</div>
+
+<!-- Tab4 -->
+<div class="tab-content" id="tab4">
+<h2 class="section-title">干支组合</h2>
+<div class="card">
+<h3>六十甲子</h3>
+<p>六十甲子是由十天干和十二地支按照固定顺序两两配合，形成的六十个不同的干支组合。天干和地支的最小公倍数为六十，因此经过六十个组合后，干支循环回到起点，周而复始。六十甲子是中国传统历法的核心纪年体系，一个完整的甲子周期为六十年，称为"一甲子"。</p>
+<p>六十甲子的排列顺序为：甲子、乙丑、丙寅、丁卯、戊辰、己巳、庚午、辛未、壬申、癸酉、甲戌、乙亥、丙子、丁丑、戊寅、己卯、庚辰、辛巳、壬午、癸未、甲申、乙酉、丙戌、丁亥、戊子、己丑、庚寅、辛卯、壬辰、癸巳、甲午、乙未、丙申、丁酉、戊戌、己亥、庚子、辛丑、壬寅、癸卯、甲辰、乙巳、丙午、丁未、戊申、己酉、庚戌、辛亥、壬子、癸丑、甲寅、乙卯、丙辰、丁巳、戊午、己未、庚申、辛酉、壬戌、癸亥。</p>
+</div>
+<div class="card">
+<h3>纳音五行</h3>
+<p>纳音五行是六十甲子中每两个干支组合对应一种特定的五行属性，共三十种纳音。纳音的概念源于古代的音律理论，将六十甲子与五音十二律相对应，每个纳音都有其独特的象征意义。纳音五行在命理学中用于更精细地分析命局的五行特征，是对天干地支五行属性的补充。</p>
+<table>
+<tr><th>纳音</th><th>五行</th><th>对应干支</th><th>象征</th></tr>
+<tr><td>海中金</td><td>金</td><td>甲子乙丑</td><td>深藏海底之金，需淘洗方显其光</td></tr>
+<tr><td>炉中火</td><td>火</td><td>丙寅丁卯</td><td>火炉中之火，温暖而不烈</td></tr>
+<tr><td>大林木</td><td>木</td><td>戊辰己巳</td><td>参天大树，枝繁叶茂</td></tr>
+<tr><td>路旁土</td><td>土</td><td>庚午辛未</td><td>道路旁之土，承载万物</td></tr>
+<tr><td>剑锋金</td><td>金</td><td>壬申癸酉</td><td>宝剑之锋，锐利无比</td></tr>
+<tr><td>山头火</td><td>火</td><td>甲戌乙亥</td><td>山顶之火，光照四方</td></tr>
+<tr><td>涧下水</td><td>水</td><td>丙子丁丑</td><td>山涧溪流，清冽甘甜</td></tr>
+<tr><td>城头土</td><td>土</td><td>戊寅己卯</td><td>城墙之土，坚固厚重</td></tr>
+<tr><td>白蜡金</td><td>金</td><td>庚辰辛巳</td><td>蜡烛之金，柔弱而珍贵</td></tr>
+<tr><td>杨柳木</td><td>木</td><td>壬午癸未</td><td>垂柳之木，柔韧多姿</td></tr>
+<tr><td>泉中水</td><td>水</td><td>甲申乙酉</td><td>泉水之水，源源不断</td></tr>
+<tr><td>屋上土</td><td>土</td><td>丙戌丁亥</td><td>屋顶之土，遮风挡雨</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>天干地支相生相克</h3>
+<p>在干支组合中，天干与地支之间的五行关系对命局有着重要影响。天干代表外在表现，地支代表内在本质，二者之间的生克关系反映了一个人表里是否一致、内外是否协调。</p>
+<p>当天干生地支时，称为"干生支"，代表外在力量滋养内在，表现为表里如一、内外和谐。例如，丙寅柱，丙火生寅木，火能照亮木的生长方向，代表此人外在热情而内在有生长力。当地支生天干时，称为"支生干"，代表内在力量支撑外在，表现为内在丰富而外在有表现力。当天干克地支时，称为"干克支"，代表外在压制内在，可能表现为表面强硬而内心压抑。当地支克天干时，称为"支克干"，代表内在反制外在，可能表现为内心强大但不善表达。</p>
+</div>
+</div>
+
+<!-- Tab5 -->
+<div class="tab-content" id="tab5">
+<h2 class="section-title">十神</h2>
+<div class="card">
+<h3>十神总论</h3>
+<p>十神是八字命理学中最核心的分析工具，它是根据日干与其他七个天干地支之间的五行生克关系而确定的十种关系名称。十神包括：正官、偏官（七杀）、正印、偏印（枭神）、食神、伤官、正财、偏财、比肩、劫财。每一种十神都代表特定的人事关系和性格特征，是推断命运的重要依据。</p>
+<p>十神的推定方法以日干为"我"，其他天干地支的五行与日干的五行进行比较。同我者为比肩、劫财；我生者为食神、伤官；我克者为正财、偏财；克我者为正官、偏官；生我者为正印、偏印。其中，阴阳属性相同者为偏（偏官、偏印、偏财、劫财），阴阳属性不同者为正（正官、正印、正财、比肩）。</p>
+</div>
+<div class="card">
+<h3>十神详解</h3>
+<div class="shi-shen">
+<div class="shi-shen-item"><div class="name">正官</div><div class="desc">代表法律、秩序、自律。正官为克制日干且阴阳不同的五行，象征上司、官职、丈夫（女命）。正官旺者品行端正，有责任感，适合从事管理、公务员等工作。过旺则过于拘谨，缺乏魄力。</div></div>
+<div class="shi-shen-item"><div class="name">偏官（七杀）</div><div class="desc">代表权威、魄力、压力。偏官为克制日干且阴阳相同的五行，象征竞争者、偏夫、武职。七杀旺者有胆识，果断刚毅，适合从事军警、创业等工作。过旺则性格暴躁，容易与人冲突。</div></div>
+<div class="shi-shen-item"><div class="name">正印</div><div class="desc">代表学问、庇护、仁慈。正印为生日干且阴阳不同的五行，象征母亲、学历、贵人。正印旺者聪明好学，心地善良，有贵人相助。过旺则过于依赖，缺乏独立性。</div></div>
+<div class="shi-shen-item"><div class="name">偏印（枭神）</div><div class="desc">代表偏门学问、孤独、多变。偏印为生日干且阴阳相同的五行，象征继母、偏门技艺、宗教。偏印旺者思维独特，有艺术天赋，但容易孤僻偏激。</div></div>
+<div class="shi-shen-item"><div class="name">食神</div><div class="desc">代表才华、享受、和平。食神为日干所生且阴阳相同的五行，象征子女、才华、口福。食神旺者温和有礼，才华横溢，生活有品味。过旺则贪图享乐，缺乏进取心。</div></div>
+<div class="shi-shen-item"><div class="name">伤官</div><div class="desc">代表叛逆、才华、口才。伤官为日干所生且阴阳不同的五行，象征子女（次子）、艺术才能、口才。伤官旺者聪明绝顶，口才出众，但容易傲慢叛逆。</div></div>
+<div class="shi-shen-item"><div class="name">正财</div><div class="desc">代表勤劳、节俭、稳定。正财为日干所克且阴阳不同的五行，象征妻子（男命）、正当收入、不动产。正财旺者勤劳踏实，善于理财，财运稳定。</div></div>
+<div class="shi-shen-item"><div class="name">偏财</div><div class="desc">代表慷慨、机遇、社交。偏财为日干所克且阴阳相同的五行，象征父亲、意外之财、情人。偏财旺者人缘好，善于交际，有意外财运，但容易挥霍。</div></div>
+<div class="shi-shen-item"><div class="name">比肩</div><div class="desc">代表独立、竞争、朋友。比肩为与日干相同且阴阳不同的五行，象征兄弟、朋友、竞争对手。比肩旺者独立自主，有竞争意识，但容易固执己见。</div></div>
+<div class="shi-shen-item"><div class="name">劫财</div><div class="desc">代表争夺、冲动、义气。劫财为与日干相同且阴阳相同的五行，象征兄弟姐妹、劫夺之财。劫财旺者讲义气，行动力强，但容易冲动消费，财来财去。</div></div>
+</div>
+</div>
+</div>
+
+<!-- Tab6 -->
+<div class="tab-content" id="tab6">
+<h2 class="section-title">四柱排盘</h2>
+<div class="card">
+<h3>四柱排盘工具</h3>
+<p>输入出生日期和时间，系统将自动排出年柱、月柱、日柱、时柱的天干地支，并显示五行属性和十神关系。排盘结果基于传统命理学的干支推算方法。</p>
+</div>
+<div class="card">
+<h3>输入出生信息</h3>
+<p>出生日期：</p>
+<input class="tool-input" id="birthDate" type="date" />
+<p>出生时辰：</p>
+<select class="tool-input" id="birthHour">
+<option value="0">子时（23:00-01:00）</option>
+<option value="1">丑时（01:00-03:00）</option>
+<option value="2">寅时（03:00-05:00）</option>
+<option value="3">卯时（05:00-07:00）</option>
+<option value="4">辰时（07:00-09:00）</option>
+<option value="5">巳时（09:00-11:00）</option>
+<option value="6">午时（11:00-13:00）</option>
+<option value="7">未时（13:00-15:00）</option>
+<option value="8">申时（15:00-17:00）</option>
+<option value="9">酉时（17:00-19:00）</option>
+<option value="10">戌时（19:00-21:00）</option>
+<option value="11">亥时（21:00-23:00）</option>
+</select>
+<button class="tool-btn" onclick="calcBazi()">排出四柱</button>
+<div class="result-box" id="baziResult"></div>
+</div>
+</div>
+</div>
+
+<script>
+var tianGan=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+var diZhi=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+var wuXing=['木','木','火','火','土','土','金','金','水','水'];
+var wuXingZhi=['水','土','木','木','土','火','火','土','金','金','土','水'];
+var cangGan=[['癸'],['己','癸','辛'],['甲','丙','戊'],['乙'],['戊','乙','癸'],['丙','庚','戊'],['丁','己'],['己','丁','乙'],['庚','壬','戊'],['辛'],['戊','辛','丁'],['壬','甲']];
+var shiShenMap={'同阳':'劫财','同阴':'比肩','生阳':'伤官','生阴':'食神','克阳':'偏财','克阴':'正财','被阳':'偏官','被阴':'正官','生我阳':'偏印','生我阴':'正印'};
+function getGanZhi(year,month,day,hour){
+var yIdx=(year-4)%60;var yGan=yIdx%10;var yZhi=yIdx%12;
+var mZhiBase=(year%4===0&&month>2||(year%4!==0&&month>2))?(month+1)%12:(month+1)%12;
+var mGanBase=(yGan%5*2+mZhiBase)%10;
+var dIdx=Math.floor((new Date(year,month-1,day)-new Date(1900,0,7))/86400000);
+var dGan=(dIdx+6)%10;var dZhi=(dIdx+1)%12;
+var hGanBase=(dGan%5*2+hour)%10;
+return{year:{gan:yGan,zhi:yZhi},month:{gan:mGanBase,zhi:mZhiBase},day:{gan:dGan,zhi:dZhi},hour:{gan:hGanBase,zhi:hour}}
+}
+function getShiShen(dayGan,otherGan){
+var dgWx=wuXing[dayGan];var ogWx=wuXing[otherGan];
+var dgYin=dayGan%2===1;var ogYin=otherGan%2===1;
+var sameYin=dgYin===ogYin;
+if(dgWx===ogWx)return sameYin?'劫财':'比肩';
+var sheng={'木':'火','火':'土','土':'金','金':'水','水':'木'};
+var ke={'木':'土','土':'水','水':'火','火':'金','金':'木'};
+if(sheng[dgWx]===ogWx)return sameYin?'伤官':'食神';
+if(ke[dgWx]===ogWx)return sameYin?'偏财':'正财';
+if(sheng[ogWx]===dgWx)return sameYin?'偏印':'正印';
+if(ke[ogWx]===dgWx)return sameYin?'偏官':'正官';
+return'未知'}
+function calcBazi(){
+var dateStr=document.getElementById('birthDate').value;
+var hour=parseInt(document.getElementById('birthHour').value);
+if(!dateStr){document.getElementById('baziResult').innerHTML='<p style="color:var(--accent)">请选择出生日期</p>';return}
+var parts=dateStr.split('-');var y=parseInt(parts[0]),m=parseInt(parts[1]),d=parseInt(parts[2]);
+var gz=getGanZhi(y,m,d,hour);
+var dg=gz.day.gan;
+var html='<h4>四柱排盘结果</h4>';
+html+='<div class="pillar-box">';
+var labels=['年柱','月柱','日柱','时柱'];
+var keys=['year','month','day','hour'];
+for(var i=0;i<4;i++){
+var k=keys[i];var g=gz[k].gan;var z=gz[k].zhi;
+var gWx=wuXing[g];var zWx=wuXingZhi[z];
+var ss=i===2?'日主':getShiShen(dg,g);
+html+='<div class="pillar-card"><div class="label">'+labels[i]+'</div>';
+html+='<div class="gan">'+tianGan[g]+'<span style="font-size:.7rem;color:var(--muted)">('+gWx+')</span></div>';
+html+='<div class="zhi">'+diZhi[z]+'<span style="font-size:.7rem;color:var(--muted)">('+zWx+')</span></div>';
+html+='<div class="wx">十神：'+ss+'</div></div>'}
+html+='</div>';
+html+='<h4 style="margin-top:1.5rem">日主分析</h4>';
+html+='<p>日主天干：<span class="highlight">'+tianGan[dg]+'</span>（五行属<span class="highlight">'+wuXing[dg]+'</span>，'+(dg%2===1?'阳':'阴')+'干）</p>';
+html+='<h4 style="margin-top:1rem">地支藏干</h4>';
+for(var i=0;i<4;i++){
+var k=keys[i];var z=gz[k].zhi;var cg=cangGan[z];
+html+='<p>'+labels[i]+'（'+diZhi[z]+'）藏干：';
+for(var j=0;j<cg.length;j++){
+var cgIdx=tianGan.indexOf(cg[j]);
+html+='<span class="highlight">'+cg[j]+'</span>('+wuXing[cgIdx]+') '+(j<cg.length-1?'、':'')}
+html+='</p>'}
+document.getElementById('baziResult').innerHTML=html}
+
+// Tab切换
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active')});
+this.classList.add('active');
+document.getElementById(this.getAttribute('data-tab')).classList.add('active')})});
+
+// 粒子背景
+(function(){
+var canvas=document.getElementById('particleCanvas');var ctx=canvas.getContext('2d');
+var particles=[];var count=60;
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+for(var i=0;i<count;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:Math.random()*2+1,a:Math.random()*.5+.2})}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);
+for(var i=0;i<particles.length;i++){var p=particles[i];p.x+=p.vx;p.y+=p.vy;
+if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(212,168,67,'+p.a+')';ctx.fill();
+for(var j=i+1;j<particles.length;j++){var q=particles[j];var dx=p.x-q.x,dy=p.y-q.y;var dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<150){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(212,168,67,'+(1-dist/150)*.15+')';ctx.stroke()}}}
+requestAnimationFrame(draw)}draw()})();
+
+// 进度条
+window.addEventListener('scroll',function(){var bar=document.getElementById('progressBar');var max=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(window.scrollY/max*100)+'%'});
+
+// 汉堡菜单
+var hamburgerBtn=document.getElementById('hamburger');var navBar=document.getElementById('navBar');var mobileMenu=document.getElementById('mobileMenu');
+if(hamburgerBtn){hamburgerBtn.addEventListener('click',function(){hamburgerBtn.classList.toggle('active');if(mobileMenu)mobileMenu.classList.toggle('show');if(navBar)navBar.classList.toggle('open')})}
+if(mobileMenu){var navLinks=document.querySelectorAll('.nav-link');for(var i=0;i<navLinks.length;i++){var clone=navLinks[i].cloneNode(true);mobileMenu.appendChild(clone)}}
+</script>
+</body>
+</html>

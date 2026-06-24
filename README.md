@@ -99,7 +99,7 @@
 | 页面 | 链接 |
 |------|------|
 | 📖 主书 | [index.html](https://prorejm.github.io/apophis-dragon-magic/) |
-| 🎮 符印工坊 | [sigil-game.html](https://prorejm.github.io/apophis-dragon-magic/sigil-game.html) |
+| ⚜ 符印工坊 | [sigil-game.html](https://prorejm.github.io/apophis-dragon-magic/sigil-game.html) |
 | ☰ 周易占卜 | [iching-divination.html](https://prorejm.github.io/apophis-dragon-magic/iching-divination.html) |
 | ☯ 大六壬 | [liuren-simulator.html](https://prorejm.github.io/apophis-dragon-magic/liuren-simulator.html) |
 | 🪐 行星时 | [planetary-hours.html](https://prorejm.github.io/apophis-dragon-magic/planetary-hours.html) |
@@ -138,6 +138,12 @@
 | ⚧ 性别魔法 | [gender-magic.html](https://prorejm.github.io/apophis-dragon-magic/gender-magic.html) |
 | 🏛️ 迷你哲学 | [mini-philosophy.html](https://prorejm.github.io/apophis-dragon-magic/mini-philosophy.html) |
 | ✨ Magick实践 | [magick-practice.html](https://prorejm.github.io/apophis-dragon-magic/magick-practice.html) |
+| 📚 政治经济学 | [political-economy.html](https://prorejm.github.io/apophis-dragon-magic/political-economy.html) |
+| 🔢 三才五格 | [sancai-wuge.html](https://prorejm.github.io/apophis-dragon-magic/sancai-wuge.html) |
+| 📜 渊海子平 | [yuanhai-ziping.html](https://prorejm.github.io/apophis-dragon-magic/yuanhai-ziping.html) |
+| 📖 三命通会 | [sanming-tonghui.html](https://prorejm.github.io/apophis-dragon-magic/sanming-tonghui.html) |
+| 💕 八字合婚 | [bazi-marriage.html](https://prorejm.github.io/apophis-dragon-magic/bazi-marriage.html) |
+| 🧭 九星风水 | [jiuxing-fengshui.html](https://prorejm.github.io/apophis-dragon-magic/jiuxing-fengshui.html) |
 ## 💻 本地运行
 
 直接用浏览器打开 `index.html` 即可，无需服务器。

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九星风水 - 阿波菲斯</title>
+<meta name="description" content="九星风水、九星飞泊、八宅风水、玄空飞星、风水布局、风水罗盘 - 阿波菲斯风水学">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#1a1a1a;--ink:#e8e0d4;--muted:#8a7e6e;--accent:#c41e3a;--accent2:#d4a843;--rule:#2a2a2a;--font:'Noto Serif SC','Songti SC','SimSun',serif;--font-display:'Ma Shan Zheng','Noto Serif SC',cursive}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:18px}
+body{font-family:var(--font);background-color:var(--bg);color:var(--ink);line-height:1.9;overflow-x:hidden}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:1000;transition:width .1s linear;box-shadow:0 0 10px rgba(196,30,58,.5)}
+.nav-bar{position:fixed;top:3px;left:0;right:0;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:999;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.2rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:.85rem;white-space:nowrap;letter-spacing:.1em}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.8rem;white-space:nowrap;padding:.3rem .6rem;border-radius:4px;transition:all .3s ease}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,.1)}
+.hamburger{display:none;cursor:pointer;padding:5px;background:none;border:none}
+.hamburger span{display:block;width:25px;height:3px;background:#d4a843;margin:5px 0;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;width:100%;background:rgba(10,10,10,.95);padding:20px;z-index:998}
+.mobile-menu.show{display:flex;flex-direction:column;gap:10px}
+.mobile-menu a{color:#d4a843;text-decoration:none;padding:10px;border-bottom:1px solid rgba(212,168,67,.2)}
+@media(max-width:768px){.hamburger{display:block}.nav-bar.open .nav-link{display:none}}
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.hero{position:relative;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:2rem}
+.hero-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,5rem);color:var(--accent2);letter-spacing:.15em;text-shadow:0 0 40px rgba(212,168,67,.3),0 0 80px rgba(196,30,58,.15);margin-bottom:1rem}
+.hero-subtitle{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--muted);letter-spacing:.3em;margin-bottom:2rem}
+.hero-divider{width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);margin:2rem auto}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);color:var(--accent2);margin:3rem 0 1.5rem;padding-left:1.2rem;border-left:4px solid transparent;border-image:linear-gradient(180deg,var(--accent),var(--accent2)) 1;letter-spacing:.1em}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0 1.5rem;border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.tab-btn{background:none;border:1px solid var(--rule);color:var(--muted);padding:.5rem 1rem;font-family:var(--font);font-size:.85rem;cursor:pointer;border-radius:4px;transition:all .3s}
+.tab-btn:hover{color:var(--accent2);border-color:var(--accent2)}
+.tab-btn.active{background:rgba(212,168,67,.15);color:var(--accent2);border-color:var(--accent2)}
+.tab-content{display:none}.tab-content.active{display:block}
+.card{background:var(--bg2);border:1px solid var(--rule);border-radius:8px;padding:1.5rem;margin:1.5rem 0;transition:border-color .3s}
+.card:hover{border-color:rgba(212,168,67,.3)}
+.card h3{color:var(--accent2);font-size:1.2rem;margin-bottom:1rem;font-family:var(--font-display)}
+.card p,.card li{color:var(--ink);font-size:.95rem;line-height:1.9}
+.card ul,.card ol{padding-left:1.5rem;margin:.5rem 0}
+.card li{margin:.3rem 0}
+.card table{width:100%;border-collapse:collapse;margin:1rem 0}
+.card th,.card td{border:1px solid var(--rule);padding:.5rem .8rem;text-align:left;font-size:.85rem}
+.card th{background:rgba(212,168,67,.1);color:var(--accent2)}
+.card td{color:var(--ink)}
+.highlight{color:var(--accent2);font-weight:600}
+.ji{color:#4caf50;font-weight:600}
+.xiong{color:#f44336;font-weight:600}
+.zhong{color:#ff9800;font-weight:600}
+.tool-input{background:var(--bg);border:1px solid var(--rule);color:var(--ink);padding:.6rem 1rem;font-family:var(--font);font-size:.95rem;border-radius:4px;width:100%;margin:.5rem 0;transition:border-color .3s}
+.tool-input:focus{outline:none;border-color:var(--accent2)}
+.tool-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:.6rem 1.5rem;font-family:var(--font);font-size:.95rem;border-radius:4px;cursor:pointer;transition:opacity .3s;margin:.5rem 0}
+.tool-btn:hover{opacity:.85}
+.result-box{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.2);border-radius:8px;padding:1.5rem;margin:1rem 0;min-height:60px}
+.result-box h4{color:var(--accent2);margin-bottom:.8rem}
+.compass-container{display:flex;justify-content:center;margin:1.5rem 0}
+.compass-container canvas{border-radius:50%;box-shadow:0 0 30px rgba(212,168,67,.2)}
+.star-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}
+.star-item{background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:1rem;text-align:center;transition:all .3s}
+.star-item:hover{border-color:var(--accent2);transform:translateY(-2px)}
+.star-item .num{font-size:2rem;font-family:var(--font-display);color:var(--accent2)}
+.star-item .name{color:var(--ink);font-size:.9rem;margin:.3rem 0}
+.star-item .wx{color:var(--muted);font-size:.8rem}
+.star-item .nature{font-size:.75rem;margin-top:.3rem}
+.layout-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin:1rem 0}
+.layout-item{background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:1.2rem;transition:all .3s}
+.layout-item:hover{border-color:var(--accent2)}
+.layout-item h4{color:var(--accent2);font-family:var(--font-display);margin-bottom:.5rem}
+.layout-item p{font-size:.85rem;color:var(--ink);line-height:1.7}
+@media(max-width:768px){.tabs{gap:.3rem}.tab-btn{padding:.4rem .6rem;font-size:.75rem}.container{padding:1rem}.card{padding:1rem}.star-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link active">九星风水</a>
+</nav>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<header class="hero">
+<h1 class="hero-title">九星风水</h1>
+<div class="hero-divider"></div>
+<p class="hero-subtitle">玄空飞星 八宅明镜</p>
+</header>
+
+<div class="container">
+<div class="tabs">
+<button class="tab-btn active" data-tab="tab1">九星概述</button>
+<button class="tab-btn" data-tab="tab2">九星飞泊</button>
+<button class="tab-btn" data-tab="tab3">八宅风水</button>
+<button class="tab-btn" data-tab="tab4">玄空飞星</button>
+<button class="tab-btn" data-tab="tab5">风水布局</button>
+<button class="tab-btn" data-tab="tab6">风水罗盘</button>
+</div>
+
+<!-- Tab1 -->
+<div class="tab-content active" id="tab1">
+<h2 class="section-title">九星概述</h2>
+<div class="card">
+<h3>九星起源与原理</h3>
+<p>九星风水是中国传统风水学的重要流派之一，源于洛书九宫和北斗九星。洛书是以一到九的数字排列成三阶幻方，横、竖、对角线之和均为十五，代表着宇宙万物的运行规律。北斗九星则是指北斗七星加上辅弼二星，共九颗星，每颗星都有其独特的能量属性和对人类生活的影响。</p>
+<p>在风水学中，九星被赋予数字和五行属性，按照洛书九宫的排列方式分布于八个方位和中央。九星分别为：一白水星、二黑土星、三碧木星、四绿木星、五黄土星、六白金星、七赤金星、八白土星、九紫火星。其中一白、六白、八白为三吉星，二黑、五黄、七赤为三凶星，三碧、四绿为平星，九紫为次吉星。</p>
+</div>
+<div class="card">
+<h3>九星属性详解</h3>
+<div class="star-grid">
+<div class="star-item"><div class="num">一白</div><div class="name">贪狼星</div><div class="wx">水 · 北方</div><div class="nature ji">吉星</div></div>
+<div class="star-item"><div class="num">二黑</div><div class="name">巨门星</div><div class="wx">土 · 西南</div><div class="nature xiong">凶星</div></div>
+<div class="star-item"><div class="num">三碧</div><div class="name">禄存星</div><div class="wx">木 · 东方</div><div class="nature zhong">平星</div></div>
+<div class="star-item"><div class="num">四绿</div><div class="name">文曲星</div><div class="wx">木 · 东南</div><div class="nature ji">吉星</div></div>
+<div class="star-item"><div class="num">五黄</div><div class="name">廉贞星</div><div class="wx">土 · 中央</div><div class="nature xiong">大凶</div></div>
+<div class="star-item"><div class="num">六白</div><div class="name">武曲星</div><div class="wx">金 · 西北</div><div class="nature ji">吉星</div></div>
+<div class="star-item"><div class="num">七赤</div><div class="name">破军星</div><div class="wx">金 · 西方</div><div class="nature xiong">凶星</div></div>
+<div class="star-item"><div class="num">八白</div><div class="name">左辅星</div><div class="wx">土 · 东北</div><div class="nature ji">吉星</div></div>
+<div class="star-item"><div class="num">九紫</div><div class="name">右弼星</div><div class="wx">火 · 南方</div><div class="nature ji">次吉</div></div>
+</div>
+</div>
+<div class="card">
+<h3>九星吉凶含义</h3>
+<p><span class="ji">一白贪狼星：</span>五行属水，主事业、学业、人缘。一白星当令时，利于考试升迁、人际交往、文艺创作。失令时，可能带来感情波折和健康问题（尤其肾脏和泌尿系统）。</p>
+<p><span class="xiong">二黑巨门星：</span>五行属土，主疾病、是非。二黑星当令时，有田产之喜，利于房地产。失令时，为最凶之病符星，主疾病缠身、口舌是非，尤其需要注意脾胃和消化系统健康。</p>
+<p><span class="zhong">三碧禄存星：</span>五行属木，主争斗、是非。三碧星当令时，利于法律诉讼和竞争性活动。失令时，主口舌是非、官非诉讼、肢体损伤。</p>
+<p><span class="ji">四绿文曲星：</span>五行属木，主文才、学业。四绿星当令时，利于读书考试、文学创作、艺术发展。失令时，可能带来感情不顺和肝胆健康问题。</p>
+<p><span class="xiong">五黄廉贞星：</span>五行属土，主灾祸、意外。五黄星是九星中最凶之星，无论当令与否，只要飞临之处都需要特别化解。五黄星主意外灾祸、重病、破产等严重不利事件。</p>
+<p><span class="ji">六白武曲星：</span>五行属金，主权柄、武职。六白星当令时，利于升迁掌权、武职发展、投资理财。失令时，可能带来意外损伤和呼吸系统问题。</p>
+<p><span class="xiong">七赤破军星：</span>五行属金，主破败、盗贼。七赤星当令时，利于武职和口才行业。失令时，主破财损失、口舌官非、肺部呼吸系统疾病。</p>
+<p><span class="ji">八白左辅星：</span>五行属土，主财富、置业。八白星当令时，是最吉之财星，利于置业买房、投资理财、生意兴隆。失令时，可能带来财务损失和肠胃问题。</p>
+<p><span class="ji">九紫右弼星：</span>五行属火，主喜庆、姻缘。九紫星当令时，利于婚姻嫁娶、喜庆活动、考试升迁。失令时，可能带来心血管问题和火灾隐患。</p>
+</div>
+</div>
+
+<!-- Tab2 -->
+<div class="tab-content" id="tab2">
+<h2 class="section-title">九星飞泊</h2>
+<div class="card">
+<h3>九星飞泊规则</h3>
+<p>九星飞泊是风水学中根据时间变化来确定九星在空间中分布位置的方法。九星按照洛书轨迹在九宫中飞行，每到一个新的时间周期（年、月、日、时），九星的位置就会发生变化。掌握九星飞泊的规律，可以判断不同方位在不同时间的吉凶状态，从而进行相应的风水布局和调整。</p>
+<p>九星飞泊的基本规则是按照洛书排列顺序飞行：中宫 → 乾宫 → 兑宫 → 艮宫 → 离宫 → 坎宫 → 坤宫 → 震宫 → 巽宫 → 中宫。即从中心开始，依次飞往西北、正西、东北、正南、正北、西南、正东、东南，最后回到中心，如此循环往复。</p>
+</div>
+<div class="card">
+<h3>年飞星方法</h3>
+<p>年飞星是以每年的地支来确定该年中宫飞星的数字。计算方法如下：将年支对应的洛书数作为中宫星数，然后按照飞泊规则排出九宫飞星图。年支与洛书数的对应关系为：子年一白入中、丑年八白入中、寅年三碧入中、卯年四绿入中、辰年六白入中、巳年七赤入中、午年九紫入中、未年二黑入中、申年五黄入中、酉年一白入中、戌年六白入中、亥年五黄入中。</p>
+<p>例如，2024年为甲辰年，辰年六白入中宫，按照飞泊规则：中宫六白、西北七赤、正西八白、东北九紫、正南一白、正北二黑、西南三碧、正东四绿、东南五黄。据此可以判断2024年各方位的吉凶：正西八白为吉方，利于财运；东南五黄为凶方，需要化解。</p>
+</div>
+<div class="card">
+<h3>月飞星与日飞星</h3>
+<p>月飞星是以每月的地支来确定该月中宫飞星。月支与洛书数的对应关系与年飞星类似，但需要考虑月份的实际地支。例如，正月（寅月）三碧入中，二月（卯月）四绿入中，以此类推。</p>
+<p>日飞星是以当日的干支来确定中宫飞星，计算方法更为复杂，需要参考万年历来确定。在实际应用中，年飞星和月飞星最为常用，日飞星和时飞星主要用于特殊场合的精细分析。</p>
+<p>飞星组合的分析是九星飞泊的核心技术。当两个飞星飞到同一宫位时，两颗星的五行生克关系决定了该方位的吉凶。例如，一白水星与六白金星同宫，金生水，为相生组合，主吉利。二黑土星与三碧木星同宫，木克土，为相克组合，主不吉。</p>
+</div>
+</div>
+
+<!-- Tab3 -->
+<div class="tab-content" id="tab3">
+<h2 class="section-title">八宅风水</h2>
+<div class="card">
+<h3>八宅风水原理</h3>
+<p>八宅风水是中国风水学中最为普及的流派之一，其核心理论是将住宅分为"东四宅"和"西四宅"两大类型，并根据居住者的命卦来确定住宅的吉凶方位。八宅风水认为，人与住宅之间存在着能量共振的关系，只有当住宅的方位与居住者的命卦相配时，才能获得最佳的风水效果。</p>
+<p>八宅风水将住宅的八个方位分为四吉方和四凶方。四吉方为：生气（最大吉方）、天医（次吉方）、延年（吉方）、伏位（小吉方）。四凶方为：绝命（大凶方）、六煞（凶方）、五鬼（大凶方）、祸害（凶方）。不同的命卦对应不同的吉凶方位分布。</p>
+</div>
+<div class="card">
+<h3>命卦计算方法</h3>
+<p>命卦是根据出生年份计算得出的，男性与女性的计算方法不同。计算公式如下：</p>
+<p><span class="highlight">男性命卦：</span>将出生年份的四个数字相加，得到一个两位数，再将这两个数字相加，得到一个个位数。然后用11减去这个数（2000年前出生者用100减），得到的余数即为命卦数。若余数为5，男性命卦视为坤卦（二），女性视为艮卦（八）。</p>
+<p><span class="highlight">女性命卦：</span>计算方法与男性类似，但最后用4加上各位数之和（2000年前出生者用5加）。若结果为5，女性命卦视为艮卦（八）。</p>
+<p>命卦数与八卦的对应关系为：一坎（北）、二坤（西南）、三震（东）、四巽（东南）、五中宫（寄坤或艮）、六乾（西北）、七兑（西）、八艮（东北）、九离（南）。命卦一、三、四、九为东四命，命卦二、六、七、八为西四命。</p>
+</div>
+<div class="card">
+<h3>东西四宅与吉凶方位</h3>
+<table>
+<tr><th>命卦类型</th><th>命卦</th><th>生气方</th><th>天医方</th><th>延年方</th><th>伏位方</th></tr>
+<tr><td rowspan="4">东四命</td><td>坎（一）</td><td>东南</td><td>东方</td><td>南方</td><td>北方</td></tr>
+<tr><td>震（三）</td><td>南方</td><td>东南</td><td>北方</td><td>东方</td></tr>
+<tr><td>巽（四）</td><td>北方</td><td>南方</td><td>东方</td><td>东南</td></tr>
+<tr><td>离（九）</td><td>东方</td><td>北方</td><td>东南</td><td>南方</td></tr>
+<tr><td rowspan="4">西四命</td><td>坤（二）</td><td>东北</td><td>西方</td><td>西北</td><td>西南</td></tr>
+<tr><td>乾（六）</td><td>西南</td><td>东北</td><td>西方</td><td>西北</td></tr>
+<tr><td>兑（七）</td><td>西北</td><td>西南</td><td>东北</td><td>西方</td></tr>
+<tr><td>艮（八）</td><td>西方</td><td>西北</td><td>西南</td><td>东北</td></tr>
+</table>
+</div>
+</div>
+
+<!-- Tab4 -->
+<div class="tab-content" id="tab4">
+<h2 class="section-title">玄空飞星</h2>
+<div class="card">
+<h3>玄空风水概述</h3>
+<p>玄空风水是风水学中最为精密和系统的流派，起源于唐代，经杨筠松、赖布衣等历代风水大师的发展和完善，形成了今天我们所见的体系。玄空风水以洛书九宫为基础，结合三元九运的时间理论，通过分析建筑物的坐向和建造时间，排出运盘、山盘、向盘三张飞星图，来判断住宅各方位的吉凶。</p>
+<p>玄空风水最核心的概念是"三元九运"。三元分为上元、中元、下元，每元六十年，共一百八十年为一个完整周期。每元包含三个运，每个运二十年。目前处于下元八运（2004-2023年）和即将进入下元九运（2024-2043年）。不同的运有不同的当旺星和退气星，当旺星飞临的方位为吉方，退气星飞临的方位需要化解。</p>
+</div>
+<div class="card">
+<h3>三吉六白、四绿、八白</h3>
+<p>在玄空飞星中，一白、四绿、六白、八白通常被认为是吉星，其中六白和八白在财运方面尤为突出。八白星在八运期间为当旺之星，飞临之处主财运亨通、事业顺利。六白星为退气之星，但仍有一定的吉利效应，尤其利于武职和权力。四绿星为文昌星，利于学业和文化事业。</p>
+<p>一白星在八运期间为进气之星，虽然尚未当旺，但已经开始蓄积能量，未来九运期间将成为当旺之星。一白星主事业和人缘，飞临之处利于升迁和社交。在布局上，可以在一白星飞临的方位放置水景或黑色、蓝色的装饰品来增强其能量。</p>
+</div>
+<div class="card">
+<h3>三凶二黑、五黄、七赤</h3>
+<p>二黑、五黄、七赤是玄空飞星中的三大凶星，需要特别关注和化解。五黄星是最凶之星，代表灾祸和意外，无论飞到哪个方位都需要化解。二黑星为病符星，主疾病和健康问题。七赤星为破军星，主破财和口舌是非。</p>
+<p>化解五黄星的方法：在五黄星飞临的方位放置金属制品（铜葫芦、铜铃等），因为金能泄土之气。避免在该方位进行动土、装修等扰动性活动。二黑星的化解方法类似，也可以使用金属制品来泄土气。七赤星的化解可以使用水来泄金气，如放置鱼缸或水景。</p>
+</div>
+</div>
+
+<!-- Tab5 -->
+<div class="tab-content" id="tab5">
+<h2 class="section-title">风水布局</h2>
+<div class="card">
+<h3>客厅风水要点</h3>
+<div class="layout-grid">
+<div class="layout-item">
+<h4>方位选择</h4>
+<p>客厅宜设在住宅的吉方（生气方或延年方），这样有利于家庭的整体运势。沙发应靠实墙摆放，背后有靠山，象征事业有贵人相助。避免沙发背后为走道或窗户，形成"背后无靠"的不利格局。</p>
+</div>
+<div class="layout-item">
+<h4>财位布局</h4>
+<p>客厅的财位通常在进门对角线的位置。财位宜亮不宜暗，宜生不宜克。可以在财位放置发财树、金钱树等绿色植物，或摆放聚财的装饰品如水晶球、聚宝盆等。避免在财位放置重物或杂物。</p>
+</div>
+<div class="layout-item">
+<h4>光线与通风</h4>
+<p>客厅宜光线充足、空气流通。充足的自然光线有利于聚集阳气，使家庭充满活力。若客厅光线不足，可以使用明亮的灯光来补充。空气流通有助于气场的循环更新，避免浊气滞留。</p>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>卧室风水要点</h3>
+<div class="layout-grid">
+<div class="layout-item">
+<h4>床位摆放</h4>
+<p>床头应朝向个人的吉方（根据八宅命卦确定）。床不宜正对房门，也不宜在窗户下方。床头宜靠实墙，两侧应有床头柜对称摆放。床的上方不宜有横梁压顶，否则容易造成压迫感和健康问题。</p>
+</div>
+<div class="layout-item">
+<h4>镜子禁忌</h4>
+<p>卧室中的镜子不宜正对床铺，尤其不宜照到睡眠中的身体。镜子有反射作用，会将气场反射出去，影响睡眠质量和健康。若卧室中有衣柜镜，可以在不用时用布帘遮挡。</p>
+</div>
+<div class="layout-item">
+<h4>色彩搭配</h4>
+<p>卧室的色彩宜柔和温馨，不宜过于鲜艳或暗沉。根据五行属性选择颜色：命属木者宜绿色系，命属火者宜红色、紫色系，命属土者宜黄色、棕色系，命属金者宜白色、金色系，命属水者宜蓝色、黑色系。</p>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>厨房风水要点</h3>
+<div class="layout-grid">
+<div class="layout-item">
+<h4>炉灶方位</h4>
+<p>炉灶是厨房中最重要的风水元素，代表家庭的财库和健康。炉灶不宜正对厨房门，也不宜与水槽紧邻（水火相冲）。炉灶背后应有实墙，不宜为窗户。炉灶的方位应根据使用者的命卦来确定最佳朝向。</p>
+</div>
+<div class="layout-item">
+<h4>水火平衡</h4>
+<p>厨房中的水槽（属水）和炉灶（属火）需要保持适当的距离和方位关系。水槽和炉灶不宜在同一条直线上，也不宜紧邻。最佳布局是水槽和炉灶呈L型或U型分布，中间有操作台面隔开。</p>
+</div>
+<div class="layout-item">
+<h4>整洁通风</h4>
+<p>厨房宜保持整洁干净，避免杂乱。油烟和湿气是厨房中主要的负面能量来源，需要通过良好的通风系统来排除。厨房的地面宜用防滑材料，墙面宜用浅色易清洁的材料。</p>
+</div>
+</div>
+</div>
+<div class="card">
+<h3>办公室风水要点</h3>
+<div class="layout-grid">
+<div class="layout-item">
+<h4>办公桌朝向</h4>
+<p>办公桌的朝向宜根据个人的命卦来确定。一般来说，面朝大门或窗户的方向为佳，但不宜背对大门。办公桌宜放在房间的吉方，避免在横梁下方或正对卫生间门的位置。</p>
+</div>
+<div class="layout-item">
+<h4>左青龙右白虎</h4>
+<p>办公桌的左侧（青龙方）宜高宜动，可以放置文件架、电话等物品。右侧（白虎方）宜低宜静，不宜放置过多物品。前方宜开阔明亮，代表前途光明。后方宜有靠山，代表事业有支撑。</p>
+</div>
+<div class="layout-item">
+<h4>植物与装饰</h4>
+<p>办公室宜摆放一些绿色植物，如发财树、富贵竹等，有助于提升事业运。可以在办公桌上放置一些与个人五行相合的装饰品。避免在办公室中放置仙人掌等带刺植物，以及过于凶猛的动物摆件。</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Tab6 -->
+<div class="tab-content" id="tab6">
+<h2 class="section-title">风水罗盘</h2>
+<div class="card">
+<h3>可视化风水罗盘</h3>
+<p>以下为Canvas绘制的风水罗盘，显示二十四山方位和八卦分布。罗盘是风水师必备的工具，用于精确测量建筑的坐向和方位。二十四山是将360度分为二十四个方位，每个方位15度，对应一个"山"名。</p>
+</div>
+<div class="card">
+<h3>二十四山罗盘</h3>
+<div class="compass-container">
+<canvas id="compassCanvas" width="500" height="500"></canvas>
+</div>
+<p style="text-align:center;color:var(--muted);font-size:.85rem;margin-top:.5rem">外圈：二十四山方位 | 中圈：八卦方位 | 内圈：洛书九宫</p>
+</div>
+<div class="card">
+<h3>二十四山详解</h3>
+<table>
+<tr><th>方位</th><th>八卦</th><th>二十四山</th><th>角度范围</th><th>五行</th></tr>
+<tr><td>正北</td><td>坎</td><td>壬 子 癸</td><td>337.5°-22.5°</td><td>水</td></tr>
+<tr><td>东北</td><td>艮</td><td>丑 艮 寅</td><td>22.5°-67.5°</td><td>土</td></tr>
+<tr><td>正东</td><td>震</td><td>甲 卯 乙</td><td>67.5°-112.5°</td><td>木</td></tr>
+<tr><td>东南</td><td>巽</td><td>辰 巽 巳</td><td>112.5°-157.5°</td><td>木</td></tr>
+<tr><td>正南</td><td>离</td><td>丙 午 丁</td><td>157.5°-202.5°</td><td>火</td></tr>
+<tr><td>西南</td><td>坤</td><td>未 坤 申</td><td>202.5°-247.5°</td><td>土</td></tr>
+<tr><td>正西</td><td>兑</td><td>庚 酉 辛</td><td>247.5°-292.5°</td><td>金</td></tr>
+<tr><td>西北</td><td>乾</td><td>戌 乾 亥</td><td>292.5°-337.5°</td><td>金</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<script>
+// 罗盘绘制
+function drawCompass(){
+var canvas=document.getElementById('compassCanvas');
+if(!canvas)return;
+var ctx=canvas.getContext('2d');
+var cx=250,cy=250;
+var r1=60,r2=110,r3=160,r4=220;
+ctx.clearRect(0,0,500,500);
+
+// 背景圆
+ctx.beginPath();ctx.arc(cx,cy,r4+10,0,Math.PI*2);
+ctx.fillStyle='rgba(10,10,10,0.9)';ctx.fill();
+ctx.strokeStyle='#d4a843';ctx.lineWidth=2;ctx.stroke();
+
+// 二十四山
+var shan=['壬','子','癸','丑','艮','寅','甲','卯','乙','辰','巽','巳','丙','午','丁','未','坤','申','庚','酉','辛','戌','乾','亥'];
+var shanWx=['水','水','水','土','土','木','木','木','木','土','木','火','火','火','火','土','土','金','金','金','金','土','金','水'];
+var bagua=['坎','艮','震','巽','离','坤','兑','乾'];
+var baguaWx=['水','土','木','木','火','土','金','金'];
+var baguaColor=['#2196f3','#8d6e63','#4caf50','#66bb6a','#f44336','#a1887f','#e0e0e0','#bdbdbd'];
+
+for(var i=0;i<24;i++){
+var angle=(i*15-90)*Math.PI/180;
+var angleNext=((i+1)*15-90)*Math.PI/180;
+
+// 二十四山扇区
+ctx.beginPath();ctx.moveTo(cx,cy);
+ctx.arc(cx,cy,r4,angle,angleNext);ctx.closePath();
+ctx.fillStyle=i%2===0?'rgba(212,168,67,0.15)':'rgba(26,26,26,0.8)';ctx.fill();
+ctx.strokeStyle='rgba(212,168,67,0.4)';ctx.lineWidth=1;ctx.stroke();
+
+// 二十四山文字
+var midAngle=(angle+angleNext)/2;
+var tx=cx+Math.cos(midAngle)*(r4-20);
+var ty=cy+Math.sin(midAngle)*(r4-20);
+ctx.save();ctx.translate(tx,ty);ctx.rotate(midAngle+Math.PI/2);
+ctx.fillStyle='#d4a843';ctx.font='bold 14px "Ma Shan Zheng"';ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.fillText(shan[i],0,0);ctx.restore()}
+
+// 八卦
+for(var i=0;i<8;i++){
+var startAngle=(i*45-90-22.5)*Math.PI/180;
+var endAngle=(i*45-90+22.5)*Math.PI/180;
+ctx.beginPath();ctx.moveTo(cx,cy);
+ctx.arc(cx,cy,r3,startAngle,endAngle);ctx.closePath();
+ctx.fillStyle=baguaColor[i]+'33';ctx.fill();
+ctx.strokeStyle=baguaColor[i];ctx.lineWidth=1.5;ctx.stroke();
+
+var midAngle=(startAngle+endAngle)/2;
+var tx=cx+Math.cos(midAngle)*(r3-22);
+var ty=cy+Math.sin(midAngle)*(r3-22);
+ctx.save();ctx.translate(tx,ty);ctx.rotate(midAngle+Math.PI/2);
+ctx.fillStyle=baguaColor[i];ctx.font='bold 18px "Ma Shan Zheng"';ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.fillText(bagua[i],0,0);ctx.restore()}
+
+// 洛书九宫
+var luoshu=[[4,9,2],[3,5,7],[8,1,6]];
+var luoshuWx=['木','火','土','木','土','金','土','水','金'];
+for(var row=0;row<3;row++){
+for(var col=0;col<3;col++){
+var x=cx+(col-1)*55;var y=cy+(row-1)*55;
+ctx.beginPath();ctx.arc(x,y,22,0,Math.PI*2);
+ctx.fillStyle='rgba(212,168,67,0.1)';ctx.fill();
+ctx.strokeStyle='rgba(212,168,67,0.3)';ctx.lineWidth=1;ctx.stroke();
+ctx.fillStyle='#d4a843';ctx.font='bold 16px "Ma Shan Zheng"';ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.fillText(luoshu[row][col],x,y-4);
+ctx.fillStyle='#8a7e6e';ctx.font='10px "Noto Serif SC"';
+ctx.fillText(luoshuWx[luoshu[row][col]-1],x,y+10)}}
+
+// 中心太极
+ctx.beginPath();ctx.arc(cx,cy,r1,0,Math.PI*2);
+ctx.fillStyle='rgba(196,30,58,0.1)';ctx.fill();
+ctx.strokeStyle='#c41e3a';ctx.lineWidth=2;ctx.stroke();
+ctx.fillStyle='#d4a843';ctx.font='bold 16px "Ma Shan Zheng"';ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.fillText('太极',cx,cy);
+
+// 十字线
+ctx.beginPath();ctx.moveTo(cx,cy-r4);ctx.lineTo(cx,cy+r4);
+ctx.moveTo(cx-r4,cy);ctx.lineTo(cx+r4,cy);
+ctx.strokeStyle='rgba(196,30,58,0.3)';ctx.lineWidth=1;ctx.stroke();
+
+// 方位标注
+var dirs=[{text:'北',angle:-90},{text:'东',angle:0},{text:'南',angle:90},{text:'西',angle:180}];
+for(var i=0;i<dirs.length;i++){
+var a=dirs[i].angle*Math.PI/180;
+var tx=cx+Math.cos(a)*(r4+8);var ty=cy+Math.sin(a)*(r4+8);
+ctx.fillStyle='#c41e3a';ctx.font='bold 12px "Ma Shan Zheng"';ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.fillText(dirs[i].text,tx,ty)}}
+
+// Tab切换
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active')});
+this.classList.add('active');
+document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+if(this.getAttribute('data-tab')==='tab6'){setTimeout(drawCompass,100)}})});
+
+// 粒子背景
+(function(){
+var canvas=document.getElementById('particleCanvas');var ctx=canvas.getContext('2d');
+var particles=[];var count=60;
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+for(var i=0;i<count;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:Math.random()*2+1,a:Math.random()*.5+.2})}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);
+for(var i=0;i<particles.length;i++){var p=particles[i];p.x+=p.vx;p.y+=p.vy;
+if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(212,168,67,'+p.a+')';ctx.fill();
+for(var j=i+1;j<particles.length;j++){var q=particles[j];var dx=p.x-q.x,dy=p.y-q.y;var dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<150){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(212,168,67,'+(1-dist/150)*.15+')';ctx.stroke()}}}
+requestAnimationFrame(draw)}draw()})();
+
+// 进度条
+window.addEventListener('scroll',function(){var bar=document.getElementById('progressBar');var max=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(window.scrollY/max*100)+'%'});
+
+// 汉堡菜单
+var hamburgerBtn=document.getElementById('hamburger');var navBar=document.getElementById('navBar');var mobileMenu=document.getElementById('mobileMenu');
+if(hamburgerBtn){hamburgerBtn.addEventListener('click',function(){hamburgerBtn.classList.toggle('active');if(mobileMenu)mobileMenu.classList.toggle('show');if(navBar)navBar.classList.toggle('open')})}
+if(mobileMenu){var navLinks=document.querySelectorAll('.nav-link');for(var i=0;i<navLinks.length;i++){var clone=navLinks[i].cloneNode(true);mobileMenu.appendChild(clone)}}
+</script>
+</body>
+</html>

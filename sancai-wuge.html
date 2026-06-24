@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三才五格与生肖运势 - 阿波菲斯</title>
+<meta name="description" content="三才五格、五格剖象、生肖运势、五行生克、姓名评分 - 阿波菲斯命理学">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#1a1a1a;--ink:#e8e0d4;--muted:#8a7e6e;--accent:#c41e3a;--accent2:#d4a843;--rule:#2a2a2a;--font:'Noto Serif SC','Songti SC','SimSun',serif;--font-display:'Ma Shan Zheng','Noto Serif SC',cursive}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:18px}
+body{font-family:var(--font);background-color:var(--bg);color:var(--ink);line-height:1.9;overflow-x:hidden}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:1000;transition:width .1s linear;box-shadow:0 0 10px rgba(196,30,58,.5)}
+.nav-bar{position:fixed;top:3px;left:0;right:0;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:999;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.2rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:.85rem;white-space:nowrap;letter-spacing:.1em}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.8rem;white-space:nowrap;padding:.3rem .6rem;border-radius:4px;transition:all .3s ease}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,.1)}
+.hamburger{display:none;cursor:pointer;padding:5px;background:none;border:none}
+.hamburger span{display:block;width:25px;height:3px;background:#d4a843;margin:5px 0;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;width:100%;background:rgba(10,10,10,.95);padding:20px;z-index:998}
+.mobile-menu.show{display:flex;flex-direction:column;gap:10px}
+.mobile-menu a{color:#d4a843;text-decoration:none;padding:10px;border-bottom:1px solid rgba(212,168,67,.2)}
+@media(max-width:768px){.hamburger{display:block}.nav-bar.open .nav-link{display:none}}
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.hero{position:relative;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:2rem}
+.hero-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,5rem);color:var(--accent2);letter-spacing:.15em;text-shadow:0 0 40px rgba(212,168,67,.3),0 0 80px rgba(196,30,58,.15);margin-bottom:1rem}
+.hero-subtitle{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--muted);letter-spacing:.3em;margin-bottom:2rem}
+.hero-divider{width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);margin:2rem auto}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);color:var(--accent2);margin:3rem 0 1.5rem;padding-left:1.2rem;border-left:4px solid transparent;border-image:linear-gradient(180deg,var(--accent),var(--accent2)) 1;letter-spacing:.1em}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0 1.5rem;border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.tab-btn{background:none;border:1px solid var(--rule);color:var(--muted);padding:.5rem 1rem;font-family:var(--font);font-size:.85rem;cursor:pointer;border-radius:4px;transition:all .3s}
+.tab-btn:hover{color:var(--accent2);border-color:var(--accent2)}
+.tab-btn.active{background:rgba(212,168,67,.15);color:var(--accent2);border-color:var(--accent2)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.card{background:var(--bg2);border:1px solid var(--rule);border-radius:8px;padding:1.5rem;margin:1.5rem 0;transition:border-color .3s}
+.card:hover{border-color:rgba(212,168,67,.3)}
+.card h3{color:var(--accent2);font-size:1.2rem;margin-bottom:1rem;font-family:var(--font-display)}
+.card p,.card li{color:var(--ink);font-size:.95rem;line-height:1.9}
+.card ul,.card ol{padding-left:1.5rem;margin:.5rem 0}
+.card li{margin:.3rem 0}
+.card table{width:100%;border-collapse:collapse;margin:1rem 0}
+.card th,.card td{border:1px solid var(--rule);padding:.5rem .8rem;text-align:left;font-size:.85rem}
+.card th{background:rgba(212,168,67,.1);color:var(--accent2)}
+.card td{color:var(--ink)}
+.highlight{color:var(--accent2);font-weight:600}
+.daji{color:#4caf50;font-weight:600}
+.ji{color:#8bc34a;font-weight:600}
+.banji{color:#ff9800;font-weight:600}
+.xiong{color:#f44336;font-weight:600}
+.daxiong{color:#b71c1c;font-weight:600}
+.tool-input{background:var(--bg);border:1px solid var(--rule);color:var(--ink);padding:.6rem 1rem;font-family:var(--font);font-size:.95rem;border-radius:4px;width:100%;margin:.5rem 0;transition:border-color .3s}
+.tool-input:focus{outline:none;border-color:var(--accent2)}
+.tool-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:.6rem 1.5rem;font-family:var(--font);font-size:.95rem;border-radius:4px;cursor:pointer;transition:opacity .3s;margin:.5rem 0}
+.tool-btn:hover{opacity:.85}
+.result-box{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.2);border-radius:8px;padding:1.5rem;margin:1rem 0;min-height:60px}
+.result-box h4{color:var(--accent2);margin-bottom:.8rem}
+.wuxing-circle{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin:1.5rem 0}
+.wuxing-item{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-family:var(--font-display);border:2px solid var(--accent2);color:var(--accent2);background:rgba(212,168,67,.05);transition:all .3s}
+.wuxing-item:hover{background:rgba(212,168,67,.15);transform:scale(1.1)}
+.shengxiao-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;margin:1rem 0}
+.shengxiao-item{background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:1rem;text-align:center;transition:all .3s}
+.shengxiao-item:hover{border-color:var(--accent2);transform:translateY(-2px)}
+.shengxiao-item .emoji{font-size:2rem;display:block;margin-bottom:.5rem}
+.shengxiao-item .name{color:var(--accent2);font-family:var(--font-display);font-size:1.1rem}
+.shengxiao-item .wuxing{color:var(--muted);font-size:.8rem}
+.score-bar{height:24px;background:var(--bg);border-radius:12px;overflow:hidden;margin:.5rem 0;border:1px solid var(--rule)}
+.score-fill{height:100%;border-radius:12px;transition:width .8s ease}
+@media(max-width:768px){.tabs{gap:.3rem}.tab-btn{padding:.4rem .6rem;font-size:.75rem}.container{padding:1rem}.card{padding:1rem}.shengxiao-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link active">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+</nav>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<header class="hero">
+<h1 class="hero-title">三才五格</h1>
+<div class="hero-divider"></div>
+<p class="hero-subtitle">姓名数理与生肖运势</p>
+</header>
+
+<div class="container">
+<div class="tabs">
+<button class="tab-btn active" data-tab="tab1">三才五格</button>
+<button class="tab-btn" data-tab="tab2">五格剖象</button>
+<button class="tab-btn" data-tab="tab3">三才配置</button>
+<button class="tab-btn" data-tab="tab4">生肖运势</button>
+<button class="tab-btn" data-tab="tab5">五行生克</button>
+<button class="tab-btn" data-tab="tab6">姓名评分</button>
+</div>
+
+<!-- Tab1: 三才五格 -->
+<div class="tab-content active" id="tab1">
+<h2 class="section-title">三才五格</h2>
+<div class="card">
+<h3>何为三才五格</h3>
+<p>三才五格姓名学是中华传统姓名学中最为流行的流派之一，起源于日本熊崎健翁所创的"熊崎氏姓名学"，后经台湾、香港等地学者不断完善发展，成为今日广泛使用的姓名数理分析体系。其核心思想是：姓名中的汉字笔画数蕴含着天地人三才之理，通过计算姓名各字的笔画数，可以推导出五格数理，进而判断姓名的吉凶祸福。</p>
+<p>所谓"三才"，指的是天格、人格、地格三者所代表的"天、人、地"三才配置。天格代表祖上、长辈、先天运势；人格代表自身的性格、才能、主运；地格代表子女、部属、配偶、基础运。三才之间相生相克的关系，直接影响一个人一生的整体运势走向。</p>
+<p>所谓"五格"，指的是天格、人格、地格、外格、总格五个格数。每一格都有其特定的数理含义，对应人生的不同方面。五格数理的吉凶，依据《易经》八卦之理，将数字一至八十一分为大吉、吉、半吉、凶、大凶五个等级。</p>
+</div>
+<div class="card">
+<h3>五格计算方法</h3>
+<p><span class="highlight">天格：</span>单姓加一画，复姓取姓氏笔画之和。天格数理代表先天祖业，不可更改，故其吉凶仅供参考。</p>
+<p><span class="highlight">人格：</span>姓氏最后一字与名字第一字笔画之和。人格是姓名学的核心，代表个人的主运、性格和才能，对一生影响最为深远。</p>
+<p><span class="highlight">地格：</span>名字各字笔画之和（单名加一画）。地格代表基础运，影响中年以前运势、子女缘和配偶关系。</p>
+<p><span class="highlight">外格：</span>总格减去人格加一。外格代表社交运、人际关系和外部环境的影响。</p>
+<p><span class="highlight">总格：</span>姓名全部笔画之和。总格代表晚年运和一生总运，是姓名学中极为重要的参考指标。</p>
+</div>
+<div class="card">
+<h3>笔画数查询工具</h3>
+<p>输入姓名（简体字），系统将按康熙字典笔画自动计算五格数理：</p>
+<input class="tool-input" id="nameInput1" placeholder="请输入姓名（如：张三丰）" />
+<button class="tool-btn" onclick="calcWuge()">计算五格</button>
+<div class="result-box" id="wugeResult"></div>
+</div>
+<div class="card">
+<h3>康熙笔画对照（常用字）</h3>
+<table>
+<tr><th>汉字</th><th>康熙笔画</th><th>汉字</th><th>康熙笔画</th><th>汉字</th><th>康熙笔画</th></tr>
+<tr><td>王</td><td>5</td><td>李</td><td>7</td><td>张</td><td>11</td></tr>
+<tr><td>刘</td><td>15</td><td>陈</td><td>16</td><td>杨</td><td>13</td></tr>
+<tr><td>赵</td><td>14</td><td>黄</td><td>12</td><td>周</td><td>8</td></tr>
+<tr><td>吴</td><td>7</td><td>徐</td><td>10</td><td>孙</td><td>10</td></tr>
+<tr><td>马</td><td>10</td><td>朱</td><td>6</td><td>胡</td><td>11</td></tr>
+<tr><td>林</td><td>8</td><td>郭</td><td>15</td><td>何</td><td>7</td></tr>
+<tr><td>高</td><td>10</td><td>罗</td><td>20</td><td>郑</td><td>19</td></tr>
+<tr><td>梁</td><td>11</td><td>谢</td><td>17</td><td>宋</td><td>7</td></tr>
+</table>
+<p style="color:var(--muted);font-size:.85rem;margin-top:.5rem">注：笔画数以康熙字典为准，部分汉字的康熙笔画与简体笔画不同（如"氵"旁按"水"算4画，"忄"旁按"心"算4画等）。</p>
+</div>
+</div>
+
+<!-- Tab2: 五格剖象 -->
+<div class="tab-content" id="tab2">
+<h2 class="section-title">五格剖象</h2>
+<div class="card">
+<h3>五格数理吉凶总论</h3>
+<p>五格剖象法是将姓名各字的笔画数转化为天格、人格、地格、外格、总格五个数字，再根据数理的吉凶来判断姓名的好坏。数理的吉凶判断源于《易经》八卦原理，将一至八十一数分为五个等级：大吉、吉、半吉、凶、大凶。每个数字都有其特定的含义和象征。</p>
+<p>在五格剖象中，<span class="highlight">人格</span>最为重要，因为人格代表一个人的主运和性格本质，是姓名学的核心所在。其次是<span class="highlight">总格</span>，它代表一生的整体运势和晚年运。天格为先天所定，一般不作为主要参考，但若天格与人格相克，则可能影响祖业和早年运势。</p>
+</div>
+<div class="card">
+<h3>大吉数理（1-81）</h3>
+<p>大吉之数为一生顺遂、福寿绵长之象，主事业有成、家庭和睦、身体健康。以下为部分大吉数理：</p>
+<table>
+<tr><th>数理</th><th>含义</th><th>说明</th></tr>
+<tr><td class="daji">1</td><td>万物开泰</td><td>最大吉数，为太极之数，万物开基，旭日东升</td></tr>
+<tr><td class="daji">3</td><td>如意吉祥</td><td>阴阳合和，完璧之象，福禄绵绵</td></tr>
+<tr><td class="daji">5</td><td>福禄长寿</td><td>五行俱备，圆融通达，福禄寿俱全</td></tr>
+<tr><td class="daji">8</td><td>坚刚志强</td><td>意志如铁石，富于进取之气概</td></tr>
+<tr><td class="daji">11</td><td>旱苗逢雨</td><td>万物更新，调顺发达，繁荣富贵</td></tr>
+<tr><td class="daji">15</td><td>福寿圆满</td><td>福寿圆满，富贵荣誉，涵养雅量</td></tr>
+<tr><td class="daji">21</td><td>明月光照</td><td>光风霁月，万物确立，大业成就</td></tr>
+<tr><td class="daji">24</td><td>掘藏得金</td><td>家门余庆，金钱丰盈，白手起家</td></tr>
+<tr><td class="daji">25</td><td>英俊资性</td><td>资性英敏，才能奇特，克服傲慢</td></tr>
+<tr><td class="daji">31</td><td>春日花开</td><td>智勇得志，博得名利，统领众人</td></tr>
+<tr><td class="daji">32</td><td>宝马金鞍</td><td>侥幸多望，贵人得助，财帛如裕</td></tr>
+<tr><td class="daji">35</td><td>高楼望月</td><td>温和平静，优雅发展，处事稳健</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>吉数与半吉数</h3>
+<table>
+<tr><th>数理</th><th>等级</th><th>含义</th></tr>
+<tr><td class="ji">6</td><td>吉</td><td>安稳余庆，吉人天相，天德地祥</td></tr>
+<tr><td class="ji">7</td><td>吉</td><td>刚毅果断，精力旺盛，勇往直前</td></tr>
+<tr><td class="ji">13</td><td>吉</td><td>春日牡丹，智能超群，博学多才</td></tr>
+<tr><td class="ji">16</td><td>吉</td><td>贵人相助，天降幸运，成就大业</td></tr>
+<tr><td class="ji">23</td><td>吉</td><td>旭日东升，壮丽壮观，权威旺盛</td></tr>
+<tr><td class="ji">33</td><td>吉</td><td>旭日升天，家门隆昌，才智双全</td></tr>
+<tr><td class="banji">4</td><td>半吉</td><td>万物破灭，凶祸不绝，需忍耐</td></tr>
+<tr><td class="banji">9</td><td>半吉</td><td>穷困逆境，虽有智谋，难成大业</td></tr>
+<tr><td class="banji">10</td><td>半吉</td><td>万事终局，零暗消亡，需谨慎</td></tr>
+<tr><td class="banji">14</td><td>半吉</td><td>破兆浮沉，家属缘薄，孤独遭难</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>凶数与大凶数</h3>
+<table>
+<tr><th>数理</th><th>等级</th><th>含义</th></tr>
+<tr><td class="xiong">2</td><td>凶</td><td>动摇不安，一荣一枯，一盛一衰</td></tr>
+<tr><td class="xiong">12</td><td>凶</td><td>薄弱无力，外祥内苦，谋事不达</td></tr>
+<tr><td class="xiong">19</td><td>凶</td><td>多难困苦，遮云蔽月，辛苦艰难</td></tr>
+<tr><td class="xiong">20</td><td>凶</td><td>屋下藏金，非业破运，灾难叠来</td></tr>
+<tr><td class="xiong">22</td><td>凶</td><td>秋草逢霜，百事不如意，秋风吹落叶</td></tr>
+<tr><td class="xiong">28</td><td>凶</td><td>阔水浮萍，豪杰气概，四海漂泊</td></tr>
+<tr><td class="daxiong">34</td><td>大凶</td><td>破家之身，见识短小，暗淡愁苦</td></tr>
+<tr><td class="daxiong">44</td><td>大凶</td><td>烦闷损寿，破灭之身，万事艰难</td></tr>
+<tr><td class="daxiong">46</td><td>大凶</td><td>载宝沉舟，浪里淘金，难以立足</td></tr>
+<tr><td class="daxiong">59</td><td>大凶</td><td>寒蝉悲风，意志脆弱，家庭寂寞</td></tr>
+</table>
+</div>
+</div>
+
+<!-- Tab3: 三才配置 -->
+<div class="tab-content" id="tab3">
+<h2 class="section-title">三才配置</h2>
+<div class="card">
+<h3>三才配置原理</h3>
+<p>三才配置是指天格、人格、地格三者所对应的五行属性之间的相生相克关系。天格代表"天"（祖上、长辈、先天），人格代表"人"（自身、主运），地格代表"地"（子女、配偶、基础运）。三才配置的好坏，直接影响到一个人一生的运势走向。</p>
+<p>三才的五行属性由格数的尾数决定：尾数1、2为木，3、4为火，5、6为土，7、8为金，9、0为水。例如天格为11，尾数为1，五行属木；人格为15，尾数为5，五行属土。</p>
+<p>三才配置以<span class="highlight">相生</span>为吉，以<span class="highlight">相克</span>为凶。最佳的三才配置是"天生人、人生地"的连续相生格局，如"木生火、火生土"或"火生土、土生金"。最差的是连续相克格局，如"木克土、土克水"。</p>
+</div>
+<div class="card">
+<h3>大吉三才配置</h3>
+<table>
+<tr><th>天格</th><th>人格</th><th>地格</th><th>配置</th><th>吉凶</th></tr>
+<tr><td>木</td><td>火</td><td>土</td><td>木生火、火生土</td><td class="daji">大吉</td></tr>
+<tr><td>火</td><td>土</td><td>金</td><td>火生土、土生金</td><td class="daji">大吉</td></tr>
+<tr><td>土</td><td>金</td><td>水</td><td>土生金、金生水</td><td class="daji">大吉</td></tr>
+<tr><td>金</td><td>水</td><td>木</td><td>金生水、水生木</td><td class="daji">大吉</td></tr>
+<tr><td>水</td><td>木</td><td>火</td><td>水生木、木生火</td><td class="daji">大吉</td></tr>
+<tr><td>木</td><td>木</td><td>火</td><td>木木火，木旺生火</td><td class="daji">大吉</td></tr>
+<tr><td>火</td><td>火</td><td>土</td><td>火火土，火旺生土</td><td class="daji">大吉</td></tr>
+<tr><td>土</td><td>土</td><td>金</td><td>土土金，土旺生金</td><td class="daji">大吉</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>凶险三才配置</h3>
+<table>
+<tr><th>天格</th><th>人格</th><th>地格</th><th>配置</th><th>吉凶</th></tr>
+<tr><td>火</td><td>金</td><td>木</td><td>火克金、金克木</td><td class="daxiong">大凶</td></tr>
+<tr><td>土</td><td>水</td><td>火</td><td>土克水、水克火</td><td class="daxiong">大凶</td></tr>
+<tr><td>金</td><td>木</td><td>土</td><td>金克木、木克土</td><td class="daxiong">大凶</td></tr>
+<tr><td>水</td><td>火</td><td>金</td><td>水克火、火克金</td><td class="daxiong">大凶</td></tr>
+<tr><td>木</td><td>土</td><td>水</td><td>木克土、土克水</td><td class="daxiong">大凶</td></tr>
+<tr><td>金</td><td>火</td><td>水</td><td>火克金、金生水（受克）</td><td class="xiong">凶</td></tr>
+<tr><td>水</td><td>土</td><td>木</td><td>土克水、水生木（受克）</td><td class="xiong">凶</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>半吉三才配置</h3>
+<p>半吉配置介于吉凶之间，通常表现为一生运势起伏不定，有顺有逆。例如"天克人、人生地"的格局，虽然天格克人格，但人格能生地格，说明虽有外部压力，但自身能力尚可支撑。又如"天生人、人克地"的格局，虽然得到长辈助力，但对子女或配偶关系可能不太和谐。</p>
+<p>在实际应用中，三才配置需要结合五格数理综合判断。即使三才配置不佳，若五格数理均为大吉之数，也能在一定程度上化解不利影响。反之，三才配置虽好，若五格中有大凶之数，也需要引起重视。</p>
+</div>
+</div>
+
+<!-- Tab4: 生肖运势 -->
+<div class="tab-content" id="tab4">
+<h2 class="section-title">生肖运势</h2>
+<div class="card">
+<h3>十二生肖总论</h3>
+<p>十二生肖是中国传统文化中最重要的纪年方式之一，起源于古代的动物崇拜和天文历法。十二种动物按照固定顺序排列：鼠、牛、虎、兔、龙、蛇、马、羊、猴、鸡、狗、猪，每种动物对应一个地支，并具有特定的五行属性和方位归属。生肖不仅用于纪年，还与人的性格特征、命运走向密切相关。</p>
+<p>在命理学中，每个人的出生年份对应一个生肖，这个生肖被称为"本命生肖"或"属相"。本命生肖反映了一个人的先天禀赋和基本性格特征，同时也影响着一个人与周围环境的互动关系。了解自己的生肖属性，有助于更好地认识自我、把握机遇。</p>
+</div>
+<div class="card">
+<h3>十二生肖详解</h3>
+<div class="shengxiao-grid">
+<div class="shengxiao-item"><span class="emoji">🐭</span><span class="name">子鼠</span><span class="wuxing">水 · 北 · 智慧灵活</span></div>
+<div class="shengxiao-item"><span class="emoji">🐮</span><span class="name">丑牛</span><span class="wuxing">土 · 东北 · 勤恳踏实</span></div>
+<div class="shengxiao-item"><span class="emoji">🐯</span><span class="name">寅虎</span><span class="wuxing">木 · 东 · 勇猛果断</span></div>
+<div class="shengxiao-item"><span class="emoji">🐰</span><span class="name">卯兔</span><span class="wuxing">木 · 东 · 温和机敏</span></div>
+<div class="shengxiao-item"><span class="emoji">🐲</span><span class="name">辰龙</span><span class="wuxing">土 · 东南 · 威严尊贵</span></div>
+<div class="shengxiao-item"><span class="emoji">🐍</span><span class="name">巳蛇</span><span class="wuxing">火 · 东南 · 深沉智慧</span></div>
+<div class="shengxiao-item"><span class="emoji">🐴</span><span class="name">午马</span><span class="wuxing">火 · 南 · 热情奔放</span></div>
+<div class="shengxiao-item"><span class="emoji">🐑</span><span class="name">未羊</span><span class="wuxing">土 · 西南 · 温顺善良</span></div>
+<div class="shengxiao-item"><span class="emoji">🐵</span><span class="name">申猴</span><span class="wuxing">金 · 西 · 聪明伶俐</span></div>
+<div class="shengxiao-item"><span class="emoji">🐔</span><span class="name">酉鸡</span><span class="wuxing">金 · 西 · 勤勉精明</span></div>
+<div class="shengxiao-item"><span class="emoji">🐶</span><span class="name">戌狗</span><span class="wuxing">土 · 西北 · 忠诚正直</span></div>
+<div class="shengxiao-item"><span class="emoji">🐷</span><span class="name">亥猪</span><span class="wuxing">水 · 西北 · 豁达宽容</span></div>
+</div>
+</div>
+<div class="card">
+<h3>2024-2026年生肖运势概述</h3>
+<p><span class="highlight">2024甲辰年（龙年）：</span>甲木坐辰土，天干甲木代表新的开始和生长之力。属龙者为本命年，宜守不宜攻，注意化解太岁之冲。属鼠、猴者与太岁三合，运势较佳。属狗者与太岁相冲，需谨慎行事。属兔者与太岁相害，人际关系需注意维护。属牛者与太岁相破，财运需谨慎管理。</p>
+<p><span class="highlight">2025乙巳年（蛇年）：</span>乙木坐巳火，木火相生，整体运势偏旺。属蛇者为本命年，同样需要化解太岁。属猪者与太岁相冲，事业和感情方面可能面临变动。属虎者与太岁相合，贵人运旺。属马者与太岁三合，财运亨通。属鸡者与太岁六合，人际关系和谐。</p>
+<p><span class="highlight">2026丙午年（马年）：</span>丙火坐午火，火势极旺，属火行业将迎来发展机遇。属马者为本命年，需注意健康和出行安全。属鼠者与太岁相冲，需防口舌是非。属虎者与太岁三合，事业有望突破。属狗者与太岁三合，财运和感情双丰收。属牛者与太岁相害，需注意饮食健康。</p>
+</div>
+</div>
+
+<!-- Tab5: 五行生克 -->
+<div class="tab-content" id="tab5">
+<h2 class="section-title">五行生克</h2>
+<div class="card">
+<h3>五行基本概念</h3>
+<p>五行学说是中国古代哲学的核心理论之一，认为宇宙万物由金、木、水、火、土五种基本元素构成，这五种元素之间存在着相生相克的关系，推动着自然界和人类社会的发展变化。五行学说广泛应用于中医、风水、命理、占卜等诸多领域，是中国传统文化的重要基石。</p>
+<p>五行各有其特性：<span class="highlight">木</span>主生长、条达，对应东方、春季、绿色；<span class="highlight">火</span>主炎热、向上，对应南方、夏季、红色；<span class="highlight">土</span>主承载、化育，对应中央、长夏、黄色；<span class="highlight">金</span>主肃杀、收敛，对应西方、秋季、白色；<span class="highlight">水</span>主寒冷、润下，对应北方、冬季、黑色。</p>
+</div>
+<div class="card">
+<h3>五行相生关系</h3>
+<p>五行相生是指一种元素能够促进、滋养另一种元素，形成循环往复的生生不息之象。相生关系为：木生火、火生土、土生金、金生水、水生木。</p>
+<div class="wuxing-circle">
+<div class="wuxing-item" style="border-color:#4caf50;color:#4caf50">木</div>
+<div class="wuxing-item" style="border-color:#f44336;color:#f44336">火</div>
+<div class="wuxing-item" style="border-color:#ff9800;color:#ff9800">土</div>
+<div class="wuxing-item" style="border-color:#e0e0e0;color:#e0e0e0">金</div>
+<div class="wuxing-item" style="border-color:#2196f3;color:#2196f3">水</div>
+</div>
+<p>木生火：木柴可以燃烧产生火焰，故木能生火。在命理中，木旺之人有火来泄秀，才华得以展现。火生土：火焰燃烧后化为灰烬归于大地，故火能生土。土生金：金属矿藏蕴藏于大地之中，故土能生金。金生水：金属熔化后变为液体，且金属器皿可以盛水，故金能生水。水生木：水滋润树木使之生长，故水能生木。</p>
+</div>
+<div class="card">
+<h3>五行相克关系</h3>
+<p>五行相克是指一种元素能够制约、克制另一种元素，形成相互制衡的动态平衡。相克关系为：木克土、土克水、水克火、火克金、金克木。</p>
+<p>木克土：树木扎根于大地，破土而出，故木能克土。在命理中，若八字木旺土弱，需注意脾胃健康。土克水：堤坝可以阻挡水流，故土能克水。水克火：水能灭火，故水能克火。火克金：高温可以熔化金属，故火能克金。金克木：金属刀具可以砍伐树木，故金能克木。</p>
+</div>
+<div class="card">
+<h3>个人五行查询</h3>
+<p>输入出生年份，查询该年的天干地支及五行属性：</p>
+<input class="tool-input" id="yearInput" placeholder="请输入出生年份（如：1990）" />
+<button class="tool-btn" onclick="calcWuxing()">查询五行</button>
+<div class="result-box" id="wuxingResult"></div>
+</div>
+</div>
+
+<!-- Tab6: 姓名评分 -->
+<div class="tab-content" id="tab6">
+<h2 class="section-title">姓名评分</h2>
+<div class="card">
+<h3>综合姓名评分工具</h3>
+<p>本工具综合五格数理、三才配置、五行属性等多个维度，对姓名进行全面的数理分析。请输入姓名和各字的康熙笔画数，系统将自动计算五格、分析三才配置、评估数理吉凶，并给出综合评分和改善建议。</p>
+<p style="color:var(--muted);font-size:.85rem">注：若不确定康熙笔画，可使用Tab1的查询工具，或参考常用字笔画对照表。</p>
+</div>
+<div class="card">
+<h3>输入姓名信息</h3>
+<p>姓氏：</p>
+<input class="tool-input" id="surnameInput" placeholder="姓氏（单姓或复姓）" />
+<p>名字第一字笔画：</p>
+<input class="tool-input" id="name1Input" placeholder="康熙笔画数" type="number" />
+<p>名字第二字笔画（单名留空）：</p>
+<input class="tool-input" id="name2Input" placeholder="康熙笔画数（选填）" type="number" />
+<button class="tool-btn" onclick="calcScore()">生成评分报告</button>
+<div class="result-box" id="scoreResult"></div>
+</div>
+</div>
+</div>
+
+<script>
+// 康熙笔画映射（常用字）
+var kxMap={'一':1,'二':2,'三':3,'四':5,'五':4,'六':4,'七':2,'八':2,'九':2,'十':2,'百':6,'千':3,'万':15,'王':5,'李':7,'张':11,'刘':15,'陈':16,'杨':13,'赵':14,'黄':12,'周':8,'吴':7,'徐':10,'孙':10,'马':10,'朱':6,'胡':11,'林':8,'郭':15,'何':7,'高':10,'罗':20,'郑':19,'梁':11,'谢':17,'宋':7,'唐':10,'许':11,'韩':17,'冯':12,'邓':19,'曹':11,'彭':12,'曾':12,'萧':18,'田':5,'董':15,'潘':16,'袁':10,'蔡':17,'蒋':16,'余':7,'杜':7,'叶':15,'程':12,'魏':18,'苏':22,'吕':7,'丁':2,'任':6,'沈':8,'姚':9,'卢':16,'姜':9,'崔':11,'钟':17,'谭':19,'陆':16,'汪':7,'范':15,'廖':14,'石':5,'金':8,'韦':9,'贾':13,'夏':10,'付':5,'方':4,'邹':12,'熊':14,'白':5,'孟':8,'秦':10,'邱':12,'侯':9,'江':7,'尹':4,'薛':16,'闫':11,'段':9,'雷':13,'龙':16,'史':5,'陶':16,'贺':12,'顾':21,'毛':4,'郝':14,'龚':22,'邵':9,'万':15,'钱':16,'严':20,'覃':12,'武':8,'戴':17,'莫':13,'孔':4,'向':6,'汤':13,'汤':12};
+var wugeMeaning={1:'大吉·万物开泰',2:'凶·动摇不安',3:'大吉·如意吉祥',4:'凶·万事破灭',5:'大吉·福禄长寿',6:'吉·安稳余庆',7:'吉·刚毅果断',8:'大吉·坚刚志强',9:'半吉·穷困逆境',10:'半吉·万事终局',11:'大吉·旱苗逢雨',12:'凶·薄弱无力',13:'吉·春日牡丹',14:'半吉·破兆浮沉',15:'大吉·福寿圆满',16:'吉·贵人相助',17:'半吉·突破万难',18:'大吉·铁镜重磨',19:'凶·多难困苦',20:'凶·屋下藏金',21:'大吉·明月光照',22:'凶·秋草逢霜',23:'吉·旭日东升',24:'大吉·掘藏得金',25:'大吉·英俊资性',26:'半吉·变怪之数',27:'半吉·增长中正',28:'凶·阔水浮萍',29:'大吉·智谋兼备',30:'半吉·非运浮沉',31:'大吉·春日花开',32:'大吉·宝马金鞍',33:'大吉·旭日升天',34:'大凶·破家之身',35:'大吉·高楼望月',36:'半吉·波澜壮阔',37:'大吉·猛虎出林',38:'半吉·磨铁成针',39:'大吉·富贵荣华',40:'半吉·退安享福',41:'大吉·纯阳独秀',42:'半吉·博识多能',43:'半吉·散财破产',44:'大凶·烦闷损寿',45:'大吉·顺风扬帆',46:'大凶·载宝沉舟',47:'大吉·开花结果',48:'大吉·古松立鹤',49:'半吉·吉凶难分',50:'半吉·小舟入海',51:'半吉·一盛一衰',52:'大吉·达眼识明',53:'半吉·忧愁困苦',54:'大凶·石上栽花',55:'大吉·善恶分明',56:'半吉·浪里行舟',57:'半吉·日照春松',58:'半吉·晚行遇月',59:'大凶·寒蝉悲风',60:'大凶·无谋无勇',61:'大吉·名利双收',62:'半吉·衰败暗淡',63:'大吉·富贵荣华',64:'大凶·骨肉分离',65:'大吉·富贵至极',66:'大凶·岩头步马',67:'大吉·顺风通达',68:'大吉·兴家得志',69:'大凶·坐立不安',70:'大凶·惨淡经营',71:'半吉·石中隐玉',72:'大凶·劳苦辛苦',73:'半吉·无勇高志',74:'半吉·沉沦逆运',75:'半吉·退守保吉',76:'半吉·离散损福',77:'半吉·家庭有缘',78:'半吉·晚景凄凉',79:'大凶·云头望月',80:'半吉·遁隐退志',81:'大吉·万物回春'};
+function getKxStroke(ch){return kxMap[ch]||ch.length}
+function getWuxing(num){var n=num%10;if(n===1||n===2)return'木';if(n===3||n===4)return'火';if(n===5||n===6)return'土';if(n===7||n===8)return'金';return'水'}
+function getWugeLevel(num){var m=wugeMeaning[num]||'';if(m.indexOf('大吉')===0)return'daji';if(m.indexOf('吉')===0)return'ji';if(m.indexOf('大凶')===0)return'daxiong';if(m.indexOf('凶')===0)return'xiong';return'banji'}
+function calcWuge(){
+var name=document.getElementById('nameInput1').value.trim();
+if(!name){document.getElementById('wugeResult').innerHTML='<p style="color:var(--accent)">请输入姓名</p>';return}
+var strokes=[];for(var i=0;i<name.length;i++){strokes.push(getKxStroke(name[i]))}
+var isSingleSurname=strokes.length<=2;
+var tian=isSingleSurname?strokes[0]+1:strokes[0]+strokes[1];
+var ren=isSingleSurname?strokes[0]+strokes[1]:strokes[1]+strokes[2];
+var di=isSingleSurname?strokes[1]+1:strokes[1]+strokes[2];
+var wai=Math.abs(tian-ren)+1;
+var zong=strokes.reduce(function(a,b){return a+b},0);
+var html='<h4>'+name+' 的五格数理</h4>';
+html+='<table><tr><th>格数</th><th>笔画</th><th>五行</th><th>含义</th><th>吉凶</th></tr>';
+var wuges=[['天格',tian],['人格',ren],['地格',di],['外格',wai],['总格',zong]];
+for(var i=0;i<wuges.length;i++){
+var w=wuges[i];var wx=getWuxing(w[1]);var lv=getWugeLevel(w[1]);var mn=wugeMeaning[w[1]]||'未知';
+html+='<tr><td>'+w[0]+'</td><td>'+w[1]+'</td><td>'+wx+'</td><td>'+mn+'</td><td class="'+lv+'">'+lv+'</td></tr>'}
+html+='</table>';
+var tWx=getWuxing(tian),rWx=getWuxing(ren),dWx=getWuxing(di);
+html+='<p style="margin-top:1rem">三才配置：<span class="highlight">'+tWx+' - '+rWx+' - '+dWx+'</span></p>';
+document.getElementById('wugeResult').innerHTML=html}
+function calcWuxing(){
+var year=parseInt(document.getElementById('yearInput').value);
+if(!year||year<1900||year>2100){document.getElementById('wuxingResult').innerHTML='<p style="color:var(--accent)">请输入有效年份（1900-2100）</p>';return}
+var tg=['庚','辛','壬','癸','甲','乙','丙','丁','戊','己'];
+var dz=['申','酉','戌','亥','子','丑','寅','卯','辰','巳','午','未','申'];
+var wx=['金','金','土','土','水','水','木','木','火','火'];
+var sx=['猴','鸡','狗','猪','鼠','牛','虎','兔','龙','蛇','马','羊'];
+var idx=(year-4)%60;
+var t=tg[idx%10],d=dz[idx%12],w=wx[idx%10],s=sx[idx%12];
+var html='<h4>'+year+'年 五行属性</h4>';
+html+='<p>天干：<span class="highlight">'+t+'</span>（五行属<span class="highlight">'+w+'</span>）</p>';
+html+='<p>地支：<span class="highlight">'+d+'</span>（生肖<span class="highlight">'+s+'</span>）</p>';
+html+='<p>干支：<span class="highlight">'+t+d+'</span></p>';
+html+='<p style="margin-top:.5rem;color:var(--muted)">该年出生者属'+s+'，天干'+t+'五行属'+w+'。</p>';
+document.getElementById('wuxingResult').innerHTML=html}
+function calcScore(){
+var surname=document.getElementById('surnameInput').value.trim();
+var n1=parseInt(document.getElementById('name1Input').value);
+var n2=document.getElementById('name2Input').value?parseInt(document.getElementById('name2Input').value):0;
+if(!surname||!n1){document.getElementById('scoreResult').innerHTML='<p style="color:var(--accent)">请填写姓氏和名字笔画</p>';return}
+var sStroke=getKxStroke(surname.charAt(0));
+if(surname.length>1)sStroke+=getKxStroke(surname.charAt(1));
+var isSingleSurname=surname.length===1;
+var tian=isSingleSurname?sStroke+1:sStroke;
+var ren=isSingleSurname?sStroke+n1:n1;
+var di=n2?n1+n2:n1+1;
+var wai=Math.abs(tian-ren)+1;
+var zong=sStroke+n1+n2;
+var score=0;var details=[];
+var wuges=[['天格',tian],['人格',ren],['地格',di],['外格',wai],['总格',zong]];
+for(var i=0;i<wuges.length;i++){
+var w=wuges[i];var lv=getWugeLevel(w[1]);var mn=wugeMeaning[w[1]]||'未知';
+details.push(w[0]+': '+w[1]+'画 ('+mn+')');
+if(lv==='daji')score+=20;else if(lv==='ji')score+=15;else if(lv==='banji')score+=8;else if(lv==='xiong')score+=3;else score+=0}
+var tWx=getWuxing(tian),rWx=getWuxing(ren),dWx=getWuxing(di);
+var sheng={'木':'火','火':'土','土':'金','金':'水','水':'木'};
+var ke={'木':'土','土':'水','水':'火','火':'金','金':'木'};
+if(sheng[tWx]===rWx&&sheng[rWx]===dWx){score+=15;details.push('三才连续相生（大吉）')}
+else if(sheng[tWx]===rWx||sheng[rWx]===dWx){score+=8;details.push('三才部分相生（吉）')}
+else if(ke[tWx]===rWx&&ke[rWx]===dWx){score-=10;details.push('三才连续相克（大凶）')}
+else{score+=3;details.push('三才配置一般')}
+if(score>100)score=100;if(score<0)score=0;
+var grade=score>=90?'极佳':score>=75?'良好':score>=60?'一般':score>=40?'较差':'凶险';
+var gradeColor=score>=90?'#4caf50':score>=75?'#8bc34a':score>=60?'#ff9800':score>=40?'#f44336':'#b71c1c';
+var html='<h4>'+surname+(n2?String.fromCharCode(9633)+String.fromCharCode(9633):String.fromCharCode(9633))+' 姓名评分报告</h4>';
+html+='<div style="text-align:center;margin:1rem 0"><span style="font-size:3rem;color:'+gradeColor+';font-family:var(--font-display)">'+score+'</span><span style="color:var(--muted);font-size:1rem"> / 100</span><br><span style="color:'+gradeColor+';font-size:1.2rem">'+grade+'</span></div>';
+html+='<div class="score-bar"><div class="score-fill" style="width:'+score+'%;background:linear-gradient(90deg,'+gradeColor+','+gradeColor+'aa)"></div></div>';
+html+='<h4 style="margin-top:1.5rem">五格分析</h4><ul>';
+for(var i=0;i<details.length;i++){html+='<li>'+details[i]+'</li>'}
+html+='</ul>';
+html+='<h4 style="margin-top:1rem">三才配置</h4>';
+html+='<p>天格('+tWx+') → 人格('+rWx+') → 地格('+dWx+')</p>';
+html+='<h4 style="margin-top:1rem">改善建议</h4>';
+if(score<60){html+='<p style="color:var(--accent)">建议考虑调整姓名用字，选择笔画数能形成大吉五格和相生三才配置的汉字。可参考Tab1的笔画查询和Tab3的三才配置表。</p>'}
+else if(score<80){html+='<p style="color:var(--muted)">姓名数理尚可，但仍有提升空间。可考虑微调某个字的笔画数，使三才配置达到连续相生的最佳格局。</p>'}
+else{html+='<p style="color:#4caf50">姓名数理优良，五格三才配置和谐。建议保持现有姓名，并在日常生活中多行善积德，以增强姓名的正面能量。</p>'}
+document.getElementById('scoreResult').innerHTML=html}
+
+// Tab切换
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active')});
+this.classList.add('active');
+document.getElementById(this.getAttribute('data-tab')).classList.add('active')})});
+
+// 粒子背景
+(function(){
+var canvas=document.getElementById('particleCanvas');
+var ctx=canvas.getContext('2d');
+var particles=[];var count=60;
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+for(var i=0;i<count;i++){
+particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,
+vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,
+r:Math.random()*2+1,a:Math.random()*.5+.2})}
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+for(var i=0;i<particles.length;i++){
+var p=particles[i];
+p.x+=p.vx;p.y+=p.vy;
+if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;
+if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle='rgba(212,168,67,'+p.a+')';ctx.fill();
+for(var j=i+1;j<particles.length;j++){
+var q=particles[j];var dx=p.x-q.x,dy=p.y-q.y;
+var dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<150){
+ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
+ctx.strokeStyle='rgba(212,168,67,'+(1-dist/150)*.15+')';ctx.stroke()}}}
+requestAnimationFrame(draw)}
+draw()})();
+
+// 进度条
+window.addEventListener('scroll',function(){
+var bar=document.getElementById('progressBar');
+var max=document.documentElement.scrollHeight-window.innerHeight;
+bar.style.width=(window.scrollY/max*100)+'%'});
+
+// 汉堡菜单
+var hamburgerBtn=document.getElementById('hamburger');
+var navBar=document.getElementById('navBar');
+var mobileMenu=document.getElementById('mobileMenu');
+if(hamburgerBtn){
+hamburgerBtn.addEventListener('click',function(){
+hamburgerBtn.classList.toggle('active');
+if(mobileMenu)mobileMenu.classList.toggle('show');
+if(navBar)navBar.classList.toggle('open')})}
+if(mobileMenu){
+var navLinks=document.querySelectorAll('.nav-link');
+for(var i=0;i<navLinks.length;i++){
+var clone=navLinks[i].cloneNode(true);
+mobileMenu.appendChild(clone)}}
+</script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八字合婚 - 阿波菲斯</title>
+<meta name="description" content="八字合婚、日干配合、五行互补、宫位分析、大运比较、合婚工具 - 阿波菲斯命理学">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#1a1a1a;--ink:#e8e0d4;--muted:#8a7e6e;--accent:#c41e3a;--accent2:#d4a843;--rule:#2a2a2a;--font:'Noto Serif SC','Songti SC','SimSun',serif;--font-display:'Ma Shan Zheng','Noto Serif SC',cursive}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:18px}
+body{font-family:var(--font);background-color:var(--bg);color:var(--ink);line-height:1.9;overflow-x:hidden}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:1000;transition:width .1s linear;box-shadow:0 0 10px rgba(196,30,58,.5)}
+.nav-bar{position:fixed;top:3px;left:0;right:0;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);z-index:999;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.2rem;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-brand{color:var(--accent2);font-weight:700;font-size:.85rem;white-space:nowrap;letter-spacing:.1em}
+.nav-link{color:var(--muted);text-decoration:none;font-size:.8rem;white-space:nowrap;padding:.3rem .6rem;border-radius:4px;transition:all .3s ease}
+.nav-link:hover,.nav-link.active{color:var(--accent2);background:rgba(212,168,67,.1)}
+.hamburger{display:none;cursor:pointer;padding:5px;background:none;border:none}
+.hamburger span{display:block;width:25px;height:3px;background:#d4a843;margin:5px 0;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;width:100%;background:rgba(10,10,10,.95);padding:20px;z-index:998}
+.mobile-menu.show{display:flex;flex-direction:column;gap:10px}
+.mobile-menu a{color:#d4a843;text-decoration:none;padding:10px;border-bottom:1px solid rgba(212,168,67,.2)}
+@media(max-width:768px){.hamburger{display:block}.nav-bar.open .nav-link{display:none}}
+#particleCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.hero{position:relative;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:2rem}
+.hero-title{font-family:var(--font-display);font-size:clamp(3rem,8vw,5rem);color:var(--accent2);letter-spacing:.15em;text-shadow:0 0 40px rgba(212,168,67,.3),0 0 80px rgba(196,30,58,.15);margin-bottom:1rem}
+.hero-subtitle{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--muted);letter-spacing:.3em;margin-bottom:2rem}
+.hero-divider{width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);margin:2rem auto}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.8rem);color:var(--accent2);margin:3rem 0 1.5rem;padding-left:1.2rem;border-left:4px solid transparent;border-image:linear-gradient(180deg,var(--accent),var(--accent2)) 1;letter-spacing:.1em}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0 1.5rem;border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.tab-btn{background:none;border:1px solid var(--rule);color:var(--muted);padding:.5rem 1rem;font-family:var(--font);font-size:.85rem;cursor:pointer;border-radius:4px;transition:all .3s}
+.tab-btn:hover{color:var(--accent2);border-color:var(--accent2)}
+.tab-btn.active{background:rgba(212,168,67,.15);color:var(--accent2);border-color:var(--accent2)}
+.tab-content{display:none}.tab-content.active{display:block}
+.card{background:var(--bg2);border:1px solid var(--rule);border-radius:8px;padding:1.5rem;margin:1.5rem 0;transition:border-color .3s}
+.card:hover{border-color:rgba(212,168,67,.3)}
+.card h3{color:var(--accent2);font-size:1.2rem;margin-bottom:1rem;font-family:var(--font-display)}
+.card p,.card li{color:var(--ink);font-size:.95rem;line-height:1.9}
+.card ul,.card ol{padding-left:1.5rem;margin:.5rem 0}
+.card li{margin:.3rem 0}
+.card table{width:100%;border-collapse:collapse;margin:1rem 0}
+.card th,.card td{border:1px solid var(--rule);padding:.5rem .8rem;text-align:left;font-size:.85rem}
+.card th{background:rgba(212,168,67,.1);color:var(--accent2)}
+.card td{color:var(--ink)}
+.highlight{color:var(--accent2);font-weight:600}
+.tool-input{background:var(--bg);border:1px solid var(--rule);color:var(--ink);padding:.6rem 1rem;font-family:var(--font);font-size:.95rem;border-radius:4px;width:100%;margin:.5rem 0;transition:border-color .3s}
+.tool-input:focus{outline:none;border-color:var(--accent2)}
+.tool-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:.6rem 1.5rem;font-family:var(--font);font-size:.95rem;border-radius:4px;cursor:pointer;transition:opacity .3s;margin:.5rem 0}
+.tool-btn:hover{opacity:.85}
+.result-box{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.2);border-radius:8px;padding:1.5rem;margin:1rem 0;min-height:60px}
+.result-box h4{color:var(--accent2);margin-bottom:.8rem}
+.dual-input{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1rem 0}
+.dual-input .panel{background:var(--bg);border:1px solid var(--rule);border-radius:8px;padding:1rem}
+.dual-input .panel h4{color:var(--accent2);margin-bottom:.8rem;font-family:var(--font-display)}
+.score-ring{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:1rem auto;font-size:2.5rem;font-family:var(--font-display);border:4px solid var(--accent2)}
+@media(max-width:768px){.tabs{gap:.3rem}.tab-btn{padding:.4rem .6rem;font-size:.75rem}.container{padding:1rem}.card{padding:1rem}.dual-input{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<canvas id="particleCanvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link active">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+</nav>
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<header class="hero">
+<h1 class="hero-title">八字合婚</h1>
+<div class="hero-divider"></div>
+<p class="hero-subtitle">天作之合 命理良缘</p>
+</header>
+
+<div class="container">
+<div class="tabs">
+<button class="tab-btn active" data-tab="tab1">合婚概述</button>
+<button class="tab-btn" data-tab="tab2">日干配合</button>
+<button class="tab-btn" data-tab="tab3">五行互补</button>
+<button class="tab-btn" data-tab="tab4">宫位分析</button>
+<button class="tab-btn" data-tab="tab5">大运比较</button>
+<button class="tab-btn" data-tab="tab6">合婚工具</button>
+</div>
+
+<!-- Tab1 -->
+<div class="tab-content active" id="tab1">
+<h2 class="section-title">合婚概述</h2>
+<div class="card">
+<h3>八字合婚的原理</h3>
+<p>八字合婚是中国传统命理学中专门用于分析男女双方婚姻匹配度的方法。其基本原理是：每个人的出生时间对应一组天干地支（四柱八字），这八个字蕴含着个人的性格特征、运势走向、健康状态等信息。通过比较双方的八字，可以分析两人在性格、运势、家庭等方面的匹配程度，从而判断婚姻的幸福指数。</p>
+<p>八字合婚并非简单的"合则吉、不合则凶"，而是一个综合性的分析过程。它需要考虑多个维度的信息，包括日干的五行生克关系、双方命局的五行旺衰平衡、四柱宫位的刑冲合害、大运走势的同步性等。只有综合分析这些因素，才能给出一个相对准确的合婚判断。</p>
+</div>
+<div class="card">
+<h3>历史渊源</h3>
+<p>八字合婚的历史可以追溯到唐宋时期。早期的合婚方法比较简单，主要看双方的生肖是否相合。到了宋代，随着徐子平创立四柱八字体系，合婚方法也变得更加精细和系统。明代万民英在《三命通会》中对合婚方法进行了全面的总结和发展，提出了日干配合、五行互补、宫位配合等多种分析方法，形成了较为完善的合婚理论体系。</p>
+<p>在古代，合婚是婚姻缔结过程中必不可少的环节。男女双方在订婚前，家长会将双方的生辰八字交给命理师进行分析，只有合婚结果为吉，才会 proceed with the marriage。这种传统虽然在现代社会中已经不再普遍，但八字合婚作为一种文化现象和分析工具，仍然有着其独特的价值和意义。</p>
+</div>
+<div class="card">
+<h3>现代应用</h3>
+<p>在现代社会，八字合婚的应用已经从传统的"婚姻把关"转变为一种"婚姻参考"。越来越多的人将八字合婚作为了解自己和伴侣的一种方式，通过合婚分析来发现双方在性格和运势上的互补点和潜在问题，从而在婚姻生活中更好地理解和包容对方。</p>
+<p>现代合婚分析还融入了心理学和社会学的视角，不再将合婚结果视为"命运判决"，而是将其作为一种参考信息，帮助夫妻双方更好地经营婚姻。同时，合婚分析中的一些概念，如五行互补、性格匹配等，与现代心理学中的性格分析理论有着异曲同工之妙。</p>
+</div>
+</div>
+
+<!-- Tab2 -->
+<div class="tab-content" id="tab2">
+<h2 class="section-title">日干配合</h2>
+<div class="card">
+<h3>天干五合在合婚中的应用</h3>
+<p>天干五合是八字合婚中最重要的参考因素之一。天干五合为：甲己合化土、乙庚合化金、丙辛合化水、丁壬合化木、戊癸合化火。当男女双方的日干恰好形成五合关系时，两人的性格和命运有着天然的亲和力，婚姻关系通常较为和谐。</p>
+<p>甲己合化土：甲木日干的人刚直进取，己土日干的人谦逊务实，两者配合，刚柔并济，是很好的互补组合。乙庚合化金：乙木日干的人温柔灵活，庚金日干的人果断义气，两者配合，一方提供温暖，一方提供力量。丙辛合化水：丙火日干的人热情开朗，辛金日干的人精致高雅，两者配合，热情与优雅并存。丁壬合化木：丁火日干的人内敛细腻，壬水日干的人智慧宽广，两者配合，深沉与智慧交融。戊癸合化火：戊土日干的人厚重稳健，癸水日干的人聪慧敏感，两者配合，稳重与灵动互补。</p>
+</div>
+<div class="card">
+<h3>天干相冲在合婚中的影响</h3>
+<p>天干相冲是指两个天干之间存在对立和冲突的关系。在合婚中，双方日干相冲需要特别关注，因为日干代表命主本人，日干相冲意味着两人在性格和处事方式上存在较大差异。</p>
+<table>
+<tr><th>相冲组合</th><th>五行关系</th><th>性格差异</th><th>化解建议</th></tr>
+<tr><td>甲庚冲</td><td>木克金</td><td>一方固执进取，一方果断强硬，容易产生权力冲突</td><td>需要双方学会退让，培养共同兴趣</td></tr>
+<tr><td>乙辛冲</td><td>木克金</td><td>一方温柔灵活，一方精致挑剔，审美和生活习惯可能不同</td><td>尊重彼此的生活方式和审美选择</td></tr>
+<tr><td>丙壬冲</td><td>水克火</td><td>一方热情外向，一方深沉内敛，表达方式差异大</td><td>多沟通，理解彼此的表达方式</td></tr>
+<tr><td>丁癸冲</td><td>水克火</td><td>一方敏感细腻，一方多变聪慧，情绪节奏不同</td><td>给予彼此足够的个人空间</td></tr>
+<tr><td>戊甲冲</td><td>木克土</td><td>一方稳重保守，一方积极创新，价值观可能不同</td><td>在重大决策上充分协商</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>天干相克的综合分析</h3>
+<p>需要特别指出的是，日干相冲或相克并非绝对的凶兆。在实际合婚分析中，需要结合双方命局的整体结构来判断。如果一方日干虽然克制另一方日干，但被克方的命局中有足够的印绶来化解这种克制，那么这种克制反而不会造成太大影响。此外，适度的克制有时反而有利于婚姻的平衡——过于相合的两人可能会缺乏必要的张力和活力。</p>
+<p>例如，男方日干为丙火，女方日干为壬水，虽然水克火，但如果男方命局中有木来通关（水生木、木生火），则这种克制关系被化解，两人的关系反而能够和谐。因此，合婚分析必须全面考虑，不能仅凭日干一字的生克关系就下结论。</p>
+</div>
+</div>
+
+<!-- Tab3 -->
+<div class="tab-content" id="tab3">
+<h2 class="section-title">五行互补</h2>
+<div class="card">
+<h3>五行互补的原理</h3>
+<p>五行互补是八字合婚中最为实用的分析方法。每个人的命局都有五行的旺衰差异——有些五行过旺，有些五行过弱，甚至有些五行完全缺失。五行互补的核心思想是：理想的婚姻配合应该使双方的五行达到更好的平衡状态。</p>
+<p>五行互补有三种主要模式：一是"互补型"，即一方过旺的五行恰好是另一方过弱的五行，两人在五行上形成完美的互补关系；二是"同补型"，即双方命局都缺少同一种五行，婚后可以共同补益该五行；三是"平衡型"，即双方命局的五行虽然不完全互补，但整体上能够形成一种动态平衡。</p>
+</div>
+<div class="card">
+<h3>五行互补分析方法</h3>
+<p>进行五行互补分析，首先需要统计双方命局中各五行的力量强弱。统计方法是将四柱八个字的天干地支五行属性进行分类计数，同时考虑地支藏干的影响。然后比较双方五行旺衰的差异，判断是否存在互补关系。</p>
+<p>例如，男方命局统计结果为：金3、木1、水2、火1、土1，金旺而木火弱。女方命局统计结果为：金1、木2、水1、火3、土1，火旺而金弱。两人在金和火上形成明显的互补关系——男方金旺可以弥补女方金弱，女方火旺可以温暖男方木火弱。这种互补关系有利于婚后运势的互相促进。</p>
+</div>
+<div class="card">
+<h3>五行互补的实践建议</h3>
+<p>当双方五行互补性较好时，可以在日常生活中进一步强化这种互补关系。例如，双方都缺木，可以在家中东方位置摆放绿色植物，或共同从事与木相关的行业（如教育、出版、林业等）。一方缺水，另一方水旺，可以在家中北方位置放置鱼缸或水景，以增强水的能量。</p>
+<p>当双方五行互补性不佳时，也不必过于担心。五行互补只是合婚分析的一个维度，还需要结合日干配合、宫位分析、大运比较等其他因素来综合判断。同时，五行的平衡可以通过后天的环境和行为来调节，如选择有利的方位、行业、颜色等，不必完全依赖先天的命局配置。</p>
+</div>
+</div>
+
+<!-- Tab4 -->
+<div class="tab-content" id="tab4">
+<h2 class="section-title">宫位分析</h2>
+<div class="card">
+<h3>四柱宫位与婚姻的关系</h3>
+<p>在八字命理中，四柱分别代表不同的人生层面和六亲关系。年柱代表祖上和早年环境，月柱代表父母兄弟和青年时期，日柱代表自身和婚姻关系，时柱代表子女和晚年运势。在合婚分析中，四柱宫位之间的配合关系反映了双方在家庭背景、性格特征、婚姻生活和子女教育等方面的匹配程度。</p>
+</div>
+<div class="card">
+<h3>年柱配合（祖上与家庭背景）</h3>
+<p>年柱代表双方的祖上和家庭背景。分析年柱配合，主要看双方年柱天干地支之间的刑冲合害关系。双方年柱相合者，家庭背景相近或有良好的缘分，两家人容易相处融洽。年柱相冲者，家庭背景差异较大，两家人在价值观或生活习惯上可能存在冲突。</p>
+<p>年柱的纳音五行也是重要的参考因素。双方年柱纳音五行相生者，两家有互相助益的关系。纳音五行相克者，可能存在一些潜在的利益冲突。但需要注意的是，年柱的影响主要在早年，随着婚后生活的深入，年柱的影响会逐渐减弱。</p>
+</div>
+<div class="card">
+<h3>月柱配合（性格与事业取向）</h3>
+<p>月柱代表一个人的性格特征和事业取向，是合婚分析中非常重要的一个维度。月令地支决定了命局的五行旺衰和格局方向，因此双方月柱的配合关系直接影响两人在生活态度和事业选择上是否协调。</p>
+<p>双方月柱相合者，性格和处事方式相似，在事业选择和生活规划上容易达成共识。月柱相冲者，性格差异较大，可能在生活节奏和事业规划上产生分歧。例如，一方月令为寅（春季木旺），性格积极进取；另一方月令为申（秋季金旺），性格果断务实。虽然寅申相冲，但如果双方能够欣赏彼此的性格特点，反而可以形成互补。</p>
+</div>
+<div class="card">
+<h3>日柱配合（婚姻核心）</h3>
+<p>日柱是合婚分析中最核心的宫位。日干代表命主本人，日支代表配偶和婚姻宫。在合婚中，日柱配合主要分析两个方面：一是双方日干之间的关系（已在Tab2详述），二是双方日支之间的关系。</p>
+<p>双方日支相合者，夫妻宫和谐，婚姻生活美满。日支六合（子丑合、寅亥合、卯戌合、辰酉合、巳申合、午未合）是最好的配合。双方日支相冲者（子午冲、丑未冲、寅申冲、卯酉冲、辰戌冲、巳亥冲），夫妻宫不稳定，婚姻可能面临挑战，需要双方更多的包容和沟通。</p>
+<p>此外，"天合地合"是最佳的婚姻配合——一方日干与另一方日干相合，同时一方日支与另一方日支也相合。这种配合极为罕见，一旦出现，通常预示着极为和谐的婚姻关系。</p>
+</div>
+<div class="card">
+<h3>时柱配合（子女与晚年）</h3>
+<p>时柱代表子女状况和晚年运势。双方时柱配合分析主要看子女教育理念是否一致，以及晚年生活的规划是否协调。时柱相合者，在子女教育上有共同的观念，晚年生活和谐。时柱相冲者，可能在子女教育方式上存在分歧，晚年生活需要更多的协调和妥协。</p>
+</div>
+</div>
+
+<!-- Tab5 -->
+<div class="tab-content" id="tab5">
+<h2 class="section-title">大运比较</h2>
+<div class="card">
+<h3>大运同步与婚姻</h3>
+<p>大运是八字命理中推断人生各阶段运势的工具，每十年一步。在合婚分析中，比较双方的大运走势，可以判断两人在不同人生阶段的运势是否同步，从而预测婚姻在不同时期可能面临的挑战和机遇。</p>
+<p>大运同步是指双方在同一时期的大运吉凶方向一致。例如，双方在某个十年都走财运旺的大运，那么这个时期家庭的财运会特别好，是共同创业或投资的好时机。又如，双方在某个十年都走忌神运，那么这个时期需要互相支持，共同度过困难。</p>
+</div>
+<div class="card">
+<h3>大运冲突的识别与应对</h3>
+<p>大运冲突是指双方在同一时期的大运吉凶方向相反。例如，一方走财运旺的大运，另一方却走破财运的大运，这种冲突可能导致家庭财务上的矛盾。又如，一方走事业旺运，另一方走感情不顺运，可能在工作与家庭之间产生冲突。</p>
+<p>识别大运冲突的方法是：排出双方的大运序列，比较同一时期双方大运天干地支的五行属性和与各自命局的关系。如果一方大运为喜用神而另一方大运为忌神，即为大运冲突期。在大运冲突期，双方需要更多的理解和包容，避免因运势差异而产生不必要的矛盾。</p>
+</div>
+<div class="card">
+<h3>大运互补的积极意义</h3>
+<p>有趣的是，大运冲突并非完全不利。在某些情况下，大运的交替起伏反而有利于家庭的整体平衡。例如，一方在事业上运势好的时期，可以承担更多的经济责任；当另一方运势转好时，可以接替经济责任，让另一方休息调整。这种"轮流发力"的模式，反而能使家庭始终保持稳定的发展节奏。</p>
+<p>关键在于双方是否能够理解和接受运势的周期性变化。当一方运势低迷时，另一方应该给予更多的支持和鼓励，而不是抱怨和指责。当一方运势旺盛时，也不应该骄傲自满，而应该为未来的低谷期做好准备。</p>
+</div>
+</div>
+
+<!-- Tab6 -->
+<div class="tab-content" id="tab6">
+<h2 class="section-title">合婚工具</h2>
+<div class="card">
+<h3>八字合婚评分工具</h3>
+<p>输入双方的出生日期和时辰，系统将自动分析日干配合、五行互补、宫位配合等多个维度，生成综合合婚评分报告和改善建议。</p>
+</div>
+<div class="card">
+<h3>输入双方信息</h3>
+<div class="dual-input">
+<div class="panel">
+<h4>男方信息</h4>
+<p>出生日期：</p>
+<input class="tool-input" id="maleDate" type="date" />
+<p>出生时辰：</p>
+<select class="tool-input" id="maleHour">
+<option value="0">子时（23-1时）</option>
+<option value="1">丑时（1-3时）</option>
+<option value="2">寅时（3-5时）</option>
+<option value="3">卯时（5-7时）</option>
+<option value="4">辰时（7-9时）</option>
+<option value="5">巳时（9-11时）</option>
+<option value="6">午时（11-13时）</option>
+<option value="7">未时（13-15时）</option>
+<option value="8">申时（15-17时）</option>
+<option value="9">酉时（17-19时）</option>
+<option value="10">戌时（19-21时）</option>
+<option value="11">亥时（21-23时）</option>
+</select>
+</div>
+<div class="panel">
+<h4>女方信息</h4>
+<p>出生日期：</p>
+<input class="tool-input" id="femaleDate" type="date" />
+<p>出生时辰：</p>
+<select class="tool-input" id="femaleHour">
+<option value="0">子时（23-1时）</option>
+<option value="1">丑时（1-3时）</option>
+<option value="2">寅时（3-5时）</option>
+<option value="3">卯时（5-7时）</option>
+<option value="4">辰时（7-9时）</option>
+<option value="5">巳时（9-11时）</option>
+<option value="6">午时（11-13时）</option>
+<option value="7">未时（13-15时）</option>
+<option value="8">申时（15-17时）</option>
+<option value="9">酉时（17-19时）</option>
+<option value="10">戌时（19-21时）</option>
+<option value="11">亥时（21-23时）</option>
+</select>
+</div>
+</div>
+<button class="tool-btn" onclick="calcMarriage()">生成合婚报告</button>
+<div class="result-box" id="marriageResult"></div>
+</div>
+</div>
+
+<script>
+var tianGan=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+var diZhi=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+var wuXing=['木','木','火','火','土','土','金','金','水','水'];
+var wuXingZhi=['水','土','木','木','土','火','火','土','金','金','土','水'];
+var wuHe={'甲':'己','己':'甲','乙':'庚','庚':'乙','丙':'辛','辛':'丙','丁':'壬','壬':'丁','戊':'癸','癸':'戊'};
+var zhiHe={'子':'丑','丑':'子','寅':'亥','亥':'寅','卯':'戌','戌':'卯','辰':'酉','酉':'辰','巳':'申','申':'巳','午':'未','未':'午'};
+var zhiChong={'子':'午','午':'子','丑':'未','未':'丑','寅':'申','申':'寅','卯':'酉','酉':'卯','辰':'戌','戌':'辰','巳':'亥','亥':'巳'};
+var sheng={'木':'火','火':'土','土':'金','金':'水','水':'木'};
+var ke={'木':'土','土':'水','水':'火','火':'金','金':'木'};
+function getGanZhi(year,month,day,hour){
+var yIdx=(year-4)%60;var yGan=yIdx%10;var yZhi=yIdx%12;
+var mZhi=(month+1)%12;var mGan=(yGan%5*2+mZhi)%10;
+var dIdx=Math.floor((new Date(year,month-1,day)-new Date(1900,0,7))/86400000);
+var dGan=(dIdx+6)%10;var dZhi=(dIdx+1)%12;
+var hGan=(dGan%5*2+hour)%10;
+return{year:{gan:yGan,zhi:yZhi},month:{gan:mGan,zhi:mZhi},day:{gan:dGan,zhi:dZhi},hour:{gan:hGan,zhi:hour}}
+}
+function calcMarriage(){
+var mDate=document.getElementById('maleDate').value;
+var fDate=document.getElementById('femaleDate').value;
+var mHour=parseInt(document.getElementById('maleHour').value);
+var fHour=parseInt(document.getElementById('femaleHour').value);
+if(!mDate||!fDate){document.getElementById('marriageResult').innerHTML='<p style="color:var(--accent)">请填写双方出生日期</p>';return}
+var mp=mDate.split('-'),fp=fDate.split('-');
+var mGz=getGanZhi(parseInt(mp[0]),parseInt(mp[1]),parseInt(mp[2]),mHour);
+var fGz=getGanZhi(parseInt(fp[0]),parseInt(fp[1]),parseInt(fp[2]),fHour);
+var mDg=mGz.day.gan,fDg=fGz.day.gan;
+var mDz=mGz.day.zhi,fDz=fGz.day.zhi;
+var score=0;var details=[];
+// 日干配合
+var mG=tianGan[mDg],fG=tianGan[fDg];
+var mWx=wuXing[mDg],fWx=wuXing[fDg];
+if(wuHe[mG]===fG){score+=30;details.push('日干天干五合（'+mG+fG+'合），感情基础极佳')}
+else if(sheng[mWx]===fWx){score+=20;details.push('日干相生（'+mWx+'生'+fWx+'），男方滋养女方')}
+else if(sheng[fWx]===mWx){score+=20;details.push('日干相生（'+fWx+'生'+mWx+'），女方滋养男方')}
+else if(ke[mWx]===fWx||ke[fWx]===mWx){score+=5;details.push('日干相克（'+mWx+'与'+fWx+'），性格有冲突需磨合')}
+else{score+=10;details.push('日干关系一般')}
+// 日支配合
+var mZ=diZhi[mDz],fZ=diZhi[fDz];
+if(zhiHe[mZ]===fZ){score+=25;details.push('日支六合（'+mZ+fZ+'合），夫妻宫和谐')}
+else if(zhiChong[mZ]===fZ){score+=5;details.push('日支六冲（'+mZ+fZ+'冲），夫妻宫不稳需注意')}
+else if(sheng[wuXingZhi[mDz]]===wuXingZhi[fDz]||sheng[wuXingZhi[fDz]]===wuXingZhi[mDz]){score+=15;details.push('日支五行相生，夫妻宫较好')}
+else{score+=8;details.push('日支关系一般')}
+// 五行互补
+var mWxCount={木:0,火:0,土:0,金:0,水:0};
+var fWxCount={木:0,火:0,土:0,金:0,水:0};
+var allGz=[mGz.year,mGz.month,mGz.day,mGz.hour,fGz.year,fGz.month,fGz.day,fGz.hour];
+var isMale=true;
+for(var i=0;i<allGz.length;i++){
+var g=allGz[i].gan;var z=allGz[i].zhi;
+var target=isMale?mWxCount:fWxCount;
+target[wuXing[g]]++;target[wuXingZhi[z]]++;
+if(i===3)isMale=false}
+var buChangScore=0;
+var wxList=['木','火','土','金','水'];
+for(var i=0;i<wxList.length;i++){
+var wx=wxList[i];
+if((mWxCount[wx]>=3&&fWxCount[wx]<=1)||(fWxCount[wx]>=3&&mWxCount[wx]<=1)){buChangScore+=4;details.push('五行互补：'+wx+'方互补良好')}}
+score+=Math.min(buChangScore,20);
+if(buChangScore>=12)details.push('五行互补性较好');
+else if(buChangScore>=6)details.push('五行互补性一般');
+else details.push('五行互补性较弱');
+// 年柱配合
+var mYz=diZhi[mGz.year.zhi],fYz=diZhi[fGz.year.zhi];
+if(zhiHe[mYz]===fYz){score+=10;details.push('年支六合，家庭背景和谐')}
+else if(zhiChong[mYz]===fYz){score-=5;details.push('年支六冲，家庭背景有差异')}
+// 月柱配合
+var mMz=diZhi[mGz.month.zhi],fMz=diZhi[fGz.month.zhi];
+if(zhiHe[mMz]===fMz){score+=10;details.push('月支六合，性格事业取向协调')}
+else if(zhiChong[mMz]===fMz){score-=5;details.push('月支六冲，性格差异较大')}
+if(score>100)score=100;if(score<0)score=0;
+var grade=score>=85?'天作之合':score>=70?'良缘佳配':score>=55?'尚可匹配':score>=40?'需要磨合':'缘分较浅';
+var gradeColor=score>=85?'#4caf50':score>=70?'#8bc34a':score>=55?'#ff9800':score>=40?'#f44336':'#b71c1c';
+var html='<h4>合婚评分报告</h4>';
+html+='<div style="text-align:center;margin:1rem 0">';
+html+='<div class="score-ring" style="border-color:'+gradeColor+';color:'+gradeColor+'">'+score+'</div>';
+html+='<p style="color:'+gradeColor+';font-size:1.2rem;margin-top:.5rem">'+grade+'</p></div>';
+html+='<h4 style="margin-top:1.5rem">男方八字</h4>';
+html+='<p>'+tianGan[mGz.year.gan]+diZhi[mGz.year.zhi]+'年 '+tianGan[mGz.month.gan]+diZhi[mGz.month.zhi]+'月 '+tianGan[mGz.day.gan]+diZhi[mGz.day.zhi]+'日 '+tianGan[mGz.hour.gan]+diZhi[mGz.hour.zhi]+'时</p>';
+html+='<h4 style="margin-top:1rem">女方八字</h4>';
+html+='<p>'+tianGan[fGz.year.gan]+diZhi[fGz.year.zhi]+'年 '+tianGan[fGz.month.gan]+diZhi[fGz.month.zhi]+'月 '+tianGan[fGz.day.gan]+diZhi[fGz.day.zhi]+'日 '+tianGan[fGz.hour.gan]+diZhi[fGz.hour.zhi]+'时</p>';
+html+='<h4 style="margin-top:1.5rem">详细分析</h4><ul>';
+for(var i=0;i<details.length;i++){html+='<li>'+details[i]+'</li>'}
+html+='</ul>';
+html+='<h4 style="margin-top:1.5rem">改善建议</h4>';
+if(score<55){
+html+='<p style="color:var(--accent)">双方命局配合度较低，建议在婚姻生活中多加沟通和包容。可以选择有利的方位和颜色来调和五行差异，如在家中摆放适当的装饰品来增强双方命局中不足的五行能量。</p>'}
+else if(score<70){
+html+='<p style="color:var(--muted)">双方命局配合度尚可，但仍有提升空间。建议关注命局中不协调的因素，在日常生活中有意识地加以调和。例如，选择双方五行都需要的颜色作为家居主色调，或在有利的方位进行重要活动。</p>'}
+else{
+html+='<p style="color:#4caf50">双方命局配合度较高，婚姻基础良好。建议继续保持良好的沟通习惯，珍惜彼此的缘分。在共同生活中，可以进一步强化五行互补的优势，选择对双方都有利的方位和行业来发展事业。</p>'}
+document.getElementById('marriageResult').innerHTML=html}
+
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+document.querySelectorAll('.tab-content').forEach(function(c){c.classList.remove('active')});
+this.classList.add('active');
+document.getElementById(this.getAttribute('data-tab')).classList.add('active')})});
+(function(){
+var canvas=document.getElementById('particleCanvas');var ctx=canvas.getContext('2d');
+var particles=[];var count=60;
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+for(var i=0;i<count;i++){particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:Math.random()*2+1,a:Math.random()*.5+.2})}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);
+for(var i=0;i<particles.length;i++){var p=particles[i];p.x+=p.vx;p.y+=p.vy;
+if(p.x<0)p.x=canvas.width;if(p.x>canvas.width)p.x=0;if(p.y<0)p.y=canvas.height;if(p.y>canvas.height)p.y=0;
+ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(212,168,67,'+p.a+')';ctx.fill();
+for(var j=i+1;j<particles.length;j++){var q=particles[j];var dx=p.x-q.x,dy=p.y-q.y;var dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<150){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(212,168,67,'+(1-dist/150)*.15+')';ctx.stroke()}}}
+requestAnimationFrame(draw)}draw()})();
+window.addEventListener('scroll',function(){var bar=document.getElementById('progressBar');var max=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(window.scrollY/max*100)+'%'});
+var hamburgerBtn=document.getElementById('hamburger');var navBar=document.getElementById('navBar');var mobileMenu=document.getElementById('mobileMenu');
+if(hamburgerBtn){hamburgerBtn.addEventListener('click',function(){hamburgerBtn.classList.toggle('active');if(mobileMenu)mobileMenu.classList.toggle('show');if(navBar)navBar.classList.toggle('open')})}
+if(mobileMenu){var navLinks=document.querySelectorAll('.nav-link');for(var i=0;i<navLinks.length;i++){var clone=navLinks[i].cloneNode(true);mobileMenu.appendChild(clone)}}
+</script>
+</body>
+</html>
