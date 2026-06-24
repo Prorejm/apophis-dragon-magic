@@ -1,0 +1,5255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>占星学大百科 - 阿波菲斯·龙之魔法</title>
+<meta name="description" content="阿波菲斯占星学大百科 - 十星体、十二星座、十二宫位、相位详解">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ====== 基础变量 ====== */
+:root {
+  --bg: #0a0a0a;
+  --bg2: #1a1a1a;
+  --bg3: #141414;
+  --ink: #e8e0d4;
+  --muted: #8a7e6e;
+  --accent: #c41e3a;
+  --accent2: #d4a843;
+  --rule: #2a2a2a;
+  --font: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --font-display: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
+  --font-en: 'Cormorant Garamond', 'Noto Serif SC', serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 18px; }
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--ink);
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+/* ====== 粒子背景 ====== */
+.particles-container {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.particle {
+  position: absolute; width: 2px; height: 2px; background: var(--accent2);
+  border-radius: 50%; opacity: 0.6; animation: particleFloat 15s infinite linear;
+}
+@keyframes particleFloat {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+}
+
+/* ====== 进度条 ====== */
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  z-index: 10000; transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(196, 30, 58, 0.5);
+}
+
+/* ====== 导航栏 ====== */
+.nav-bar {
+  position: fixed; top: 3px; left: 0; right: 0;
+  background: rgba(10, 10, 10, 0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule); z-index: 9999;
+  padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 1.2rem;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+}
+.nav-bar::-webkit-scrollbar { display: none; }
+.nav-brand {
+  color: var(--accent2); font-weight: 700; font-size: 0.85rem;
+  white-space: nowrap; letter-spacing: 0.1em; font-family: var(--font-display);
+}
+.nav-link {
+  color: var(--muted); text-decoration: none; font-size: 0.8rem;
+  white-space: nowrap; padding: 0.3rem 0.6rem; border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--accent2); background: rgba(212, 168, 67, 0.1);
+}
+.nav-toggle {
+  display: none; background: none; border: none; color: var(--accent2);
+  font-size: 1.5rem; cursor: pointer; padding: 0.25rem 0.5rem;
+  flex-shrink: 0; font-family: var(--font-display);
+}
+
+/* ====== Hero ====== */
+.hero {
+  position: relative; min-height: 60vh; display: flex;
+  flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden; padding: 2rem;
+  background:
+    radial-gradient(ellipse 80px 60px at 20% 30%, rgba(196, 30, 58, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 60px 80px at 80% 20%, rgba(212, 168, 67, 0.06) 0%, transparent 70%);
+}
+.hero-title {
+  font-family: var(--font-display); font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 400; color: var(--accent2); letter-spacing: 0.15em;
+  text-shadow: 0 0 40px rgba(212, 168, 67, 0.3), 0 0 80px rgba(196, 30, 58, 0.15);
+  animation: titleGlow 4s ease-in-out infinite alternate;
+  margin-bottom: 1rem;
+}
+.hero-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--muted); font-weight: 400;
+  letter-spacing: 0.3em; margin-bottom: 1rem;
+}
+.hero-desc {
+  font-size: clamp(0.9rem, 2vw, 1.1rem); color: var(--ink); max-width: 600px;
+  line-height: 1.8; opacity: 0.9;
+}
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 40px rgba(212,168,67,0.3), 0 0 80px rgba(196,30,58,0.15); }
+  100% { text-shadow: 0 0 60px rgba(212,168,67,0.5), 0 0 120px rgba(196,30,58,0.25); }
+}
+
+/* ====== 布局 ====== */
+.page-layout {
+  display: flex; max-width: 1400px; margin: 0 auto; position: relative;
+}
+.main-content {
+  flex: 1; max-width: 900px; margin: 0 auto; padding: 3rem 2rem 6rem;
+  position: relative; z-index: 1;
+}
+
+/* ====== 目录侧边栏 ====== */
+.toc-sidebar {
+  position: sticky; top: 80px; width: 260px; height: calc(100vh - 100px);
+  overflow-y: auto; padding: 1.5rem; z-index: 100;
+  background: rgba(26, 26, 26, 0.6); backdrop-filter: blur(8px);
+  border-right: 1px solid var(--rule);
+}
+.toc-sidebar::-webkit-scrollbar { width: 4px; }
+.toc-sidebar::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 2px; }
+.toc-title {
+  font-family: var(--font-display); font-size: 1.2rem; color: var(--accent2);
+  margin-bottom: 1rem; text-align: center; letter-spacing: 0.1em;
+}
+.toc-section {
+  margin-bottom: 1rem;
+}
+.toc-section-title {
+  font-size: 0.8rem; color: var(--accent); font-weight: 700;
+  letter-spacing: 0.05em; margin-bottom: 0.4rem; cursor: pointer;
+  display: flex; align-items: center; gap: 0.3rem;
+}
+.toc-section-title::before {
+  content: '▸'; font-size: 0.6rem; transition: transform 0.2s;
+}
+.toc-section-title.expanded::before { transform: rotate(90deg); }
+.toc-links {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  padding-left: 0.5rem;
+}
+.toc-links.collapsed { display: none; }
+.toc-link {
+  color: var(--muted); text-decoration: none; font-size: 0.75rem;
+  padding: 0.25rem 0.5rem; border-radius: 3px; transition: all 0.2s;
+  border-left: 2px solid transparent;
+}
+.toc-link:hover, .toc-link.active {
+  color: var(--accent2); background: rgba(212, 168, 67, 0.08);
+  border-left-color: var(--accent);
+}
+
+/* ====== 章节标题 ====== */
+.section-title {
+  font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400; color: var(--accent2); text-align: center;
+  margin-bottom: 2.5rem; letter-spacing: 0.1em; position: relative;
+  padding-bottom: 1rem;
+}
+.section-title::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 80px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+}
+
+/* ====== 可折叠卡片 ====== */
+.card {
+  background: var(--bg2); border: 1px solid var(--rule); border-radius: 12px;
+  margin-bottom: 1.5rem; overflow: hidden; transition: all 0.3s ease;
+}
+.card:hover { border-color: rgba(212, 168, 67, 0.3); }
+.card-header {
+  padding: 1.2rem 1.5rem; cursor: pointer; display: flex;
+  align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, rgba(196,30,58,0.1), rgba(212,168,67,0.05));
+  transition: all 0.3s ease;
+}
+.card-header:hover { background: linear-gradient(135deg, rgba(196,30,58,0.15), rgba(212,168,67,0.1)); }
+.card-title {
+  font-size: 1.2rem; font-weight: 700; color: var(--accent2);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.card-icon {
+  font-size: 1.4rem;
+}
+.card-toggle {
+  font-size: 1rem; color: var(--muted); transition: transform 0.3s ease;
+}
+.card.expanded .card-toggle { transform: rotate(180deg); }
+.card-body {
+  padding: 1.5rem; display: none;
+}
+.card.expanded .card-body { display: block; }
+
+/* ====== 子卡片（星座/宫位） ====== */
+.sub-card {
+  background: var(--bg3); border: 1px solid rgba(42,42,42,0.8);
+  border-radius: 8px; margin-bottom: 1rem; overflow: hidden;
+}
+.sub-card-header {
+  padding: 0.8rem 1.2rem; cursor: pointer; display: flex;
+  align-items: center; justify-content: space-between;
+  transition: all 0.2s ease;
+}
+.sub-card-header:hover { background: rgba(212, 168, 67, 0.05); }
+.sub-card-title {
+  font-size: 1rem; font-weight: 600; color: var(--ink);
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.sub-card-title .sign-name { color: var(--accent2); font-family: var(--font-en); font-size: 0.9rem; }
+.sub-card-body {
+  padding: 1rem 1.2rem; display: none; border-top: 1px solid var(--rule);
+}
+.sub-card.expanded .sub-card-body { display: block; }
+.sub-card-toggle {
+  font-size: 0.8rem; color: var(--muted); transition: transform 0.2s;
+}
+.sub-card.expanded .sub-card-toggle { transform: rotate(180deg); }
+
+/* ====== 段落样式 ====== */
+p {
+  margin-bottom: 1.2rem; text-align: justify; color: var(--ink);
+  font-size: 0.95rem; line-height: 2; word-break: break-word;
+}
+p strong { color: var(--accent2); font-weight: 700; }
+
+/* ====== 标签样式 ====== */
+.tag {
+  display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px;
+  font-size: 0.75rem; margin-right: 0.3rem; margin-bottom: 0.3rem;
+}
+.tag-fire { background: rgba(196, 30, 58, 0.15); color: #e74c3c; border: 1px solid rgba(196,30,58,0.3); }
+.tag-earth { background: rgba(139, 115, 85, 0.15); color: #c9a86c; border: 1px solid rgba(139,115,85,0.3); }
+.tag-air { background: rgba(135, 206, 235, 0.1); color: #87ceeb; border: 1px solid rgba(135,206,235,0.3); }
+.tag-water { background: rgba(70, 130, 180, 0.1); color: #6495ed; border: 1px solid rgba(70,130,180,0.3); }
+.tag-cardinal { background: rgba(212, 168, 67, 0.1); color: var(--accent2); border: 1px solid rgba(212,168,67,0.3); }
+.tag-fixed { background: rgba(196, 30, 58, 0.1); color: var(--accent); border: 1px solid rgba(196,30,58,0.3); }
+.tag-mutable { background: rgba(138, 126, 110, 0.15); color: var(--muted); border: 1px solid rgba(138,126,110,0.3); }
+
+/* ====== 工具区域 ====== */
+.tool-section {
+  background: linear-gradient(135deg, rgba(196,30,58,0.08), rgba(212,168,67,0.05));
+  border: 1px solid rgba(212, 168, 67, 0.2); border-radius: 16px;
+  padding: 2rem; margin: 3rem 0;
+}
+.tool-title {
+  font-family: var(--font-display); font-size: 1.5rem; color: var(--accent2);
+  text-align: center; margin-bottom: 1.5rem;
+}
+.tool-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+.tool-input-group {
+  margin-bottom: 1rem;
+}
+.tool-input-group label {
+  display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.4rem;
+}
+.tool-input-group input, .tool-input-group select {
+  width: 100%; padding: 0.7rem 1rem; background: var(--bg3);
+  border: 1px solid var(--rule); border-radius: 8px; color: var(--ink);
+  font-family: var(--font); font-size: 0.9rem; transition: all 0.3s;
+}
+.tool-input-group input:focus, .tool-input-group select:focus {
+  outline: none; border-color: var(--accent2); box-shadow: 0 0 10px rgba(212,168,67,0.2);
+}
+.tool-btn {
+  display: block; width: 100%; padding: 0.9rem; background: linear-gradient(135deg, var(--accent), rgba(196,30,58,0.8));
+  border: none; border-radius: 8px; color: white; font-family: var(--font-display);
+  font-size: 1.1rem; cursor: pointer; transition: all 0.3s; letter-spacing: 0.1em;
+  margin-top: 1rem;
+}
+.tool-btn:hover {
+  box-shadow: 0 0 20px rgba(196, 30, 58, 0.4); transform: translateY(-2px);
+}
+.tool-result {
+  margin-top: 1.5rem; padding: 1.5rem; background: var(--bg3);
+  border: 1px solid var(--rule); border-radius: 8px; display: none;
+}
+.tool-result.show { display: block; }
+.tool-result h4 {
+  color: var(--accent2); font-family: var(--font-display); font-size: 1.2rem;
+  margin-bottom: 1rem; text-align: center;
+}
+.result-item {
+  display: flex; justify-content: space-between; padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.result-item:last-child { border-bottom: none; }
+.result-label { color: var(--muted); font-size: 0.85rem; }
+.result-value { color: var(--accent2); font-weight: 700; font-size: 0.9rem; }
+
+/* ====== 相位表格 ====== */
+.aspect-table {
+  width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 1rem 0;
+}
+.aspect-table th {
+  background: linear-gradient(135deg, var(--accent), rgba(196,30,58,0.6));
+  color: var(--ink); padding: 10px; text-align: center; font-weight: 700;
+}
+.aspect-table th:first-child { border-radius: 8px 0 0 0; }
+.aspect-table th:last-child { border-radius: 0 8px 0 0; }
+.aspect-table td {
+  padding: 10px; border-bottom: 1px solid var(--rule); text-align: center;
+}
+.aspect-table tr:hover td { background: rgba(212, 168, 67, 0.05); }
+.aspect-angle { color: var(--accent2); font-weight: 700; font-family: var(--font-en); }
+.aspect-type { color: var(--accent); font-weight: 700; }
+
+/* ====== 分隔符 ====== */
+.dragon-separator {
+  display: flex; align-items: center; justify-content: center;
+  margin: 3rem 0; opacity: 0.6;
+}
+.dragon-separator::before, .dragon-separator::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+}
+.dragon-separator span {
+  padding: 0 1rem; color: var(--accent2); font-size: 1.2rem;
+}
+
+/* ====== 回到顶部 ====== */
+.back-to-top {
+  position: fixed; bottom: 2rem; right: 2rem; width: 44px; height: 44px;
+  background: rgba(26, 26, 26, 0.9); border: 1px solid var(--rule);
+  color: var(--accent2); font-size: 1.2rem; cursor: pointer; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(20px); transition: all 0.3s ease;
+  z-index: 9998; backdrop-filter: blur(8px);
+}
+.back-to-top.show { opacity: 1; transform: translateY(0); }
+.back-to-top:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+
+/* ====== 页脚 ====== */
+.footer {
+  text-align: center; padding: 3rem 2rem; color: var(--muted);
+  font-size: 0.8rem; border-top: 1px solid var(--rule); letter-spacing: 0.1em;
+}
+
+/* ====== 响应式 ====== */
+@media (max-width: 1024px) {
+  .toc-sidebar { display: none; }
+}
+@media (max-width: 768px) {
+  html { font-size: 16px; }
+  .nav-bar { padding: 0.5rem 1rem; gap: 0.6rem; }
+  .nav-toggle { display: block; position: absolute; right: 10px; top: 8px; z-index: 10001; }
+  .nav-bar { flex-wrap: wrap; position: relative; max-height: 52px; overflow: hidden; transition: max-height 0.4s ease; }
+  .nav-bar.open { max-height: 100vh; overflow-y: auto; }
+  .nav-bar .nav-link { width: 100%; font-size: 0.7rem; padding: 0.35rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .main-content { padding: 2rem 1.2rem 4rem; }
+  .hero { min-height: 40vh; padding: 1.5rem; }
+  .tool-grid { grid-template-columns: 1fr; }
+  p { text-align: left; }
+  .card-title { font-size: 1rem; }
+  .aspect-table { font-size: 0.75rem; }
+  .aspect-table th, .aspect-table td { padding: 6px 4px; }
+}
+@media (max-width: 480px) {
+  .hero-title { font-size: 2rem; }
+  .section-title { font-size: 1.4rem; }
+  .tool-section { padding: 1.2rem; }
+}
+
+/* ====== 滚动条 ====== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent), var(--accent2)); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(var(--accent2), var(--accent)); }
+::selection { background: rgba(196, 30, 58, 0.3); color: var(--ink); }
+
+/* ====== 减少动画 ====== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .particles-container { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles-container" id="particles"></div>
+
+<!-- 进度条 -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- 导航栏 -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link active">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="hero">
+  <h1 class="hero-title">占星学大百科</h1>
+  <p class="hero-subtitle">ASTROLOGY ENCYCLOPEDIA</p>
+  <p class="hero-desc">十星体、十二星座、十二宫位与相位关系完全指南<br>探索天体对人类命运的深层影响</p>
+</header>
+
+<!-- 页面布局 -->
+<div class="page-layout">
+
+<!-- 目录侧边栏 -->
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-title">目录导航</div>
+  <div class="toc-section">
+    <div class="toc-section-title expanded" onclick="toggleToc(this)">基础认知</div>
+    <div class="toc-links">
+      <a href="#ch1" class="toc-link">正确认识占星学</a>
+      <a href="#ch2" class="toc-link">十星体和特征点位</a>
+      <a href="#ch3" class="toc-link">先天十二星座</a>
+      <a href="#ch4" class="toc-link">后天十二宫位</a>
+      <a href="#ch5" class="toc-link">制作星盘和解释</a>
+    </div>
+  </div>
+  <div class="toc-section">
+    <div class="toc-section-title" onclick="toggleToc(this)">太阳与月亮</div>
+    <div class="toc-links collapsed">
+      <a href="#sun" class="toc-link">太阳详解</a>
+      <a href="#moon" class="toc-link">月亮详解</a>
+    </div>
+  </div>
+  <div class="toc-section">
+    <div class="toc-section-title" onclick="toggleToc(this)">个人星体</div>
+    <div class="toc-links collapsed">
+      <a href="#mercury" class="toc-link">水星详解</a>
+      <a href="#venus" class="toc-link">金星详解</a>
+      <a href="#mars" class="toc-link">火星详解</a>
+    </div>
+  </div>
+  <div class="toc-section">
+    <div class="toc-section-title" onclick="toggleToc(this)">非个人与超个人星体</div>
+    <div class="toc-links collapsed">
+      <a href="#jupiter" class="toc-link">木星详解</a>
+      <a href="#saturn" class="toc-link">土星详解</a>
+      <a href="#uranus" class="toc-link">天王星详解</a>
+      <a href="#neptune" class="toc-link">海王星详解</a>
+      <a href="#pluto" class="toc-link">冥王星详解</a>
+    </div>
+  </div>
+  <div class="toc-section">
+    <div class="toc-section-title" onclick="toggleToc(this)">相位详解</div>
+    <div class="toc-links collapsed">
+      <a href="#aspect1" class="toc-link">相位基础与日月</a>
+      <a href="#aspect2" class="toc-link">月亮与其他星体</a>
+      <a href="#aspect3" class="toc-link">水星与其他星体</a>
+      <a href="#aspect4" class="toc-link">金星火星及外行星</a>
+    </div>
+  </div>
+  <div class="toc-section">
+    <div class="toc-section-title" onclick="toggleToc(this)">互动工具</div>
+    <div class="toc-links collapsed">
+      <a href="#calc" class="toc-link">星盘计算器</a>
+      <a href="#phase" class="toc-link">相位查询</a>
+    </div>
+  </div>
+</aside>
+
+<!-- 主内容 -->
+<main class="main-content">
+
+<!-- 第一章：正确认识占星学 -->
+<section id="ch1">
+  <h2 class="section-title">正确认识占星学</h2>
+  <div class="card expanded">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>占星学的本质</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>星象学探讨的是天体对生物的作用以及生物对天体的影响的反映。在人类早期的史料中就有关于这类知识的初步记载，星象学也一直被认为是天文学的始祖，积累着先人对天体以及自然现象的探索。</p>
+      <p>现如今，星象学已经被普遍当作一门命理学，用来占卜和窥探天体对于人的影响，相关的资料、介绍和研究也出现在很多的场合和媒介中。不过，很多的介绍都有不同程度的歪曲和误解，对于广大没有深层次接触星象学的人们来说，这是必须要首先阐明和弄清楚的。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">⚠</span>误解一：太阳星座等同于占星</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>最为重要的误解，就是把太阳星座等同于星座和把占星等同于占星座，由于在字体上容易发生的歧义，抱有这样误解的人有很多。</p>
+      <p>我们常说的A是天平座，B是天蝎座，是仅仅就太阳星座而言的，严格地说应该称作"太阳天平座，太阳天蝎座"。这只是个人星盘的冰山一角，但是很多人认为星象就只是这样而已，这是不对的。试想想，如果只是这12个星座的区分，就算每天都有不同，那世界上也就只有365种人，365种命，全球有近60亿人，怎么够用？</p>
+      <p>其实，占星是用你出生的日期时刻和地点排列出你出生的瞬间时刻十个主要星体以及一些特征点位的位置，而不仅仅就是一个太阳。</p>
+      <p>很多人认为占星学就是去解释诸如天平座怎样怎样，天蝎座怎样怎样，等等，这也是不对的。恰恰相反，占星学中重要的是十星体和特征点位，而不是星座，星座只是一个坐标系统，用来标示位置，本身并无太多的意义。</p>
+      <p>简单来说，在占星学里，一个人在出生的那一刹那，他眼前的十星体和一些特征点比如上升、中天等瞬间的位置也就产生，占星学要做的是将这些星体和点位的位置标示和解释出来。标示位置要用到两套坐标系统：先天十二星座和后天十二宫。先天十二星座就是我们常说的从牧羊座到双鱼座的黄道位，也是太阳运行一年的轨迹，这个位置不由某一个的出生而转移，排出来的盘是天盘。而后天十二宫是从你的出生时间和地点开始再一次划分，排出来的盘就是地盘。用这两套坐标，就可以表示一个星体和点位在你星盘中的星座位和宫位，比如太阳落在天平座和宫位9，然后去解释这个位置有什么的蕴意，这才是一个标准的占星过程，而不是去解释天平座怎样怎样。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">🕐</span>误解二：太阳位置计算的误解</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>计算太阳的星座位需要你的出生年月日和时刻，如果要计算太阳宫位，就还需要出生地进而去知道经纬度。</p>
+      <p>误解就产生在这时刻上，这个时刻是要按照格林威治时间去算的，而不是你的local time。当然，我们基本都出生在中国，现在很多娱乐性的书籍做的那种粗略的太阳星座分区大都也已经换算到北京时间了。但是有个问题需要注意，也就是说，你在计算的时候，一定要用你出生那个时区的分区表，不要你出生在美国，然后用北京时间去算。</p>
+      <p>还有一个误解存在于出生时刻在星座分界点附近的情况，一般的书籍是不会把分界点精确到分和秒的，当然也因为这分和秒每年都在变化，毕竟我们围绕太阳转一周并不是标准的一年。那么就需要出生在分界点附近的人要注意了，有可能你本来是太阳天平座的，你却一直认为自己是太阳天蝎座，或者反之，所以在计算时要按照准确的当年表或者找专业人士。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">🌙</span>误解三：月亮位置的计算用阳历</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>月亮位置是根据月相去算的，或者简单说，我们要算的十星体（太阳、月亮、水星、金星、火星、木星、土星、天王星、海王星、冥王星）位置都是根据这些星体自身的运行规律。计算太阳用我们所说的阳历，月亮当然就不能用阳历了，比如月亮转一周是约27天，而冥王星就要约248年。</p>
+      <p>在占星学里，有一套复杂的换算公式把阳历时间换算到各个星体的时间。当然现在科技发达，很多软体都面世了，计算的时候大家可以用程序。不过，对于中国人来讲，计算月亮并不复杂，因为我们有独特的条件：农历。用农历来算会简单的多。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">💕</span>误解四：同象星座就很搭配</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>"我是天平座，你是双子座，我们是同象的，所以很搭配。"但真的很搭配吗？或者说，这样就可以轻易说搭配吗？好像一谈到是太阳同象的，就会觉得很搭，其实并不尽然。</p>
+      <p>首先要说到占星合盘本身，之前我说的占星过程是针对个人星盘的确定，用来解释个人的趋势和命相。那么两个人呢？简单说，就是把这两个人的个人盘放到一起来考虑，这样你还会说，仅仅两个人的太阳就可以决定一切了吗？</p>
+      <p>反之，在占星合盘中，太阳的力量会变得不再那么重要，往往只有在看两个人的首尾关系时才会被考虑，而重要的常常是金星、月亮、土星和冥王星，只有把所有的星体在两个人的盘中关系都解释出来才能得出搭配与否的结论。如果说你觉得太复杂，我只要一个简单的，那么我建议你宁可去看月亮，从我的经验来讲月亮相同或者相似都会有不错的交融。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第二章：十星体和特征点位 -->
+<section id="ch2">
+  <h2 class="section-title">十星体和特征点位</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">一个占星的标准过程是根据出生时间和地点来排列在那一瞬间你眼前十个主要星体以及一些特征点位的位置</p>
+
+  <div class="card expanded">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳 Sun</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>太阳是黄道十二宫的主宰，是影响地球最大的星体，也是星盘中极为重要的力量，在星盘中的一个周期（从十二星座某一个星座位置开始绕行一个轮回）是一年。</p>
+      <p>太阳是个<strong>阳性</strong>的星体，是<strong>狮子座</strong>的守护星，旺势在<strong>牧羊座</strong>，失势在<strong>水瓶座</strong>，在<strong>天平座</strong>变为落陷。</p>
+      <p>太阳在星盘中代表着<strong>人格的外在表现、主要方式、生活原则</strong>等等，也代表着你生命中的主要男性比如父亲和丈夫。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮 Moon</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>月亮虽然没有太阳那样的主宰力量，但它是最靠近地球也就是最靠近我们自身的星体，也是十星体中运行周期最短的星体，它的位置变化对于星盘的影响极为重要，在星盘中的一个周期约27天7小时。</p>
+      <p>月亮是个<strong>阴性</strong>的星体，它是<strong>巨蟹座</strong>的守护星，旺势在<strong>金牛座</strong>，失势在<strong>魔羯座</strong>，在<strong>天蝎座</strong>变为落陷。</p>
+      <p>月亮在星盘中代表着<strong>人格的内在特质、思维感觉、情绪起伏</strong>等等，也代表着你生命中的主要女性比如母亲和妻子。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星 Mercury</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>水星是<strong>中性</strong>的星体，也可以被认为是两面都具有，它是最靠近太阳的星球，在黄道上运转非常快速，星盘中一个周期约88天。</p>
+      <p>它是<strong>双子座和处女座</strong>的守护星，旺势在<strong>水瓶座</strong>，失势在<strong>射手座和双鱼座</strong>，在<strong>狮子座</strong>变为落陷。</p>
+      <p>水星在星盘中代表着<strong>心智能力和表达方式</strong>，也代表着你双亲之外的一些亲密人群比如兄弟姐妹、儿女和亲戚等等。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星 Venus</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>金星是最靠近地球的行星，是颗<strong>阴性</strong>的星体，在星盘中的一个周期约225天。</p>
+      <p>它是<strong>金牛座和天平座</strong>的守护星，旺势在<strong>双鱼座</strong>，失势在<strong>天蝎座和牧羊座</strong>，在<strong>处女座</strong>变为落陷。</p>
+      <p>金星在星盘中代表着<strong>爱情观以及名利和金钱</strong>。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星 Mars</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>火星是最靠近地球外围的行星，是颗<strong>阳性</strong>的星体，在星盘中的一个周期约687天。</p>
+      <p>它是<strong>牧羊座和天蝎座</strong>的守护星，旺势在<strong>魔羯座</strong>，失势在<strong>天平座和金牛座</strong>，在<strong>巨蟹座</strong>变为落陷。</p>
+      <p>火星在星盘中代表着<strong>野心和行动力</strong>。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♃</span>木星 Jupiter</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>木星在星象学上的影响也是不容忽视的，它是颗<strong>阴性</strong>的星体，在星盘中的一个周期约11年315天，大约每隔一年走一个星座位。</p>
+      <p>它是<strong>射手座和双鱼座</strong>的守护星，旺势在<strong>巨蟹座</strong>，失势在<strong>双子座</strong>，在<strong>魔羯座</strong>变为落陷。</p>
+      <p>木星在星盘中代表着<strong>理解力和事业</strong>。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♄</span>土星 Saturn</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>土星是颗<strong>阳性</strong>的星体，在星盘中的一个周期约29年167天，大约每隔两年半走一个星座位。</p>
+      <p>它是<strong>魔羯座和水瓶座</strong>的守护星，旺势在<strong>天平座</strong>，失势在<strong>巨蟹座</strong>，在<strong>牧羊座</strong>变为落陷。</p>
+      <p>土星在星盘中代表着<strong>压力源泉</strong>。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♅</span>天王星 Uranus</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>天王星是颗<strong>阳性</strong>的星体，在星盘中的一个周期约84年，大约每隔7年走一个星座位。</p>
+      <p>它是<strong>水瓶座</strong>的守护星，旺势在<strong>天蝎座</strong>，失势在<strong>狮子座</strong>，在<strong>金牛座</strong>变为落陷。</p>
+      <p>天王星在星盘中代表着<strong>灵魂和感知</strong>。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♆</span>海王星 Neptune</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>海王星是颗<strong>阴性</strong>的星体，在星盘中的一个周期约164年288天，大约每隔14年走一个星座位。</p>
+      <p>它是<strong>双鱼座</strong>的守护星，失势在<strong>处女座</strong>。</p>
+      <p>海王星在星盘中代表着<strong>幻觉和臆想</strong>。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♇</span>冥王星 Pluto</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>冥王星是颗<strong>阳性</strong>的星体，在星盘中的一个周期约248年197天，大约每隔20年半走一个星座位。</p>
+      <p>它是<strong>天蝎座</strong>的守护星，失势在<strong>金牛座</strong>。</p>
+      <p>冥王星在星盘中代表着<strong>人最深层的潜意识、原始的欲望，还有宿命</strong>。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">✦</span>特征点位</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>东方点（East Point）</strong>：地平线与主垂圈在东方的交点，也就是太阳在东方升起的地方，在占星中只起一个起点标示的作用，无实在含义。</p>
+      <p><strong>上升点（Ascendant）</strong>：虽然东方点是太阳升起的位置，但大部分宫位的划分并不是以东方点开始，而是以上升点开始。上升点是东方地平线和黄道带的交点，它在星盘中是最为重要的特殊点位，代表将各个星体的影响统一后表现出来的自我，也代表着给别人的印象。</p>
+      <p><strong>中天（Midheaven）</strong>：是出生所在地的子午线和黄道在空中的交点。</p>
+      <p><strong>宿命点（Vertex）</strong>：主垂圈与黄道在西方的交点，也是太阳在西方落下的地方，同东方点一样，无实在含义。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第三章：先天十二星座 -->
+<section id="ch3">
+  <h2 class="section-title">先天十二星座</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">先天十二星座不以某个人为基准，是固定不变的系统</p>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>牧羊座 Aries</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-fire">火象</span><span class="tag tag-cardinal">本位</span>
+      </div>
+      <p><strong>日期</strong>：3月20-21日～4月19-20日</p>
+      <p><strong>守护星</strong>：火星</p>
+      <p><strong>相对星座</strong>：天平座</p>
+      <p><strong>庙旺落陷</strong>：火星入庙，太阳旺势，土星落陷，天王星失势</p>
+      <p><strong>特点</strong>：热情奔放，有竞争力，勇敢独立，活跃积极；但性情急躁，草率粗鲁，虎头蛇尾。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>金牛座 Taurus</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-earth">土象</span><span class="tag tag-fixed">固定</span>
+      </div>
+      <p><strong>日期</strong>：4月20-21日～5月20-21日</p>
+      <p><strong>守护星</strong>：金星</p>
+      <p><strong>相对星座</strong>：天蝎座</p>
+      <p><strong>庙旺落陷</strong>：金星入庙，月亮旺势，冥王星落陷，天王星失势</p>
+      <p><strong>特点</strong>：忠实耐心，稳定彻底，实际朴素；但固执保守，脾性不佳，贪婪懒惰。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>双子座 Gemini</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-air">风象</span><span class="tag tag-mutable">变动</span>
+      </div>
+      <p><strong>日期</strong>：5月21-22日～6月20-21日</p>
+      <p><strong>守护星</strong>：水星</p>
+      <p><strong>相对星座</strong>：射手座</p>
+      <p><strong>庙旺落陷</strong>：水星入庙，木星落陷</p>
+      <p><strong>特点</strong>：好奇心强烈，善于表达，机智伶俐，适应力强；但善变好动，工于心计，缺乏专注。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>巨蟹座 Cancer</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-water">水象</span><span class="tag tag-cardinal">本位</span>
+      </div>
+      <p><strong>日期</strong>：6月21-22日～7月22-23日</p>
+      <p><strong>守护星</strong>：月亮</p>
+      <p><strong>相对星座</strong>：魔羯座</p>
+      <p><strong>庙旺落陷</strong>：月亮入庙，木星旺势，土星落陷，火星失势</p>
+      <p><strong>特点</strong>：坚持持久，直觉不错，有同情心，感情丰富；但消极敏感，过度谨慎，沉溺深思。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>狮子座 Leo</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-fire">火象</span><span class="tag tag-fixed">固定</span>
+      </div>
+      <p><strong>日期</strong>：7月23-24日～8月22-23日</p>
+      <p><strong>守护星</strong>：太阳</p>
+      <p><strong>相对星座</strong>：水瓶座</p>
+      <p><strong>庙旺落陷</strong>：太阳入庙，海王星旺势，天王星落陷</p>
+      <p><strong>特点</strong>：理想浪漫，乐观自信，有创造力；但虚荣自大，虚伪专横，略有些幼稚。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>处女座 Virgo</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-earth">土象</span><span class="tag tag-mutable">变动</span>
+      </div>
+      <p><strong>日期</strong>：8月23-24日～9月22-23日</p>
+      <p><strong>守护星</strong>：水星</p>
+      <p><strong>相对星座</strong>：双鱼座</p>
+      <p><strong>庙旺落陷</strong>：水星入庙，水星旺势，海王星落陷，金星失势</p>
+      <p><strong>特点</strong>：勤劳好学，精确求真，仁慈讲求完美；但琐碎挑剔，忧郁自我，疑心好批评人。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>天平座 Libra</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-air">风象</span><span class="tag tag-cardinal">本位</span>
+      </div>
+      <p><strong>日期</strong>：9月23-24日～10月22-23日</p>
+      <p><strong>守护星</strong>：金星</p>
+      <p><strong>相对星座</strong>：牧羊座</p>
+      <p><strong>庙旺落陷</strong>：金星入庙，土星旺势，火星落陷，太阳失势</p>
+      <p><strong>特点</strong>：公正高雅，爱好艺术，交际广阔；但冷漠浮华，工于心计，犹豫不决，容易放弃。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>天蝎座 Scorpio</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-water">水象</span><span class="tag tag-fixed">固定</span>
+      </div>
+      <p><strong>日期</strong>：10月23-24日～11月21-22日</p>
+      <p><strong>守护星</strong>：火星和冥王星</p>
+      <p><strong>相对星座</strong>：金牛座</p>
+      <p><strong>庙旺落陷</strong>：火星和冥王星入庙，天王星旺势，月亮失势</p>
+      <p><strong>特点</strong>：足智多谋，果断坚决，观察力好；但敏感自大，有报复心，疑心善妒，冷漠。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>射手座 Sagittarius</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-fire">火象</span><span class="tag tag-mutable">变动</span>
+      </div>
+      <p><strong>日期</strong>：11月22-23日～12月20-21日</p>
+      <p><strong>守护星</strong>：木星</p>
+      <p><strong>相对星座</strong>：双子座</p>
+      <p><strong>庙旺落陷</strong>：木星入庙，水星落陷</p>
+      <p><strong>特点</strong>：坦率慷慨，心胸宽广，乐观正义，自由热情；但性情急躁，有侵略心，没有耐心，喜欢勉强。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>魔羯座 Capricorn</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-earth">土象</span><span class="tag tag-cardinal">本位</span>
+      </div>
+      <p><strong>日期</strong>：12月21-22日～1月19-20日</p>
+      <p><strong>守护星</strong>：土星</p>
+      <p><strong>相对星座</strong>：巨蟹座</p>
+      <p><strong>庙旺落陷</strong>：土星入庙，火星旺势，月亮落陷，木星失势</p>
+      <p><strong>特点</strong>：谨慎实际，勤奋节俭，完美主义，负责严肃；但自我固执，功利主义，传统专断，自我自私。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>水瓶座 Aquarius</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-air">风象</span><span class="tag tag-fixed">固定</span>
+      </div>
+      <p><strong>日期</strong>：1月21-22日～2月18-19日</p>
+      <p><strong>守护星</strong>：土星和天王星</p>
+      <p><strong>相对星座</strong>：狮子座</p>
+      <p><strong>庙旺落陷</strong>：土星和天王星入庙，太阳落陷，海王星失势</p>
+      <p><strong>特点</strong>：独立创新，求知宽容，有逻辑；但性情不定，冷漠古怪，叛逆没耐心。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>双鱼座 Pisces</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom:1rem;">
+        <span class="tag tag-water">水象</span><span class="tag tag-mutable">变动</span>
+      </div>
+      <p><strong>日期</strong>：2月19-20日～3月19-20日</p>
+      <p><strong>守护星</strong>：木星和海王星</p>
+      <p><strong>相对星座</strong>：处女座</p>
+      <p><strong>庙旺落陷</strong>：木星和海王星入庙，金星旺势，水星失势</p>
+      <p><strong>特点</strong>：善解人意，感情丰富，有牺牲精神，有同情心；但啰嗦忧郁，悲观不实际，感情固执，胆怯懒惰。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第四章：后天十二宫位 -->
+<section id="ch4">
+  <h2 class="section-title">后天十二宫位</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">后天十二宫是从一个人的上升点开始划分的坐标系统</p>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>第一宫 - 本命宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：牧羊座</p>
+      <p><strong>代表</strong>：气质和倾向。出现在上升点，是星盘中最个人化的宫位。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>第二宫 - 财帛宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：金牛座</p>
+      <p><strong>代表</strong>：经济状况和理财能力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>第三宫 - 兄弟宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：双子座</p>
+      <p><strong>代表</strong>：与人的沟通。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>第四宫 - 田宅宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：巨蟹座</p>
+      <p><strong>代表</strong>：家庭。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>第五宫 - 子女宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：狮子座</p>
+      <p><strong>代表</strong>：子女和感情。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>第六宫 - 奴仆宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：处女座</p>
+      <p><strong>代表</strong>：工作和生活习惯。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>第七宫 - 夫妻宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：天平座</p>
+      <p><strong>代表</strong>：配偶和婚姻，还有与人的合作和协议。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>第八宫 - 疾厄宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：天蝎座</p>
+      <p><strong>代表</strong>：生老病死还有性。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>第九宫 - 迁移宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：射手座</p>
+      <p><strong>代表</strong>：心智能力和潜意识。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>第十宫 - 官禄宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：魔羯座</p>
+      <p><strong>代表</strong>：事业和名誉。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>第十一宫 - 福德宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：水瓶座</p>
+      <p><strong>代表</strong>：人际关系。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>第十二宫 - 相貌宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong>本位星座</strong>：双鱼座</p>
+      <p><strong>代表</strong>：悲伤、痛苦以及隐秘。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第五章：制作星盘和解释 -->
+<section id="ch5">
+  <h2 class="section-title">制作星盘和解释</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">一个标准的占星过程就是收集资料、排列星盘、标示坐标、解释星盘这四个步骤</p>
+
+  <div class="card expanded">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">📝</span>起算资料</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>需要出生年时间、地点和性别，时间要至少精确到小时，分秒的误差能小就小，最多不能超过半个小时，但不能盲目估计。地点要至少精确到城市或乡镇，借以求得该地的经纬度。</p>
+      <p>时间是用来计算个人星盘的先天十二星座落位，而地点是在此基础上为了计算后天十二宫位所必需的。</p>
+      <p>对于占星合盘来说，是看两个人的天盘不看地盘，所以提供两个人的出生时间即可，但测算个人星盘，出生地是必不可少的资料。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">📊</span>排列星盘</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有了起算资料后，就可以排列星盘了，现今已经有很多软件可以帮助大家计算，但有几点是需要注意的：</p>
+      <p>1）在输入出生时间时，如果没有特殊提示时区的选择，要输入换算到格林威治后的时刻，如果有时区的选项，而被测算人是在中国出生的话，要输入+8。</p>
+      <p>2）有些程序设置有Daylight选项，也就是夏令时，有些国家是使用夏令时的，中国曾经在1986年到1991年从每年的四月份第二个星期天早上2点开始到九月份第二个星期天早上2点结束使用过夏令时，全国时间拨快1个小时。所以出生在这个区间的人要注意Daylight的选项。</p>
+      <p>3）大部分的软件在宫位划分上都采用Placidus制度，但仍然有很多软件采用了其他的分制，建议使用采用Placidus的软件。个人推荐Astrology，在很多地方都可以下载到。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">📍</span>标示坐标</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>如果使用软件的话，星体的星座落位会自动标示出来，如果宫位没有标示的话，需要自己手动排出宫位。</p>
+      <p>而我们要做的是了解每一个符号的意思和读懂这些坐标给我们的信息，这些知识可以去参看对应的软件帮助文档。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">🔮</span>星盘解释</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>这个是最核心的部分，如果说前面的是教科书化的教条，这里就是你人性化的展示。不同的测算人在这里都会得出不一样的解释和结论，见仁见智，也可以看出一个人的功底。</p>
+      <p>解释星盘其实主要是四个步骤：</p>
+      <p><strong>1）解释十星体所处星座位置代表的含义</strong>，比如太阳落在天平座，那么用天平座本身的特点来解释太阳处在天平座所影响下的太阳。</p>
+      <p><strong>2）解释十星体所处宫位所代表的含义</strong>，比如太阳落在宫位2，而宫位2是财帛宫，那么就用太阳本身的特点来反过来解释此时太阳影响下的财帛宫。</p>
+      <p><strong>3）综合考虑</strong>。上述逐条解释过后，必然会产生部分矛盾的结论，这是难以避免的。比如太阳落在牧羊座有积极进取的暗示，如果火星落在天平座就可能有行动力上不坚决的结论，这在某种程度上有矛盾的成分，把这些暂时不可解释的矛盾记录下来。</p>
+      <p><strong>4）计算相位</strong>。这一步最重要，也是解释上述矛盾的主要途径。</p>
+      <p>简单来说，相位就是星盘里某个星体与其他的星体的关系，但如何去表示呢？就是把这两个星体分别与星盘中心连线，然后看这两个星体之间的夹角关系，有点像力学中的合力。</p>
+      <table class="aspect-table">
+        <tr><th>相位</th><th>角度</th><th>误差</th><th>性质</th></tr>
+        <tr><td class="aspect-type">会</td><td class="aspect-angle">0°</td><td>±6°</td><td>影响力同向，合力与原方向相同</td></tr>
+        <tr><td class="aspect-type">半合</td><td class="aspect-angle">60°</td><td>±4°</td><td>部分同向，合力有偏差</td></tr>
+        <tr><td class="aspect-type">刑</td><td class="aspect-angle">90°</td><td>±6°</td><td>互相矛盾，合力与原方向无关</td></tr>
+        <tr><td class="aspect-type">拱</td><td class="aspect-angle">120°</td><td>±6°</td><td>部分同向，合力激化原方向</td></tr>
+        <tr><td class="aspect-type">冲</td><td class="aspect-angle">180°</td><td>±6°</td><td>互相制约，弱势服从强势</td></tr>
+      </table>
+      <p>在这5种关系中，<strong>会、刑、拱和冲</strong>是非常强势的相位，星盘中如果出现某两个星体构成这样的关系，是必须要去重视和解释的。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第六章：太阳详解 -->
+<section id="sun">
+  <h2 class="section-title">太阳详解</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">太阳代表的是人格的外在表现，落位在不同的星座位和宫位也会有不同</p>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">☉ 太阳在十二星座</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>太阳在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"坦白，自信，焦躁"</strong></p>
+      <p>真情流露、坦白开放，但也十分自我中心和孩子气。尽管非常自信，但是不能忍受些许的挫折，那样会瓦解他们的自信。注重实际行动，但一旦受到阻挠会变得焦躁不安，而且也许是无情的利己主义者。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>太阳在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"实际，耐心，顽固"</strong></p>
+      <p>十分重视物质，拥有金钱与安全感是不可或缺的生存条件。顽固且好辩，但又力求和谐。有毅力和决心，比较谨慎，是个勤奋工作的人，但总需要一段时间才能适应新的观念和环境。个性矜持而踏实，严肃实际负责。虽然不容易发怒，但一生气就很麻烦。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>太阳在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"自由，活力，善变"</strong></p>
+      <p>自由自主，喜欢寻求刺激，精力充沛，但是他们又很容易感到厌倦。喜欢用自己的想法控制周围的气氛，但往往不负责任，善变甚至会很肤浅。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>太阳在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"重情，低调，消极"</strong></p>
+      <p>喜欢安全，喜欢温暖，喜欢回忆。很在乎别人对你的看法，喜欢感到被需要，也喜欢去照顾别人。自我保护色彩浓厚，有点害羞，非常需要安全感，对家的依恋很深。容易受到别人的影响，多愁善感，容易活在回忆中。情绪起伏很大，容易受刺激，消极退缩。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>太阳在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"大方，执着，倨傲"</strong></p>
+      <p>强烈直接，喜欢别人顺从自己的心意，需要满足感。慷慨大方，依自己的方式行事，有些过于执着。对于不想接受或是不符合需求的东西，通常是断然拒绝。必须让自己时刻感到骄傲，通常都会成为佼佼者和中心人物。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>太阳在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"谨慎，理智，苛刻"</strong></p>
+      <p>喜欢秩序，喜欢分析，行事非常审慎，对于细节相当注意，以挑剔的心态处理每一件事。分辨是非能力很强，善于表达，重视秩序与纪律。容易紧张兮兮，有时爱干涉别人的事。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>太阳在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"周详，优雅，犹豫"</strong></p>
+      <p>注重维持平衡的状态，有时候可以得到一个周详的结果，有时候为了这个周详反而犹豫不决。希望能公平地对待所有的事情，但不免批判过头。感性优雅，迷人幽默，但处处充满两面性。喜欢事事平顺，但好争辩的个性常常引发争论。虽然很慷慨，但有时候却对别人的请求视而不见。总想看清问题的正反两面，从不同的角度，不过事情往往就耽搁下来。在拥挤有压迫感的地方容易变得紧张，却很会对别人施压。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>太阳在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"坚决，深刻，极端"</strong></p>
+      <p>喜欢隐藏，喜欢探根究底，喜欢拥有，有坚决的意志力和耐力。嫉妒心和占有欲强是天性，有强烈深厚的情感。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>太阳在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"理想，直率，散漫"</strong></p>
+      <p>喜欢自由，喜欢冒险，喜欢亲身体验，带有某种理想主义色彩。无拘无束，坦白，值得信赖，喜欢到处发表自己的意见，而且经常忙碌不堪。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>太阳在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"抱负，冷静，压抑"</strong></p>
+      <p>谨慎负责，欲望很强。需要安全感和支持，保守有耐心。难以接受快乐，反而压抑的生活环境会很适合，反而事情太容易或进展得太顺利，会感到怀疑。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>太阳在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"独特，个性，超脱"</strong></p>
+      <p>喜欢独立，喜欢新颖，喜欢群体活动，但又有个人主义倾向。个性独立，容易被任何奇异的事物吸引。在感情上显得有些超然，也过于洒脱。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>太阳在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"感性，亲切，敏感"</strong></p>
+      <p>喜欢感觉，喜欢想像，对人的态度亲切友善，不具有威胁性。非常敏感，特别在意别人的想法及感受。意志力不够坚强，容易逃避现实的压力。情绪转变很快，让周遭的人常常不知所措，也喜欢胡思乱想。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2.5rem 0 1rem;text-align:center;">☉ 太阳在十二宫位</h3>
+  <p style="text-align:center;color:var(--muted);margin-bottom:1.5rem;font-size:0.85rem;">用太阳本身的特质去解释所落的宫位，但不要忘了还要结合宫位所处的星座本位</p>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>太阳在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"落在本命宫，增强个性体现"</strong></p>
+      <p>太阳位在第一宫位的人，会表现出强烈的意志，丰富的活力，强烈的自我意识，而且会增加太阳星座位置的影响。如果太阳相位不佳，可能会过度自傲，自我中心，也有想控制别人的欲望。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>太阳在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>会表现出对金钱及财产的使用能力，具体能力如何要配合太阳的星座位置。比如，太阳位于双子座第二宫，便容易赚到钱，而且将钱花在知识的追求上。如果太阳处于狮子座第二宫，则会以管理能力来赚钱。但无论何种情况，太阳位于第二宫的人都会希望多赚些钱，多多益善。如果太阳相位不佳，就会唯利是图，不择手段。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>太阳在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>热衷求知，重视逻辑。对事情的判断与观点会直言不讳，而且让别人采纳，重视表达及沟通能力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>太阳在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>与家人的关系很密切，很喜欢归属感，但可能一直在家庭的庇护下很久才能独立。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>太阳在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>热爱生命，强调自由，具有高度的竞争力，行为可能过度夸张。当陷入感情，会完全投入，但如果太阳处于金牛座或天蝎座，就会产生相反的效果，会有嫉妒的倾向。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>太阳在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有强盛的工作力与组织力，生活重心在工作上，对自己的成就感到骄傲，意志坚决，积极进取，行事有规律。如果相位不好，会过度挑剔，吹毛求疵。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>太阳在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>容易与他人发展亲密的感情，还会有忠实的朋友。婚姻在你的生命非常重要，如果太阳相位良好，会拥有持久的情感。如果相位不佳，可能会喜爱控制别人或被别人控制。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>太阳在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>常谈生死，重视精神生活。严谨的处事态度，有所失也有所得。如果相位不好，会有麻烦事甚至是非。而且太阳落在第八宫位的人，还有可能无法被发现和赏识，或者与自己的想象有很大的差距。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>太阳在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有较强的道德观，但可能小心眼。如果太阳相位不佳，会将自己的道德观点强加给别人，谦逊有礼，但有时也会很伪善。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>太阳在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>追求成功的意志强烈，渴望别人的尊敬认可。如果太阳相位不佳，可能会过度迷恋权力，不择手段。如果严重，结果可能不堪设想。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>太阳在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>不善于单打独斗，朋友很多，其中不乏贵人。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>太阳在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>羞怯寂寞，和人群保持疏离。如果太阳相位不佳，会出现神经质的倾向和过度害羞，畏首畏尾。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第七章：月亮详解 -->
+<section id="moon">
+  <h2 class="section-title">月亮详解</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">月亮代表的是人格的内在特质，落位在不同的星座和宫位也会有不同</p>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">☽ 月亮在十二星座</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>月亮在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"紧张，易怒"</strong></p>
+      <p>心理比较紧张，易怒但过后又感到后悔。男性的月亮牧羊，所遇到的女性的智力会很高，但也生性顽固，独立且具有自信。如果她的月亮位置良好，对你有帮助。而女性的月亮在牡羊座，也会认识到前面所说那样的女性朋友。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>月亮在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"稳定，享受"</strong></p>
+      <p>不会浪费时间在小事物和细节上，会觉得那样太麻烦。情感表现非常稳定，对于物质有一定的要求，喜欢享受人生。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>月亮在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"善变，泛滥"</strong></p>
+      <p>这个位置很难说了，总之就是心理多变，情绪容易泛滥。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>月亮在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"内敛，依赖"</strong></p>
+      <p>家庭和家人比功成名就重要，喜欢家居生活，对亲人的依赖心很重，而自己本身也有可能成为一位很好的父母。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>月亮在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"乐观，自我"</strong></p>
+      <p>个性高贵而宽宏，积极自信，坚持己见，甚至显得有些固执。对人生充满进取与乐观的态度，如果是男性，会十分自负，处处想表现自己，非常唯我主义，不太考虑别人的反应。而女性则不同，反而会很优雅和谦和。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>月亮在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"朴实，抑郁"</strong></p>
+      <p>注重实际，性格稳定，不大容易乐观起来。如果是女性，会比较缺乏浪漫和温柔。而月亮处女的男性却很能得到女性的吸引。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>月亮在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"悠闲，均衡"</strong></p>
+      <p>心理均衡，悠然自得。如果是女性，性情将非常优雅，有些许的冷漠，显得有吸引力。而如果是男性，会是离不开女人的男人，男性月亮天平是注定产生感情纠葛的位置。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>月亮在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"强烈，欲望"</strong></p>
+      <p>感情强烈，易动感情，毅力坚定，但喜欢暧昧的情感，对性的欲念很强。如果月亮的相位不好，会有倾向放荡的可能，自我堕落。如果月亮的相位很好，就会截然相反。月亮天蝎的女性，也会有两种不同的可能性：占有欲强，性情刻毒，嫉妒心强，没有节操；有进取精神和高尚的理想。而月亮天蝎的男性，就可能会迷迷糊糊地与女性发生纠缠。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>月亮在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"无羁，跳跃"</strong></p>
+      <p>保持新鲜感是准则，不喜欢被约束，自然也包括内心和思绪。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>月亮在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"压抑，严肃"</strong></p>
+      <p>情绪克制力强，不易展现柔情，也不轻易让自己的心情放轻松。身份、头衔及他人的肯定，是安全感的来源。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>月亮在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"超脱"</strong></p>
+      <p>这个位置还是很难说，因为月亮水瓶对情感的依赖性太低了，不易为情伤神，而且需要拥有情绪表达的自由。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>月亮在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"丰富，天真"</strong></p>
+      <p>情绪太容易泛滥，很能体会他人的感受，感情丰富，容易受伤。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2.5rem 0 1rem;text-align:center;">☽ 月亮在十二宫位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>月亮在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>月亮在第一宫位的人，自我意识及表达能力会显得特别强烈，但缺乏计划及目标。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>月亮在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>财帛宫上有月亮，还能说明什么？有赚钱的天赋。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>月亮在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>常会不自觉地情绪化，会凌驾于理性之上。有强烈的好奇心，相当好动。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>月亮在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>恋家，心情沮丧心理压力大时可能会回忆起童年来，家庭关系左右了情绪，一个令你满意的家是精神寄托。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>月亮在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>自娱自乐，轻松惬意。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>月亮在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>生活有规律，有条不紊，但有些刻板。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>月亮在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>和配偶的关系，会影响你的安全感，倾向选择一位顾家，与你脾味相投的人为结婚对象。如果月亮相位不好，月亮宫7的位置会迟迟做不出某一个决定，有晚婚的可能。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>月亮在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有着丰富的情欲，喜欢追逐各种本能的欲念。如果月亮的相位不好，特别是被刑住，感情会有危机。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>月亮在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对生活持包容的态度，不偏执。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>月亮在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>能获得他人的赏识，一生受女性的影响可能会很多。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>月亮在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>希望，目标以及行动会随着情绪的转变而改变，这种情绪起伏会大多受到朋友意见的影响。不能忍受孤独，需要他人陪伴。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>月亮在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对周围气氛的感应力很强，很能察觉别人心情的起伏。个性害羞又敏感，喜欢安静的环境及独立的工作。需要独处，否则心绪难安。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第八章：水星详解 -->
+<section id="mercury">
+  <h2 class="section-title">水星详解</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">水星代表的是心智能力，落在不同的星座位置和宫位也会有不同</p>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">☿ 水星在十二星座</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>水星在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"创新，自负"</strong></p>
+      <p>有开创性，喜欢新观念与冒险。对于别人的反对会不耐烦，刚愎自用。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>水星在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"保守"</strong></p>
+      <p>生性固执，爱憎分明，保守谨慎。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>水星在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"机智，分散"</strong></p>
+      <p>脑筋灵活，机智伶俐，表达能力很强。好奇心强，因此注意力常被分散，缺乏同一件事上的专注力与耐力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>水星在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"直觉，消极"</strong></p>
+      <p>直觉能力很强，在精神上显得消极被动。心智不活跃，且受环境影响很大。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>水星在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"完美"</strong></p>
+      <p>这是水星非常优秀的一个良好位置。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>水星在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"逻辑，挑剔"</strong></p>
+      <p>缺乏自信，斟酌细节，重视逻辑，讲求分析及归类。仔细谨慎，喜欢批评，吹毛求疵。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>水星在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"精确，复杂"</strong></p>
+      <p>心智能力倾向于精确。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>水星在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"敏锐，苛刻"</strong></p>
+      <p>坚信自己的观点，质疑愈多愈坚定。感觉敏锐，多疑，有时会显得尖酸严苛，令人难堪。想法和意图不会轻易表明，但又有兴趣想知道别人的想法。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>水星在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"坦率，开阔"</strong></p>
+      <p>坦率，不喜欢欺瞒，心胸开阔。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>水星在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"周到，沉着"</strong></p>
+      <p>组织能力强，思虑周到，注意细节。理智沉着，谈吐冷静，按部就班。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>水星在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"客观"</strong></p>
+      <p>客观，尊重他人，不太以自身利益来思考事情。独立，反应灵敏。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>水星在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"感性，起伏"</strong></p>
+      <p>对事情的观点不是来自理性，而是感觉。容易紧张，思绪起伏大，犹豫不决，想像力丰富。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2.5rem 0 1rem;text-align:center;">☿ 水星在十二宫位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>水星在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>行动与自我表达都是基于理性，有极为强烈的欲望表达自己，智商相当高。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>水星在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>注重金钱，价值观非常实务。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>水星在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>心智活跃，沟通及表达能力很强。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>水星在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>家里气氛很好沟通，很重视亲人间的往来，记忆力很好。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>水星在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对艺术感兴趣，用独特的方式来表达自己。如果水星相位不佳，会有欺骗的行为。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>水星在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>以有效率的方式来处理工作的细节，注意个人的责任义务，对于周遭环境的混乱相当敏感。如果你的水星相位不佳，将会有健康状况不良的倾向，过分重视微不足道的小事，也爱批评他人。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>水星在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>婚姻对心智的影响很大，但幸运的是，一般来说，婚姻都会很幸福，但也不排除个别非常特殊的相位。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>水星在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>希望保有自己的隐私，喜欢暗中计划，如果水星相位不良，可能会怨恨他人，加以报复。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>水星在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>追求更高的知识及更高的学位，做决定都基于道德和自身的素质。如果水星相位不佳，会出现在知识方面的自大及自负。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>水星在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>聪明有才智，对事情有看法。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>水星在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>思想会受到朋友的影响，以相对公正的态度及客观的角度来思考事情。喜欢探索，态度友善。如果水星的相位不佳，想法会倾向固执，不切实际。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>水星在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>思考容易受到过去习惯影响，抉择通常是基于感性而非逻辑，先入为主。很有想法，想像力活跃。如果水星相位不佳，可能会有心理障碍，很难与外界互动。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第九章：金星详解 -->
+<section id="venus">
+  <h2 class="section-title">金星详解</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">金星主要代表的是爱情观，也有金钱，落在不同的星座位置和宫位会产生不同的侧重</p>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♀ 金星在十二星座</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>金星在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重表象，热得快冷得快"</strong></p>
+      <p>注重外貌，可以在第一时间内决定是否会喜欢对方。在爱情上态度积极主动，但受挫或新鲜感消失时，也容易冷却。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>金星在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重肉体，坚定热情"</strong></p>
+      <p>注重肉体的吸引，一旦你发现理想的目标，非常固执坚定，极端热情。性情和善而快乐，强调享乐，具同情心。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>金星在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重新鲜，肤浅善变"</strong></p>
+      <p>注重新鲜感，感情无法持久，可能有一次以上的婚姻，爱情观比较肤浅。风度翩翩，大方友善。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>金星在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重依赖，温柔消极"</strong></p>
+      <p>注重依赖感，需求一个情感的发泄口也是避风港，但巨蟹座的特质会造成两种极端的可能：特别消极或者特别积极。极端多愁善感，依赖性很强。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>金星在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重征服感，忠贞自我"</strong></p>
+      <p>注重成就感，对所爱的人比较忠贞，但喜爱支配所爱的人，并且比较强烈。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>金星在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重稳定，节制保守"</strong></p>
+      <p>注重矜持和节制，认为好的感情是需要控制，不容易有激情的行为，态度被动及观望，一生之中恋爱的次数不会多。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>金星在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重情调，浪漫寡断"</strong></p>
+      <p>注重气氛，要的是两心相悦，不会做出单相思的事，在情感取舍上很难下决定。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>金星在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重情欲，专注极端"</strong></p>
+      <p>注重激情，有浓厚的肉欲，固执极端，对所爱的人有很强的占有欲和降服欲。有嫉妒心，容易沉溺过度的糜烂和享乐。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>金星在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重回忆，恋旧但又常常update"</strong></p>
+      <p>注重曾经拥有，爱情像流星，缺乏温暖的感情和持续力，不在乎天长地久，只在乎曾经拥有，而且会过度沉溺和炫耀这些曾经拥有。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>金星在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重回报，规划实际"</strong></p>
+      <p>注重被重视，情感依托在一些所谓美好的向往上，认为好的可能不是自己喜好的，而是大家都看重的。不会甜言蜜语，也不会柔情绵绵，认为浪漫是不实际的，激情与冷淡之间落差不大。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>金星在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重距离，若即若离"</strong></p>
+      <p>注重沟通和距离，喜欢与人相处，但又要有点距离，理智冷静。有自己的想法，不太理会社会大众的观点。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>金星在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"注重付出，心甘情愿"</strong></p>
+      <p>注重感觉和付出，喜欢有人陪，不然会自言自语。敏感容易感伤，爱情是结婚的唯一原因。对事情的判断会被感情因素影响，不理智。只在乎对方的感受，小心翼翼的配合对方。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2.5rem 0 1rem;text-align:center;">♀ 金星在十二宫位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>金星在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>金星位于第一宫的人，本命宫被金星影响，态度优雅，礼貌友善，如果星座位置已经决定有这样的特质，就会大大增加。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>金星在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>喜欢金钱，生财和用钱都比较有道，有很好的鉴赏力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>金星在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>具有良好的沟通能力，言语文字俱佳，通常很容易与配偶和朋友沟通。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>金星在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>重视和谐的家居生活，不愿见到争执与冲突。把家里布置得很舒服，有品味，注重仪表。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>金星在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>喜欢浪漫和多姿多彩。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>金星在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>喜欢气氛和谐而且环境优美，通常会和工作时接触的对象发展感情。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>金星在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>体贴他人，注重婚姻及私人友谊，不喜欢争执而常选择退让。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>金星在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>情感强烈，嫉妒心和占有欲比较强。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>金星在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>美好舒适的生活是追求的目标，并且乐此不疲，喜欢与人分享好的感受，尤其与异性之间。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>金星在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>很有异性缘，如果金星相位不佳，可能是一位追求功名的人，忘恩负义。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>金星在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对人和善，有很多异性朋友，但关系比较模糊，朋友会变成爱情的对象，爱情的对象也会变成朋友。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>金星在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>喜好宁静和独处，很隐密包括恋情，羞怯寂寞，情爱易受挫折。有许多无意识的行为，有同情心。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第十章：火星详解 -->
+<section id="mars">
+  <h2 class="section-title">火星详解</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">火星代表的是行动力，落位在不同的星座位置和宫位也会有不同的影响</p>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♂ 火星在十二星座</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>火星在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"雷厉风行"</strong></p>
+      <p>想要做马上去做，想要马上就要要到。只有三分钟热度，兴致与热情难以持续。个性冲动，具有侵略性，很容易激动。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>火星在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"按部就班"</strong></p>
+      <p>稳健专注，有耐性，不知疲倦。如果火星相位不好，可能残忍无情。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>火星在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"技巧至上"</strong></p>
+      <p>反应灵敏，喜欢与人辩论。个性浮躁，常把自己弄得很忙，而且同时处理很多事情。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>火星在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"无懈可击"</strong></p>
+      <p>火星在巨蟹座，无论如何是一个特别好的影响，大多数困难都会被你的平静缄默却又冷静的手法解决。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>火星在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"大方有度"</strong></p>
+      <p>积极投入，动机强烈，是天生的领袖人物，行事风格大方有度。自负，对失败者不太有同情心。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>火星在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"高效冷酷"</strong></p>
+      <p>非常具有效率，但显得冷淡。意志力很强，除非火星有好的相位来缓和，可能给人冷血的感觉。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>火星在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"理智思考"</strong></p>
+      <p>情绪平稳，对任何问题，你不会立刻给予答覆而是三思后行。情理兼顾，习惯团体合作。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>火星在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"强烈残忍"</strong></p>
+      <p>不带有感情，不轻易同情别人，决心坚定。对于男性，这是强有力的位置，敏捷精干，但带有一点残忍的倾向；对于女性，这个位置不好，报复而且有点小人。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>火星在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"浮华"</strong></p>
+      <p>浮华，喜欢挑战，但缺乏耐力。如果火星相位不良，可能缺乏精力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>火星在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"斗志昂扬"</strong></p>
+      <p>强烈有力，甚至比火星在牡羊座还要强烈。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>火星在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"独树一帜"</strong></p>
+      <p>思考重于行动，沉着泰然面对挑战。除非是主管，否则很少会把事情做的很好。轻视规矩，不满现状。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>火星在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"退求其次"</strong></p>
+      <p>不大与人争吵，要与人争执时选择回避，不大会坚持己见。遇到柔情攻势很快就被瓦解，不会拒绝。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2.5rem 0 1rem;text-align:center;">♂ 火星在十二宫位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>火星在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>行事直率，自有主张，不掩饰。精力充沛，容易激动。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>火星在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>想要得到的东西会很急切，甚至不择手段，所重视的会尽力去维护，重视物质及感官享受。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>火星在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>不拐弯抹角，爱与人争辩，但常带有挖苦。好动不安，没有耐心。个性冲动，欠缺圆滑。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>火星在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>生活环境多变，大部分行动和选择都受家庭的影响或者拖累。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>火星在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>具侵略性和情绪化，如果火星相位良好，可以引起别人的好感，但如果相位不良，会受人排挤。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>火星在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>透过工作表现活力，辛勤有活力，自尊来自工作的成效。如果火星相位不良，可能因为工作而引起健康不良，过度关心细节而忽略重点。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>火星在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>倾向与人合作，如果火星相位良好，可以完成许多目标。如果相位不良，可能会出现因意见不同，导致和合伙人出现纠纷，也会影响婚姻的稳定。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>火星在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>欲望很强，动机潜藏，只有亲密的人才感受的到。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>火星在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>高瞻远瞩，无法容忍肤浅的观点和没有目标。很坚持自己的信念，碰到与自己观点不同的人，会想方法改变对方。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>火星在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>追求名声及地位，非常积极，但对其他的东西就非常冷漠。如果相位良好，会功成名就，成绩非凡；如果不好，会受不小的挫折。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>火星在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对社会和四周不满，有革命的倾向。火星相位如果不良，会和朋友不和谐，会伤人伤己。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>火星在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有隐秘的心思，对自己的欲望及目标善于隐藏。会私下憎恶他人也会暗自喜欢某人。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第十一章：木星详解 -->
+<section id="jupiter">
+  <h2 class="section-title">木星详解</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">木星是非个人星体群的第一个星体，脱离了个人局限的它代表的是理解力和事业</p>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♃ 木星在十二星座</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>木星在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"冒险"</strong></p>
+      <p>不适合待在保守的环境，追求自我突破，对具冒险和竞争性的事务得心应手。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>木星在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"经济"</strong></p>
+      <p>善于理财，适合经济方面的工作，但有些市侩和奢华。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>木星在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"动脑"</strong></p>
+      <p>不适合待在隔绝僻静的环境，追求知识，适合多动脑的事务。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>木星在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"家业"</strong></p>
+      <p>事业为家庭着想，或者继承祖业，会有压迫感。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>木星在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"身份"</strong></p>
+      <p>积极自信，精力充沛，慷慨仁慈，但会讲求回报。喜爱豪华宴会等社交场合，会满足自己对身份的追求。但自我膨胀，骄傲自负。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>木星在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"秩序"</strong></p>
+      <p>富执行力，不适合在没有制度的环境里，适合有秩序重层次的事务。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>木星在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"精神"</strong></p>
+      <p>注重精神价值，思想会受到配偶和好朋友的影响，同时也会影响他们。能为他人着想，体谅他人，适合从事心理学、外交、谈判等工作。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>木星在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"深刻"</strong></p>
+      <p>富洞察力，不适合待在透明露骨没有神秘感的环境。追求深刻的体验，适合从事能让你观察并可以掌控的事务。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>木星在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"内涵"</strong></p>
+      <p>不适合待在平淡没有前景的环境里，追求层次，适合从事有内涵的事务如宗教、文学、哲学等。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>木星在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"领导"</strong></p>
+      <p>性情严肃，但令人尊敬。耐心专一，容易积聚财富，但可能因为吝啬而因小失大，适合去领导别人。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>木星在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"预见"</strong></p>
+      <p>不适合待在陈旧、死板、有歧视性的环境。追求革新，适合从事带有预见性的业务，比如投资、顾问等等。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>木星在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"灵感"</strong></p>
+      <p>富感受力，不适合待在冷酷不讲情面的环境，追求心意交流，适合从事靠直觉凭灵感的事务。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2.5rem 0 1rem;text-align:center;">♃ 木星在十二宫位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>木星在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>活动力很强，喜欢运动，生活忙碌，自信，喜欢自由。有自我膨胀的倾向，觉得自己无所不知，无所不能。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>木星在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有商业能力和宽大的胸襟，会带来财运，但如果相位不好，钱财则来得快去的也快。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>木星在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>乐观大方，对新鲜事物很热切，好学，但不彻底。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>木星在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>出身大家庭或者家庭关系和谐，拥有自在的生活空间。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>木星在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有赌运，凡事不会看得太严重。多才多艺但不精通。恋情多平顺自然，水到渠成，不用费太多波折。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>木星在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>在工作上是主角，与同事相处融洽。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>木星在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有仁爱之心，有强烈的正义感，会要求另一半是完美无暇的，事业运也很畅顺。如果相位不佳，会把事情看的太理所当然，会大意失荆州。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>木星在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有继承亲戚遗产的可能，而且可能价值不菲，与其它人也许有心灵感应，但落在天蝎座本位，可能晚年莫名其妙地死去。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>木星在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>追求精神层面和文化修养，有学问。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>木星在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>很看重自己的名声，希望被人视为有理想也有深度，但容易沽名钓誉。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>木星在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>不缺贵人，对朋友的事很热心，满脑子的想法，但落于实际的不多。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>木星在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>仁慈好客，喜欢奉献，遭遇困难很有谋略。非常依赖别人对你的反应，但自我纵容，容易草率行事。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第十二章：土星详解 -->
+<section id="saturn">
+  <h2 class="section-title">土星详解</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">土星代表的是压力源泉，落在不同的星座位置和宫位会有不同的压力源泉</p>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♄ 土星在十二星座</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>土星在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"自卫"</strong></p>
+      <p>土星在牡羊座是下降的，这样自己的动力和能力反而会成为压力所在，进而很保护自己，总是觉得别人是对立的，很难与沟通及合作，独断独行，自私自利。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>土星在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"安全"</strong></p>
+      <p>对在财务和情感上的安全感有强烈的需要，有耐心而且有决心，实事求是。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>土星在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"压抑"</strong></p>
+      <p>有逻辑头脑，能冷静理智的处理事务。土星在双子座增加了纪律性，使心智更加实际。但一贯的冷静也会出现问题，如果过分忍耐压抑，可能会神经紧张。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>土星在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"环境"</strong></p>
+      <p>很在乎生活环境，稍有不足便浑身不自在。小心翼翼，不希望环境和人际关系变成负担，否则会心神不宁。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>土星在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"束缚"</strong></p>
+      <p>不太张扬，孤芳自赏，渴望与众不同，不喜欢束缚。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>土星在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"琐碎"</strong></p>
+      <p>工作严厉勤奋，重视细节和效率，但琐碎有时会造成烦恼。死板而让别人很难相处。闷闷不乐，很需要常常休息，但休息过后又会变得过度紧张。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>土星在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"失衡"</strong></p>
+      <p>举止得宜，进退有度，有耐心，理性冷静，一旦有了决定就很坚持，但对事情的均衡性和公平性非常在乎。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>土星在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"暴露"</strong></p>
+      <p>不容易与他人进行心灵深处的对话，暴露内心会非常的不舒服，你渴望权力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>土星在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"自尊"</strong></p>
+      <p>认真严谨，有智慧而且贯彻始终，追求专注的态度。很害怕别人的责难及反对，个人的荣誉极端重要。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>土星在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"欲望"</strong></p>
+      <p>野心勃勃，坚毅不拔，谨慎实际，看起来冷酷严峻，但强烈的欲望会神经变得紧绷。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>土星在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"自我"</strong></p>
+      <p>负责忠诚，保持自我，独树一帜，但方式会被他人误解，缺乏沟通。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>土星在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"自卑"</strong></p>
+      <p>富有想象力，甚至过了头，容易活在回忆里，害怕面对现实。态度谦卑，观察别人很好但对自己却很不够，容易低估自己。反应过于情绪化，自怜自艾。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2.5rem 0 1rem;text-align:center;">♄ 土星在十二宫位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>土星在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>持严肃高贵的人生态度，有责任感，勤奋努力，欠缺幽默感。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>土星在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>很怕穷，也很市侩，有野心去追求财富，但比较吝啬。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>土星在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>不善表达，常迟疑慎重，害羞，和人疏离，思维方式比较公式化，一旦不符合的就很难理解或不屑一顾。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>土星在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对家庭负有重大责任，父母通常很严格及保守，造成喜欢隐居或变得内向。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>土星在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有组织能力，和比自己年长很多的人可能会有感情经历，但通常又会变成沉重的责任，对爱情逃避，保守寡欢。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>土星在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>认真看待工作，具有善分析的头脑，但身体可能出现不好的状况，通常会由工作而引起。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>土星在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>婚姻不顺，可能晚婚，对选择比较严肃。即使结婚了，也可能婚姻生活乏味，有不少的压力与责任，感觉会越来越淡。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>土星在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>压抑自己的欲望，表面上对情欲权力金钱不在乎，但内心里却非常不满足，表里不一，伪善。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>土星在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>不喜欢远行，一远行就多有波折，这也会影响学习上的运气，重考等多次申请的情况都有可能。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>土星在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>很在乎别人对你的观感，期望出人头地，但如果过早或者过顺利地成功，往往因为缺乏警惕而瞬间丧失。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>土星在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>与群体的关系有点差，不易与人建立情谊，但一旦建立就很忠诚，可以说是重质不重量，但多少还是有些不合群。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>土星在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>缺少别人的关怀，不喜欢面对陌生环境，需要自己摸索和建立信心，不喜欢干涉别人，但又有点任人摆布。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第十三章：三王星详解 -->
+<section id="outer">
+  <h2 class="section-title">三王星详解</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">天王星、海王星、冥王星属于超个人星体群，星座位置区别度降低，宫位的重要性开始凸现</p>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♅ 天王星详解</h3>
+  <p style="text-align:center;color:var(--muted);margin-bottom:1.5rem;font-size:0.85rem;">天王星代表的是灵魂和感知，周期约84年</p>
+
+  <h4 style="font-family:var(--font-display);color:var(--accent2);margin:1.5rem 0 1rem;">天王星在十二星座</h4>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>天王星在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"神经"</strong>（约1928-1934年）</p>
+      <p>标准的开路先锋，言语激烈，感觉很强烈也很肯定，有一种不寻常的神经能量。如果运用不得当，会个性叛逆，不圆滑世故，缺乏自我控制，而且过分狂热。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>天王星在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"物质"</strong>（约1935-1942年）</p>
+      <p>过于重视物质和享受，也是灵魂所在，对其他的东西非常漠然或者一窍不通。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>天王星在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"混乱"</strong>（约1942-1949年）</p>
+      <p>聪明，但由于感知太多而变动不安，很难从头到尾遵循一种想法。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>天王星在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"敏感"</strong>（约1949-1956年）</p>
+      <p>不喜欢家人所建立的生活形式，喜欢四处飘荡，敏感有直觉，情绪有波动，不稳定也不理智。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>天王星在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"放肆"</strong>（约1956-1962年）</p>
+      <p>对自己的看法很肯定，而且固执，自我欣赏，对人性有深入的了解，但过于无拘无束，天马行空。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>天王星在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"厌恶"</strong>（约1962-1968年）</p>
+      <p>讲究务实，有原则，够实际，实事求是，不喜欢去感知。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>天王星在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"平等"</strong>（约1968-1975年）</p>
+      <p>对两性、婚姻、从属关系的态度崇尚正义和平等，不喜欢挑战。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>天王星在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"吸引"</strong>（约1975-1981年）</p>
+      <p>情感强烈，态度大胆，精力充沛，对吸引力感知很敏锐。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>天王星在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"灵学"</strong>（约1981-1988年）</p>
+      <p>对宗教、哲学等接触深层次精神领域的东西有感知。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>天王星在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"复古"</strong>（约1988-1994年）</p>
+      <p>经过两个星座位的跳跃，感知开始回归传统，能够接受旧事物，并以崭新的方式来看待。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>天王星在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"强烈"</strong>（约1995-2002年）</p>
+      <p>不同于在狮子座的放肆，在水瓶座的感知具有穿透力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>天王星在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"理想"</strong>（约2002-2008年）</p>
+      <p>感知开始变得理想化，但又趋于温和地去感知。</p>
+    </div>
+  </div>
+
+  <h4 style="font-family:var(--font-display);color:var(--accent2);margin:1.5rem 0 1rem;">天王星在十二宫位</h4>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>天王星在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有强烈的自我风格，独立性强，不愿言听计从。言行举止直接坦白，相信自己的直觉，不大理会他人的想法。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>天王星在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>物质与钱财可以提供更多的自由，如果相位不好，钱财的缺少会使得对生活极其缺乏信心。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>天王星在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>看事情的角度往往与人不同，常注意别人不太在意的地方。心思转动很快，与手足的关系有些不寻常。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>天王星在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有不寻常的家庭生活及关系，家庭状况可能产生很多改变，与家庭成员的相处非常困难。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>天王星在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>会有偶然的邂逅，而且很深刻，但凋谢的也快，不会固守传统的道德观念，倾向追求享乐的刺激。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>天王星在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>工作关系良好，如果相位不好，会工作地点不稳定。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>天王星在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>渴望自由的婚姻，厌恶被伴侣束缚，但又欠缺自制力，行为不可预测。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>天王星在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>放纵情欲为享受，一朝梦醒恨几多。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>天王星在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有先进的思想，常偏离正轨，对新潮的观念有兴趣，且有理想化的倾向。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>天王星在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>非常激进，喜欢与上层的人唱反调，且意志力坚强。生命中可能会出现祸福难辨的经历。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>天王星在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>重视友谊，物以类聚，在乎理念的分享。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>天王星在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>山穷水尽疑无路，柳暗花明又一村。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2.5rem 0 1rem;text-align:center;">♆ 海王星详解</h3>
+  <p style="text-align:center;color:var(--muted);margin-bottom:1.5rem;font-size:0.85rem;">海王星代表的是幻觉和臆想，周期约164年</p>
+
+  <h4 style="font-family:var(--font-display);color:var(--accent2);margin:1.5rem 0 1rem;">海王星在十二星座</h4>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>海王星在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"使命"</strong>（约1861-1874年）</p>
+      <p>有强烈的使命感，表现出很大的想象力和创造力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>海王星在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"安全"</strong>（约1874-1887年）</p>
+      <p>对安全感有强烈的幻想。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>海王星在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"新鲜"</strong>（约1887-1901年）</p>
+      <p>幻想新奇不同的经验，很难定得下来。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>海王星在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"根本"</strong>（约1901-1915年）</p>
+      <p>幻想基于根本的环境和感受。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>海王星在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"理想化"</strong>（约1915-1929年）</p>
+      <p>幻想和憧憬基于自己设计的向往。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>海王星在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"纠葛"</strong>（约1929-1943年）</p>
+      <p>幻想基于理智和情感的纠葛。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>海王星在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"和，平"</strong>（约1943-1956年）</p>
+      <p>幻想基于和平和均衡。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>海王星在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"探索"</strong>（约1956-1970年）</p>
+      <p>幻想基于对精神、灵魂甚至生死的探索。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>海王星在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"寄托"</strong>（约1970-1984年）</p>
+      <p>幻想基于对某种期望、理想和状态的寄托。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>海王星在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"结合"</strong>（约1984-1998年）</p>
+      <p>幻想基于对某些不同东西的结合，比如精神和现实。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>海王星在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"观望"</strong>（约1998-2012年）</p>
+      <p>没有太多的幻想，保持观望。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>海王星在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"精神"</strong>（约2012-2026年）</p>
+      <p>有灵感上的和精神上的幻想甚至有预知能力。</p>
+    </div>
+  </div>
+
+  <h4 style="font-family:var(--font-display);color:var(--accent2);margin:1.5rem 0 1rem;">海王星在十二宫位</h4>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>海王星在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>需要旁人指引来行事，没有什么主见，喜欢听别人心事，喜欢空想，而想法也常随着情绪改变。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>海王星在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>钱财的意义在于拥有它的感觉，认为钱财越多越接近梦想。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>海王星在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有很好的直觉和感应能力，甚至可能能预感到还未发生的事。有丰富的想像力，注意力不易集中，常分心，记性可能不是很好。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>海王星在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>情绪容易受到居家气氛的影响，任何的不和谐因素，都会是烦恼的开始。倾向于过着安然清淡的生活，一个宁静的世界。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>海王星在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>生性浪漫，喜欢热闹有气氛的场合，害怕曲终人散的场面。陶醉于彼此间的帮助和回报，这样会很有成就感。不害怕付出，但必须有回报。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>海王星在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>重视工作，如果相位良好，能很有效率。精神上的感应比较强烈，常有灵机一动；但如果相位不好，那么精神可能有问题。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>海王星在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>海王星落在夫妻宫，这样配偶通常会是自己幻想成为的那样的人，或者拥有很多幻想的特质。而且海王星是双鱼座的守护星，那么配偶可能会有双鱼座的色彩。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>海王星在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>喜欢肉体上的享受，但当有了这方面的放纵，又开始寻求其他的升华，乐于为伴侣做任何的配合与奉献。拥有敏锐的心灵能力，能感受到不寻常的讯息。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>海王星在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>会有令人讶异的直觉力，许多事都是由直觉获知。如果相位不佳，会对某种信仰或偶像崇拜。缺乏严谨地去思考事物的真正价值，对过于实用的事物没兴趣。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>海王星在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>喜欢在隐密单独的环境中工作，如果相位良好，能从经历中吸取经验；如果相位不好，就可能不够踏实，欺骗他人以满足自己，在工作上不值得信任，甚至可能失去工作机会。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>海王星在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>心太软，看到悲情的事情会心痛难过，乐善好施，喜欢助人。和朋友的关系很好，但不会做不明就理盲信盲从的事情。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>海王星在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>喜欢帮助别人，感受他人的心情，希望能有段时间独处，但一独处就开始胡思乱想。总有无助感，尤人不会，但常会怨天。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2.5rem 0 1rem;text-align:center;">♇ 冥王星详解</h3>
+  <p style="text-align:center;color:var(--muted);margin-bottom:1.5rem;font-size:0.85rem;">冥王星代表的是最深层层次的潜意识、原始的欲望和宿命，周期约248年</p>
+
+  <h4 style="font-family:var(--font-display);color:var(--accent2);margin:1.5rem 0 1rem;">冥王星在十二星座</h4>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♈</span>冥王星在牧羊座 <span class="sign-name">Aries</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"无边际"</strong>（约1823-1851年）</p>
+      <p>想象力几乎没有边际，需要自我约束。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♉</span>冥王星在金牛座 <span class="sign-name">Taurus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"永恒"</strong>（约1851-1883年）</p>
+      <p>耐心固执，不错的艺术能力，对于财富与永恒有着强烈的需要。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♊</span>冥王星在双子座 <span class="sign-name">Gemini</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"躁动"</strong>（约1883-1913年）</p>
+      <p>好动不安，冲动，有些许的言语讽刺和挑剔的毛病，这一切都来自潜意识里难以消除的躁动。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♋</span>冥王星在巨蟹座 <span class="sign-name">Cancer</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"安全"</strong>（约1913-1938年）</p>
+      <p>对安全有一种强烈的需要，并且想获得稳重和成熟。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♌</span>冥王星在狮子座 <span class="sign-name">Leo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"统治"</strong>（约1938-1957年）</p>
+      <p>很有自信，并有一种很大的权威感，有统治或控制一切的欲望。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♍</span>冥王星在处女座 <span class="sign-name">Virgo</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"分析"</strong>（约1958-1971年）</p>
+      <p>善于分析，有创造发明的才智，是个挑剔的完美主义者。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♎</span>冥王星在天平座 <span class="sign-name">Libra</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"革新"</strong>（约1971-1984年）</p>
+      <p>这是一个充满革新的位置，预示将在很多方面拥有着崭新的态度，比如审美、正义感等等。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♏</span>冥王星在天蝎座 <span class="sign-name">Scorpio</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"探索"</strong>（约1984-1996年）</p>
+      <p>从革新转入探索，会有奇妙的经历，甚至卷入格格不入的争斗中。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♐</span>冥王星在射手座 <span class="sign-name">Sagittarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"重生"</strong>（约1749-1762年）</p>
+      <p>精神上的重生，个人自由变得流行和重要。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♑</span>冥王星在魔羯座 <span class="sign-name">Capricorn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"坚毅"</strong>（约1762-1778年）</p>
+      <p>有毅力，有野心，保守实际，在精神方面是强者。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♒</span>冥王星在水瓶座 <span class="sign-name">Aquarius</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"自由"</strong>（约1778-1798年）</p>
+      <p>不守传统，热爱自由，追求真理或者某种信仰。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♓</span>冥王星在双鱼座 <span class="sign-name">Pisces</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p><strong style="color:var(--accent2)">"牺牲"</strong>（约1798-1823年）</p>
+      <p>容易受环境影响，敏感慈善，能够牺牲自我，甚至有时候达到病态的地步。</p>
+    </div>
+  </div>
+
+  <h4 style="font-family:var(--font-display);color:var(--accent2);margin:1.5rem 0 1rem;">冥王星在十二宫位</h4>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅰ</span>冥王星在第一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有很重的忧患意识，不相信长久，常常会自己吓自己，不轻易显露情绪，也活得不轻松。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅱ</span>冥王星在第二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>冥王星落在这里影响了财运，对金钱始终会有强烈的渴望，但始终到不了手。就算一时有了一些，但有起有落，可能很快就会失去。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅲ</span>冥王星在第三宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>擅于用言词来展现自己的力量，洞察力比较敏锐，有时会有一些古怪甚至邪恶的想法，情绪复杂。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅳ</span>冥王星在第四宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>冥王星落在这里会增强与家人的关系，如果本身的相位不好，而且和家庭成员某一人的合盘相位在海王星处不好，就会对这个人造成很大的影响。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅴ</span>冥王星在第五宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>情感表现有点迸发式，可能别人不大容易接受。如果相位不好，就会有控制欲。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅵ</span>冥王星在第六宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>人生观会比较正面，但太过严肃，给别人带去压力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅶ</span>冥王星在第七宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>冥王星落在夫妻宫，多半会和配偶（真正意义上的配偶）有着某种注定的缘分，但注定的意思就是要存在很多的纠缠和矛盾，不过也扯不开。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅷ</span>冥王星在第八宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>欲念隐藏但又强烈，等待着释放，"温文尔雅"突然变成"豺狼野兽"，因为冥王星落在天蝎座本位的宫位上，而冥王星是天蝎座的守护星。直觉和感应很强，不能看到激情澎湃或者紧张刺激的场面，否则会特别激动。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅸ</span>冥王星在第九宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>"打破沙锅问到底"，对一件事总喜欢深究，不会调整自己。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅹ</span>冥王星在第十宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>与亲人的关系有些疏远，不是很贴心，常常会出现取舍的时候，而且可能舍的往往比得到更重要，但迫不得已。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅺ</span>冥王星在第十一宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>处理人际关系比较有问题，特别是朋友，常常会有去利用他的用心，对人不是太会尊重。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">Ⅻ</span>冥王星在第十二宫</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对窄小、阴暗和孤独的环境有着很强的恐惧，经常有忐忑不安的情绪，总想低调。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 第十四章到第十七章：相位详解 -->
+<section id="aspects">
+  <h2 class="section-title">相位详解</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">相位是星盘里某个星体与其他的星体的关系，用这两个星体分别与星盘中心的连线所构成的夹角来表示</p>
+
+  <div class="card expanded">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">📐</span>相位基础</div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>相位表示的其实是星盘中某两个星体所代表的特质的纠葛关系，比如太阳刑月亮，这说明太阳和月亮之间没有任何互动而且相互起反作用，那么这能有2点暗示：1）外在人格和内心世界有冲突，也就是所思非所做，自己想要什么可能自己都不知道；2）父母感情不好。</p>
+      <p>严格意义上来讲，对这5种特殊角度，一出现就要分析。但就个人而言，看相位主要是解决前面看完星座位和宫位之后遗留下来的问题。</p>
+      <p>通过对星体在先天十二星座和后天十二宫的落位解释，很多的信息已经被解读了出来，但仍然有很多不和谐因素，比如在解释上的矛盾。出现这类情况，如果测算人的水平不算很差的话，通常都是出现了特殊夹角，而且是出现矛盾的这两个星体之间。此外，在前面解释中看起来很和谐的地方，可如果出现了特殊的相位，也需要我们重新加以重视。</p>
+      <p>但这5种关系并不是每个都特别需要看的，建议是：<strong>只看刑冲，如果会半合还有拱出现很多处，大可用"星体之间有很好的融合和互动"一笔带过。</strong></p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">☉ 太阳相位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳刑月亮 <span class="sign-name">Sun square Moon</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>自己想做什么想要什么，自己都不知道，常要花长时间来摸索。此外，父母关系可能不好。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳冲月亮 <span class="sign-name">Sun opposition Moon</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>自己常有矛盾的心理，想做的和要做的经常矛盾，而且做事不善始善终。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳刑水星 <span class="sign-name">Sun square Mercury</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>自己的性格影响了心智的发挥，小聪明或者不用在正途。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳冲水星 <span class="sign-name">Sun opposition Mercury</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>性格和心智互相制约，"本分"和"伎俩"处在一件事情的两端，自己难以决定。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳刑金星 <span class="sign-name">Sun square Venus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>感情不由自己的性格控制，可能容易泛滥，也可能过于心猿意马难以进行自我调节，恋爱中常会失去自我。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳冲金星 <span class="sign-name">Sun opposition Venus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>自己的感情和性格互相制约，可能会有分辨感情的情况出现，也就是说，自己喜欢的可能又是自己不该去喜欢的。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳刑火星 <span class="sign-name">Sun square Mars</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>过分好动和任性，行动带着强烈的情绪，处处受阻，而且会招致旁人的不满。缺乏控制，缺乏耐心，缺乏技巧。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳冲火星 <span class="sign-name">Sun opposition Mars</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>性格和行动力相互制约，可能常常很不适应自己所做的事情，或者所做的事情让自己觉得很压抑，但又难以放下不做。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳刑木星 <span class="sign-name">Sun square Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>自负骄傲，自以为是，不懂得谦虚，懒散拖拉。好高骛远，对小事不屑一顾，常忽略细节，不细心。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳冲木星 <span class="sign-name">Sun opposition Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>不容易受挫而气馁到低谷，但怎么自信也会觉得力有不及。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳刑土星 <span class="sign-name">Sun square Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>过于严肃，让人不敢接近，不会奉迎别人，也不会甜言蜜语。总有忧患意识，常觉得危险四伏，不够自信，但又非常渴望成功。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳冲土星 <span class="sign-name">Sun opposition Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>自己的性格经常给自己带来窘境和压力，而且自身所感受的压力也影响着自己的性格，这样就可能畏首畏尾，做事不够放得开。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳刑天王星 <span class="sign-name">Sun square Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>会有些奇异古怪的行为，甚至愚蠢的举动，想法有创意却不切实际，也缺乏足够完成目标的耐心。关键的时候，会因为紧张的情绪而作出不够理性的行为，功亏一篑。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳冲天王星 <span class="sign-name">Sun opposition Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>个人意志强烈，过度敏感，不易与朋友和同事相处。一意孤行，会引起许多人的不满，容易紧张，经常无来由地改变初衷。喜欢夸张，表现在语言和行动上，但目的可能仅仅为了吸引别人的注意。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳刑海王星 <span class="sign-name">Sun square Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>想像力通常会过于肆无忌惮，沉迷在自己构建的世界里，但仍然无法满足自己。会有严重的无助感，不敢面对现实，以逃避的方式来脱离责任和负担。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳冲海王星 <span class="sign-name">Sun opposition Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>经常为感情和人与人之间的关系感到困惑，在这方面的看法也常会有扭曲，对人产生偏见。非常重视情绪，但容易把与人之间的关系美化，容易受骗。但自己本身也是不可靠的，也会在无意中欺骗了别人。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳刑冥王星 <span class="sign-name">Sun square Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有无限的潜能，用来强加自己的意愿在别人的身上，希望能够控制别人，也可能有过度暴力的倾向。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☉</span>太阳冲冥王星 <span class="sign-name">Sun opposition Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>一边是自我，一边是欲念暗涌，坚持自己做不到，控制别人却也难为，最后摇摆于中间。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">☽ 月亮相位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮刑水星 <span class="sign-name">Moon square Mercury</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>容易紧张激动，对不合自己心意的东西没有耐性，想法过于执着于过去，拿不起放不下，缺乏客观性，心胸不开阔。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮冲水星 <span class="sign-name">Moon opposition Mercury</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>情绪化，凭感觉做事，容易焦虑不安。主观性强，容易妄下定论，罗罗嗦嗦，在人际关系上有点困扰，对别人的关心，可能往往被认为是困扰。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮刑金星 <span class="sign-name">Moon square Venus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对喜欢的人过于信任，所以经常受欺负，被占便宜。常常有不明智的恋情发生，晚婚甚至很难成婚。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮冲金星 <span class="sign-name">Moon opposition Venus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>情绪敏感，也有些自卑，沉醉于自己的幻想。过度放纵，不知道节制。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮刑火星 <span class="sign-name">Moon square Mars</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>冲动，脾气坏，缺乏耐性，不大会容忍和谦让。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮冲火星 <span class="sign-name">Moon opposition Mars</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>轻浮或者轻佻，情绪一旦失控就不好收拾，与周围人不合拍。男性有这个相位会对女人比较粗鲁，女人有这个相位会缺少温柔。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮刑木星 <span class="sign-name">Moon square Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>无论是什么样的情绪，都容易过头。会有轻率的举动，意志容易被动摇，做事犹豫不决。如果觉得自己有所成功，就会有懒惰的习惯，安逸奢侈。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮冲木星 <span class="sign-name">Moon opposition Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>过分仁慈或者善良，在付出这些善心的时候缺乏判断力，受人欺骗。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮刑土星 <span class="sign-name">Moon square Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>不愉快，比较忧郁，对生命和生活的看法比较悲观，缺少情绪性的活动。不敢表现自己的情绪，情感压抑，很多眼前的幸福追求不到。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮冲土星 <span class="sign-name">Moon opposition Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>内心和压力总有矛盾，自己的思绪让自己很压抑，但这些压抑又会滋生很多思绪，如此反复，生活比较灰色调，沉默寡言。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮刑天王星 <span class="sign-name">Moon square Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>容易紧张和兴奋，一旦这样就开始焦虑，情绪不容易安定。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮冲天王星 <span class="sign-name">Moon opposition Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>孤僻，而且性情不稳定，不好捉摸，不足以让人信赖，会有很多的社会关系，但都不会很长久。男性有这个相位会缺乏对家庭的责任感，女性有这个相位会反复无常。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮刑海王星 <span class="sign-name">Moon square Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>时常迷惑，沉溺于幻想，脱离现实，精神不大好。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮冲海王星 <span class="sign-name">Moon opposition Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>把自己的情绪施加到别人身上，倾诉或者控制，进而让一些周围的人变得和自己一样充满困惑，不负责任，精神上也开始承受痛苦。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮刑冥王星 <span class="sign-name">Moon square Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有刻意隐藏自己内心强烈思绪的倾向，很辛苦，一旦把持不住爆发出来，就是毁灭性的。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☽</span>月亮冲冥王星 <span class="sign-name">Moon opposition Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>心里想的是不是就是最后的结果，自己的命中注定是不是自己能支配的，明知不可为而为之，结果就是欲望强烈却又被纠缠，有始无终。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">☿ 水星相位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星刑金星 <span class="sign-name">Mercury square Venus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>很明显，心智和感情观刑，或者自己对感情的看法太过偏颇，不易和感情有缘；或者对感情的处理缺乏"技巧"。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星冲金星 <span class="sign-name">Mercury opposition Venus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>心智和感情观冲，在感情上的付出对方可能视而不见或者远远达不到自己的预期，如果金星其他的相位有辅助的话，会不费吹灰之力邂逅一段感情；如果相位都不是很好，那么感情就要有很多的波折，而且很难遂愿。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星刑火星 <span class="sign-name">Mercury square Mars</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>任性浪费，付出必须要有回报，对别人很热情，但到绝情的时候也非常不给面子。缺少耐性，欲念强烈。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星冲火星 <span class="sign-name">Mercury opposition Mars</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>容易和人冲突，不受欢迎，过份挑剔，过于主观，自以为是，非常敏感。如果火星本身的位置在旺势区，那么很有可能有利用别人来满足自己的倾向，特别是女人。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星刑木星 <span class="sign-name">Mercury square Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>想法丰富却无法落实，急于求成，浮躁草率。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星冲木星 <span class="sign-name">Mercury opposition Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>思绪丰富敏捷，但难以形成具体的想法。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星刑土星 <span class="sign-name">Mercury square Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>思绪活跃丰富或者平稳而缺乏，但无论怎样，都会给自己带来困扰，怀才不遇，郁郁不得志。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星冲土星 <span class="sign-name">Mercury opposition Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>经常会有压力的感觉，有释放压力的冲动，但没有太好的办法和途径，或者一边释放一边又在被新的压力困扰。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星刑天王星 <span class="sign-name">Mercury square Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>心智活泼，有创新力，但难免怪异和不实际。轻率而缺乏考量，个性倔强，不接受别人意见。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星冲天王星 <span class="sign-name">Mercury opposition Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>会有极端又怪异的想法，自大自满，而又总有突发奇想。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星刑海王星 <span class="sign-name">Mercury square Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>精神恍惚，想法不着边际，不能给人信赖。对于感到困惑不安的事情，采取消极沉默的方式。与人沟通有些困难，想法太过复杂，但又能看穿别人的心理。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星冲海王星 <span class="sign-name">Mercury opposition Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对别人的想法和动机有高度的敏感，能感应到他人的想法，但会秘密的进行策略，工于心计，容易引发旁人的误会。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星刑冥王星 <span class="sign-name">Mercury square Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>有敏锐的分析能力，但却不会委婉地表达自己，直来直去。不到一百分把握，不会把想法说出来，缺乏坦诚。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">☿</span>水星冲冥王星 <span class="sign-name">Mercury opposition Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>分析和思考的能力会总把一些事情弄得隐讳不明，或者太过专注于敏锐和深刻，让人无法理解。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♀ 金星相位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星刑火星 <span class="sign-name">Venus square Mars</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对感情的付出一定要有所回报，看到喜欢的东西就立刻想要，看到喜欢的异性也缺少耐性立刻想要拥有。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星冲火星 <span class="sign-name">Venus opposition Mars</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对感情的付出是经常走不到点儿上，做得再多可能也成效不大。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星刑木星 <span class="sign-name">Venus square Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>容易耽溺于个人享受，懒惰自夸，而且有些伪善，有掩饰自己的习惯。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星冲木星 <span class="sign-name">Venus opposition Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>脑子里有一个自己的审美和价值取向，但总感觉不到它在身边出现过。感情上也有矛盾，有感觉的人又有时觉得并不是想要的。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星刑土星 <span class="sign-name">Venus square Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>忧郁羞怯，谨言慎行，时常失望或者杞人忧天，情感上也得不到满足。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星冲土星 <span class="sign-name">Venus opposition Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>情绪低落，觉得生命很艰难甚至很痛苦，天性冷淡，承受着很大的负担。感情上也是郁郁寡欢，不快乐而且不够负责任。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星刑天王星 <span class="sign-name">Venus square Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>不喜欢扎堆儿，也不喜欢一群人来打扰，自由是向往，也是生活准则。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星冲天王星 <span class="sign-name">Venus opposition Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>受外界干扰很多，导致自己的价值观左右摇摆，感情上也受到困扰，总是有些迷失方向。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星刑海王星 <span class="sign-name">Venus square Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>情绪很复杂，这复杂的情绪或者喜欢被压抑或者喜欢被释放。感情上不大放得开，喜欢偷偷摸摸地进行，也比较敏感。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星冲海王星 <span class="sign-name">Venus opposition Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>情绪被价值拉锯，不见得是凡见到自己喜欢的就会高兴，有可能会和自己眼里并不是"完美"甚至十万八千里远的人成就缘份。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星刑冥王星 <span class="sign-name">Venus square Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>欲望很强烈，进而去控制对方，满足自己的需求。而且也有可能出现"天灾"，横生生让你和对方分开。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♀</span>金星冲冥王星 <span class="sign-name">Venus opposition Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>道德观淡薄或者存在一些远强于道德观的欲望，总之可能无法控制自己，走火入魔。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♂ 火星相位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星刑木星 <span class="sign-name">Mars square Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>个人的愿望和欲望很强烈，以至于自己无论如何都要实现，可能会有些不择手段，利用周围的人。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星冲木星 <span class="sign-name">Mars opposition Jupiter</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>出现两个极端：欲壑难填，或者得到的超过自己的预期而开始惴惴不安。行动上，对道德等枷锁考虑的太多，有些束手束脚。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星刑土星 <span class="sign-name">Mars square Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>行动上经常受挫，悲观失望，人际关系也不好，自我约束比较多，总体上说环境有些严峻，艰苦或者压抑。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星冲土星 <span class="sign-name">Mars opposition Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>同样时常会受挫，但不太会约束自己，用宣泄的方式表现出来，言语和行为可能有些过激，为人不大友善，也没什么同情心。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星刑天王星 <span class="sign-name">Mars square Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>行动上比较冲动，不考虑结果，自以为是。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星冲天王星 <span class="sign-name">Mars opposition Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>行动上对结果或者目标考虑的太多，患得患失。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星刑海王星 <span class="sign-name">Mars square Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>会经常感到压抑，对待这种压抑有两种可能：压制自己进而焦躁不安，或者爆发出来进而过于放纵。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星冲海王星 <span class="sign-name">Mars opposition Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>难以控制自己的欲望，特别是想付诸于实际的欲望，慢慢地自己都不清楚自己的目的，有些极端和情绪化。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星刑冥王星 <span class="sign-name">Mars square Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>固执好逞强，不撞南墙不回头，常常受到挫折，但屡败屡战。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♂</span>火星冲冥王星 <span class="sign-name">Mars opposition Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>一切为了欲望，哪怕对不起良心，而且比较专制。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♃♄ 木星与土星相位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♃</span>木星刑土星 <span class="sign-name">Jupiter square Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>运气不是很好，无论是财运赌运还是什么，对事物的判断也常出现失误。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♃</span>木星冲土星 <span class="sign-name">Jupiter opposition Saturn</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>直觉和行动力相制约，有时候所做的不是自己预期的或者是迫于无奈，有时候感觉上能实现的事情做起来却无法企及。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♃ 木星与外行星相位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♃</span>木星刑天王星 <span class="sign-name">Jupiter square Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>过分冲动，不切实际，为小事而倾注全力，没有大局观，不会深思熟虑。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♃</span>木星冲天王星 <span class="sign-name">Jupiter opposition Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>想法过于拘束，没有创新力，固步自封。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♃</span>木星刑海王星 <span class="sign-name">Jupiter square Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>过度的情绪化和不切实际，忧患意识很差，言出不行，缺乏自我约束力。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♃</span>木星冲海王星 <span class="sign-name">Jupiter opposition Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>感觉比较复杂，左右摇摆，有时发生混乱，一会觉得这是对的，一会又觉得那个是对的，不是犹豫不决，而是分辨不清。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♃</span>木星刑冥王星 <span class="sign-name">Jupiter square Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>自大固执，不大受别人欢迎。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♃</span>木星冲冥王星 <span class="sign-name">Jupiter opposition Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>对自己比较怀疑。</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);color:var(--accent);margin:2rem 0 1rem;text-align:center;">♄ 土星与外行星相位</h3>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♄</span>土星刑天王星 <span class="sign-name">Saturn square Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>经常有很多的想法和念头，会给自己造成困惑。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♄</span>土星冲天王星 <span class="sign-name">Saturn opposition Uranus</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>想法和对策总是到了危难关头或者紧急时刻才会有。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♄</span>土星刑海王星 <span class="sign-name">Saturn square Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>经常恐惧焦虑，精神有些脆弱，很容易身心疲惫，也有点自我封闭，总有逃避的念头。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♄</span>土星冲海王星 <span class="sign-name">Saturn opposition Neptune</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>自己的精神和幻想带给自己不小的压力，同时承受的压力也让自己担忧，不会去逃避，但力犹不及。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♄</span>土星刑冥王星 <span class="sign-name">Saturn square Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>深思熟虑或者处心积虑，计划总在隐秘中进行，暗自揣摩。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="card-title"><span class="card-icon">♄</span>土星冲冥王星 <span class="sign-name">Saturn opposition Pluto</span></div>
+      <span class="card-toggle">▼</span>
+    </div>
+    <div class="card-body">
+      <p>漫漫长路其修远兮，汝将上下而求索。</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+<!-- 互动工具 -->
+<section id="tools">
+  <h2 class="section-title">互动工具</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:2rem;font-size:0.9rem;">简易占星工具，助你快速了解自己的星盘信息</p>
+
+  <div class="tool-section" id="calc">
+    <h3 class="tool-title">简易星盘计算器</h3>
+    <div class="tool-grid">
+      <div class="tool-input-group">
+        <label>出生日期</label>
+        <input type="date" id="birthDate" value="1990-01-01">
+      </div>
+      <div class="tool-input-group">
+        <label>出生时间（小时）</label>
+        <input type="number" id="birthHour" min="0" max="23" value="12" placeholder="0-23">
+      </div>
+      <div class="tool-input-group">
+        <label>出生地点（城市）</label>
+        <input type="text" id="birthCity" placeholder="例如：北京">
+      </div>
+      <div class="tool-input-group">
+        <label>性别</label>
+        <select id="gender">
+          <option value="male">男</option>
+          <option value="female">女</option>
+        </select>
+      </div>
+    </div>
+    <button class="tool-btn" onclick="calculateChart()">计算星盘</button>
+    <div class="tool-result" id="chartResult">
+      <h4>计算结果</h4>
+      <div class="result-item"><span class="result-label">太阳星座</span><span class="result-value" id="resSun">-</span></div>
+      <div class="result-item"><span class="result-label">月亮星座（近似）</span><span class="result-value" id="resMoon">-</span></div>
+      <div class="result-item"><span class="result-label">上升星座（近似）</span><span class="result-value" id="resAsc">-</span></div>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--rule);">
+        <p style="color:var(--muted);font-size:0.85rem;margin-bottom:0.5rem;"><strong style="color:var(--accent2)">基本解读：</strong></p>
+        <p id="chartInterpretation" style="font-size:0.9rem;">-</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-section" style="margin-top:2rem;">
+    <h3 class="tool-title">行星落位查询</h3>
+    <div class="tool-grid">
+      <div class="tool-input-group">
+        <label>选择行星</label>
+        <select id="lookupPlanet">
+          <option value="sun">太阳</option>
+          <option value="moon">月亮</option>
+          <option value="mercury">水星</option>
+          <option value="venus">金星</option>
+          <option value="mars">火星</option>
+          <option value="jupiter">木星</option>
+          <option value="saturn">土星</option>
+          <option value="uranus">天王星</option>
+          <option value="neptune">海王星</option>
+          <option value="pluto">冥王星</option>
+        </select>
+      </div>
+      <div class="tool-input-group">
+        <label>选择星座</label>
+        <select id="lookupSign">
+          <option value="aries">牧羊座</option>
+          <option value="taurus">金牛座</option>
+          <option value="gemini">双子座</option>
+          <option value="cancer">巨蟹座</option>
+          <option value="leo">狮子座</option>
+          <option value="virgo">处女座</option>
+          <option value="libra">天平座</option>
+          <option value="scorpio">天蝎座</option>
+          <option value="sagittarius">射手座</option>
+          <option value="capricorn">魔羯座</option>
+          <option value="aquarius">水瓶座</option>
+          <option value="pisces">双鱼座</option>
+        </select>
+      </div>
+    </div>
+    <button class="tool-btn" onclick="lookupPlanetSign()">查询解读</button>
+    <div class="tool-result" id="lookupResult">
+      <h4>查询结果</h4>
+      <p id="lookupText" style="font-size:0.9rem;">-</p>
+    </div>
+  </div>
+
+  <div class="tool-section" style="margin-top:2rem;" id="phase">
+    <h3 class="tool-title">相位查询</h3>
+    <div class="tool-grid">
+      <div class="tool-input-group">
+        <label>行星A</label>
+        <select id="aspectPlanetA">
+          <option value="sun">太阳</option>
+          <option value="moon">月亮</option>
+          <option value="mercury">水星</option>
+          <option value="venus">金星</option>
+          <option value="mars">火星</option>
+          <option value="jupiter">木星</option>
+          <option value="saturn">土星</option>
+          <option value="uranus">天王星</option>
+          <option value="neptune">海王星</option>
+          <option value="pluto">冥王星</option>
+        </select>
+      </div>
+      <div class="tool-input-group">
+        <label>行星B</label>
+        <select id="aspectPlanetB">
+          <option value="moon">月亮</option>
+          <option value="sun">太阳</option>
+          <option value="mercury">水星</option>
+          <option value="venus">金星</option>
+          <option value="mars">火星</option>
+          <option value="jupiter">木星</option>
+          <option value="saturn">土星</option>
+          <option value="uranus">天王星</option>
+          <option value="neptune">海王星</option>
+          <option value="pluto">冥王星</option>
+        </select>
+      </div>
+      <div class="tool-input-group">
+        <label>相位类型</label>
+        <select id="aspectType">
+          <option value="square">刑（90°）</option>
+          <option value="opposition">冲（180°）</option>
+          <option value="conjunction">会（0°）</option>
+          <option value="sextile">半合（60°）</option>
+          <option value="trine">拱（120°）</option>
+        </select>
+      </div>
+    </div>
+    <button class="tool-btn" onclick="lookupAspect()">查询相位</button>
+    <div class="tool-result" id="aspectResult">
+      <h4>相位解读</h4>
+      <p id="aspectText" style="font-size:0.9rem;">-</p>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator"><span>✦</span></div>
+
+</main>
+</div>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <p>阿波菲斯·龙之魔法 | 占星学大百科</p>
+  <p style="margin-top:0.5rem;opacity:0.7;">探索天体与人类命运的深层联系</p>
+  <p style="margin-top:0.5rem;opacity:0.5;font-size:0.7rem;">内容仅供学习参考，星盘解读需结合专业占星知识</p>
+</footer>
+
+<!-- 回到顶部 -->
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="回到顶部">▲</button>
+
+<script>
+// ====== 卡片折叠功能 ======
+function toggleCard(header) {
+  const card = header.parentElement;
+  card.classList.toggle('expanded');
+}
+
+// ====== 目录折叠功能 ======
+function toggleToc(title) {
+  title.classList.toggle('expanded');
+  const links = title.nextElementSibling;
+  if (links) links.classList.toggle('collapsed');
+}
+
+// ====== 滚动进度条 ======
+function updateProgressBar() {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  document.getElementById('progressBar').style.width = progress + '%';
+}
+window.addEventListener('scroll', updateProgressBar);
+
+// ====== TOC 高亮 ======
+function updateTocActive() {
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('.toc-link');
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    if (window.scrollY >= sectionTop - 150) {
+      current = section.getAttribute('id');
+    }
+  });
+  tocLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+}
+window.addEventListener('scroll', updateTocActive);
+
+// ====== 回到顶部 ======
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 500) {
+    backToTop.classList.add('show');
+  } else {
+    backToTop.classList.remove('show');
+  }
+});
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ====== 粒子背景 ======
+function createParticles() {
+  const container = document.getElementById('particles');
+  if (!container) return;
+  const count = window.innerWidth < 768 ? 20 : 40;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (10 + Math.random() * 20) + 's';
+    p.style.animationDelay = (Math.random() * 15) + 's';
+    p.style.opacity = 0.3 + Math.random() * 0.4;
+    const size = 1 + Math.random() * 2;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    container.appendChild(p);
+  }
+}
+createParticles();
+
+// ====== 移动端导航 ======
+const navToggle = document.getElementById('navToggle');
+const navBar = document.getElementById('navBar');
+if (navToggle && navBar) {
+  navToggle.addEventListener('click', () => {
+    navBar.classList.toggle('open');
+  });
+}
+
+// ====== 星盘计算器 ======
+function calculateChart() {
+  const dateStr = document.getElementById('birthDate').value;
+  const hour = parseInt(document.getElementById('birthHour').value) || 12;
+  if (!dateStr) {
+    alert('请选择出生日期');
+    return;
+  }
+  const date = new Date(dateStr);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  // 太阳星座计算
+  const sunSigns = [
+    {name:'魔羯座',start:[1,1],end:[1,19]},
+    {name:'水瓶座',start:[1,20],end:[2,18]},
+    {name:'双鱼座',start:[2,19],end:[3,20]},
+    {name:'牧羊座',start:[3,21],end:[4,19]},
+    {name:'金牛座',start:[4,20],end:[5,20]},
+    {name:'双子座',start:[5,21],end:[6,21]},
+    {name:'巨蟹座',start:[6,22],end:[7,22]},
+    {name:'狮子座',start:[7,23],end:[8,22]},
+    {name:'处女座',start:[8,23],end:[9,22]},
+    {name:'天平座',start:[9,23],end:[10,23]},
+    {name:'天蝎座',start:[10,24],end:[11,22]},
+    {name:'射手座',start:[11,23],end:[12,21]},
+    {name:'魔羯座',start:[12,22],end:[12,31]}
+  ];
+  let sunSign = '魔羯座';
+  for (const s of sunSigns) {
+    const sMonth = s.start[0], sDay = s.start[1];
+    const eMonth = s.end[0], eDay = s.end[1];
+    if ((month === sMonth && day >= sDay) || (month === eMonth && day <= eDay) ||
+        (sMonth > eMonth && ((month === sMonth && day >= sDay) || (month === eMonth && day <= eDay)))) {
+      sunSign = s.name;
+      break;
+    }
+  }
+
+  // 简化月亮星座（基于日期偏移）
+  const moonSigns = ['牧羊座','金牛座','双子座','巨蟹座','狮子座','处女座','天平座','天蝎座','射手座','魔羯座','水瓶座','双鱼座'];
+  const dayOfYear = Math.floor((date - new Date(date.getFullYear(),0,0)) / 86400000);
+  const moonIndex = Math.floor((dayOfYear + hour * 2) % 12);
+  const moonSign = moonSigns[moonIndex];
+
+  // 简化上升星座（基于小时）
+  const ascSigns = ['牧羊座','金牛座','双子座','巨蟹座','狮子座','处女座','天平座','天蝎座','射手座','魔羯座','水瓶座','双鱼座'];
+  const ascIndex = Math.floor((hour + 6) % 12);
+  const ascSign = ascSigns[ascIndex];
+
+  document.getElementById('resSun').textContent = sunSign;
+  document.getElementById('resMoon').textContent = moonSign + '（简化计算）';
+  document.getElementById('resAsc').textContent = ascSign + '（简化计算）';
+
+  // 基本解读
+  const interpretations = {
+    '牧羊座':'热情奔放，有竞争力，勇敢独立。',
+    '金牛座':'忠实耐心，稳定彻底，重视物质安全感。',
+    '双子座':'好奇心强烈，善于表达，机智伶俐。',
+    '巨蟹座':'坚持持久，直觉不错，有同情心。',
+    '狮子座':'理想浪漫，乐观自信，有创造力。',
+    '处女座':'勤劳好学，精确求真，讲求完美。',
+    '天平座':'公正高雅，爱好艺术，交际广阔。',
+    '天蝎座':'足智多谋，果断坚决，观察力好。',
+    '射手座':'坦率慷慨，心胸宽广，乐观正义。',
+    '魔羯座':'谨慎实际，勤奋节俭，负责严肃。',
+    '水瓶座':'独立创新，求知宽容，有逻辑。',
+    '双鱼座':'善解人意，感情丰富，有牺牲精神。'
+  };
+  document.getElementById('chartInterpretation').textContent =
+    '太阳在' + sunSign + '：' + (interpretations[sunSign] || '') +
+    ' 月亮在' + moonSign + '，上升在' + ascSign +
+    '。注意：月亮和上升星座为简化算法，仅供参考。精确计算需要专业占星软件。';
+
+  document.getElementById('chartResult').classList.add('show');
+}
+
+// ====== 行星落位查询 ======
+const planetSignData = {
+  sun: {
+    aries:'坦白，自信，焦躁。真情流露、坦白开放，但也十分自我中心和孩子气。',
+    taurus:'实际，耐心，顽固。十分重视物质，拥有金钱与安全感是不可或缺的生存条件。',
+    gemini:'自由，活力，善变。自由自主，喜欢寻求刺激，精力充沛，但容易厌倦。',
+    cancer:'重情，低调，消极。喜欢安全、温暖，很在乎别人对你的看法。',
+    leo:'大方，执着，倨傲。强烈直接，喜欢别人顺从自己的心意，需要满足感。',
+    virgo:'谨慎，理智，苛刻。喜欢秩序，喜欢分析，行事非常审慎。',
+    libra:'周详，优雅，犹豫。注重维持平衡，感性优雅，迷人幽默。',
+    scorpio:'坚决，深刻，极端。喜欢隐藏，有坚决的意志力和耐力。',
+    sagittarius:'理想，直率，散漫。喜欢自由，喜欢冒险，带有理想主义色彩。',
+    capricorn:'抱负，冷静，压抑。谨慎负责，欲望很强，保守有耐心。',
+    aquarius:'独特，个性，超脱。喜欢独立，喜欢新颖，有个人主义倾向。',
+    pisces:'感性，亲切，敏感。喜欢感觉，喜欢想像，对人的态度亲切友善。'
+  },
+  moon: {
+    aries:'紧张，易怒。心理比较紧张，易怒但过后又感到后悔。',
+    taurus:'稳定，享受。情感表现非常稳定，对于物质有一定要求，喜欢享受人生。',
+    gemini:'善变，泛滥。心理多变，情绪容易泛滥。',
+    cancer:'内敛，依赖。家庭和家人比功成名就重要，对亲人的依赖心很重。',
+    leo:'乐观，自我。个性高贵而宽宏，积极自信，坚持己见。',
+    virgo:'朴实，抑郁。注重实际，性格稳定，不大容易乐观起来。',
+    libra:'悠闲，均衡。心理均衡，悠然自得。',
+    scorpio:'强烈，欲望。感情强烈，易动感情，毅力坚定。',
+    sagittarius:'无羁，跳跃。保持新鲜感是准则，不喜欢被约束。',
+    capricorn:'压抑，严肃。情绪克制力强，不易展现柔情。',
+    aquarius:'超脱。对情感的依赖性太低，不易为情伤神。',
+    pisces:'丰富，天真。情绪太容易泛滥，很能体会他人的感受。'
+  },
+  mercury: {
+    aries:'创新，自负。有开创性，喜欢新观念与冒险。',
+    taurus:'保守。生性固执，爱憎分明，保守谨慎。',
+    gemini:'机智，分散。脑筋灵活，机智伶俐，表达能力很强。',
+    cancer:'直觉，消极。直觉能力很强，在精神上显得消极被动。',
+    leo:'完美。这是水星非常优秀的一个良好位置。',
+    virgo:'逻辑，挑剔。缺乏自信，斟酌细节，重视逻辑。',
+    libra:'精确，复杂。心智能力倾向于精确。',
+    scorpio:'敏锐，苛刻。坚信自己的观点，感觉敏锐，多疑。',
+    sagittarius:'坦率，开阔。坦率，不喜欢欺瞒，心胸开阔。',
+    capricorn:'周到，沉着。组织能力强，思虑周到，注意细节。',
+    aquarius:'客观。客观，尊重他人，不太以自身利益来思考事情。',
+    pisces:'感性，起伏。对事情的观点不是来自理性，而是感觉。'
+  },
+  venus: {
+    aries:'注重表象，热得快冷得快。注重外貌，积极主动但容易冷却。',
+    taurus:'注重肉体，坚定热情。注重肉体的吸引，非常固执坚定。',
+    gemini:'注重新鲜，肤浅善变。注重新鲜感，感情无法持久。',
+    cancer:'注重依赖，温柔消极。注重依赖感，极端多愁善感。',
+    leo:'注重征服感，忠贞自我。注重成就感，对所爱的人比较忠贞。',
+    virgo:'注重稳定，节制保守。注重矜持和节制，态度被动及观望。',
+    libra:'注重情调，浪漫寡断。注重气氛，要的是两心相悦。',
+    scorpio:'注重情欲，专注极端。注重激情，有浓厚的肉欲。',
+    sagittarius:'注重回忆，恋旧但又常常update。不在乎天长地久，只在乎曾经拥有。',
+    capricorn:'注重回报，规划实际。注重被重视，认为浪漫是不实际的。',
+    aquarius:'注重距离，若即若离。注重沟通和距离，理智冷静。',
+    pisces:'注重付出，心甘情愿。注重感觉和付出，敏感容易感伤。'
+  },
+  mars: {
+    aries:'雷厉风行。想要做马上去做，只有三分钟热度。',
+    taurus:'按部就班。稳健专注，有耐性，不知疲倦。',
+    gemini:'技巧至上。反应灵敏，喜欢与人辩论。',
+    cancer:'无懈可击。大多数困难都会被平静缄默的手法解决。',
+    leo:'大方有度。积极投入，动机强烈，是天生的领袖人物。',
+    virgo:'高效冷酷。非常具有效率，但显得冷淡。',
+    libra:'理智思考。情绪平稳，三思后行，情理兼顾。',
+    scorpio:'强烈残忍。不带有感情，决心坚定。',
+    sagittarius:'浮华。喜欢挑战，但缺乏耐力。',
+    capricorn:'斗志昂扬。强烈有力，甚至比火星在牡羊座还要强烈。',
+    aquarius:'独树一帜。思考重于行动，沉着泰然面对挑战。',
+    pisces:'退求其次。不大与人争吵，遇到柔情攻势很快就被瓦解。'
+  },
+  jupiter: {
+    aries:'冒险。不适合待在保守的环境，追求自我突破。',
+    taurus:'经济。善于理财，适合经济方面的工作。',
+    gemini:'动脑。不适合待在隔绝僻静的环境，追求知识。',
+    cancer:'家业。事业为家庭着想，或者继承祖业。',
+    leo:'身份。积极自信，慷慨仁慈，但会讲求回报。',
+    virgo:'秩序。富执行力，适合有秩序重层次的事务。',
+    libra:'精神。注重精神价值，能为他人着想。',
+    scorpio:'深刻。富洞察力，追求深刻的体验。',
+    sagittarius:'内涵。追求层次，适合从事有内涵的事务。',
+    capricorn:'领导。性情严肃，耐心专一，适合去领导别人。',
+    aquarius:'预见。追求革新，适合从事带有预见性的业务。',
+    pisces:'灵感。富感受力，适合从事靠直觉凭灵感的事务。'
+  },
+  saturn: {
+    aries:'自卫。自己的动力和能力反而会成为压力所在。',
+    taurus:'安全。对在财务和情感上的安全感有强烈的需要。',
+    gemini:'压抑。有逻辑头脑，但过分忍耐压抑可能会神经紧张。',
+    cancer:'环境。很在乎生活环境，不希望环境和人际关系变成负担。',
+    leo:'束缚。不太张扬，孤芳自赏，渴望与众不同。',
+    virgo:'琐碎。工作严厉勤奋，但琐碎有时会造成烦恼。',
+    libra:'失衡。举止得宜，但对事情的均衡性和公平性非常在乎。',
+    scorpio:'暴露。不容易与他人进行心灵深处的对话。',
+    sagittarius:'自尊。认真严谨，很害怕别人的责难及反对。',
+    capricorn:'欲望。野心勃勃，坚毅不拔，谨慎实际。',
+    aquarius:'自我。负责忠诚，保持自我，但方式会被他人误解。',
+    pisces:'自卑。富有想象力，容易活在回忆里，害怕面对现实。'
+  },
+  uranus: {
+    aries:'神经。标准的开路先锋，言语激烈，感觉很强烈。',
+    taurus:'物质。过于重视物质和享受。',
+    gemini:'混乱。聪明，但由于感知太多而变动不安。',
+    cancer:'敏感。不喜欢家人所建立的生活形式，喜欢四处飘荡。',
+    leo:'放肆。对自己的看法很肯定，过于无拘无束。',
+    virgo:'厌恶。讲究务实，实事求是，不喜欢去感知。',
+    libra:'平等。对两性、婚姻的态度崇尚正义和平等。',
+    scorpio:'吸引。情感强烈，态度大胆，对吸引力感知很敏锐。',
+    sagittarius:'灵学。对宗教、哲学等深层次精神领域的东西有感知。',
+    capricorn:'复古。感知开始回归传统，能够接受旧事物。',
+    aquarius:'强烈。感知具有穿透力。',
+    pisces:'理想。感知开始变得理想化，趋于温和。'
+  },
+  neptune: {
+    aries:'使命。有强烈的使命感，表现出很大的想象力和创造力。',
+    taurus:'安全。对安全感有强烈的幻想。',
+    gemini:'新鲜。幻想新奇不同的经验，很难定得下来。',
+    cancer:'根本。幻想基于根本的环境和感受。',
+    leo:'理想化。幻想和憧憬基于自己设计的向往。',
+    virgo:'纠葛。幻想基于理智和情感的纠葛。',
+    libra:'和，平。幻想基于和平和均衡。',
+    scorpio:'探索。幻想基于对精神、灵魂甚至生死的探索。',
+    sagittarius:'寄托。幻想基于对某种期望、理想和状态的寄托。',
+    capricorn:'结合。幻想基于对某些不同东西的结合。',
+    aquarius:'观望。没有太多的幻想，保持观望。',
+    pisces:'精神。有灵感上的和精神上的幻想甚至有预知能力。'
+  },
+  pluto: {
+    aries:'无边际。想象力几乎没有边际，需要自我约束。',
+    taurus:'永恒。耐心固执，对于财富与永恒有着强烈的需要。',
+    gemini:'躁动。好动不安，冲动，有言语讽刺和挑剔的毛病。',
+    cancer:'安全。对安全有一种强烈的需要，想获得稳重和成熟。',
+    leo:'统治。很有自信，有统治或控制一切的欲望。',
+    virgo:'分析。善于分析，有创造发明的才智。',
+    libra:'革新。充满革新的位置，预示崭新的态度。',
+    scorpio:'探索。从革新转入探索，会有奇妙的经历。',
+    sagittarius:'重生。精神上的重生，个人自由变得流行和重要。',
+    capricorn:'坚毅。有毅力，有野心，保守实际。',
+    aquarius:'自由。不守传统，热爱自由，追求真理。',
+    pisces:'牺牲。容易受环境影响，敏感慈善，能够牺牲自我。'
+  }
+};
+
+const planetNames = {
+  sun:'太阳', moon:'月亮', mercury:'水星', venus:'金星', mars:'火星',
+  jupiter:'木星', saturn:'土星', uranus:'天王星', neptune:'海王星', pluto:'冥王星'
+};
+const signNames = {
+  aries:'牧羊座', taurus:'金牛座', gemini:'双子座', cancer:'巨蟹座', leo:'狮子座', virgo:'处女座',
+  libra:'天平座', scorpio:'天蝎座', sagittarius:'射手座', capricorn:'魔羯座', aquarius:'水瓶座', pisces:'双鱼座'
+};
+
+function lookupPlanetSign() {
+  const planet = document.getElementById('lookupPlanet').value;
+  const sign = document.getElementById('lookupSign').value;
+  const data = planetSignData[planet];
+  const text = data && data[sign] ? data[sign] : '暂无该组合的详细解读。';
+  document.getElementById('lookupText').innerHTML =
+    '<strong style="color:var(--accent2)">' + planetNames[planet] + '在' + signNames[sign] + '</strong><br><br>' + text;
+  document.getElementById('lookupResult').classList.add('show');
+}
+
+// ====== 相位查询 ======
+const aspectData = {
+  'sun-moon-square': '自己想做什么想要什么，自己都不知道，常要花长时间来摸索。此外，父母关系可能不好。',
+  'sun-moon-opposition': '自己常有矛盾的心理，想做的和要做的经常矛盾，而且做事不善始善终。',
+  'sun-mercury-square': '自己的性格影响了心智的发挥，小聪明或者不用在正途。',
+  'sun-mercury-opposition': '性格和心智互相制约，"本分"和"伎俩"处在一件事情的两端，自己难以决定。',
+  'sun-venus-square': '感情不由自己的性格控制，可能容易泛滥，也可能过于心猿意马难以进行自我调节，恋爱中常会失去自我。',
+  'sun-venus-opposition': '自己的感情和性格互相制约，可能会有分辨感情的情况出现。',
+  'sun-mars-square': '过分好动和任性，行动带着强烈的情绪，处处受阻，而且会招致旁人的不满。',
+  'sun-mars-opposition': '性格和行动力相互制约，可能常常很不适应自己所做的事情。',
+  'sun-jupiter-square': '自负骄傲，自以为是，不懂得谦虚，懒散拖拉。',
+  'sun-jupiter-opposition': '不容易受挫而气馁到低谷，但怎么自信也会觉得力有不及。',
+  'sun-saturn-square': '过于严肃，让人不敢接近，总有忧患意识，不够自信，但又非常渴望成功。',
+  'sun-saturn-opposition': '自己的性格经常给自己带来窘境和压力，畏首畏尾，做事不够放得开。',
+  'sun-uranus-square': '会有些奇异古怪的行为，想法有创意却不切实际，功亏一篑。',
+  'sun-uranus-opposition': '个人意志强烈，过度敏感，不易与朋友和同事相处。',
+  'sun-neptune-square': '想像力过于肆无忌惮，沉迷在自己构建的世界里，不敢面对现实。',
+  'sun-neptune-opposition': '经常为感情和人与人之间的关系感到困惑，容易受骗。',
+  'sun-pluto-square': '有无限的潜能，用来强加自己的意愿在别人的身上，希望能够控制别人。',
+  'sun-pluto-opposition': '一边是自我，一边是欲念暗涌，坚持自己做不到，控制别人却也难为。',
+  'moon-mercury-square': '容易紧张激动，想法过于执着于过去，拿不起放不下，缺乏客观性。',
+  'moon-mercury-opposition': '情绪化，凭感觉做事，容易焦虑不安，主观性强。',
+  'moon-venus-square': '对喜欢的人过于信任，所以经常受欺负，晚婚甚至很难成婚。',
+  'moon-venus-opposition': '情绪敏感，也有些自卑，沉醉于自己的幻想，过度放纵。',
+  'moon-mars-square': '冲动，脾气坏，缺乏耐性，不大会容忍和谦让。',
+  'moon-mars-opposition': '轻浮或者轻佻，情绪一旦失控就不好收拾。',
+  'moon-jupiter-square': '无论是什么样的情绪，都容易过头，会有轻率的举动。',
+  'moon-jupiter-opposition': '过分仁慈或者善良，在付出这些善心的时候缺乏判断力，受人欺骗。',
+  'moon-saturn-square': '不愉快，比较忧郁，对生命和生活的看法比较悲观。',
+  'moon-saturn-opposition': '内心和压力总有矛盾，生活比较灰色调，沉默寡言。',
+  'moon-uranus-square': '容易紧张和兴奋，情绪不容易安定。',
+  'moon-uranus-opposition': '孤僻，性情不稳定，不好捉摸，不足以让人信赖。',
+  'moon-neptune-square': '时常迷惑，沉溺于幻想，脱离现实，精神不大好。',
+  'moon-neptune-opposition': '把自己的情绪施加到别人身上，精神上也开始承受痛苦。',
+  'moon-pluto-square': '有刻意隐藏自己内心强烈思绪的倾向，一旦爆发出来就是毁灭性的。',
+  'moon-pluto-opposition': '欲望强烈却又被纠缠，有始无终。',
+  'mercury-venus-square': '心智和感情观刑，对感情的处理缺乏"技巧"。',
+  'mercury-venus-opposition': '心智和感情观冲，感情上的付出对方可能视而不见。',
+  'mercury-mars-square': '任性浪费，缺少耐性，欲念强烈。',
+  'mercury-mars-opposition': '容易和人冲突，不受欢迎，过份挑剔，过于主观。',
+  'mercury-jupiter-square': '想法丰富却无法落实，急于求成，浮躁草率。',
+  'mercury-jupiter-opposition': '思绪丰富敏捷，但难以形成具体的想法。',
+  'mercury-saturn-square': '思绪活跃丰富或者平稳而缺乏，怀才不遇，郁郁不得志。',
+  'mercury-saturn-opposition': '经常会有压力的感觉，一边释放一边又在被新的压力困扰。',
+  'mercury-uranus-square': '心智活泼，有创新力，但难免怪异和不实际。',
+  'mercury-uranus-opposition': '会有极端又怪异的想法，自大自满，而又总有突发奇想。',
+  'mercury-neptune-square': '精神恍惚，想法不着边际，不能给人信赖。',
+  'mercury-neptune-opposition': '对别人的想法和动机有高度的敏感，工于心计。',
+  'mercury-pluto-square': '有敏锐的分析能力，但却不会委婉地表达自己。',
+  'mercury-pluto-opposition': '分析和思考的能力会总把一些事情弄得隐讳不明。',
+  'venus-mars-square': '对感情的付出一定要有所回报，看到喜欢的东西就立刻想要。',
+  'venus-mars-opposition': '对感情的付出是经常走不到点儿上，做得再多可能也成效不大。',
+  'venus-jupiter-square': '容易耽溺于个人享受，懒惰自夸，而且有些伪善。',
+  'venus-jupiter-opposition': '感情上也有矛盾，有感觉的人又有时觉得并不是想要的。',
+  'venus-saturn-square': '忧郁羞怯，谨言慎行，时常失望或者杞人忧天。',
+  'venus-saturn-opposition': '情绪低落，觉得生命很艰难甚至很痛苦，感情上郁郁寡欢。',
+  'venus-uranus-square': '不喜欢扎堆儿，也不喜欢一群人来打扰，自由是向往。',
+  'venus-uranus-opposition': '受外界干扰很多，导致自己的价值观左右摇摆。',
+  'venus-neptune-square': '情绪很复杂，感情上不大放得开，喜欢偷偷摸摸地进行。',
+  'venus-neptune-opposition': '情绪被价值拉锯，可能会和并不"完美"的人成就缘份。',
+  'venus-pluto-square': '欲望很强烈，进而去控制对方，满足自己的需求。',
+  'venus-pluto-opposition': '道德观淡薄或者存在一些远强于道德观的欲望，可能无法控制自己。',
+  'mars-jupiter-square': '个人的愿望和欲望很强烈，可能会有些不择手段。',
+  'mars-jupiter-opposition': '出现两个极端：欲壑难填，或者得到的超过预期而惴惴不安。',
+  'mars-saturn-square': '行动上经常受挫，悲观失望，自我约束比较多。',
+  'mars-saturn-opposition': '同样时常会受挫，言语和行为可能有些过激，为人不大友善。',
+  'mars-uranus-square': '行动上比较冲动，不考虑结果，自以为是。',
+  'mars-uranus-opposition': '行动上对结果或者目标考虑的太多，患得患失。',
+  'mars-neptune-square': '会经常感到压抑，压制自己进而焦躁不安，或者爆发出来过于放纵。',
+  'mars-neptune-opposition': '难以控制自己的欲望，慢慢地自己都不清楚自己的目的。',
+  'mars-pluto-square': '固执好逞强，不撞南墙不回头，屡败屡战。',
+  'mars-pluto-opposition': '一切为了欲望，哪怕对不起良心，而且比较专制。',
+  'jupiter-saturn-square': '运气不是很好，对事物的判断也常出现失误。',
+  'jupiter-saturn-opposition': '直觉和行动力相制约，感觉上能实现的事情做起来却无法企及。',
+  'jupiter-uranus-square': '过分冲动，不切实际，为小事而倾注全力，没有大局观。',
+  'jupiter-uranus-opposition': '想法过于拘束，没有创新力，固步自封。',
+  'jupiter-neptune-square': '过度的情绪化和不切实际，忧患意识很差，言出不行。',
+  'jupiter-neptune-opposition': '感觉比较复杂，左右摇摆，不是犹豫不决，而是分辨不清。',
+  'jupiter-pluto-square': '自大固执，不大受别人欢迎。',
+  'jupiter-pluto-opposition': '对自己比较怀疑。',
+  'saturn-uranus-square': '经常有很多的想法和念头，会给自己造成困惑。',
+  'saturn-uranus-opposition': '想法和对策总是到了危难关头或者紧急时刻才会有。',
+  'saturn-neptune-square': '经常恐惧焦虑，精神有些脆弱，很容易身心疲惫。',
+  'saturn-neptune-opposition': '自己的精神和幻想带给自己不小的压力，力犹不及。',
+  'saturn-pluto-square': '深思熟虑或者处心积虑，计划总在隐秘中进行。',
+  'saturn-pluto-opposition': '漫漫长路其修远兮，汝将上下而求索。'
+};
+
+function lookupAspect() {
+  let a = document.getElementById('aspectPlanetA').value;
+  let b = document.getElementById('aspectPlanetB').value;
+  const type = document.getElementById('aspectType').value;
+
+  if (a === b) {
+    document.getElementById('aspectText').textContent = '请选择两个不同的行星。';
+    document.getElementById('aspectResult').classList.add('show');
+    return;
+  }
+
+  // 确保顺序一致
+  const planets = ['sun','moon','mercury','venus','mars','jupiter','saturn','uranus','neptune','pluto'];
+  const idxA = planets.indexOf(a);
+  const idxB = planets.indexOf(b);
+  if (idxA > idxB) { const tmp = a; a = b; b = tmp; }
+
+  const key = a + '-' + b + '-' + type;
+  const text = aspectData[key] || '暂无该相位组合的详细解读。';
+
+  const typeNames = { conjunction:'会（0°）', sextile:'半合（60°）', square:'刑（90°）', trine:'拱（120°）', opposition:'冲（180°）' };
+  document.getElementById('aspectText').innerHTML =
+    '<strong style="color:var(--accent2)">' + planetNames[a] + typeNames[type] + planetNames[b] + '</strong><br><br>' + text;
+  document.getElementById('aspectResult').classList.add('show');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>巫毒教 - 阿波菲斯·龙之魔法</title>
+<meta name="description" content="巫毒教历史、Obi占卜、十六贝壳占卜与四位主要神明">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ====== 基础变量 ====== */
+:root {
+  --bg: #0a0a0a;
+  --bg2: #1a1a1a;
+  --bg3: #141414;
+  --ink: #e8e0d4;
+  --muted: #8a7e6e;
+  --accent: #c41e3a;
+  --accent2: #d4a843;
+  --rule: #2a2a2a;
+  --font: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --font-display: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
+  --font-en: 'Cormorant Garamond', 'Noto Serif SC', serif;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 18px; }
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--ink);
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ====== 导航栏 ====== */
+.nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  z-index: 999;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.nav-bar::-webkit-scrollbar { display: none; }
+.nav-brand {
+  color: var(--accent2);
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  font-family: var(--font-display);
+}
+.nav-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--accent2);
+  background: rgba(212, 168, 67, 0.1);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--accent2);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  flex-shrink: 0;
+  font-family: var(--font-display);
+}
+@media(max-width:768px){
+  .nav-bar { flex-wrap: wrap; position: relative; padding: 0.5rem 0.8rem; gap: 0.3rem; max-height: 52px; overflow: hidden; transition: max-height 0.4s ease; }
+  .nav-bar.open { max-height: 100vh; overflow-y: auto; }
+  .nav-toggle { display: block; position: absolute; right: 10px; top: 8px; z-index: 10001; }
+  .nav-bar .nav-link { width: 100%; font-size: 0.7rem; padding: 0.35rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .nav-brand { font-size: 0.75rem; }
+}
+@media(max-width:480px){
+  .nav-bar .nav-link { font-size: 0.65rem; padding: 0.3rem 0.4rem; }
+  .nav-brand { font-size: 0.7rem; }
+}
+
+/* ====== 粒子背景 ====== */
+#voodooCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ====== 英雄区域 ====== */
+.hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 2rem;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80px 60px at 20% 30%, rgba(196, 30, 58, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 60px 80px at 80% 20%, rgba(212, 168, 67, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 70px 50px at 50% 70%, rgba(196, 30, 58, 0.05) 0%, transparent 70%);
+  animation: heroShimmer 8s ease-in-out infinite alternate;
+}
+@keyframes heroShimmer {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 400;
+  color: var(--accent2);
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 40px rgba(212, 168, 67, 0.3), 0 0 80px rgba(196, 30, 58, 0.15);
+  animation: titleGlow 4s ease-in-out infinite alternate;
+  margin-bottom: 1rem;
+}
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 20px rgba(212,168,67,0.4), 0 0 40px rgba(212,168,67,0.3), 0 0 80px rgba(196,30,58,0.2); }
+  100% { text-shadow: 0 0 40px rgba(212,168,67,0.6), 0 0 80px rgba(212,168,67,0.4), 0 0 120px rgba(196,30,58,0.3); }
+}
+.hero-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  margin-bottom: 2rem;
+}
+.hero-divider {
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+  margin: 2rem auto;
+  animation: dividerPulse 3s ease-in-out infinite;
+}
+@keyframes dividerPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ====== 主内容区域 ====== */
+.main-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 400;
+  color: var(--accent2);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.1em;
+  position: relative;
+  padding-bottom: 1rem;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+.subheading {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-top: 2.5rem;
+  margin-bottom: 1.2rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--accent);
+  letter-spacing: 0.05em;
+}
+
+p {
+  margin-bottom: 1.4rem;
+  text-align: justify;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 2;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+p strong { color: var(--accent2); font-weight: 700; }
+
+/* ====== 龙形分隔符 ====== */
+.dragon-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+}
+.separator-svg {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+
+/* ====== 神明卡片 ====== */
+.deity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+}
+.deity-card {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+.deity-card:hover {
+  border-color: var(--accent2);
+  box-shadow: 0 0 30px rgba(212, 168, 67, 0.15);
+  transform: translateY(-4px);
+}
+.deity-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid var(--rule);
+}
+.deity-info { padding: 1.5rem; }
+.deity-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--accent2);
+  margin-bottom: 0.5rem;
+}
+.deity-title {
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+.deity-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.deity-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.keyword-tag {
+  background: rgba(196, 30, 58, 0.15);
+  color: var(--accent2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(212, 168, 67, 0.2);
+}
+
+@media(max-width:768px){
+  .deity-grid { grid-template-columns: 1fr; }
+  .deity-img { height: 220px; }
+}
+
+/* ====== Obi占卜模拟器 ====== */
+.obi-simulator {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+}
+.obi-coins {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+.obi-coin {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  border: 2px solid var(--accent2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+.obi-coin.white {
+  background: linear-gradient(135deg, #f5f0e0, #e8e0d0);
+  color: #1a1a1a;
+  border-color: var(--accent2);
+}
+.obi-coin.black {
+  background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+  color: var(--accent2);
+  border-color: var(--accent);
+}
+.obi-coin.spinning {
+  animation: coinSpin 0.6s ease-in-out;
+}
+@keyframes coinSpin {
+  0% { transform: rotateY(0deg) scale(1); }
+  50% { transform: rotateY(180deg) scale(1.2); }
+  100% { transform: rotateY(360deg) scale(1); }
+}
+.obi-btn {
+  background: linear-gradient(135deg, var(--accent), rgba(196, 30, 58, 0.7));
+  color: var(--ink);
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  font-family: var(--font-display);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.1em;
+  margin: 0.5rem;
+}
+.obi-btn:hover {
+  box-shadow: 0 0 25px rgba(196, 30, 58, 0.4);
+  transform: translateY(-2px);
+}
+.obi-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.obi-result {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(10, 10, 10, 0.5);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent2);
+  text-align: left;
+  display: none;
+}
+.obi-result.show { display: block; animation: fadeIn 0.5s ease; }
+.obi-result h4 {
+  color: var(--accent2);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+.obi-result p { margin-bottom: 0.5rem; font-size: 0.95rem; }
+.obi-history {
+  margin-top: 1.5rem;
+  text-align: left;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.obi-history-item {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ====== 16贝壳占卜 ====== */
+.shell-simulator {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+.shell-board {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid var(--accent2);
+  background: radial-gradient(circle, rgba(212,168,67,0.05) 0%, transparent 70%);
+  overflow: hidden;
+}
+.shell-quadrant {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 1rem;
+  text-align: center;
+}
+.shell-quadrant:hover {
+  background: rgba(212, 168, 67, 0.08);
+}
+.shell-quadrant.active {
+  background: rgba(196, 30, 58, 0.15);
+}
+.shell-quadrant.tl { top: 0; left: 0; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); border-radius: 100% 0 0 0; }
+.shell-quadrant.tr { top: 0; right: 0; border-left: 1px solid var(--rule); border-bottom: 1px solid var(--rule); border-radius: 0 100% 0 0; }
+.shell-quadrant.bl { bottom: 0; left: 0; border-right: 1px solid var(--rule); border-top: 1px solid var(--rule); border-radius: 0 0 0 100%; }
+.shell-quadrant.br { bottom: 0; right: 0; border-left: 1px solid var(--rule); border-top: 1px solid var(--rule); border-radius: 0 0 100% 0; }
+.quad-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.quad-name { font-family: var(--font-display); color: var(--accent2); font-size: 1rem; }
+.quad-deity { font-size: 0.75rem; color: var(--muted); }
+.shell-cross-v, .shell-cross-h {
+  position: absolute;
+  background: var(--accent2);
+  opacity: 0.3;
+}
+.shell-cross-v { width: 2px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+.shell-cross-h { height: 2px; width: 100%; top: 50%; left: 0; transform: translateY(-50%); }
+
+.shell-result-panel {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(10, 10, 10, 0.5);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent2);
+  display: none;
+}
+.shell-result-panel.show { display: block; animation: fadeIn 0.5s ease; }
+.shell-result-panel h4 { color: var(--accent2); font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 0.5rem; }
+.shell-result-panel p { font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+.shell-btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* ====== 占卜结果表格 ====== */
+.obi-table-wrapper {
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+.obi-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.obi-table th {
+  background: linear-gradient(135deg, var(--accent), rgba(196, 30, 58, 0.6));
+  color: var(--ink);
+  padding: 10px;
+  text-align: center;
+  font-weight: 700;
+}
+.obi-table th:first-child { border-radius: 8px 0 0 0; }
+.obi-table th:last-child { border-radius: 0 8px 0 0; }
+.obi-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--rule);
+  text-align: center;
+}
+.obi-table tr:hover td { background: rgba(212, 168, 67, 0.05); }
+.obi-table .result-name { color: var(--accent2); font-weight: 700; }
+.obi-table .result-dark { color: var(--accent); }
+
+/* ====== 页脚 ====== */
+.footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--rule);
+  letter-spacing: 0.1em;
+  position: relative;
+  z-index: 1;
+}
+
+/* ====== 回到顶部按钮 ====== */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--bg2);
+  border: 2px solid var(--rule);
+  color: var(--accent2);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 998;
+}
+.back-to-top.show { opacity: 1; transform: translateY(0) scale(1); }
+.back-to-top:hover { border-color: var(--accent2); box-shadow: 0 0 20px rgba(212, 168, 67, 0.3); }
+
+/* ====== 动画 ====== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== 响应式 ====== */
+@media(max-width:768px){
+  html { font-size: 16px; }
+  .main-content { padding: 3rem 1.2rem 4rem; }
+  .hero { padding: 1.5rem; min-height: 40vh; }
+  p { text-align: left; }
+  .back-to-top { bottom: 1.5rem; right: 1.5rem; width: 40px; height: 40px; }
+  .obi-coins { gap: 1rem; }
+  .obi-coin { width: 60px; height: 60px; font-size: 1.5rem; }
+  .shell-board { max-width: 320px; }
+  .quad-icon { font-size: 1.5rem; }
+  .quad-name { font-size: 0.85rem; }
+}
+
+@media(max-width:480px){
+  .hero-title { letter-spacing: 0.08em; }
+  .section-title { font-size: 1.6rem; }
+  .subheading { font-size: 1.1rem; }
+  .obi-btn { padding: 0.8rem 2rem; font-size: 1rem; }
+}
+
+/* ====== 减少动画偏好 ====== */
+@media(prefers-reduced-motion:reduce){
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* 选择文本颜色 */
+::selection {
+  background: rgba(196, 30, 58, 0.3);
+  color: var(--ink);
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent), var(--accent2)); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- Canvas粒子背景 -->
+<canvas id="voodooCanvas"></canvas>
+
+<!-- 导航栏 -->
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="sigil-game.html" class="nav-link">符印工坊</a>
+  <a href="iching-divination.html" class="nav-link">周易占卜</a>
+  <a href="liuren-simulator.html" class="nav-link">大六壬</a>
+  <a href="planetary-hours.html" class="nav-link">行星时</a>
+  <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
+  <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
+  <a href="lhp-test.html" class="nav-link">魔法测试</a>
+  <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
+  <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
+  <a href="blog.html" class="nav-link">神秘学博客</a>
+  <a href="generators.html" class="nav-link">生成工坊</a>
+  <a href="algorithmic-art.html" class="nav-link">算法艺术</a>
+  <a href="mini-games.html" class="nav-link">迷你游戏</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+  <a href="qimen-dunjia.html" class="nav-link">奇门遁甲</a>
+  <a href="hetu-luoshu.html" class="nav-link">河图洛书</a>
+  <a href="magic-training.html" class="nav-link">魔法修炼</a>
+  <a href="ziwei-dou-shu.html" class="nav-link">紫微斗数</a>
+  <a href="meihua-yijing.html" class="nav-link">梅花易数</a>
+  <a href="bazi-chart.html" class="nav-link">八字排盘</a>
+  <a href="liuyao-divination.html" class="nav-link">六爻排盘</a>
+  <a href="dream-diary.html" class="nav-link">梦境日记</a>
+  <a href="history-calendar.html" class="nav-link">历史年表</a>
+  <a href="chinese-astrology-divination.html" class="nav-link">星占术</a>
+  <a href="magical-botany.html" class="nav-link">魔法植物</a>
+  <a href="taiyi-divination.html" class="nav-link">太乙神数</a>
+  <a href="left-hand-path.html" class="nav-link">左路魔法</a>
+  <a href="necromancy.html" class="nav-link">死灵术</a>
+  <a href="apophis-trpg.html" class="nav-link">跑团规则</a>
+  <a href="ogham-alphabet.html" class="nav-link">欧甘字母</a>
+  <a href="rune-alphabet.html" class="nav-link">卢恩字母</a>
+  <a href="hebrew-alphabet.html" class="nav-link">希伯来字母</a>
+  <a href="kabbalah.html" class="nav-link">卡巴拉</a>
+  <a href="book-of-law.html" class="nav-link">法之书</a>
+  <a href="golden-bough.html" class="nav-link">金枝</a>
+  <a href="sex-magic.html" class="nav-link">性魔法</a>
+  <a href="gender-magic.html" class="nav-link">性别魔法</a>
+  <a href="mini-philosophy.html" class="nav-link">迷你哲学</a>
+  <a href="magick-practice.html" class="nav-link">Magick实践</a>
+  <a href="political-economy.html" class="nav-link">政治经济学</a>
+  <a href="sancai-wuge.html" class="nav-link">三才五格</a>
+  <a href="yuanhai-ziping.html" class="nav-link">渊海子平</a>
+  <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
+  <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
+  <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link active">巫毒魔法</a>
+</nav>
+
+<!-- 英雄区域 -->
+<header class="hero" id="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">巫毒教</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-subtitle">Voodoo / Vodou</p>
+  </div>
+</header>
+
+<!-- 主内容 -->
+<main class="main-content">
+
+<!-- 历史简介 -->
+<section id="history">
+  <h2 class="section-title">历史简介</h2>
+  <p>巫毒教（Voodoo / Vodou）起源于西非，随着奴隶贸易传播至加勒比海地区，特别是在海地生根发芽。它融合了西非约鲁巴人、芳族和刚果人的传统信仰，与天主教元素以及当地土著文化相互交织，形成了一种独特而强大的宗教与魔法体系。</p>
+  <p>在巫毒教中，信徒通过仪式、音乐、舞蹈和占卜与神灵（称为<strong>罗阿 / Loa</strong>）沟通。这些神灵并非全知全能的造物主，而是具有鲜明个性、喜好和领域的主宰者。巫毒仪式通常以击鼓和舞蹈开场，参与者通过狂喜状态让罗阿"附体"，从而传达神谕或进行治疗。</p>
+  <p>巫毒教的核心理念之一是<strong>十字路口</strong>的象征——横与竖的交叉代表人与神、事物二元交界之处，是开启灵界之门的最佳位置。这种二元交汇的观念贯穿了巫毒教的整个宇宙观。</p>
+  <p>值得注意的是，巫毒教中的占卜方法多样，其中<strong>Obi占卜</strong>和<strong>十六贝壳占卜</strong>是最具代表性的两种。前者使用椰子壳或类似物品投掷，以黑白两面区分阴阳；后者则将十六个贝壳投入四区圆盘，根据贝壳开口的分布解读神意。</p>
+</section>
+
+<div class="dragon-separator">
+  <svg viewBox="0 0 800 60" xmlns="http://www.w3.org/2000/svg" class="separator-svg">
+    <defs>
+      <linearGradient id="sepGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#0a0a0a;stop-opacity:1" />
+        <stop offset="20%" style="stop-color:#c41e3a;stop-opacity:0.6" />
+        <stop offset="50%" style="stop-color:#d4a843;stop-opacity:1" />
+        <stop offset="80%" style="stop-color:#c41e3a;stop-opacity:0.6" />
+        <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <path d="M0,30 Q50,10 100,30 Q150,50 200,30 Q250,10 300,30 Q350,50 400,30 Q450,10 500,30 Q550,50 600,30 Q650,10 700,30 Q750,50 800,30" fill="none" stroke="url(#sepGrad)" stroke-width="1.5"/>
+    <circle cx="400" cy="30" r="4" fill="#d4a843" opacity="0.8"/>
+    <circle cx="380" cy="30" r="2" fill="#c41e3a" opacity="0.6"/>
+    <circle cx="420" cy="30" r="2" fill="#c41e3a" opacity="0.6"/>
+    <path d="M350,30 C360,20 370,20 380,30 C390,40 400,40 410,30 C420,20 430,20 440,30" fill="none" stroke="#d4a843" stroke-width="1" opacity="0.5"/>
+  </svg>
+</div>
+
+<!-- Obi占卜 -->
+<section id="obi">
+  <h2 class="section-title">Obi 占卜</h2>
+  <p>Obi占卜是巫毒教中最基础的占卜方法之一。占卜者取一个可区分正反两面的物品（传统上使用椰子壳，一面黑一面白），投掷后根据落地结果解读神意。每次投掷的结果称为一个<strong>Odu（爻/卦）</strong>。</p>
+
+  <h3 class="subheading">五种基本结果</h3>
+  <div class="obi-table-wrapper">
+    <table class="obi-table">
+      <thead>
+        <tr>
+          <th>结果</th>
+          <th>名称</th>
+          <th>含义</th>
+          <th>行动</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="result-name">两面白</td>
+          <td class="result-name">Alafia<br>平和</td>
+          <td>达到平衡，事情顺利。但太过宁静，缺乏动力</td>
+          <td>结果仍好，但需再投一次</td>
+        </tr>
+        <tr>
+          <td class="result-name">一白一黑</td>
+          <td class="result-name">Etawa<br>挣扎</td>
+          <td>困惑，处于苦战状态，看不出结果</td>
+          <td>需要再投，以获得结果</td>
+        </tr>
+        <tr>
+          <td class="result-name">一黑一白<br>（另一组合）</td>
+          <td class="result-name">Ejife<br>平衡</td>
+          <td>阴阳平衡，最有利的结果</td>
+          <td>吉利，无需再投</td>
+        </tr>
+        <tr>
+          <td class="result-name">两面黑</td>
+          <td class="result-name">Okana<br>好坏参半</td>
+          <td>很平常的状况，日常生活</td>
+          <td>结果平常</td>
+        </tr>
+        <tr>
+          <td class="result-dark">全黑/特殊</td>
+          <td class="result-dark">Oyekun<br>黑暗</td>
+          <td>一派认为非常不好；另一派认为此问题不能被解答</td>
+          <td>警告或不可解</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subheading">重投组合解读（1+1 至 5+5）</h3>
+  <div class="obi-table-wrapper">
+    <table class="obi-table">
+      <thead>
+        <tr>
+          <th>组合</th>
+          <th>名称</th>
+          <th>解读</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="result-name">1+1</td><td>Alafia+Alafia</td><td>过于光明，容易懒散松散，警告你要保持清醒，加以重视</td></tr>
+        <tr><td class="result-name">1+2</td><td>Alafia+Etawa</td><td>和平阶段，需要安静休养、休整计划，以应对将要到来的考验和挣扎</td></tr>
+        <tr><td class="result-name">1+3</td><td>Alafia+Ejife</td><td>吉利，表示头脑冷静，保持平衡</td></tr>
+        <tr><td class="result-name">1+4</td><td>Alafia+Okana</td><td>人算不如天算，无论再怎么冷静计划，总有事情阻碍，需极大谨慎，先放下/搁置</td></tr>
+        <tr><td class="result-dark">1+5</td><td>Alafia+Oyekun</td><td>横生枝节，飞来横祸</td></tr>
+        <tr><td class="result-name">2+1</td><td>Etawa+Alafia</td><td>苦战后得相对好的结果，需努力争取才能达到想要的结果</td></tr>
+        <tr><td class="result-name">2+2</td><td>Etawa+Etawa</td><td>非常非常努力能得到稍微好点的结果，极度努力才能保证结果</td></tr>
+        <tr><td class="result-name">2+3</td><td>Etawa+Ejife</td><td>努力得到很好的回报</td></tr>
+        <tr><td class="result-name">2+4</td><td>Etawa+Okana</td><td>无论如何努力，总会因为一点点小的因素招致失败；低于期望</td></tr>
+        <tr><td class="result-dark">2+5</td><td>Etawa+Oyekun</td><td>最不好，没戏，必败无疑，客观存在，与你主观努力无关，最好退出</td></tr>
+        <tr><td class="result-name">3+1</td><td>Ejife+Alafia</td><td>在平衡中获得平和，吉利的稳定状态</td></tr>
+        <tr><td class="result-name">3+2</td><td>Ejife+Etawa</td><td>平衡中遇到挣扎，需要以冷静应对混乱</td></tr>
+        <tr><td class="result-name">3+3</td><td>Ejife+Ejife</td><td>双重平衡，大吉大利，阴阳和谐至极</td></tr>
+        <tr><td class="result-name">3+4</td><td>Ejife+Okana</td><td>平衡中夹杂平常，总体向好但需耐心</td></tr>
+        <tr><td class="result-dark">3+5</td><td>Ejife+Oyekun</td><td>平衡被打破，黑暗降临，需警惕突变</td></tr>
+        <tr><td class="result-name">4+1</td><td>Okana+Alafia</td><td>平常中迎来平和转机，事情渐趋稳定</td></tr>
+        <tr><td class="result-name">4+2</td><td>Okana+Etawa</td><td>平常中遇到挣扎，需小心应对日常中的变数</td></tr>
+        <tr><td class="result-name">4+3</td><td>Okana+Ejife</td><td>平常中获得平衡，好事在平凡中发生</td></tr>
+        <tr><td class="result-name">4+4</td><td>Okana+Okana</td><td>双重平常，生活如常，无大起大落</td></tr>
+        <tr><td class="result-dark">4+5</td><td>Okana+Oyekun</td><td>平常中突遭黑暗，需防备意外</td></tr>
+        <tr><td class="result-dark">5+1</td><td>Oyekun+Alafia</td><td>黑暗中见光明，绝处逢生</td></tr>
+        <tr><td class="result-dark">5+2</td><td>Oyekun+Etawa</td><td>黑暗中挣扎，困境重重，需极大毅力</td></tr>
+        <tr><td class="result-dark">5+3</td><td>Oyekun+Ejife</td><td>黑暗中寻得平衡，以静制动，等待转机</td></tr>
+        <tr><td class="result-dark">5+4</td><td>Oyekun+Okana</td><td>黑暗渐趋平常，危机缓和但仍需谨慎</td></tr>
+        <tr><td class="result-dark">5+5</td><td>Oyekun+Oyekun</td><td>双重黑暗，大凶之象，此路不通，必须彻底改变方向</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="subheading">Obi 占卜模拟器</h3>
+  <div class="obi-simulator">
+    <p style="color:var(--muted);margin-bottom:1rem;">点击下方按钮投掷椰子壳。若投出 Alafia（两面白），需再投一次以获得组合解读。</p>
+    <div class="obi-coins" id="obiCoins">
+      <div class="obi-coin" id="coin1">?</div>
+      <div class="obi-coin" id="coin2">?</div>
+    </div>
+    <div>
+      <button class="obi-btn" id="obiThrowBtn" onclick="throwObi()">投掷 Obi</button>
+      <button class="obi-btn" id="obiResetBtn" onclick="resetObi()" style="display:none;">重新开始</button>
+    </div>
+    <div class="obi-result" id="obiResult"></div>
+    <div class="obi-history" id="obiHistory"></div>
+  </div>
+</section>
+
+<div class="dragon-separator">
+  <svg viewBox="0 0 800 60" xmlns="http://www.w3.org/2000/svg" class="separator-svg">
+    <defs>
+      <linearGradient id="sepGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#0a0a0a;stop-opacity:1" />
+        <stop offset="20%" style="stop-color:#c41e3a;stop-opacity:0.6" />
+        <stop offset="50%" style="stop-color:#d4a843;stop-opacity:1" />
+        <stop offset="80%" style="stop-color:#c41e3a;stop-opacity:0.6" />
+        <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <path d="M0,30 Q50,10 100,30 Q150,50 200,30 Q250,10 300,30 Q350,50 400,30 Q450,10 500,30 Q550,50 600,30 Q650,10 700,30 Q750,50 800,30" fill="none" stroke="url(#sepGrad2)" stroke-width="1.5"/>
+    <circle cx="400" cy="30" r="4" fill="#d4a843" opacity="0.8"/>
+    <circle cx="380" cy="30" r="2" fill="#c41e3a" opacity="0.6"/>
+    <circle cx="420" cy="30" r="2" fill="#c41e3a" opacity="0.6"/>
+    <path d="M350,30 C360,20 370,20 380,30 C390,40 400,40 410,30 C420,20 430,20 440,30" fill="none" stroke="#d4a843" stroke-width="1" opacity="0.5"/>
+  </svg>
+</div>
+
+<!-- 十六贝壳占卜 -->
+<section id="shells">
+  <h2 class="section-title">十六贝壳占卜</h2>
+  <p>十六贝壳占卜是巫毒教中更为复杂的占卜方法。占卜者取十六个贝壳（一面有开口"隙"，一面无开口"肚"），在一个直径约45-60cm的圆盘四区中投掷，根据贝壳开口在各个象限的分布来解读神意。</p>
+  <p>圆盘的四个象限分别对应四位主要的罗阿神灵：</p>
+
+  <h3 class="subheading">十六贝壳占卜模拟器</h3>
+  <div class="shell-simulator">
+    <p style="color:var(--muted);text-align:center;margin-bottom:1rem;">点击圆盘中的象限，查看该区域对应的神明及其解读。</p>
+    <div class="shell-board" id="shellBoard">
+      <div class="shell-cross-v"></div>
+      <div class="shell-cross-h"></div>
+      <div class="shell-quadrant tl" data-quad="tl" onclick="showQuadResult('tl')">
+        <div class="quad-icon">&#9884;</div>
+        <div class="quad-name">左上象限</div>
+        <div class="quad-deity">Papa Legba</div>
+      </div>
+      <div class="shell-quadrant tr" data-quad="tr" onclick="showQuadResult('tr')">
+        <div class="quad-icon">&#9792;</div>
+        <div class="quad-name">右上象限</div>
+        <div class="quad-deity">Erzulie Dantor</div>
+      </div>
+      <div class="shell-quadrant bl" data-quad="bl" onclick="showQuadResult('bl')">
+        <div class="quad-icon">&#9829;</div>
+        <div class="quad-name">左下象限</div>
+        <div class="quad-deity">Erzulie Freda</div>
+      </div>
+      <div class="shell-quadrant br" data-quad="br" onclick="showQuadResult('br')">
+        <div class="quad-icon">&#9760;</div>
+        <div class="quad-name">右下象限</div>
+        <div class="quad-deity">Baron Samedi</div>
+      </div>
+    </div>
+    <div class="shell-btns">
+      <button class="obi-btn" onclick="randomShellThrow()">随机投掷贝壳</button>
+      <button class="obi-btn" onclick="resetShell()">重置</button>
+    </div>
+    <div class="shell-result-panel" id="shellResult"></div>
+  </div>
+</section>
+
+<div class="dragon-separator">
+  <svg viewBox="0 0 800 60" xmlns="http://www.w3.org/2000/svg" class="separator-svg">
+    <defs>
+      <linearGradient id="sepGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#0a0a0a;stop-opacity:1" />
+        <stop offset="20%" style="stop-color:#c41e3a;stop-opacity:0.6" />
+        <stop offset="50%" style="stop-color:#d4a843;stop-opacity:1" />
+        <stop offset="80%" style="stop-color:#c41e3a;stop-opacity:0.6" />
+        <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <path d="M0,30 Q50,10 100,30 Q150,50 200,30 Q250,10 300,30 Q350,50 400,30 Q450,10 500,30 Q550,50 600,30 Q650,10 700,30 Q750,50 800,30" fill="none" stroke="url(#sepGrad3)" stroke-width="1.5"/>
+    <circle cx="400" cy="30" r="4" fill="#d4a843" opacity="0.8"/>
+    <circle cx="380" cy="30" r="2" fill="#c41e3a" opacity="0.6"/>
+    <circle cx="420" cy="30" r="2" fill="#c41e3a" opacity="0.6"/>
+    <path d="M350,30 C360,20 370,20 380,30 C390,40 400,40 410,30 C420,20 430,20 440,30" fill="none" stroke="#d4a843" stroke-width="1" opacity="0.5"/>
+  </svg>
+</div>
+
+<!-- 四位主要神明 -->
+<section id="deities">
+  <h2 class="section-title">四位主要神明</h2>
+  <p>在巫毒教的万神殿中，有四位罗阿（Loa）占据着核心地位。他们是人与神之间的桥梁，每一位都有独特的领域、性格和供奉方式。</p>
+
+  <div class="deity-grid">
+    <div class="deity-card" onclick="showDeityDetail('legba')">
+      <img src="assets/voodoo_papa_legba.png" alt="Papa Legba" class="deity-img" loading="lazy">
+      <div class="deity-info">
+        <div class="deity-name">Papa Legba</div>
+        <div class="deity-title">十字路口之神 · 沟通之神</div>
+        <div class="deity-desc">掌管十字路口，是人与神之间的边界守护者。必须先召唤他，才能召唤其他神灵。极具智慧，掌管道路、清除路障、口才与计谋。</div>
+        <div class="deity-keywords">
+          <span class="keyword-tag">十字路口</span>
+          <span class="keyword-tag">钥匙</span>
+          <span class="keyword-tag">沟通</span>
+          <span class="keyword-tag">智慧</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="deity-card" onclick="showDeityDetail('dantor')">
+      <img src="assets/voodoo_erzulie_dantor.png" alt="Erzulie Dantor" class="deity-img" loading="lazy">
+      <div class="deity-info">
+        <div class="deity-name">Erzulie Dantor</div>
+        <div class="deity-title">女战士 · 儿童保护神</div>
+        <div class="deity-desc"> fierce 的女战士，最疼爱小孩，类似于圣母的形象。怀抱婴儿，是女童的保护神。保卫自己，也保护弱者。</div>
+        <div class="deity-keywords">
+          <span class="keyword-tag">女战士</span>
+          <span class="keyword-tag">保护儿童</span>
+          <span class="keyword-tag">怀抱婴儿</span>
+          <span class="keyword-tag">圣母</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="deity-card" onclick="showDeityDetail('freda')">
+      <img src="assets/voodoo_erzulie_freda.png" alt="Erzulie Freda" class="deity-img" loading="lazy">
+      <div class="deity-info">
+        <div class="deity-name">Erzulie Freda</div>
+        <div class="deity-title">爱与财富女神 · 奢华之神</div>
+        <div class="deity-desc">相当于金星，非常奢华有魅力。求得爱情与财富，增加吸引力与魅力。与河流有关，供奉她需要非常美丽奢华的物品。</div>
+        <div class="deity-keywords">
+          <span class="keyword-tag">爱</span>
+          <span class="keyword-tag">财富</span>
+          <span class="keyword-tag">奢华</span>
+          <span class="keyword-tag">河流</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="deity-card" onclick="showDeityDetail('samedi')">
+      <img src="assets/voodoo_baron_samedi.png" alt="Baron Samedi" class="deity-img" loading="lazy">
+      <div class="deity-info">
+        <div class="deity-name">Baron Samedi</div>
+        <div class="deity-title">星期六男爵 · 死亡与赌博之神</div>
+        <div class="deity-desc">关于死亡、坟墓、赌博、诅咒。嬉皮士风格，说脏话、下流，喜欢烟酒财色。可以求他带来疾病不顺，也可以求他增加赌运。</div>
+        <div class="deity-keywords">
+          <span class="keyword-tag">死亡</span>
+          <span class="keyword-tag">赌博</span>
+          <span class="keyword-tag">诅咒</span>
+          <span class="keyword-tag">烟酒</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="dragon-separator">
+  <svg viewBox="0 0 800 60" xmlns="http://www.w3.org/2000/svg" class="separator-svg">
+    <defs>
+      <linearGradient id="sepGrad4" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#0a0a0a;stop-opacity:1" />
+        <stop offset="20%" style="stop-color:#c41e3a;stop-opacity:0.6" />
+        <stop offset="50%" style="stop-color:#d4a843;stop-opacity:1" />
+        <stop offset="80%" style="stop-color:#c41e3a;stop-opacity:0.6" />
+        <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <path d="M0,30 Q50,10 100,30 Q150,50 200,30 Q250,10 300,30 Q350,50 400,30 Q450,10 500,30 Q550,50 600,30 Q650,10 700,30 Q750,50 800,30" fill="none" stroke="url(#sepGrad4)" stroke-width="1.5"/>
+    <circle cx="400" cy="30" r="4" fill="#d4a843" opacity="0.8"/>
+    <circle cx="380" cy="30" r="2" fill="#c41e3a" opacity="0.6"/>
+    <circle cx="420" cy="30" r="2" fill="#c41e3a" opacity="0.6"/>
+    <path d="M350,30 C360,20 370,20 380,30 C390,40 400,40 410,30 C420,20 430,20 440,30" fill="none" stroke="#d4a843" stroke-width="1" opacity="0.5"/>
+  </svg>
+</div>
+
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <p>阿波菲斯 · 龙之魔法</p>
+  <p style="margin-top:0.5rem;font-size:0.7rem;">仅供神秘学研究参考</p>
+</footer>
+
+<!-- 回到顶部按钮 -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<script>
+// ====== Canvas粒子背景 ======
+(function() {
+  const canvas = document.getElementById('voodooCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let w, h;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.size = Math.random() * 2 + 0.5;
+      this.alpha = Math.random() * 0.5 + 0.2;
+      const colors = ['196,30,58', '212,168,67', '138,126,110'];
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.life = Math.random() * 200 + 100;
+      this.maxLife = this.life;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.life--;
+      if (this.life <= 0 || this.x < 0 || this.x > w || this.y < 0 || this.y > h) {
+        this.reset();
+      }
+    }
+    draw() {
+      const a = this.alpha * (this.life / this.maxLife);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + this.color + ',' + a + ')';
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < 60; i++) {
+    particles.push(new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ====== 回到顶部按钮 ======
+(function() {
+  var btn = document.getElementById('backToTop');
+  function toggleBtn() {
+    if (window.pageYOffset > 600) {
+      btn.classList.add('show');
+    } else {
+      btn.classList.remove('show');
+    }
+  }
+  window.addEventListener('scroll', toggleBtn, { passive: true });
+  toggleBtn();
+})();
+
+// ====== Mobile nav toggle ======
+document.addEventListener('DOMContentLoaded', function() {
+  var navBar = document.getElementById('navBar');
+  if (!navBar) return;
+  var toggle = document.createElement('button');
+  toggle.className = 'nav-toggle';
+  toggle.innerHTML = '&#9776;';
+  toggle.setAttribute('aria-label', 'Toggle navigation');
+  toggle.onclick = function() {
+    navBar.classList.toggle('open');
+    this.innerHTML = navBar.classList.contains('open') ? '&#10005;' : '&#9776;';
+  };
+  navBar.appendChild(toggle);
+  navBar.querySelectorAll('.nav-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navBar.classList.remove('open');
+      toggle.innerHTML = '&#9776;';
+    });
+  });
+});
+
+// ====== Obi占卜模拟器 ======
+const obiData = {
+  1: { name: 'Alafia', sub: '平和', desc: '达到平衡是最好的，事情会很顺利。不足之处：太过宁静，缺乏动力。但结果仍会是好的。', needRethrow: true },
+  2: { name: 'Etawa', sub: '挣扎', desc: '困惑，需要再投。处于苦战状态看不出结果，所以重投，以获得结果。', needRethrow: true },
+  3: { name: 'Ejife', sub: '平衡', desc: '平衡，吉利，阴阳平衡，是最有利的结果。', needRethrow: false },
+  4: { name: 'Okana', sub: '好坏参半', desc: '好坏参半，很平常的状况（日常生活）。', needRethrow: false },
+  5: { name: 'Oyekun', sub: '黑暗', desc: '一个流派认为其非常不好，其他的认为投出其是因为这个问题并不能被解答。', needRethrow: false }
+};
+
+const comboData = {
+  '1,1': 'Alafia+Alafia：过于光明，容易懒散松散，警告你要保持清醒，加以重视。',
+  '1,2': 'Alafia+Etawa：和平阶段，需要安静休养、休整计划，以应对将要到来的考验和挣扎。',
+  '1,3': 'Alafia+Ejife：吉利，表示头脑冷静，保持平衡。',
+  '1,4': 'Alafia+Okana：人算不如天算，无论你再怎么冷静再怎么计划，总有事情在阻碍着你，需极大的谨慎，先放下/搁置。',
+  '1,5': 'Alafia+Oyekun：横生枝节，飞来横祸。',
+  '2,1': 'Etawa+Alafia：苦战后得相对好的结果，需努力争取才能达到想要的结果。',
+  '2,2': 'Etawa+Etawa：你非常非常努力能得到稍微好点的结果，极度的努力才能保证结果。',
+  '2,3': 'Etawa+Ejife：努力得到很好的回报。',
+  '2,4': 'Etawa+Okana：你无论如何努力，你总会因为一点点小的因素招致失败；低于期望。',
+  '2,5': 'Etawa+Oyekun：最不好，没戏，必败无疑，客观存在，与你主观努力与否无关，最好退出。',
+  '3,1': 'Ejife+Alafia：在平衡中获得平和，吉利的稳定状态。',
+  '3,2': 'Ejife+Etawa：平衡中遇到挣扎，需要以冷静应对混乱。',
+  '3,3': 'Ejife+Ejife：双重平衡，大吉大利，阴阳和谐至极。',
+  '3,4': 'Ejife+Okana：平衡中夹杂平常，总体向好但需耐心。',
+  '3,5': 'Ejife+Oyekun：平衡被打破，黑暗降临，需警惕突变。',
+  '4,1': 'Okana+Alafia：平常中迎来平和转机，事情渐趋稳定。',
+  '4,2': 'Okana+Etawa：平常中遇到挣扎，需小心应对日常中的变数。',
+  '4,3': 'Okana+Ejife：平常中获得平衡，好事在平凡中发生。',
+  '4,4': 'Okana+Okana：双重平常，生活如常，无大起大落。',
+  '4,5': 'Okana+Oyekun：平常中突遭黑暗，需防备意外。',
+  '5,1': 'Oyekun+Alafia：黑暗中见光明，绝处逢生。',
+  '5,2': 'Oyekun+Etawa：黑暗中挣扎，困境重重，需极大毅力。',
+  '5,3': 'Oyekun+Ejife：黑暗中寻得平衡，以静制动，等待转机。',
+  '5,4': 'Oyekun+Okana：黑暗渐趋平常，危机缓和但仍需谨慎。',
+  '5,5': 'Oyekun+Oyekun：双重黑暗，大凶之象，此路不通，必须彻底改变方向。'
+};
+
+let obiState = { first: null, history: [] };
+
+function throwObi() {
+  var btn = document.getElementById('obiThrowBtn');
+  var coin1 = document.getElementById('coin1');
+  var coin2 = document.getElementById('coin2');
+  var resultDiv = document.getElementById('obiResult');
+
+  btn.disabled = true;
+  coin1.classList.add('spinning');
+  coin2.classList.add('spinning');
+
+  setTimeout(function() {
+    var r1 = Math.random() > 0.5 ? 1 : 0;
+    var r2 = Math.random() > 0.5 ? 1 : 0;
+    var code = (r1 + r2 === 2) ? 1 : (r1 + r2 === 1) ? (Math.random() > 0.5 ? 2 : 3) : (Math.random() > 0.85 ? 5 : 4);
+
+    coin1.classList.remove('spinning');
+    coin2.classList.remove('spinning');
+    coin1.className = 'obi-coin ' + (r1 === 1 ? 'white' : 'black');
+    coin2.className = 'obi-coin ' + (r2 === 1 ? 'white' : 'black');
+    coin1.textContent = r1 === 1 ? '白' : '黑';
+    coin2.textContent = r2 === 1 ? '白' : '黑';
+
+    var data = obiData[code];
+    var html = '<h4>' + data.name + ' · ' + data.sub + '</h4><p>' + data.desc + '</p>';
+
+    if (!obiState.first) {
+      if (data.needRethrow) {
+        obiState.first = code;
+        html += '<p style="color:var(--accent2);"><strong>需要再投一次以获得组合解读...</strong></p>';
+        btn.textContent = '再次投掷';
+      } else {
+        html += '<p style="color:var(--accent2);">结果已定，无需再投。</p>';
+        btn.style.display = 'none';
+        document.getElementById('obiResetBtn').style.display = 'inline-block';
+      }
+    } else {
+      var comboKey = obiState.first + ',' + code;
+      var combo = comboData[comboKey] || comboData[code + ',' + obiState.first] || '组合解读：两种力量的交汇，需结合实际情况判断。';
+      html += '<p style="color:var(--accent2);margin-top:1rem;"><strong>组合解读：</strong>' + combo + '</p>';
+      btn.style.display = 'none';
+      document.getElementById('obiResetBtn').style.display = 'inline-block';
+    }
+
+    resultDiv.innerHTML = html;
+    resultDiv.classList.add('show');
+
+    obiState.history.push(data.name + '(' + data.sub + ')');
+    updateObiHistory();
+    btn.disabled = false;
+  }, 600);
+}
+
+function resetObi() {
+  obiState = { first: null, history: [] };
+  document.getElementById('coin1').className = 'obi-coin';
+  document.getElementById('coin2').className = 'obi-coin';
+  document.getElementById('coin1').textContent = '?';
+  document.getElementById('coin2').textContent = '?';
+  document.getElementById('obiResult').classList.remove('show');
+  document.getElementById('obiResult').innerHTML = '';
+  document.getElementById('obiThrowBtn').style.display = 'inline-block';
+  document.getElementById('obiThrowBtn').textContent = '投掷 Obi';
+  document.getElementById('obiResetBtn').style.display = 'none';
+  document.getElementById('obiHistory').innerHTML = '';
+}
+
+function updateObiHistory() {
+  var div = document.getElementById('obiHistory');
+  div.innerHTML = '<strong>投掷记录：</strong>' + obiState.history.map(function(h, i) {
+    return '<div class="obi-history-item">第' + (i + 1) + '次：' + h + '</div>';
+  }).join('');
+}
+
+// ====== 十六贝壳占卜 ======
+const quadData = {
+  tl: {
+    name: 'Papa Legba',
+    title: '十字路口之神 · 沟通之神',
+    desc: 'Papa Legba 掌管十字路口，是人与神之间的边界。由于一横与一竖的交叉，代表人与神、事物二元的交界处，在这种地方，易于打开人与神之门。他清除障碍，代表沟通，非常具有智慧，掌管道路，清除路障，带来关于口才、计谋、传话的神力。没有他，请不来其他神灵。',
+    keywords: ['十字路口', '钥匙', '沟通', '智慧', '道路', '清除障碍']
+  },
+  tr: {
+    name: 'Erzulie Dantor',
+    title: '女战士 · 儿童保护神',
+    desc: 'Erzulie Dantor 是 fierce 的女战士，保卫自己，最疼爱小孩，类似于圣母的形象。她怀抱婴儿，是女童的保护神。她的力量在于保护与战斗，为弱小者提供庇护。',
+    keywords: ['女战士', '保护儿童', '怀抱婴儿', '圣母', '保卫']
+  },
+  bl: {
+    name: 'Erzulie Freda',
+    title: '爱与财富女神 · 奢华之神',
+    desc: 'Erzulie Freda 相当于金星，非常奢华，有魅力。她不喜欢女性，非常喜欢男性信徒。求得爱情（比较少）与财富（比较多）。因为她是小三，在爱情方面比较悲惨。她能增加吸引力、魅力，使性体验愉悦。供奉她需要非常美、奢华的东西。与河流有关。',
+    keywords: ['爱', '财富', '奢华', '魅力', '河流', '吸引力']
+  },
+  br: {
+    name: 'Baron Samedi',
+    title: '星期六男爵 · 死亡与赌博之神',
+    desc: 'Baron Samedi 关于死亡，死两次的鬼（比较厉害）的灵主。求他，带来疾病不顺；求他，增加赌运。代表坟墓。此神嬉皮士风格，说脏话、污、下流，喜欢烟酒财色。关于赌博、一夜情、诅咒，去找他。',
+    keywords: ['死亡', '赌博', '诅咒', '烟酒', '坟墓', '一夜情']
+  }
+};
+
+function showQuadResult(quad) {
+  var data = quadData[quad];
+  var panel = document.getElementById('shellResult');
+  var html = '<h4>' + data.name + ' · ' + data.title + '</h4>';
+  html += '<p>' + data.desc + '</p>';
+  html += '<div class="deity-keywords" style="margin-top:1rem;">';
+  data.keywords.forEach(function(k) {
+    html += '<span class="keyword-tag">' + k + '</span>';
+  });
+  html += '</div>';
+  panel.innerHTML = html;
+  panel.classList.add('show');
+
+  document.querySelectorAll('.shell-quadrant').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  document.querySelector('.shell-quadrant[data-quad="' + quad + '"]').classList.add('active');
+}
+
+function randomShellThrow() {
+  var quads = ['tl', 'tr', 'bl', 'br'];
+  var shells = [];
+  for (var i = 0; i < 16; i++) {
+    shells.push(Math.random() > 0.5 ? 1 : 0);
+  }
+  var counts = { tl: 0, tr: 0, bl: 0, br: 0 };
+  for (var i = 0; i < 16; i++) {
+    counts[quads[i % 4]] += shells[i];
+  }
+  var maxQuad = 'tl';
+  var maxCount = counts.tl;
+  for (var q in counts) {
+    if (counts[q] > maxCount) { maxCount = counts[q]; maxQuad = q; }
+  }
+  showQuadResult(maxQuad);
+}
+
+function resetShell() {
+  document.getElementById('shellResult').classList.remove('show');
+  document.querySelectorAll('.shell-quadrant').forEach(function(el) {
+    el.classList.remove('active');
+  });
+}
+
+function showDeityDetail(deity) {
+  var map = { legba: 'tl', dantor: 'tr', freda: 'bl', samedi: 'br' };
+  showQuadResult(map[deity]);
+  document.getElementById('shells').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ====== 触摸设备检测 ======
+if (window.matchMedia('(pointer: coarse)').matches) {
+  document.body.classList.add('touch-device');
+}
+</script>
+
+</body>
+</html>

@@ -4,103 +4,708 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>政治经济学概论 - 阿波菲斯</title>
-<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<meta name="description" content="政治经济学概论 - 徐禾等编，马克思主义政治经济学经典教材">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a0a;color:#e0d5c1;font-family:'Noto Serif SC',serif;min-height:100vh;overflow-x:hidden}
-#particleCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.nav-bar{position:fixed;top:0;left:0;width:100%;background:rgba(10,10,10,.95);padding:8px 15px;display:flex;align-items:center;flex-wrap:wrap;gap:4px;z-index:999;border-bottom:1px solid rgba(212,168,67,.2);backdrop-filter:blur(10px)}
-.hamburger{display:none;cursor:pointer;padding:5px;background:none;border:none}
-.hamburger span{display:block;width:25px;height:3px;background:#d4a843;margin:5px 0;transition:all .3s}
-.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hamburger.active span:nth-child(2){opacity:0}
-.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-.nav-brand{font-family:'Ma Shan Zheng',cursive;color:#d4a843;font-size:1.3rem;margin-right:10px;white-space:nowrap}
-.nav-link{color:#a09070;text-decoration:none;font-size:.72rem;padding:4px 8px;border-radius:3px;transition:all .3s;white-space:nowrap}
-.nav-link:hover,.nav-link.active{color:#d4a843;background:rgba(212,168,67,.1)}
-.mobile-menu{display:none;position:fixed;top:60px;left:0;width:100%;background:rgba(10,10,10,.95);padding:20px;z-index:998}
-.mobile-menu.show{display:flex;flex-direction:column;gap:10px}
-.mobile-menu a{color:#d4a843;text-decoration:none;padding:10px;border-bottom:1px solid rgba(212,168,67,.2)}
-@media(max-width:768px){.hamburger{display:block}.nav-bar.open .nav-link{display:none}}
-.main-content{position:relative;z-index:1;padding-top:70px;max-width:1200px;margin:0 auto;padding-left:20px;padding-right:20px;padding-bottom:60px}
-.page-header{text-align:center;padding:40px 0 30px}
-.page-header h1{font-family:'Ma Shan Zheng',cursive;font-size:2.8rem;color:#d4a843;text-shadow:0 0 30px rgba(212,168,67,.3);margin-bottom:10px}
-.page-header .subtitle{font-family:'Cormorant Garamond',serif;color:#c41e3a;font-size:1.1rem;letter-spacing:2px}
-.page-header .book-info{color:#8a7a60;font-size:.9rem;margin-top:15px;font-style:italic}
-.tab-container{margin-top:20px}
-.tab-nav{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:25px;border-bottom:1px solid rgba(212,168,67,.15);padding-bottom:10px}
-.tab-btn{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.2);color:#a09070;padding:8px 16px;border-radius:5px 5px 0 0;cursor:pointer;font-family:'Noto Serif SC',serif;font-size:.85rem;transition:all .3s}
-.tab-btn:hover{background:rgba(212,168,67,.15);color:#d4a843}
-.tab-btn.active{background:rgba(212,168,67,.15);color:#d4a843;border-bottom-color:transparent;box-shadow:0 -2px 10px rgba(212,168,67,.2)}
-.tab-panel{display:none;animation:fadeIn .4s ease}
-.tab-panel.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.card{background:rgba(20,18,15,.9);border:1px solid rgba(212,168,67,.15);border-radius:8px;padding:25px;margin-bottom:20px;transition:all .3s}
-.card:hover{border-color:rgba(212,168,67,.35);box-shadow:0 4px 20px rgba(212,168,67,.1)}
-.card h2{font-family:'Ma Shan Zheng',cursive;color:#d4a843;font-size:1.6rem;margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid rgba(212,168,67,.1)}
-.card h3{font-family:'Ma Shan Zheng',cursive;color:#c41e3a;font-size:1.25rem;margin:15px 0 10px}
-.card h4{color:#d4a843;font-size:1.05rem;margin:12px 0 8px}
-.card p{line-height:1.9;color:#c8b898;margin-bottom:10px;font-size:.92rem}
-.card ul,.card ol{padding-left:25px;margin-bottom:12px}
-.card li{line-height:1.8;color:#c8b898;margin-bottom:5px;font-size:.9rem}
-.highlight{color:#d4a843;font-weight:700}
-.red{color:#c41e3a}
-.gold-border{border-left:3px solid #d4a843;padding-left:15px;margin:15px 0}
-.quote-box{background:rgba(212,168,67,.05);border-left:3px solid #c41e3a;padding:15px 20px;margin:15px 0;font-style:italic;color:#b0a080;border-radius:0 5px 5px 0}
-.formula-box{background:rgba(196,30,58,.08);border:1px solid rgba(196,30,58,.2);padding:15px 20px;margin:15px 0;text-align:center;font-size:1.1rem;color:#d4a843;border-radius:5px;font-family:'Cormorant Garamond',serif}
-.toc-list{list-style:none;padding:0}
-.toc-list li{padding:10px 15px;border-bottom:1px solid rgba(212,168,67,.08);display:flex;justify-content:space-between;align-items:center}
-.toc-list li:hover{background:rgba(212,168,67,.05)}
-.toc-list .chapter-name{color:#d4a843;font-weight:700}
-.toc-list .page-range{color:#8a7a60;font-size:.85rem}
-.roadmap{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:15px}
-.roadmap-step{background:rgba(212,168,67,.05);border:1px solid rgba(212,168,67,.15);border-radius:8px;padding:20px;text-align:center;position:relative}
-.roadmap-step .step-num{display:inline-block;width:35px;height:35px;line-height:35px;border-radius:50%;background:#c41e3a;color:#fff;font-weight:700;margin-bottom:10px}
-.roadmap-step h4{color:#d4a843;margin-bottom:8px}
-.roadmap-step p{font-size:.85rem;color:#a09070}
-.concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px;margin-top:15px}
-.concept-card{background:rgba(20,18,15,.95);border:1px solid rgba(212,168,67,.15);border-radius:8px;padding:20px;transition:all .3s;cursor:default}
-.concept-card:hover{transform:translateY(-3px);border-color:rgba(212,168,67,.4);box-shadow:0 8px 25px rgba(212,168,67,.15)}
-.concept-card .concept-name{font-family:'Ma Shan Zheng',cursive;color:#d4a843;font-size:1.2rem;margin-bottom:8px}
-.concept-card .concept-cat{display:inline-block;background:rgba(196,30,58,.15);color:#c41e3a;font-size:.75rem;padding:2px 8px;border-radius:10px;margin-bottom:8px}
-.concept-card .concept-def{color:#b0a080;font-size:.88rem;line-height:1.7}
-.search-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
-.search-bar input{flex:1;min-width:200px;background:rgba(20,18,15,.9);border:1px solid rgba(212,168,67,.2);color:#d4a843;padding:10px 15px;border-radius:5px;font-family:'Noto Serif SC',serif;font-size:.9rem}
-.search-bar input:focus{outline:none;border-color:#d4a843}
-.search-bar input::placeholder{color:#6a5a40}
-.filter-btn{background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);color:#a09070;padding:8px 14px;border-radius:5px;cursor:pointer;font-family:'Noto Serif SC',serif;font-size:.8rem;transition:all .3s}
-.filter-btn:hover,.filter-btn.active{background:rgba(212,168,67,.2);color:#d4a843}
-.quiz-container{max-width:700px;margin:0 auto}
-.quiz-question{background:rgba(20,18,15,.9);border:1px solid rgba(212,168,67,.15);border-radius:8px;padding:20px;margin-bottom:15px}
-.quiz-question .q-num{color:#c41e3a;font-weight:700;margin-bottom:8px}
-.quiz-question .q-text{color:#d4a843;font-size:.95rem;margin-bottom:12px;line-height:1.7}
-.quiz-option{display:block;width:100%;text-align:left;background:rgba(212,168,67,.03);border:1px solid rgba(212,168,67,.1);color:#c8b898;padding:10px 15px;margin-bottom:6px;border-radius:5px;cursor:pointer;font-family:'Noto Serif SC',serif;font-size:.88rem;transition:all .2s}
-.quiz-option:hover{background:rgba(212,168,67,.1);border-color:rgba(212,168,67,.3)}
-.quiz-option.correct{background:rgba(34,139,34,.15);border-color:#2a8a2a;color:#5a5}
-.quiz-option.wrong{background:rgba(196,30,58,.15);border-color:#c41e3a;color:#c41e3a}
-.quiz-option.show-correct{background:rgba(34,139,34,.1);border-color:#2a8a2a}
-.quiz-explanation{display:none;margin-top:10px;padding:10px 15px;background:rgba(212,168,67,.05);border-radius:5px;color:#b0a080;font-size:.85rem;line-height:1.7}
-.quiz-explanation.show{display:block}
-.score-display{text-align:center;padding:20px;background:rgba(212,168,67,.08);border:1px solid rgba(212,168,67,.2);border-radius:8px;margin-bottom:20px}
-.score-display .score-num{font-family:'Ma Shan Zheng',cursive;font-size:3rem;color:#d4a843}
-.score-display .score-label{color:#a09070}
-.btn{display:inline-block;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);color:#d4a843;padding:10px 25px;border-radius:5px;cursor:pointer;font-family:'Noto Serif SC',serif;font-size:.9rem;transition:all .3s;text-align:center}
-.btn:hover{background:rgba(212,168,67,.25);box-shadow:0 4px 15px rgba(212,168,67,.2)}
-.progress-section{margin-top:30px}
-.progress-bar-wrap{background:rgba(212,168,67,.1);border-radius:10px;height:20px;overflow:hidden;margin:10px 0}
-.progress-bar-fill{height:100%;background:linear-gradient(90deg,#c41e3a,#d4a843);border-radius:10px;transition:width .5s ease}
-.formula-list{list-style:none;padding:0}
-.formula-list li{padding:15px;background:rgba(212,168,67,.03);border:1px solid rgba(212,168,67,.1);border-radius:5px;margin-bottom:10px}
-.formula-list .formula-title{color:#d4a843;font-weight:700;margin-bottom:5px}
-.formula-list .formula-content{color:#c8b898;font-size:.9rem}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media(max-width:768px){.two-col{grid-template-columns:1fr}.page-header h1{font-size:2rem}.tab-btn{padding:6px 10px;font-size:.78rem}.concept-grid{grid-template-columns:1fr}}
-.section-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(212,168,67,.3),transparent);margin:20px 0}
+/* ====== CSS Variables ====== */
+:root {
+  --bg: #0a0a0a;
+  --bg2: #1a1a1a;
+  --bg3: #14120f;
+  --ink: #e8e0d4;
+  --muted: #8a7e6e;
+  --accent: #c41e3a;
+  --accent2: #d4a843;
+  --rule: #2a2a2a;
+  --font: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --font-display: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
+}
+
+/* ====== Reset & Base ====== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 18px; }
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--ink);
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+/* ====== Reading Progress Bar ====== */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  z-index: 1000;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(196, 30, 58, 0.5);
+}
+
+/* ====== Navigation ====== */
+.nav-bar {
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  z-index: 999;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.nav-bar::-webkit-scrollbar { display: none; }
+.nav-brand {
+  color: var(--accent2);
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+}
+.nav-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--accent2);
+  background: rgba(212, 168, 67, 0.1);
+}
+
+/* ====== Hamburger Menu ====== */
+.hamburger {
+  display: none;
+  cursor: pointer;
+  padding: 5px;
+  background: none;
+  border: none;
+  flex-shrink: 0;
+}
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: var(--accent2);
+  margin: 5px 0;
+  transition: all 0.3s;
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: rgba(10, 10, 10, 0.97);
+  padding: 15px;
+  z-index: 998;
+  border-bottom: 1px solid var(--rule);
+}
+.mobile-menu.show { display: block; }
+.mobile-menu a {
+  display: block;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(212, 168, 67, 0.1);
+  font-size: 0.85rem;
+}
+.mobile-menu a:hover, .mobile-menu a.active { color: var(--accent2); }
+
+/* ====== Layout ====== */
+.page-wrapper {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 50px;
+  position: relative;
+}
+
+/* ====== Sidebar TOC ====== */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 55px;
+  height: calc(100vh - 55px);
+  overflow-y: auto;
+  padding: 1.5rem 1rem 2rem;
+  border-right: 1px solid var(--rule);
+  background: rgba(10, 10, 10, 0.8);
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent2) transparent;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 2px; }
+.sidebar-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--accent2);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(212, 168, 67, 0.2);
+}
+.toc-list { list-style: none; }
+.toc-list li { margin-bottom: 2px; }
+.toc-list a {
+  display: block;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  border-left: 2px solid transparent;
+}
+.toc-list a:hover, .toc-list a.active {
+  color: var(--accent2);
+  background: rgba(212, 168, 67, 0.08);
+  border-left-color: var(--accent2);
+}
+.toc-list .toc-chapter {
+  font-weight: 700;
+  color: var(--accent2);
+  font-size: 0.88rem;
+  margin-top: 8px;
+}
+.toc-list .toc-section {
+  padding-left: 18px;
+  font-size: 0.78rem;
+}
+
+/* ====== Main Content ====== */
+.main-content {
+  flex: 1;
+  max-width: 800px;
+  padding: 3rem 2.5rem 6rem;
+  margin: 0 auto;
+}
+
+/* ====== Hero Section ====== */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80px 60px at 20% 30%, rgba(196, 30, 58, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 60px 80px at 80% 20%, rgba(212, 168, 67, 0.06) 0%, transparent 70%);
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--accent2);
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 40px rgba(212, 168, 67, 0.3), 0 0 80px rgba(196, 30, 58, 0.15);
+  margin-bottom: 0.5rem;
+}
+.hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  color: var(--accent);
+  letter-spacing: 0.3em;
+  margin-bottom: 1rem;
+}
+.hero-author {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+.hero-divider {
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+  margin: 1.5rem auto;
+}
+
+/* ====== Section Styles ====== */
+.chapter-section {
+  margin-bottom: 4rem;
+  scroll-margin-top: 60px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 900;
+  color: var(--accent2);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.1em;
+  position: relative;
+  padding-bottom: 1rem;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.subheading {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-top: 2.5rem;
+  margin-bottom: 1.2rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--accent);
+  letter-spacing: 0.05em;
+}
+
+/* ====== Cards ====== */
+.card {
+  background: var(--bg3);
+  border: 1px solid rgba(212, 168, 67, 0.12);
+  border-radius: 10px;
+  padding: 1.8rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s;
+}
+.card:hover {
+  border-color: rgba(212, 168, 67, 0.3);
+  box-shadow: 0 4px 25px rgba(212, 168, 67, 0.08);
+}
+.card h3 {
+  font-family: var(--font-display);
+  color: var(--accent2);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+.card h4 {
+  color: var(--accent2);
+  font-size: 1.05rem;
+  margin: 1.2rem 0 0.6rem;
+}
+
+/* ====== Paragraphs ====== */
+p {
+  margin-bottom: 1.2rem;
+  text-align: justify;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 2;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+p strong, .highlight { color: var(--accent2); font-weight: 700; }
+.red { color: var(--accent); font-weight: 700; }
+
+/* ====== Special Boxes ====== */
+.quote-box {
+  background: rgba(212, 168, 67, 0.05);
+  border-left: 3px solid var(--accent);
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  font-style: italic;
+  color: #b0a080;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+.formula-box {
+  background: rgba(196, 30, 58, 0.08);
+  border: 1px solid rgba(196, 30, 58, 0.2);
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  text-align: center;
+  font-size: 1.05rem;
+  color: var(--accent2);
+  border-radius: 6px;
+  font-family: 'Cormorant Garamond', serif;
+  line-height: 1.8;
+}
+.gold-border {
+  border-left: 3px solid var(--accent2);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #c8b898;
+}
+.key-point {
+  background: rgba(212, 168, 67, 0.06);
+  border: 1px solid rgba(212, 168, 67, 0.15);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 1rem 0;
+}
+.key-point-title {
+  color: var(--accent2);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* ====== Lists ====== */
+ul, ol { padding-left: 1.8rem; margin-bottom: 1rem; }
+li { line-height: 1.9; color: #c8b898; margin-bottom: 0.4rem; }
+
+/* ====== Dragon Separator ====== */
+.dragon-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+}
+.separator-svg {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  opacity: 0.6;
+}
+
+/* ====== Calculators ====== */
+.calculator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+.calc-card {
+  background: var(--bg3);
+  border: 1px solid rgba(212, 168, 67, 0.15);
+  border-radius: 10px;
+  padding: 1.2rem;
+}
+.calc-card h4 {
+  font-family: var(--font-display);
+  color: var(--accent2);
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  text-align: center;
+}
+.calc-input-group {
+  margin-bottom: 0.7rem;
+}
+.calc-input-group label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+.calc-input-group input, .calc-input-group select {
+  width: 100%;
+  background: rgba(20, 18, 15, 0.9);
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  color: var(--accent2);
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-family: var(--font);
+  font-size: 0.9rem;
+}
+.calc-input-group input:focus, .calc-input-group select:focus {
+  outline: none;
+  border-color: var(--accent2);
+}
+.calc-result {
+  background: rgba(196, 30, 58, 0.08);
+  border: 1px solid rgba(196, 30, 58, 0.2);
+  border-radius: 6px;
+  padding: 0.8rem;
+  margin-top: 0.8rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--ink);
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calc-result .result-value {
+  color: var(--accent2);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-left: 0.3rem;
+}
+.btn {
+  display: inline-block;
+  background: rgba(212, 168, 67, 0.15);
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  color: var(--accent2);
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  text-align: center;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+.btn:hover {
+  background: rgba(212, 168, 67, 0.25);
+  box-shadow: 0 4px 15px rgba(212, 168, 67, 0.2);
+}
+
+/* ====== Quiz ====== */
+.quiz-container { max-width: 700px; margin: 0 auto; }
+.quiz-question {
+  background: var(--bg3);
+  border: 1px solid rgba(212, 168, 67, 0.12);
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+.quiz-question .q-num { color: var(--accent); font-weight: 700; margin-bottom: 0.5rem; }
+.quiz-question .q-text { color: var(--accent2); font-size: 0.95rem; margin-bottom: 0.8rem; line-height: 1.7; }
+.quiz-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: rgba(212, 168, 67, 0.03);
+  border: 1px solid rgba(212, 168, 67, 0.1);
+  color: #c8b898;
+  padding: 10px 15px;
+  margin-bottom: 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 0.88rem;
+  transition: all 0.2s;
+}
+.quiz-option:hover { background: rgba(212, 168, 67, 0.1); border-color: rgba(212, 168, 67, 0.3); }
+.quiz-option.correct { background: rgba(34, 139, 34, 0.15); border-color: #2a8a2a; color: #5a5; }
+.quiz-option.wrong { background: rgba(196, 30, 58, 0.15); border-color: var(--accent); color: var(--accent); }
+.quiz-option.show-correct { background: rgba(34, 139, 34, 0.1); border-color: #2a8a2a; }
+.quiz-explanation {
+  display: none;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: rgba(212, 168, 67, 0.05);
+  border-radius: 5px;
+  color: #b0a080;
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+.quiz-explanation.show { display: block; }
+.score-display {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(212, 168, 67, 0.08);
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+.score-display .score-num {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--accent2);
+}
+.score-display .score-label { color: var(--muted); }
+
+/* ====== Glossary ====== */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.glossary-card {
+  background: var(--bg3);
+  border: 1px solid rgba(212, 168, 67, 0.12);
+  border-radius: 8px;
+  padding: 1.2rem;
+  transition: all 0.3s;
+  cursor: default;
+}
+.glossary-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(212, 168, 67, 0.35);
+  box-shadow: 0 8px 25px rgba(212, 168, 67, 0.1);
+}
+.glossary-card .glossary-name {
+  font-family: var(--font-display);
+  color: var(--accent2);
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+}
+.glossary-card .glossary-cat {
+  display: inline-block;
+  background: rgba(196, 30, 58, 0.15);
+  color: var(--accent);
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+.glossary-card .glossary-def {
+  color: #b0a080;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+.search-bar input {
+  flex: 1;
+  min-width: 200px;
+  background: var(--bg3);
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  color: var(--accent2);
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-family: var(--font);
+  font-size: 0.9rem;
+}
+.search-bar input:focus { outline: none; border-color: var(--accent2); }
+.search-bar input::placeholder { color: #6a5a40; }
+.filter-btn {
+  background: rgba(212, 168, 67, 0.08);
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 0.8rem;
+  transition: all 0.3s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: rgba(212, 168, 67, 0.2);
+  color: var(--accent2);
+}
+
+/* ====== Progress Tracking ====== */
+.progress-section { margin-top: 2rem; }
+.progress-bar-wrap {
+  background: rgba(212, 168, 67, 0.1);
+  border-radius: 10px;
+  height: 18px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+/* ====== Back to Top ====== */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 44px;
+  height: 44px;
+  background: rgba(26, 26, 26, 0.9);
+  border: 1px solid var(--rule);
+  color: var(--accent2);
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 998;
+  backdrop-filter: blur(8px);
+}
+.back-to-top.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.back-to-top:hover {
+  background: var(--accent);
+  color: var(--ink);
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(196, 30, 58, 0.4);
+}
+
+/* ====== Footer ====== */
+.footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--rule);
+  letter-spacing: 0.1em;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 1024px) {
+  .sidebar { display: none; }
+  .main-content { padding: 2rem 1.5rem 4rem; }
+}
+@media (max-width: 768px) {
+  html { font-size: 16px; }
+  .hamburger { display: block; }
+  .nav-bar { padding: 0.5rem 1rem; gap: 0.6rem; }
+  .nav-brand { font-size: 0.75rem; }
+  .nav-link { display: none; }
+  .main-content { padding: 1.5rem 1rem 3rem; }
+  .hero { padding: 2rem 0.5rem; }
+  .calculator-grid { grid-template-columns: 1fr; }
+  .glossary-grid { grid-template-columns: 1fr; }
+  p { text-align: left; }
+  .back-to-top { bottom: 1.5rem; right: 1.5rem; width: 38px; height: 38px; }
+}
+@media (max-width: 480px) {
+  .hero-title { letter-spacing: 0.08em; }
+  .section-title { font-size: 1.6rem; }
+  .subheading { font-size: 1.1rem; }
+}
+
+/* ====== Reduced Motion ====== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ====== Particle Canvas ====== */
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.page-wrapper { position: relative; z-index: 1; }
 </style>
 </head>
 <body>
 <canvas id="particleCanvas"></canvas>
+<div class="progress-bar" id="topProgressBar"></div>
 
+<!-- Navigation -->
 <nav class="nav-bar" id="navBar">
   <span class="nav-brand">阿波菲斯</span>
   <a href="index.html" class="nav-link">主书</a>
@@ -110,6 +715,7 @@ body{background:#0a0a0a;color:#e0d5c1;font-family:'Noto Serif SC',serif;min-heig
   <a href="planetary-hours.html" class="nav-link">行星时</a>
   <a href="goetia-demons.html" class="nav-link">七十二魔神</a>
   <a href="astrology-hub.html" class="nav-link">天文星象</a>
+  <a href="astrology-encyclopedia.html" class="nav-link">占星百科</a>
   <a href="lhp-test.html" class="nav-link">魔法测试</a>
   <a href="dragon-ritual.html" class="nav-link">龙之仪式</a>
   <a href="magic-knowledge-test.html" class="nav-link">知识测验</a>
@@ -149,1011 +755,1084 @@ body{background:#0a0a0a;color:#e0d5c1;font-family:'Noto Serif SC',serif;min-heig
   <a href="sanming-tonghui.html" class="nav-link">三命通会</a>
   <a href="bazi-marriage.html" class="nav-link">八字合婚</a>
   <a href="jiuxing-fengshui.html" class="nav-link">九星风水</a>
+  <a href="voodoo-magic.html" class="nav-link">巫毒魔法</a>
 </nav>
 <div class="mobile-menu" id="mobileMenu"></div>
 
-<div class="main-content">
-<div class="page-header">
-<h1>政治经济学概论</h1>
-<div class="subtitle">POLITICAL ECONOMY</div>
-<div class="book-info">徐禾 等编 | 1975年版 | 中国人民大学出版社</div>
-</div>
-
-<div class="tab-container">
-<div class="tab-nav">
-<button class="tab-btn active" data-tab="tab-overview">教材总览</button>
-<button class="tab-btn" data-tab="tab-commodity">商品与货币</button>
-<button class="tab-btn" data-tab="tab-capital">资本与剩余价值</button>
-<button class="tab-btn" data-tab="tab-wage">工资与积累</button>
-<button class="tab-btn" data-tab="tab-circulation">资本周转</button>
-<button class="tab-btn" data-tab="tab-profit">利润与价格</button>
-<button class="tab-btn" data-tab="tab-concepts">概念速查</button>
-<button class="tab-btn" data-tab="tab-fun">趣味学习</button>
-</div>
-
-<!-- Tab1: 教材总览 -->
-<div class="tab-panel active" id="tab-overview">
-<div class="card">
-<h2>书籍信息</h2>
-<div class="two-col">
-<div>
-<h3>基本信息</h3>
-<p><span class="highlight">书名：</span>政治经济学概论</p>
-<p><span class="highlight">编者：</span>徐禾 等编</p>
-<p><span class="highlight">出版社：</span>中国人民大学出版社</p>
-<p><span class="highlight">出版年份：</span>1975年</p>
-<p><span class="highlight">页数：</span>503页</p>
-</div>
-<div>
-<h3>教材特点</h3>
-<p>本教材系统阐述了马克思主义政治经济学的基本原理，以马克思《资本论》为核心蓝本，从商品分析入手，逐步深入到资本、剩余价值、工资、利润、地租等核心范畴，全面揭示了资本主义经济的运动规律。</p>
-<p>全书共十一章，涵盖从商品货币到经济危机的完整理论体系，是学习马克思主义政治经济学的经典教材。</p>
-</div>
-</div>
-</div>
-
-<div class="card">
-<h2>完整目录大纲</h2>
-<ul class="toc-list">
-<li><span class="chapter-name">第一章 商品和货币</span><span class="page-range">1-74页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 商品是资本主义经济的细胞 | 第二节 商品的二因素：使用价值和价值 | 第三节 生产商品的劳动的二重性：具体劳动和抽象劳动 | 第四节 价值形态的发展。货币的起源和本质 | 第五节 货币的职能 | 第六节 价值规律是商品生产的经济规律 | 第七节 商品拜物教 | 第八节 对资产阶级价值和货币理论的批判</li>
-<li><span class="chapter-name">第二章 资本和剩余价值</span><span class="page-range">75-127页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 由货币到资本的转化 | 第二节 劳动过程和价值增殖过程 | 第三节 资本的本质。不变资本和可变资本 | 第四节 绝对剩余价值的生产 | 第五节 相对剩余价值的生产 | 第六节 相对剩余价值生产的三个发展阶段</li>
-<li><span class="chapter-name">第三章 工资</span><span class="page-range">128-158页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 工资的实质 | 第二节 工资形式 | 第三节 相对工资和实际工资下降的趋势 | 第四节 无产阶级争取提高工资的斗争</li>
-<li><span class="chapter-name">第四章 资本积累及其历史趋势</span><span class="page-range">159-212页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 资本主义的简单再生产和扩大再生产。资本积累的本质 | 第二节 资本的有机构成。资本的积聚和集中 | 第三节 资本积累的过程和产业后备军的形成 | 第四节 对马尔萨斯人口"理论"的批判 | 第五节 资本积累的一般规律。无产阶级的贫困化 | 第六节 资本主义积累的历史趋势</li>
-<li><span class="chapter-name">第五章 资本的循环和周转</span><span class="page-range">213-256页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 产业资本循环的三个阶段 | 第二节 产业资本循环的三种形态 | 第三节 流通时间和流通费用 | 第四节 资本的周转时间和周转次数 | 第五节 固定资本和流动资本 | 第六节 垫付资本的总周转。周转的周期 | 第七节 劳动期间和生产时间。流通时间 | 第八节 可变资本的周转及其对年剩余价值量和年剩余价值率的影响</li>
-<li><span class="chapter-name">第六章 社会资本的再生产和流通</span><span class="page-range">257-291页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 个别资本和社会资本 | 第二节 简单再生产条件下社会产品的实现 | 第三节 扩大再生产条件下社会产品的实现 | 第四节 资本主义条件下社会产品实现过程的矛盾和困难</li>
-<li><span class="chapter-name">第七章 平均利润和生产价格</span><span class="page-range">292-328页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 生产成本和利润。利润的本质 | 第二节 利润率和影响利润率的因素 | 第三节 利润转化为平均利润 | 第四节 价值转化为生产价格 | 第五节 平均利润率下降趋势的规律</li>
-<li><span class="chapter-name">第八章 商业资本和商业利润</span><span class="page-range">329-368页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 商业资本是产业资本的独立部分 | 第二节 商业利润和商业价格 | 第三节 商业的纯粹流通费用及其补偿 | 第四节 资本主义商业的形式 | 第五节 资本主义国家的对外贸易</li>
-<li><span class="chapter-name">第九章 借贷资本和信用</span><span class="page-range">369-416页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 借贷资本的本质和特点 | 第二节 利息和企业利润 | 第三节 商业信用和银行信用 | 第四节 股份公司和虚拟资本 | 第五节 信用在资本主义经济中的作用 | 第六节 信用制度下的货币流通</li>
-<li><span class="chapter-name">第十章 地租</span><span class="page-range">417-466页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 资本主义的土地所有制和资本主义地租 | 第二节 级差地租的第一形态 | 第三节 级差地租的第二形态 | 第四节 对"土地肥力递减规律"的批判 | 第五节 绝对地租 | 第六节 矿山地租和建筑地段的地租。土地价格 | 第七节 资本主义制度下小农经济的破产和城乡对立的加深</li>
-<li><span class="chapter-name">第十一章 资本主义的经济危机</span><span class="page-range">467-502页</span></li>
-<li style="padding-left:30px;font-size:.85rem;color:#a09070">第一节 经济危机的可能性和必然性 | 第二节 资本主义经济危机的周期性 | 第三节 经济危机和资本主义矛盾的尖锐化 | 第四节 对资产阶级经济危机理论的批判</li>
-</ul>
-</div>
-
-<div class="card">
-<h2>学习路线图</h2>
-<p>本教材遵循马克思《资本论》的分析方法，从简单到复杂、从抽象到具体，层层递进。建议按以下路线学习：</p>
-<div class="roadmap">
-<div class="roadmap-step">
-<div class="step-num">1</div>
-<h4>基础篇</h4>
-<p>商品与货币（第1章）<br>理解劳动价值论的核心</p>
-</div>
-<div class="roadmap-step">
-<div class="step-num">2</div>
-<h4>核心篇</h4>
-<p>资本与剩余价值（第2-3章）<br>掌握剩余价值理论</p>
-</div>
-<div class="roadmap-step">
-<div class="step-num">3</div>
-<h4>运动篇</h4>
-<p>资本积累与周转（第4-6章）<br>理解资本的运动形式</p>
-</div>
-<div class="roadmap-step">
-<div class="step-num">4</div>
-<h4>转化篇</h4>
-<p>利润与价格（第7-8章）<br>剩余价值的转化形态</p>
-</div>
-<div class="roadmap-step">
-<div class="step-num">5</div>
-<h4>延伸篇</h4>
-<p>信用与地租（第9-10章）<br>资本主义的分配</p>
-</div>
-<div class="roadmap-step">
-<div class="step-num">6</div>
-<h4>总结篇</h4>
-<p>经济危机（第11章）<br>资本主义矛盾的总爆发</p>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Tab2: 商品与货币 -->
-<div class="tab-panel" id="tab-commodity">
-<div class="card">
-<h2>第一章 商品和货币</h2>
-<div class="quote-box">
-"资本主义生产方式统治下社会的财富，表现为'一个惊人庞大的商品堆积'，一个一个的商品表现为它的原素形式。所以，我们的研究要从商品的分析开始。" —— 马克思《资本论》第一卷
-</div>
-</div>
-
-<div class="card">
-<h2>商品的二因素：使用价值和价值</h2>
-<h3>使用价值</h3>
-<p>物品的有用性，即它能满足人们某种需要的这种属性，便是物品的<span class="highlight">使用价值</span>。使用价值是商品的自然属性，这种属性不仅商品有，商品以外的许多物品也是有的。</p>
-<p>一件物品要成为商品，首先必须有用，即具有使用价值。但并非一切具有使用价值的东西都是商品。农民供自己消费的粮食有使用价值，但不是商品。一种物品要成为商品，它的使用价值必须是<span class="red">通过买卖形式的交换而进入消费领域</span>。</p>
-<div class="gold-border">
-<p><span class="highlight">关键要点：</span>使用价值形成财富的物质内容，无论财富的社会形式怎样，使用价值都形成财富的物质内容。政治经济学是从社会的观点来看待使用价值的。</p>
-</div>
-
-<h3>交换价值与价值</h3>
-<p>交换价值首先表现为一种使用价值和另一种使用价值相交换的量的关系或量的比例。例如，20斤大米和10尺布相交换，10尺布便是20斤大米的交换价值。</p>
-<p>不同商品所以能按一定比例互相交换，是因为在它们里面存在着某种<span class="highlight">共同的东西</span>——这种共同的东西不能是自然属性，而是<span class="highlight">人类劳动的凝结</span>，即<span class="highlight">价值</span>。</p>
-<div class="gold-border">
-<p><span class="highlight">核心结论：</span>商品有两种属性（或两个因素）——使用价值和价值。商品是使用价值和价值的统一体。使用价值是商品的自然属性，价值则是商品的社会属性，是商品所特有的属性。</p>
-</div>
-
-<h3>使用价值和价值的矛盾</h3>
-<p>商品的使用价值和价值处在既相矛盾又相统一的关系中：</p>
-<ul>
-<li><span class="highlight">统一：</span>使用价值是价值的物质承担者，二者互相依赖、互为条件</li>
-<li><span class="highlight">矛盾：</span>商品的使用价值是为社会、为别人的，而生产者关心的是价值。商品一经生产出来，生产者必须让渡使用价值才能取得价值</li>
-</ul>
-<p>由于商品内部包含着这种矛盾，所以一切商品都必须参加交换过程。只有通过交换，商品的使用价值和价值才能够实现。</p>
-</div>
-
-<div class="card">
-<h2>劳动的二重性：具体劳动和抽象劳动</h2>
-<p>生产商品的劳动具有二重性——这是马克思首先发现的，他本人把这一学说看作"在政治经济学的理解上是一个<span class="red">枢纽点</span>"。</p>
-
-<h3>具体劳动</h3>
-<p>各种不同形式的劳动，是根据劳动的目的、对象、所用的工具、操作方法和劳动的结果来区分的。每一种具体形式的劳动，能够生产出一种特定品种的产品，即一个特定的<span class="highlight">使用价值</span>。</p>
-<p>具体劳动作为使用价值的创造者这个根本性质，是不以社会形式的变化为转移的。</p>
-
-<h3>抽象劳动</h3>
-<p>撇开了具体形式的一般的人类劳动，即<span class="highlight">抽象劳动</span>。商品的价值正是由这种抽象劳动形成的。</p>
-<div class="quote-box">
-"一切劳动，一方面都是人类劳动力生理学意义上的支出。并且，当作等一的人类劳动或抽象的人类劳动，它形成商品价值。一切劳动，另一方面又都是人类劳动力在特殊的有一定目的的形式上的支出。并且，当作具体有用的劳动，它生产使用价值。" —— 马克思
-</div>
-
-<h3>价值量</h3>
-<p>价值量由<span class="highlight">社会必要劳动时间</span>决定。所谓社会必要劳动时间，是用社会现有的标准生产条件，用社会平均的劳动熟练程度和强度，生产任何一个使用价值所必要的劳动时间。</p>
-<div class="formula-box">
-商品价值量 = 社会必要劳动时间<br>
-劳动生产率与单位商品价值量成反比，与使用价值量成正比
-</div>
-
-<h3>简单劳动与复杂劳动</h3>
-<p>复杂劳动被看作是强化的或倍加的简单劳动，小量的复杂劳动可以和大量的简单劳动相等。这种比例完全是由一个在商品生产者背后的<span class="red">社会过程自发地确定</span>的。</p>
-</div>
-
-<div class="card">
-<h2>价值形态的发展与货币的起源</h2>
-<p>价值形态经历了四个发展阶段，揭示了货币的历史起源：</p>
-
-<h3>1. 简单的或偶然的价值形态</h3>
-<div class="formula-box">1只绵羊 = 2把斧子</div>
-<p>绵羊处于<span class="highlight">相对价值形态</span>，斧子处于<span class="highlight">等价形态</span>。等价形态有三个特征：使用价值成为价值的现象形态；具体劳动成为抽象劳动的现象形态；私人劳动采取了社会劳动的形态。</p>
-
-<h3>2. 扩大的价值形态</h3>
-<div class="formula-box">1只绵羊 = 2把斧子，或 = 5斤盐，或 = 1克黄金，或 = 3斤茶叶...</div>
-<p>商品价值第一次被表现为无差别的人类劳动的凝结，但每一种商品的价值表现都是一个无穷无尽的特殊等价物的序列，还没有共同的统一表现。</p>
-
-<h3>3. 一般价值形态</h3>
-<div class="formula-box">2把斧子 =<br>5斤盐 =<br>1克黄金 = 1只绵羊<br>3斤茶叶 =</div>
-<p>一切商品的价值通过一种分离的商品（绵羊）来表现。绵羊成为<span class="highlight">一般等价物</span>。</p>
-
-<h3>4. 货币形态</h3>
-<p>当一般等价物的机能固定在某种特殊商品（金银）上时，这种商品就成了<span class="highlight">货币</span>。货币无非是一般等价物，是固定充当一般等价物的商品。</p>
-<div class="quote-box">
-"金银天然不是货币，但货币天然是金银。" —— 马克思
-</div>
-</div>
-
-<div class="card">
-<h2>货币的职能</h2>
-<p>在发达的商品经济条件下，货币执行着<span class="highlight">五种职能</span>：</p>
-
-<h3>1. 价值尺度</h3>
-<p>货币以自己为尺度来表现和衡量其他一切商品的价值。货币所以能充当价值尺度，是因为货币本身也是商品，具有价值。商品价值表现在货币上，就是商品的<span class="highlight">价格</span>。货币执行这一职能时是作为<span class="red">观念的货币</span>。</p>
-
-<h3>2. 流通手段</h3>
-<p>商品流通公式：<span class="highlight">商品—货币—商品（W—G—W）</span>。货币在商品流通中的媒介作用就是流通手段职能。作为流通手段的货币只能是<span class="red">实在的货币</span>。</p>
-<div class="formula-box">
-流通中所需货币量 = 商品价格总额 / 同一单位货币流通的平均速度（次数）
-</div>
-
-<h3>3. 贮藏手段</h3>
-<p>货币退出流通领域，作为社会财富的一般代表被保存起来，执行贮藏手段的职能。充当贮藏手段的货币必须是<span class="red">足价的金属货币</span>。</p>
-
-<h3>4. 支付手段</h3>
-<p>货币在清偿债务或支付赋税、租金、工资等时的职能。随着信用的发展，货币作为支付手段的职能日益扩大。</p>
-
-<h3>5. 世界货币</h3>
-<p>货币越出国内流通领域，在世界市场上执行一般购买手段、一般支付手段和社会财富的一般化身等职能。</p>
-</div>
-
-<div class="card">
-<h2>价值规律</h2>
-<p><span class="highlight">价值规律</span>是商品生产的经济规律。它的基本内容是：商品的价值量由生产商品的社会必要劳动时间决定，商品交换以价值为基础，遵循<span class="red">等价交换</span>的原则。</p>
-<p>价格围绕价值上下波动，是价值规律作用的表现形式。在私有制商品经济中，价值规律有以下作用：</p>
-<ul>
-<li>自发地调节生产资料和劳动力在各部门之间的分配</li>
-<li>刺激生产技术的改进和劳动生产率的提高</li>
-<li>促使商品生产者两极分化</li>
-</ul>
-</div>
-
-<div class="card">
-<h2>商品拜物教</h2>
-<p><span class="highlight">商品拜物教</span>是指把商品这种人与人之间的经济关系，看作是物与物之间的关系的虚幻观念。</p>
-<p>商品不是物，而是在物的外壳掩盖下的生产者之间的一定的<span class="highlight">社会关系</span>。人们互相交换商品，实际上是互相交换各自的劳动，只不过由于私人劳动和社会劳动的矛盾，生产者的劳动的社会性不能直接表现出来，因而他们之间的劳动互换才采取了价值的形式、商品的形式。</p>
-<p>货币出现后，商品拜物教发展为<span class="red">货币拜物教</span>。在资本主义社会，一切关系都采取了物的形式，拜物教达到了最高峰。</p>
-</div>
-</div>
-
-<!-- Tab3: 资本与剩余价值 -->
-<div class="tab-panel" id="tab-capital">
-<div class="card">
-<h2>第二章 资本和剩余价值</h2>
-<div class="quote-box">
-"资本来到世间，从头到脚，每个毛孔都滴着血和肮脏的东西。" —— 马克思《资本论》第一卷
-</div>
-</div>
-
-<div class="card">
-<h2>由货币到资本的转化</h2>
-<h3>资本的总公式</h3>
-<p>货币是资本的最初表现形式，但货币本身并不是资本。作为一般货币的流通公式是<span class="highlight">W—G—W</span>（商品—货币—商品），而作为资本的流通公式则是<span class="red">G—W—G'</span>（货币—商品—更多的货币），其中G' = G + ΔG。</p>
-<div class="formula-box">
-G — W — G' &nbsp;&nbsp;（G' = G + ΔG）<br>
-资本总公式
-</div>
-<p>ΔG就是<span class="highlight">剩余价值</span>。资本就是能够带来剩余价值的价值。G—W—G'这个公式表明，资本运动的目的是为了价值的增殖。</p>
-
-<h3>资本总公式的矛盾</h3>
-<p>剩余价值不能在流通中产生，又不能不在流通中产生。它必须既在流通中又不在流通中产生。这就是资本总公式的矛盾。</p>
-<p>解决这一矛盾的关键在于：资本家在市场上找到了一种特殊商品，这种商品的使用价值本身就是价值的源泉——这就是<span class="red">劳动力</span>。</p>
-</div>
-
-<div class="card">
-<h2>劳动过程和价值增殖过程</h2>
-<h3>资本主义劳动过程</h3>
-<p>资本主义的劳动过程具有两个特点：</p>
-<ul>
-<li>工人在资本家的监督下劳动，他的劳动属于资本家</li>
-<li>劳动产品归资本家所有</li>
-</ul>
-
-<h3>价值增殖过程</h3>
-<p>价值增殖过程是超过一定点而延长了的价值形成过程。资本家把工人的劳动时间延长到补偿劳动力价值所需要的劳动时间以上，这个延长部分就是<span class="highlight">剩余劳动时间</span>，它创造的价值就是<span class="highlight">剩余价值</span>。</p>
-<div class="gold-border">
-<p><span class="highlight">关键区分：</span>必要劳动时间——再生产劳动力价值的时间；剩余劳动时间——创造剩余价值的时间。剩余价值就是由雇佣工人创造的、被资本家无偿占有的、超过劳动力价值以上的那部分价值。</p>
-</div>
-</div>
-
-<div class="card">
-<h2>不变资本与可变资本</h2>
-<p>资本家的资本分为两个部分：</p>
-<ul>
-<li><span class="highlight">不变资本（c）：</span>转化为生产资料的那部分资本，在生产过程中不改变价值量，只是把价值转移到新产品中去</li>
-<li><span class="highlight">可变资本（v）：</span>转化为劳动力的那部分资本，在生产过程中改变价值量，不仅能再生产出自身的等价，还能生产出剩余价值</li>
-</ul>
-<div class="formula-box">
-商品价值 = c + v + m<br>
-（c = 不变资本，v = 可变资本，m = 剩余价值）
-</div>
-<p>这一划分揭示了<span class="red">剩余价值的真正来源</span>是可变资本，即工人的活劳动。它证明了剩余价值不是全部资本的产物，而仅仅是可变资本的产物。</p>
-</div>
-
-<div class="card">
-<h2>剩余价值的生产方法</h2>
-<h3>绝对剩余价值的生产</h3>
-<p>在必要劳动时间不变的条件下，通过<span class="highlight">绝对延长工作日长度</span>（或提高劳动强度）来生产剩余价值的方法。工作日越长，剩余劳动时间就越多，剩余价值量就越大。</p>
-<p>工作日的长度是有界限的：最低界限是必要劳动时间，最高界限取决于工人的生理界限和社会的道德界限。无产阶级为缩短工作日进行了长期的斗争。</p>
-
-<h3>相对剩余价值的生产</h3>
-<p>在工作日长度不变的条件下，通过<span class="highlight">缩短必要劳动时间</span>、相应延长剩余劳动时间来生产剩余价值的方法。缩短必要劳动时间的条件是降低劳动力的价值，即降低维持工人生活所必需的生活资料的价值。</p>
-<p>相对剩余价值的生产是通过<span class="red">提高社会劳动生产率</span>来实现的。各个资本家追逐<span class="highlight">超额剩余价值</span>（个别价值低于社会价值的差额）的竞争，最终导致社会劳动生产率的普遍提高，从而产生相对剩余价值。</p>
-
-<h3>相对剩余价值生产的三个阶段</h3>
-<ul>
-<li><span class="highlight">简单协作：</span>许多工人在同一资本家指挥下协同劳动</li>
-<li><span class="highlight">工场手工业：</span>以分工为基础的协作，工人专门从事某种操作</li>
-<li><span class="highlight">机器大工业：</span>以机器体系为基础的协作，标志着资本主义生产方式的真正确立</span></li>
-</ul>
-</div>
-</div>
-
-<!-- Tab4: 工资与资本积累 -->
-<div class="tab-panel" id="tab-wage">
-<div class="card">
-<h2>第三章 工资</h2>
-
-<h3>工资的实质</h3>
-<p>从现象上看，工资似乎是"劳动的价格"，是工人全部劳动的报酬。但实际上，工资是<span class="highlight">劳动力的价值或价格</span>，而不是劳动的价值或价格。</p>
-<p>劳动力和劳动是两个不同的概念。<span class="highlight">劳动力</span>是人的劳动能力，是商品，有价值；而<span class="red">劳动</span>是劳动力的使用，它本身不是商品，没有价值。</p>
-<div class="gold-border">
-<p><span class="highlight">工资的本质：</span>工资不是劳动的价值或价格，而是劳动力的价值或价格的转化形式。工资形式掩盖了工作日分为必要劳动时间和剩余劳动时间这一事实，造成了工人全部劳动都是有偿劳动的假象。</p>
-</div>
-
-<h3>工资形式</h3>
-<ul>
-<li><span class="highlight">计时工资：</span>按工人的劳动时间支付的工资，是劳动力日价值、周价值等的转化形式</li>
-<li><span class="highlight">计件工资：</span>按工人生产的产品数量或完成的工作量支付的工资，是计时工资的转化形式</li>
-</ul>
-<p>计件工资更有利于资本家对工人的剥削，因为它为资本家提供了测量劳动强度的尺度，并便于实行层层剥削的包工制度。</p>
-
-<h3>相对工资和实际工资下降的趋势</h3>
-<p><span class="highlight">相对工资</span>是指工人所得工资在工人所创造的新价值中所占的比例。随着资本主义的发展，相对工资有下降的趋势。</p>
-<p><span class="highlight">实际工资</span>是指工人用货币工资所能购买到的生活资料和服务的数量。从长期看，实际工资也有下降的趋势，这是因为通货膨胀、赋税加重等因素。</p>
-</div>
-
-<div class="card">
-<h2>第四章 资本积累及其历史趋势</h2>
-
-<h3>资本积累的本质</h3>
-<p><span class="highlight">资本积累</span>就是把剩余价值转化为资本，即剩余价值的资本化。资本积累是资本主义扩大再生产的唯一源泉。</p>
-<p>通过对资本主义简单再生产的分析可以揭示出：资本家的全部资本都是工人创造的；工人的个人消费也是从属于资本的；资本主义再生产同时也就是资本主义生产关系的再生产。</p>
-
-<h3>资本的有机构成</h3>
-<p>资本的构成可以从两方面考察：</p>
-<ul>
-<li><span class="highlight">价值构成：</span>不变资本和可变资本的比例（c:v）</li>
-<li><span class="highlight">技术构成：</span>生产资料数量和使用这些生产资料所需的劳动力数量之间的比例</li>
-</ul>
-<p>由资本技术构成决定并反映技术构成变化的资本价值构成，叫做资本的<span class="red">有机构成</span>。随着资本主义的发展，资本有机构成有不断提高的趋势。</p>
-
-<h3>资本的积聚和集中</h3>
-<p><span class="highlight">资本积聚：</span>个别资本通过剩余价值资本化来增大自己的资本总额</p>
-<p><span class="highlight">资本集中：</span>把若干已经存在的规模较小的资本合并成为大资本。竞争和信用是资本集中的两个最强有力的杠杆。</p>
-
-<h3>产业后备军</h3>
-<p>随着资本积累和资本有机构成的提高，资本对劳动力的需求相对减少，产生<span class="highlight">相对过剩人口</span>（即产业后备军）。相对过剩人口有三种基本形式：</p>
-<ul>
-<li>流动形式：暂时失业的工人</li>
-<li>潜在形式：农业中的过剩人口</li>
-<li>停滞形式：就业极不稳定的劳动者</li>
-</ul>
-<p>产业后备军不仅是资本积累的产物，也是资本主义生产方式存在和发展的必要条件。</p>
-
-<h3>无产阶级的贫困化</h3>
-<p>资本积累的一般规律是：<span class="highlight">一极是财富的积累，另一极是贫困的积累</span>。无产阶级的贫困化表现为相对贫困化和绝对贫困化两个方面。</p>
-<p>相对贫困化是指无产阶级在国民收入中所得份额的减少；绝对贫困化是指无产阶级生活状况的绝对恶化。</p>
-
-<h3>资本主义积累的历史趋势</h3>
-<p>资本积累过程一方面造成了社会化大生产，另一方面又使生产资料越来越集中到少数资本家手中。生产的社会化和资本主义私人占有之间的矛盾日益尖锐，最终必然导致资本主义制度的灭亡。</p>
-<div class="quote-box">
-"生产资料的集中和劳动的社会化，达到了同它们的资本主义外壳不能相容的地步。这个外壳就要炸毁了。资本主义私有制的丧钟就要响了。剥夺者就要被剥夺了。" —— 马克思《资本论》第一卷
-</div>
-</div>
-</div>
-
-<!-- Tab5: 资本周转 -->
-<div class="tab-panel" id="tab-circulation">
-<div class="card">
-<h2>第五章 资本的循环和周转</h2>
-
-<h3>产业资本循环的三个阶段</h3>
-<p>产业资本在运动中依次经过三个阶段，采取三种职能形式：</p>
-<div class="formula-box">
-第一阶段：G — W &nbsp;&nbsp;（购买阶段，货币资本转化为生产资本）<br>
-第二阶段：... P ... &nbsp;&nbsp;（生产阶段，生产资本转化为商品资本）<br>
-第三阶段：W' — G' &nbsp;&nbsp;（售卖阶段，商品资本转化为货币资本）
-</div>
-<p>其中<span class="red">生产阶段</span>是起决定作用的阶段，因为只有在生产过程中才能创造价值和剩余价值。</p>
-
-<h3>产业资本循环的三种形态</h3>
-<ul>
-<li><span class="highlight">货币资本的循环：</span>G—W...P...W'—G'，表明资本运动的目的是为了价值增殖</li>
-<li><span class="highlight">生产资本的循环：</span>P...W'—G'—W...P，表明生产过程的连续性</li>
-<li><span class="highlight">商品资本的循环：</span>W'—G'—W...P...W'，表明全部商品的实现</li>
-</ul>
-<p>产业资本的现实循环是这三种循环形式的统一。要使循环顺利进行，必须保持产业资本三种形式在空间上并存、在时间上继起。</p>
-
-<h3>流通时间和流通费用</h3>
-<p><span class="highlight">流通时间</span>是资本处于流通领域的时间，包括购买时间和售卖时间。流通时间不创造价值和剩余价值，它是对生产时间的一种限制。</p>
-<p><span class="highlight">流通费用</span>包括：</p>
-<ul>
-<li>纯粹流通费用（买卖时间、簿记费用、货币费用）——不创造价值</li>
-<li>保管费用——在一定程度上加入商品价值</li>
-<li>运输费用——创造价值，属于生产性流通费用</li>
-</ul>
-</div>
-
-<div class="card">
-<h2>资本的周转</h2>
-<h3>周转时间和周转次数</h3>
-<p><span class="highlight">资本周转</span>是不断重复、不断更新的资本循环。资本周转时间等于生产时间和流通时间之和。</p>
-<div class="formula-box">
-周转次数（n）= 一年（365天）/ 周转时间（天）
-</div>
-
-<h3>固定资本和流动资本</h3>
-<p>按价值的周转方式，生产资本可分为：</p>
-<ul>
-<li><span class="highlight">固定资本：</span>以厂房、机器、设备等劳动资料形式存在的生产资本，其价值逐渐转移、分次收回</li>
-<li><span class="highlight">流动资本：</span>以原料、燃料、辅助材料等劳动对象和劳动力形式存在的生产资本，其价值一次转移、一次收回</li>
-</ul>
-<div class="gold-border">
-<p><span class="highlight">重要区分：</span>固定资本和流动资本的划分与不变资本和可变资本的划分不同。前者是根据价值周转方式的不同，后者是根据在价值增殖过程中所起作用的不同。固定资本和流动资本中都包含不变资本的部分，只有流动资本中的劳动力部分才是可变资本。</p>
-</div>
-
-<h3>垫付资本的总周转</h3>
-<p>垫付资本的总周转速度取决于各部分资本的周转速度及其在总资本中所占的比重。</p>
-<div class="formula-box">
-垫付资本总周转次数 = (一年内固定资本周转总额 + 一年内流动资本周转总额) / 垫付资本总额
-</div>
-
-<h3>可变资本的周转对剩余价值的影响</h3>
-<p>可变资本的周转速度直接影响年剩余价值量和年剩余价值率。周转速度越快，同量可变资本在一年内剥削的劳动力就越多，年剩余价值量就越大。</p>
-<div class="formula-box">
-年剩余价值量（M）= m' x v x n<br>
-年剩余价值率（M'）= M / V = m' x n<br>
-（m' = 剩余价值率，v = 可变资本，n = 周转次数）
-</div>
-</div>
-
-<div class="card">
-<h2>第六章 社会资本的再生产和流通</h2>
-
-<h3>个别资本和社会资本</h3>
-<p><span class="highlight">个别资本</span>是独立发挥职能的资本。<span class="highlight">社会资本</span>是互相联系、互相依存的个别资本的总和。社会资本的运动不仅包括生产消费，还包括个人消费；不仅包括资本流通，还包括一般商品流通。</p>
-
-<h3>简单再生产条件下社会产品的实现</h3>
-<p>社会总产品按价值分为：<span class="highlight">c（不变资本）+ v（可变资本）+ m（剩余价值）</span>；按实物形式分为：<span class="highlight">第一部类（生产资料）</span>和<span class="highlight">第二部类（消费资料）</span>。</p>
-<div class="formula-box">
-简单再生产的基本实现条件：<br>
-I(v+m) = IIc<br>
-即：第一部类的可变资本加剩余价值等于第二部类的不变资本
-</div>
-<p>由此还可引申出两个条件：</p>
-<ul>
-<li>I(c+v+m) = Ic + IIc（第一部类全部产品价值等于两大部类不变资本之和）</li>
-<li>II(c+v+m) = I(v+m) + II(v+m)（第二部类全部产品价值等于两大部类可变资本与剩余价值之和）</li>
-</ul>
-
-<h3>扩大再生产条件下社会产品的实现</h3>
-<div class="formula-box">
-扩大再生产的基本实现条件：<br>
-I(v+Δv+m/x) = II(c+Δc)<br>
-即：第一部类原有可变资本加追加可变资本加资本家个人消费等于第二部类原有不变资本加追加不变资本
-</div>
-<p>扩大再生产的实现条件表明，社会生产两大部类之间必须保持一定的比例关系，否则社会产品的实现就会遇到困难。</p>
-
-<h3>资本主义条件下社会产品实现的矛盾</h3>
-<p>在资本主义制度下，由于生产的社会化和私人资本主义占有之间的矛盾，社会产品的实现经常遇到困难。这种矛盾表现为：生产无限扩大的趋势和劳动群众有支付能力的需求相对缩小之间的矛盾，最终必然导致经济危机。</p>
-</div>
-</div>
-
-<!-- Tab6: 利润与价格 -->
-<div class="tab-panel" id="tab-profit">
-<div class="card">
-<h2>第七章 平均利润和生产价格</h2>
-
-<h3>生产成本和利润</h3>
-<p>资本主义企业生产的商品价值 = <span class="highlight">c + v + m</span>。对资本家来说，c和v是他预付的资本，因此c+v构成商品的<span class="highlight">生产成本（k）</span>。商品价值 = k + m。</p>
-<p>当剩余价值不被看作是可变资本的产物，而被看作是全部预付资本的产物时，它就转化为<span class="highlight">利润</span>（p）。利润是剩余价值的转化形式。</p>
-<div class="formula-box">
-W = c + v + m = k + m = k + p<br>
-利润率 p' = m / (c + v)
-</div>
-
-<h3>利润率和影响利润率的因素</h3>
-<p><span class="highlight">利润率</span>是剩余价值与全部预付资本的比率。影响利润率的因素有：</p>
-<ul>
-<li>剩余价值率（同方向变化）</li>
-<li>资本有机构成（反方向变化）</li>
-<li>资本周转速度（同方向变化）</li>
-<li>不变资本的节省（同方向变化）</li>
-</ul>
-
-<h3>利润转化为平均利润</h3>
-<p>不同部门的利润率不同，资本家为了追逐更高的利润，会在不同部门之间展开竞争，资本从利润率低的部门转移到利润率高的部门。这种竞争导致各部门的利润率趋于平均化，形成<span class="highlight">平均利润率</span>。</p>
-<div class="formula-box">
-平均利润率 = 社会剩余价值总额 / 社会总资本<br>
-平均利润 = 预付资本 x 平均利润率
-</div>
-<p>利润转化为平均利润，进一步掩盖了剩余价值的真正来源，造成利润是全部资本的产物的假象。</p>
-
-<h3>价值转化为生产价格</h3>
-<p>随着利润转化为平均利润，价值就转化为<span class="highlight">生产价格</span>。生产价格 = 生产成本 + 平均利润。</p>
-<p>生产价格形成后，商品不再按价值出售，而是按生产价格出售。但从全社会看，生产价格总额等于价值总额，平均利润总额等于剩余价值总额。生产价格是价值的转化形式。</p>
-
-<h3>平均利润率下降趋势的规律</h3>
-<p>随着资本主义的发展，资本有机构成不断提高，导致平均利润率有下降的趋势。但这一规律并不排除利润量的绝对增加，因为总资本的增长速度可能超过利润率下降的速度。</p>
-<p>阻碍利润率下降的因素包括：劳动生产率的提高使工人必需品便宜、相对过剩人口的存在、对外贸易的发展、股份资本的增加等。</p>
-</div>
-
-<div class="card">
-<h2>第八章 商业资本和商业利润</h2>
-
-<h3>商业资本是产业资本的独立部分</h3>
-<p><span class="highlight">商业资本</span>是专门从事商品买卖、以获取利润为目的的资本。它是产业资本中商品资本的独立化形式。</p>
-<p>商业资本的职能是执行商品资本的职能——实现商品的价值和剩余价值。</p>
-
-<h3>商业利润和商业价格</h3>
-<p><span class="highlight">商业利润</span>是商业资本家从产业资本家那里以低于商品价值（生产价格）的价格购买商品，再以商品价值（生产价格）出售所获得的差额。</p>
-<p>从表面上看，商业利润似乎是在流通中产生的。但实际上，商业利润的来源是<span class="red">产业工人在生产中创造的剩余价值</span>。产业资本家以低于生产价格的价格把商品卖给商业资本家，商业资本家再按生产价格出售，其中的差额就是商业利润。</p>
-<div class="formula-box">
-商业利润 = 商业价格 - 购买价格<br>
-商业利润率 = 平均利润率（通过部门间竞争趋于平均化）
-</div>
-
-<h3>商业的纯粹流通费用及其补偿</h3>
-<p><span class="highlight">纯粹流通费用</span>是因商品买卖本身而支出的费用，如广告费、簿记费、商业职工工资等。这些费用不创造价值，但需要从剩余价值中得到补偿。</p>
-<p>纯粹流通费用从产业工人创造的剩余价值中扣除来补偿，这降低了对社会总剩余价值的分配比例。</p>
-
-<h3>资本主义商业的形式</h3>
-<ul>
-<li><span class="highlight">批发商业：</span>在企业之间进行的商品大宗买卖</li>
-<li><span class="highlight">零售商业：</span>直接把商品卖给消费者的商业</li>
-<li><span class="highlight">对外贸易：</span>超越国界的商品买卖活动</li>
-</ul>
-</div>
-</div>
-
-<!-- Tab7: 核心概念速查 -->
-<div class="tab-panel" id="tab-concepts">
-<div class="card">
-<h2>核心概念速查</h2>
-<p>搜索和筛选政治经济学核心概念，快速查阅定义和要点。</p>
-<div class="search-bar">
-<input type="text" id="conceptSearch" placeholder="输入关键词搜索概念...">
-<button class="filter-btn active" data-filter="all" onclick="filterConcepts('all')">全部</button>
-<button class="filter-btn" data-filter="商品货币" onclick="filterConcepts('商品货币')">商品货币</button>
-<button class="filter-btn" data-filter="资本剩余价值" onclick="filterConcepts('资本剩余价值')">资本剩余价值</button>
-<button class="filter-btn" data-filter="工资积累" onclick="filterConcepts('工资积累')">工资积累</button>
-<button class="filter-btn" data-filter="周转再生产" onclick="filterConcepts('周转再生产')">周转再生产</button>
-<button class="filter-btn" data-filter="利润价格" onclick="filterConcepts('利润价格')">利润价格</button>
-</div>
-<div class="concept-grid" id="conceptGrid"></div>
-</div>
-</div>
-
-<!-- Tab8: 趣味学习 -->
-<div class="tab-panel" id="tab-fun">
-<div class="card">
-<h2>小测验</h2>
-<p>检验你对政治经济学基本概念的理解。每题选择一个最佳答案。</p>
-<div class="score-display" id="scoreDisplay" style="display:none">
-<div class="score-num" id="scoreNum">0</div>
-<div class="score-label">/ 10 分</div>
-</div>
-<div class="quiz-container" id="quizContainer"></div>
-<button class="btn" id="submitQuiz" onclick="submitQuiz()">提交答案</button>
-<button class="btn" id="resetQuiz" onclick="resetQuiz()" style="display:none;margin-left:10px">重新测试</button>
-</div>
-
-<div class="card">
-<h2>关键公式汇总</h2>
-<ul class="formula-list">
-<li>
-<div class="formula-title">商品价值</div>
-<div class="formula-content">W = c + v + m（不变资本 + 可变资本 + 剩余价值）</div>
-</li>
-<li>
-<div class="formula-title">剩余价值率</div>
-<div class="formula-content">m' = m / v（剩余价值 / 可变资本）</div>
-</li>
-<li>
-<div class="formula-title">利润率</div>
-<div class="formula-content">p' = m / (c + v)（剩余价值 / 全部预付资本）</div>
-</li>
-<li>
-<div class="formula-title">年剩余价值量</div>
-<div class="formula-content">M = m' x v x n（剩余价值率 x 可变资本 x 周转次数）</div>
-</li>
-<li>
-<div class="formula-title">年剩余价值率</div>
-<div class="formula-content">M' = m' x n</div>
-</li>
-<li>
-<div class="formula-title">流通中所需货币量</div>
-<div class="formula-content">货币量 = 商品价格总额 / 货币流通速度</div>
-</li>
-<li>
-<div class="formula-title">简单再生产实现条件</div>
-<div class="formula-content">I(v + m) = IIc</div>
-</li>
-<li>
-<div class="formula-title">扩大再生产实现条件</div>
-<div class="formula-content">I(v + Δv + m/x) = II(c + Δc)</div>
-</li>
-<li>
-<div class="formula-title">平均利润率</div>
-<div class="formula-content">= 社会剩余价值总额 / 社会总资本</div>
-</li>
-<li>
-<div class="formula-title">生产价格</div>
-<div class="formula-content">= 生产成本(k) + 平均利润</div>
-</li>
-<li>
-<div class="formula-title">资本有机构成</div>
-<div class="formula-content">c : v（不变资本与可变资本之比）</div>
-</li>
-<li>
-<div class="formula-title">资本周转次数</div>
-<div class="formula-content">n = 365 / 周转时间（天）</div>
-</li>
-</ul>
-</div>
-
-<div class="card">
-<h2>学习进度追踪</h2>
-<p>记录你各章节的学习进度，数据保存在本地浏览器中。</p>
-<div id="progressTracker"></div>
-<div style="margin-top:15px">
-<button class="btn" onclick="saveProgress()">保存进度</button>
-<button class="btn" onclick="resetProgress()" style="margin-left:10px;background:rgba(196,30,58,.15);border-color:rgba(196,30,58,.3);color:#c41e3a">重置进度</button>
-</div>
-</div>
-</div>
-
-</div><!-- end tab-container -->
-</div><!-- end main-content -->
+<div class="page-wrapper">
+  <!-- Sidebar TOC -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-title">目录导航</div>
+    <ul class="toc-list">
+      <li><a href="#intro" class="toc-chapter">导论：政治经济学的对象</a></li>
+      <li><a href="#ch1" class="toc-chapter">第一章 商品和货币</a></li>
+      <li><a href="#ch1-1" class="toc-section">商品是资本主义经济的细胞</a></li>
+      <li><a href="#ch1-2" class="toc-section">商品的二因素</a></li>
+      <li><a href="#ch1-3" class="toc-section">劳动的二重性</a></li>
+      <li><a href="#ch1-4" class="toc-section">价值形态与货币</a></li>
+      <li><a href="#ch1-5" class="toc-section">货币的职能</a></li>
+      <li><a href="#ch1-6" class="toc-section">价值规律</a></li>
+      <li><a href="#ch2" class="toc-chapter">第二章 资本和剩余价值</a></li>
+      <li><a href="#ch2-1" class="toc-section">由货币到资本的转化</a></li>
+      <li><a href="#ch2-2" class="toc-section">劳动过程与价值增殖</a></li>
+      <li><a href="#ch2-3" class="toc-section">不变资本与可变资本</a></li>
+      <li><a href="#ch2-4" class="toc-section">剩余价值的生产方法</a></li>
+      <li><a href="#ch3" class="toc-chapter">第三章 工资</a></li>
+      <li><a href="#ch3-1" class="toc-section">工资的实质</a></li>
+      <li><a href="#ch3-2" class="toc-section">工资形式</a></li>
+      <li><a href="#ch4" class="toc-chapter">第四章 资本积累</a></li>
+      <li><a href="#ch4-1" class="toc-section">资本积累的本质</a></li>
+      <li><a href="#ch4-2" class="toc-section">资本有机构成</a></li>
+      <li><a href="#ch4-3" class="toc-section">产业后备军</a></li>
+      <li><a href="#ch5" class="toc-chapter">第五章 资本的循环和周转</a></li>
+      <li><a href="#ch5-1" class="toc-section">资本循环三阶段</a></li>
+      <li><a href="#ch5-2" class="toc-section">固定资本与流动资本</a></li>
+      <li><a href="#ch6" class="toc-chapter">第六章 利润和平均利润</a></li>
+      <li><a href="#ch6-1" class="toc-section">生产成本与利润</a></li>
+      <li><a href="#ch6-2" class="toc-section">平均利润率</a></li>
+      <li><a href="#ch7" class="toc-chapter">第七章 商业利润、利息和地租</a></li>
+      <li><a href="#ch7-1" class="toc-section">商业资本与利润</a></li>
+      <li><a href="#ch7-2" class="toc-section">借贷资本与利息</a></li>
+      <li><a href="#ch7-3" class="toc-section">资本主义地租</a></li>
+      <li><a href="#ch8" class="toc-chapter">第八章 资本主义经济危机</a></li>
+      <li><a href="#calculators" class="toc-chapter">互动计算器</a></li>
+      <li><a href="#glossary" class="toc-chapter">概念速查</a></li>
+      <li><a href="#quiz" class="toc-chapter">趣味测验</a></li>
+      <li><a href="#progress" class="toc-chapter">学习进度</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">政治经济学概论</h1>
+        <div class="hero-subtitle">POLITICAL ECONOMY</div>
+        <div class="hero-divider"></div>
+        <div class="hero-author">徐禾 等编 | 1975年版 | 中国人民大学出版社</div>
+      </div>
+    </section>
+
+    <!-- 导论 -->
+    <section class="chapter-section" id="intro">
+      <h2 class="section-title">导论：政治经济学的对象</h2>
+      <div class="card">
+        <p>马克思分析资本主义的经济制度，是从商品开始的。他首先分析了商品、货币这样一些比较简单的、抽象的范畴，进而分析了资本、剩余价值这些比较复杂的范畴，最后上升到利润、利息和地租等复杂的、具体的范畴。通过这样的分析，全面地阐明了资本主义的经济关系，揭示了资本主义经济的发展规律。</p>
+        <div class="quote-box">
+          "资本主义生产方式统治下社会的财富，表现为'一个惊人庞大的商品堆积'，一个一个的商品表现为它的原素形式。所以，我们的研究要从商品的分析开始。" —— 马克思《资本论》第一卷
+        </div>
+        <p>商品是资本主义社会中最常见、最普遍的现象，是资本主义经济的最单纯、最基本的因素，是它的经济细胞。只有运用从商品入手的逻辑方法，才能够正确地阐明资本主义经济的实质及其运动规律。</p>
+        <p>资本主义生产是最发达的商品生产，是商品生产的最高形式。在资本主义制度下，一切都成了商品，到处都被买卖的原则支配着。在这里，不仅劳动产品成了商品，就连人们的劳动力，人们的血汗，甚至人们的名誉和良心，都成了买卖的对象。</p>
+        <div class="key-point">
+          <div class="key-point-title">核心方法论</div>
+          <p>马克思所采用的抽象分析方法，是一种逻辑的方法。从实质上说，这种逻辑的方法是和历史的方法相一致的。"历史从哪里开始，思想进程也应当从哪里开始"。因此，为了弄清资本主义发生和发展的规律，分析必须从商品开始。</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+        <defs><linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="transparent"/><stop offset="50%" stop-color="#d4a843"/><stop offset="100%" stop-color="transparent"/></linearGradient></defs>
+      </svg>
+    </div>
+
+    <!-- 第一章 -->
+    <section class="chapter-section" id="ch1">
+      <h2 class="section-title">第一章 商品和货币</h2>
+
+      <div class="card" id="ch1-1">
+        <h3>第一节 商品是资本主义经济的细胞</h3>
+        <p>马克思所以从商品入手分析资本主义，是有充分的科学道理的。商品是资本主义社会中最常见、最普遍的现象，是资本主义经济的最单纯、最基本的因素，是它的经济细胞。只有运用从商品入手的逻辑方法，才能够正确地阐明资本主义经济的实质及其运动规律。</p>
+        <p>和探求任何事物的本质时所必须遵循的方法一样，探求资本主义的本质也必须从它所具有的最大量、最普遍的现象出发。事物的本质总是寓于事物的现象之中。商品和商品交换既然是资本主义经济的最普遍的现象，因此，只有从商品着手展开分析，才可能揭明这一经济的本质和它的运动规律。</p>
+        <p>能够作为分析资本主义经济关系出发点的现象，不仅必须是这个社会最普遍、最大量的现象，同时它还必须是这个社会最基本、最单纯的现象。任何复杂的事物都是从简单的事物发展起来的，并且是由大量简单的事物组成的。只有从简单的形式开始分析，才能一步步地说明整个复杂的事物。</p>
+        <div class="key-point">
+          <div class="key-point-title">为什么从商品开始？</div>
+          <p>资本主义经济这个复杂的机体，是由商品这种经济细胞组成的。在商品内部，包含着资本主义社会的一切矛盾的胚芽。我们只有从商品这一最简单、最抽象的范畴入手，然后逐步上升到那些比较复杂、比较具体的范畴，只有通过这样一个从简单到复杂、从抽象到具体的分析过程，才能揭明资本主义的实质、矛盾以及这一经济制度的全部复杂的内容。</p>
+        </div>
+      </div>
+
+      <div class="card" id="ch1-2">
+        <h3>第二节 商品的二因素：使用价值和价值</h3>
+        <p>商品，首先是一种可以用来满足人们一定需要的物品。物品的有用性，亦即它能满足人们某种需要的这种属性，便是物品的<strong>使用价值</strong>。马克思说："一种物品的效用，使它成为一个使用价值。"</p>
+        <p>一件物品要成为商品，首先必须有用，即具有使用价值。但并非一切具有使用价值的东西都是商品。一种物品要成为商品，它的使用价值必须是<strong>通过买卖形式的交换而进入消费领域</strong>。</p>
+        <div class="quote-box">
+          "无论财富的社会形式怎样，使用价值都形成财富的物质内容。" —— 马克思
+        </div>
+        <p>商品不仅具有使用价值，而且还具有交换价值。交换价值首先表现为一种使用价值和另一种使用价值相交换的量的关系或量的比例。例如，如果农民某甲以自己的20斤大米和手工业者某乙的10尺布相交换，这时某乙的10尺布，便是某甲的20斤大米的交换价值。</p>
+        <p>不同商品所以能够按着一定的比例互相交换，是因为在这两种不同的东西里面存在着某种共同的东西——这种共同的东西不能是商品的自然属性，而是<strong>人类劳动的凝结</strong>，即<strong>价值</strong>。</p>
+        <div class="formula-box">
+          商品价值量 = 社会必要劳动时间<br>
+          劳动生产率与单位商品价值量成反比，与使用价值量成正比
+        </div>
+        <div class="key-point">
+          <div class="key-point-title">核心结论</div>
+          <p>商品有两种属性（或两个因素）——<strong>使用价值</strong>和<strong>价值</strong>。商品是使用价值和价值的统一体。使用价值是商品的自然属性，价值则是商品的社会属性，是商品所特有的属性。</p>
+        </div>
+        <p>商品的使用价值和价值是处在一种既相矛盾又相统一的关系当中的。说它们是互相统一的，是因为它们两者互相依赖、互为条件。说它们是互相矛盾的，是因为商品生产者必须把使用价值让渡给别人，才能取得价值。由于商品内部包含着使用价值和价值的矛盾，所以一切商品都必须参加交换过程。</p>
+      </div>
+
+      <div class="card" id="ch1-3">
+        <h3>第三节 生产商品的劳动的二重性：具体劳动和抽象劳动</h3>
+        <p>所有商品都是由商品生产者的劳动生产出来的。生产不同种类的商品，必须有不同种类的劳动。每一种具体形式的劳动，能够生产出一种特定品种的产品，即一个特定的<strong>使用价值</strong>。这种具体形式的劳动，或者说<strong>具体劳动</strong>，能够生产使用价值。</p>
+        <p>撇开了具体形式的一般的人类劳动，即<strong>抽象劳动</strong>。商品的价值正是由这种抽象劳动形成的。</p>
+        <div class="quote-box">
+          "一切劳动，一方面都是人类劳动力生理学意义上的支出。并且，当作等一的人类劳动或抽象的人类劳动，它形成商品价值。一切劳动，另一方面又都是人类劳动力在特殊的有一定目的的形式上的支出。并且，当作具体有用的劳动，它生产使用价值。" —— 马克思
+        </div>
+        <p>价值量由<strong>社会必要劳动时间</strong>决定。所谓社会必要劳动时间，是用社会现有的标准生产条件，用社会平均的劳动熟练程度和强度，生产任何一个使用价值所必要的劳动时间。</p>
+        <p>复杂劳动被看作是强化的或倍加的简单劳动，小量的复杂劳动可以和大量的简单劳动相等。这种比例完全是由一个在商品生产者背后的<strong>社会过程自发地确定</strong>的。</p>
+        <div class="key-point">
+          <div class="key-point-title">劳动二重性学说的意义</div>
+          <p>生产商品的劳动的二重性，是马克思首先发现的，他本人把这一学说看作"在政治经济学的理解上是一个枢纽点"。正是由于这一发现，才彻底揭示出了商品经济的内在矛盾，并从而把劳动价值理论提高到完全科学的水平上。</p>
+        </div>
+      </div>
+
+      <div class="card" id="ch1-4">
+        <h3>第四节 价值形态的发展与货币的起源</h3>
+        <p>价值形态经历了四个发展阶段，揭示了货币的历史起源：</p>
+        <h4>1. 简单的或偶然的价值形态</h4>
+        <div class="formula-box">1只绵羊 = 2把斧子</div>
+        <p>绵羊处于<strong>相对价值形态</strong>，斧子处于<strong>等价形态</strong>。等价形态有三个特征：使用价值成为价值的现象形态；具体劳动成为抽象劳动的现象形态；私人劳动采取了社会劳动的形态。</p>
+
+        <h4>2. 扩大的价值形态</h4>
+        <div class="formula-box">1只绵羊 = 2把斧子，或 = 5斤盐，或 = 1克黄金，或 = 3斤茶叶...</div>
+        <p>商品价值第一次被表现为无差别的人类劳动的凝结，但每一种商品的价值表现都是一个无穷无尽的特殊等价物的序列，还没有共同的统一表现。</p>
+
+        <h4>3. 一般价值形态</h4>
+        <div class="formula-box">2把斧子 =<br>5斤盐 =<br>1克黄金 = 1只绵羊<br>3斤茶叶 =</div>
+        <p>一切商品的价值通过一种分离的商品（绵羊）来表现。绵羊成为<strong>一般等价物</strong>。</p>
+
+        <h4>4. 货币形态</h4>
+        <p>当一般等价物的机能固定在某种特殊商品（金银）上时，这种商品就成了<strong>货币</strong>。货币无非是一般等价物，是固定充当一般等价物的商品。</p>
+        <div class="quote-box">
+          "金银天然不是货币，但货币天然是金银。" —— 马克思
+        </div>
+      </div>
+
+      <div class="card" id="ch1-5">
+        <h3>第五节 货币的职能</h3>
+        <p>在发达的商品经济条件下，货币执行着<strong>五种职能</strong>：</p>
+        <ul>
+          <li><strong>价值尺度：</strong>货币以自己为尺度来表现和衡量其他一切商品的价值。执行时是作为观念的货币。</li>
+          <li><strong>流通手段：</strong>商品流通公式：W—G—W。货币在商品流通中的媒介作用。执行时必须是实在的货币。</li>
+          <li><strong>贮藏手段：</strong>货币退出流通领域，作为社会财富的一般代表被保存起来。必须是足价的金属货币。</li>
+          <li><strong>支付手段：</strong>货币在清偿债务或支付赋税、租金、工资等时的职能。</li>
+          <li><strong>世界货币：</strong>货币越出国内流通领域，在世界市场上执行一般购买手段、一般支付手段和社会财富的一般化身等职能。</li>
+        </ul>
+        <div class="formula-box">
+          流通中所需货币量 = 商品价格总额 / 同一单位货币流通的平均速度（次数）
+        </div>
+      </div>
+
+      <div class="card" id="ch1-6">
+        <h3>第六节 价值规律与商品拜物教</h3>
+        <p><strong>价值规律</strong>是商品生产的经济规律。它的基本内容是：商品的价值量由生产商品的社会必要劳动时间决定，商品交换以价值为基础，遵循等价交换的原则。</p>
+        <p>价格围绕价值上下波动，是价值规律作用的表现形式。在私有制商品经济中，价值规律有以下作用：</p>
+        <ul>
+          <li>自发地调节生产资料和劳动力在各部门之间的分配</li>
+          <li>刺激生产技术的改进和劳动生产率的提高</li>
+          <li>促使商品生产者两极分化</li>
+        </ul>
+        <p><strong>商品拜物教</strong>是指把商品这种人与人之间的经济关系，看作是物与物之间的关系的虚幻观念。商品不是物，而是在物的外壳掩盖下的生产者之间的一定的社会关系。货币出现后，商品拜物教发展为货币拜物教。在资本主义社会，一切关系都采取了物的形式，拜物教达到了最高峰。</p>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 第二章 -->
+    <section class="chapter-section" id="ch2">
+      <h2 class="section-title">第二章 资本和剩余价值</h2>
+
+      <div class="card" id="ch2-1">
+        <h3>第一节 由货币到资本的转化</h3>
+        <p>货币是资本的最初表现形式，但货币本身并不是资本。作为一般货币的流通公式是<strong>W—G—W</strong>（商品—货币—商品），而作为资本的流通公式则是<strong>G—W—G'</strong>（货币—商品—更多的货币），其中G' = G + ΔG。</p>
+        <div class="formula-box">
+          G — W — G' （G' = G + ΔG）<br>
+          资本总公式
+        </div>
+        <p>ΔG就是<strong>剩余价值</strong>。资本就是能够带来剩余价值的价值。G—W—G'这个公式表明，资本运动的目的是为了价值的增殖。</p>
+        <div class="key-point">
+          <div class="key-point-title">资本总公式的矛盾</div>
+          <p>剩余价值不能在流通中产生，又不能不在流通中产生。它必须既在流通中又不在流通中产生。这就是资本总公式的矛盾。解决这一矛盾的关键在于：资本家在市场上找到了一种特殊商品，这种商品的使用价值本身就是价值的源泉——这就是<strong>劳动力</strong>。</p>
+        </div>
+      </div>
+
+      <div class="card" id="ch2-2">
+        <h3>第二节 劳动过程和价值增殖过程</h3>
+        <p>资本主义的劳动过程具有两个特点：</p>
+        <ul>
+          <li>工人在资本家的监督下劳动，他的劳动属于资本家</li>
+          <li>劳动产品归资本家所有</li>
+        </ul>
+        <p>价值增殖过程是超过一定点而延长了的价值形成过程。资本家把工人的劳动时间延长到补偿劳动力价值所需要的劳动时间以上，这个延长部分就是<strong>剩余劳动时间</strong>，它创造的价值就是<strong>剩余价值</strong>。</p>
+        <div class="key-point">
+          <div class="key-point-title">关键区分</div>
+          <p><strong>必要劳动时间</strong>——再生产劳动力价值的时间；<strong>剩余劳动时间</strong>——创造剩余价值的时间。剩余价值就是由雇佣工人创造的、被资本家无偿占有的、超过劳动力价值以上的那部分价值。</p>
+        </div>
+      </div>
+
+      <div class="card" id="ch2-3">
+        <h3>第三节 资本的本质：不变资本和可变资本</h3>
+        <p>资本家的资本分为两个部分：</p>
+        <ul>
+          <li><strong>不变资本（c）：</strong>转化为生产资料的那部分资本，在生产过程中不改变价值量，只是把价值转移到新产品中去</li>
+          <li><strong>可变资本（v）：</strong>转化为劳动力的那部分资本，在生产过程中改变价值量，不仅能再生产出自身的等价，还能生产出剩余价值</li>
+        </ul>
+        <div class="formula-box">
+          商品价值 = c + v + m<br>
+          （c = 不变资本，v = 可变资本，m = 剩余价值）
+        </div>
+        <p>这一划分揭示了<strong class="red">剩余价值的真正来源</strong>是可变资本，即工人的活劳动。它证明了剩余价值不是全部资本的产物，而仅仅是可变资本的产物。</p>
+      </div>
+
+      <div class="card" id="ch2-4">
+        <h3>第四节 剩余价值的生产方法</h3>
+        <h4>绝对剩余价值的生产</h4>
+        <p>在必要劳动时间不变的条件下，通过<strong>绝对延长工作日长度</strong>（或提高劳动强度）来生产剩余价值的方法。工作日越长，剩余劳动时间就越多，剩余价值量就越大。</p>
+        <p>工作日的长度是有界限的：最低界限是必要劳动时间，最高界限取决于工人的生理界限和社会的道德界限。无产阶级为缩短工作日进行了长期的斗争。</p>
+
+        <h4>相对剩余价值的生产</h4>
+        <p>在工作日长度不变的条件下，通过<strong>缩短必要劳动时间</strong>、相应延长剩余劳动时间来生产剩余价值的方法。缩短必要劳动时间的条件是降低劳动力的价值，即降低维持工人生活所必需的生活资料的价值。</p>
+        <p>相对剩余价值的生产是通过<strong class="red">提高社会劳动生产率</strong>来实现的。各个资本家追逐<strong>超额剩余价值</strong>（个别价值低于社会价值的差额）的竞争，最终导致社会劳动生产率的普遍提高，从而产生相对剩余价值。</p>
+
+        <h4>相对剩余价值生产的三个阶段</h4>
+        <ul>
+          <li><strong>简单协作：</strong>许多工人在同一资本家指挥下协同劳动</li>
+          <li><strong>工场手工业：</strong>以分工为基础的协作，工人专门从事某种操作</li>
+          <li><strong>机器大工业：</strong>以机器体系为基础的协作，标志着资本主义生产方式的真正确立</li>
+        </ul>
+        <div class="quote-box">
+          "资本来到世间，从头到脚，每个毛孔都滴着血和肮脏的东西。" —— 马克思《资本论》第一卷
+        </div>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 第三章 -->
+    <section class="chapter-section" id="ch3">
+      <h2 class="section-title">第三章 工资</h2>
+
+      <div class="card" id="ch3-1">
+        <h3>第一节 工资的实质</h3>
+        <p>从现象上看，工资似乎是"劳动的价格"，是工人全部劳动的报酬。但实际上，工资是<strong>劳动力的价值或价格</strong>，而不是劳动的价值或价格。</p>
+        <p>劳动力和劳动是两个不同的概念。<strong>劳动力</strong>是人的劳动能力，是商品，有价值；而<strong class="red">劳动</strong>是劳动力的使用，它本身不是商品，没有价值。</p>
+        <div class="key-point">
+          <div class="key-point-title">工资的本质</div>
+          <p>工资不是劳动的价值或价格，而是劳动力的价值或价格的转化形式。工资形式掩盖了工作日分为必要劳动时间和剩余劳动时间这一事实，造成了工人全部劳动都是有偿劳动的假象。</p>
+        </div>
+      </div>
+
+      <div class="card" id="ch3-2">
+        <h3>第二节 工资形式与工资趋势</h3>
+        <ul>
+          <li><strong>计时工资：</strong>按工人的劳动时间支付的工资，是劳动力日价值、周价值等的转化形式</li>
+          <li><strong>计件工资：</strong>按工人生产的产品数量或完成的工作量支付的工资，是计时工资的转化形式</li>
+        </ul>
+        <p>计件工资更有利于资本家对工人的剥削，因为它为资本家提供了测量劳动强度的尺度，并便于实行层层剥削的包工制度。</p>
+        <p><strong>相对工资</strong>是指工人所得工资在工人所创造的新价值中所占的比例。随着资本主义的发展，相对工资有下降的趋势。</p>
+        <p><strong>实际工资</strong>是指工人用货币工资所能购买到的生活资料和服务的数量。从长期看，实际工资也有下降的趋势，这是因为通货膨胀、赋税加重等因素。</p>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 第四章 -->
+    <section class="chapter-section" id="ch4">
+      <h2 class="section-title">第四章 资本积累及其历史趋势</h2>
+
+      <div class="card" id="ch4-1">
+        <h3>第一节 资本积累的本质</h3>
+        <p><strong>资本积累</strong>就是把剩余价值转化为资本，即剩余价值的资本化。资本积累是资本主义扩大再生产的唯一源泉。</p>
+        <p>通过对资本主义简单再生产的分析可以揭示出：资本家的全部资本都是工人创造的；工人的个人消费也是从属于资本的；资本主义再生产同时也就是资本主义生产关系的再生产。</p>
+      </div>
+
+      <div class="card" id="ch4-2">
+        <h3>第二节 资本的有机构成</h3>
+        <p>资本的构成可以从两方面考察：</p>
+        <ul>
+          <li><strong>价值构成：</strong>不变资本和可变资本的比例（c:v）</li>
+          <li><strong>技术构成：</strong>生产资料数量和使用这些生产资料所需的劳动力数量之间的比例</li>
+        </ul>
+        <p>由资本技术构成决定并反映技术构成变化的资本价值构成，叫做资本的<strong class="red">有机构成</strong>。随着资本主义的发展，资本有机构成有不断提高的趋势。</p>
+        <p><strong>资本积聚：</strong>个别资本通过剩余价值资本化来增大自己的资本总额。<strong>资本集中：</strong>把若干已经存在的规模较小的资本合并成为大资本。竞争和信用是资本集中的两个最强有力的杠杆。</p>
+      </div>
+
+      <div class="card" id="ch4-3">
+        <h3>第三节 产业后备军与无产阶级的贫困化</h3>
+        <p>随着资本积累和资本有机构成的提高，资本对劳动力的需求相对减少，产生<strong>相对过剩人口</strong>（即产业后备军）。相对过剩人口有三种基本形式：</p>
+        <ul>
+          <li><strong>流动形式：</strong>暂时失业的工人</li>
+          <li><strong>潜在形式：</strong>农业中的过剩人口</li>
+          <li><strong>停滞形式：</strong>就业极不稳定的劳动者</li>
+        </ul>
+        <p>产业后备军不仅是资本积累的产物，也是资本主义生产方式存在和发展的必要条件。</p>
+        <p>资本积累的一般规律是：<strong>一极是财富的积累，另一极是贫困的积累</strong>。无产阶级的贫困化表现为相对贫困化和绝对贫困化两个方面。</p>
+        <div class="quote-box">
+          "生产资料的集中和劳动的社会化，达到了同它们的资本主义外壳不能相容的地步。这个外壳就要炸毁了。资本主义私有制的丧钟就要响了。剥夺者就要被剥夺了。" —— 马克思《资本论》第一卷
+        </div>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 第五章 -->
+    <section class="chapter-section" id="ch5">
+      <h2 class="section-title">第五章 资本的循环和周转</h2>
+
+      <div class="card" id="ch5-1">
+        <h3>第一节 产业资本循环的三个阶段</h3>
+        <p>产业资本在运动中依次经过三个阶段，采取三种职能形式：</p>
+        <div class="formula-box">
+          第一阶段：G — W （购买阶段，货币资本转化为生产资本）<br>
+          第二阶段：... P ... （生产阶段，生产资本转化为商品资本）<br>
+          第三阶段：W' — G' （售卖阶段，商品资本转化为货币资本）
+        </div>
+        <p>其中<strong class="red">生产阶段</strong>是起决定作用的阶段，因为只有在生产过程中才能创造价值和剩余价值。</p>
+        <p>产业资本的现实循环是三种循环形式的统一。要使循环顺利进行，必须保持产业资本三种形式在空间上并存、在时间上继起。</p>
+      </div>
+
+      <div class="card" id="ch5-2">
+        <h3>第二节 固定资本与流动资本</h3>
+        <p>按价值的周转方式，生产资本可分为：</p>
+        <ul>
+          <li><strong>固定资本：</strong>以厂房、机器、设备等劳动资料形式存在的生产资本，其价值逐渐转移、分次收回</li>
+          <li><strong>流动资本：</strong>以原料、燃料、辅助材料等劳动对象和劳动力形式存在的生产资本，其价值一次转移、一次收回</li>
+        </ul>
+        <div class="key-point">
+          <div class="key-point-title">重要区分</div>
+          <p>固定资本和流动资本的划分与不变资本和可变资本的划分不同。前者是根据价值周转方式的不同，后者是根据在价值增殖过程中所起作用的不同。固定资本和流动资本中都包含不变资本的部分，只有流动资本中的劳动力部分才是可变资本。</p>
+        </div>
+        <div class="formula-box">
+          垫付资本总周转次数 = (一年内固定资本周转总额 + 一年内流动资本周转总额) / 垫付资本总额<br><br>
+          年剩余价值量（M）= m' × v × n<br>
+          年剩余价值率（M'）= m' × n
+        </div>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 第六章 -->
+    <section class="chapter-section" id="ch6">
+      <h2 class="section-title">第六章 利润和平均利润</h2>
+
+      <div class="card" id="ch6-1">
+        <h3>第一节 生产成本和利润</h3>
+        <p>资本主义企业生产的商品价值 = <strong>c + v + m</strong>。对资本家来说，c和v是他预付的资本，因此c+v构成商品的<strong>生产成本（k）</strong>。商品价值 = k + m。</p>
+        <p>当剩余价值不被看作是可变资本的产物，而被看作是全部预付资本的产物时，它就转化为<strong>利润</strong>（p）。利润是剩余价值的转化形式。</p>
+        <div class="formula-box">
+          W = c + v + m = k + m = k + p<br>
+          利润率 p' = m / (c + v)
+        </div>
+        <p><strong>利润率</strong>是剩余价值与全部预付资本的比率。影响利润率的因素有：剩余价值率（同方向变化）、资本有机构成（反方向变化）、资本周转速度（同方向变化）、不变资本的节省（同方向变化）。</p>
+      </div>
+
+      <div class="card" id="ch6-2">
+        <h3>第二节 平均利润与生产价格</h3>
+        <p>不同部门的利润率不同，资本家为了追逐更高的利润，会在不同部门之间展开竞争，资本从利润率低的部门转移到利润率高的部门。这种竞争导致各部门的利润率趋于平均化，形成<strong>平均利润率</strong>。</p>
+        <div class="formula-box">
+          平均利润率 = 社会剩余价值总额 / 社会总资本<br>
+          平均利润 = 预付资本 × 平均利润率
+        </div>
+        <p>随着利润转化为平均利润，价值就转化为<strong>生产价格</strong>。生产价格 = 生产成本 + 平均利润。生产价格形成后，商品不再按价值出售，而是按生产价格出售。但从全社会看，生产价格总额等于价值总额，平均利润总额等于剩余价值总额。</p>
+        <p>随着资本主义的发展，资本有机构成不断提高，导致平均利润率有下降的趋势。但这一规律并不排除利润量的绝对增加，因为总资本的增长速度可能超过利润率下降的速度。</p>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 第七章 -->
+    <section class="chapter-section" id="ch7">
+      <h2 class="section-title">第七章 商业利润、利息和地租</h2>
+
+      <div class="card" id="ch7-1">
+        <h3>第一节 商业资本和商业利润</h3>
+        <p><strong>商业资本</strong>是专门从事商品买卖、以获取利润为目的的资本。它是产业资本中商品资本的独立化形式。商业资本的职能是执行商品资本的职能——实现商品的价值和剩余价值。</p>
+        <p><strong>商业利润</strong>是商业资本家从产业资本家那里以低于商品价值（生产价格）的价格购买商品，再以商品价值（生产价格）出售所获得的差额。商业利润的真正来源是<strong class="red">产业工人在生产中创造的剩余价值</strong>。</p>
+        <div class="formula-box">
+          商业利润 = 商业价格 - 购买价格<br>
+          商业利润率 = 平均利润率（通过部门间竞争趋于平均化）
+        </div>
+      </div>
+
+      <div class="card" id="ch7-2">
+        <h3>第二节 借贷资本和利息</h3>
+        <p><strong>借贷资本</strong>是为了获取利息而暂时贷放给职能资本家使用的货币资本。借贷资本既来源于职能资本运动中暂时闲置的货币资本，也来源于货币资本家的货币资本。</p>
+        <p><strong>利息</strong>是职能资本家因使用借贷资本而付给借贷资本家的报酬，是平均利润的一部分。利息率的高低取决于平均利润率的高低和借贷资本的供求状况。</p>
+        <div class="formula-box">
+          利息 = 借贷资本 × 利息率<br>
+          企业利润 = 平均利润 - 利息
+        </div>
+        <p><strong>银行资本</strong>由两部分构成：银行家自有资本和吸收的存款。银行利润来源于贷款利息与存款利息之间的差额，加上银行从事其他业务活动获得的收入。银行利润也应相当于平均利润。</p>
+      </div>
+
+      <div class="card" id="ch7-3">
+        <h3>第三节 资本主义地租</h3>
+        <p><strong>资本主义地租</strong>是农业资本家为取得土地使用权而付给土地所有者的、由农业工人创造的超过平均利润以上的那部分剩余价值。</p>
+        <p><strong>级差地租</strong>是由于耕种较优土地所获得的、归土地所有者占有的超额利润。级差地租有两种形态：</p>
+        <ul>
+          <li><strong>级差地租第一形态（级差地租I）：</strong>由于土地肥沃程度不同和土地位置不同而产生的超额利润所构成的地租</li>
+          <li><strong>级差地租第二形态（级差地租II）：</strong>由于在同一土地上连续追加投资的不同效果而产生的超额利润所构成的地租</li>
+        </ul>
+        <p><strong>绝对地租</strong>是由于土地私有权的存在，不论租种何种土地都必须缴纳的地租。绝对地租来源于农业资本家剥削农业工人所创造的剩余价值。</p>
+        <div class="formula-box">
+          土地价格 = 地租 / 利息率
+        </div>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 第八章 -->
+    <section class="chapter-section" id="ch8">
+      <h2 class="section-title">第八章 资本主义经济危机</h2>
+
+      <div class="card">
+        <h3>第一节 经济危机的可能性和必然性</h3>
+        <p>资本主义经济危机是生产过剩的危机。这种生产过剩不是绝对的过剩，而是<strong>相对的过剩</strong>，即相对于劳动人民有支付能力的需求来说的过剩。</p>
+        <p>经济危机的可能性在简单商品经济中就已经存在了。货币作为流通手段和支付手段，使买和卖在时间和空间上分离，已经包含了危机的可能性。但只有在资本主义制度下，这种可能性才转化为现实性。</p>
+        <div class="key-point">
+          <div class="key-point-title">经济危机的必然性</div>
+          <p>资本主义经济危机的根源在于资本主义的基本矛盾，即生产的社会化和生产资料资本主义私人占有之间的矛盾。这个矛盾表现为两个方面：（1）个别企业生产的有组织性和整个社会生产无政府状态之间的矛盾；（2）资本主义生产无限扩大的趋势和劳动人民有支付能力的需求相对缩小之间的矛盾。</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>第二节 经济危机的周期性</h3>
+        <p>资本主义经济危机是周期性地爆发的。从一次危机开始到下一次危机开始之间的时期，构成一个再生产周期。每个周期一般包括四个阶段：</p>
+        <ul>
+          <li><strong>危机：</strong>周期的起点和基本阶段，生产急剧下降，企业倒闭，工人失业</li>
+          <li><strong>萧条：</strong>生产停滞，物价低落，失业众多</li>
+          <li><strong>复苏：</strong>生产逐渐恢复，市场扩大，就业增加</li>
+          <li><strong>高涨：</strong>生产迅速扩大，市场繁荣，但新的危机因素也在积累</li>
+        </ul>
+        <p>固定资本的更新是危机周期性的物质基础。在危机和萧条阶段，资本家为了摆脱困境，力求采用新技术、更新固定资本，这推动了生产的恢复和发展，为复苏和高涨创造了条件；但同时，这也为下一次危机准备了物质条件。</p>
+      </div>
+
+      <div class="card">
+        <h3>第三节 经济危机和资本主义矛盾的尖锐化</h3>
+        <p>经济危机是资本主义各种矛盾的总爆发。每一次经济危机都使社会生产力遭到巨大破坏，使阶级矛盾更加尖锐化。经济危机表明，资本主义生产关系已经成为生产力发展的严重障碍。</p>
+        <p>资产阶级经济学家对经济危机提出了各种解释，如消费不足论、比例失调论、纯货币论等，但他们都回避了经济危机的根本原因——资本主义制度本身。只有马克思主义才科学地揭示了经济危机的实质和根源。</p>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 互动计算器 -->
+    <section class="chapter-section" id="calculators">
+      <h2 class="section-title">互动计算器</h2>
+      <div class="calculator-grid">
+        <div class="calc-card">
+          <h4>劳动价值计算器</h4>
+          <div class="calc-input-group">
+            <label>社会必要劳动时间（小时）</label>
+            <input type="number" id="laborTime" placeholder="例如：10" step="0.1">
+          </div>
+          <div class="calc-input-group">
+            <label>劳动复杂度系数</label>
+            <input type="number" id="complexity" placeholder="简单劳动=1" value="1" step="0.1">
+          </div>
+          <button class="btn" onclick="calcLaborValue()">计算商品价值</button>
+          <div class="calc-result" id="laborResult">输入数据后点击计算</div>
+        </div>
+
+        <div class="calc-card">
+          <h4>剩余价值率计算器</h4>
+          <div class="calc-input-group">
+            <label>可变资本 v（元）</label>
+            <input type="number" id="varCapital" placeholder="例如：100">
+          </div>
+          <div class="calc-input-group">
+            <label>剩余价值 m（元）</label>
+            <input type="number" id="surplusValue" placeholder="例如：100">
+          </div>
+          <button class="btn" onclick="calcSurplusRate()">计算剩余价值率</button>
+          <div class="calc-result" id="surplusResult">输入数据后点击计算</div>
+        </div>
+
+        <div class="calc-card">
+          <h4>利润率计算器</h4>
+          <div class="calc-input-group">
+            <label>不变资本 c（元）</label>
+            <input type="number" id="constCapital" placeholder="例如：800">
+          </div>
+          <div class="calc-input-group">
+            <label>可变资本 v（元）</label>
+            <input type="number" id="varCapital2" placeholder="例如：100">
+          </div>
+          <div class="calc-input-group">
+            <label>剩余价值 m（元）</label>
+            <input type="number" id="surplusValue2" placeholder="例如：100">
+          </div>
+          <button class="btn" onclick="calcProfitRate()">计算利润率</button>
+          <div class="calc-result" id="profitResult">输入数据后点击计算</div>
+        </div>
+
+        <div class="calc-card">
+          <h4>资本周转计算器</h4>
+          <div class="calc-input-group">
+            <label>生产时间（天）</label>
+            <input type="number" id="prodTime" placeholder="例如：60">
+          </div>
+          <div class="calc-input-group">
+            <label>流通时间（天）</label>
+            <input type="number" id="circTime" placeholder="例如：30">
+          </div>
+          <button class="btn" onclick="calcTurnover()">计算周转次数</button>
+          <div class="calc-result" id="turnoverResult">输入数据后点击计算</div>
+        </div>
+
+        <div class="calc-card">
+          <h4>年剩余价值量计算器</h4>
+          <div class="calc-input-group">
+            <label>剩余价值率 m'（%）</label>
+            <input type="number" id="surplusRate" placeholder="例如：100">
+          </div>
+          <div class="calc-input-group">
+            <label>可变资本 v（元）</label>
+            <input type="number" id="varCapital3" placeholder="例如：1000">
+          </div>
+          <div class="calc-input-group">
+            <label>年周转次数 n</label>
+            <input type="number" id="turnoverNum" placeholder="例如：4" step="0.1">
+          </div>
+          <button class="btn" onclick="calcAnnualSurplus()">计算年剩余价值</button>
+          <div class="calc-result" id="annualResult">输入数据后点击计算</div>
+        </div>
+
+        <div class="calc-card">
+          <h4>生产价格计算器</h4>
+          <div class="calc-input-group">
+            <label>生产成本 k = c + v（元）</label>
+            <input type="number" id="prodCost" placeholder="例如：900">
+          </div>
+          <div class="calc-input-group">
+            <label>平均利润率 p'（%）</label>
+            <input type="number" id="avgProfitRate" placeholder="例如：20">
+          </div>
+          <button class="btn" onclick="calcProdPrice()">计算生产价格</button>
+          <div class="calc-result" id="priceResult">输入数据后点击计算</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 概念速查 -->
+    <section class="chapter-section" id="glossary">
+      <h2 class="section-title">概念速查</h2>
+      <div class="card">
+        <div class="search-bar">
+          <input type="text" id="conceptSearch" placeholder="输入关键词搜索概念...">
+          <button class="filter-btn active" data-filter="all" onclick="filterConcepts('all')">全部</button>
+          <button class="filter-btn" data-filter="商品货币" onclick="filterConcepts('商品货币')">商品货币</button>
+          <button class="filter-btn" data-filter="资本剩余价值" onclick="filterConcepts('资本剩余价值')">资本剩余价值</button>
+          <button class="filter-btn" data-filter="工资积累" onclick="filterConcepts('工资积累')">工资积累</button>
+          <button class="filter-btn" data-filter="周转再生产" onclick="filterConcepts('周转再生产')">周转再生产</button>
+          <button class="filter-btn" data-filter="利润价格" onclick="filterConcepts('利润价格')">利润价格</button>
+        </div>
+        <div class="glossary-grid" id="glossaryGrid"></div>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 趣味测验 -->
+    <section class="chapter-section" id="quiz">
+      <h2 class="section-title">趣味测验</h2>
+      <div class="card">
+        <p style="text-align:center;color:var(--muted);margin-bottom:1.5rem;">检验你对政治经济学基本概念的理解。每题选择一个最佳答案。</p>
+        <div class="score-display" id="scoreDisplay" style="display:none">
+          <div class="score-num" id="scoreNum">0</div>
+          <div class="score-label">/ <span id="totalNum">20</span> 分</div>
+        </div>
+        <div class="quiz-container" id="quizContainer"></div>
+        <div style="text-align:center;margin-top:1.5rem;">
+          <button class="btn" id="submitQuiz" onclick="submitQuiz()" style="width:auto;padding:10px 40px;">提交答案</button>
+          <button class="btn" id="resetQuiz" onclick="resetQuiz()" style="width:auto;padding:10px 40px;display:none;margin-left:10px;background:rgba(196,30,58,.15);border-color:rgba(196,30,58,.3);color:#c41e3a;">重新测试</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="dragon-separator">
+      <svg class="separator-svg" viewBox="0 0 600 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 15h250M350 15h250" stroke="url(#grad1)" stroke-width="1"/>
+        <circle cx="300" cy="15" r="4" fill="#c41e3a"/>
+        <circle cx="300" cy="15" r="8" stroke="#d4a843" stroke-width="0.5" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- 学习进度 -->
+    <section class="chapter-section" id="progress">
+      <h2 class="section-title">学习进度</h2>
+      <div class="card">
+        <p style="text-align:center;color:var(--muted);margin-bottom:1.5rem;">记录你各章节的学习进度，数据保存在本地浏览器中。</p>
+        <div id="progressTracker"></div>
+        <div style="text-align:center;margin-top:1.5rem;">
+          <button class="btn" onclick="saveProgress()" style="width:auto;padding:10px 30px;">保存进度</button>
+          <button class="btn" onclick="resetProgress()" style="width:auto;padding:10px 30px;margin-left:10px;background:rgba(196,30,58,.15);border-color:rgba(196,30,58,.3);color:#c41e3a;">重置进度</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>政治经济学概论 · 徐禾 等编 · 1975年版</p>
+      <p style="margin-top:0.5rem;">阿波菲斯 - 龙之魔法</p>
+    </footer>
+  </main>
+</div>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#x2191;</button>
 
 <script>
-// ===== Canvas粒子背景 =====
+// ===== Particle Background =====
 (function(){
-var canvas=document.getElementById('particleCanvas');
-var ctx=canvas.getContext('2d');
-var particles=[];
-var particleCount=60;
-
-function resizeCanvas(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize',resizeCanvas);
-
-function Particle(){
-this.x=Math.random()*canvas.width;
-this.y=Math.random()*canvas.height;
-this.size=Math.random()*2+0.5;
-this.speedX=Math.random()*0.5-0.25;
-this.speedY=Math.random()*0.5-0.25;
-this.opacity=Math.random()*0.5+0.2;
-}
-
-for(var i=0;i<particleCount;i++){
-particles.push(new Particle());
-}
-
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-for(var i=0;i<particles.length;i++){
-var p=particles[i];
-p.x+=p.speedX;
-p.y+=p.speedY;
-if(p.x<0||p.x>canvas.width)p.speedX*=-1;
-if(p.y<0||p.y>canvas.height)p.speedY*=-1;
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-ctx.fillStyle='rgba(212,168,67,'+p.opacity+')';
-ctx.fill();
-}
-// draw connections
-for(var i=0;i<particles.length;i++){
-for(var j=i+1;j<particles.length;j++){
-var dx=particles[i].x-particles[j].x;
-var dy=particles[i].y-particles[j].y;
-var dist=Math.sqrt(dx*dx+dy*dy);
-if(dist<150){
-ctx.beginPath();
-ctx.moveTo(particles[i].x,particles[i].y);
-ctx.lineTo(particles[j].x,particles[j].y);
-ctx.strokeStyle='rgba(212,168,67,'+(0.08*(1-dist/150))+')';
-ctx.stroke();
-}
-}
-}
-requestAnimationFrame(animate);
-}
-animate();
+  var canvas = document.getElementById('particleCanvas');
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var particleCount = 60;
+  function resizeCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  function Particle(){
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = Math.random() * 0.5 - 0.25;
+    this.speedY = Math.random() * 0.5 - 0.25;
+    this.opacity = Math.random() * 0.5 + 0.2;
+  }
+  for(var i = 0; i < particleCount; i++) particles.push(new Particle());
+  function animate(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for(var i = 0; i < particles.length; i++){
+      var p = particles[i];
+      p.x += p.speedX; p.y += p.speedY;
+      if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+      if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212,168,67,' + p.opacity + ')';
+      ctx.fill();
+    }
+    for(var i = 0; i < particles.length; i++){
+      for(var j = i + 1; j < particles.length; j++){
+        var dx = particles[i].x - particles[j].x;
+        var dy = particles[i].y - particles[j].y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if(dist < 150){
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(212,168,67,' + (0.08 * (1 - dist / 150)) + ')';
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
 })();
 
-// ===== Tab切换 =====
-function switchTab(tabId){
-var panels=document.querySelectorAll('.tab-panel');
-for(var i=0;i<panels.length;i++){panels[i].classList.remove('active');}
-var btns=document.querySelectorAll('.tab-btn');
-for(var i=0;i<btns.length;i++){btns[i].classList.remove('active');}
-var target=document.getElementById(tabId);
-if(target)target.classList.add('active');
-var btn=document.querySelector('[data-tab="'+tabId+'"]');
-if(btn)btn.classList.add('active');
-}
-document.querySelectorAll('.tab-btn').forEach(function(btn){
-btn.addEventListener('click',function(){
-var tabId=this.getAttribute('data-tab');
-if(tabId)switchTab(tabId);
-});
+// ===== Reading Progress Bar =====
+window.addEventListener('scroll', function(){
+  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  var progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  document.getElementById('topProgressBar').style.width = progress + '%';
 });
 
-// ===== 汉堡菜单 =====
-var hamburgerBtn=document.getElementById('hamburger');
-var navBar=document.getElementById('navBar');
-var mobileMenu=document.getElementById('mobileMenu');
+// ===== Hamburger Menu =====
+var hamburgerBtn = document.getElementById('hamburger');
+var mobileMenu = document.getElementById('mobileMenu');
 if(hamburgerBtn){
-hamburgerBtn.addEventListener('click',function(){
-  hamburgerBtn.classList.toggle('active');
-  if(mobileMenu)mobileMenu.classList.toggle('show');
-  if(navBar)navBar.classList.toggle('open');
-});
+  hamburgerBtn.addEventListener('click', function(){
+    hamburgerBtn.classList.toggle('active');
+    mobileMenu.classList.toggle('show');
+  });
 }
-if(mobileMenu){
-var navLinks=document.querySelectorAll('.nav-link');
-for(var i=0;i<navLinks.length;i++){
-  var clone=navLinks[i].cloneNode(true);
+// Clone nav links to mobile menu
+var navLinks = document.querySelectorAll('.nav-bar .nav-link');
+navLinks.forEach(function(link){
+  var clone = link.cloneNode(true);
   mobileMenu.appendChild(clone);
+});
+
+// ===== Back to Top =====
+var backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', function(){
+  if(window.scrollY > 500) backToTop.classList.add('show');
+  else backToTop.classList.remove('show');
+});
+
+// ===== Sidebar Active Link =====
+var sidebarLinks = document.querySelectorAll('.toc-list a');
+var sections = document.querySelectorAll('.chapter-section, .card[id]');
+window.addEventListener('scroll', function(){
+  var current = '';
+  sections.forEach(function(section){
+    var sectionTop = section.offsetTop;
+    if(window.scrollY >= sectionTop - 100) current = section.getAttribute('id');
+  });
+  sidebarLinks.forEach(function(link){
+    link.classList.remove('active');
+    if(link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+
+// ===== Calculators =====
+function calcLaborValue(){
+  var t = parseFloat(document.getElementById('laborTime').value) || 0;
+  var c = parseFloat(document.getElementById('complexity').value) || 1;
+  var result = t * c;
+  document.getElementById('laborResult').innerHTML = '商品价值 = <span class="result-value">' + result.toFixed(2) + '</span> 单位劳动时间';
 }
+function calcSurplusRate(){
+  var v = parseFloat(document.getElementById('varCapital').value) || 0;
+  var m = parseFloat(document.getElementById('surplusValue').value) || 0;
+  if(v === 0){ document.getElementById('surplusResult').innerText = '可变资本不能为0'; return; }
+  var rate = (m / v) * 100;
+  document.getElementById('surplusResult').innerHTML = '剩余价值率 m\' = <span class="result-value">' + rate.toFixed(1) + '%</span><br>（m/v = ' + m + '/' + v + '）';
+}
+function calcProfitRate(){
+  var c = parseFloat(document.getElementById('constCapital').value) || 0;
+  var v = parseFloat(document.getElementById('varCapital2').value) || 0;
+  var m = parseFloat(document.getElementById('surplusValue2').value) || 0;
+  var total = c + v;
+  if(total === 0){ document.getElementById('profitResult').innerText = '预付资本不能为0'; return; }
+  var rate = (m / total) * 100;
+  document.getElementById('profitResult').innerHTML = '利润率 p\' = <span class="result-value">' + rate.toFixed(1) + '%</span><br>（m/(c+v) = ' + m + '/' + total + '）';
+}
+function calcTurnover(){
+  var p = parseFloat(document.getElementById('prodTime').value) || 0;
+  var c = parseFloat(document.getElementById('circTime').value) || 0;
+  var total = p + c;
+  if(total === 0){ document.getElementById('turnoverResult').innerText = '时间不能为0'; return; }
+  var n = 365 / total;
+  document.getElementById('turnoverResult').innerHTML = '周转时间 = <span class="result-value">' + total + '</span> 天<br>年周转次数 n = <span class="result-value">' + n.toFixed(2) + '</span> 次';
+}
+function calcAnnualSurplus(){
+  var mr = parseFloat(document.getElementById('surplusRate').value) || 0;
+  var v = parseFloat(document.getElementById('varCapital3').value) || 0;
+  var n = parseFloat(document.getElementById('turnoverNum').value) || 0;
+  var M = (mr / 100) * v * n;
+  var Mr = mr * n;
+  document.getElementById('annualResult').innerHTML = '年剩余价值量 M = <span class="result-value">' + M.toFixed(2) + '</span> 元<br>年剩余价值率 M\' = <span class="result-value">' + Mr.toFixed(1) + '%</span>';
+}
+function calcProdPrice(){
+  var k = parseFloat(document.getElementById('prodCost').value) || 0;
+  var pr = parseFloat(document.getElementById('avgProfitRate').value) || 0;
+  var price = k * (1 + pr / 100);
+  document.getElementById('priceResult').innerHTML = '生产价格 = <span class="result-value">' + price.toFixed(2) + '</span> 元<br>（k + k×p\' = ' + k + ' + ' + k + '×' + pr + '%）';
 }
 
-// ===== 概念速查数据 =====
-var concepts=[
-{name:"商品",cat:"商品货币",def:"用来交换的劳动产品，是使用价值和价值的统一体。商品是资本主义经济的最基本因素，是资本主义的经济细胞。"},
-{name:"使用价值",cat:"商品货币",def:"物品能够满足人们某种需要的属性，是商品的自然属性。使用价值是价值的物质承担者。"},
-{name:"价值",cat:"商品货币",def:"凝结在商品中的抽象劳动。价值是商品的社会属性，是商品特有的属性。价值量由社会必要劳动时间决定。"},
-{name:"抽象劳动",cat:"商品货币",def:"撇开具体形式的一般人类劳动，是形成商品价值的实体。与具体劳动共同构成生产商品劳动的二重性。"},
-{name:"具体劳动",cat:"商品货币",def:"在一定的具体形式下进行的劳动，创造商品的使用价值。不同种类的具体劳动创造不同种类的使用价值。"},
-{name:"社会必要劳动时间",cat:"商品货币",def:"用社会现有的标准生产条件，用社会平均的劳动熟练程度和强度，生产任何一个使用价值所必要的劳动时间。"},
-{name:"货币",cat:"商品货币",def:"固定充当一般等价物的商品。货币的本质是一般等价物，它是在价值形态长期发展的过程中自发产生的。"},
-{name:"价值尺度",cat:"商品货币",def:"货币的第一种职能，以自身为尺度来表现和衡量其他一切商品的价值。执行时是观念的货币。"},
-{name:"流通手段",cat:"商品货币",def:"货币在商品流通中的媒介作用。商品流通公式：W—G—W。执行时必须是实在的货币。"},
-{name:"价值规律",cat:"商品货币",def:"商品生产的经济规律：商品价值量由社会必要劳动时间决定，商品交换以价值为基础，遵循等价交换原则。"},
-{name:"商品拜物教",cat:"商品货币",def:"把商品这种人与人之间的经济关系看作物与物之间关系的虚幻观念。根源在于私人劳动和社会劳动的矛盾。"},
-{name:"价值形态",cat:"商品货币",def:"价值的表现形态，经历了简单价值形态、扩大价值形态、一般价值形态和货币形态四个发展阶段。"},
-{name:"价格",cat:"商品货币",def:"价值的货币表现。价格围绕价值上下波动是价值规律作用的表现形式。"},
-{name:"资本",cat:"资本剩余价值",def:"能够带来剩余价值的价值。资本不是物，而是在物的外壳掩盖下的资本主义剥削关系。"},
-{name:"剩余价值",cat:"资本剩余价值",def:"由雇佣工人创造的、被资本家无偿占有的、超过劳动力价值以上的那部分价值。"},
-{name:"不变资本",cat:"资本剩余价值",def:"转化为生产资料的那部分资本(c)，在生产过程中不改变价值量，只是把价值转移到新产品中。"},
-{name:"可变资本",cat:"资本剩余价值",def:"转化为劳动力的那部分资本(v)，在生产过程中能生产出剩余价值，是剩余价值的唯一源泉。"},
-{name:"绝对剩余价值",cat:"资本剩余价值",def:"在必要劳动时间不变的条件下，通过绝对延长工作日长度来生产的剩余价值。"},
-{name:"相对剩余价值",cat:"资本剩余价值",def:"在工作日长度不变的条件下，通过缩短必要劳动时间来生产的剩余价值。"},
-{name:"超额剩余价值",cat:"资本剩余价值",def:"商品的个别价值低于社会价值的差额。个别资本家率先提高劳动生产率可以获得。"},
-{name:"资本有机构成",cat:"工资积累",def:"由资本技术构成决定并反映技术构成变化的资本价值构成(c:v)。随着资本主义发展有不断提高的趋势。"},
-{name:"资本积累",cat:"工资积累",def:"把剩余价值转化为资本，即剩余价值的资本化。是资本主义扩大再生产的唯一源泉。"},
-{name:"产业后备军",cat:"工资积累",def:"即相对过剩人口，是资本积累的必然产物，也是资本主义生产方式存在和发展的必要条件。"},
-{name:"工资",cat:"工资积累",def:"劳动力价值或价格的转化形式，不是劳动的价值或价格。工资形式掩盖了必要劳动与剩余劳动的划分。"},
-{name:"计时工资",cat:"工资积累",def:"按工人的劳动时间支付的工资，是劳动力日价值、周价值等的转化形式。"},
-{name:"计件工资",cat:"工资积累",def:"按工人生产的产品数量或完成的工作量支付的工资，是计时工资的转化形式。"},
-{name:"贫困化",cat:"工资积累",def:"资本积累一般规律的表现：一极是财富的积累，另一极是贫困的积累。包括相对贫困化和绝对贫困化。"},
-{name:"资本循环",cat:"周转再生产",def:"产业资本依次经过购买、生产、售卖三个阶段，采取货币资本、生产资本、商品资本三种形式，实现价值增殖的运动。"},
-{name:"货币资本",cat:"周转再生产",def:"以货币形式存在的资本，其职能是购买生产资料和劳动力，为生产剩余价值准备条件。"},
-{name:"生产资本",cat:"周转再生产",def:"以生产资料和劳动力形式存在的资本，其职能是生产价值和剩余价值。"},
-{name:"商品资本",cat:"周转再生产",def:"以商品形式存在的资本，其职能是实现价值和剩余价值。"},
-{name:"固定资本",cat:"周转再生产",def:"以厂房、机器、设备等劳动资料形式存在的生产资本，其价值逐渐转移、分次收回。"},
-{name:"流动资本",cat:"周转再生产",def:"以原料、燃料、辅助材料和劳动力形式存在的生产资本，其价值一次转移、一次收回。"},
-{name:"社会资本",cat:"周转再生产",def:"互相联系、互相依存的个别资本的总和。其运动既包括生产消费也包括个人消费。"},
-{name:"第一部类",cat:"周转再生产",def:"生产生产资料的部门总称。简单再生产条件下：I(v+m)=IIc。"},
-{name:"第二部类",cat:"周转再生产",def:"生产消费资料的部门总称。"},
-{name:"生产价格",cat:"利润价格",def:"生产成本加平均利润。是价值的转化形式。生产价格形成后商品按生产价格出售。"},
-{name:"平均利润",cat:"利润价格",def:"各部门资本家按照平均利润率获得的利润。利润转化为平均利润进一步掩盖了剩余价值的来源。"},
-{name:"利润",cat:"利润价格",def:"剩余价值的转化形式。当剩余价值被看作全部预付资本的产物时，就转化为利润。"},
-{name:"利润率",cat:"利润价格",def:"剩余价值与全部预付资本的比率。p'=m/(c+v)。"},
-{name:"商业资本",cat:"利润价格",def:"专门从事商品买卖以获取利润为目的的资本，是产业资本中商品资本的独立化形式。"},
-{name:"商业利润",cat:"利润价格",def:"商业资本家通过商品买卖获得的利润，来源于产业工人在生产中创造的剩余价值。"},
-{name:"纯粹流通费用",cat:"利润价格",def:"因商品买卖本身而支出的费用，不创造价值，需要从剩余价值中得到补偿。"}
+// ===== Glossary Data =====
+var concepts = [
+  {name:"商品",cat:"商品货币",def:"用来交换的劳动产品，是使用价值和价值的统一体。商品是资本主义经济的最基本因素，是资本主义的经济细胞。"},
+  {name:"使用价值",cat:"商品货币",def:"物品能够满足人们某种需要的属性，是商品的自然属性。使用价值是价值的物质承担者。"},
+  {name:"价值",cat:"商品货币",def:"凝结在商品中的抽象劳动。价值是商品的社会属性，是商品特有的属性。价值量由社会必要劳动时间决定。"},
+  {name:"抽象劳动",cat:"商品货币",def:"撇开具体形式的一般人类劳动，是形成商品价值的实体。与具体劳动共同构成生产商品劳动的二重性。"},
+  {name:"具体劳动",cat:"商品货币",def:"在一定的具体形式下进行的劳动，创造商品的使用价值。不同种类的具体劳动创造不同种类的使用价值。"},
+  {name:"社会必要劳动时间",cat:"商品货币",def:"用社会现有的标准生产条件，用社会平均的劳动熟练程度和强度，生产任何一个使用价值所必要的劳动时间。"},
+  {name:"货币",cat:"商品货币",def:"固定充当一般等价物的商品。货币的本质是一般等价物，它是在价值形态长期发展的过程中自发产生的。"},
+  {name:"价值尺度",cat:"商品货币",def:"货币的第一种职能，以自身为尺度来表现和衡量其他一切商品的价值。执行时是观念的货币。"},
+  {name:"流通手段",cat:"商品货币",def:"货币在商品流通中的媒介作用。商品流通公式：W—G—W。执行时必须是实在的货币。"},
+  {name:"价值规律",cat:"商品货币",def:"商品生产的经济规律：商品价值量由社会必要劳动时间决定，商品交换以价值为基础，遵循等价交换原则。"},
+  {name:"商品拜物教",cat:"商品货币",def:"把商品这种人与人之间的经济关系看作物与物之间关系的虚幻观念。根源在于私人劳动和社会劳动的矛盾。"},
+  {name:"价格",cat:"商品货币",def:"价值的货币表现。价格围绕价值上下波动是价值规律作用的表现形式。"},
+  {name:"资本",cat:"资本剩余价值",def:"能够带来剩余价值的价值。资本不是物，而是在物的外壳掩盖下的资本主义剥削关系。"},
+  {name:"剩余价值",cat:"资本剩余价值",def:"由雇佣工人创造的、被资本家无偿占有的、超过劳动力价值以上的那部分价值。"},
+  {name:"不变资本",cat:"资本剩余价值",def:"转化为生产资料的那部分资本(c)，在生产过程中不改变价值量，只是把价值转移到新产品中。"},
+  {name:"可变资本",cat:"资本剩余价值",def:"转化为劳动力的那部分资本(v)，在生产过程中能生产出剩余价值，是剩余价值的唯一源泉。"},
+  {name:"绝对剩余价值",cat:"资本剩余价值",def:"在必要劳动时间不变的条件下，通过绝对延长工作日长度来生产的剩余价值。"},
+  {name:"相对剩余价值",cat:"资本剩余价值",def:"在工作日长度不变的条件下，通过缩短必要劳动时间来生产的剩余价值。"},
+  {name:"超额剩余价值",cat:"资本剩余价值",def:"商品的个别价值低于社会价值的差额。个别资本家率先提高劳动生产率可以获得。"},
+  {name:"资本有机构成",cat:"工资积累",def:"由资本技术构成决定并反映技术构成变化的资本价值构成(c:v)。随着资本主义发展有不断提高的趋势。"},
+  {name:"资本积累",cat:"工资积累",def:"把剩余价值转化为资本，即剩余价值的资本化。是资本主义扩大再生产的唯一源泉。"},
+  {name:"产业后备军",cat:"工资积累",def:"即相对过剩人口，是资本积累的必然产物，也是资本主义生产方式存在和发展的必要条件。"},
+  {name:"工资",cat:"工资积累",def:"劳动力价值或价格的转化形式，不是劳动的价值或价格。工资形式掩盖了必要劳动与剩余劳动的划分。"},
+  {name:"计时工资",cat:"工资积累",def:"按工人的劳动时间支付的工资，是劳动力日价值、周价值等的转化形式。"},
+  {name:"计件工资",cat:"工资积累",def:"按工人生产的产品数量或完成的工作量支付的工资，是计时工资的转化形式。"},
+  {name:"贫困化",cat:"工资积累",def:"资本积累一般规律的表现：一极是财富的积累，另一极是贫困的积累。包括相对贫困化和绝对贫困化。"},
+  {name:"资本循环",cat:"周转再生产",def:"产业资本依次经过购买、生产、售卖三个阶段，采取货币资本、生产资本、商品资本三种形式，实现价值增殖的运动。"},
+  {name:"固定资本",cat:"周转再生产",def:"以厂房、机器、设备等劳动资料形式存在的生产资本，其价值逐渐转移、分次收回。"},
+  {name:"流动资本",cat:"周转再生产",def:"以原料、燃料、辅助材料和劳动力形式存在的生产资本，其价值一次转移、一次收回。"},
+  {name:"社会资本",cat:"周转再生产",def:"互相联系、互相依存的个别资本的总和。其运动既包括生产消费也包括个人消费。"},
+  {name:"第一部类",cat:"周转再生产",def:"生产生产资料的部门总称。简单再生产条件下：I(v+m)=IIc。"},
+  {name:"第二部类",cat:"周转再生产",def:"生产消费资料的部门总称。"},
+  {name:"生产价格",cat:"利润价格",def:"生产成本加平均利润。是价值的转化形式。生产价格形成后商品按生产价格出售。"},
+  {name:"平均利润",cat:"利润价格",def:"各部门资本家按照平均利润率获得的利润。利润转化为平均利润进一步掩盖了剩余价值的来源。"},
+  {name:"利润",cat:"利润价格",def:"剩余价值的转化形式。当剩余价值被看作全部预付资本的产物时，就转化为利润。"},
+  {name:"利润率",cat:"利润价格",def:"剩余价值与全部预付资本的比率。p'=m/(c+v)。"},
+  {name:"商业资本",cat:"利润价格",def:"专门从事商品买卖以获取利润为目的的资本，是产业资本中商品资本的独立化形式。"},
+  {name:"商业利润",cat:"利润价格",def:"商业资本家通过商品买卖获得的利润，来源于产业工人在生产中创造的剩余价值。"},
+  {name:"利息",cat:"利润价格",def:"职能资本家因使用借贷资本而付给借贷资本家的报酬，是平均利润的一部分。"},
+  {name:"级差地租",cat:"利润价格",def:"由于耕种较优土地所获得的、归土地所有者占有的超额利润所构成的地租。"},
+  {name:"绝对地租",cat:"利润价格",def:"由于土地私有权的存在，不论租种何种土地都必须缴纳的地租。"},
+  {name:"经济危机",cat:"利润价格",def:"资本主义生产过剩的危机，是资本主义基本矛盾激化的必然结果。具有周期性。"}
 ];
 
-// 渲染概念卡片
-function renderConcepts(filter,search){
-var grid=document.getElementById('conceptGrid');
-grid.innerHTML='';
-var filtered=concepts;
-if(filter&&filter!=='all'){
-filtered=filtered.filter(function(c){return c.cat===filter;});
-}
-if(search){
-var s=search.toLowerCase();
-filtered=filtered.filter(function(c){
-return c.name.toLowerCase().indexOf(s)!==-1||c.def.toLowerCase().indexOf(s)!==-1||c.cat.toLowerCase().indexOf(s)!==-1;
-});
-}
-if(filtered.length===0){
-grid.innerHTML='<p style="color:#8a7a60;text-align:center;padding:30px">未找到匹配的概念</p>';
-return;
-}
-for(var i=0;i<filtered.length;i++){
-var c=filtered[i];
-var div=document.createElement('div');
-div.className='concept-card';
-div.innerHTML='<div class="concept-cat">'+c.cat+'</div><div class="concept-name">'+c.name+'</div><div class="concept-def">'+c.def+'</div>';
-grid.appendChild(div);
-}
+function renderConcepts(filter, search){
+  var grid = document.getElementById('glossaryGrid');
+  grid.innerHTML = '';
+  var filtered = concepts;
+  if(filter && filter !== 'all') filtered = filtered.filter(function(c){ return c.cat === filter; });
+  if(search){
+    var s = search.toLowerCase();
+    filtered = filtered.filter(function(c){ return c.name.toLowerCase().indexOf(s) !== -1 || c.def.toLowerCase().indexOf(s) !== -1; });
+  }
+  if(filtered.length === 0){
+    grid.innerHTML = '<p style="color:#8a7a60;text-align:center;padding:30px;width:100%">未找到匹配的概念</p>';
+    return;
+  }
+  for(var i = 0; i < filtered.length; i++){
+    var c = filtered[i];
+    var div = document.createElement('div');
+    div.className = 'glossary-card';
+    div.innerHTML = '<div class="glossary-cat">' + c.cat + '</div><div class="glossary-name">' + c.name + '</div><div class="glossary-def">' + c.def + '</div>';
+    grid.appendChild(div);
+  }
 }
 
-var currentFilter='all';
+var currentFilter = 'all';
 function filterConcepts(cat){
-currentFilter=cat;
-var btns=document.querySelectorAll('.filter-btn');
-for(var i=0;i<btns.length;i++){
-btns[i].classList.remove('active');
-if(btns[i].getAttribute('data-filter')===cat)btns[i].classList.add('active');
+  currentFilter = cat;
+  var btns = document.querySelectorAll('.filter-btn');
+  for(var i = 0; i < btns.length; i++){
+    btns[i].classList.remove('active');
+    if(btns[i].getAttribute('data-filter') === cat) btns[i].classList.add('active');
+  }
+  renderConcepts(cat, document.getElementById('conceptSearch').value);
 }
-renderConcepts(cat,document.getElementById('conceptSearch').value);
-}
+document.getElementById('conceptSearch').addEventListener('input', function(){ renderConcepts(currentFilter, this.value); });
+renderConcepts('all', '');
 
-document.getElementById('conceptSearch').addEventListener('input',function(){
-renderConcepts(currentFilter,this.value);
-});
-
-renderConcepts('all','');
-
-// ===== 测验系统 =====
-var quizData=[
-{q:"商品的两个因素是：",opts:["使用价值和交换价值","使用价值和价值","价值和价格","具体劳动和抽象劳动"],ans:1,exp:"商品的两个因素是使用价值和价值。使用价值是商品的自然属性，价值是商品的社会属性。交换价值是价值的表现形式，不是商品的因素之一。"},
-{q:"商品的価值量是由什么决定的？",opts:["个别劳动时间","社会必要劳动时间","商品的使用价值","市场的供求关系"],ans:1,exp:"商品的价值量由社会必要劳动时间决定，而不是由个别劳动时间决定。社会必要劳动时间是用社会现有的标准生产条件，用社会平均的劳动熟练程度和强度，生产任何一个使用价值所必要的劳动时间。"},
-{q:"货币的本质是：",opts:["贵金属","国家发行的纸币","一般等价物","交换的媒介"],ans:2,exp:"货币的本质是一般等价物，是固定充当一般等价物的商品。货币不是天然就是贵金属，贵金属只是在历史过程中固定充当了一般等价物。"},
-{q:"剩余价值的唯一源泉是：",opts:["不变资本","可变资本","全部预付资本","固定资本"],ans:1,exp:"剩余价值的唯一源泉是可变资本，即可变资本所购买的劳动力。不变资本只是把价值转移到新产品中，不创造新价值。"},
-{q:"资本有机构成是指：",opts:["不变资本与总资本的比例","可变资本与总资本的比例","由技术构成决定并反映技术构成变化的价值构成","固定资本与流动资本的比例"],ans:2,exp:"资本有机构成是由资本技术构成决定并反映技术构成变化的资本价值构成，即c:v的比例。"},
-{q:"产业资本循环中起决定作用的阶段是：",opts:["购买阶段","生产阶段","售卖阶段","流通阶段"],ans:1,exp:"生产阶段是产业资本循环中起决定作用的阶段，因为只有在生产过程中才能创造价值和剩余价值。购买和售卖阶段只是价值的形态变化。"},
-{q:"社会资本简单再生产的基本实现条件是：",opts:["I(c+v+m)=IIc","I(v+m)=IIc","I(c+v)=II(v+m)","I(c+m)=II(v+m)"],ans:1,exp:"社会资本简单再生产的基本实现条件是I(v+m)=IIc，即第一部类的可变资本加剩余价值等于第二部类的不变资本。"},
-{q:"生产价格等于：",opts:["价值","生产成本加剩余价值","生产成本加平均利润","生产成本加利润"],ans:2,exp:"生产价格等于生产成本(k)加平均利润。生产价格是价值的转化形式，在平均利润率形成后，商品不再按价值出售，而是按生产价格出售。"},
-{q:"相对剩余价值的获得是通过：",opts:["延长工作日","提高劳动强度","缩短必要劳动时间","降低工人工资"],ans:2,exp:"相对剩余价值是在工作日长度不变的条件下，通过缩短必要劳动时间、相应延长剩余劳动时间来生产的。缩短必要劳动时间的条件是降低劳动力的价值。"},
-{q:"商业利润的真正来源是：",opts:["商品买卖的差价","商业职工创造的剩余价值","产业工人在生产中创造的剩余价值","商业资本家的投资收益"],ans:2,exp:"商业利润的真正来源是产业工人在生产中创造的剩余价值。产业资本家以低于生产价格的价格把商品卖给商业资本家，商业资本家再按生产价格出售，差额构成商业利润。"}
+// ===== Quiz System =====
+var quizData = [
+  {q:"商品的两个因素是：",opts:["使用价值和交换价值","使用价值和价值","价值和价格","具体劳动和抽象劳动"],ans:1,exp:"商品的两个因素是使用价值和价值。使用价值是商品的自然属性，价值是商品的社会属性。交换价值是价值的表现形式。"},
+  {q:"商品的价值量是由什么决定的？",opts:["个别劳动时间","社会必要劳动时间","商品的使用价值","市场的供求关系"],ans:1,exp:"商品的价值量由社会必要劳动时间决定。社会必要劳动时间是用社会现有的标准生产条件，用社会平均的劳动熟练程度和强度，生产任何一个使用价值所必要的劳动时间。"},
+  {q:"货币的本质是：",opts:["贵金属","国家发行的纸币","一般等价物","交换的媒介"],ans:2,exp:"货币的本质是一般等价物，是固定充当一般等价物的商品。货币不是天然就是贵金属，贵金属只是在历史过程中固定充当了一般等价物。"},
+  {q:"剩余价值的唯一源泉是：",opts:["不变资本","可变资本","全部预付资本","固定资本"],ans:1,exp:"剩余价值的唯一源泉是可变资本，即可变资本所购买的劳动力。不变资本只是把价值转移到新产品中，不创造新价值。"},
+  {q:"资本有机构成是指：",opts:["不变资本与总资本的比例","可变资本与总资本的比例","由技术构成决定并反映技术构成变化的价值构成","固定资本与流动资本的比例"],ans:2,exp:"资本有机构成是由资本技术构成决定并反映技术构成变化的资本价值构成，即c:v的比例。"},
+  {q:"产业资本循环中起决定作用的阶段是：",opts:["购买阶段","生产阶段","售卖阶段","流通阶段"],ans:1,exp:"生产阶段是产业资本循环中起决定作用的阶段，因为只有在生产过程中才能创造价值和剩余价值。"},
+  {q:"社会资本简单再生产的基本实现条件是：",opts:["I(c+v+m)=IIc","I(v+m)=IIc","I(c+v)=II(v+m)","I(c+m)=II(v+m)"],ans:1,exp:"社会资本简单再生产的基本实现条件是I(v+m)=IIc，即第一部类的可变资本加剩余价值等于第二部类的不变资本。"},
+  {q:"生产价格等于：",opts:["价值","生产成本加剩余价值","生产成本加平均利润","生产成本加利润"],ans:2,exp:"生产价格等于生产成本(k)加平均利润。生产价格是价值的转化形式，在平均利润率形成后，商品不再按价值出售，而是按生产价格出售。"},
+  {q:"相对剩余价值的获得是通过：",opts:["延长工作日","提高劳动强度","缩短必要劳动时间","降低工人工资"],ans:2,exp:"相对剩余价值是在工作日长度不变的条件下，通过缩短必要劳动时间、相应延长剩余劳动时间来生产的。"},
+  {q:"商业利润的真正来源是：",opts:["商品买卖的差价","商业职工创造的剩余价值","产业工人在生产中创造的剩余价值","商业资本家的投资收益"],ans:2,exp:"商业利润的真正来源是产业工人在生产中创造的剩余价值。产业资本家以低于生产价格的价格把商品卖给商业资本家，差额构成商业利润。"},
+  {q:"工资的本质是：",opts:["劳动的价值或价格","劳动力的价值或价格","工人全部劳动的报酬","由市场供求决定"],ans:1,exp:"工资不是劳动的价值或价格，而是劳动力的价值或价格的转化形式。工资形式掩盖了必要劳动与剩余劳动的划分。"},
+  {q:"资本积累的源泉是：",opts:["资本家的节俭","剩余价值的资本化","银行贷款","政府补贴"],ans:1,exp:"资本积累就是把剩余价值转化为资本，即剩余价值的资本化。资本积累是资本主义扩大再生产的唯一源泉。"},
+  {q:"平均利润率下降的根本原因是：",opts:["剩余价值率下降","资本有机构成提高","工人工资提高","商品价格下跌"],ans:1,exp:"随着资本主义的发展，资本有机构成不断提高，导致平均利润率有下降的趋势。"},
+  {q:"利息的本质是：",opts:["借贷资本自身增殖的结果","平均利润的一部分","银行的服务费","货币的时问价值"],ans:1,exp:"利息是职能资本家因使用借贷资本而付给借贷资本家的报酬，是平均利润的一部分。"},
+  {q:"级差地租产生的条件是：",opts:["土地私有权","土地肥沃程度和位置不同","农业资本有机构成低","农产品价格上涨"],ans:1,exp:"级差地租是由于耕种较优土地所获得的超额利润。其条件是土地肥沃程度和位置不同。"},
+  {q:"资本主义经济危机的实质是：",opts:["生产绝对过剩","生产相对过剩","商品短缺","货币危机"],ans:1,exp:"资本主义经济危机是生产过剩的危机。这种生产过剩不是绝对的过剩，而是相对于劳动人民有支付能力的需求来说的过剩。"},
+  {q:"商品拜物教的根源在于：",opts:["商品交换的复杂性","私人劳动和社会劳动的矛盾","货币的出现","资本家的剥削"],ans:1,exp:"商品拜物教把商品这种人与人之间的经济关系看作物与物之间的关系。根源在于私人劳动和社会劳动的矛盾。"},
+  {q:"劳动生产率与单位商品价值量的关系是：",opts:["成正比","成反比","无关","有时正比有时反比"],ans:1,exp:"劳动生产率越高，单位时间内生产的商品越多，则生产单位商品所需要的社会必要劳动时间便越少，单位商品的价值量便越小。"},
+  {q:"固定资本和流动资本的划分依据是：",opts:["在价值增殖中的作用","价值周转方式","实物形态","使用年限"],ans:1,exp:"固定资本和流动资本是根据价值周转方式的不同来划分的。固定资本价值逐渐转移，流动资本价值一次转移。"},
+  {q:"资本主义基本矛盾是：",opts:["无产阶级和资产阶级的矛盾","生产社会化与生产资料私人占有的矛盾","生产和消费的矛盾","城市和乡村的矛盾"],ans:1,exp:"资本主义基本矛盾是生产的社会化和生产资料资本主义私人占有之间的矛盾。这是经济危机的总根源。"}
 ];
 
-var userAnswers={};
-var quizSubmitted=false;
+var userAnswers = {};
+var quizSubmitted = false;
 
 function renderQuiz(){
-var container=document.getElementById('quizContainer');
-container.innerHTML='';
-for(var i=0;i<quizData.length;i++){
-var q=quizData[i];
-var div=document.createElement('div');
-div.className='quiz-question';
-div.id='q'+i;
-var html='<div class="q-num">第 '+(i+1)+' 题</div>';
-html+='<div class="q-text">'+q.q+'</div>';
-for(var j=0;j<q.opts.length;j++){
-html+='<button class="quiz-option" data-q="'+i+'" data-a="'+j+'" onclick="selectAnswer('+i+','+j+')">'+String.fromCharCode(65+j)+'. '+q.opts[j]+'</button>';
-}
-html+='<div class="quiz-explanation" id="exp'+i+'">'+q.exp+'</div>';
-div.innerHTML=html;
-container.appendChild(div);
-}
+  var container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  for(var i = 0; i < quizData.length; i++){
+    var q = quizData[i];
+    var div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.id = 'q' + i;
+    var html = '<div class="q-num">第 ' + (i + 1) + ' 题</div>';
+    html += '<div class="q-text">' + q.q + '</div>';
+    for(var j = 0; j < q.opts.length; j++){
+      html += '<button class="quiz-option" data-q="' + i + '" data-a="' + j + '" onclick="selectAnswer(' + i + ',' + j + ')">' + String.fromCharCode(65 + j) + '. ' + q.opts[j] + '</button>';
+    }
+    html += '<div class="quiz-explanation" id="exp' + i + '">' + q.exp + '</div>';
+    div.innerHTML = html;
+    container.appendChild(div);
+  }
+  document.getElementById('totalNum').textContent = quizData.length;
 }
 
-function selectAnswer(q,a){
-if(quizSubmitted)return;
-userAnswers[q]=a;
-var btns=document.querySelectorAll('[data-q="'+q+'"]');
-for(var i=0;i<btns.length;i++){
-btns[i].style.background='rgba(212,168,67,.03)';
-btns[i].style.borderColor='rgba(212,168,67,.1)';
-btns[i].style.color='#c8b898';
-}
-var selected=document.querySelector('[data-q="'+q+'"][data-a="'+a+'"]');
-selected.style.background='rgba(212,168,67,.15)';
-selected.style.borderColor='#d4a843';
-selected.style.color='#d4a843';
+function selectAnswer(q, a){
+  if(quizSubmitted) return;
+  userAnswers[q] = a;
+  var btns = document.querySelectorAll('[data-q="' + q + '"]');
+  for(var i = 0; i < btns.length; i++){
+    btns[i].style.background = 'rgba(212,168,67,.03)';
+    btns[i].style.borderColor = 'rgba(212,168,67,.1)';
+    btns[i].style.color = '#c8b898';
+  }
+  var selected = document.querySelector('[data-q="' + q + '"][data-a="' + a + '"]');
+  selected.style.background = 'rgba(212,168,67,.15)';
+  selected.style.borderColor = '#d4a843';
+  selected.style.color = '#d4a843';
 }
 
 function submitQuiz(){
-if(quizSubmitted)return;
-quizSubmitted=true;
-var score=0;
-for(var i=0;i<quizData.length;i++){
-var correct=quizData[i].ans;
-var expDiv=document.getElementById('exp'+i);
-expDiv.classList.add('show');
-var btns=document.querySelectorAll('[data-q="'+i+'"]');
-for(var j=0;j<btns.length;j++){
-btns[j].style.cursor='default';
-if(j===correct){
-btns[j].classList.add('show-correct');
-}
-if(userAnswers[i]!==undefined&&userAnswers[i]===j&&j!==correct){
-btns[j].classList.add('wrong');
-}
-}
-if(userAnswers[i]===correct)score++;
-}
-document.getElementById('scoreDisplay').style.display='block';
-document.getElementById('scoreNum').textContent=score;
-document.getElementById('submitQuiz').style.display='none';
-document.getElementById('resetQuiz').style.display='inline-block';
-// save to localStorage
-try{
-var history=JSON.parse(localStorage.getItem('pe_quiz_history')||'[]');
-history.push({date:new Date().toLocaleDateString(),score:score,total:quizData.length});
-localStorage.setItem('pe_quiz_history',JSON.stringify(history));
-}catch(e){}
+  if(quizSubmitted) return;
+  quizSubmitted = true;
+  var score = 0;
+  for(var i = 0; i < quizData.length; i++){
+    var correct = quizData[i].ans;
+    document.getElementById('exp' + i).classList.add('show');
+    var btns = document.querySelectorAll('[data-q="' + i + '"]');
+    for(var j = 0; j < btns.length; j++){
+      btns[j].style.cursor = 'default';
+      if(j === correct) btns[j].classList.add('show-correct');
+      if(userAnswers[i] !== undefined && userAnswers[i] === j && j !== correct) btns[j].classList.add('wrong');
+    }
+    if(userAnswers[i] === correct) score++;
+  }
+  document.getElementById('scoreDisplay').style.display = 'block';
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('submitQuiz').style.display = 'none';
+  document.getElementById('resetQuiz').style.display = 'inline-block';
+  try{
+    var history = JSON.parse(localStorage.getItem('pe_quiz_history') || '[]');
+    history.push({date: new Date().toLocaleDateString(), score: score, total: quizData.length});
+    localStorage.setItem('pe_quiz_history', JSON.stringify(history));
+  }catch(e){}
 }
 
 function resetQuiz(){
-quizSubmitted=false;
-userAnswers={};
-document.getElementById('scoreDisplay').style.display='none';
-document.getElementById('submitQuiz').style.display='inline-block';
-document.getElementById('resetQuiz').style.display='none';
-renderQuiz();
+  quizSubmitted = false;
+  userAnswers = {};
+  document.getElementById('scoreDisplay').style.display = 'none';
+  document.getElementById('submitQuiz').style.display = 'inline-block';
+  document.getElementById('resetQuiz').style.display = 'none';
+  renderQuiz();
 }
 
 renderQuiz();
 
-// ===== 学习进度追踪 =====
-var chapters=[
-{id:"ch1",name:"第一章 商品和货币",pages:74},
-{id:"ch2",name:"第二章 资本和剩余价值",pages:53},
-{id:"ch3",name:"第三章 工资",pages:31},
-{id:"ch4",name:"第四章 资本积累及其历史趋势",pages:54},
-{id:"ch5",name:"第五章 资本的循环和周转",pages:44},
-{id:"ch6",name:"第六章 社会资本的再生产和流通",pages:35},
-{id:"ch7",name:"第七章 平均利润和生产价格",pages:37},
-{id:"ch8",name:"第八章 商业资本和商业利润",pages:40},
-{id:"ch9",name:"第九章 借贷资本和信用",pages:48},
-{id:"ch10",name:"第十章 地租",pages:50},
-{id:"ch11",name:"第十一章 资本主义的经济危机",pages:36}
+// ===== Progress Tracking =====
+var chapters = [
+  {id:"ch1",name:"第一章 商品和货币",pages:74},
+  {id:"ch2",name:"第二章 资本和剩余价值",pages:53},
+  {id:"ch3",name:"第三章 工资",pages:31},
+  {id:"ch4",name:"第四章 资本积累及其历史趋势",pages:54},
+  {id:"ch5",name:"第五章 资本的循环和周转",pages:44},
+  {id:"ch6",name:"第六章 利润和平均利润",pages:37},
+  {id:"ch7",name:"第七章 商业利润、利息和地租",pages:50},
+  {id:"ch8",name:"第八章 资本主义经济危机",pages:36}
 ];
 
-function renderProgress(){
-var tracker=document.getElementById('progressTracker');
-var saved=null;
-try{saved=JSON.parse(localStorage.getItem('pe_progress'))||{};}catch(e){saved={};}
-var html='';
-var totalDone=0;
-var totalPages=503;
-for(var i=0;i<chapters.length;i++){
-var ch=chapters[i];
-var val=saved[ch.id]||0;
-totalDone+=val;
-html+='<div style="margin-bottom:12px">';
-html+='<div style="display:flex;justify-content:space-between;margin-bottom:4px">';
-html+='<span style="color:#d4a843;font-size:.9rem">'+ch.name+'</span>';
-html+='<span style="color:#a09070;font-size:.85rem">'+val+'/'+ch.pages+'页</span>';
-html+='</div>';
-html+='<div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:'+(val/ch.pages*100)+'%"></div></div>';
-html+='</div>';
-}
-var pct=Math.round(totalDone/totalPages*100);
-html='<div style="text-align:center;margin-bottom:20px">';
-html+='<div style="font-family:Ma Shan Zheng,cursive;font-size:2rem;color:#d4a843">'+pct+'%</div>';
-html+='<div style="color:#a09070;font-size:.85rem">总体进度 ('+totalDone+'/'+totalPages+'页)</div>';
-html+='</div>'+html;
-tracker.innerHTML=html;
+function initProgress(){
+  var tracker = document.getElementById('progressTracker');
+  var saved = null;
+  try{ saved = JSON.parse(localStorage.getItem('pe_progress')) || {}; }catch(e){ saved = {}; }
+  var html = '';
+  var totalDone = 0;
+  var totalPages = 0;
+  for(var i = 0; i < chapters.length; i++){
+    totalPages += chapters[i].pages;
+    var ch = chapters[i];
+    var val = saved[ch.id] || 0;
+    totalDone += val;
+    html += '<div style="margin-bottom:12px">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">';
+    html += '<span style="color:#d4a843;font-size:.88rem">' + ch.name + '</span>';
+    html += '<input type="number" id="pg_' + ch.id + '" value="' + val + '" min="0" max="' + ch.pages + '" style="width:60px;background:rgba(20,18,15,.9);border:1px solid rgba(212,168,67,.2);color:#d4a843;padding:3px 6px;border-radius:3px;font-family:Noto Serif SC,serif;font-size:.8rem;text-align:right">';
+    html += '</div>';
+    html += '<div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:' + (val / ch.pages * 100) + '%"></div></div>';
+    html += '</div>';
+  }
+  var pct = totalPages > 0 ? Math.round(totalDone / totalPages * 100) : 0;
+  html = '<div style="text-align:center;margin-bottom:20px">' +
+    '<div style="font-family:Ma Shan Zheng,cursive;font-size:2.2rem;color:#d4a843">' + pct + '%</div>' +
+    '<div style="color:#a09070;font-size:.85rem">总体进度 (' + totalDone + '/' + totalPages + '页)</div>' +
+    '</div>' + html;
+  tracker.innerHTML = html;
 }
 
 function saveProgress(){
-var data={};
-for(var i=0;i<chapters.length;i++){
-var ch=chapters[i];
-var input=document.getElementById('pg_'+ch.id);
-if(input){
-var v=parseInt(input.value)||0;
-if(v<0)v=0;
-if(v>ch.pages)v=ch.pages;
-data[ch.id]=v;
-}
-}
-try{localStorage.setItem('pe_progress',JSON.stringify(data));}catch(e){}
-renderProgress();
+  var data = {};
+  for(var i = 0; i < chapters.length; i++){
+    var ch = chapters[i];
+    var input = document.getElementById('pg_' + ch.id);
+    if(input){
+      var v = parseInt(input.value) || 0;
+      if(v < 0) v = 0;
+      if(v > ch.pages) v = ch.pages;
+      data[ch.id] = v;
+    }
+  }
+  try{ localStorage.setItem('pe_progress', JSON.stringify(data)); }catch(e){}
+  initProgress();
 }
 
 function resetProgress(){
-try{localStorage.removeItem('pe_progress');localStorage.removeItem('pe_quiz_history');}catch(e){}
-renderProgress();
-}
-
-// 初始化进度追踪（带输入框）
-function initProgress(){
-var tracker=document.getElementById('progressTracker');
-var saved=null;
-try{saved=JSON.parse(localStorage.getItem('pe_progress'))||{};}catch(e){saved={};}
-var html='';
-var totalDone=0;
-for(var i=0;i<chapters.length;i++){
-var ch=chapters[i];
-var val=saved[ch.id]||0;
-totalDone+=val;
-html+='<div style="margin-bottom:12px">';
-html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">';
-html+='<span style="color:#d4a843;font-size:.88rem">'+ch.name+'</span>';
-html+='<input type="number" id="pg_'+ch.id+'" value="'+val+'" min="0" max="'+ch.pages+'" style="width:60px;background:rgba(20,18,15,.9);border:1px solid rgba(212,168,67,.2);color:#d4a843;padding:3px 6px;border-radius:3px;font-family:Noto Serif SC,serif;font-size:.8rem;text-align:right">';
-html+='</div>';
-html+='<div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:'+(val/ch.pages*100)+'%"></div></div>';
-html+='</div>';
-}
-var pct=Math.round(totalDone/503*100);
-html='<div style="text-align:center;margin-bottom:20px">';
-html+='<div style="font-family:Ma Shan Zheng,cursive;font-size:2.2rem;color:#d4a843">'+pct+'%</div>';
-html+='<div style="color:#a09070;font-size:.85rem">总体进度 ('+totalDone+'/503页)</div>';
-html+='</div>'+html;
-tracker.innerHTML=html;
+  try{ localStorage.removeItem('pe_progress'); localStorage.removeItem('pe_quiz_history'); }catch(e){}
+  initProgress();
 }
 
 initProgress();
