@@ -294,7 +294,9 @@ function showEndings() {
     {num:'F3',title:'Oni Bride',zone:'Mythic'},{num:'F4',title:'Kitsune's Toy',zone:'Mythic'},
     {num:'F5',title:'Kunoichi Servant',zone:'Mythic'},{num:'F6',title:'Fairy's Guest',zone:'Mythic'},
     {num:'F7',title:'Centaur Stable',zone:'Mythic'},{num:'F8',title:'Goblin Slave',zone:'Mythic'},
-    {num:'GOOD',title:'Freedom',zone:'All'},{num:'TRUE',title:'Truth Revealed',zone:'All'},
+    {num:'N1',title:'Kim 的抉择',zone:'Mythic'},{num:'N2',title:'Dominic 的守护',zone:'Mythic'},
+    {num:'N3',title:'桥梁',zone:'Mythic'},{num:'N4',title:'永恒的守护者',zone:'Mythic'},
+    {num:'PERFECT',title:'和谐',zone:'All'},{num:'GOOD',title:'Freedom',zone:'All'},{num:'TRUE',title:'Truth Revealed',zone:'All'},
   ];
   const grid = document.getElementById('endingsGrid');
   grid.innerHTML = allEndings.map(e => {
@@ -653,6 +655,18 @@ const chapters = {
       { text: '进入 Coastal Zone', next: 'coastal_entry' },
       { text: '返回 Minoh Ranch 补给', next: 'minoh_return' },
       { text: '在森林边缘探索', next: 'forest_edge' }
+
+  forest_path2: {
+    title: '森林岔路', location: 'Forest Zone - 岔路', zone: 'Forest',
+    text: ['你们来到了森林中的一条岔路。',
+      '"我们该往哪走？"Kim 环顾四周。',
+      '左边的小路通向森林更深处，右边的路通向海岸方向，正前方则是一片未被探索的区域。'],
+    choices: [
+      { text: '前往森林深处探索', next: 'forest_side_path' },
+      { text: '离开 Forest Zone 前往海岸', next: 'coastal_entry' },
+      { text: '探索未标记区域', next: 'forest_old_shrine' }
+    ]
+  },
     ]
   },
 
@@ -783,6 +797,17 @@ const chapters = {
       { text: '进入 Demon Zone', next: 'demon_entry' },
       { text: '返回 Eurum City 最后补给', next: 'eurum_return' },
       { text: '在边界休息', next: 'coastal_rest' }
+
+  coastal_path2: {
+    title: '海岸道路', location: 'Coastal Zone - 道路', zone: 'Coastal',
+    text: ['你们沿着海岸线前进。海风吹拂，浪花拍打着礁石。',
+      '前方有几条路线可选：向北是渔村和灯塔，向南是沉船和珊瑚礁，向东则是通往 Demon Zone 的传送门。'],
+    choices: [
+      { text: '向北探索', next: 'coastal_lighthouse' },
+      { text: '向南探索', next: 'coastal_shipwreck' },
+      { text: '前往 Demon Zone', next: 'demon_entry' }
+    ]
+  },
     ]
   },
 
@@ -1240,6 +1265,17 @@ const chapters = {
       { text: '进入 Mythic Zone', next: 'mythic_entry' },
       { text: '返回 Desert Town 最后补给', next: 'desert_town_final' },
       { text: '在边界冥想恢复', next: 'desert_meditate' }
+
+  desert_path2: {
+    title: '沙漠之路', location: 'Desert Zone - 道路', zone: 'Desert',
+    text: ['你们在沙漠中前行。太阳高悬，热浪扭曲了地平线。',
+      '前方发现了一些有趣的地方——一片绿洲、一座商队遗迹、还有远处金字塔的尖顶。'],
+    choices: [
+      { text: '前往绿洲', next: 'desert_oasis' },
+      { text: '探索商队遗迹', next: 'desert_caravan_ruins' },
+      { text: '前往 Mythic Zone', next: 'mythic_entry' }
+    ]
+  },
     ]
   },
 
@@ -1411,6 +1447,19 @@ const chapters = {
       { text: '面对 Robin', next: 'final_robin' },
       { text: '询问选择是什么', next: 'final_choice_info' },
       { text: '要求更多准备时间', next: 'final_prepare' }
+
+  mythic_path2: {
+    title: '神话之道', location: 'Mythic Zone - 道路', zone: 'Mythic',
+    text: ['你们行走在 Mythic Zone 的古老道路上。樱花飘落，竹林沙沙作响。',
+      '你们可以选择继续探索这个区域，或者直接前往核心面对 Robin。'],
+    choices: [
+      { text: '前往狐仙祠', next: 'mythic_fox_statue' },
+      { text: '前往忍者村', next: 'mythic_ninja_dojo' },
+      { text: '前往古战场', next: 'mythic_oni_battlefield' },
+      { text: '前往哥布林洞穴', next: 'mythic_goblin_cave' },
+      { text: '直接面对 Robin', next: 'final_robin' }
+    ]
+  },
     ]
   },
   final_robin: {
@@ -1444,6 +1493,1168 @@ const chapters = {
     endingTitle: 'Good End：Freedom'
   },
 
+
+  // ===== EXPANSION: FOREST ZONE EXTRA =====
+  forest_side_path: {
+    title: '森林侧路', location: 'Forest Zone - 侧路', zone: 'Forest',
+    text: ['你们选择了一条较少人走的小径。树木在这里更加茂密，阳光几乎无法穿透树冠。',
+      '"这里的感觉不一样。"Kim 低声说，"更古老...更原始。"',
+      '你们发现地上有一些奇怪的脚印——不是人类的，也不是任何已知动物的。它们看起来像是...兽爪和裸足混合在一起。',
+      '远处传来笑声——高亢、清脆，像是年轻女孩的嬉笑。但在这荒无人烟的森林中，这笑声令人毛骨悚然。',
+      '"有人吗？"Dominic 喊道。笑声停止了。然后，从四面八方传来回应："来玩吧~来玩吧~"'],
+    choices: [
+      { text: '循声追寻', next: 'forest_fairy_ring' },
+      { text: '快速离开这条小径', next: 'forest_deep_woods' },
+      { text: '提高警惕继续前进', next: 'forest_old_shrine' }
+    ]
+  },
+  forest_fairy_ring: {
+    title: '蘑菇圈', location: 'Forest Zone - 蘑菇圈', zone: 'Forest',
+    text: ['你们来到一片空地，中央有一圈色彩鲜艳的蘑菇——红底白点，散发着微弱的荧光。',
+      '"别进去。"Kim 拉住你，"这是 Fairy Ring。传说中，踏入蘑菇圈的人会被带到妖精的国度。"',
+      '但 Dominic 已经被吸引了。他目光呆滞，一步步向蘑菇圈走去。',
+      '"Dominic！停下！"你大喊，但他充耳不闻。',
+      '你冲上去拉住他。就在你们挣扎时，蘑菇圈中浮现出一个小小的身影——那是一个只有手掌大小的妖精，有着透明的翅膀和狡黠的笑容。',
+      '"咦？居然没有被迷惑？"她歪着头，"有趣的人类。作为奖励...我给你们一个选择的机会。"'],
+    effect: { sanity: -5 },
+    choices: [
+      { text: '请求她放你们离开', next: 'forest_fairy_gift' },
+      { text: '问她关于森林的情报', next: 'forest_fairy_info' },
+      { text: '趁她不注意逃跑', next: 'forest_deep_woods' }
+    ]
+  },
+  forest_fairy_gift: {
+    title: '妖精的礼物', location: 'Forest Zone - 蘑菇圈', zone: 'Forest',
+    text: ['妖精咯咯笑着，挥了挥手。',
+      '"好吧好吧，你们这些无聊的人类。拿着这个，它会帮助你们在森林中生存。"',
+      '一片发光的叶子飘落到你手中。它温暖而柔软，散发着淡淡的香气。',
+      '"这是妖精之叶。当你迷路时，它会指引方向。但记住...所有礼物都有代价。"',
+      '她的笑容变得诡异，然后身影消散在空气中。',
+      '你们离开了蘑菇圈，心中充满不安。'],
+    items: ['妖精之叶'],
+    choices: [
+      { text: '继续深入森林', next: 'forest_deep_woods' },
+      { text: '返回主路', next: 'forest_path2' }
+    ]
+  },
+  forest_fairy_info: {
+    title: '妖精的情报', location: 'Forest Zone - 蘑菇圈', zone: 'Forest',
+    text: ['妖精坐在蘑菇上，晃着小腿。',
+      '"情报？我可以告诉你们很多事哦。比如...森林深处有一只巨大的蜘蛛，她的网能捕捉到任何生物。"',
+      '"还有...Minoh 牧场的牛奶有问题。喝了太多会变成牛娘哦~"',
+      '"至于海岸方向...海里有很多漂亮的姐姐，但她们的歌声会引诱人类跳入海中。"',
+      '"想要通过森林，你们需要找到 Old Tree。它是森林的守护者，会为值得的人指明道路。"',
+      '她眨了眨眼："但这些情报可不是免费的。我要你的一根头发。"'],
+    choices: [
+      { text: '给她一根头发', next: 'forest_fairy_gift', effect: { sanity: -5 } },
+      { text: '拒绝并离开', next: 'forest_deep_woods' }
+    ]
+  },
+  forest_deep_woods: {
+    title: '森林深处', location: 'Forest Zone - 深处', zone: 'Forest',
+    text: ['树木越来越高大，藤蔓像蛇一样缠绕在树干上。',
+      '"我们好像越走越深了。"Kim 不安地说。',
+      '突然，一只巨大的飞蛾从你们面前飞过。它翅膀上的图案看起来像是...人脸？',
+      '更诡异的是，那些"脸"似乎在动，嘴巴一张一合，发出无声的尖叫。',
+      '"别看！"你捂住 Kim 的眼睛，"这是 Moth 的幻术！"',
+      '你们低下头，快步前进。身后传来翅膀拍打的声音——越来越近了。'],
+    effect: { sanity: -10 },
+    choices: [
+      { text: '奔跑逃离', next: 'forest_old_shrine' },
+      { text: '寻找掩护躲藏', next: 'forest_abandoned_cabin' },
+      { text: '转身面对它', next: 'forest_moth_encounter' }
+    ]
+  },
+  forest_moth_encounter: {
+    title: '巨蛾遭遇', location: 'Forest Zone - 深处', zone: 'Forest',
+    text: ['你们转身面对巨蛾。它比想象中更大——翼展超过两米，翅膀上的人脸图案在月光下清晰可见。',
+      '那些人脸开始说话，声音重叠在一起，像是合唱："看看我们...看看我们曾经的样子..."',
+      '"它们曾经是人类。"Dominic 惊恐地说，"被转化成了...蛾子的一部分？"',
+      '巨蛾向你们扑来，翅膀扇起的风带着鳞粉。你们感到头晕目眩...',
+      'Kim 拿出火把挥舞："走开！离我们远点！"',
+      '火焰让巨蛾退缩了。它盘旋一圈，飞入了树冠中，但那些人脸仍在注视着你们。'],
+    effect: { health: -10, sanity: -10 },
+    choices: [
+      { text: '趁现在快跑', next: 'forest_old_shrine' },
+      { text: '寻找可以治疗鳞粉中毒的东西', next: 'forest_creek' }
+    ]
+  },
+  forest_old_shrine: {
+    title: '古老神社', location: 'Forest Zone - 神社遗迹', zone: 'Forest',
+    text: ['一座破败的神社出现在林间空地上。鸟居歪斜，石灯笼倒塌，主殿的屋顶已经坍塌了一半。',
+      '"这里...有一种神圣的气息。"Kim 轻声说，"尽管破败，但仍有力量残留。"',
+      '你们走进主殿。供桌上积满灰尘，但中央的神像却异常干净——那是一个有着狐耳和多条尾巴的女性形象。',
+      '"Kitsune..."你认出了这个形象，"九尾狐仙。"',
+      '突然，神像的眼睛似乎动了一下。你们的心跳漏了一拍。',
+      '"看来有客人来了。"一个慵懒的女声从背后传来。你们转身，看到一个穿着红白巫女服的狐耳女子倚在门框上，九条尾巴在身后轻轻摇摆。'],
+    choices: [
+      { text: '表明来意，请求帮助', next: 'forest_kitsune_talk' },
+      { text: '问她是否是森林的守护者', next: 'forest_kitsune_guardian' },
+      { text: '保持警惕，慢慢后退', next: 'forest_path2' }
+    ]
+  },
+  forest_kitsune_talk: {
+    title: '与狐仙对话', location: 'Forest Zone - 神社遗迹', zone: 'Forest',
+    text: ['狐仙饶有兴趣地打量着你们。',
+      '"人类...而且是没有被转化的。真是罕见。"她走近一步，尾巴轻轻拂过地面，"你们来这片被诅咒的森林做什么？"',
+      '你解释了来意——寻找失踪的朋友，寻找阻止灾难的方法。',
+      '狐仙沉默了片刻，然后叹了口气。',
+      '"Robin...那个疯狂的女孩。她打开了不该打开的门。现在 Monline 世界正在侵蚀你们的现实世界。"',
+      '"要关闭那扇门，你们需要到达 Mythic Zone 的核心，将太阳神权杖重新插入祭坛。但路途艰险...你们很可能会死在路上，或者更糟——被转化。"'],
+    choices: [
+      { text: '问她是否能提供帮助', next: 'forest_kitsune_help' },
+      { text: '问她关于 Robin 的事', next: 'forest_kitsune_robin' },
+      { text: '感谢她并离开', next: 'forest_path2' }
+    ]
+  },
+  forest_kitsune_guardian: {
+    title: '森林守护者', location: 'Forest Zone - 神社遗迹', zone: 'Forest',
+    text: ['狐仙轻笑一声。',
+      '"守护者？曾经是吧。在 Robin 打开那扇门之前，我守护着这片森林的平衡。但现在...森林已经疯了。"',
+      '她的眼中闪过一丝悲伤。',
+      '"树木在扭曲，动物在变异，人类在踏入森林的那一刻就开始被转化。我能做的，只是保护这座神社和少数几个安全区域。"',
+      '"如果你们要通过森林，我可以给你们一个祝福。但祝福只能保护你们不被森林的低级诅咒影响。面对强大的怪物...你们只能靠自己。"',
+      '她伸出手，一道金光没入你们的额头。你们感到精神一振。'],
+    effect: { sanity: 20 },
+    setFlag: 'kitsune_blessing',
+    choices: [
+      { text: '询问海岸方向的路', next: 'forest_kitsune_coastal' },
+      { text: '离开神社', next: 'forest_path2' }
+    ]
+  },
+  forest_kitsune_help: {
+    title: '狐仙的帮助', location: 'Forest Zone - 神社遗迹', zone: 'Forest',
+    text: ['狐仙思考了一会儿。',
+      '"我可以给你们这个。"她从袖中取出一枚古朴的铜钱，"这是守护钱。当你们遇到无法抵抗的危险时，握紧它，它会带你们回到神社。但只能用一次。"',
+      '"还有...如果你们在 Mythic Zone 遇到我的"姐妹"们——其他的 Kitsune——告诉她们 Akane 还在守护森林。也许...也许她们会因此对你们友好一些。"',
+      '你接过铜钱，感到一股温暖的力量。',
+      '"小心 Minoh Ranch 的牛奶，小心 Hive 的花粉，小心 Breachwood 的蜘蛛。愿狐火指引你们的道路。"'],
+    items: ['守护钱'],
+    setFlag: 'akane_known',
+    choices: [
+      { text: '告别狐仙，继续旅程', next: 'forest_path2' }
+    ]
+  },
+  forest_kitsune_robin: {
+    title: '关于 Robin', location: 'Forest Zone - 神社遗迹', zone: 'Forest',
+    text: ['提到 Robin，狐仙的表情变得复杂。',
+      '"Robin...她曾经是个人类女孩。聪明、好奇、有野心。她发现了 Monline 世界的入口，以为可以控制那股力量。"',
+      '"但她错了。那股力量控制了她。现在她既是入口的守护者，也是囚徒。她无法离开 Mythic Zone 的核心，但她的意志可以影响整个世界。"',
+      '"她想要朋友...永恒的朋友。所以她把人类拉入这个世界，把她们转化成怪物娘。在她扭曲的思维中，这是在"拯救"孤独的灵魂。"',
+      '"要击败她，你们需要理解她的孤独。单纯的武力无法解决问题——你们需要触及她残存的人性。"'],
+    effect: { sanity: -5 },
+    choices: [
+      { text: '问她如何触及 Robin 的人性', next: 'forest_kitsune_robin2' },
+      { text: '感谢情报，离开神社', next: 'forest_path2' }
+    ]
+  },
+  forest_kitsune_coastal: {
+    title: '前往海岸', location: 'Forest Zone - 神社遗迹', zone: 'Forest',
+    text: ['狐仙指向东方。',
+      '"沿着这条小径一直向东，会到达一片悬崖。悬崖下就是海岸。但注意——悬崖很陡峭，而且最近出现了一些...不自然的洞穴。"',
+      '"有人看到洞穴中传出歌声和灯光。我怀疑那是 Siren 或 Mermaid 的巢穴。如果可能，避开那些洞穴。"',
+      '"另外，在悬崖附近有一个小渔村。那里的渔民可能还在。他们也许能提供船只或情报。"'],
+    choices: [
+      { text: '感谢并离开', next: 'forest_path2' }
+    ]
+  },
+  forest_creek: {
+    title: '森林小溪', location: 'Forest Zone - 小溪', zone: 'Forest',
+    text: ['你们找到了一条清澈的小溪。水流平缓，水中游动着发光的小鱼。',
+      '"这些鱼...它们在发光？"Kim 惊讶地说。',
+      '"那是 Spirit Fish。"Dominic 解释道，"在 Monline 世界中，它们被称为"活体药水"。食用它们可以恢复体力和精神状态。"',
+      '你们喝了几口溪水，感到一阵清凉渗入体内。那些奇怪的鳞粉带来的不适感减轻了。',
+      '就在这时，你们听到上游传来水花声。一个身影站在瀑布下——那是一个有着鱼鳍和鳞片的少女，正在梳理她的长发。'],
+    effect: { health: 15, sanity: 10 },
+    choices: [
+      { text: '悄悄观察', next: 'forest_mermaid_spot' },
+      { text: '打招呼', next: 'forest_mermaid_talk' },
+      { text: '不打扰她，继续上路', next: 'forest_path2' }
+    ]
+  },
+  forest_mermaid_spot: {
+    title: '溪中的身影', location: 'Forest Zone - 小溪', zone: 'Forest',
+    text: ['你们躲在灌木后观察。',
+      '那确实是一位 Mermaid——但她的尾巴不是 typical 的鱼尾，而是更像鳗鱼的修长身体。她的鳞片呈现出深紫色，在月光下泛着金属光泽。',
+      '她似乎感觉到了什么，突然转头看向你们的方向。',
+      '"谁在那里？"她的声音清脆悦耳，带着一丝警觉，"出来吧，我不会伤害你们...除非你们是来捕猎的。"',
+      'Kim 正想走出去，你拉住了她。你注意到 Mermaid 身边的水面下似乎有什么东西在移动——那看起来像是...触手？'],
+    choices: [
+      { text: '小心地现身', next: 'forest_mermaid_talk' },
+      { text: '继续躲藏观察', next: 'forest_mermaid_hidden' }
+    ]
+  },
+  forest_mermaid_talk: {
+    title: '与溪中少女对话', location: 'Forest Zone - 小溪', zone: 'Forest',
+    text: ['你们走了出来。Mermaid 打量着你们，眼中闪过惊讶。',
+      '"人类？没有被转化的？真是稀奇。"她游近了一些，"我叫 Lamia——不，不是那个蛇怪 Lamia。我只是碰巧也叫这个名字。"',
+      '"我是从 Coastal Zone 逆流而上的。海里的情况越来越糟了——Kraken 在扩张领土，Siren 的歌声让越来越多的船员跳海。"',
+      '"我来森林里寻找一个古老的遗物——据说可以平息海洋的愤怒。但森林里也不安全..."',
+      '她叹了口气："这个世界正在崩溃。所有的区域都在互相侵蚀。如果你们要去 Coastal Zone，一定要小心海里的东西。"'],
+    choices: [
+      { text: '问她关于遗物的情报', next: 'forest_mermaid_relic' },
+      { text: '告别她继续上路', next: 'forest_path2' }
+    ]
+  },
+  forest_abandoned_cabin: {
+    title: '废弃小屋', location: 'Forest Zone - 废弃小屋', zone: 'Forest',
+    text: ['你们躲进了一座废弃的小木屋。屋内布满灰尘和蛛网，但家具还算完好。',
+      '"这里看起来像猎人小屋。"Dominic 检查着墙上的挂饰，"但这些"猎物"...不太对劲。"',
+      '你抬头看去，墙上挂着一些动物皮毛——但它们有着过于人形的轮廓。一张"鹿皮"有着类似人脸的图案，另一张"熊皮"的五指痕迹清晰可见。',
+      'Kim 颤抖着说："这些...这些曾经是人类吗？"',
+      '桌上有本破旧的日记。你翻开它："第47天。我已经无法再狩猎了。每一次扣动扳机，我都能从猎物眼中看到人类的灵魂。森林在改变它们，也在改变我。我开始渴望生肉，渴望...鲜血。如果谁找到这本日记，请杀了我。我已经不是人类了。"'],
+    effect: { sanity: -15 },
+    choices: [
+      { text: '搜索有用的物品', next: 'forest_cabin_loot' },
+      { text: '尽快离开这个可怕的地方', next: 'forest_path2' }
+    ]
+  },
+  forest_cabin_loot: {
+    title: '猎人遗物', location: 'Forest Zone - 废弃小屋', zone: 'Forest',
+    text: ['你们在床下找到了一个上锁的箱子。Dominic 用猎刀撬开了它。',
+      '箱子里有一些有用的物品：',
+      '• 一瓶标记着"驱虫剂"的液体——但标签下还有一行小字："对怪物也有效"',
+      '• 一把银质匕首，刀柄上刻着古老的符文',
+      '• 几张手绘的地图，标注了森林中的"安全区"和"危险区"',
+      '• 一封信，上面写着："如果你看到这封信，说明我已经失败了。请把这把匕首交给 Minoh 牧场的人——她一直在寻找能杀死"那东西"的武器。"'],
+    items: ['银质匕首', '怪物驱虫剂', '手绘地图'],
+    choices: [
+      { text: '带上物品离开', next: 'forest_path2' }
+    ]
+  },
+
+  // ===== COASTAL ZONE EXTRA =====
+  coastal_shipwreck: {
+    title: '沉船遗迹', location: 'Coastal Zone - 沉船', zone: 'Coastal',
+    text: ['海岸线附近有一艘巨大的沉船，半埋在沙中，桅杆已经折断。',
+      '"这艘船...看起来不是现代的。"Dominic 检查着船身的雕刻，"这是 18 世纪的商船。怎么会出现在这里？"',
+      'Kim 指着船舱："里面有光。"',
+      '确实，破损的船舱中透出微弱的绿色荧光。伴随着光芒的还有...音乐？那是八音盒的旋律，断断续续，像是坏掉的机器。',
+      '"可能是某种陷阱。"你说，"但也可能有有用的东西。"'],
+    choices: [
+      { text: '进入船舱探索', next: 'coastal_ship_interior' },
+      { text: '搜索甲板', next: 'coastal_ship_deck' },
+      { text: '绕过沉船继续前进', next: 'coastal_path2' }
+    ]
+  },
+  coastal_ship_interior: {
+    title: '船舱内部', location: 'Coastal Zone - 沉船内部', zone: 'Coastal',
+    text: ['船舱内出乎意料地干燥，像是某种魔法保护着这里。',
+      '绿色荧光来自一个漂浮在空中的水晶球。球体内部似乎有一个微型世界——有海洋、岛屿、还有...小人？',
+      '"这是...一个被封印的空间？"Kim 惊讶地说。',
+      '突然，水晶球中传来声音："救...救我..."那是一个女人的声音，微弱而绝望。',
+      '"是谁？你在哪里？"你问道。',
+      '"我在球里...被困了很久...请打破它..."',
+      'Dominic 拉住你："等等。这可能是陷阱。如果她是被封印的怪物呢？"'],
+    effect: { sanity: -5 },
+    choices: [
+      { text: '打破水晶球释放她', next: 'coastal_crystal_release' },
+      { text: '询问更多问题', next: 'coastal_crystal_question' },
+      { text: '离开，不触碰水晶球', next: 'coastal_ship_deck' }
+    ]
+  },
+  coastal_crystal_release: {
+    title: '水晶中的囚徒', location: 'Coastal Zone - 沉船内部', zone: 'Coastal',
+    text: ['你打破了水晶球。',
+      '一阵耀眼的光芒后，一个身影出现在你们面前。她穿着破旧的船长服，但下半身是...鱼尾？',
+      '"谢谢...谢谢你们。"她虚弱地说，"我是这艘船的船长。一百年前，我在暴风雨中遇到了 Siren。她把我困在了那个球里，作为她的"收藏品"。"',
+      '"作为感谢...我给你们这个。"她递给你一颗珍珠，"这是人鱼之泪。在海上，它可以召唤一次风暴来保护你们。但只能用一次。"',
+      '"小心 Siren。她的收藏室里有很多像我这样的囚徒。如果你们遇到她...请救救她们。"',
+      '她的身影开始变得透明。',
+      '"终于...可以安息了..."她微笑着，消散在空气中。'],
+    items: ['人鱼之泪'],
+    effect: { sanity: 10 },
+    choices: [
+      { text: '默默致敬，离开沉船', next: 'coastal_path2' }
+    ]
+  },
+  coastal_tide_pools: {
+    title: '潮汐池', location: 'Coastal Zone - 潮汐池', zone: 'Coastal',
+    text: ['海岸边的岩石间形成了许多潮汐池。池水清澈，可以看到底部的沙石和...奇怪的东西。',
+      '"那是什么？"Kim 蹲下身，指着池底的一个物体。',
+      '那是一个人类的手镯，但上面长满了藤壶和海藻。更诡异的是，它似乎在微微发光。',
+      'Dominic 用树枝把它捞了上来。镯子内侧刻着字："给最爱的女儿——愿海洋永远温柔待你。"',
+      '"这是...某个失踪者的物品。"Kim 轻声说，"她的家人可能还在找她。"',
+      '你们决定保留这个手镯。也许有一天能找到它的主人，或者...她的家人。'],
+    items: ['海藻手镯'],
+    choices: [
+      { text: '继续沿海岸前进', next: 'coastal_path2' },
+      { text: '搜索更多潮汐池', next: 'coastal_tide_search' }
+    ]
+  },
+  coastal_tide_search: {
+    title: '潮汐池的收获', location: 'Coastal Zone - 潮汐池', zone: 'Coastal',
+    text: ['你们仔细检查了更多的潮汐池。',
+      '在一个较大的池子中，你们发现了一条被困的小鱼——它有着人类的面孔，正在用细小的声音哭泣。',
+      '"那是...Mermaid 的幼体？"Dominic 惊讶地说，"传说她们小时候是鱼形态，长大后才会变成半人半鱼。"',
+      '你们小心翼翼地将它放入海中。它在水中转了一圈，然后突然开口说："谢谢！沿着海岸线向北走，有一个隐藏的洞穴。里面有你们需要的东西！"',
+      '说完，它游入深海消失了。'],
+    effect: { sanity: 5 },
+    choices: [
+      { text: '向北寻找隐藏洞穴', next: 'coastal_hidden_cave' },
+      { text: '继续原定路线', next: 'coastal_path2' }
+    ]
+  },
+  coastal_hidden_cave: {
+    title: '隐藏洞穴', location: 'Coastal Zone - 隐藏洞穴', zone: 'Coastal',
+    text: ['你们找到了那个隐藏洞穴。入口被海藻和岩石遮挡，很难发现。',
+      '洞内出乎意料地干燥，墙壁上镶嵌着发光的贝壳，提供微弱的照明。',
+      '洞穴深处有一个石台，上面放着一卷羊皮纸和一瓶药水。',
+      '羊皮纸上写着古老的文字，Dominic 艰难地翻译着："这是...海神的祝福药水。饮用后可以在水下呼吸一小时。"',
+      '"如果我们需要进入深海，这会很有用。"Kim 说。',
+      '你们收起了药水和羊皮纸。'],
+    items: ['水下呼吸药水', '海神羊皮纸'],
+    choices: [
+      { text: '离开洞穴，继续前进', next: 'coastal_path2' }
+    ]
+  },
+  coastal_lighthouse: {
+    title: '废弃灯塔', location: 'Coastal Zone - 灯塔', zone: 'Coastal',
+    text: ['海岸边矗立着一座破旧的灯塔。它的灯已经熄灭很久了，但结构还算稳固。',
+      '"也许我们可以爬到顶部观察周围。"你说。',
+      '你们进入灯塔。螺旋楼梯上覆盖着海藻和藤壶，空气中弥漫着海水的咸味。',
+      '爬到一半时，你们听到了歌声——从上方传来的、悠扬而悲伤的歌声。',
+      '"那是...Siren 的歌声？"Kim 紧张地问。',
+      '"不。"Dominic 摇头，"Siren 的歌声会引诱人心。这个歌声...只是悲伤。没有诱惑。"'],
+    choices: [
+      { text: '继续上塔查看', next: 'coastal_lighthouse_top' },
+      { text: '撤退，不去冒险', next: 'coastal_path2' }
+    ]
+  },
+  coastal_lighthouse_top: {
+    title: '灯塔顶端', location: 'Coastal Zone - 灯塔顶端', zone: 'Coastal',
+    text: ['灯塔顶部是一个圆形平台，周围有铁栏杆。',
+      '平台上坐着一个身影——那是一个有着鱼尾的女性，正望着大海歌唱。',
+      '她注意到了你们，停下了歌声。',
+      '"你们没有被我的歌声迷惑？"她惊讶地问，"大多数人类听到我的歌声都会发疯或跳海。"',
+      '"你的歌声里没有恶意。"你说，"只有悲伤。"',
+      '她沉默了一会儿，然后苦笑："我叫 Nerissa。我曾经是这座灯塔的守护者——在人类形态时。但有一天，我在暴风雨中救了一个溺水者...他是海神祭司。作为感谢，他把我变成了 Mermaid，说这样我就能永远守护这片海域。"',
+      '"但他没有问我是否愿意。"她的眼中含着泪水，"我已经一百年没有见过我的家人了。"'],
+    effect: { sanity: -5 },
+    choices: [
+      { text: '安慰她', next: 'coastal_nerissa_comfort' },
+      { text: '问她关于海域的情报', next: 'coastal_nerissa_info' },
+      { text: '默默离开', next: 'coastal_path2' }
+    ]
+  },
+  coastal_nerissa_comfort: {
+    title: '悲伤的守护者', location: 'Coastal Zone - 灯塔顶端', zone: 'Coastal',
+    text: ['你们坐在 Nerissa 身边，陪她一起看海。',
+      '"你知道吗..."她轻声说，"有时候会有船只经过。我看到船上的人们，他们有家人、有朋友、有归属。而我只有这片海和这座灯塔。"',
+      '"但你也救了很多人。"Kim 说，"一百年来的每一次暴风雨，你都引导船只避开暗礁。你比任何人都更伟大。"',
+      'Nerissa 看着 Kim，眼中闪过一丝光芒。',
+      '"谢谢你...已经很久没有人对我这么说了。"她微笑着，从头发上取下一个发饰——那是一个由贝壳和海玻璃制成的精致饰品。',
+      '"这个给你。它是我的鳞片制成的，可以在海中指引方向。如果你迷路了，它会带你找到最安全的路。"'],
+    items: ['海鳞发饰'],
+    effect: { sanity: 10 },
+    choices: [
+      { text: '感谢她，继续旅程', next: 'coastal_path2' }
+    ]
+  },
+  coastal_fishing_village: {
+    title: '渔村', location: 'Coastal Zone - 渔村', zone: 'Coastal',
+    text: ['海岸边有一个小渔村。几座简陋的木屋围绕着一个小码头。',
+      '"有人住在这里？"Kim 惊讶地问。',
+      '你们走近时，一个老人从屋内走出。他看起来像是正常的...人类？',
+      '"游客？"他眯起眼睛，"很少有游客来这个地方了。自从...那件事之后。"',
+      '"什么事？"你问。',
+      '"海神发怒了。"老人叹了口气，"大约一年前，海水开始上涨，海里的怪物越来越多。我们的渔民出海后经常不回来...回来的也变得不太对劲。"',
+      '"但还有一些老家伙，比如我，拒绝离开。这是我们的家。"'],
+    choices: [
+      { text: '问他能否提供船只', next: 'coastal_village_boat' },
+      { text: '问他关于海神的情报', next: 'coastal_village_god' },
+      { text: '告别离开', next: 'coastal_path2' }
+    ]
+  },
+  coastal_village_boat: {
+    title: '租船', location: 'Coastal Zone - 渔村', zone: 'Coastal',
+    text: ['老人打量着你们。',
+      '"船？我有。但出海很危险。你们确定要去？"',
+      '你点点头。',
+      '"好吧。但我要警告你们——不要深入远海。那里有 Kraken。不要靠近礁石区。那里有 Siren。不要在夜晚出海。那时海里最危险的东西会浮上来。"',
+      '他带你们来到码头，指着一艘老旧的渔船。',
+      '"这艘船叫"海猫号"。它陪了我三十年。好好对待它。"',
+      '"谢谢。我们会平安回来的。"你说。',
+      '老人苦笑："每个出海的人都这么说。"'],
+    items: ['海猫号渔船'],
+    setFlag: 'has_boat',
+    choices: [
+      { text: '驾驶渔船出海', next: 'coastal_sea_open' },
+      { text: '先在渔村准备物资', next: 'coastal_village_prep' }
+    ]
+  },
+
+  // ===== DEMON ZONE EXTRA =====
+  demon_castle_dungeon: {
+    title: '城堡地牢', location: 'Demon Zone - 城堡地牢', zone: 'Demon',
+    text: ['城堡地牢阴暗潮湿，空气中弥漫着腐臭和血腥味。',
+      '牢房中关押着各种生物——有些已经不能称为人类了。一个有着蝙蝠翅膀的少女蜷缩在角落，用血红的眼睛看着你们。',
+      '"新囚犯？还是...入侵者？"她嘶哑地问。',
+      '"我们是来寻找通过这里的方法的。"你说。',
+      '她笑了，笑声像是破碎的玻璃："通过？没有人能"通过"这里。这是单行道——要么成为恶魔的一员，要么成为...食物。"',
+      '远处传来脚步声。有人来了。'],
+    effect: { sanity: -10 },
+    choices: [
+      { text: '躲进空牢房', next: 'demon_dungeon_hide' },
+      { text: '准备战斗', next: 'demon_dungeon_fight' },
+      { text: '尝试与蝙蝠少女合作', next: 'demon_bat_ally' }
+    ]
+  },
+  demon_bat_ally: {
+    title: '蝙蝠少女', location: 'Demon Zone - 城堡地牢', zone: 'Demon',
+    text: ['你走近牢房，压低声音："如果我们救你出去，你能帮助我们吗？"',
+      '蝙蝠少女警惕地看着你们。',
+      '"你们...为什么要帮我？"',
+      '"因为我们也需要帮助。"你说，"而且...你看起来不像自愿待在这里的。"',
+      '她沉默了很久，然后点头："我叫 Vesper。我是被 Succubus Queen 抓来的...她想要我的能力——在黑暗中视物的能力。"',
+      '"如果你们能打开牢门，我可以带你们通过地牢的秘密通道。但你们必须答应我——帮我逃离这座城堡。"'],
+    choices: [
+      { text: '答应她', next: 'demon_free_vesper' },
+      { text: '拒绝，独自寻找出路', next: 'demon_dungeon_hide' }
+    ]
+  },
+  demon_free_vesper: {
+    title: '释放 Vesper', location: 'Demon Zone - 城堡地牢', zone: 'Demon',
+    text: ['你们找到了牢门的锁。Kim 用一根铁丝撬开了它——这是她小时候跟街头艺人学的技能。',
+      'Vesper 走出牢房，舒展着翅膀。',
+      '"谢谢...我以为我会死在这里。"她低声说，"跟我来。我知道一条秘密通道。"',
+      '她带你们穿过地牢深处，来到一面石墙前。她按下一块松动的砖石，石墙缓缓打开，露出一条狭窄的通道。',
+      '"这条通道通向城堡的厨房。从那里可以到达主厅或侧门。"',
+      '"但记住——在城堡中，不要相信任何美丽的女人。她们大多是 Succubus。"'],
+    items: ['Vesper 的指南针'],
+    setFlag: 'vesper_freed',
+    choices: [
+      { text: '通过秘密通道', next: 'demon_castle_kitchen' }
+    ]
+  },
+  demon_castle_kitchen: {
+    title: '城堡厨房', location: 'Demon Zone - 城堡厨房', zone: 'Demon',
+    text: ['秘密通道的尽头是一间巨大的厨房。',
+      '几个 Imp 正在忙碌地准备食物——但那些"食物"看起来令人作呕。盘子里盛着蠕动的虫子、发光的蘑菇、和某种红色的液体。',
+      '"今晚的宴会菜单是..."一个 Imp 念着单子，"人类灵魂炖汤、恐惧精华沙拉、还有...绝望布丁。"',
+      'Vesper 捂住你的嘴："别出声。跟着我就好。"',
+      '你们小心翼翼地穿过厨房，躲避着 Imp 们。就在即将到达出口时，一个 Imp 转过身来——',
+      '"咦？你们是谁？新食材吗？"'],
+    choices: [
+      { text: '让 Vesper 处理', next: 'demon_vesper_handle' },
+      { text: '快速跑向出口', next: 'demon_castle_hall' },
+      { text: '假装是仆人', next: 'demon_imp_disguise' }
+    ]
+  },
+  demon_vesper_handle: {
+    title: 'Vesper 的计策', location: 'Demon Zone - 城堡厨房', zone: 'Demon',
+    text: ['Vesper 走上前，用翅膀挡住了 Imp 的视线。',
+      '"他们是 Queen 的新侍从。"她镇定地说，"Queen 要见他们。你知道耽搁了 Queen 的事会有什么后果吧？"',
+      'Imp 颤抖了一下："好...好的。请走这边。"',
+      '你们顺利通过了厨房。',
+      '"干得好。"你对 Vesper 说。',
+      '她微微一笑——那是你们第一次看到她笑："在城堡里待久了，你也学会了一些生存技巧。"'],
+    choices: [
+      { text: '前往主厅', next: 'demon_castle_hall' },
+      { text: '前往城堡侧门', next: 'demon_castle_side' }
+    ]
+  },
+  demon_church_confession: {
+    title: '忏悔室', location: 'Demon Zone - Elysium Church', zone: 'Demon',
+    text: ['你们进入了 Elysium Church 的忏悔室。',
+      '隔板另一侧坐着一个身影——穿着黑色修女服，但你能感觉到她身上散发的黑暗气息。',
+      '"请说吧，孩子。"她的声音温柔而诱惑，"告诉我你的罪恶...你的欲望...你内心深处最黑暗的秘密。"',
+      '"我们是来寻找通过这里的道路的。"你说。',
+      '她轻笑："所有人都在寻找道路。但道路不是用脚步走的，而是用心走的。告诉我...你最渴望什么？"',
+      '她的声音像蜜糖一样甜腻，你感到意识开始模糊...'],
+    effect: { sanity: -10, corruption: 5 },
+    choices: [
+      { text: '抵抗她的诱惑', next: 'demon_church_resist' },
+      { text: '假装忏悔，套取情报', next: 'demon_church_feign' },
+      { text: '离开忏悔室', next: 'demon_church_altar' }
+    ]
+  },
+  demon_church_feign: {
+    title: '假忏悔', location: 'Demon Zone - Elysium Church', zone: 'Demon',
+    text: ['你假装忏悔，讲述了一些编造的"罪恶"。',
+      '修女静静地听着，偶尔发出同情的叹息。',
+      '"可怜的孩子...你的罪恶并不重。但你的欲望...很强烈。"',
+      '"你想要力量。你想要保护你的朋友。你想要...改变这个世界。"',
+      '她的话让你心头一震。她怎么知道？',
+      '"我不是读心者。"她微笑着，"但我在这个忏悔室中听了一千年的忏悔。我了解人类的心。"',
+      '"给你们一个忠告：城堡中的 Queen 也有一个愿望——她想要有人真正理解她的孤独。也许...你们可以成为那个人。"'],
+    choices: [
+      { text: '问她更多关于 Queen 的事', next: 'demon_church_queen' },
+      { text: '感谢并离开', next: 'demon_church_altar' }
+    ]
+  },
+  demon_dark_forest: {
+    title: '恶魔森林', location: 'Demon Zone - 森林', zone: 'Demon',
+    text: ['城堡外的森林呈现出诡异的红色。树木的叶子像是燃烧的火焰，但摸起来却是冰冷的。',
+      '"这里的植物...被恶魔能量污染了。"Dominic 检查着一片叶子，"它们以负面情绪为食。恐惧、愤怒、绝望...都是它们的养分。"',
+      'Kim 突然停下脚步："你们听到了吗？"',
+      '你们竖起耳朵。远处传来...哭声？那是孩子的哭声，微弱而绝望。',
+      '"可能是陷阱。"你说。',
+      '"但也可能是真的有人需要帮助。"Kim 坚持道。'],
+    choices: [
+      { text: '循声而去', next: 'demon_forest_child' },
+      { text: '忽略哭声，继续前进', next: 'demon_zone_exit' },
+      { text: '让 Kim 留在原地，你独自查看', next: 'demon_forest_solo' }
+    ]
+  },
+  demon_forest_child: {
+    title: '森林中的孩子', location: 'Demon Zone - 森林', zone: 'Demon',
+    text: ['你们找到了哭声的来源。',
+      '那确实是一个孩子——一个小女孩，蜷缩在一棵红色大树下。她穿着破旧的连衣裙，浑身发抖。',
+      '"别...别过来..."她啜泣着，"我会伤害你们的...我不想...但我控制不住..."',
+      '你们注意到她的皮肤下有东西在蠕动——像是藤蔓，又像是血管。',
+      '"她被寄生植物感染了。"Dominic 低声说，"那些红色树木的根系...它们入侵了她的身体。"',
+      '女孩抬起头，眼中充满了痛苦："请...杀了我...我不想变成怪物..."'],
+    effect: { sanity: -20 },
+    choices: [
+      { text: '尝试救她', next: 'demon_forest_save' },
+      { text: '尊重她的愿望', next: 'demon_forest_mercy' },
+      { text: '用驱虫剂试试', next: 'demon_forest_cure' }
+    ]
+  },
+  demon_forest_cure: {
+    title: '驱虫剂的效果', location: 'Demon Zone - 森林', zone: 'Demon',
+    text: ['你想起了在森林小屋找到的"怪物驱虫剂"。',
+      '你拿出瓶子，小心地倒了一滴在女孩的伤口上。',
+      '效果立竿见影——那些蠕动的根系发出嘶嘶声，迅速从她体内退缩。女孩痛苦地尖叫着，但几分钟后，她瘫软在地，大口喘气。',
+      '"我...我感觉好多了。"她颤抖着说，"那些声音...那些让我做坏事的声音...消失了。"',
+      '她看着你们，眼中充满感激："谢谢你们...我叫 Lily。我的家在西边的小屋里。如果你们去那边，请告诉我的妈妈...我还活着。"'],
+    effect: { sanity: 15 },
+    setFlag: 'lily_saved',
+    choices: [
+      { text: '答应她，继续旅程', next: 'demon_zone_exit' }
+    ]
+  },
+
+  // ===== DESOLATE ZONE EXTRA =====
+  desolate_subway: {
+    title: '地铁站', location: 'Desolate Zone - 地铁站', zone: 'Desolate',
+    text: ['你们发现了一个地铁站的入口。台阶通向地下深处，黑暗中传来滴水声和...某种机械运转的声音？',
+      '"地铁系统应该已经停运了。"Dominic 说，"但那声音...像是列车在运转？"',
+      '你们小心地走下台阶。站台上有几盏应急灯还在闪烁，提供了微弱的照明。',
+      '然后你们看到了——一列地铁列车停在轨道上。车窗内漆黑一片，但你们能感觉到里面有东西在动。',
+      '"那是...Ghost Train？"Kim 的声音在颤抖。'],
+    choices: [
+      { text: '登上列车查看', next: 'desolate_train_enter' },
+      { text: '搜索站台', next: 'desolate_platform_search' },
+      { text: '离开地铁站', next: 'desolate_entry' }
+    ]
+  },
+  desolate_train_enter: {
+    title: '幽灵列车', location: 'Desolate Zone - 地铁列车', zone: 'Desolate',
+    text: ['你们登上了列车。车厢内空无一人，但座椅上有着奇怪的凹陷——像是有人一直坐在上面。',
+      '空气中弥漫着陈旧的气味和...香水味？',
+      '"这列车上有人...不，有"东西"生活过。"Dominic 检查着车厢，"看这些划痕——像是爪子留下的。"',
+      '突然，车厢内的灯光闪烁起来。一个声音从广播中传出——沙哑而扭曲："下一站...永恒站...请所有乘客...永远留下..."',
+      '车门突然关闭！列车开始缓缓移动！'],
+    effect: { sanity: -15 },
+    choices: [
+      { text: '尝试强行打开车门', next: 'desolate_train_escape' },
+      { text: '寻找紧急制动', next: 'desolate_train_brake' },
+      { text: '接受 ride，看看会去哪', next: 'desolate_train_ride' }
+    ]
+  },
+  desolate_train_brake: {
+    title: '紧急制动', location: 'Desolate Zone - 地铁列车', zone: 'Desolate',
+    text: ['你们冲向驾驶室。',
+      '门被锁住了，但 Kim 用一根铁管撬开了它。',
+      '驾驶室里...没有人。但控制台上的操纵杆自己在动，像是被无形的手操控着。',
+      'Dominic 冲向制动阀，用尽全力拉下。',
+      '刺耳的摩擦声响起，列车剧烈震动，最终停了下来。',
+      '"成功了！"Kim 欢呼。',
+      '但你们看向窗外时，心沉了下去——列车停在一条从未见过的隧道中。墙壁上刻满了古老的符文，散发着幽绿的光。',
+      '"我们...到了什么地方？"'],
+    choices: [
+      { text: '探索隧道', next: 'desolate_tunnel_explore' },
+      { text: '尝试倒车返回', next: 'desolate_train_reverse' }
+    ]
+  },
+  desolate_tunnel_explore: {
+    title: '神秘隧道', location: 'Desolate Zone - 神秘隧道', zone: 'Desolate',
+    text: ['你们走出列车，探索这条神秘的隧道。',
+      '墙壁上的符文似乎在讲述一个故事——一个关于古代文明的故事。',
+      '"这些符文..."Dominic 瞪大了眼睛，"它们描述了一个仪式。一个打开世界之门的仪式。Robin 就是在这里...找到了方法？"',
+      '隧道尽头是一扇巨大的石门。门上刻着警告：" forbidden knowledge lies beyond. Those who enter shall be changed forever."',
+      '"我们要进去吗？"Kim 问。'],
+    effect: { corruption: 10 },
+    choices: [
+      { text: '打开石门', next: 'desolate_ancient_chamber' },
+      { text: '离开，返回车站', next: 'desolate_entry' }
+    ]
+  },
+  desolate_ancient_chamber: {
+    title: '远古密室', location: 'Desolate Zone - 远古密室', zone: 'Desolate',
+    text: ['石门后是一个巨大的地下密室。',
+      '中央有一个圆形平台，平台上刻满了复杂的魔法阵。魔法阵的中央有一个凹槽——形状像是...权杖？',
+      '"这是..."Dominic 的声音在颤抖，"这是 Robin 打开世界之门的地方。她在这里进行了仪式，将 Monline 世界与现实世界连接。"',
+      '"要关闭它...我们需要将太阳神权杖重新插入这个凹槽。"',
+      '但平台上站着几个身影——它们是 Gargoyle，石化守卫，保护着这个密室。',
+      '"入侵者..."它们用石头摩擦般的声音说，"不得靠近...圣所..."'],
+    choices: [
+      { text: '与 Gargoyle 战斗', next: 'desolate_gargoyle_battle' },
+      { text: '尝试说服它们', next: 'desolate_gargoyle_talk' },
+      { text: '寻找其他入口', next: 'desolate_tunnel_secret' }
+    ]
+  },
+  desolate_school: {
+    title: '学校', location: 'Desolate Zone - 学校', zone: 'Desolate',
+    text: ['你们来到了一座废弃的学校。校门敞开着，操场上长满了杂草。',
+      '"学校..."Kim 轻声说，"我曾经在这里上过学。"',
+      '你们走进教学楼。走廊两侧的教室里，课桌整齐排列，黑板上还写着未擦掉的字。',
+      '但最诡异的是——每个座位上都有一个...娃娃？那些娃娃有着玻璃眼睛和瓷质皮肤，穿着校服，静静地坐在座位上。',
+      '"这是什么...某种仪式吗？"你问。',
+      '突然，其中一个娃娃转过头来，看向你。',
+      '"上课...不许...迟到..."'],
+    effect: { sanity: -15 },
+    choices: [
+      { text: '查看娃娃', next: 'desolate_dolls_examine' },
+      { text: '离开学校', next: 'desolate_entry' },
+      { text: '去校长室查看', next: 'desolate_principal_office' }
+    ]
+  },
+  desolate_dolls_examine: {
+    title: '娃娃的秘密', location: 'Desolate Zone - 学校', zone: 'Desolate',
+    text: ['你们走近那些娃娃。',
+      '近距离看，它们更加诡异——每一个娃娃的五官都不同，但都隐约有着人类的面容特征。',
+      'Dominic 发现了一个标签，贴在娃娃的背后："Made with love... and a piece of soul."',
+      '"这些娃娃...是用人类的灵魂碎片制作的。"他惊恐地说，"有人在收集灵魂，把它们封在娃娃里。"',
+      'Kim 突然捂住嘴："那个娃娃...它看起来像我以前的同桌！"',
+      '确实，其中一个娃娃的面容与 Kim 记忆中的同学有着惊人的相似。',
+      '"我们得找出是谁做的这些事。"你说。'],
+    effect: { sanity: -10 },
+    choices: [
+      { text: '去校长室调查', next: 'desolate_principal_office' },
+      { text: '搜索教室', next: 'desolate_classroom_search' }
+    ]
+  },
+  desolate_principal_office: {
+    title: '校长室', location: 'Desolate Zone - 学校', zone: 'Desolate',
+    text: ['校长室的门虚掩着。',
+      '你们推开门，看到一个女人坐在办公桌后。她穿着得体的套装，但皮肤有着瓷器般的光泽。',
+      '"欢迎， visitors。"她微笑着，"我是这所学校的校长。你们可以叫我...Madame。"',
+      '她的笑容没有到达眼睛。那些眼睛是玻璃的。',
+      '"那些娃娃是我的作品。"她自豪地说，"我把学生的灵魂保存在它们里面。这样，她们就永远不会毕业，永远不会离开...永远是我的学生。"',
+      '"你们也想成为我的学生吗？我可以为特别的人制作特别的娃娃哦。"'],
+    choices: [
+      { text: '拒绝并质问她的罪行', next: 'desolate_principal_confront' },
+      { text: '假装感兴趣，套取情报', next: 'desolate_principal_feign' },
+      { text: '逃跑', next: 'desolate_entry' }
+    ]
+  },
+  desolate_principal_feign: {
+    title: '假意迎合', location: 'Desolate Zone - 学校', zone: 'Desolate',
+    text: ['你假装对她的"作品"感兴趣。',
+      '"哇，这些娃娃太精美了！你是怎么做的？"',
+      'Madame 的眼睛亮了起来。显然，她很久没有得到赞美了。',
+      '"哦！你想学吗？首先，你需要一个鲜活的灵魂——最好是年轻女性的，她们的灵魂最柔软、最容易塑造。"',
+      '"然后，你需要用特殊的药水处理。配方是..."
+      她压低声音，从抽屉中取出一张泛黄的纸："这是配方。我把它给你——作为你欣赏艺术的回报。"',
+      '你接过配方，心中暗自庆幸。',
+      '"但记住——"她的表情突然变得危险，"如果你敢用它做坏事，我会知道的。我会把你做成最精致的娃娃。"'],
+    items: ['灵魂封印配方'],
+    choices: [
+      { text: '感谢并离开', next: 'desolate_entry' }
+    ]
+  },
+  desolate_rooftop: {
+    title: '屋顶', location: 'Desolate Zone - 屋顶', zone: 'Desolate',
+    text: ['你们爬上了城市中最高的建筑物——一座办公楼的屋顶。',
+      '从这里可以俯瞰整个 Desolate Zone。曾经繁华的城市现在成了一片废墟，到处是倒塌的建筑和游荡的怪物。',
+      '"看那边。"Dominic 指向北方，"Hospital 的方向有烟。可能有人在生火。"',
+      '"东边...Mall 的霓虹灯还在闪烁。某种力量在维持它的运转。"',
+      '"而那边..."Kim 指向西方，"Warehouse 区域。我看到有东西在动——很大的东西。"',
+      '你们记下了这些情报。这个制高点为你们提供了宝贵的信息。'],
+    effect: { sanity: 5 },
+    choices: [
+      { text: '前往 Hospital', next: 'hospital' },
+      { text: '前往 Mall', next: 'mall' },
+      { text: '前往 Warehouse', next: 'warehouse' }
+    ]
+  },
+  desolate_sewers: {
+    title: '下水道', location: 'Desolate Zone - 下水道', zone: 'Desolate',
+    text: ['你们找到了一个下水道的入口。',
+      '里面恶臭熏天，但也许是避开街上僵尸的安全路径。',
+      '你们打开手电筒，沿着狭窄的通道前进。水深处没过脚踝，偶尔有什么东西从脚边游过。',
+      '"那是什么？"Kim 紧张地问。',
+      '"可能是老鼠。"Dominic 说，"希望只是老鼠。"',
+      '但你们很快就发现不是老鼠——前方出现了几个发光的眼睛，然后是更多...更多...',
+      '一群 Ratfolk 从黑暗中走出。它们有着人类和老鼠的混合特征，手持简陋的武器。'],
+    choices: [
+      { text: '尝试与它们交流', next: 'desolate_ratfolk_talk' },
+      { text: '准备战斗', next: 'desolate_ratfolk_fight' },
+      { text: '慢慢后退', next: 'desolate_entry' }
+    ]
+  },
+  desolate_ratfolk_talk: {
+    title: 'Ratfolk 部落', location: 'Desolate Zone - 下水道', zone: 'Desolate',
+    text: ['你们举起双手，表示没有敌意。',
+      'Ratfolk 的领袖——一个长着灰白胡须的老 Ratfolk——走上前来。',
+      '"人类...稀罕。大多数人类看到我们就尖叫、逃跑，或者攻击。"他的声音尖锐而沙哑，"你们不一样。为什么？"',
+      '"我们没有理由敌对。"你说，"我们只是路过，想要通过这里。"',
+      '老 Ratfolk 思考了一会儿。',
+      '"我们可以让你们通过。但交换条件——你们有食物吗？或者...知识？我们喜欢听故事。"'],
+    choices: [
+      { text: '分享食物', next: 'desolate_ratfolk_food' },
+      { text: '讲述你们的故事', next: 'desolate_ratfolk_story' },
+      { text: '用银质匕首交换', next: 'desolate_ratfolk_trade' }
+    ]
+  },
+  desolate_ratfolk_food: {
+    title: '分享食物', location: 'Desolate Zone - 下水道', zone: 'Desolate',
+    text: ['你们分享了一些干粮。',
+      'Ratfolk 们显然很饥饿。它们小心翼翼地接过食物，然后开始狼吞虎咽。',
+      '老 Ratfolk 感激地点头："谢谢。在人类抛弃这座城市后，食物越来越难找了。"',
+      '"作为回报..."他从怀中取出一把古老的钥匙，"这是 Warehouse 地下室的钥匙。那里藏着一些...有用的东西。但小心——地下室里也有危险。"',
+      '"还有..."他压低声音，"如果你们在下水道中听到歌声——女人的歌声——堵住耳朵，立刻逃跑。那是 Banshee。她的歌声会要了你的命。"'],
+    items: ['Warehouse 地下室钥匙'],
+    effect: { sanity: 5 },
+    choices: [
+      { text: '感谢并离开', next: 'desolate_entry' }
+    ]
+  },
+
+  // ===== DESERT ZONE EXTRA =====
+  desert_oasis: {
+    title: '绿洲', location: 'Desert Zone - 绿洲', zone: 'Desert',
+    text: ['在无尽的黄沙中，你们发现了一片绿洲。',
+      '棕榈树环绕着一个清澈的湖泊，湖边有一些帐篷的遗迹——看起来曾经有商队在这里驻扎。',
+      '"水..."Kim 迫不及待地冲向湖边。',
+      '你们痛饮湖水，感到疲惫一扫而空。',
+      '湖边有一块石碑，上面刻着文字："献给穿越沙漠的旅人。愿水神 Hathor 的祝福与你同在。"',
+      '"Hathor...埃及的母牛女神。"Dominic 说，"但在 Monline 世界中，她的形象可能...有所不同。"'],
+    effect: { health: 20, sanity: 10 },
+    choices: [
+      { text: '在绿洲休息', next: 'desert_oasis_rest' },
+      { text: '搜索商队遗迹', next: 'desert_caravan_ruins' },
+      { text: '继续前进', next: 'desert_path2' }
+    ]
+  },
+  desert_oasis_rest: {
+    title: '绿洲之夜', location: 'Desert Zone - 绿洲', zone: 'Desert',
+    text: ['你们决定在绿洲过夜。',
+      '夜晚的沙丘呈现出银蓝色，星光璀璨。没有城市的光污染，银河清晰可见。',
+      '"好美..."Kim 轻声说，"在这一切都发生之前，我从没见过这样的星空。"',
+      'Dominic 指着北方："看那颗星。它在移动。"',
+      '确实，一颗"星星"正在缓慢移动，划过夜空。',
+      '"那不是星星。"你说，"那是...某种飞行生物？"',
+      '它越来越近，你们看清了——那是一个有着翅膀的人形生物，在夜空中翱翔。',
+      '"Harpy..."Dominic 低声说，"或者...天使？在 Monline 世界中，界限很模糊。"'],
+    choices: [
+      { text: '尝试与它交流', next: 'desert_harpy_encounter' },
+      { text: '保持隐蔽', next: 'desert_night_hide' }
+    ]
+  },
+  desert_caravan_ruins: {
+    title: '商队遗迹', location: 'Desert Zone - 绿洲', zone: 'Desert',
+    text: ['你们搜索了商队的遗迹。',
+      '帐篷已经破烂不堪，但一些货物箱还完好。',
+      '你们找到了：',
+      '• 一些保存完好的干果和肉干',
+      '• 一瓶密封的药水，标签写着"抗热药水"',
+      '• 一张古老的地图，标注了沙漠中的"安全路线"和"危险区域"',
+      '• 一本日记，记录着商队最后的旅程',
+      '日记的最后一页写着："我们看到了金字塔。它不应该在那里——古代文献中说它在数百公里之外。但它在召唤我们。我们决定前往...愿神明保佑我们。"'],
+    items: ['抗热药水', '沙漠地图', '商队日记'],
+    choices: [
+      { text: '继续旅程', next: 'desert_path2' }
+    ]
+  },
+  desert_sandstorm: {
+    title: '沙尘暴', location: 'Desert Zone - 沙丘', zone: 'Desert',
+    text: ['天际线突然变暗。',
+      '"沙尘暴！"Dominic 大喊，"快找掩护！"',
+      '狂风呼啸，黄沙漫天。你们几乎无法睁开眼睛，呼吸也变得困难。',
+      '你们互相拉着手，艰难地前进。沙子打在皮肤上像针扎一样疼。',
+      '"那边！"Kim 指着前方，"有个洞穴！"',
+      '你们冲向洞穴，刚刚进入，沙尘暴就彻底吞没了外面的一切。',
+      '洞穴内意外地宽敞，墙壁上有着古老的壁画——描绘着人类向一位有着胡狼头的神祇献祭的场景。'],
+    effect: { health: -10, sanity: -5 },
+    choices: [
+      { text: '等待沙尘暴过去', next: 'desert_cave_wait' },
+      { text: '探索洞穴', next: 'desert_cave_explore' }
+    ]
+  },
+  desert_cave_explore: {
+    title: '洞穴壁画', location: 'Desert Zone - 洞穴', zone: 'Desert',
+    text: ['你们探索着洞穴。',
+      '壁画讲述了一个古老的故事：',
+      '很久很久以前，这个世界有着两扇门——一扇通往人类的世界，一扇通往怪物的世界。一位名叫 Anubis 的守护者看守着这两扇门，维持着平衡。',
+      '但有一天，一个好奇的女孩——Robin——找到了通往怪物世界的方法。她打开了门，让两个世界开始融合。',
+      '"Anubis 试图阻止她，但已经太晚了。"Dominic 翻译着壁画上的文字，"门一旦打开，就无法完全关闭。唯一的办法是...用太阳神权杖重新封印。"',
+      '"但权杖在 Robin 手中。"你说，"她不会自愿交出来的。"'],
+    effect: { sanity: -5 },
+    setFlag: 'knows_anubis_story',
+    choices: [
+      { text: '继续探索', next: 'desert_cave_depths' },
+      { text: '等待沙尘暴结束离开', next: 'desert_path2' }
+    ]
+  },
+  desert_cave_depths: {
+    title: '洞穴深处', location: 'Desert Zone - 洞穴深处', zone: 'Desert',
+    text: ['洞穴深处有一个小型祭坛。',
+      '祭坛上放着一个古老的护身符——那是 Anubis 的象征，一只蹲坐的胡狼。',
+      '当你拿起护身符时，一道光芒闪过。你们感到一股力量涌入体内——那是沙漠之神的祝福。',
+      '"这个护身符..."Dominic 惊讶地说，"它可以保护我们在金字塔中不受诅咒影响！"',
+      '突然，洞穴深处传来一声低吼。',
+      '"看来我们不是唯一发现这个洞穴的。"Kim 紧张地说。'],
+    items: ['Anubis 护身符'],
+    effect: { sanity: 10 },
+    choices: [
+      { text: '面对未知的威胁', next: 'desert_cave_beast' },
+      { text: '带着护身符逃跑', next: 'desert_path2' }
+    ]
+  },
+  desert_mirage: {
+    title: '海市蜃楼', location: 'Desert Zone - 沙丘', zone: 'Desert',
+    text: ['沙漠的热浪中，你们看到了幻觉。',
+      '前方出现了一座繁华的城市——高楼大厦、车水马龙、人们面带微笑。那是...你们原来的世界？',
+      '"那是...我们的城市？"Kim 不敢相信自己的眼睛。',
+      '"不。"你拉住她，"那是海市蜃楼。不要走过去——沙漠中很多人因为追逐海市蜃楼而脱水死亡。"',
+      '但海市蜃楼中的景象如此真实。你看到熟悉的街道、熟悉的人...甚至看到了你的家人。',
+      '他们在向你招手，呼唤你的名字...'],
+    effect: { sanity: -15 },
+    choices: [
+      { text: '闭上眼睛，拒绝诱惑', next: 'desert_mirage_resist' },
+      { text: '走向海市蜃楼', next: 'desert_mirage_chase' },
+      { text: '让 Kim 打醒你', next: 'desert_mirage_wake' }
+    ]
+  },
+  desert_mirage_resist: {
+    title: '拒绝幻觉', location: 'Desert Zone - 沙丘', zone: 'Desert',
+    text: ['你紧紧闭上眼睛，默念着现实。',
+      '"那不是真的。我的家人安全地待在家里。我会回去的——以人类的身份回去。"',
+      '当你再次睁开眼睛时，海市蜃楼已经消失。只有无尽的沙丘和灼热的太阳。',
+      'Kim 和 Dominic 也在挣扎着抵抗幻觉。你握住他们的手。',
+      '"我们一起走。不要被幻觉迷惑。"',
+      '你们互相支撑着，继续前进。'],
+    effect: { sanity: 10, corruption: -5 },
+    choices: [
+      { text: '继续前进', next: 'desert_path2' }
+    ]
+  },
+  desert_night_camp: {
+    title: '夜间营地', location: 'Desert Zone - 营地', zone: 'Desert',
+    text: ['夜幕降临，沙漠的温度骤降。',
+      '你们生了一堆火，围坐在一起。',
+      '"我们来玩个游戏吧。"Kim 突然说，"每个人讲一个自己最害怕的事。"',
+      'Dominic 先开口："我最害怕的是...失去自我。变成怪物后忘记自己曾经是谁。"',
+      'Kim 接着说："我最害怕的是孤独。被永远困在这个世界，没有人记得我。"',
+      '轮到你了。'],
+    effect: { sanity: 5 },
+    choices: [
+      { text: '说出你的恐惧', next: 'desert_camp_fear' },
+      { text: '换个轻松的话题', next: 'desert_camp_light' }
+    ]
+  },
+  desert_camp_fear: {
+    title: '最深的恐惧', location: 'Desert Zone - 营地', zone: 'Desert',
+    text: ['你沉默了片刻，然后开口：',
+      '"我最害怕的是...做出错误的选择。为了保护一个人而牺牲另一个人。为了到达目标而放弃原则。"',
+      '"在这场旅程中，我不断面临选择。有些选择会伤害 Kim，有些会伤害 Dominic，有些会伤害我自己。"',
+      '"我害怕最终到达终点时，我已经不再是那个出发时的人了。"',
+      'Kim 和 Dominic 静静地听着。',
+      '"但你没有放弃。"Kim 握住你的手，"无论发生什么，我们都在一起。这不是你一个人的旅程。"',
+      'Dominic 点头："我们是团队。你的选择就是我们的选择。"'],
+    effect: { kim: 10, dominic: 10 },
+    choices: [
+      { text: '感谢他们，休息一晚', next: 'desert_path2' }
+    ]
+  },
+
+  // ===== MYTHIC ZONE EXTRA =====
+  mythic_torii_gate: {
+    title: '千本鸟居', location: 'Mythic Zone - 鸟居通道', zone: 'Mythic',
+    text: ['通往神社的道路两侧排列着无数红色的鸟居。',
+      '它们形成一条长长的隧道，延伸向山林深处。阳光透过鸟居的间隙洒下，在地面上形成斑驳的光影。',
+      '"这些鸟居...每一个都代表一个愿望或一个祈祷。"Kim 轻声说，"走过它们时，据说可以向神明传达心愿。"',
+      '你们沿着鸟居通道前进。每经过一个鸟居，你们就感到空气变得更清新、更神圣。',
+      '但与此同时，你们也感到某种存在在注视着自己。那不是一个存在，而是很多——它们藏在鸟居的阴影中，窃窃私语。'],
+    choices: [
+      { text: '默默许愿', next: 'mythic_wish' },
+      { text: '加快脚步通过', next: 'mythic_shrine_path' },
+      { text: '寻找注视你们的存在', next: 'mythic_spirits' }
+    ]
+  },
+  mythic_wish: {
+    title: '向神明许愿', location: 'Mythic Zone - 鸟居通道', zone: 'Mythic',
+    text: ['你在经过一座鸟居时，默默许了一个愿。',
+      '"请让我们平安通过这片区域。请让 Kim 和 Dominic 安全回家。请...让这个世界恢复原状。"',
+      '突然，一阵微风吹过，鸟居上的注连绳轻轻摆动。',
+      '一个温柔的声音在你耳边响起："善良的愿望...会实现的。但需要代价。你准备好付出代价了吗？"',
+      '你还没来得及回答，声音就消失了。',
+      '但你的手中多了一枚小小的御守——上面绣着"平安"二字。'],
+    items: ['平安御守'],
+    effect: { sanity: 5 },
+    choices: [
+      { text: '继续前往神社', next: 'mythic_shrine_path' }
+    ]
+  },
+  mythic_spirits: {
+    title: '鸟居中的灵', location: 'Mythic Zone - 鸟居通道', zone: 'Mythic',
+    text: ['你们寻找着那些注视你们的存在。',
+      '在鸟居的阴影中，你们看到了它们——那是些小小的、半透明的身影，像是孩童的幽灵。',
+      '"你们是..."你轻声问。',
+      '其中一个"孩子"飘近了。她穿着古代的衣裳，面容苍白但友善。',
+      '"我们是被遗忘的。"她说，"很久以前，我们的家人在这里祈祷，但再也没有回来。我们一直在等待。"',
+      '"等待什么？"Kim 问。',
+      '"等待有人告诉我们...我们的家人是否平安。"'],
+    effect: { sanity: -5 },
+    choices: [
+      { text: '安慰她们', next: 'mythic_spirits_comfort' },
+      { text: '承诺帮她们寻找家人', next: 'mythic_spirits_promise' },
+      { text: '继续上路', next: 'mythic_shrine_path' }
+    ]
+  },
+  mythic_sacred_tree: {
+    title: '神树', location: 'Mythic Zone - 神树', zone: 'Mythic',
+    text: ['神社后方有一棵巨大的古树。',
+      '它的树干需要十人合抱，树冠遮天蔽日。树上系满了注连绳和绘马，承载着无数人的愿望。',
+      '"这棵树...有上千年的历史了。"一个声音从身后传来。',
+      '你们转身，看到一个穿着传统巫女服的少女。但她的眼睛是金色的，像是某种野兽。',
+      '"我是这棵树的神使。"她微微鞠躬，"你们身上有外界的气息...是来找 Robin 的吗？"',
+      '"你知道 Robin？"你问。',
+      '"当然。她曾经是这棵树下的常客。"巫女的眼神变得复杂，"她在这里许愿...想要朋友。神明回应了她的愿望...但方式超出了她的想象。"'],
+    choices: [
+      { text: '问她如何阻止 Robin', next: 'mythic_tree_robin' },
+      { text: '向神树许愿', next: 'mythic_tree_wish' },
+      { text: '告别离开', next: 'mythic_path2' }
+    ]
+  },
+  mythic_tree_robin: {
+    title: 'Robin 的过去', location: 'Mythic Zone - 神树', zone: 'Mythic',
+    text: ['巫女坐在树根上，开始讲述：',
+      '"Robin 第一次来这里时，还是个孤独的孩子。她没有朋友，家人也不理解她。她每天来神树下祈祷，希望有人能陪伴她。"',
+      '"有一天，她在树下发现了一个洞穴——一个通往另一个世界的洞穴。那个世界就是 Monline。"',
+      '"她在那里找到了"朋友"——怪物娘们。她们不会评判她，不会抛弃她。Robin 终于找到了归属感。"',
+      '"但当她想把这份"美好"分享给现实世界时...一切都失控了。"',
+      '"她不是邪恶的。"巫女轻声说，"她只是...太孤独了。"'],
+    effect: { sanity: -5 },
+    choices: [
+      { text: '问她如何拯救 Robin', next: 'mythic_tree_save' },
+      { text: '告别离开', next: 'mythic_path2' }
+    ]
+  },
+  mythic_ninja_dojo: {
+    title: '忍者道场', location: 'Mythic Zone - 忍者村', zone: 'Mythic',
+    text: ['你们来到了一个隐蔽的忍者村。',
+      '木制建筑沿着山坡建造，随处可见训练用的木桩和靶子。',
+      '但村里异常安静。没有训练的声音，没有交谈的声音。',
+      '"人都去哪了？"Kim 不安地问。',
+      '你们走进道场。里面坐着一个穿着黑色忍者服的女性，正在擦拭她的苦无。',
+      '"欢迎。"她没有抬头，"我是这个村子的最后一名忍者。其他人...都被转化了。变成了 Kunoichi——永远服从主人的暗影战士。"',
+      '"你们如果想通过这里，需要证明你们的实力。或者...证明你们的智慧。"'],
+    choices: [
+      { text: '接受她的测试', next: 'mythic_ninja_test' },
+      { text: '询问她的故事', next: 'mythic_ninja_story' },
+      { text: '寻找其他路绕过', next: 'mythic_path2' }
+    ]
+  },
+  mythic_ninja_test: {
+    title: '忍者测试', location: 'Mythic Zone - 忍者村', zone: 'Mythic',
+    text: ['忍者站起来，摆出战斗姿态。',
+      '"测试很简单。你们三人中，只要有一个人能碰到我的衣角，就算你们通过。"',
+      '她话音刚落，身影就消失了。',
+      '你们四处张望，突然感到一阵风从背后吹过——她已经在你们身后了。',
+      '"太慢了。"她的声音从四面八方传来，"在 Mythic Zone，速度就是生命。"'],
+    choices: [
+      { text: '三人合作包围她', next: 'mythic_ninja_team' },
+      { text: '利用环境设陷阱', next: 'mythic_ninja_trap' },
+      { text: '用速度对抗速度', next: 'mythic_ninja_speed' }
+    ]
+  },
+  mythic_ninja_team: {
+    title: '团队合作', location: 'Mythic Zone - 忍者村', zone: 'Mythic',
+    text: ['你们三人分散开来，试图包围忍者。',
+      '但忍者的速度太快了。她像幽灵一样在训练场中穿梭，你们的包围网总是被轻易突破。',
+      '"配合得不错。"她点评道，"但缺乏默契。看我的——"',
+      '她突然加速，身影分化成三个——不，那是残影。',
+      '"这是影分身之术。如果你们能分辨出真身，就能碰到我。"',
+      '你仔细观察。三个身影的动作略有不同——其中一个的脚步更轻，呼吸更稳。',
+      '"那个是真的！"你大喊，扑向左边那个身影。',
+      '你成功了！你的手碰到了她的袖子。'],
+    effect: { sanity: 10 },
+    choices: [
+      { text: '等待她的评价', next: 'mythic_ninja_pass' }
+    ]
+  },
+  mythic_ninja_pass: {
+    title: '通过测试', location: 'Mythic Zone - 忍者村', zone: 'Mythic',
+    text: ['忍者收起了武器，微微点头。',
+      '"你们通过了。不是依靠力量，而是依靠观察力和团队合作。这正是我最看重的品质。"',
+      '她从怀中取出三枚手里剑："这是特质手里剑，上面涂有麻醉药。面对强大的敌人时，它可以为你们争取时间。"',
+      '"还有..."她压低声音，"Robin 曾经来过这里。她也通过了测试。我告诉她：力量不是一切，但没有力量就保护不了重要的人。"',
+      '"她听进去了...但以错误的方式。"'],
+    items: ['麻醉手里剑'],
+    setFlag: 'ninja_test_passed',
+    choices: [
+      { text: '告别忍者，继续前进', next: 'mythic_path2' }
+    ]
+  },
+  mythic_fox_statue: {
+    title: '狐仙雕像', location: 'Mythic Zone - 狐仙祠', zone: 'Mythic',
+    text: ['路边有一座小小的狐仙祠。',
+      '祠中供奉着一尊 Kitsune 的雕像——有着九条尾巴，面容慈祥而神秘。',
+      '供桌上放着一些供品：清酒、油豆腐、还有...一个现代的巧克力蛋糕？',
+      '"看来 Kitsune 也喜欢现代食品。"Kim 笑道。',
+      '你们 bow 了一躬，准备离开。',
+      '突然，供桌上的清酒瓶自己倒了一杯酒。',
+      '"既然 bow 了，就喝一杯吧。"一个慵懒的女声响起，"这是赐福之酒。喝了它，你们可以看到隐藏的真相。"'],
+    choices: [
+      { text: '喝下赐福之酒', next: 'mythic_fox_drink' },
+      { text: '婉拒但感谢', next: 'mythic_path2' },
+      { text: '问她隐藏的真相是什么', next: 'mythic_fox_truth' }
+    ]
+  },
+  mythic_fox_drink: {
+    title: '赐福之酒', location: 'Mythic Zone - 狐仙祠', zone: 'Mythic',
+    text: ['你喝下了清酒。',
+      '味道出乎意料地甘甜，带着淡淡的花香。',
+      '然后，世界变了。',
+      '你看到空气中流动着金色的丝线——那是魔力的流动。你看到树木上缠绕着银色的光环——那是灵魂的痕迹。',
+      '最重要的是，你看到 Kim 和 Dominic 身上有着淡淡的黑线——那是腐化的痕迹。它们正在缓慢地侵蚀着你们的同伴。',
+      '"这是..."你惊恐地说。',
+      '"赐福之酒让你看到了真相。"Kitsune 的声音响起，"腐化已经开始了。但别害怕——只要你们的心还坚定，就能抵抗它。"',
+      '"酒的效果会持续一段时间。利用它，看穿 Mythic Zone 中的幻象。"'],
+    effect: { sanity: -5, corruption: 5 },
+    setFlag: 'fox_vision',
+    choices: [
+      { text: '感谢 Kitsune，继续上路', next: 'mythic_path2' }
+    ]
+  },
+  mythic_oni_battlefield: {
+    title: '鬼之战场', location: 'Mythic Zone - 古战场', zone: 'Mythic',
+    text: ['你们来到了一片开阔的平原。',
+      '地面上布满了刀剑的痕迹和烧焦的印记。这里曾经发生过一场大战。',
+      '平原中央插着无数武器——剑、矛、斧、锤——像是一片金属的森林。',
+      '"这是 Oni 和人类古代的战场。"Dominic 解释道，"传说中，Oni 曾试图入侵人类世界，但被封印在了这里。"',
+      '突然，地面震动。一个巨大的身影从武器堆中站起——那是一个有着红色皮肤和巨大角的 Oni，身高超过三米。',
+      '"人类..."他低沉地说，"很久了...很久没有人类来到这片土地了。"',
+      '他拔出一把巨大的战斧："让我看看，现代的人类是否还值得尊敬！"'],
+    choices: [
+      { text: '接受挑战', next: 'mythic_oni_fight' },
+      { text: '尝试和平对话', next: 'mythic_oni_talk' },
+      { text: '用麻醉手里剑', next: 'mythic_oni_dart' }
+    ]
+  },
+  mythic_oni_talk: {
+    title: '与鬼对话', location: 'Mythic Zone - 古战场', zone: 'Mythic',
+    text: ['你举起双手："等等！我们不是来战斗的！"',
+      'Oni 停下了动作，好奇地看着你。',
+      '"不是来战斗的？那你们来做什么？观光？"',
+      '"我们是来寻找关闭世界之门的方法的。"你说，"Robin 打开了不该打开的门，两个世界正在融合。如果继续下去，Oni 的世界也会被毁灭。"',
+      'Oni 沉默了。他放下战斧，坐在一块巨石上。',
+      '"Robin...那个小女孩。"他低声说，"她曾经来过这里。她不怕我。她说她想和我做朋友。"',
+      '"我告诉她：朋友不是靠力量获得的，而是靠信任。她似乎听进去了...但后来又忘记了。"'],
+    effect: { sanity: 5 },
+    choices: [
+      { text: '问他是否知道如何说服 Robin', next: 'mythic_oni_robin' },
+      { text: '感谢他并离开', next: 'mythic_path2' }
+    ]
+  },
+  mythic_goblin_cave: {
+    title: '哥布林洞穴', location: 'Mythic Zone - 洞穴', zone: 'Mythic',
+    text: ['你们发现了一个隐蔽的洞穴入口。',
+      '里面传来叮叮当当的声音——像是金属敲打的声音。',
+      '你们小心地进入，发现一群 Goblin 正在工作。它们在锻造武器、打磨宝石、缝制皮甲。',
+      '"这是 Goblin 的工坊。"Dominic 低声说，"它们是 Mythic Zone 最好的工匠。"',
+      '一个穿着稍好的 Goblin 注意到了你们。它走上前来，鞠了一躬——虽然看起来更像是差点摔倒。',
+      '"欢迎，客人！要买些什么吗？我们有最好的武器、最闪亮的宝石、最结实的护甲！"',
+      '"当然...如果你们没钱，也可以用其他东西交换。信息、服务、或者...有趣的故事。"'],
+    choices: [
+      { text: '浏览商品', next: 'mythic_goblin_shop' },
+      { text: '用故事交换情报', next: 'mythic_goblin_story' },
+      { text: '离开', next: 'mythic_path2' }
+    ]
+  },
+  mythic_goblin_shop: {
+    title: '哥布林商店', location: 'Mythic Zone - 洞穴', zone: 'Mythic',
+    text: ['Goblin 商人兴奋地展示着它的商品：',
+      '"这把匕首是龙牙锻造的，可以切断魔法！"',
+      '"这颗宝石可以看到隐形的东西！"',
+      '"这件斗篷可以让你在阴影中隐身！"',
+      '"但最珍贵的...是这个。"它拿出一个小盒子，小心翼翼地打开。',
+      '里面是一枚戒指，上面镶嵌着一颗黑色的宝石。',
+      '"这是虚空之戒。戴上它，你可以短暂地进入虚空——在那里，时间和空间都不存在。可以用来躲避任何攻击。但小心...在虚空中待太久，你可能会迷失。"'],
+    items: ['虚空之戒'],
+    choices: [
+      { text: '购买并离开', next: 'mythic_path2' }
+    ]
+  },
+
+  // ===== EXTRA ENDINGS =====
+  ending_neutral_kim: {
+    title: '离别', location: 'Mythic Zone - 边界', zone: 'Mythic',
+    text: ['你们到达了 Mythic Zone 的边界。',
+      '前方就是核心——Robin 所在的地方。但你们三人中的气氛却异常沉重。',
+      '"我...我不去了。"Kim 突然说。',
+      '"什么？"你不敢相信自己的耳朵。',
+      '"我已经被腐化了。我能感觉到。"Kim 拉起袖子，露出皮肤上淡淡的鳞片痕迹，"如果我继续跟着你们，我可能会在某个关键时刻变成怪物，伤害你们。"',
+      '"Kim..."你试图说服她。',
+      '"让我留在这里。我会建立一个新的安全区，帮助其他幸存者。这是我能做的最好的事。"',
+      '她微笑着拥抱了你和 Dominic，然后转身离去。',
+      '你和 Dominic 继续前进。缺少了 Kim 的团队不再完整...但你们仍要完成使命。'],
+    ending: 'neutral', endingNum: 'N1', endingTitle: 'Kim 的抉择'
+  },
+  ending_neutral_dominic: {
+    title: '牺牲', location: 'Mythic Zone - 核心入口', zone: 'Mythic',
+    text: ['在核心入口前，Dominic 停下了脚步。',
+      '"你们进去吧。我在这里守着。"',
+      '"为什么？"你问。',
+      'Dominic 转过身，露出一个苦涩的微笑。他的眼睛...有一只已经变成了竖瞳。',
+      '"我也被影响了。但和 Kim 不同...我的影响是精神上的。我开始听到声音，看到幻象。Robin 在呼唤我。"',
+      '"如果我进去，我可能会成为她的帮凶。所以...让我在这里战斗。如果我变成了敌人，至少不会在里面伤害你们。"',
+      '你试图反驳，但他坚定地摇头。',
+      '"去吧。关闭那扇门。为了所有人。"',
+      '你独自一人走进了核心。身后传来 Dominic 与入侵的怪物战斗的声音。'],
+    ending: 'neutral', endingNum: 'N2', endingTitle: 'Dominic 的守护'
+  },
+  ending_neutral_stay: {
+    title: '新的家园', location: 'Mythic Zone', zone: 'Mythic',
+    text: ['在最终的抉择面前，你们做出了一个出人意料的决定。',
+      '"我们不走了。"你说。',
+      'Kim 和 Dominic 惊讶地看着你。',
+      '"这个世界虽然危险，但也有它的美丽。怪物娘们...她们曾经也是人类。她们也值得被理解，被接纳。"',
+      '"我们要建立一个桥梁——连接人类世界和 Monline 世界。不是通过强制转化，而是通过理解和共存。"',
+      'Robin 从阴影中走出，眼中闪烁着泪光。',
+      '"你们...愿意留在这里？和我在一起？"',
+      '"不是作为囚犯。"你说，"作为朋友。真正的朋友。"',
+      '她笑了——那是你们第一次看到她真正的、不带扭曲的笑容。',
+      '也许...这就是最好的结局。'],
+    ending: 'neutral', endingNum: 'N3', endingTitle: '桥梁'
+  },
+  ending_true_sacrifice: {
+    title: '真正的牺牲', location: 'Mythic Zone - 核心', zone: 'Mythic',
+    text: ['你站在核心前，太阳神权杖在你手中。',
+      '要关闭世界之门，需要有人永远留在这里，维持封印。',
+      '"让我来。"你说。',
+      '"不行！"Kim 和 Dominic 同时喊道。',
+      '"这是唯一的办法。"你微笑着，"你们回去。告诉所有人发生了什么。建立一个新的世界——一个理解、接纳、共存的世界。"',
+      '你将权杖插入核心。金色的光芒吞没了你。',
+      '在光芒中，你看到 Robin 走向你。',
+      '"你...愿意陪我？"她问。',
+      '"是的。"你说，"直到永远。"',
+      '世界之门关闭了。Kim 和 Dominic 回到了现实世界。',
+      '而你...成为了新的守护者。'],
+    ending: 'neutral', endingNum: 'N4', endingTitle: '永恒的守护者'
+  },
+  ending_secret_perfect: {
+    title: '完美结局', location: 'Mythic Zone - 核心', zone: 'Mythic',
+    text: ['你面对着 Robin，太阳神权杖在手中。',
+      '但这一次，你没有举起它。',
+      '"Robin。"你轻声说，"我知道你为什么这样做。不是因为邪恶。而是因为孤独。"',
+      'Robin 的身体颤抖了一下。',
+      '"你打开这扇门，不是因为你想毁灭世界。而是因为你想找到真正的朋友。"',
+      '"但强迫的友谊不是真正的友谊。转化来的同伴不是真正的同伴。"',
+      '你向她伸出手："我们来做真正的朋友吧。不是作为人类和怪物，不是作为守护者和入侵者。只是作为...两个孤独的灵魂。"',
+      'Robin 看着你，泪水滑落脸颊。',
+      '她慢慢地握住了你的手。',
+      '太阳神权杖发出了前所未有的光芒——不是封印的光芒，而是融合的光芒。',
+      '两个世界没有分离，而是开始和谐共存。怪物娘们可以自由选择留在 Monline 世界或前往人类世界。',
+      '而你和 Robin...成为了两个世界之间的桥梁。',
+      '这是...完美的结局。'],
+    ending: 'good', endingNum: 'PERFECT', endingTitle: 'Perfect End: 和谐'
+  },
   // ===== BAD ENDS =====
   be_d1: { title: 'Bad End', location: 'Mirane 城', zone: 'Desolate',
     text: '僵尸群破门而入。你的武器对它们毫无作用。感染迅速蔓延全身。当你再次睁开眼睛时，你已经不再是人类了。你感到对新鲜血肉的渴望...对转化他人的渴望...你成为了它们的一员，永远在 Mirane 城的街道上游荡，寻找新的猎物。',
@@ -1942,7 +3153,12 @@ const endingsList = [
   { id: 'F7', title: 'Centaur Stable', type: 'bad' },
   { id: 'F8', title: 'Goblin Slave', type: 'bad' },
   { id: 'X1', title: 'Temptation's Seed', type: 'bad' },
-  { id: 'X2', title: 'The New Guardian', type: 'bad' }
+  { id: 'X2', title: 'The New Guardian', type: 'bad' },
+  { id: 'N1', title: 'Kim 的抉择', type: 'neutral' },
+  { id: 'N2', title: 'Dominic 的守护', type: 'neutral' },
+  { id: 'N3', title: '桥梁', type: 'neutral' },
+  { id: 'N4', title: '永恒的守护者', type: 'neutral' },
+  { id: 'PERFECT', title: '和谐', type: 'good' }
 ];
 </script>
 </body>
