@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Mystic Woods Adventure | 阿波菲斯龙魔法</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap');
+
+:root {
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #141414;
+  --bg-card: #1c1c1c;
+  --bg-input: #252525;
+  --text-primary: #e8e0d0;
+  --text-secondary: #a09080;
+  --text-muted: #6a6050;
+  --accent-gold: #d4a843;
+  --accent-crimson: #c41e3a;
+  --accent-purple: #7c3aed;
+  --accent-green: #22c55e;
+  --accent-blue: #3b82f6;
+  --accent-orange: #f97316;
+  --border-color: #2a2520;
+  --shadow-gold: rgba(212,168,67,0.3);
+  --shadow-crimson: rgba(196,30,58,0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Serif SC', serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#particle-canvas {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+}
+
+/* ===== NAV ===== */
+.nav-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: rgba(13,13,13,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  overflow-x: auto; white-space: nowrap;
+}
+.nav-brand {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.3rem; color: var(--accent-gold);
+  margin-right: 1rem; flex-shrink: 0;
+}
+.nav-link {
+  color: var(--text-secondary); text-decoration: none;
+  padding: 0.4rem 0.8rem; border-radius: 4px;
+  font-size: 0.85rem; transition: all 0.3s; flex-shrink: 0;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--accent-gold); background: rgba(212,168,67,0.1);
+}
+
+/* ===== GAME CONTAINER ===== */
+.game-wrapper {
+  position: relative; z-index: 1;
+  max-width: 1000px; margin: 0 auto;
+  padding: 5rem 1rem 2rem;
+}
+
+/* ===== TITLE SCREEN ===== */
+.title-screen {
+  text-align: center; padding: 4rem 2rem;
+  min-height: 80vh; display: flex;
+  flex-direction: column; justify-content: center; align-items: center;
+}
+.title-screen h1 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 4rem; color: var(--accent-gold);
+  text-shadow: 0 0 40px var(--shadow-gold), 0 0 80px rgba(212,168,67,0.15);
+  margin-bottom: 0.5rem;
+}
+.title-screen .subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; color: var(--accent-purple);
+  font-style: italic; margin-bottom: 2rem;
+}
+.title-screen .desc {
+  max-width: 600px; color: var(--text-secondary);
+  margin-bottom: 3rem; font-size: 1rem;
+}
+.game-btn {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.3rem; padding: 0.8rem 2.5rem;
+  border: 2px solid var(--accent-gold);
+  background: linear-gradient(135deg, rgba(212,168,67,0.15), rgba(212,168,67,0.05));
+  color: var(--accent-gold); border-radius: 8px;
+  cursor: pointer; transition: all 0.3s; margin: 0.5rem;
+}
+.game-btn:hover {
+  background: linear-gradient(135deg, rgba(212,168,67,0.3), rgba(212,168,67,0.1));
+  box-shadow: 0 0 20px var(--shadow-gold); transform: translateY(-2px);
+}
+.game-btn.crimson {
+  border-color: var(--accent-crimson);
+  background: linear-gradient(135deg, rgba(196,30,58,0.15), rgba(196,30,58,0.05));
+  color: var(--accent-crimson);
+}
+.game-btn.crimson:hover {
+  background: linear-gradient(135deg, rgba(196,30,58,0.3), rgba(196,30,58,0.1));
+  box-shadow: 0 0 20px var(--shadow-crimson);
+}
+
+/* ===== STATS PANEL ===== */
+.stats-panel {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.8rem;
+}
+.stat-item {
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.stat-label {
+  font-size: 0.8rem; color: var(--text-muted);
+  min-width: 60px;
+}
+.stat-bar {
+  flex: 1; height: 8px; background: var(--bg-input);
+  border-radius: 4px; overflow: hidden;
+}
+.stat-fill {
+  height: 100%; border-radius: 4px;
+  transition: width 0.5s ease;
+}
+.stat-fill.health { background: linear-gradient(90deg, var(--accent-crimson), #ff6b6b); }
+.stat-fill.sanity { background: linear-gradient(90deg, var(--accent-blue), #60a5fa); }
+.stat-fill.corruption { background: linear-gradient(90deg, var(--accent-purple), #a78bfa); }
+.stat-fill.kim { background: linear-gradient(90deg, var(--accent-orange), #fb923c); }
+.stat-fill.dominic { background: linear-gradient(90deg, var(--accent-green), #4ade80); }
+.stat-value {
+  font-size: 0.85rem; color: var(--text-primary);
+  min-width: 35px; text-align: right;
+}
+
+/* ===== CHAPTER DISPLAY ===== */
+.chapter-header {
+  text-align: center; padding: 1.5rem;
+  border-bottom: 2px solid var(--border-color); margin-bottom: 1.5rem;
+}
+.chapter-header h2 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 1.6rem; color: var(--accent-gold);
+}
+.chapter-header .location {
+  color: var(--text-muted); font-size: 0.9rem;
+  font-style: italic;
+}
+
+.story-text {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 8px; padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem; font-size: 1.05rem;
+  line-height: 2; min-height: 200px;
+}
+.story-text p { margin-bottom: 1rem; }
+.story-text .highlight { color: var(--accent-gold); font-weight: 600; }
+.story-text .danger { color: var(--accent-crimson); }
+.story-text .magic { color: var(--accent-purple); }
+
+/* ===== CHOICES ===== */
+.choices-container {
+  display: flex; flex-direction: column; gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+.choice-btn {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 8px; padding: 1rem 1.5rem;
+  color: var(--text-primary); text-align: left;
+  cursor: pointer; transition: all 0.3s;
+  font-family: 'Noto Serif SC', serif; font-size: 1rem;
+}
+.choice-btn:hover {
+  border-color: var(--accent-gold);
+  background: linear-gradient(135deg, rgba(212,168,67,0.1), rgba(212,168,67,0.02));
+  transform: translateX(5px);
+}
+.choice-btn .choice-label {
+  color: var(--accent-gold); font-weight: 700; margin-right: 0.5rem;
+}
+
+/* ===== INVENTORY ===== */
+.inventory-panel {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
+}
+.inventory-panel h3 {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: var(--accent-gold); font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.inventory-grid {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+}
+.inv-item {
+  background: var(--bg-input); border: 1px solid var(--border-color);
+  border-radius: 4px; padding: 0.3rem 0.6rem;
+  font-size: 0.85rem; color: var(--text-secondary);
+}
+.inv-item.active { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+/* ===== ENDING SCREEN ===== */
+.ending-screen {
+  text-align: center; padding: 3rem 2rem;
+}
+.ending-screen h2 {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 2.5rem; margin-bottom: 1rem;
+}
+.ending-screen.good h2 { color: var(--accent-green); }
+.ending-screen.bad h2 { color: var(--accent-crimson); }
+.ending-screen.neutral h2 { color: var(--accent-gold); }
+.ending-screen .ending-desc {
+  max-width: 600px; margin: 0 auto 2rem;
+  color: var(--text-secondary); font-size: 1.1rem;
+  line-height: 2;
+}
+
+/* ===== HIDDEN ===== */
+.hidden { display: none !important; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .title-screen h1 { font-size: 2.5rem; }
+  .game-wrapper { padding: 4.5rem 0.8rem 1rem; }
+  .story-text { padding: 1rem; font-size: 0.95rem; }
+  .stats-panel { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<canvas id="particle-canvas"></canvas>
+
+<nav class="nav-bar" id="navBar">
+  <span class="nav-brand">阿波菲斯</span>
+  <a href="index.html" class="nav-link">主书</a>
+  <a href="monline-adventure.html" class="nav-link">Monline冒险</a>
+  <a href="monster-girl-adventure.html" class="nav-link">怪物娘探险</a>
+  <a href="apophis-adventure.html" class="nav-link">龙之冒险</a>
+</nav>
+
+<div class="game-wrapper">
+
+<!-- TITLE SCREEN -->
+<div id="titleScreen" class="title-screen">
+  <h1> Mystic Woods Adventure</h1>
+  <div class="subtitle">A Tale of Transformation and Survival</div>
+  <div class="desc">
+    一场突如其来的异变席卷了 Mirane 城。你的同伴 Kim 和 Dominic 在调查神秘森林时失踪了。
+    你必须踏入那片被诅咒的 Mystic Woods，面对鬼、巫女、女忍者和其他不可思议的生物，
+    找到你的同伴，并揭开这场灾难背后的真相。
+  </div>
+  <div>
+    <button class="game-btn" onclick="startGame()">开始冒险</button>
+    <button class="game-btn crimson" onclick="showLoadScreen()">读取存档</button>
+  </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="gameScreen" class="hidden">
+  <div class="stats-panel" id="statsPanel">
+    <div class="stat-item"><span class="stat-label">生命</span><div class="stat-bar"><div class="stat-fill health" id="healthBar" style="width:100%"></div></div><span class="stat-value" id="healthVal">100</span></div>
+    <div class="stat-item"><span class="stat-label">理智</span><div class="stat-bar"><div class="stat-fill sanity" id="sanityBar" style="width:100%"></div></div><span class="stat-value" id="sanityVal">100</span></div>
+    <div class="stat-item"><span class="stat-label">腐化</span><div class="stat-bar"><div class="stat-fill corruption" id="corruptBar" style="width:0%"></div></div><span class="stat-value" id="corruptVal">0</span></div>
+    <div class="stat-item"><span class="stat-label">Kim</span><div class="stat-bar"><div class="stat-fill kim" id="kimBar" style="width:100%"></div></div><span class="stat-value" id="kimVal">100</span></div>
+    <div class="stat-item"><span class="stat-label">Dominic</span><div class="stat-bar"><div class="stat-fill dominic" id="domBar" style="width:100%"></div></div><span class="stat-value" id="domVal">100</span></div>
+  </div>
+
+  <div class="inventory-panel" id="invPanel">
+    <h3>背包</h3>
+    <div class="inventory-grid" id="invGrid"><span class="inv-item">无</span></div>
+  </div>
+
+  <div class="chapter-header" id="chapterHeader">
+    <h2 id="chapterTitle">第一章</h2>
+    <div class="location" id="chapterLoc">Mirane 城</div>
+  </div>
+
+  <div class="story-text" id="storyText"></div>
+  <div class="choices-container" id="choicesBox"></div>
+</div>
+
+<!-- ENDING SCREEN -->
+<div id="endingScreen" class="ending-screen hidden">
+  <h2 id="endingTitle">结局</h2>
+  <div class="ending-desc" id="endingDesc"></div>
+  <button class="game-btn" onclick="returnToTitle()">返回标题</button>
+  <button class="game-btn" onclick="restartFromLast()">从最近存档重来</button>
+</div>
+
+</div>
+
+<script>
+// ===== GAME STATE =====
+let gameState = {
+  chapter: 'start',
+  health: 100, sanity: 100, corruption: 0,
+  kim: 100, dominic: 100,
+  inventory: [], flags: {},
+  history: [], endingsFound: []
+};
+
+// ===== UTILITY =====
+function saveGame() {
+  const s = JSON.stringify(gameState);
+  localStorage.setItem('mysticWoodsSave', s);
+  localStorage.setItem('mysticWoodsAutoSave', s);
+}
+function loadGame() {
+  const s = localStorage.getItem('mysticWoodsSave');
+  if (s) { gameState = JSON.parse(s); showChapter(gameState.chapter); return true; }
+  return false;
+}
+function autoLoad() {
+  const s = localStorage.getItem('mysticWoodsAutoSave');
+  if (s) { gameState = JSON.parse(s); showChapter(gameState.chapter); return true; }
+  return false;
+}
+
+function updateStats() {
+  const clamp = v => Math.max(0, Math.min(100, v));
+  gameState.health = clamp(gameState.health);
+  gameState.sanity = clamp(gameState.sanity);
+  gameState.corruption = clamp(gameState.corruption);
+  gameState.kim = clamp(gameState.kim);
+  gameState.dominic = clamp(gameState.dominic);
+
+  document.getElementById('healthBar').style.width = gameState.health + '%';
+  document.getElementById('healthVal').textContent = gameState.health;
+  document.getElementById('sanityBar').style.width = gameState.sanity + '%';
+  document.getElementById('sanityVal').textContent = gameState.sanity;
+  document.getElementById('corruptBar').style.width = gameState.corruption + '%';
+  document.getElementById('corruptVal').textContent = gameState.corruption;
+  document.getElementById('kimBar').style.width = gameState.kim + '%';
+  document.getElementById('kimVal').textContent = gameState.kim;
+  document.getElementById('domBar').style.width = gameState.dominic + '%';
+  document.getElementById('domVal').textContent = gameState.dominic;
+
+  const invGrid = document.getElementById('invGrid');
+  if (gameState.inventory.length === 0) {
+    invGrid.innerHTML = '<span class="inv-item">无</span>';
+  } else {
+    invGrid.innerHTML = gameState.inventory.map(i => `<span class="inv-item active">${i}</span>`).join('');
+  }
+}
+
+function addItem(item) {
+  if (!gameState.inventory.includes(item)) gameState.inventory.push(item);
+}
+function hasItem(item) { return gameState.inventory.includes(item); }
+function setFlag(f, v) { gameState.flags[f] = v; }
+function getFlag(f) { return gameState.flags[f] || false; }
+
+function changeStats(d) {
+  if (d.health) gameState.health += d.health;
+  if (d.sanity) gameState.sanity += d.sanity;
+  if (d.corruption) gameState.corruption += d.corruption;
+  if (d.kim) gameState.kim += d.kim;
+  if (d.dominic) gameState.dominic += d.dominic;
+  updateStats();
+}
+
+// ===== CHAPTER DISPLAY =====
+function showChapter(chId) {
+  gameState.chapter = chId;
+  gameState.history.push(chId);
+  if (gameState.history.length > 50) gameState.history.shift();
+
+  const ch = chapters[chId];
+  if (!ch) { console.error('Missing chapter:', chId); return; }
+
+  if (ch.ending) {
+    showEnding(ch.ending, ch.endingTitle, ch.text);
+    if (ch.endingTitle && !gameState.endingsFound.includes(ch.endingTitle)) {
+      gameState.endingsFound.push(ch.endingTitle);
+    }
+    saveGame();
+    return;
+  }
+
+  document.getElementById('titleScreen').classList.add('hidden');
+  document.getElementById('endingScreen').classList.add('hidden');
+  document.getElementById('gameScreen').classList.remove('hidden');
+
+  document.getElementById('chapterTitle').textContent = ch.title || '未知章节';
+  document.getElementById('chapterLoc').textContent = ch.location || '未知地点';
+
+  let html = '';
+  if (typeof ch.text === 'string') html = `<p>${ch.text}</p>`;
+  else if (Array.isArray(ch.text)) html = ch.text.map(t => `<p>${t}</p>`).join('');
+  document.getElementById('storyText').innerHTML = html;
+
+  // Apply effects
+  if (ch.effect) changeStats(ch.effect);
+  if (ch.items) ch.items.forEach(i => addItem(i));
+  if (ch.setFlag) setFlag(ch.setFlag, true);
+
+  // Build choices
+  const box = document.getElementById('choicesBox');
+  box.innerHTML = '';
+  if (ch.choices) {
+    ch.choices.forEach((c, idx) => {
+      if (c.condition && !c.condition(gameState)) return;
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.innerHTML = `<span class="choice-label">${String.fromCharCode(65 + idx)}.</span> ${c.text}`;
+      btn.onclick = () => { if (c.effect) changeStats(c.effect); showChapter(c.next); };
+      box.appendChild(btn);
+    });
+  }
+
+  updateStats();
+  saveGame();
+  window.scrollTo(0, 0);
+}
+
+function showEnding(type, title, text) {
+  document.getElementById('titleScreen').classList.add('hidden');
+  document.getElementById('gameScreen').classList.add('hidden');
+  const es = document.getElementById('endingScreen');
+  es.classList.remove('hidden');
+  es.className = 'ending-screen ' + (type || 'neutral');
+  document.getElementById('endingTitle').textContent = title || '结局';
+  let desc = '';
+  if (typeof text === 'string') desc = text;
+  else if (Array.isArray(text)) desc = text.join('<br><br>');
+  document.getElementById('endingDesc').innerHTML = desc;
+}
+
+function startGame() {
+  gameState = { chapter: 'start', health: 100, sanity: 100, corruption: 0, kim: 100, dominic: 100, inventory: [], flags: {}, history: [], endingsFound: [] };
+  showChapter('start');
+}
+function showLoadScreen() { if (!loadGame()) alert('没有存档'); }
+function returnToTitle() {
+  document.getElementById('endingScreen').classList.add('hidden');
+  document.getElementById('gameScreen').classList.add('hidden');
+  document.getElementById('titleScreen').classList.remove('hidden');
+}
+function restartFromLast() { autoLoad(); }
+
+// ===== PARTICLES =====
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [], w, h;
+function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize); resize();
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * w; this.y = Math.random() * h;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.4 + 0.1;
+    this.color = Math.random() > 0.6 ? '124,58,237' : Math.random() > 0.3 ? '212,168,67' : '34,197,94';
+  }
+  update() { this.x += this.speedX; this.y += this.speedY; if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset(); }
+  draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(${this.color},${this.opacity})`; ctx.fill(); }
+}
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+function animate() { ctx.clearRect(0, 0, w, h); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+animate();
