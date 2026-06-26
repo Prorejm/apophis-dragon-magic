@@ -76,12 +76,12 @@ var ZN={Forest:"森林",Coastal:"海岸",Demon:"恶魔",Desolate:"废都",Desert
 function sv(){try{localStorage.setItem("ms",JSON.stringify(gs))}catch(e){}}
 function ld(){var s=localStorage.getItem("ms");if(s){try{gs=JSON.parse(s);sh(gs.ch);return true}catch(e){}}alert("无存档");return false}
 function C(v){return Math.max(0,Math.min(100,v||0))}
-function up(){["h","s","c"].forEach(function(l){var m={h:"hp",s:"san",c:"cor"}[l];var eB=document.getElementById(l+"B");var eV=document.getElementById(l+"V");if(eB)eB.style.width=C(gs[m])+"%";if(eV)eV.textContent=C(gs[m])});var iv=document.getElementById("iv");if(iv)iv.innerHTML=gs.inv.length?gs.inv.join(" / "):"无"}
+function up(){var tr=null;["h","s","c"].forEach(function(l){var m={h:"hp",s:"san",c:"cor"}[l];var eB=document.getElementById(l+"B");var eV=document.getElementById(l+"V");var v=C(gs[m]);if(eB)eB.style.width=v+"%";if(eV)eV.textContent=v;if(m==="cor"&&v>=100&&!gs.fl.cor_d)tr="be_cor_100";if(m==="hp"&&v<=0&&!gs.fl.dead)tr="be_hp_0";if(m==="san"&&v<=0&&!gs.fl.crazy)tr="be_san_0"});if(tr){gs.fl[tr]=true;setTimeout(function(){sh(tr)},300)}var iv=document.getElementById("iv");if(iv)iv.innerHTML=gs.inv.length?gs.inv.join(" / "):"无"}
 function ad(i){if(gs.inv.indexOf(i)<0)gs.inv.push(i)}
 function ha(i){return gs.inv.indexOf(i)>=0}
 function sf(k,v){gs.fl[k]=v}
 function gf(k){return gs.fl[k]||false}
-function ch(d){if(d){if(d.hp)gs.hp=C(gs.hp+(d.hp||0));if(d.san)gs.san=C(gs.san+(d.san||0));if(d.cor&&gs.cor<100)gs.cor=Math.min(100,gs.cor+(d.cor||0))}up()}
+function ch(d){if(d){if(d.hp)gs.hp=C(gs.hp+(d.hp||0));if(d.san)gs.san=C(gs.san+(d.san||0));if(d.cor&&gs.cor<100)gs.cor=Math.min(100,gs.cor+(d.cor||0));var cc=gs.cor;if(!gs.fl.c25&&cc>=25){gs.fl.c25=true;sh("cor_25");return}if(!gs.fl.c50&&cc>=50){gs.fl.c50=true;sh("cor_50");return}if(!gs.fl.c75&&cc>=75){gs.fl.c75=true;sh("cor_75");return}}up()}
 function tt(){var ti=document.getElementById("ti");var gs_el=document.getElementById("gs");var es=document.getElementById("es");if(ti)ti.className="ti";if(gs_el)gs_el.className="hd";if(es)es.className="en hd";document.getElementById("ptbox").className="portrait"}
 function pt(name,img){var b=document.getElementById("ptbox");if(b&&PO[img]){b.innerHTML='<img src="'+PO[img]+'"><div class="label">'+name+'</div>';b.className="portrait show"}}
 function D(text){return"<div class='dialog'><span class='name'>❯❯ </span>"+text+"</div>"}
@@ -3545,6 +3545,125 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Robin",
       "robin"
     ]
+  },
+  "be_cor_100": {
+    "t": "Bad End: 完全腐化",
+    "loc": "Monline - 转化之渊",
+    "zone": "Mythic",
+    "text": [
+      "你的身体深处传来一阵奇异的暖流——不是疼痛，是一种令人战栗的快感。你低头看着自己的双手，它们正在发光——不是普通的皮肤光泽，而是某种被这个世界彻底标记后的光辉。",
+      "腐化值终于达到了极限。你的皮肤开始变得光滑而剔透，像被打磨过的玉石。你感到体内有什么东西在苏醒——不是怪物，而是另一个你。",
+      "你的衣服在脱落，不是因为撕裂，而是你的身体在变化——胸部变得饱满而挺立，腰肢收窄，臀部圆润——你的每一寸曲线都在被这个世界的魔力精心雕琢。你的双腿并拢，脚趾变得修长，指甲涂上了暗紫色的光泽。",
+      "一根细长的、末端呈爱心形状的尾巴从尾椎处长出。你转过头——你的头发在生长，从根部开始变成鲜艳的粉红色，发梢是深紫色。你的眼睛变成了竖瞳，瞳孔中倒映着六个旋转的光点——六颗Orb。",
+      "你张开嘴想说话——但发出的声音是一个甜腻的、让听到的人骨头都酥掉的笑声。你的新身体让你感到前所未有的满足——每一个动作都散发着致命的诱惑力。",
+      "你成了Monline的化身——不是人类，不是怪物，而是这个世界本身意志的容器。你将永远在这里，美丽、不朽、孤独。",
+      "也许——这才是Robin真正想要的结局。",
+      "Bad End: 完全腐化"
+    ],
+    "en": "bad",
+    "enm": "COR",
+    "et": "完全腐化"
+  },
+  "be_hp_0": {
+    "t": "Bad End: 生命凋零",
+    "loc": "Monline - 遗忘之墟",
+    "zone": "Desolate",
+    "text": [
+      "你的膝盖终于撑不住了。你跪倒在地上，眼前的世界正在变暗——不是那种让人恐惧的黑暗，而是一种温柔的、像天鹅绒般的黑暗。",
+      "你倒在废墟的地面上，仰面朝天。暗红色的天空在你头顶旋转。你想抬起手——但你的手臂沉重得像灌了铅。你的呼吸变得又浅又快。",
+      "然后你听到了脚步声——轻盈的、优雅的。一张美丽而苍白的脸出现在你上方。她穿着破烂的白色连衣裙，长发披散在肩头。她的嘴唇是暗紫色的，眼睛是空洞的黑色。",
+      "「又一个……」她轻声说，语气中没有恶意，只有怜悯。她跪在你身边，伸出冰冷的手抚摸你的脸颊。「别怕——很快就会结束。」",
+      "你的视线越来越模糊。你感到她的嘴唇贴上了你的——冰凉的、柔软的。她在吸走你最后的气息——你的生命力像一条细细的丝线从你体内被抽出。",
+      "你的身体变得轻盈。你的视野中出现了白色的光芒——不是天堂，不是地狱，只是……虚无。你的最后一口气被那位苍白的少女接住了。",
+      "她抬起头，嘴角挂着一丝暗色的血迹。她舔了舔嘴唇。然后她站起身，继续在废墟中等待着下一个旅人。",
+      "而你——你已经不在了。你的身体化作灰白色的尘埃，被风卷起，散落在Desolate Zone的每一个角落。",
+      "Bad End: 生命凋零"
+    ],
+    "en": "bad",
+    "enm": "HP0",
+    "et": "生命凋零"
+  },
+  "be_san_0": {
+    "t": "Bad End: 理智崩坏",
+    "loc": "Monline - 幻梦深渊",
+    "zone": "Mythic",
+    "text": [
+      "你开始听到声音了——不是从外界传来的，而是从你内心深处涌出的。无数个声音重叠在一起，低语着、呢喃着、哭泣着。她们是你见过的所有怪物娘的碎片记忆——在你脑中炸裂。",
+      "你的瞳孔在扩张。世界在你面前扭曲——墙壁在呼吸，地面在波动，天空在流血。你分不清什么是真实，什么是幻觉。Mark在你面前说话——但他的嘴里吐出的不是话语，而是一群飞蛾。",
+      "你尖叫着后退。你的手抓住了自己的头发——然后你的手指陷入了自己的皮肤。不是幻觉——你的身体真的在变得透明。你看到自己的血管在发光——紫色的，像藤蔓一样在你体内蔓延。",
+      "你跪在地上，开始笑。你笑得停不下来。泪水从你的眼角滑落——但你在笑。因为一切都变得清晰了——这个世界不是虚拟的。它是真实的。而你不是被吸进来的——你本来就属于这里。",
+      "你一直都是Monline的一部分。你只是……忘记了。",
+      "你的笑容凝固了。你站起身——动作像牵线木偶一样僵硬。你的眼睛已经完全变成了紫色，没有瞳孔，只有一片深邃的紫色虚空。你走向了废墟的深处——那里有和你一样的人。她们在等着你。",
+      "你加入了她们的舞蹈——永无止境的、狂乱的、美丽的舞蹈。你不觉得害怕了。你很快乐。",
+      "Bad End: 理智崩坏"
+    ],
+    "en": "bad",
+    "enm": "SAN0",
+    "et": "理智崩坏"
+  },
+  "cor_25": {
+    "t": "变化之初",
+    "loc": "Monline - 你的内心",
+    "zone": "Forest",
+    "text": [
+      "你注意到了一些微小的变化。今天早上洗脸的时候——你发现你的瞳孔颜色变淡了。不是变得透明——而是从原本的颜色变成了一种浅琥珀色。你擦干了脸，告诉自己这是光线的问题。",
+      "但你的皮肤也变得更有光泽了——一种不自然的、像被打了蜡一样的光泽。Mark在早餐时看着你，皱了一下眉头——但他什么也没说。",
+      "你晚上脱衣服的时候，你发现你的锁骨上出现了一行细小的、像是纹身的花纹——那是这个世界古老的符文。不是墨水画上去的——是从皮肤内部透出来的。你用手指摸了摸——不痛。甚至有一种奇妙的酥麻感。",
+      "你躺在床上，盯着天花板。你有些害怕——但那种害怕之中掺杂了一些别的东西。一种期待。",
+      "你翻了个身，闭上了眼睛。明天还会发生什么呢？"
+    ],
+    "chs": [
+      {
+        "t": "继续前进",
+        "n": "coastal_entry"
+      }
+    ],
+    "eff": {
+      "cor": 0
+    }
+  },
+  "cor_50": {
+    "t": "蜕变之痛",
+    "loc": "Monline - 你的内心",
+    "zone": "Demon",
+    "text": [
+      "你站在废弃城堡的镜子前——那是一面布满灰尘的落地镜。你擦了擦镜面，看到了自己。你的头发不再是原来的颜色了——发梢变成了浅粉色，像被某种魔法染过。你的眼角微微上挑，带着一丝不属于人类的妩媚。",
+      "你的身体曲线变得更加明显了——你的腰更细了，胸部和臀部以一种自己都觉得陌生的方式变得丰满。你试着穿上原来的衣服——它们紧绷得让你喘不过气。",
+      "你的感官变得异常敏锐。你能听到隔壁房间中Aralu的心跳声，能闻到走廊尽头壁炉中燃烧的紫色火焰的硫磺味。你能尝到空气中飘浮的欲望——像甜酒一样浓烈而诱人。",
+      "你害怕了。你真的害怕了。但你的身体在渴望更多——更多的魔力，更多的变化，更多的……快感。你咬着牙，握紧了拳头。",
+      "你还可以抵抗。你告诉自己还可以。"
+    ],
+    "chs": [
+      {
+        "t": "咬牙坚持",
+        "n": "demon_castle_hall"
+      }
+    ],
+    "eff": {
+      "cor": 0
+    }
+  },
+  "cor_75": {
+    "t": "最后的抵抗",
+    "loc": "Monline - 你的内心",
+    "zone": "Desert",
+    "text": [
+      "沙尘暴刮过金字塔的周围，你蜷缩在避风处。你的身体已经很难用「人类」来形容了。你的指尖散发着微弱的荧光——在你触碰沙子的时候，沙粒会发出短暂的光芒。你的耳朵变尖了，你的犬齿变长了。你在说话的时候——偶尔能看到自己的舌尖也变得比正常人更长、更灵活。",
+      "Kim看着你，眼神复杂。她什么都没说，但你知道她在想什么——你在变成一个怪物娘。不只是外表——你在变美。以一种非人类的、令人不安的方式变美。",
+      "你照了照水壶中残存的水面。你的脸已经变得几乎认不出来了——五官更加精致，皮肤像瓷器一样洁白光滑，眼睛闪烁着金色的光芒。你美得很妖异。",
+      "你想起了在森林中的每一个选择——每一次接触都在你体内留下了印记。这个世界在把你改造成它的居民。",
+      "你闭上眼睛。沙子打在脸上——但你的皮肤连一丝划痕都没有。你已经，不再是人类了。",
+      "还能回头吗？你问自己。你睁开眼睛——你没有答案。"
+    ],
+    "chs": [
+      {
+        "t": "穿过沙暴",
+        "n": "sphinx_ok"
+      }
+    ],
+    "eff": {
+      "cor": 0
+    }
   }};
 
 </script>
