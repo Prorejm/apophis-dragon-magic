@@ -54,7 +54,7 @@ canvas#pt{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 <button class="btn r" onclick="ld()">读取存档</button>
 </div>
 <div id="gs" class="hd">
-<div class="sts" id="sp"><div class="s" style="color:var(--red)">生命<div class="b"><div class="f h" id="hB"></div></div><span id="hV"></span></div><div class="s" style="color:var(--blu)">理智<div class="b"><div class="f s" id="sB"></div></div><span id="sV"></span></div><div class="s" style="color:var(--purp)">腐化<div class="b"><div class="f c" id="cB"></div></div><span id="cV"></span></div></div>
+<div class="sts" id="sp"><div class="s" style="color:var(--red)">生命<div class="b"><div class="f h" id="hB"></div></div><span id="hV"></span></div><div class="s" style="color:var(--blu)">理智<div class="b"><div class="f s" id="sB"></div></div><span id="sV"></span></div><div class="s" style="color:var(--purp)">腐化<div class="b"><div class="f c" id="cB"></div></div><span id="cV"></span></div><div class="s" style="color:var(--gold);grid-column:1/-1">物品<div class="b" style="flex:3;overflow:hidden;white-space:nowrap"><span id="iv" style="font-size:.65rem;color:var(--txt2);padding-left:4px">无</span></div></div></div>
 <div class="portrait" id="ptbox"></div>
 <div class="ch"><h2 id="ct"></h2><div class="lo" id="cl"></div></div>
 <div class="story" id="st"></div>
@@ -67,1114 +67,3486 @@ canvas#pt{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 var cv=document.getElementById("pt"),cx=cv.getContext("2d");
 function rs(){cv.width=window.innerWidth;cv.height=window.innerHeight}
 window.addEventListener("resize",rs);rs();
-var pt=[];for(var i=0;i<60;i++)pt.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*2+0.5,s:Math.random()*0.5+0.1,o:Math.random()*0.5+0.1});
-function an(){cx.clearRect(0,0,cv.width,cv.height);pt.forEach(function(p){p.y-=p.s;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle="rgba(212,168,67,"+p.o+")";cx.fill()});requestAnimationFrame(an)}
+var pts=[];for(var i=0;i<60;i++)pts.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*2+0.5,s:Math.random()*0.5+0.1,o:Math.random()*0.5+0.1});
+function an(){cx.clearRect(0,0,cv.width,cv.height);pts.forEach(function(p){p.y-=p.s;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle="rgba(212,168,67,"+p.o+")";cx.fill()});requestAnimationFrame(an)}
 an();
 var gs={ch:"start",hp:100,san:100,cor:0,inv:[],fl:{},gen:"m",hist:[],end:{},zone:""};
 var PO={mark:"assets/portrait_mark.jpg",robin:"assets/portrait_robin.jpg",aralu:"assets/portrait_aralu.jpg",dominic:"assets/portrait_dominic.jpg",kim:"assets/portrait_kim.jpg",morgan:"assets/portrait_morgan.jpg",percy:"assets/portrait_percy.jpg"};
 var ZN={Forest:"森林",Coastal:"海岸",Demon:"恶魔",Desolate:"废都",Desert:"沙漠",Mythic:"神话"};
 function sv(){try{localStorage.setItem("ms",JSON.stringify(gs))}catch(e){}}
-function ld(){var s=localStorage.getItem("ms");if(s){gs=JSON.parse(s);sh(gs.ch);return true}alert("无存档");return false}
-function C(v){return Math.max(0,Math.min(100,v))}
-function up(){["h","s","c"].forEach(function(l){var m={h:"hp",s:"san",c:"cor"}[l];document.getElementById(l+"B").style.width=C(gs[m])+"%";document.getElementById(l+"V").textContent=C(gs[m])});document.getElementById("iv").innerHTML=gs.inv.length?gs.inv.join(" | "):"无"}
+function ld(){var s=localStorage.getItem("ms");if(s){try{gs=JSON.parse(s);sh(gs.ch);return true}catch(e){}}alert("无存档");return false}
+function C(v){return Math.max(0,Math.min(100,v||0))}
+function up(){["h","s","c"].forEach(function(l){var m={h:"hp",s:"san",c:"cor"}[l];var eB=document.getElementById(l+"B");var eV=document.getElementById(l+"V");if(eB)eB.style.width=C(gs[m])+"%";if(eV)eV.textContent=C(gs[m])});var iv=document.getElementById("iv");if(iv)iv.innerHTML=gs.inv.length?gs.inv.join(" / "):"无"}
 function ad(i){if(gs.inv.indexOf(i)<0)gs.inv.push(i)}
 function ha(i){return gs.inv.indexOf(i)>=0}
 function sf(k,v){gs.fl[k]=v}
 function gf(k){return gs.fl[k]||false}
-function ch(d){if(d.hp)gs.hp=C(gs.hp+(d.hp||0));if(d.san)gs.san=C(gs.san+(d.san||0));if(d.cor&&gs.cor<100)gs.cor=Math.min(100,gs.cor+(d.cor||0));up()}
-function tt(){["ti","gs","es"].forEach(function(id){var e=document.getElementById(id);if(e)e.className=e.className==="ti"?"ti":"hd"});document.getElementById("ptbox").className="portrait"}
-function pt(name,img){var b=document.getElementById("ptbox");b.innerHTML='<img src="'+PO[img]+'"><div class="label">'+name+'</div>';b.className="portrait show"}
+function ch(d){if(d){if(d.hp)gs.hp=C(gs.hp+(d.hp||0));if(d.san)gs.san=C(gs.san+(d.san||0));if(d.cor&&gs.cor<100)gs.cor=Math.min(100,gs.cor+(d.cor||0))}up()}
+function tt(){var ti=document.getElementById("ti");var gs_el=document.getElementById("gs");var es=document.getElementById("es");if(ti)ti.className="ti";if(gs_el)gs_el.className="hd";if(es)es.className="en hd";document.getElementById("ptbox").className="portrait"}
+function pt(name,img){var b=document.getElementById("ptbox");if(b&&PO[img]){b.innerHTML='<img src="'+PO[img]+'"><div class="label">'+name+'</div>';b.className="portrait show"}}
 function D(text){return"<div class='dialog'><span class='name'>❯❯ </span>"+text+"</div>"}
-
-function ng(){gs={ch:"start",hp:100,san:100,cor:0,kim:100,dom:100,inv:[],fl:{},gen:"m",hist:[],end:{},zone:""};sh("start")}
-
+function ng(){if(confirm("开始新的冒险？当前进度将会丢失。")){gs={ch:"start",hp:100,san:100,cor:0,inv:[],fl:{},gen:"m",hist:[],end:{},zone:""};sh("start")}}
+var _kh=null;
 function sh(id){gs.ch=id;gs.hist.push(id);if(gs.hist.length>80)gs.hist.shift();
-var ch=chs[id];if(!ch)return;
-if(ch.en){var es=document.getElementById("es");es.className="en "+(ch.en==="good"?"g":ch.en==="bad"?"b":"n");
-document.getElementById("et").textContent=ch.enm||ch.et||"结局";
-document.getElementById("ed").innerHTML=(typeof ch.text==="string"?ch.text:Array.isArray(ch.text)?ch.text.join("<br><br>"):"").replace(/\n/g,"<br>");
-if(ch.enm&&!gs.end[ch.enm]){gs.end[ch.enm]=true}
-sv();es.classList.remove("hd");document.getElementById("ti").className="hd";return}
+var cd=chs[id];if(!cd){alert("章节不存在: "+id);return}
+if(cd.en){document.getElementById("ti").className="hd";document.getElementById("gs").className="hd";
+var es=document.getElementById("es");es.className="en "+(cd.en==="good"?"g":cd.en==="bad"?"b":"n");
+document.getElementById("et").textContent=cd.enm||cd.et||"结局";
+document.getElementById("ed").innerHTML=(typeof cd.text==="string"?cd.text:Array.isArray(cd.text)?cd.text.join("<br><br>"):"").replace(/\\n/g,"<br>");
+if(cd.enm&&!gs.end[cd.enm]){gs.end[cd.enm]=true}
+sv();es.classList.remove("hd");return}
 document.getElementById("ti").className="hd";document.getElementById("es").className="hd";
-document.getElementById("gs").className="";document.getElementById("ct").textContent=ch.t||"?";
-document.getElementById("cl").textContent=ch.loc||"?";
-if(ch.zone)gs.zone=ch.zone;
+document.getElementById("gs").className="";document.getElementById("ct").textContent=cd.t||"?";
+document.getElementById("cl").textContent=cd.loc||"?";
+if(cd.zone)gs.zone=cd.zone;
 var st=document.getElementById("st");
-if(typeof ch.text==="string")st.innerHTML="<p>"+ch.text+"</p>";
-else if(Array.isArray(ch.text))st.innerHTML=ch.text.map(function(t){return t[0]==="|"?"<div class='dialog'>"+t.slice(1)+"</div>":"<p>"+t+"</p>"}).join("");
-if(ch.eff)ch(ch.eff);if(ch.items)ch.items.forEach(function(i){ad(i)});if(ch.sf)sf(ch.sf,true);if(ch.pt&&PO[ch.pt[1]])pt(ch.pt[0],ch.pt[1]);
+if(typeof cd.text==="string")st.innerHTML=cd.text.split("\n").map(function(l){return(l[0]==="「")?"<div class='dialog'>"+l+"</div>":"<p>"+l+"</p>"}).join("");
+else if(Array.isArray(cd.text))st.innerHTML=cd.text.map(function(t){return(t[0]==="「")?"<div class='dialog'>"+t+"</div>":"<p>"+t+"</p>"}).join("");
+if(cd.eff)ch(cd.eff);if(cd.items)cd.items.forEach(function(i){ad(i)});if(cd.sf)sf(cd.sf,true);if(cd.pt&&PO[cd.pt[1]])pt(cd.pt[0],cd.pt[1]);
 var bx=document.getElementById("cx");bx.innerHTML="";
-if(ch.chs)ch.chs.forEach(function(c,i){var b=document.createElement("button");b.className="cb";
-b.innerHTML=c.t+(c.tf?" <span class=\"dng\">[转化风险]</span>":"");
-b.onclick=function(){if(c.eff)ch(c.eff);if(c.n)sh(c.n)};bx.appendChild(b)});
-up();sv();window.scrollTo(0,0)}
-
-var chs={
-"start": {
-"t": "觉醒",
-"loc": "Forest Zone - 森林入口",
-"zone": "Forest",
-"text": [
-"你醒来了。头顶是暗红色的天空——那不是地球的颜色。空气中弥漫着甜腻的花香，混合着某种古老的魔力气息。高大的树木环绕着你，树干上闪烁着幽蓝色的磷光。",
-"一个穿着铠甲的年轻人从树后探出头来。他头上扎着一条醒目的红色头巾，灰白色的头发在阳光中微微发光。",
-"“我叫Mark。别紧张——我也是被吸进来的。”他把你拉起来，指向树林间隙中隐约可见的破败城市。“那是Caste City。我醒来的时候就在那里。遇到了几个其他被困的人——但他们已经不再记得自己是谁了。”",
-"远处传来了歌声——甜美的、魅惑的。Mark一把抓住你的手腕：“不要听。那是Siren的歌声。会让你忘记自己是谁。”"
-],
-"chs": [
-{
-"t": "跟着Mark去Caste City",
-"n": "caste_city"
-},
-{
-"t": "独自探索",
-"n": "forest_explore_alone"
-}
-],
-"pt": [
-"Mark",
-"mark"
-]
-},
-"caste_city": {
-"t": "Caste City",
-"loc": "Forest Zone - Caste City",
-"zone": "Forest",
-"text": [
-"Mark带着你穿过了森林。Caste City曾经是一座美丽的中世纪城镇——哥特式拱门、巴洛克式喷泉。现在紫色的藤蔓爬满了石墙，街道上散落着被遗弃的背包和手机。",
-"“这是我的据点。”Mark推开了一扇木门。屋内堆满了补给品——罐头、水、武器。",
-"他在桌边坐下，摊开一张手绘地图。“PXE——一个向导——告诉我们需要收集圣球——Orbs。那是击败Robin的关键。”",
-"门外突然传来声响——有人靠近。Mark握住了剑柄。"
-],
-"chs": [
-{
-"t": "出去看看",
-"n": "caste_encounter"
-}
-],
-"pt": [
-"Mark",
-"mark"
-]
-},
-"caste_encounter": {
-"t": "访客",
-"loc": "Forest Zone - Caste City",
-"zone": "Forest",
-"text": [
-"门被推开了——站着一个戴着蓝绿色帽子的年轻人。防风夹克，橙色斗篷，蓝色的眼睛充满了好奇。",
-"“Mark！你还活着！”他然后看到了你，“哦——新面孔？我是Percy——一个研究员。我研究这个世界的各种转化现象。”",
-"他清了清嗓子。“我带来了情报。Queen Bee在和Hornet闹矛盾。如果你能帮她解决那些Hornet——她就会帮你们通过Breachwood。”"
-],
-"chs": [
-{
-"t": "去Hive找Queen Bee",
-"n": "forest_hive"
-}
-],
-"pt": [
-"Percy",
-"percy"
-]
-},
-"forest_hive": {
-"t": "蜂巢",
-"loc": "Forest Zone - Hive",
-"zone": "Forest",
-"text": [
-"蜂蜜味浓烈得令人窒息。一个巨大的蜂巢悬挂在三棵古树之间。蜜蜂娘在空中飞舞——上半身是少女，下半身是蜜蜂。",
-"一只金发蜜蜂娘降落在你们面前。“新朋友！来尝尝蜂蜜吧！”她递出一块蜂巢。那致命的香气让你的胃收缩了一下。"
-],
-"chs": [
-{
-"t": "接下蜂蜜（危险！）",
-"n": "honey_eat",
-"tf": true
-},
-{
-"t": "谢绝，要求见Queen Bee",
-"n": "bee_queen"
-}
-],
-"pt": [
-"蜜蜂娘",
-"mark"
-]
-},
-"honey_eat": {
-"t": "蜂蜜的诱惑",
-"loc": "Forest Zone - Hive",
-"zone": "Forest",
-"text": [
-"你接过蜂巢。舌尖触碰蜂蜜的瞬间——世界静止了。那甜味不只是味觉——它渗透了你的每一个细胞。你的双手在发光——金色的蜂蜜花纹浮现在皮肤上。",
-"“你已经尝到了变化。”蜜蜂娘靠得更近了。“下次——你会想要更多。”她说对了——你确实想要更多。"
-],
-"chs": [
-{
-"t": "离开森林！",
-"n": "coastal_entry",
-"tf": true,
-"eff": {
-"cor": 20
-}
-},
-{
-"t": "继续探索蜂巢",
-"n": "bee_queen"
-}
-],
-"eff": {
-"hp": 10,
-"cor": 20
-},
-"pt": [
-"Mark",
-"mark"
-]
-},
-"bee_queen": {
-"t": "Queen Bee",
-"loc": "Forest Zone - 蜂巢内部",
-"zone": "Forest",
-"text": [
-"你们被带入蜂巢内部。Queen Bee比普通蜜蜂娘大三倍，翅膀闪烁着金光。",
-"“人类。帮我解决北方洞穴的Hornet——我告诉你们安全通过森林的路。”"
-],
-"chs": [
-{
-"t": "接受任务",
-"n": "hornet_cave"
-}
-],
-"pt": [
-"Queen Bee",
-"mark"
-]
-},
-"hornet_cave": {
-"t": "Hornet洞穴",
-"loc": "Forest Zone - Hornet Cave",
-"zone": "Forest",
-"text": [
-"你们击败了Hornet。Queen Bee给了你们一瓶蜂王浆。“沿着最东边的小路走——那是我的领地边缘，Arachne的手伸不到那里。”"
-],
-"chs": [
-{
-"t": "离开Forest Zone",
-"n": "coastal_entry"
-}
-],
-"items": [
-"蜂王浆"
-],
-"pt": [
-"Mark",
-"mark"
-]
-},
-"forest_explore_alone": {
-"t": "独自探索",
-"loc": "Forest Zone",
-"zone": "Forest",
-"text": [
-"你独自走进了森林深处。你发现了一座小屋——烟囱冒着烟。门上挂着一个木牌：“欢迎！进来坐坐吧。但别喝太多牛奶。”——Minoh。你犹豫了一下。"
-],
-"chs": [
-{
-"t": "进去看看",
-"n": "forest_ranch"
-},
-{
-"t": "返回找Mark",
-"n": "caste_city"
-}
-],
-"pt": [
-"Mark",
-"mark"
-]
-},
-"forest_ranch": {
-"t": "Minoh Ranch",
-"loc": "Forest Zone - Ranch",
-"zone": "Forest",
-"text": [
-"你循着牛奶香走进了一片牧场。半人半牛的Holstaurus在草地上吃草。Minoh——一个穿着围裙的牛娘——微笑着迎接你。“进来坐坐吧，喝杯热牛奶。”"
-],
-"chs": [
-{
-"t": "喝牛奶（危险）",
-"n": "ranch_milk",
-"tf": true
-},
-{
-"t": "谢绝，问情报",
-"n": "ranch_info"
-}
-],
-"pt": [
-"Minoh",
-"mark"
-]
-},
-"ranch_milk": {
-"t": "牛奶的代价",
-"loc": "Forest Zone - Ranch",
-"zone": "Forest",
-"text": [
-"牛奶温热而甜美。你喝了下去——然后你的手上出现了淡淡的褐色斑点。你在被这个世界记住。Mark也放下了碗——他手腕上也有纹路。"
-],
-"chs": [
-{
-"t": "去Coastal Zone",
-"n": "coastal_entry"
-}
-],
-"eff": {
-"cor": 8
-},
-"pt": [
-"Mark",
-"mark"
-]
-},
-"ranch_info": {
-"t": "情报",
-"loc": "Forest Zone - Ranch",
-"zone": "Forest",
-"text": [
-"“Forest Zone没有Orb。”Minoh说。“Robin把它设计成起点——因为这里最适合‘软化’新人。去Coastal Zone吧，那里有第一颗Orb of the Waves。”"
-],
-"chs": [
-{
-"t": "前往Coastal Zone",
-"n": "coastal_entry"
-}
-],
-"pt": [
-"Minoh",
-"mark"
-]
-},
-"coastal_entry": {
-"t": "海岸",
-"loc": "Coastal Zone - 沙滩",
-"zone": "Coastal",
-"text": [
-"你们终于走出了森林。无边无际的蓝色海洋在阳光下闪闪发光。但海风中夹杂着若有若无的歌声——甜美、悲伤。Mark用布条塞住了耳朵。“那是Siren。”",
-"他指向海岸线前方。“那是Eurum City。我们需要在那里找Orb of the Waves的线索。”"
-],
-"chs": [
-{
-"t": "前往Eurum City",
-"n": "eurum_city"
-},
-{
-"t": "去港口",
-"n": "coastal_port"
-}
-],
-"pt": [
-"Mark",
-"mark"
-]
-},
-"eurum_city": {
-"t": "Eurum City",
-"loc": "Coastal Zone - Eurum City",
-"zone": "Coastal",
-"text": [
-"Eurum City是一座白色城市——大理石立柱、蓝色圆顶。但街道空无一人。广场上的公告板贴满了寻人启事：“如果你看到我的妻子——她有一头红发和闪烁着蓝色光芒的鳞片——请帮我告诉她，我会找到她的。”",
-"广场尽头的海神神殿门口站着一个白袍女祭司。“来取Orb的人？”她侧身让开了路。"
-],
-"chs": [
-{
-"t": "进入神殿",
-"n": "sea_temple"
-},
-{
-"t": "去港口",
-"n": "coastal_port"
-}
-],
-"pt": [
-"Mark",
-"mark"
-]
-},
-"coastal_port": {
-"t": "港口",
-"loc": "Coastal Zone - 港口",
-"zone": "Coastal",
-"text": [
-"码头上坐着一个老人——眼睛一片乳白色。他笑了笑。“想要船？那艘海猫号——在我还是人类的时候。现在归你们了。”出海之后记住——在这个世界，你们不是捕食者。你们是猎物。”"
-],
-"chs": [
-{
-"t": "出海",
-"n": "sea_temple"
-}
-],
-"items": [
-"海猫号"
-],
-"pt": [
-"Mark",
-"mark"
-]
-},
-"sea_temple": {
-"t": "海神神殿",
-"loc": "Coastal Zone - 神殿",
-"zone": "Coastal",
-"text": [
-"白色石柱环绕着中央水池。池水清澈见底——底部金色的沙子在发光。水池中央——Orb of the Waves悬浮着。海神女祭司从水中浮现。“想要Orb？通过考验——以人类的形态完成仪式——或者拥抱海洋，以Mermaid的形态接受祝福。”"
-],
-"chs": [
-{
-"t": "以人类形态",
-"n": "ritual_human"
-},
-{
-"t": "接受Mermaid转化（危险）",
-"n": "ritual_mermaid",
-"tf": true
-}
-],
-"pt": [
-"海神祭司",
-"mark"
-]
-},
-"ritual_human": {
-"t": "人类的仪式",
-"loc": "Coastal Zone - 神殿",
-"zone": "Coastal",
-"text": [
-"你选择了保持人类形态。祭司把Orb放在你掌心——那球体脉动着沉入了你的皮肤。你获得了Orb of the Waves——第一颗圣球。",
-"“收集全部六颗时——它们会在你体内合为一体——拥有足以重塑Monline的力量。”"
-],
-"chs": [
-{
-"t": "下一步",
-"n": "after_orb"
-}
-],
-"items": [
-"Orb of the Waves"
-],
-"eff": {
-"san": 15
-},
-"pt": [
-"Mark",
-"mark"
-]
-},
-"ritual_mermaid": {
-"t": "拥抱海洋",
-"loc": "Coastal Zone - 神殿",
-"zone": "Coastal",
-"text": [
-"你选择了拥抱海洋。你的双腿在刺痛中融合——化作一条银蓝色的鱼尾。你变成了Mermaid。你获得了Orb of the Waves——但代价是你的双腿。"
-],
-"chs": [
-{
-"t": "接受现实",
-"n": "after_orb"
-}
-],
-"items": [
-"Orb of the Waves"
-],
-"eff": {
-"cor": 20
-},
-"pt": [
-"Mark",
-"mark"
-]
-},
-"after_orb": {
-"t": "分头行动",
-"loc": "Coastal Zone - Budan",
-"zone": "Coastal",
-"text": [
-"你们在Budan告别。前方是通往Demon Zone的紫色传送门。",
-"Mark转身面对你。“我们获得了第一颗Orb。但必须分头行动了——你继续前进，我去西边探索。我们在终点重聚。”他拍了拍你的肩膀。“保重。”",
-"他转身走向夕阳——红色头巾在风中飘动。你独自走进了传送门。"
-],
-"chs": [
-{
-"t": "进入Demon Zone",
-"n": "demon_entry"
-}
-],
-"eff": {
-"san": 10
-},
-"pt": [
-"Mark",
-"mark"
-]
-},
-"demon_entry": {
-"t": "恶魔之门",
-"loc": "Demon Zone - 入口",
-"zone": "Demon",
-"text": [
-"你踏入了暗紫色的传送门。天空是血红色的。大地龟裂。远处矗立着一座黑色城堡和一座阴森教堂。",
-"一个女声从背后传来。“又一个。”——一个金发女性站在你身后，手持银色细剑。“我叫Aralu。我是来猎杀恶魔的——顺便收集Orb。要合作吗？”"
-],
-"chs": [
-{
-"t": "和Aralu组队",
-"n": "demon_castle"
-},
-{
-"t": "独自探索",
-"n": "demon_church"
-}
-],
-"pt": [
-"Aralu",
-"aralu"
-]
-},
-"demon_castle": {
-"t": "城堡",
-"loc": "Demon Zone - 城堡",
-"zone": "Demon",
-"text": [
-"城堡大厅中悬挂着扭曲的画作——每一幅都在盯着你。一个Succubus从走廊尽头出现——美得令人窒息。她看着你，舔了舔嘴唇。“又有新玩具了。”你的身体不受控制地向她迈出一步。Aralu抓住你的手臂。“别看她！”"
-],
-"chs": [
-{
-"t": "抵抗诱惑",
-"n": "demon_castle_hall"
-},
-{
-"t": "向她走去（危险！）",
-"n": "be_c5",
-"tf": true
-}
-],
-"pt": [
-"Aralu",
-"aralu"
-]
-},
-"demon_castle_hall": {
-"t": "城堡大厅",
-"loc": "Demon Zone - 城堡",
-"zone": "Demon",
-"text": [
-"你们穿过了走廊，来到城堡深处的大厅。大厅中央悬浮着Demon Orb——被暗紫色屏障保护着。屏障前站着Draculara——蝙蝠翅膀，紫色长发。“Aralu——你终于来了。”",
-"Aralu拔出了剑。“你的统治结束了。”"
-],
-"chs": [
-{
-"t": "战斗",
-"n": "demon_fight"
-},
-{
-"t": "尝试说服",
-"n": "demon_talk"
-}
-],
-"pt": [
-"Aralu",
-"aralu"
-]
-},
-"demon_fight": {
-"t": "战斗",
-"loc": "Demon Zone - 城堡",
-"zone": "Demon",
-"text": [
-"你与Aralu联手对抗Draculara。你的攻击击中了她的项圈——红色宝石裂开了。Draculara尖叫了一声——然后在光芒中消散了。“谢谢你……”最后的声音中带着温柔的解脱。Demon Orb飘入你的手中。"
-],
-"chs": [
-{
-"t": "取得Orb",
-"n": "demon_after"
-}
-],
-"items": [
-"Demon Orb"
-],
-"eff": {
-"hp": -10
-},
-"pt": [
-"Aralu",
-"aralu"
-]
-},
-"demon_talk": {
-"t": "说服",
-"loc": "Demon Zone - 城堡",
-"zone": "Demon",
-"text": [
-"你走上前。“Draculara——你还记得在成为恶魔之前你是谁吗？”她沉默了。然后她挥了挥手——屏障消失了。“……走吧。带着Orb离开。我累了。”你握住了Demon Orb。"
-],
-"chs": [
-{
-"t": "取得Orb",
-"n": "demon_after"
-}
-],
-"items": [
-"Demon Orb"
-],
-"pt": [
-"Aralu",
-"aralu"
-]
-},
-"demon_after": {
-"t": "分别",
-"loc": "Demon Zone - 出口",
-"zone": "Demon",
-"text": [
-"Aralu把Orb递给你。“她是我母亲。现在她安息了。我要埋葬她——也许我们会在终点再见。”她转身走向城堡深处。你握着Demon Orb走向了通往Desolate Zone的传送门。"
-],
-"chs": [
-{
-"t": "前往Desolate Zone",
-"n": "desolate_entry"
-}
-],
-"items": [
-"Demon Orb"
-],
-"eff": {
-"san": 15
-},
-"pt": [
-"Aralu",
-"aralu"
-]
-},
-"demon_church": {
-"t": "教堂",
-"loc": "Demon Zone - Elysium Church",
-"zone": "Demon",
-"text": [
-"Elysium Church出奇地庄严——彩色玻璃窗、长椅、十字架。但神像在对你微笑——一个恶意的微笑。黑袍修女坐在祭坛前。“欢迎来到真理之地。去看看你的内心——你已经不属于人类世界了。”"
-],
-"chs": [
-{
-"t": "离开教堂",
-"n": "demon_after"
-}
-],
-"pt": [
-"Aralu",
-"aralu"
-]
-},
-"desolate_entry": {
-"t": "废都",
-"loc": "Desolate Zone - 入口",
-"zone": "Desolate",
-"text": [
-"你踏入了Desolate Zone——一座曾经繁华的城市，现在只剩下废墟。摩天大楼倒塌，灰色藤蔓覆盖一切。",
-"一道银光闪过——你面前的一只僵尸头颅飞了出去。一个海绿色头发的女性握着沾血的长刀。“你没事吧？我叫Kim。我在找一个叫Mara的女人——她在制造这一切。要一起来吗？”"
-],
-"chs": [
-{
-"t": "和她一起调查",
-"n": "desolate_mansion"
-},
-{
-"t": "独自探索",
-"n": "desolate_exit"
-}
-],
-"pt": [
-"Kim",
-"kim"
-]
-},
-"desolate_mansion": {
-"t": "宅邸",
-"loc": "Desolate Zone - 宅邸",
-"zone": "Desolate",
-"text": [
-"你们推开了一座维多利亚式宅邸的大门。一个穿着白大褂的女性倚靠在楼梯栏杆上——Mara。她手中握着巨大的注射器。“哦……新病人。你们需要……治疗。”"
-],
-"chs": [
-{
-"t": "战斗",
-"n": "desolate_fight",
-"eff": {
-"hp": -10
-}
-},
-{
-"t": "和她对话",
-"n": "desolate_mara_talk"
-}
-],
-"pt": [
-"Kim",
-"kim"
-]
-},
-"desolate_fight": {
-"t": "战斗",
-"loc": "Desolate Zone - 宅邸",
-"zone": "Desolate",
-"text": [
-"你们击败了Mara。她倒在地上——眼神第一次变得清明。“……谢谢。我感觉清醒了。”她的魔法被打破——城市中的僵尸开始停下。你们穿过她的身体——走向通往Desert Zone的传送门。"
-],
-"chs": [
-{
-"t": "前往Desert Zone",
-"n": "desert_entry"
-}
-],
-"eff": {
-"san": 10
-},
-"pt": [
-"Kim",
-"kim"
-]
-},
-"desolate_mara_talk": {
-"t": "对话",
-"loc": "Desolate Zone - 宅邸",
-"zone": "Desolate",
-"text": [
-"“Mara——你不是坏人。你只是失去了方向。”她沉默了。“……我跟你们走。我想看看这条路的尽头有什么。”她加入了你们的队伍。"
-],
-"chs": [
-{
-"t": "前往Desert Zone",
-"n": "desert_entry"
-}
-],
-"eff": {
-"san": 5
-},
-"pt": [
-"Kim",
-"kim"
-]
-},
-"desolate_exit": {
-"t": "离开",
-"loc": "Desolate Zone - 边界",
-"zone": "Desolate",
-"text": [
-"你们穿过了废弃的城市。在另一端看到了通往Desert Zone的金色传送门。你们走了进去。"
-],
-"chs": [
-{
-"t": "前往Desert Zone",
-"n": "desert_entry"
-}
-],
-"pt": [
-"Kim",
-"kim"
-]
-},
-"desert_entry": {
-"t": "沙漠",
-"loc": "Desert Zone - 入口",
-"zone": "Desert",
-"text": [
-"烈日当空。热浪扭曲了地平线。远处矗立着一座巨大的金字塔。入口处——一个戴着眼镜的年轻人正在石板上写写画画。“太好了——新人！我是Dominic。我正在研究如何围攻金字塔。里面藏着Orb of the Sun。”",
-"Kim眯起眼睛。“我信不过他。”"
-],
-"chs": [
-{
-"t": "相信Dominic",
-"n": "pyramid_quest"
-},
-{
-"t": "自己探索",
-"n": "desert_explore"
-}
-],
-"pt": [
-"Dominic",
-"dominic"
-]
-},
-"pyramid_quest": {
-"t": "金字塔",
-"loc": "Desert Zone - 金字塔",
-"zone": "Desert",
-"text": [
-"甬道两侧的壁画讲述着古老的故事——一个年轻人从沙漠中崛起，穿着白色斗篷，戴着红色宝石项圈——那是Robin。壁画下方有一行字：“只有不被欲望蒙蔽双眼者，方能执掌太阳之力。”",
-"大厅中央——Sphinx等待着你们。她有着狮子的身体、女性的面容、巨大的翅膀。“回答我的问题——或者面对失败的后果。”"
-],
-"chs": [
-{
-"t": "回答问题",
-"n": "sphinx_ok"
-},
-{
-"t": "攻击（危险）",
-"n": "be_e1",
-"tf": true
-}
-],
-"pt": [
-"Kim",
-"kim"
-]
-},
-"sphinx_ok": {
-"t": "Sphinx的考验",
-"loc": "Desert Zone - 金字塔",
-"zone": "Desert",
-"text": [
-"你回答了Sphinx的问题。她点了点头。“你是少数能通过考验的人。”她让开了路——通道尽头闪耀着金色的光芒。你取得了Orb of the Sun。"
-],
-"chs": [
-{
-"t": "获得Orb",
-"n": "sphinx_after"
-}
-],
-"items": [
-"Orb of the Sun"
-],
-"eff": {
-"san": 10
-},
-"pt": [
-"Kim",
-"kim"
-]
-},
-"sphinx_after": {
-"t": "离开沙漠",
-"loc": "Desert Zone - 边界",
-"zone": "Desert",
-"text": [
-"你握着金色的Orb。体内的五颗Orb在共鸣。前方——通往Mythic Zone的传送门。最后的旅程。"
-],
-"chs": [
-{
-"t": "前往Mythic Zone",
-"n": "mythic_entry"
-}
-],
-"pt": [
-"Kim",
-"kim"
-]
-},
-"desert_explore": {
-"t": "独自探索",
-"loc": "Desert Zone",
-"zone": "Desert",
-"text": [
-"你和Kim独自探索沙漠。在废墟中你们发现了一种金色的圣药——能抵抗转化。你喝了一口——腐化值降低了。"
-],
-"chs": [
-{
-"t": "前往金字塔",
-"n": "pyramid_quest"
-}
-],
-"eff": {
-"cor": -10
-},
-"pt": [
-"Kim",
-"kim"
-]
-},
-"mythic_entry": {
-"t": "神话之地",
-"loc": "Mythic Zone",
-"zone": "Mythic",
-"text": [
-"粉紫色的天空。红色鸟居排列在道路两侧。空气神圣而沉重。你体内的五颗Orb开始共鸣。道路尽头——一个穿着白色连帽斗篷的身影。他戴着红色宝石项圈。",
-"“你终于来了。我是Robin。Monline的创造者。这里是我为自己建造的天堂——而你们是永远的客人。”"
-],
-"chs": [
-{
-"t": "面对Robin",
-"n": "final_robin"
-},
-{
-"t": "先探索这个区域",
-"n": "mythic_side"
-}
-],
-"pt": [
-"Robin",
-"robin"
-]
-},
-"mythic_side": {
-"t": "探索",
-"loc": "Mythic Zone",
-"zone": "Mythic",
-"text": [
-"去往神社的路上有多条岔路。左边的路通向竹林（狐仙祠），中间的路通向忍者村，右边的路通向鬼之洞窟。"
-],
-"chs": [
-{
-"t": "去狐仙祠",
-"n": "mythic_fox"
-},
-{
-"t": "去忍者村",
-"n": "mythic_ninja"
-},
-{
-"t": "去鬼之洞窟",
-"n": "mythic_oni"
-}
-],
-"pt": [
-"Kim",
-"kim"
-]
-},
-"mythic_fox": {
-"t": "狐仙祠",
-"loc": "Mythic Zone - 竹林",
-"zone": "Mythic",
-"text": [
-"竹林中坐着一只九尾白狐——她正在喝酒。她告诉你们一个秘密：“Robin只是一个容器。真正的问题——是他的红色宝石项圈——它叫心之锁。打破它——他就会失去对Monline的控制。”"
-],
-"chs": [
-{
-"t": "前往神社",
-"n": "final_robin"
-}
-],
-"pt": [
-"狐仙",
-"robin"
-]
-},
-"mythic_ninja": {
-"t": "忍者村",
-"loc": "Mythic Zone",
-"zone": "Mythic",
-"text": [
-"一个黑衣忍者站在木桩上。她给了你一枚符文手里剑。“面对Robin时——如果遇到麻烦——它会帮你。”"
-],
-"chs": [
-{
-"t": "前往神社",
-"n": "final_robin"
-}
-],
-"items": [
-"符文手里剑"
-]
-},
-"mythic_oni": {
-"t": "鬼之洞窟",
-"loc": "Mythic Zone",
-"zone": "Mythic",
-"text": [
-"一个三米高的Oni扛着战斧。她递给你一个巨大的酒碗。“喝一杯——我就让你过去。”酒烈得像火焰。"
-],
-"chs": [
-{
-"t": "喝下",
-"n": "mythic_drink"
-},
-{
-"t": "拒绝",
-"n": "final_robin"
-}
-],
-"pt": [
-"Oni",
-"robin"
-]
-},
-"mythic_drink": {
-"t": "与鬼共饮",
-"loc": "Mythic Zone",
-"zone": "Mythic",
-"text": [
-"你喝了酒——喉咙像被火烧。Oni大笑。“够胆量！”她让开了通往神社的道路。“Robin是个好孩子——只是太孤独了。对他温柔点。”"
-],
-"chs": [
-{
-"t": "前往神社",
-"n": "final_robin"
-}
-],
-"pt": [
-"Oni",
-"robin"
-]
-},
-"final_robin": {
-"t": "最终对峙",
-"loc": "Mythic Zone - 神社",
-"zone": "Mythic",
-"text": [
-"你站在Robin面前。他掀起了兜帽——他看起来像是一个极其孤独的年轻人。",
-"“我知道你想离开。但如果你离开了——我就又变成一个人了。”他的手中出现了Orb of the Sun。“来拿吧——如果你能做到的话。”"
-],
-"chs": [
-{
-"t": "战斗",
-"n": "final_battle"
-},
-{
-"t": "尝试理解他",
-"n": "final_talk"
-}
-],
-"pt": [
-"Robin",
-"robin"
-]
-},
-"final_battle": {
-"t": "最终之战",
-"loc": "Mythic Zone - 神社",
-"zone": "Mythic",
-"text": [
-"你冲向Robin。你击中了他的项圈——红色宝石裂开了。但Robin没有倒下。“你知道你做了什么吗？那些被转化的人——如果你打破项圈——她们会消失。被Monline吞噬。”",
-"你的武器悬在半空。你的Orb在警告你——他说的是真的。"
-],
-"chs": [
-{
-"t": "停手——另一种方式",
-"n": "final_talk"
-},
-{
-"t": "结束这一切",
-"n": "final_true"
-}
-],
-"pt": [
-"Robin",
-"robin"
-]
-},
-"final_talk": {
-"t": "理解",
-"loc": "Mythic Zone - 神社",
-"zone": "Mythic",
-"text": [
-"你没有拔出武器。“我来这里不是为了毁灭你的世界。我来——是为了理解它。”Robin愣住了。“……什么？”",
-"“你建造了这个世界——因为你在现实世界找不到归属。但把别人也困在这里——不是解决办法。”Robin低着头。“……那我应该怎么办？放你们走——然后继续一个人？”"
-],
-"chs": [
-{
-"t": "“如果你愿意——我可以做你的朋友。在现实世界。",
-"n": "final_true"
-},
-{
-"t": "我不知道……",
-"n": "final_battle"
-}
-],
-"pt": [
-"Robin",
-"robin"
-]
-},
-"final_true": {
-"t": "真正的结局",
-"loc": "Mythic Zone - 神社",
-"zone": "Mythic",
-"text": [
-"Robin沉默了。然后他伸出手——掌心中是Orb of the Sun。光芒温暖而柔和。",
-"“……拿去吧。关闭这扇门。让我也离开这里。”",
-"你接过了最后一颗Orb。六颗Orb在你体内合为一体——金色的光芒吞没了整个世界。当光芒消散时——你站在现实世界中。天空是正常的蓝色。",
-"身边——Mark、Kim、Aralu——他们都在。还有Robin——不再是Monline的统治者了。只是一个普通的年轻人。",
-"他看了你一眼——露出了一丝没有伪装的、真正的微笑。",
-"也许这就是真正的结局——不是逃离一个世界，而是拯救一个灵魂。"
-],
-"en": "good",
-"enm": "GOOD",
-"et": "回家"
-},
-"be_a1": {
-"t": "Bad End: Liar Liar",
-"loc": "Forest Zone",
-"zone": "Forest",
-"text": [
-"你对宅邸主人说了谎。蘑菇孢子从地毯中升起钻入你的衣服。你的身体在麻痹中变得柔软——皮肤光滑如瓷，头发褪色成金色波浪。你的大脑中所有复杂思维被一种桃色的泡沫取代。你不再记得什么是谎言——因为你已经没有脑子去编造谎言了。你在客厅里穿着过短的连衣裙，嘴角挂着永不消退的笑容。宅邸主人拍了拍你的头。“真是个好女孩。”你甜甜地笑了。你的名字？不重要了。你漂亮、听话、而且永远不再说谎。",
-"Bad End: Liar Liar"
-],
-"en": "bad",
-"enm": "A1",
-"et": "Liar Liar"
-},
-"be_a2": {
-"t": "Bad End: Addiction",
-"loc": "Forest Zone",
-"zone": "Forest",
-"text": [
-"Minoh的牛奶甜美得像液态的吻。你喝了一杯又一杯。那天晚上你的皮肤开始发痒——早晨你看到了头顶的小角。你的瞳孔变成了矩形。你和Holstaurus们一起四足着地吃着草。反刍时你偶尔会想——我过去是什么来着？",
-"Bad End: Addiction"
-],
-"en": "bad",
-"enm": "A2",
-"et": "Addiction"
-},
-"be_a3": {
-"t": "Bad End: Honey Trap",
-"loc": "Forest Zone",
-"zone": "Forest",
-"text": [
-"蜜蜂娘的刺刺入你的脖子。灼热如阳光注入血管——你的背部撕裂开来，两片透明翅膀展开。你飞起来了。你在蜂巢前盘旋——嘴里分泌着花蜜。你降落在六角形入口。你的新工作是酿蜜——为下一个误入此地的旅行者准备一份同样甜美的欢迎。",
-"Bad End: Honey Trap"
-],
-"en": "bad",
-"enm": "A3",
-"et": "Honey Trap"
-},
-"be_a5": {
-"t": "Bad End: Absolute Power",
-"loc": "Forest Zone",
-"zone": "Forest",
-"text": [
-"Arachne的毒牙刺入你肩膀。你的双腿融合成八条黑色节肢——复眼从面部裂开。你在黑暗中吐出了第一缕银白色的蛛丝。Arachne轻抚你的头。“真漂亮。”你在蛛网上等待下一个猎物。",
-"Bad End: Absolute Power"
-],
-"en": "bad",
-"enm": "A5",
-"et": "Absolute Power"
-},
-"be_c5": {
-"t": "Bad End: What a Tool",
-"loc": "Demon Zone",
-"zone": "Demon",
-"text": [
-"Lesser Succubus的吻落在你的唇上。你的意识像蜡烛一样融化——身体被重塑成更柔软、更美丽的形态。你的背后展开了暗紫色的蛾翼。你的瞳孔变成了心形。她抚摸着你的头发。“欢迎加入姐妹会。”你渴望她的下一个指令。",
-"Bad End: What a Tool"
-],
-"en": "bad",
-"enm": "C5",
-"et": "What a Tool"
-},
-"be_e1": {
-"t": "Bad End: Riddle Me This",
-"loc": "Desert Zone",
-"zone": "Desert",
-"text": [
-"Sphinx失望地看着你。她的尾巴刺入你的胸口——你的灵魂被拆解重组。当你重新睁开眼时——你蹲在她身边，覆盖着金色鳞片，长着狮子的下半身和宽阔的翅膀。你成了新的Sphinx。你将在这里用谜语考验下一个闯入者——直到有人给出正确答案。那一天可能永远不会到来。",
-"Bad End: Riddle Me This"
-],
-"en": "bad",
-"enm": "E1",
-"et": "Riddle Me This"
-}
-};
+if(_kh){try{document.removeEventListener("keydown",_kh)}catch(e){};_kh=null}
+if(cd.chs&&cd.chs.length>0){var ks=[];cd.chs.forEach(function(c,i){var t="go";if((c.t||"").indexOf("战")>=0)t="fight";else if((c.t||"").indexOf("对话")>=0||(c.t||"").indexOf("说服")>=0)t="talk";else if((c.t||"").indexOf("探索")>=0||(c.t||"").indexOf("独自")>=0)t="explore";else if((c.t||"").indexOf("危险")>=0||c.tf)t="danger";
+var b=document.createElement("button");b.className="cb";
+var nums=["❶","❷","❸","❹","❺"];
+var icons={go:"➜",fight:"⚔",talk:"💬",explore:"🧭",danger:"⚠"};
+var tags={go:"继续",fight:"战斗",talk:"对话",explore:"探索",danger:"危险"};
+b.innerHTML='<span class="cb_idx">'+(nums[i]||"➜")+'</span><span class="cb_icon">'+(icons[t]||"➜")+'</span><span class="cb_text">'+c.t+'</span><span class="cb_tag '+t+'">'+(tags[t]||"选择")+'</span>'+(c.tf?'<span class="dng">⚡ 转化风险</span>':'');
+b.onclick=function(){if(c.eff)ch(c.eff);if(c.n)sh(c.n)};bx.appendChild(b);ks.push(c)});
+_kh=function kh(e){var n=parseInt(e.key);if(n>=1&&n<=ks.length){document.removeEventListener("keydown",kh);_kh=null;var h=ks[n-1];if(h.eff)ch(h.eff);if(h.n)sh(h.n)}};
+document.addEventListener("keydown",_kh)}else{var nb=document.createElement("button");nb.className="cb";
+nb.innerHTML='<span class="cb_idx">\u279c</span><span class="cb_icon">\u279c</span><span class="cb_text">继续前进</span><span class="cb_tag go">继续</span>';
+nb.onclick=function(){sv();window.scrollTo(0,0)};bx.appendChild(nb)}
+up();sv();window.scrollTo(0,0)}var chs={
+  "start": {
+    "t": "觉醒",
+    "loc": "Forest Zone - 森林入口",
+    "zone": "Forest",
+    "text": [
+      "你醒来了。头顶是暗红色的天空——那不是地球的颜色。空气中弥漫着甜腻的花香，混合着某种古老的魔力气息。高大的树木环绕着你，树干上闪烁着幽蓝色的磷光。",
+      "一个穿着铠甲的年轻人从树后探出头来。他头上扎着一条醒目的红色头巾，灰白色的头发在阳光中微微发光。",
+      "“我叫Mark。别紧张——我也是被吸进来的。”他把你拉起来，指向树林间隙中隐约可见的破败城市。“那是Caste City。我醒来的时候就在那里。遇到了几个其他被困的人——但他们已经不再记得自己是谁了。”",
+      "远处传来了歌声——甜美的、魅惑的。Mark一把抓住你的手腕：“不要听。那是Siren的歌声。会让你忘记自己是谁。”"
+    ],
+    "chs": [
+      {
+        "t": "跟着Mark去Caste City",
+        "n": "caste_city"
+      },
+      {
+        "t": "独自探索",
+        "n": "forest_explore_alone"
+      }
+    ],
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "caste_city": {
+    "t": "Caste City",
+    "loc": "Forest Zone - Caste City",
+    "zone": "Forest",
+    "text": [
+      "Mark带着你穿过了森林。Caste City曾经是一座美丽的中世纪城镇——哥特式拱门、巴洛克式喷泉。现在紫色的藤蔓爬满了石墙，街道上散落着被遗弃的背包和手机。",
+      "“这是我的据点。”Mark推开了一扇木门。屋内堆满了补给品——罐头、水、武器。",
+      "他在桌边坐下，摊开一张手绘地图。“PXE——一个向导——告诉我们需要收集圣球——Orbs。那是击败Robin的关键。”",
+      "门外突然传来声响——有人靠近。Mark握住了剑柄。"
+    ],
+    "chs": [
+      {
+        "t": "出去看看",
+        "n": "caste_encounter"
+      }
+    ],
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "caste_encounter": {
+    "t": "访客",
+    "loc": "Forest Zone - Caste City",
+    "zone": "Forest",
+    "text": [
+      "门被推开了——站着一个戴着蓝绿色帽子的年轻人。防风夹克，橙色斗篷，蓝色的眼睛充满了好奇。",
+      "“Mark！你还活着！”他然后看到了你，“哦——新面孔？我是Percy——一个研究员。我研究这个世界的各种转化现象。”",
+      "他清了清嗓子。“我带来了情报。Queen Bee在和Hornet闹矛盾。如果你能帮她解决那些Hornet——她就会帮你们通过Breachwood。”"
+    ],
+    "chs": [
+      {
+        "t": "去Hive找Queen Bee",
+        "n": "forest_hive"
+      },
+      {
+        "t": "先从窗户观察再决定",
+        "n": "caste_observe"
+      }
+    ],
+    "pt": [
+      "Percy",
+      "percy"
+    ]
+  },
+  "forest_hive": {
+    "t": "蜂巢",
+    "loc": "Forest Zone - Hive",
+    "zone": "Forest",
+    "text": [
+      "蜂蜜味浓烈得令人窒息。一个巨大的蜂巢悬挂在三棵古树之间。蜜蜂娘在空中飞舞——上半身是少女，下半身是蜜蜂。",
+      "一只金发蜜蜂娘降落在你们面前。“新朋友！来尝尝蜂蜜吧！”她递出一块蜂巢。那致命的香气让你的胃收缩了一下。"
+    ],
+    "chs": [
+      {
+        "t": "接下蜂蜜（危险！）",
+        "n": "honey_eat",
+        "tf": true
+      },
+      {
+        "t": "谢绝，要求见Queen Bee",
+        "n": "bee_queen"
+      },
+      {
+        "t": "警惕后退，另寻出路",
+        "n": "forest_ranch"
+      }
+    ],
+    "pt": [
+      "蜜蜂娘",
+      "mark"
+    ]
+  },
+  "honey_eat": {
+    "t": "蜂蜜的诱惑",
+    "loc": "Forest Zone - Hive",
+    "zone": "Forest",
+    "text": [
+      "你接过蜂巢。舌尖触碰蜂蜜的瞬间——世界静止了。那甜味不只是味觉——它渗透了你的每一个细胞。你的双手在发光——金色的蜂蜜花纹浮现在皮肤上。",
+      "“你已经尝到了变化。”蜜蜂娘靠得更近了。“下次——你会想要更多。”她说对了——你确实想要更多。"
+    ],
+    "chs": [
+      {
+        "t": "离开森林！",
+        "n": "coastal_entry",
+        "tf": true,
+        "eff": {
+          "cor": 20
+        }
+      },
+      {
+        "t": "继续探索蜂巢",
+        "n": "bee_queen"
+      }
+    ],
+    "eff": {
+      "hp": 10,
+      "cor": 20
+    },
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "bee_queen": {
+    "t": "Queen Bee",
+    "loc": "Forest Zone - 蜂巢内部",
+    "zone": "Forest",
+    "text": [
+      "你们被带入蜂巢内部。Queen Bee比普通蜜蜂娘大三倍，翅膀闪烁着金光。",
+      "“人类。帮我解决北方洞穴的Hornet——我告诉你们安全通过森林的路。”"
+    ],
+    "chs": [
+      {
+        "t": "接受任务",
+        "n": "hornet_cave"
+      }
+    ],
+    "pt": [
+      "Queen Bee",
+      "mark"
+    ]
+  },
+  "hornet_cave": {
+    "t": "Hornet洞穴",
+    "loc": "Forest Zone - Hornet Cave",
+    "zone": "Forest",
+    "text": [
+      "你们击败了Hornet。Queen Bee给了你们一瓶蜂王浆。“沿着最东边的小路走——那是我的领地边缘，Arachne的手伸不到那里。”"
+    ],
+    "chs": [
+      {
+        "t": "离开Forest Zone",
+        "n": "coastal_entry"
+      }
+    ],
+    "items": [
+      "蜂王浆"
+    ],
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "forest_explore_alone": {
+    "t": "独自探索",
+    "loc": "Forest Zone",
+    "zone": "Forest",
+    "text": [
+      "你独自走进了森林深处。你发现了一座小屋——烟囱冒着烟。门上挂着一个木牌：“欢迎！进来坐坐吧。但别喝太多牛奶。”——Minoh。你犹豫了一下。"
+    ],
+    "chs": [
+      {
+        "t": "进去看看",
+        "n": "forest_ranch"
+      },
+      {
+        "t": "返回找Mark",
+        "n": "caste_city"
+      }
+    ],
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "forest_ranch": {
+    "t": "Minoh Ranch",
+    "loc": "Forest Zone - Ranch",
+    "zone": "Forest",
+    "text": [
+      "你循着牛奶香走进了一片牧场。半人半牛的Holstaurus在草地上吃草。Minoh——一个穿着围裙的牛娘——微笑着迎接你。“进来坐坐吧，喝杯热牛奶。”"
+    ],
+    "chs": [
+      {
+        "t": "喝牛奶（危险）",
+        "n": "ranch_milk",
+        "tf": true
+      },
+      {
+        "t": "谢绝，问情报",
+        "n": "ranch_info"
+      }
+    ],
+    "pt": [
+      "Minoh",
+      "mark"
+    ]
+  },
+  "ranch_milk": {
+    "t": "牛奶的代价",
+    "loc": "Forest Zone - Ranch",
+    "zone": "Forest",
+    "text": [
+      "牛奶温热而甜美。你喝了下去——然后你的手上出现了淡淡的褐色斑点。你在被这个世界记住。Mark也放下了碗——他手腕上也有纹路。"
+    ],
+    "chs": [
+      {
+        "t": "去Coastal Zone",
+        "n": "coastal_entry"
+      }
+    ],
+    "eff": {
+      "cor": 8
+    },
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "ranch_info": {
+    "t": "情报",
+    "loc": "Forest Zone - Ranch",
+    "zone": "Forest",
+    "text": [
+      "“Forest Zone没有Orb。”Minoh说。“Robin把它设计成起点——因为这里最适合‘软化’新人。去Coastal Zone吧，那里有第一颗Orb of the Waves。”"
+    ],
+    "chs": [
+      {
+        "t": "前往Coastal Zone",
+        "n": "coastal_entry"
+      }
+    ],
+    "pt": [
+      "Minoh",
+      "mark"
+    ]
+  },
+  "coastal_entry": {
+    "t": "海岸",
+    "loc": "Coastal Zone - 沙滩",
+    "zone": "Coastal",
+    "text": [
+      "你们终于走出了森林。无边无际的蓝色海洋在阳光下闪闪发光。但海风中夹杂着若有若无的歌声——甜美、悲伤。Mark用布条塞住了耳朵。“那是Siren。”",
+      "他指向海岸线前方。“那是Eurum City。我们需要在那里找Orb of the Waves的线索。”"
+    ],
+    "chs": [
+      {
+        "t": "前往Eurum City",
+        "n": "eurum_city"
+      },
+      {
+        "t": "去港口",
+        "n": "coastal_port"
+      }
+    ],
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "eurum_city": {
+    "t": "Eurum City",
+    "loc": "Coastal Zone - Eurum City",
+    "zone": "Coastal",
+    "text": [
+      "Eurum City是一座白色城市——大理石立柱、蓝色圆顶。但街道空无一人。广场上的公告板贴满了寻人启事：“如果你看到我的妻子——她有一头红发和闪烁着蓝色光芒的鳞片——请帮我告诉她，我会找到她的。”",
+      "广场尽头的海神神殿门口站着一个白袍女祭司。“来取Orb的人？”她侧身让开了路。"
+    ],
+    "chs": [
+      {
+        "t": "进入神殿",
+        "n": "sea_temple"
+      },
+      {
+        "t": "去港口",
+        "n": "coastal_port"
+      },
+      {
+        "t": "在城中搜寻线索和补给",
+        "n": "eurum_search"
+      }
+    ],
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "coastal_port": {
+    "t": "港口",
+    "loc": "Coastal Zone - 港口",
+    "zone": "Coastal",
+    "text": [
+      "码头上坐着一个老人——眼睛一片乳白色。他笑了笑。“想要船？那艘海猫号——在我还是人类的时候。现在归你们了。”出海之后记住——在这个世界，你们不是捕食者。你们是猎物。”"
+    ],
+    "chs": [
+      {
+        "t": "出海",
+        "n": "sea_temple"
+      }
+    ],
+    "items": [
+      "海猫号"
+    ],
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "sea_temple": {
+    "t": "海神神殿",
+    "loc": "Coastal Zone - 神殿",
+    "zone": "Coastal",
+    "text": [
+      "白色石柱环绕着中央水池。池水清澈见底——底部金色的沙子在发光。水池中央——Orb of the Waves悬浮着。海神女祭司从水中浮现。“想要Orb？通过考验——以人类的形态完成仪式——或者拥抱海洋，以Mermaid的形态接受祝福。”"
+    ],
+    "chs": [
+      {
+        "t": "以人类形态",
+        "n": "ritual_human"
+      },
+      {
+        "t": "接受Mermaid转化（危险）",
+        "n": "ritual_mermaid",
+        "tf": true
+      },
+      {
+        "t": "询问关于Siren的情报",
+        "n": "sea_siren_info"
+      }
+    ],
+    "pt": [
+      "海神祭司",
+      "mark"
+    ]
+  },
+  "ritual_human": {
+    "t": "人类的仪式",
+    "loc": "Coastal Zone - 神殿",
+    "zone": "Coastal",
+    "text": [
+      "你选择了保持人类形态。祭司把Orb放在你掌心——那球体脉动着沉入了你的皮肤。你获得了Orb of the Waves——第一颗圣球。",
+      "“收集全部六颗时——它们会在你体内合为一体——拥有足以重塑Monline的力量。”"
+    ],
+    "chs": [
+      {
+        "t": "下一步",
+        "n": "after_orb"
+      }
+    ],
+    "items": [
+      "Orb of the Waves"
+    ],
+    "eff": {
+      "san": 15
+    },
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "ritual_mermaid": {
+    "t": "拥抱海洋",
+    "loc": "Coastal Zone - 神殿",
+    "zone": "Coastal",
+    "text": [
+      "你选择了拥抱海洋。你的双腿在刺痛中融合——化作一条银蓝色的鱼尾。你变成了Mermaid。你获得了Orb of the Waves——但代价是你的双腿。"
+    ],
+    "chs": [
+      {
+        "t": "接受现实",
+        "n": "after_orb"
+      }
+    ],
+    "items": [
+      "Orb of the Waves"
+    ],
+    "eff": {
+      "cor": 20
+    },
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "after_orb": {
+    "t": "分头行动",
+    "loc": "Coastal Zone - Budan",
+    "zone": "Coastal",
+    "text": [
+      "你们在Budan告别。前方是通往Demon Zone的紫色传送门。",
+      "Mark转身面对你。“我们获得了第一颗Orb。但必须分头行动了——你继续前进，我去西边探索。我们在终点重聚。”他拍了拍你的肩膀。“保重。”",
+      "他转身走向夕阳——红色头巾在风中飘动。你独自走进了传送门。"
+    ],
+    "chs": [
+      {
+        "t": "进入Demon Zone",
+        "n": "demon_entry"
+      }
+    ],
+    "eff": {
+      "san": 10
+    },
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "demon_entry": {
+    "t": "恶魔之门",
+    "loc": "Demon Zone - 入口",
+    "zone": "Demon",
+    "text": [
+      "你踏入了暗紫色的传送门。天空是血红色的。大地龟裂。远处矗立着一座黑色城堡和一座阴森教堂。",
+      "一个女声从背后传来。“又一个。”——一个金发女性站在你身后，手持银色细剑。“我叫Aralu。我是来猎杀恶魔的——顺便收集Orb。要合作吗？”"
+    ],
+    "chs": [
+      {
+        "t": "和Aralu组队",
+        "n": "demon_castle"
+      },
+      {
+        "t": "独自探索",
+        "n": "demon_church"
+      }
+    ],
+    "pt": [
+      "Aralu",
+      "aralu"
+    ]
+  },
+  "demon_castle": {
+    "t": "城堡",
+    "loc": "Demon Zone - 城堡",
+    "zone": "Demon",
+    "text": [
+      "城堡大厅中悬挂着扭曲的画作——每一幅都在盯着你。一个Succubus从走廊尽头出现——美得令人窒息。她看着你，舔了舔嘴唇。“又有新玩具了。”你的身体不受控制地向她迈出一步。Aralu抓住你的手臂。“别看她！”"
+    ],
+    "chs": [
+      {
+        "t": "抵抗诱惑",
+        "n": "demon_castle_hall"
+      },
+      {
+        "t": "向她走去（危险！）",
+        "n": "be_c5",
+        "tf": true
+      }
+    ],
+    "pt": [
+      "Aralu",
+      "aralu"
+    ]
+  },
+  "demon_castle_hall": {
+    "t": "城堡大厅",
+    "loc": "Demon Zone - 城堡",
+    "zone": "Demon",
+    "text": [
+      "你们穿过了走廊，来到城堡深处的大厅。大厅中央悬浮着Demon Orb——被暗紫色屏障保护着。屏障前站着Draculara——蝙蝠翅膀，紫色长发。“Aralu——你终于来了。”",
+      "Aralu拔出了剑。“你的统治结束了。”"
+    ],
+    "chs": [
+      {
+        "t": "战斗",
+        "n": "demon_fight"
+      },
+      {
+        "t": "尝试说服",
+        "n": "demon_talk"
+      },
+      {
+        "t": "观察项圈寻找弱点",
+        "n": "demon_observe"
+      }
+    ],
+    "pt": [
+      "Aralu",
+      "aralu"
+    ]
+  },
+  "demon_fight": {
+    "t": "战斗",
+    "loc": "Demon Zone - 城堡",
+    "zone": "Demon",
+    "text": [
+      "你与Aralu联手对抗Draculara。你的攻击击中了她的项圈——红色宝石裂开了。Draculara尖叫了一声——然后在光芒中消散了。“谢谢你……”最后的声音中带着温柔的解脱。Demon Orb飘入你的手中。"
+    ],
+    "chs": [
+      {
+        "t": "取得Orb",
+        "n": "demon_after"
+      }
+    ],
+    "items": [
+      "Demon Orb"
+    ],
+    "eff": {
+      "hp": -10
+    },
+    "pt": [
+      "Aralu",
+      "aralu"
+    ]
+  },
+  "demon_talk": {
+    "t": "说服",
+    "loc": "Demon Zone - 城堡",
+    "zone": "Demon",
+    "text": [
+      "你走上前。“Draculara——你还记得在成为恶魔之前你是谁吗？”她沉默了。然后她挥了挥手——屏障消失了。“……走吧。带着Orb离开。我累了。”你握住了Demon Orb。"
+    ],
+    "chs": [
+      {
+        "t": "取得Orb",
+        "n": "demon_after"
+      }
+    ],
+    "items": [
+      "Demon Orb"
+    ],
+    "pt": [
+      "Aralu",
+      "aralu"
+    ]
+  },
+  "demon_after": {
+    "t": "分别",
+    "loc": "Demon Zone - 出口",
+    "zone": "Demon",
+    "text": [
+      "Aralu把Orb递给你。“她是我母亲。现在她安息了。我要埋葬她——也许我们会在终点再见。”她转身走向城堡深处。你握着Demon Orb走向了通往Desolate Zone的传送门。"
+    ],
+    "chs": [
+      {
+        "t": "前往Desolate Zone",
+        "n": "desolate_entry"
+      }
+    ],
+    "items": [
+      "Demon Orb"
+    ],
+    "eff": {
+      "san": 15
+    },
+    "pt": [
+      "Aralu",
+      "aralu"
+    ]
+  },
+  "demon_church": {
+    "t": "教堂",
+    "loc": "Demon Zone - Elysium Church",
+    "zone": "Demon",
+    "text": [
+      "Elysium Church出奇地庄严——彩色玻璃窗、长椅、十字架。但神像在对你微笑——一个恶意的微笑。黑袍修女坐在祭坛前。“欢迎来到真理之地。去看看你的内心——你已经不属于人类世界了。”"
+    ],
+    "chs": [
+      {
+        "t": "默默离开教堂",
+        "n": "demon_after"
+      },
+      {
+        "t": "大胆询问修女秘密",
+        "n": "demon_church_talk"
+      }
+    ],
+    "pt": [
+      "Aralu",
+      "aralu"
+    ]
+  },
+  "desolate_entry": {
+    "t": "废都",
+    "loc": "Desolate Zone - 入口",
+    "zone": "Desolate",
+    "text": [
+      "你踏入了Desolate Zone——一座曾经繁华的城市，现在只剩下废墟。摩天大楼倒塌，灰色藤蔓覆盖一切。",
+      "一道银光闪过——你面前的一只僵尸头颅飞了出去。一个海绿色头发的女性握着沾血的长刀。“你没事吧？我叫Kim。我在找一个叫Mara的女人——她在制造这一切。要一起来吗？”"
+    ],
+    "chs": [
+      {
+        "t": "和她一起调查",
+        "n": "desolate_mansion"
+      },
+      {
+        "t": "独自探索",
+        "n": "desolate_exit"
+      }
+    ],
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "desolate_mansion": {
+    "t": "宅邸",
+    "loc": "Desolate Zone - 宅邸",
+    "zone": "Desolate",
+    "text": [
+      "你们推开了一座维多利亚式宅邸的大门。一个穿着白大褂的女性倚靠在楼梯栏杆上——Mara。她手中握着巨大的注射器。“哦……新病人。你们需要……治疗。”"
+    ],
+    "chs": [
+      {
+        "t": "战斗",
+        "n": "desolate_fight",
+        "eff": {
+          "hp": -10
+        }
+      },
+      {
+        "t": "和她对话",
+        "n": "desolate_mara_talk"
+      },
+      {
+        "t": "释放烟雾弹扰乱视线",
+        "n": "desolate_smoke"
+      }
+    ],
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "desolate_fight": {
+    "t": "战斗",
+    "loc": "Desolate Zone - 宅邸",
+    "zone": "Desolate",
+    "text": [
+      "你们击败了Mara。她倒在地上——眼神第一次变得清明。“……谢谢。我感觉清醒了。”她的魔法被打破——城市中的僵尸开始停下。你们穿过她的身体——走向通往Desert Zone的传送门。"
+    ],
+    "chs": [
+      {
+        "t": "前往Desert Zone",
+        "n": "desert_entry"
+      }
+    ],
+    "eff": {
+      "san": 10
+    },
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "desolate_mara_talk": {
+    "t": "对话",
+    "loc": "Desolate Zone - 宅邸",
+    "zone": "Desolate",
+    "text": [
+      "“Mara——你不是坏人。你只是失去了方向。”她沉默了。“……我跟你们走。我想看看这条路的尽头有什么。”她加入了你们的队伍。"
+    ],
+    "chs": [
+      {
+        "t": "前往Desert Zone",
+        "n": "desert_entry"
+      }
+    ],
+    "eff": {
+      "san": 5
+    },
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "desolate_exit": {
+    "t": "离开",
+    "loc": "Desolate Zone - 边界",
+    "zone": "Desolate",
+    "text": [
+      "你们穿过了废弃的城市。在另一端看到了通往Desert Zone的金色传送门。你们走了进去。"
+    ],
+    "chs": [
+      {
+        "t": "前往Desert Zone",
+        "n": "desert_entry"
+      }
+    ],
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "desert_entry": {
+    "t": "沙漠",
+    "loc": "Desert Zone - 入口",
+    "zone": "Desert",
+    "text": [
+      "烈日当空。热浪扭曲了地平线。远处矗立着一座巨大的金字塔。入口处——一个戴着眼镜的年轻人正在石板上写写画画。“太好了——新人！我是Dominic。我正在研究如何围攻金字塔。里面藏着Orb of the Sun。”",
+      "Kim眯起眼睛。“我信不过他。”"
+    ],
+    "chs": [
+      {
+        "t": "相信Dominic",
+        "n": "pyramid_quest"
+      },
+      {
+        "t": "自己探索",
+        "n": "desert_explore"
+      }
+    ],
+    "pt": [
+      "Dominic",
+      "dominic"
+    ]
+  },
+  "pyramid_quest": {
+    "t": "金字塔",
+    "loc": "Desert Zone - 金字塔",
+    "zone": "Desert",
+    "text": [
+      "甬道两侧的壁画讲述着古老的故事——一个年轻人从沙漠中崛起，穿着白色斗篷，戴着红色宝石项圈——那是Robin。壁画下方有一行字：“只有不被欲望蒙蔽双眼者，方能执掌太阳之力。”",
+      "大厅中央——Sphinx等待着你们。她有着狮子的身体、女性的面容、巨大的翅膀。“回答我的问题——或者面对失败的后果。”"
+    ],
+    "chs": [
+      {
+        "t": "回答问题",
+        "n": "sphinx_ok"
+      },
+      {
+        "t": "攻击（危险）",
+        "n": "be_e1",
+        "tf": true
+      },
+      {
+        "t": "仔细研究壁画寻找线索",
+        "n": "pyramid_study"
+      }
+    ],
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "sphinx_ok": {
+    "t": "Sphinx的考验",
+    "loc": "Desert Zone - 金字塔",
+    "zone": "Desert",
+    "text": [
+      "你回答了Sphinx的问题。她点了点头。“你是少数能通过考验的人。”她让开了路——通道尽头闪耀着金色的光芒。你取得了Orb of the Sun。"
+    ],
+    "chs": [
+      {
+        "t": "获得Orb",
+        "n": "sphinx_after"
+      }
+    ],
+    "items": [
+      "Orb of the Sun"
+    ],
+    "eff": {
+      "san": 10
+    },
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "sphinx_after": {
+    "t": "离开沙漠",
+    "loc": "Desert Zone - 边界",
+    "zone": "Desert",
+    "text": [
+      "你握着金色的Orb。体内的五颗Orb在共鸣。前方——通往Mythic Zone的传送门。最后的旅程。"
+    ],
+    "chs": [
+      {
+        "t": "前往Mythic Zone",
+        "n": "mythic_entry"
+      }
+    ],
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "desert_explore": {
+    "t": "独自探索",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你和Kim独自探索沙漠。在废墟中你们发现了一种金色的圣药——能抵抗转化。你喝了一口——腐化值降低了。"
+    ],
+    "chs": [
+      {
+        "t": "前往金字塔",
+        "n": "pyramid_quest"
+      }
+    ],
+    "eff": {
+      "cor": -10
+    },
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "mythic_entry": {
+    "t": "神话之地",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "粉紫色的天空。红色鸟居排列在道路两侧。空气神圣而沉重。你体内的五颗Orb开始共鸣。道路尽头——一个穿着白色连帽斗篷的身影。他戴着红色宝石项圈。",
+      "“你终于来了。我是Robin。Monline的创造者。这里是我为自己建造的天堂——而你们是永远的客人。”"
+    ],
+    "chs": [
+      {
+        "t": "面对Robin",
+        "n": "final_robin"
+      },
+      {
+        "t": "先探索这个区域",
+        "n": "mythic_side"
+      }
+    ],
+    "pt": [
+      "Robin",
+      "robin"
+    ]
+  },
+  "mythic_side": {
+    "t": "探索",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "去往神社的路上有多条岔路。左边的路通向竹林（狐仙祠），中间的路通向忍者村，右边的路通向鬼之洞窟。"
+    ],
+    "chs": [
+      {
+        "t": "去狐仙祠",
+        "n": "mythic_fox"
+      },
+      {
+        "t": "去忍者村",
+        "n": "mythic_ninja"
+      },
+      {
+        "t": "去鬼之洞窟",
+        "n": "mythic_oni"
+      }
+    ],
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "mythic_fox": {
+    "t": "狐仙祠",
+    "loc": "Mythic Zone - 竹林",
+    "zone": "Mythic",
+    "text": [
+      "竹林中坐着一只九尾白狐——她正在喝酒。她告诉你们一个秘密：“Robin只是一个容器。真正的问题——是他的红色宝石项圈——它叫心之锁。打破它——他就会失去对Monline的控制。”"
+    ],
+    "chs": [
+      {
+        "t": "前往神社",
+        "n": "final_robin"
+      }
+    ],
+    "pt": [
+      "狐仙",
+      "robin"
+    ]
+  },
+  "mythic_ninja": {
+    "t": "忍者村",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "一个黑衣忍者站在木桩上。她给了你一枚符文手里剑。“面对Robin时——如果遇到麻烦——它会帮你。”"
+    ],
+    "chs": [
+      {
+        "t": "前往神社",
+        "n": "final_robin"
+      }
+    ],
+    "items": [
+      "符文手里剑"
+    ]
+  },
+  "mythic_oni": {
+    "t": "鬼之洞窟",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "一个三米高的Oni扛着战斧。她递给你一个巨大的酒碗。“喝一杯——我就让你过去。”酒烈得像火焰。"
+    ],
+    "chs": [
+      {
+        "t": "喝下",
+        "n": "mythic_drink"
+      },
+      {
+        "t": "拒绝",
+        "n": "final_robin"
+      }
+    ],
+    "pt": [
+      "Oni",
+      "robin"
+    ]
+  },
+  "mythic_drink": {
+    "t": "与鬼共饮",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "你喝了酒——喉咙像被火烧。Oni大笑。“够胆量！”她让开了通往神社的道路。“Robin是个好孩子——只是太孤独了。对他温柔点。”"
+    ],
+    "chs": [
+      {
+        "t": "前往神社",
+        "n": "final_robin"
+      }
+    ],
+    "pt": [
+      "Oni",
+      "robin"
+    ]
+  },
+  "final_robin": {
+    "t": "最终对峙",
+    "loc": "Mythic Zone - 神社",
+    "zone": "Mythic",
+    "text": [
+      "你站在Robin面前。他掀起了兜帽——他看起来像是一个极其孤独的年轻人。",
+      "“我知道你想离开。但如果你离开了——我就又变成一个人了。”他的手中出现了Orb of the Sun。“来拿吧——如果你能做到的话。”"
+    ],
+    "chs": [
+      {
+        "t": "战斗",
+        "n": "final_battle"
+      },
+      {
+        "t": "尝试理解他",
+        "n": "final_talk"
+      }
+    ],
+    "pt": [
+      "Robin",
+      "robin"
+    ]
+  },
+  "final_battle": {
+    "t": "最终之战",
+    "loc": "Mythic Zone - 神社",
+    "zone": "Mythic",
+    "text": [
+      "你冲向Robin。你击中了他的项圈——红色宝石裂开了。但Robin没有倒下。“你知道你做了什么吗？那些被转化的人——如果你打破项圈——她们会消失。被Monline吞噬。”",
+      "你的武器悬在半空。你的Orb在警告你——他说的是真的。"
+    ],
+    "chs": [
+      {
+        "t": "停手——另一种方式",
+        "n": "final_talk"
+      },
+      {
+        "t": "结束这一切",
+        "n": "final_true"
+      },
+      {
+        "t": "使用符文手里剑攻击项圈",
+        "n": "final_shuriken"
+      }
+    ],
+    "pt": [
+      "Robin",
+      "robin"
+    ]
+  },
+  "final_talk": {
+    "t": "理解",
+    "loc": "Mythic Zone - 神社",
+    "zone": "Mythic",
+    "text": [
+      "你没有拔出武器。“我来这里不是为了毁灭你的世界。我来——是为了理解它。”Robin愣住了。“……什么？”",
+      "“你建造了这个世界——因为你在现实世界找不到归属。但把别人也困在这里——不是解决办法。”Robin低着头。“……那我应该怎么办？放你们走——然后继续一个人？”"
+    ],
+    "chs": [
+      {
+        "t": "“如果你愿意——我可以做你的朋友。在现实世界。",
+        "n": "final_true"
+      },
+      {
+        "t": "我不知道……",
+        "n": "final_battle"
+      }
+    ],
+    "pt": [
+      "Robin",
+      "robin"
+    ]
+  },
+  "final_true": {
+    "t": "真正的结局",
+    "loc": "Mythic Zone - 神社",
+    "zone": "Mythic",
+    "text": [
+      "Robin沉默了。然后他伸出手——掌心中是Orb of the Sun。光芒温暖而柔和。",
+      "“……拿去吧。关闭这扇门。让我也离开这里。”",
+      "你接过了最后一颗Orb。六颗Orb在你体内合为一体——金色的光芒吞没了整个世界。当光芒消散时——你站在现实世界中。天空是正常的蓝色。",
+      "身边——Mark、Kim、Aralu——他们都在。还有Robin——不再是Monline的统治者了。只是一个普通的年轻人。",
+      "他看了你一眼——露出了一丝没有伪装的、真正的微笑。",
+      "也许这就是真正的结局——不是逃离一个世界，而是拯救一个灵魂。"
+    ],
+    "en": "good",
+    "enm": "GOOD",
+    "et": "回家"
+  },
+  "be_a1": {
+    "t": "Bad End: Liar Liar",
+    "loc": "Forest Zone",
+    "zone": "Forest",
+    "text": [
+      "你对宅邸主人说了谎。蘑菇孢子从地毯中升起钻入你的衣服。你的身体在麻痹中变得柔软——皮肤光滑如瓷，头发褪色成金色波浪。你的大脑中所有复杂思维被一种桃色的泡沫取代。你不再记得什么是谎言——因为你已经没有脑子去编造谎言了。你在客厅里穿着过短的连衣裙，嘴角挂着永不消退的笑容。宅邸主人拍了拍你的头。“真是个好女孩。”你甜甜地笑了。你的名字？不重要了。你漂亮、听话、而且永远不再说谎。",
+      "Bad End: Liar Liar"
+    ],
+    "en": "bad",
+    "enm": "A1",
+    "et": "Liar Liar"
+  },
+  "be_a2": {
+    "t": "Bad End: Addiction",
+    "loc": "Forest Zone",
+    "zone": "Forest",
+    "text": [
+      "Minoh的牛奶甜美得像液态的吻。你喝了一杯又一杯。那天晚上你的皮肤开始发痒——早晨你看到了头顶的小角。你的瞳孔变成了矩形。你和Holstaurus们一起四足着地吃着草。反刍时你偶尔会想——我过去是什么来着？",
+      "Bad End: Addiction"
+    ],
+    "en": "bad",
+    "enm": "A2",
+    "et": "Addiction"
+  },
+  "be_a3": {
+    "t": "Bad End: Honey Trap",
+    "loc": "Forest Zone",
+    "zone": "Forest",
+    "text": [
+      "蜜蜂娘的刺刺入你的脖子。灼热如阳光注入血管——你的背部撕裂开来，两片透明翅膀展开。你飞起来了。你在蜂巢前盘旋——嘴里分泌着花蜜。你降落在六角形入口。你的新工作是酿蜜——为下一个误入此地的旅行者准备一份同样甜美的欢迎。",
+      "Bad End: Honey Trap"
+    ],
+    "en": "bad",
+    "enm": "A3",
+    "et": "Honey Trap"
+  },
+  "be_a5": {
+    "t": "Bad End: Absolute Power",
+    "loc": "Forest Zone",
+    "zone": "Forest",
+    "text": [
+      "Arachne的毒牙刺入你肩膀。你的双腿融合成八条黑色节肢——复眼从面部裂开。你在黑暗中吐出了第一缕银白色的蛛丝。Arachne轻抚你的头。“真漂亮。”你在蛛网上等待下一个猎物。",
+      "Bad End: Absolute Power"
+    ],
+    "en": "bad",
+    "enm": "A5",
+    "et": "Absolute Power"
+  },
+  "be_c5": {
+    "t": "Bad End: What a Tool",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "Lesser Succubus的吻落在你的唇上。你的意识像蜡烛一样融化——身体被重塑成更柔软、更美丽的形态。你的背后展开了暗紫色的蛾翼。你的瞳孔变成了心形。她抚摸着你的头发。“欢迎加入姐妹会。”你渴望她的下一个指令。",
+      "Bad End: What a Tool"
+    ],
+    "en": "bad",
+    "enm": "C5",
+    "et": "What a Tool"
+  },
+  "be_e1": {
+    "t": "Bad End: Riddle Me This",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "Sphinx失望地看着你。她的尾巴刺入你的胸口——你的灵魂被拆解重组。当你重新睁开眼时——你蹲在她身边，覆盖着金色鳞片，长着狮子的下半身和宽阔的翅膀。你成了新的Sphinx。你将在这里用谜语考验下一个闯入者——直到有人给出正确答案。那一天可能永远不会到来。",
+      "Bad End: Riddle Me This"
+    ],
+    "en": "bad",
+    "enm": "E1",
+    "et": "Riddle Me This"
+  },
+  "be_a4": {
+    "t": "Bad End: A True Honor",
+    "loc": "Forest Zone",
+    "zone": "Forest",
+    "text": [
+      "你在Caste City遭遇了失败。Lamia的尾巴缠绕住了你的身体——鳞片冰凉而光滑。她的竖瞳凝视着你，金色的光芒在你眼中反射。「这是你的荣幸。」她低语。你的身体开始变化——你的腿融合在一起，鳞片覆盖了你的皮肤。当你睁开眼时——你已经成为Lamia的守卫。你的新工作是保护Caste City的大门——用你最危险的魅力。",
+      "Bad End: A True Honor"
+    ],
+    "en": "bad",
+    "enm": "A4",
+    "et": "A True Honor"
+  },
+  "be_a6": {
+    "t": "Bad End: Slice of Life",
+    "loc": "Forest Zone",
+    "zone": "Forest",
+    "text": [
+      "Alraune的藤蔓抓住了你。花朵在你胸口绽放——不是比喻，是真正的花。你的身体开始木质化——皮肤变成了树皮，头发变成了藤蔓和叶片。你在森林的深处扎根了。你的花粉在空气中飘散。每一个吸入花粉的旅行者都会在你的花蕊中迷失。",
+      "Bad End: Slice of Life"
+    ],
+    "en": "bad",
+    "enm": "A6",
+    "et": "Slice of Life"
+  },
+  "be_a7": {
+    "t": "Bad End: Fluid Hunt",
+    "loc": "Forest Zone",
+    "zone": "Forest",
+    "text": [
+      "你掉进了Slime的陷阱。温暖的、半透明的、胶状的物质包裹了你的全身。你试图挣扎——但那只会让Slime包裹得更紧。你的身体开始融化——和Slime融为一体。你的意识分散在整个半透明的团块中。你不再是一个个体了——你是这片森林的又一只Slime——永远饥饿、永远渴望、永远在捕捉下一个猎物。",
+      "Bad End: Fluid Hunt"
+    ],
+    "en": "bad",
+    "enm": "A7",
+    "et": "Fluid Hunt"
+  },
+  "be_a8": {
+    "t": "Bad End: Stay Awhile and Listen",
+    "loc": "Forest Zone",
+    "zone": "Forest",
+    "text": [
+      "Harpy的歌声像蜂蜜一样流进你的耳朵。你忘记了移动。你忘记了逃跑。你甚至忘记了呼吸。当你终于意识到发生了什么时——你的背上已经长出了羽毛。你的脚变成了利爪。你的视野变得锐利。你飞上了天空——和其他Harpy一起盘旋在森林上空。你的歌声将是下一个陷阱——等待着下一个迷失的灵魂。",
+      "Bad End: Stay Awhile and Listen"
+    ],
+    "en": "bad",
+    "enm": "A8",
+    "et": "Stay Awhile and Listen"
+  },
+  "be_c1": {
+    "t": "Bad End: Impressive",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "Imp们没有杀你——它们觉得你太有趣了。红色的小爪子触碰了你的身体，你的皮肤从苍白变成了暗红色。你的背上长出了小小的、蝙蝠般的翅膀——飞不起来，但至少能滑翔。",
+      "你的头上冒出了两根弯曲的小角。你的身后拖出了一条尖端呈箭头形状的尾巴。你和Imp们在城堡的走廊中尖叫着奔跑，打翻烛台，扯下挂毯，在守卫的头顶上飞来飞去。",
+      "你发出了一阵尖锐的、不属于人类的笑声。Imp们围着你转，拍打着你的背——她们把你当成了姐妹。你在混乱中感到了一种奇异的快乐——你不再想离开了。为什么要离开？这里每天都像狂欢节。"
+    ],
+    "en": "bad",
+    "enm": "C1",
+    "et": "Impressive"
+  },
+  "be_c2": {
+    "t": "Bad End: Imprisoned",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "Arch Imp的魔法比普通Imp强太多了。一道暗红色的光芒击中你的胸口——你的身体在塌缩，在压缩，在缩小。你低头看去——你的手变得小小的、胖乎乎的，皮肤是暗红色。你被困在一个铁笼子里了。",
+      "你的衣服变成了几根破布条。你的角小小的，翅膀薄如蝉翼。你抓着笼子的栏杆，透过铁条看着外面的世界。Arch Imp靠在笼边，俯视着你，露出了一个尖锐的微笑。",
+      "「你的新家感觉怎么样？」她弹了一下笼门，发出叮的一声。你蜷缩在角落里。你不应该跟着那些Imp的。但现在——你连逃跑的力气都没有了。"
+    ],
+    "en": "bad",
+    "enm": "C2",
+    "et": "Imprisoned"
+  },
+  "be_c3": {
+    "t": "Bad End: Good Impression",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "Imp首领对你的表现印象深刻——她决定不杀你，而是留下你做她的仆人。她的爪子在你胸口一拍——你的衣服融化了，变成了一套极其暴露的、由黑色皮革和镂空布料组成的服装。你的手腕上出现了金属环。",
+      "你成了Imp首领的贴身女仆。你在城堡的宴会厅中端着托盘穿越人群中——那些Succubus和恶魔们对你动手动脚，但你没有办法反抗。你的手腕上的环封印了你的力量。",
+      "深夜，你跪在Imp首领的卧室门口等待她的召唤。你的膝盖在地板上发酸——但这比起被彻底转化为Imp已经好太多了。至少你还保留着大部分人类的外形和思维。",
+      "至少现在还是。"
+    ],
+    "en": "bad",
+    "enm": "C3",
+    "et": "Good Impression"
+  },
+  "be_c4": {
+    "t": "Bad End: Predator's Prey",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "看守Succubus的高跟鞋踩在了你的胸口。六英寸的鞋跟——黑色的、亮漆的、像锥子一样尖锐——压在你的锁骨上。她俯视着你，眼中没有怜悯，只有猎食者的倦怠。",
+      "她弯下腰，在你耳边吹了一口气。那口气带着淡淡的硫磺和玫瑰的混合气味。你的身体在颤抖——不是恐惧，是……渴望。她在你体内种下了什么——一颗欲望的种子。",
+      "当你醒来时，你穿着和她一样的皮革制服——黑色的、紧身的、露肤度极高的。你站在城堡的走廊中。你是新的看守了。你低头看着自己的新制服，你发现——你并不讨厌它。"
+    ],
+    "en": "bad",
+    "enm": "C4",
+    "et": "Predator's Prey"
+  },
+  "be_c6": {
+    "t": "Bad End: Every Suck You Take",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "双马尾魅魔咯咯地笑着凑近了你。她看起来像个调皮的邻家女孩——如果邻家女孩长了尖耳朵和紫色的皮肤的话。她捧住你的脸，在你的脖子上留下了一个吻——不，是一个咬痕。两个小小的孔洞，像蛇咬的一样。",
+      "你不觉得痛——你感到的是晕眩。你的血液正在从那两个小孔中流出——流入她的嘴里。她吸了很久。你的体重在下降，皮肤变得苍白，眼圈发黑。她在吸血——但她没有杀死你。",
+      "她把你放在了地下室的棺材里。你是她的私人血源——每天都会被吸食一部分。你的生命力和她绑定在了一起。她死了你也会死——反过来不成立。你在棺材中睁着眼睛，听着她走上楼梯的脚步声。明天她还会来的。"
+    ],
+    "en": "bad",
+    "enm": "C6",
+    "et": "Every Suck You Take"
+  },
+  "be_c7": {
+    "t": "Bad End: Self Made King",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "Succubus女王对你的勇气印象深刻。你没有逃跑，没有求饶——你站直了，用颤抖但坚定的眼神看着她。她笑了——那是一个危险的笑容，但带着一丝赏识。",
+      "「很少有人敢这样看着我。」她用一根手指抬起你的下巴。「让我给你一个礼物——力量的礼物。」她的魔力涌入你的身体——你的肌肉膨胀了，你的身高增加了。一套漆黑的、雕刻着恶魔符文的重型盔甲从虚空中浮现，自行穿戴在你身上。你手中出现了一把双手巨剑。",
+      "你成了她的Demon Knight。你站在城堡大厅的入口处——你是她的守卫，她的盾牌，她最得意的收藏品。你在厚重的盔甲中眨着眼。你是国王的骑士——但国王不是你。"
+    ],
+    "en": "bad",
+    "enm": "C7",
+    "et": "Self Made King"
+  },
+  "be_c8": {
+    "t": "Bad End: Pipe Dreams of Wet Dreams",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "Amarya对你微笑了。她把你带到她的房间——天鹅绒窗帘，巨大的四柱床，空气中弥漫着龙涎香和麝香的气味。你以为这是一个约会——你错了。",
+      "她——实际上是它——把你变成了一个活着的玩具。你的身体变得小而柔软，关节是球形的，皮肤是硅胶般的质感。你被放在她的床头柜上，和其他几个同样命运的娃娃排在一起。",
+      "你能看到、能听到、能感受到——但你无法移动。Amarya躺在床上的时候会偶尔把玩你——用修长的手指转动你的胳膊，抚摸你的头发。你在她的指尖下瑟瑟发抖。你不再是一个人了——你是一件物品。",
+      "Bad End: Pipe Dreams of Wet Dreams"
+    ],
+    "en": "bad",
+    "enm": "C8",
+    "et": "Pipe Dreams of Wet Dreams"
+  },
+  "be_d1": {
+    "t": "Bad End: The Zombie Whored",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你试图逃离街道上的僵尸群——但你跑错了方向。一只腐烂的手抓住了你的脚踝。你摔倒了——更多的僵尸围了上来。",
+      "他们的手指在你的身上留下了污迹。那不是咬伤——是一种缓慢的、温和的腐烂。你的皮肤从指尖开始变灰、失去弹性。你的心跳在减慢。到第三十七下的时候，它停止了。",
+      "你站了起来。你的动作变得迟缓。你的大脑中充斥着一种低沉的白噪音——那是死亡的声音。你和其他僵尸一起在街道上漫步，无目的地、永恒地行走。你记得自己曾经活着——但那记忆正在像旧照片一样褪色。"
+    ],
+    "en": "bad",
+    "enm": "D1",
+    "et": "The Zombie Whored"
+  },
+  "be_d2": {
+    "t": "Bad End: From My Cold Dead Hands",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在街道上遇到了那只僵尸。不是普通的僵尸——它的手指上戴着一枚警徽，制服上还残留着警长的标志。即使变成了怪物，它手中还紧握着那把枪。你试图绕过它——但它抓住了你的手腕。",
+      "它的力量大得惊人。冰冷的手指在你的皮肤上留下了冻伤般的痕迹。你的身体开始僵硬——关节凝固，皮肤变灰，体温下降。你低头看着自己正在变成尸体的手——指甲脱落了，皮肤正在剥落。",
+      "你加入了它。你们在废弃的城市中巡逻——两个永远不会下班的警官。你握着枪——但子弹已经生锈了。你也不用保护任何人了。"
+    ],
+    "en": "bad",
+    "enm": "D2",
+    "et": "From My Cold Dead Hands"
+  },
+  "be_d3": {
+    "t": "Bad End: Let Me Patch You Up",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在废弃医院中被护士僵尸抓住了。她把你按在一张吱嘎作响的手术床上，头顶的无影灯闪着刺眼的白光。她的笑容——一只眼睛混浊，另一只眼睛闪烁着狂热的光芒——告诉你她不是一个普通的护士。",
+      "「别怕——让我帮你修好。」她的手术刀在你的皮肤上滑动。你不觉得痛——因为她用了麻药。但她做了别的事情——她在你的身体中植入了什么东西。当你低头看向自己的腹部时——你看到了缝线。粗糙的、黑色的、十字形的缝线。不止一处——你的胸口、大腿、前臂上都有。",
+      "你被她打满了补丁——不同颜色的皮肤拼接在一起。她后退一步，欣赏着自己的作品。「完美。」你照了镜子。你是一个弗兰肯斯坦般的怪物——并且你活了。"
+    ],
+    "en": "bad",
+    "enm": "D3",
+    "et": "Let Me Patch You Up"
+  },
+  "be_d4": {
+    "t": "Bad End: Quest for the Cure",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在医院的病床上醒来。不是被治愈了——是被捕获了。Plague Doctor站在你的床边，她的鸟嘴面具挡住了她的表情，但你能从她的动作中看出她在微笑。",
+      "她拿着一管装有绿色粘液的注射器。「别挣扎——这是解药。」她把它推进了你的血管。冰冷的液体在你体内奔涌——你的手在痉挛。那不是解药——那是病毒的浓缩液。",
+      "你的瞳孔收缩了，你的喉部发出了咯咯的声响——那是你作为人类发出的最后声音。你从病床上坐起来——动作僵硬而缓慢。Plague Doctor拍了拍你的头。「现在——我们来治疗下一个病人。」你拿起托盘跟在她身后，关节咔咔作响。"
+    ],
+    "en": "bad",
+    "enm": "D4",
+    "et": "Quest for the Cure"
+  },
+  "be_d5": {
+    "t": "Bad End: Drop Dead Gorgeous",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "商场的僵尸——她比其他僵尸都美丽。即使在腐烂的状态下，她仍然保持着某种精致的美感——深红色的长发，完好的五官，一件碎花连衣裙（虽然沾满了暗色的污渍）。她向你走来时，你被她的美丽迷惑了——然后她咬了你。",
+      "那不是狂乱的撕咬——是一种优雅的、几乎温柔的吻。但她的牙齿刺破了你的嘴唇。毒素顺着你的血管流淌——你的心跳没有停止，但你开始变得不同。你的皮肤变成了淡淡的青灰色，你的嘴唇变成了暗紫色。你的头发变得更浓密、更有光泽——死者的光泽。",
+      "她拉着你的手，走过商场的自动扶梯——那些电梯早就停了，你们踩着金属台阶上楼。在二楼的服装店里，她开始为你挑选衣服。「你穿这身很好看。」你在镜子里看到了自己——美得惊心动魄。美得像一具尸体。"
+    ],
+    "en": "bad",
+    "enm": "D5",
+    "et": "Drop Dead Gorgeous"
+  },
+  "be_d6": {
+    "t": "Bad End: Till Death Do Us Part",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "废弃教堂的僵尸新娘抓住了你。她的婚纱已经腐烂成了黄白色，但她的眼中仍有光芒——不是理智的光芒，而是偏执的爱。她拉着你的手走向祭坛。你是她新的新郎——不管你愿不愿意。僵尸牧师宣读了誓词。你说不出「我愿意」——你的声带已经腐烂了。但新娘不在乎。「Till death do us part。」她说。你已经是死的了。所以——永远。",
+      "Bad End: Till Death Do Us Part"
+    ],
+    "en": "bad",
+    "enm": "D6",
+    "et": "Till Death Do Us Part"
+  },
+  "be_d7": {
+    "t": "Bad End: Burger Baroness",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "商场的快餐店里有一个诡异的汉堡——不是普通的汉堡。它散发着迷人的香气，面包上点缀着奇怪的绿色斑点。你饿了。你吃了它。那个汉堡被诅咒了。你的身体开始膨胀——不是变胖，是变成了一种柔软、圆润、像汉堡肉饼一样的质感。你的头上长出了芝麻面包般的卷发。你站在柜台后面，向每一个路过的旅行者推销「超值套餐」。",
+      "Bad End: Burger Baroness"
+    ],
+    "en": "bad",
+    "enm": "D7",
+    "et": "Burger Baroness"
+  },
+  "be_d8": {
+    "t": "Bad End: All Better Now",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "医院的淋浴间——水是温暖的，蒸汽弥漫。你脱下衣服，站在水流下。水很舒服——太舒服了。你没有注意到水中的那些细小的、发光的微粒正在渗入你的皮肤。你的伤口愈合了——但也发生了别的事情。你的皮肤变得光滑而紧绷——像是被塑料覆盖着。你的笑容凝固了。你变得完美——完美的、虚假的、像人偶一样的完美。",
+      "Bad End: All Better Now"
+    ],
+    "en": "bad",
+    "enm": "D8",
+    "et": "All Better Now"
+  },
+  "be_d9": {
+    "t": "Bad End: Bisexual Healing",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你和Kim一起在医院的淋浴间冲澡。温暖的水流打在你们两个人的身上。但水中有东西。你和Kim同时感觉到了——一种电流般的刺痛在皮肤下游走。你们转过身，看着彼此——你们的身体在变化。柔和了、圆润了、变得更……敏感了。Kim的头发在滴水，她的眼中闪烁着困惑和某种别的情绪。你伸出手——触碰了她的脸颊。她靠了过来。你不再确定这种吸引力是出于魔法还是……",
+      "Bad End: Bisexual Healing"
+    ],
+    "en": "bad",
+    "enm": "D9",
+    "et": "Bisexual Healing"
+  },
+  "be_d10": {
+    "t": "Bad End: Squeaky Wheel Needs Grease",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "轮椅上坐着一个女人。她的腿不能动——但她的眼睛能动。她看着你，那目光中有着某种让你不安的东西。你走近了——想帮助她。那是你的第一个错误。她的手指触碰了你的手腕，然后你感到了一股麻意从接触点扩散开来。你的腿失去了知觉。你低头——它们还在那里。但你不受控制地跪下了。轮椅上的女人站了起来。她从轮椅上站起来了。你坐上了轮椅。轮子吱吱作响。",
+      "Bad End: Squeaky Wheel Needs Grease"
+    ],
+    "en": "bad",
+    "enm": "D10",
+    "et": "Squeaky Wheel Needs Grease"
+  },
+  "be_d11": {
+    "t": "Bad End: A Rock and a Hard Place",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "大楼顶端的Gargoyle石像活了过来。她的翅膀展开——灰色的石粉从翅膀上脱落。她盯着你，那双石质的眼睛中没有任何表情。你被她的凝视冻结了——不是比喻，是真正的冻结。你的皮肤从灰色开始石化了。你试图移动——但你的脚已经和地面融为一体了。你在变成石头。你成了屋顶上的另一尊Gargoyle。和她一起俯瞰着这座废弃的城市——永远。",
+      "Bad End: A Rock and a Hard Place"
+    ],
+    "en": "bad",
+    "enm": "D11",
+    "et": "A Rock and a Hard Place"
+  },
+  "be_c10": {
+    "t": "Bad End: Demon C10",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C10"
+    ],
+    "en": "bad",
+    "enm": "C10",
+    "et": "C10: Doll"
+  },
+  "be_c11": {
+    "t": "Bad End: Demon C11",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C11"
+    ],
+    "en": "bad",
+    "enm": "C11",
+    "et": "C11: Nun"
+  },
+  "be_c12": {
+    "t": "Bad End: Demon C12",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C12"
+    ],
+    "en": "bad",
+    "enm": "C12",
+    "et": "C12: Priest"
+  },
+  "be_c13": {
+    "t": "Bad End: Demon C13",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C13"
+    ],
+    "en": "bad",
+    "enm": "C13",
+    "et": "C13: Flower"
+  },
+  "be_c14": {
+    "t": "Bad End: Demon C14",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C14"
+    ],
+    "en": "bad",
+    "enm": "C14",
+    "et": "C14: Chastity"
+  },
+  "be_c15": {
+    "t": "Bad End: Demon C15",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C15"
+    ],
+    "en": "bad",
+    "enm": "C15",
+    "et": "C15: Fallen"
+  },
+  "be_c16": {
+    "t": "Bad End: Demon C16",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C16"
+    ],
+    "en": "bad",
+    "enm": "C16",
+    "et": "C16: Mirror"
+  },
+  "be_c17": {
+    "t": "Bad End: Demon C17",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C17"
+    ],
+    "en": "bad",
+    "enm": "C17",
+    "et": "C17: Troll"
+  },
+  "be_c18": {
+    "t": "Bad End: Demon C18",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C18"
+    ],
+    "en": "bad",
+    "enm": "C18",
+    "et": "C18: Paladin"
+  },
+  "be_c19": {
+    "t": "Bad End: Demon C19",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C19"
+    ],
+    "en": "bad",
+    "enm": "C19",
+    "et": "C19: Painting"
+  },
+  "be_c20": {
+    "t": "Bad End: Demon C20",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C20"
+    ],
+    "en": "bad",
+    "enm": "C20",
+    "et": "C20: Poster"
+  },
+  "be_c21": {
+    "t": "Bad End: Demon C21",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C21"
+    ],
+    "en": "bad",
+    "enm": "C21",
+    "et": "C21: Witch"
+  },
+  "be_c22": {
+    "t": "Bad End: Demon C22",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C22"
+    ],
+    "en": "bad",
+    "enm": "C22",
+    "et": "C22: Dildo"
+  },
+  "be_c23": {
+    "t": "Bad End: Demon C23",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C23"
+    ],
+    "en": "bad",
+    "enm": "C23",
+    "et": "C23: Flip"
+  },
+  "be_c24": {
+    "t": "Bad End: Demon C24",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C24"
+    ],
+    "en": "bad",
+    "enm": "C24",
+    "et": "C24: Boytoy"
+  },
+  "be_c25": {
+    "t": "Bad End: Demon C25",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C25"
+    ],
+    "en": "bad",
+    "enm": "C25",
+    "et": "C25: Driver"
+  },
+  "be_c26": {
+    "t": "Bad End: Demon C26",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C26"
+    ],
+    "en": "bad",
+    "enm": "C26",
+    "et": "C26: Backseat"
+  },
+  "be_c27": {
+    "t": "Bad End: Demon C27",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C27"
+    ],
+    "en": "bad",
+    "enm": "C27",
+    "et": "C27: Bat"
+  },
+  "be_c28": {
+    "t": "Bad End: Demon C28",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C28"
+    ],
+    "en": "bad",
+    "enm": "C28",
+    "et": "C28: Gator"
+  },
+  "be_c29": {
+    "t": "Bad End: Demon C29",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C29"
+    ],
+    "en": "bad",
+    "enm": "C29",
+    "et": "C29: Stranger"
+  },
+  "be_c30": {
+    "t": "Bad End: Demon C30",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C30"
+    ],
+    "en": "bad",
+    "enm": "C30",
+    "et": "C30: Dhampir"
+  },
+  "be_c31": {
+    "t": "Bad End: Demon C31",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C31"
+    ],
+    "en": "bad",
+    "enm": "C31",
+    "et": "C31: Pale"
+  },
+  "be_c32": {
+    "t": "Bad End: Demon C32",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C32"
+    ],
+    "en": "bad",
+    "enm": "C32",
+    "et": "C32: Drowned"
+  },
+  "be_c33": {
+    "t": "Bad End: Demon C33",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C33"
+    ],
+    "en": "bad",
+    "enm": "C33",
+    "et": "C33: Legacy"
+  },
+  "be_c34": {
+    "t": "Bad End: Demon C34",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C34"
+    ],
+    "en": "bad",
+    "enm": "C34",
+    "et": "C34: Blue"
+  },
+  "be_c35": {
+    "t": "Bad End: Demon C35",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C35"
+    ],
+    "en": "bad",
+    "enm": "C35",
+    "et": "C35: Slime"
+  },
+  "be_c36": {
+    "t": "Bad End: Demon C36",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C36"
+    ],
+    "en": "bad",
+    "enm": "C36",
+    "et": "C36: Books"
+  },
+  "be_c37": {
+    "t": "Bad End: Demon C37",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C37"
+    ],
+    "en": "bad",
+    "enm": "C37",
+    "et": "C37: Mosquito"
+  },
+  "be_c38": {
+    "t": "Bad End: Demon C38",
+    "loc": "Demon Zone",
+    "zone": "Demon",
+    "text": [
+      "你在Demon Zone遇到了致命的危险。转变来得比你想象中更快——你的身体在恶魔魔力的作用下改变。当变化停止时，你已经是Demon Zone的永久居民了。你的记忆开始模糊——你曾经是谁，你曾经想要什么——那些都不再重要了。在这里，你找到了新的归属。",
+      "Bad End C38"
+    ],
+    "en": "bad",
+    "enm": "C38",
+    "et": "C38: Unknown"
+  },
+  "be_d12": {
+    "t": "Bad End: Desolate D12",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D12"
+    ],
+    "en": "bad",
+    "enm": "D12",
+    "et": "Desolate D12"
+  },
+  "be_d13": {
+    "t": "Bad End: Desolate D13",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D13"
+    ],
+    "en": "bad",
+    "enm": "D13",
+    "et": "Desolate D13"
+  },
+  "be_d14": {
+    "t": "Bad End: Desolate D14",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D14"
+    ],
+    "en": "bad",
+    "enm": "D14",
+    "et": "Desolate D14"
+  },
+  "be_d15": {
+    "t": "Bad End: Desolate D15",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D15"
+    ],
+    "en": "bad",
+    "enm": "D15",
+    "et": "Desolate D15"
+  },
+  "be_d16": {
+    "t": "Bad End: Desolate D16",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D16"
+    ],
+    "en": "bad",
+    "enm": "D16",
+    "et": "Desolate D16"
+  },
+  "be_d17": {
+    "t": "Bad End: Desolate D17",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D17"
+    ],
+    "en": "bad",
+    "enm": "D17",
+    "et": "Desolate D17"
+  },
+  "be_d18": {
+    "t": "Bad End: Desolate D18",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D18"
+    ],
+    "en": "bad",
+    "enm": "D18",
+    "et": "Desolate D18"
+  },
+  "be_d19": {
+    "t": "Bad End: Desolate D19",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D19"
+    ],
+    "en": "bad",
+    "enm": "D19",
+    "et": "Desolate D19"
+  },
+  "be_d20": {
+    "t": "Bad End: Desolate D20",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D20"
+    ],
+    "en": "bad",
+    "enm": "D20",
+    "et": "Desolate D20"
+  },
+  "be_d21": {
+    "t": "Bad End: Desolate D21",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D21"
+    ],
+    "en": "bad",
+    "enm": "D21",
+    "et": "Desolate D21"
+  },
+  "be_d22": {
+    "t": "Bad End: Desolate D22",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D22"
+    ],
+    "en": "bad",
+    "enm": "D22",
+    "et": "Desolate D22"
+  },
+  "be_d23": {
+    "t": "Bad End: Desolate D23",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D23"
+    ],
+    "en": "bad",
+    "enm": "D23",
+    "et": "Desolate D23"
+  },
+  "be_d24": {
+    "t": "Bad End: Desolate D24",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D24"
+    ],
+    "en": "bad",
+    "enm": "D24",
+    "et": "Desolate D24"
+  },
+  "be_d25": {
+    "t": "Bad End: Desolate D25",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D25"
+    ],
+    "en": "bad",
+    "enm": "D25",
+    "et": "Desolate D25"
+  },
+  "be_d26": {
+    "t": "Bad End: Desolate D26",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D26"
+    ],
+    "en": "bad",
+    "enm": "D26",
+    "et": "Desolate D26"
+  },
+  "be_d27": {
+    "t": "Bad End: Desolate D27",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D27"
+    ],
+    "en": "bad",
+    "enm": "D27",
+    "et": "Desolate D27"
+  },
+  "be_d28": {
+    "t": "Bad End: Desolate D28",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D28"
+    ],
+    "en": "bad",
+    "enm": "D28",
+    "et": "Desolate D28"
+  },
+  "be_d29": {
+    "t": "Bad End: Desolate D29",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D29"
+    ],
+    "en": "bad",
+    "enm": "D29",
+    "et": "Desolate D29"
+  },
+  "be_d30": {
+    "t": "Bad End: Desolate D30",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D30"
+    ],
+    "en": "bad",
+    "enm": "D30",
+    "et": "Desolate D30"
+  },
+  "be_d31": {
+    "t": "Bad End: Desolate D31",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D31"
+    ],
+    "en": "bad",
+    "enm": "D31",
+    "et": "Desolate D31"
+  },
+  "be_d32": {
+    "t": "Bad End: Desolate D32",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D32"
+    ],
+    "en": "bad",
+    "enm": "D32",
+    "et": "Desolate D32"
+  },
+  "be_d33": {
+    "t": "Bad End: Desolate D33",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D33"
+    ],
+    "en": "bad",
+    "enm": "D33",
+    "et": "Desolate D33"
+  },
+  "be_d34": {
+    "t": "Bad End: Desolate D34",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D34"
+    ],
+    "en": "bad",
+    "enm": "D34",
+    "et": "Desolate D34"
+  },
+  "be_d35": {
+    "t": "Bad End: Desolate D35",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D35"
+    ],
+    "en": "bad",
+    "enm": "D35",
+    "et": "Desolate D35"
+  },
+  "be_d36": {
+    "t": "Bad End: Desolate D36",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D36"
+    ],
+    "en": "bad",
+    "enm": "D36",
+    "et": "Desolate D36"
+  },
+  "be_d37": {
+    "t": "Bad End: Desolate D37",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D37"
+    ],
+    "en": "bad",
+    "enm": "D37",
+    "et": "Desolate D37"
+  },
+  "be_d38": {
+    "t": "Bad End: Desolate D38",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D38"
+    ],
+    "en": "bad",
+    "enm": "D38",
+    "et": "Desolate D38"
+  },
+  "be_d39": {
+    "t": "Bad End: Desolate D39",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D39"
+    ],
+    "en": "bad",
+    "enm": "D39",
+    "et": "Desolate D39"
+  },
+  "be_d40": {
+    "t": "Bad End: Desolate D40",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D40"
+    ],
+    "en": "bad",
+    "enm": "D40",
+    "et": "Desolate D40"
+  },
+  "be_d41": {
+    "t": "Bad End: Desolate D41",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D41"
+    ],
+    "en": "bad",
+    "enm": "D41",
+    "et": "Desolate D41"
+  },
+  "be_d42": {
+    "t": "Bad End: Desolate D42",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D42"
+    ],
+    "en": "bad",
+    "enm": "D42",
+    "et": "Desolate D42"
+  },
+  "be_d43": {
+    "t": "Bad End: Desolate D43",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D43"
+    ],
+    "en": "bad",
+    "enm": "D43",
+    "et": "Desolate D43"
+  },
+  "be_d44": {
+    "t": "Bad End: Desolate D44",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D44"
+    ],
+    "en": "bad",
+    "enm": "D44",
+    "et": "Desolate D44"
+  },
+  "be_d45": {
+    "t": "Bad End: Desolate D45",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D45"
+    ],
+    "en": "bad",
+    "enm": "D45",
+    "et": "Desolate D45"
+  },
+  "be_d46": {
+    "t": "Bad End: Desolate D46",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D46"
+    ],
+    "en": "bad",
+    "enm": "D46",
+    "et": "Desolate D46"
+  },
+  "be_d47": {
+    "t": "Bad End: Desolate D47",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D47"
+    ],
+    "en": "bad",
+    "enm": "D47",
+    "et": "Desolate D47"
+  },
+  "be_d48": {
+    "t": "Bad End: Desolate D48",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D48"
+    ],
+    "en": "bad",
+    "enm": "D48",
+    "et": "Desolate D48"
+  },
+  "be_d49": {
+    "t": "Bad End: Desolate D49",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D49"
+    ],
+    "en": "bad",
+    "enm": "D49",
+    "et": "Desolate D49"
+  },
+  "be_d50": {
+    "t": "Bad End: Desolate D50",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D50"
+    ],
+    "en": "bad",
+    "enm": "D50",
+    "et": "Desolate D50"
+  },
+  "be_d51": {
+    "t": "Bad End: Desolate D51",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D51"
+    ],
+    "en": "bad",
+    "enm": "D51",
+    "et": "Desolate D51"
+  },
+  "be_d52": {
+    "t": "Bad End: Desolate D52",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D52"
+    ],
+    "en": "bad",
+    "enm": "D52",
+    "et": "Desolate D52"
+  },
+  "be_d53": {
+    "t": "Bad End: Desolate D53",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D53"
+    ],
+    "en": "bad",
+    "enm": "D53",
+    "et": "Desolate D53"
+  },
+  "be_d54": {
+    "t": "Bad End: Desolate D54",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D54"
+    ],
+    "en": "bad",
+    "enm": "D54",
+    "et": "Desolate D54"
+  },
+  "be_d55": {
+    "t": "Bad End: Desolate D55",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D55"
+    ],
+    "en": "bad",
+    "enm": "D55",
+    "et": "Desolate D55"
+  },
+  "be_d56": {
+    "t": "Bad End: Desolate D56",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D56"
+    ],
+    "en": "bad",
+    "enm": "D56",
+    "et": "Desolate D56"
+  },
+  "be_d57": {
+    "t": "Bad End: Desolate D57",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D57"
+    ],
+    "en": "bad",
+    "enm": "D57",
+    "et": "Desolate D57"
+  },
+  "be_d58": {
+    "t": "Bad End: Desolate D58",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D58"
+    ],
+    "en": "bad",
+    "enm": "D58",
+    "et": "Desolate D58"
+  },
+  "be_d59": {
+    "t": "Bad End: Desolate D59",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D59"
+    ],
+    "en": "bad",
+    "enm": "D59",
+    "et": "Desolate D59"
+  },
+  "be_d60": {
+    "t": "Bad End: Desolate D60",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D60"
+    ],
+    "en": "bad",
+    "enm": "D60",
+    "et": "Desolate D60"
+  },
+  "be_d61": {
+    "t": "Bad End: Desolate D61",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D61"
+    ],
+    "en": "bad",
+    "enm": "D61",
+    "et": "Desolate D61"
+  },
+  "be_d62": {
+    "t": "Bad End: Desolate D62",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D62"
+    ],
+    "en": "bad",
+    "enm": "D62",
+    "et": "Desolate D62"
+  },
+  "be_d63": {
+    "t": "Bad End: Desolate D63",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D63"
+    ],
+    "en": "bad",
+    "enm": "D63",
+    "et": "Desolate D63"
+  },
+  "be_d64": {
+    "t": "Bad End: Desolate D64",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D64"
+    ],
+    "en": "bad",
+    "enm": "D64",
+    "et": "Desolate D64"
+  },
+  "be_d65": {
+    "t": "Bad End: Desolate D65",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D65"
+    ],
+    "en": "bad",
+    "enm": "D65",
+    "et": "Desolate D65"
+  },
+  "be_d66": {
+    "t": "Bad End: Desolate D66",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D66"
+    ],
+    "en": "bad",
+    "enm": "D66",
+    "et": "Desolate D66"
+  },
+  "be_d67": {
+    "t": "Bad End: Desolate D67",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D67"
+    ],
+    "en": "bad",
+    "enm": "D67",
+    "et": "Desolate D67"
+  },
+  "be_d68": {
+    "t": "Bad End: Desolate D68",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D68"
+    ],
+    "en": "bad",
+    "enm": "D68",
+    "et": "Desolate D68"
+  },
+  "be_d69": {
+    "t": "Bad End: Desolate D69",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D69"
+    ],
+    "en": "bad",
+    "enm": "D69",
+    "et": "Desolate D69"
+  },
+  "be_d70": {
+    "t": "Bad End: Desolate D70",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D70"
+    ],
+    "en": "bad",
+    "enm": "D70",
+    "et": "Desolate D70"
+  },
+  "be_d71": {
+    "t": "Bad End: Desolate D71",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D71"
+    ],
+    "en": "bad",
+    "enm": "D71",
+    "et": "Desolate D71"
+  },
+  "be_d72": {
+    "t": "Bad End: Desolate D72",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D72"
+    ],
+    "en": "bad",
+    "enm": "D72",
+    "et": "Desolate D72"
+  },
+  "be_d73": {
+    "t": "Bad End: Desolate D73",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D73"
+    ],
+    "en": "bad",
+    "enm": "D73",
+    "et": "Desolate D73"
+  },
+  "be_d74": {
+    "t": "Bad End: Desolate D74",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D74"
+    ],
+    "en": "bad",
+    "enm": "D74",
+    "et": "Desolate D74"
+  },
+  "be_d75": {
+    "t": "Bad End: Desolate D75",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D75"
+    ],
+    "en": "bad",
+    "enm": "D75",
+    "et": "Desolate D75"
+  },
+  "be_d76": {
+    "t": "Bad End: Desolate D76",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D76"
+    ],
+    "en": "bad",
+    "enm": "D76",
+    "et": "Desolate D76"
+  },
+  "be_d77": {
+    "t": "Bad End: Desolate D77",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D77"
+    ],
+    "en": "bad",
+    "enm": "D77",
+    "et": "Desolate D77"
+  },
+  "be_d78": {
+    "t": "Bad End: Desolate D78",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D78"
+    ],
+    "en": "bad",
+    "enm": "D78",
+    "et": "Desolate D78"
+  },
+  "be_d79": {
+    "t": "Bad End: Desolate D79",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D79"
+    ],
+    "en": "bad",
+    "enm": "D79",
+    "et": "Desolate D79"
+  },
+  "be_d80": {
+    "t": "Bad End: Desolate D80",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D80"
+    ],
+    "en": "bad",
+    "enm": "D80",
+    "et": "Desolate D80"
+  },
+  "be_d81": {
+    "t": "Bad End: Desolate D81",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D81"
+    ],
+    "en": "bad",
+    "enm": "D81",
+    "et": "Desolate D81"
+  },
+  "be_d82": {
+    "t": "Bad End: Desolate D82",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D82"
+    ],
+    "en": "bad",
+    "enm": "D82",
+    "et": "Desolate D82"
+  },
+  "be_d83": {
+    "t": "Bad End: Desolate D83",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D83"
+    ],
+    "en": "bad",
+    "enm": "D83",
+    "et": "Desolate D83"
+  },
+  "be_d84": {
+    "t": "Bad End: Desolate D84",
+    "loc": "Desolate Zone",
+    "zone": "Desolate",
+    "text": [
+      "你在Desolate Zone遭遇了致命的失败。腐烂和死亡的气息渗透了你的每一个细胞。当转变停止时——你已经是这片废墟的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——死亡只是另一种存在的方式。",
+      "Bad End D84"
+    ],
+    "en": "bad",
+    "enm": "D84",
+    "et": "Desolate D84"
+  },
+  "be_e2": {
+    "t": "Bad End: Desert E2",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E2"
+    ],
+    "en": "bad",
+    "enm": "E2",
+    "et": "Desert E2"
+  },
+  "be_e3": {
+    "t": "Bad End: Desert E3",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E3"
+    ],
+    "en": "bad",
+    "enm": "E3",
+    "et": "Desert E3"
+  },
+  "be_e4": {
+    "t": "Bad End: Desert E4",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E4"
+    ],
+    "en": "bad",
+    "enm": "E4",
+    "et": "Desert E4"
+  },
+  "be_e5": {
+    "t": "Bad End: Desert E5",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E5"
+    ],
+    "en": "bad",
+    "enm": "E5",
+    "et": "Desert E5"
+  },
+  "be_e6": {
+    "t": "Bad End: Desert E6",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E6"
+    ],
+    "en": "bad",
+    "enm": "E6",
+    "et": "Desert E6"
+  },
+  "be_e7": {
+    "t": "Bad End: Desert E7",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E7"
+    ],
+    "en": "bad",
+    "enm": "E7",
+    "et": "Desert E7"
+  },
+  "be_e8": {
+    "t": "Bad End: Desert E8",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E8"
+    ],
+    "en": "bad",
+    "enm": "E8",
+    "et": "Desert E8"
+  },
+  "be_e9": {
+    "t": "Bad End: Desert E9",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E9"
+    ],
+    "en": "bad",
+    "enm": "E9",
+    "et": "Desert E9"
+  },
+  "be_e10": {
+    "t": "Bad End: Desert E10",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E10"
+    ],
+    "en": "bad",
+    "enm": "E10",
+    "et": "Desert E10"
+  },
+  "be_e11": {
+    "t": "Bad End: Desert E11",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E11"
+    ],
+    "en": "bad",
+    "enm": "E11",
+    "et": "Desert E11"
+  },
+  "be_e12": {
+    "t": "Bad End: Desert E12",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E12"
+    ],
+    "en": "bad",
+    "enm": "E12",
+    "et": "Desert E12"
+  },
+  "be_e13": {
+    "t": "Bad End: Desert E13",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E13"
+    ],
+    "en": "bad",
+    "enm": "E13",
+    "et": "Desert E13"
+  },
+  "be_e14": {
+    "t": "Bad End: Desert E14",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E14"
+    ],
+    "en": "bad",
+    "enm": "E14",
+    "et": "Desert E14"
+  },
+  "be_e15": {
+    "t": "Bad End: Desert E15",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E15"
+    ],
+    "en": "bad",
+    "enm": "E15",
+    "et": "Desert E15"
+  },
+  "be_e16": {
+    "t": "Bad End: Desert E16",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E16"
+    ],
+    "en": "bad",
+    "enm": "E16",
+    "et": "Desert E16"
+  },
+  "be_e17": {
+    "t": "Bad End: Desert E17",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E17"
+    ],
+    "en": "bad",
+    "enm": "E17",
+    "et": "Desert E17"
+  },
+  "be_e18": {
+    "t": "Bad End: Desert E18",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E18"
+    ],
+    "en": "bad",
+    "enm": "E18",
+    "et": "Desert E18"
+  },
+  "be_e19": {
+    "t": "Bad End: Desert E19",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E19"
+    ],
+    "en": "bad",
+    "enm": "E19",
+    "et": "Desert E19"
+  },
+  "be_e20": {
+    "t": "Bad End: Desert E20",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E20"
+    ],
+    "en": "bad",
+    "enm": "E20",
+    "et": "Desert E20"
+  },
+  "be_e21": {
+    "t": "Bad End: Desert E21",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E21"
+    ],
+    "en": "bad",
+    "enm": "E21",
+    "et": "Desert E21"
+  },
+  "be_e22": {
+    "t": "Bad End: Desert E22",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E22"
+    ],
+    "en": "bad",
+    "enm": "E22",
+    "et": "Desert E22"
+  },
+  "be_e23": {
+    "t": "Bad End: Desert E23",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E23"
+    ],
+    "en": "bad",
+    "enm": "E23",
+    "et": "Desert E23"
+  },
+  "be_e24": {
+    "t": "Bad End: Desert E24",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E24"
+    ],
+    "en": "bad",
+    "enm": "E24",
+    "et": "Desert E24"
+  },
+  "be_e25": {
+    "t": "Bad End: Desert E25",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E25"
+    ],
+    "en": "bad",
+    "enm": "E25",
+    "et": "Desert E25"
+  },
+  "be_e26": {
+    "t": "Bad End: Desert E26",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E26"
+    ],
+    "en": "bad",
+    "enm": "E26",
+    "et": "Desert E26"
+  },
+  "be_e27": {
+    "t": "Bad End: Desert E27",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E27"
+    ],
+    "en": "bad",
+    "enm": "E27",
+    "et": "Desert E27"
+  },
+  "be_e28": {
+    "t": "Bad End: Desert E28",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E28"
+    ],
+    "en": "bad",
+    "enm": "E28",
+    "et": "Desert E28"
+  },
+  "be_e29": {
+    "t": "Bad End: Desert E29",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E29"
+    ],
+    "en": "bad",
+    "enm": "E29",
+    "et": "Desert E29"
+  },
+  "be_e30": {
+    "t": "Bad End: Desert E30",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E30"
+    ],
+    "en": "bad",
+    "enm": "E30",
+    "et": "Desert E30"
+  },
+  "be_e31": {
+    "t": "Bad End: Desert E31",
+    "loc": "Desert Zone",
+    "zone": "Desert",
+    "text": [
+      "你在Desert Zone遭遇了致命的失败。烈日和沙尘侵蚀着你的意志，古老的力量重塑着你的身体。当变化停止时——你已经是这片沙漠的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——永恒的阳光会告诉你答案。",
+      "Bad End E31"
+    ],
+    "en": "bad",
+    "enm": "E31",
+    "et": "Desert E31"
+  },
+  "be_b1": {
+    "t": "Bad End: Coastal B1",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B1"
+    ],
+    "en": "bad",
+    "enm": "B1",
+    "et": "Coastal B1"
+  },
+  "be_b2": {
+    "t": "Bad End: Coastal B2",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B2"
+    ],
+    "en": "bad",
+    "enm": "B2",
+    "et": "Coastal B2"
+  },
+  "be_b3": {
+    "t": "Bad End: Coastal B3",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B3"
+    ],
+    "en": "bad",
+    "enm": "B3",
+    "et": "Coastal B3"
+  },
+  "be_b4": {
+    "t": "Bad End: Coastal B4",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B4"
+    ],
+    "en": "bad",
+    "enm": "B4",
+    "et": "Coastal B4"
+  },
+  "be_b5": {
+    "t": "Bad End: Coastal B5",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B5"
+    ],
+    "en": "bad",
+    "enm": "B5",
+    "et": "Coastal B5"
+  },
+  "be_b6": {
+    "t": "Bad End: Coastal B6",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B6"
+    ],
+    "en": "bad",
+    "enm": "B6",
+    "et": "Coastal B6"
+  },
+  "be_b7": {
+    "t": "Bad End: Coastal B7",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B7"
+    ],
+    "en": "bad",
+    "enm": "B7",
+    "et": "Coastal B7"
+  },
+  "be_b8": {
+    "t": "Bad End: Coastal B8",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B8"
+    ],
+    "en": "bad",
+    "enm": "B8",
+    "et": "Coastal B8"
+  },
+  "be_b9": {
+    "t": "Bad End: Coastal B9",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B9"
+    ],
+    "en": "bad",
+    "enm": "B9",
+    "et": "Coastal B9"
+  },
+  "be_b10": {
+    "t": "Bad End: Coastal B10",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B10"
+    ],
+    "en": "bad",
+    "enm": "B10",
+    "et": "Coastal B10"
+  },
+  "be_b11": {
+    "t": "Bad End: Coastal B11",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B11"
+    ],
+    "en": "bad",
+    "enm": "B11",
+    "et": "Coastal B11"
+  },
+  "be_b12": {
+    "t": "Bad End: Coastal B12",
+    "loc": "Coastal Zone",
+    "zone": "Coastal",
+    "text": [
+      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
+      "Bad End B12"
+    ],
+    "en": "bad",
+    "enm": "B12",
+    "et": "Coastal B12"
+  },
+  "be_f1": {
+    "t": "Bad End: Mythic F1",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "你在Mythic Zone遭遇了致命的失败。神圣而古老的力量重塑了你的存在。当转变停止时——你已经是这片神话之地的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——神明会照顾你。",
+      "Bad End F1"
+    ],
+    "en": "bad",
+    "enm": "F1",
+    "et": "Mythic F1"
+  },
+  "be_f2": {
+    "t": "Bad End: Mythic F2",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "你在Mythic Zone遭遇了致命的失败。神圣而古老的力量重塑了你的存在。当转变停止时——你已经是这片神话之地的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——神明会照顾你。",
+      "Bad End F2"
+    ],
+    "en": "bad",
+    "enm": "F2",
+    "et": "Mythic F2"
+  },
+  "be_f3": {
+    "t": "Bad End: Mythic F3",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "你在Mythic Zone遭遇了致命的失败。神圣而古老的力量重塑了你的存在。当转变停止时——你已经是这片神话之地的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——神明会照顾你。",
+      "Bad End F3"
+    ],
+    "en": "bad",
+    "enm": "F3",
+    "et": "Mythic F3"
+  },
+  "be_f4": {
+    "t": "Bad End: Mythic F4",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "你在Mythic Zone遭遇了致命的失败。神圣而古老的力量重塑了你的存在。当转变停止时——你已经是这片神话之地的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——神明会照顾你。",
+      "Bad End F4"
+    ],
+    "en": "bad",
+    "enm": "F4",
+    "et": "Mythic F4"
+  },
+  "be_f5": {
+    "t": "Bad End: Mythic F5",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "你在Mythic Zone遭遇了致命的失败。神圣而古老的力量重塑了你的存在。当转变停止时——你已经是这片神话之地的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——神明会照顾你。",
+      "Bad End F5"
+    ],
+    "en": "bad",
+    "enm": "F5",
+    "et": "Mythic F5"
+  },
+  "be_f6": {
+    "t": "Bad End: Mythic F6",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "你在Mythic Zone遭遇了致命的失败。神圣而古老的力量重塑了你的存在。当转变停止时——你已经是这片神话之地的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——神明会照顾你。",
+      "Bad End F6"
+    ],
+    "en": "bad",
+    "enm": "F6",
+    "et": "Mythic F6"
+  },
+  "be_f7": {
+    "t": "Bad End: Mythic F7",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "你在Mythic Zone遭遇了致命的失败。神圣而古老的力量重塑了你的存在。当转变停止时——你已经是这片神话之地的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——神明会照顾你。",
+      "Bad End F7"
+    ],
+    "en": "bad",
+    "enm": "F7",
+    "et": "Mythic F7"
+  },
+  "be_f8": {
+    "t": "Bad End: Mythic F8",
+    "loc": "Mythic Zone",
+    "zone": "Mythic",
+    "text": [
+      "你在Mythic Zone遭遇了致命的失败。神圣而古老的力量重塑了你的存在。当转变停止时——你已经是这片神话之地的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——神明会照顾你。",
+      "Bad End F8"
+    ],
+    "en": "bad",
+    "enm": "F8",
+    "et": "Mythic F8"
+  },
+  "caste_observe": {
+    "t": "暗中观察",
+    "loc": "Forest Zone - Caste City",
+    "zone": "Forest",
+    "text": [
+      "你从窗户的缝隙中向外看去——门外站着一个戴着蓝绿色帽子的年轻人。他看起来不像敌人，更像一个迷路的观光客。你示意Mark这不是威胁。",
+      "Mark打开了门。对方自我介绍叫Percy——一个研究者。他带来了Queen Bee和Hornet矛盾的情报。如果能帮上忙，就能获得安全的通行路线。"
+    ],
+    "chs": [
+      {
+        "t": "去Hive找Queen Bee",
+        "n": "forest_hive"
+      },
+      {
+        "t": "直接挑战Breachwood的蜘蛛",
+        "n": "forest_spider"
+      }
+    ],
+    "pt": [
+      "Percy",
+      "percy"
+    ]
+  },
+  "forest_spider": {
+    "t": "蜘蛛巢穴",
+    "loc": "Forest Zone - Breachwood",
+    "zone": "Forest",
+    "text": [
+      "你选择了直接闯Breachwood——没有Queen Bee的指引。",
+      "林中布满了巨大的蜘蛛网。你听到了窸窣声——来自四面八方。然后你看到了她——Arachne。巨大的蜘蛛身躯上生长着女性的上半身——八条长长的节肢在落叶中轻轻移动。",
+      "「又一个迷路的旅人。」她微笑了——那笑容让空气变得寒冷。",
+      "你想逃——但更多的蜘蛛网从头顶落下。你的双腿被缠住了。",
+      "你做出了错误的选择。"
+    ],
+    "chs": [
+      {
+        "t": "战斗到底",
+        "n": "be_a5",
+        "tf": true
+      },
+      {
+        "t": "……求饶",
+        "n": "be_a1",
+        "tf": true
+      }
+    ],
+    "pt": [
+      "Arachne",
+      "mark"
+    ]
+  },
+  "eurum_search": {
+    "t": "搜寻城市",
+    "loc": "Coastal Zone - Eurum City",
+    "zone": "Coastal",
+    "text": [
+      "你在空无一人的街道上搜寻。在一家被遗弃的商店里发现了有用物资——还有一些文件记录着这个世界的运作规则。",
+      "文件上写着：Orb是这个世界的心跳。每当你获得一颗Orb，你对转化的抵抗力就会增强。",
+      "这是一个有用的发现。你把文件收好，准备继续前进。"
+    ],
+    "chs": [
+      {
+        "t": "去海神神殿",
+        "n": "sea_temple"
+      },
+      {
+        "t": "去港口找船",
+        "n": "coastal_port"
+      }
+    ],
+    "eff": {
+      "san": 5
+    },
+    "pt": [
+      "Mark",
+      "mark"
+    ]
+  },
+  "sea_siren_info": {
+    "t": "Siren的秘密",
+    "loc": "Coastal Zone - 神殿",
+    "zone": "Coastal",
+    "text": [
+      "你问起了那首致命的歌声。海神祭司的表情变得严肃。",
+      "「Siren——她曾经是这座神殿的女祭司。在Robin的力量影响了这片海域后——她被转化成了歌声的怪物。她的歌声能唤起人内心深处最真实的记忆——那些记忆如此强烈，以至于听者的意识会被淹没。」",
+      "「如果你们遇到她——不要听她的歌。保护好自己的耳朵。」",
+      "你点了点头。这个情报也许能救你一命。"
+    ],
+    "chs": [
+      {
+        "t": "返回神殿大厅",
+        "n": "sea_temple"
+      }
+    ],
+    "eff": {
+      "san": 5
+    },
+    "pt": [
+      "海神祭司",
+      "mark"
+    ]
+  },
+  "demon_church_talk": {
+    "t": "修女的秘密",
+    "loc": "Demon Zone - Elysium Church",
+    "zone": "Demon",
+    "text": [
+      "你走上前去，坐在了黑袍修女对面的长椅上。她抬起头看着你——眼睛深处闪烁着紫色的火焰。",
+      "「你想知道什么？」她的声音在教堂中回荡。",
+      "「这个世界的真相。」",
+      "她笑了——那种苦涩而苍凉的笑。「真相就是——你们都是Robin的创作。你们在他的故事中扮演角色。当故事结束时——你们要么被转化，要么被遗忘。」",
+      "「那Orb呢？」",
+      "「Orb是故事的锚点。收集全部六颗——你就能改写故事的结局。」",
+      "她站起身，走向了祭坛深处的阴影中。「我只能告诉你这么多了。」",
+      "你获得了重要的情报——这个世界是一个故事。而你有机会改写它。"
+    ],
+    "chs": [
+      {
+        "t": "离开教堂",
+        "n": "demon_after"
+      }
+    ],
+    "eff": {
+      "san": 10
+    },
+    "pt": [
+      "Aralu",
+      "aralu"
+    ]
+  },
+  "demon_observe": {
+    "t": "寻找弱点",
+    "loc": "Demon Zone - 城堡大厅",
+    "zone": "Demon",
+    "text": [
+      "你没有急于动手。你仔细观察着Draculara——她的项圈。红色的宝石镶嵌在黑色的金属底座中。宝石表面有细微的裂痕——那是被魔力侵蚀的痕迹。",
+      "「她的项圈——」你低声对Aralu说。「那是她的弱点。如果击碎那颗宝石——她就会失去力量。」",
+      "Aralu点了点头。你们交换了一个眼神——然后同时出击。"
+    ],
+    "chs": [
+      {
+        "t": "攻击项圈！",
+        "n": "demon_fight",
+        "eff": {
+          "hp": -5
+        }
+      },
+      {
+        "t": "让她自己放弃",
+        "n": "demon_talk"
+      }
+    ],
+    "pt": [
+      "Aralu",
+      "aralu"
+    ]
+  },
+  "desolate_smoke": {
+    "t": "烟雾中的陷阱",
+    "loc": "Desolate Zone - 宅邸",
+    "zone": "Desolate",
+    "text": [
+      "你扔出了随身携带的烟雾弹——白色的雾气瞬间充斥了整个大厅。Mara在雾气中咳嗽着——但你也看不到了她的位置。",
+      "你在烟雾中摸索着前进——然后你碰到了什么东西。一个架子。架子上装满了化学试剂瓶。你的手撞到了一个瓶子——它倒下了，绿色的液体在地板上蔓延。",
+      "那液体发出了嘶嘶的声响——地板在腐蚀。你最好在它把你和Mara一起吞没之前离开这里。"
+    ],
+    "chs": [
+      {
+        "t": "快速撤退",
+        "n": "desolate_fight",
+        "eff": {
+          "hp": -5
+        }
+      }
+    ],
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "pyramid_study": {
+    "t": "壁画启示",
+    "loc": "Desert Zone - 金字塔",
+    "zone": "Desert",
+    "text": [
+      "你停下脚步，仔细端详着甬道两侧的壁画。除了Robin的故事之外——你发现了一些更古老的画面。",
+      "画面上显示着一个戴着红色项圈的人站在六个光球之间——六个光球对应着六种不同的颜色。下面的文字写着：「当六光归一时，锁可破。」",
+      "「六光——是六颗Orb。」你意识到。「锁——是Robin的项圈。」",
+      "这个发现给了你重要的线索——击败Robin的关键不在于杀死他，而在于让六颗Orb合一。"
+    ],
+    "chs": [
+      {
+        "t": "面对Sphinx",
+        "n": "sphinx_ok"
+      }
+    ],
+    "eff": {
+      "san": 10
+    },
+    "pt": [
+      "Kim",
+      "kim"
+    ]
+  },
+  "final_shuriken": {
+    "t": "符文之力",
+    "loc": "Mythic Zone - 神社",
+    "zone": "Mythic",
+    "text": [
+      "你取出了之前获得的符文手里剑——忍者的赠礼。你用力掷出——手里剑在空中旋转着，带着蓝色的符文光芒，击中了Robin的项圈！",
+      "宝石裂开了。但项圈没有完全破碎。Robin后退了一步——他的眼睛中第一次出现了真正的感情。不是愤怒——是悲伤。",
+      "「谢谢你。不是为我——是为那些被转化的人。」他的声音颤抖着。「如果项圈完全破碎——整个Monline会崩溃。所有被转化的人……会消失。」",
+      "你握着剩余的Orb。你还有一个选择。"
+    ],
+    "chs": [
+      {
+        "t": "停手——寻找另一种方式",
+        "n": "final_talk"
+      },
+      {
+        "t": "终结一切——哪怕付出代价",
+        "n": "final_true"
+      }
+    ],
+    "pt": [
+      "Robin",
+      "robin"
+    ]
+  }};
 
 </script>
 </body>
-</html,"be_a1": {"t": "Bad End: Liar Liar", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Liar Liar"], "en": "bad", "enm": "A1", "et": "Liar Liar"}, "be_a2": {"t": "Bad End: Addiction", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Addiction"], "en": "bad", "enm": "A2", "et": "Addiction"}, "be_a3": {"t": "Bad End: Honey Trap", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Honey Trap"], "en": "bad", "enm": "A3", "et": "Honey Trap"}, "be_a4": {"t": "Bad End: A True Honor", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: A True Honor"], "en": "bad", "enm": "A4", "et": "A True Honor"}, "be_a5": {"t": "Bad End: Absolute Power", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Absolute Power"], "en": "bad", "enm": "A5", "et": "Absolute Power"}, "be_a6": {"t": "Bad End: Slice of Life", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Slice of Life"], "en": "bad", "enm": "A6", "et": "Slice of Life"}, "be_a7": {"t": "Bad End: Fluid Hunt", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Fluid Hunt"], "en": "bad", "enm": "A7", "et": "Fluid Hunt"}, "be_a8": {"t": "Bad End: Stay Awhile and Listen", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Stay Awhile and Listen"], "en": "bad", "enm": "A8", "et": "Stay Awhile and Listen"}, "be_a9": {"t": "Bad End: Hooters", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Hooters"], "en": "bad", "enm": "A9", "et": "Hooters"}, "be_a10": {"t": "Bad End: A Ribbiting Existence", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: A Ribbiting Existence"], "en": "bad", "enm": "A10", "et": "A Ribbiting Existence"}, "be_a11": {"t": "Bad End: Sweet Behind", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Sweet Behind"], "en": "bad", "enm": "A11", "et": "Sweet Behind"}, "be_a12": {"t": "Bad End: Pillars to the Temple", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Pillars to the Temple"], "en": "bad", "enm": "A12", "et": "Pillars to the Temple"}, "be_a13": {"t": "Bad End: A Cat is Fine Too", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: A Cat is Fine Too"], "en": "bad", "enm": "A13", "et": "A Cat is Fine Too"}, "be_a14": {"t": "Bad End: Cat Called", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Cat Called"], "en": "bad", "enm": "A14", "et": "Cat Called"}, "be_a15": {"t": "Bad End: Feline Fine", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Feline Fine"], "en": "bad", "enm": "A15", "et": "Feline Fine"}, "be_a16": {"t": "Bad End: Heavy Petting", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: Heavy Petting"], "en": "bad", "enm": "A16", "et": "Heavy Petting"}, "be_a17": {"t": "Bad End: The Cat Meow", "loc": "Forest Zone", "zone": "Forest", "text": ["你在Forest Zone遭遇了致命的失败。转变来得比你想象的更快。你的身体在魔力中重塑——等变化停止时，你已经成了这片森林的永久居民。你记得自己曾经是谁吗？也许不记得反而更好。在这里——你找到了新的归属。", "Bad End: The Cat Meow"], "en": "bad", "enm": "A17", "et": "The Cat Meow"}, "be_b1": {"t": "Bad End: The Littlest Mermaid", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: The Littlest Mermaid"], "en": "bad", "enm": "B1", "et": "The Littlest Mermaid"}, "be_b2": {"t": "Bad End: Beneath the Light", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Beneath the Light"], "en": "bad", "enm": "B2", "et": "Beneath the Light"}, "be_b3": {"t": "Bad End: Under da Sea", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Under da Sea"], "en": "bad", "enm": "B3", "et": "Under da Sea"}, "be_b4": {"t": "Bad End: Plenty of Fish in the Sea", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Plenty of Fish in the Sea"], "en": "bad", "enm": "B4", "et": "Plenty of Fish in the Sea"}, "be_b5": {"t": "Bad End: The Catch of a Lifetime", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: The Catch of a Lifetime"], "en": "bad", "enm": "B5", "et": "The Catch of a Lifetime"}, "be_b6": {"t": "Bad End: Charybdis Chow", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Charybdis Chow"], "en": "bad", "enm": "B6", "et": "Charybdis Chow"}, "be_b7": {"t": "Bad End: Boredom", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Boredom"], "en": "bad", "enm": "B7", "et": "Boredom"}, "be_b8": {"t": "Bad End: Outlet of Love", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Outlet of Love"], "en": "bad", "enm": "B8", "et": "Outlet of Love"}, "be_b9": {"t": "Bad End: Deep Dark Depths", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Deep Dark Depths"], "en": "bad", "enm": "B9", "et": "Deep Dark Depths"}, "be_b10": {"t": "Bad End: Die with Dignity", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Die with Dignity"], "en": "bad", "enm": "B10", "et": "Die with Dignity"}, "be_b11": {"t": "Bad End: The Saviour", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: The Saviour"], "en": "bad", "enm": "B11", "et": "The Saviour"}, "be_b12": {"t": "Bad End: Magic Cucumber", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Magic Cucumber"], "en": "bad", "enm": "B12", "et": "Magic Cucumber"}, "be_b13": {"t": "Bad End: Kappativated", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Kappativated"], "en": "bad", "enm": "B13", "et": "Kappativated"}, "be_b14": {"t": "Bad End: One Track Mind", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: One Track Mind"], "en": "bad", "enm": "B14", "et": "One Track Mind"}, "be_b15": {"t": "Bad End: Sisters in Crime", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Sisters in Crime"], "en": "bad", "enm": "B15", "et": "Sisters in Crime"}, "be_b16": {"t": "Bad End: Backup Singer", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Backup Singer"], "en": "bad", "enm": "B16", "et": "Backup Singer"}, "be_b17": {"t": "Bad End: Flow Rider", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Flow Rider"], "en": "bad", "enm": "B17", "et": "Flow Rider"}, "be_b18": {"t": "Bad End: A Clean Slate", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: A Clean Slate"], "en": "bad", "enm": "B18", "et": "A Clean Slate"}, "be_b19": {"t": "Bad End: Coconut Grass", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Coconut Grass"], "en": "bad", "enm": "B19", "et": "Coconut Grass"}, "be_b20": {"t": "Bad End: Humans is Stupid", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Humans is Stupid"], "en": "bad", "enm": "B20", "et": "Humans is Stupid"}, "be_b21": {"t": "Bad End: Saltwater Sweetie", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Saltwater Sweetie"], "en": "bad", "enm": "B21", "et": "Saltwater Sweetie"}, "be_b22": {"t": "Bad End: Love Beneath the Gaslight", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Love Beneath the Gaslight"], "en": "bad", "enm": "B22", "et": "Love Beneath the Gaslight"}, "be_b23": {"t": "Bad End: Physician, H-Eel Thyself", "loc": "Coastal Zone", "zone": "Coastal", "text": ["Coastal Zone的美丽是一个谎言。你被它欺骗了——现在你属于大海。你长出了鳞片、鳍或者触手。你在海底的宫殿中游荡——永远。", "Bad End: Physician, H-Eel Thyself"], "en": "bad", "enm": "B23", "et": "Physician, H-Eel Thyself"}, "be_c1": {"t": "Bad End: Demon C1", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C1"], "en": "bad", "enm": "C1", "et": "Demon C1"}, "be_c2": {"t": "Bad End: Demon C2", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C2"], "en": "bad", "enm": "C2", "et": "Demon C2"}, "be_c3": {"t": "Bad End: Demon C3", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C3"], "en": "bad", "enm": "C3", "et": "Demon C3"}, "be_c4": {"t": "Bad End: Demon C4", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C4"], "en": "bad", "enm": "C4", "et": "Demon C4"}, "be_c5": {"t": "Bad End: Demon C5", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C5"], "en": "bad", "enm": "C5", "et": "Demon C5"}, "be_c6": {"t": "Bad End: Demon C6", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C6"], "en": "bad", "enm": "C6", "et": "Demon C6"}, "be_c7": {"t": "Bad End: Demon C7", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C7"], "en": "bad", "enm": "C7", "et": "Demon C7"}, "be_c8": {"t": "Bad End: Demon C8", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C8"], "en": "bad", "enm": "C8", "et": "Demon C8"}, "be_c9": {"t": "Bad End: Demon C9", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C9"], "en": "bad", "enm": "C9", "et": "Demon C9"}, "be_c10": {"t": "Bad End: Demon C10", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C10"], "en": "bad", "enm": "C10", "et": "Demon C10"}, "be_c11": {"t": "Bad End: Demon C11", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C11"], "en": "bad", "enm": "C11", "et": "Demon C11"}, "be_c12": {"t": "Bad End: Demon C12", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C12"], "en": "bad", "enm": "C12", "et": "Demon C12"}, "be_c13": {"t": "Bad End: Demon C13", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C13"], "en": "bad", "enm": "C13", "et": "Demon C13"}, "be_c14": {"t": "Bad End: Demon C14", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C14"], "en": "bad", "enm": "C14", "et": "Demon C14"}, "be_c15": {"t": "Bad End: Demon C15", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C15"], "en": "bad", "enm": "C15", "et": "Demon C15"}, "be_c16": {"t": "Bad End: Demon C16", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C16"], "en": "bad", "enm": "C16", "et": "Demon C16"}, "be_c17": {"t": "Bad End: Demon C17", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C17"], "en": "bad", "enm": "C17", "et": "Demon C17"}, "be_c18": {"t": "Bad End: Demon C18", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C18"], "en": "bad", "enm": "C18", "et": "Demon C18"}, "be_c19": {"t": "Bad End: Demon C19", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C19"], "en": "bad", "enm": "C19", "et": "Demon C19"}, "be_c20": {"t": "Bad End: Demon C20", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C20"], "en": "bad", "enm": "C20", "et": "Demon C20"}, "be_c21": {"t": "Bad End: Demon C21", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C21"], "en": "bad", "enm": "C21", "et": "Demon C21"}, "be_c22": {"t": "Bad End: Demon C22", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C22"], "en": "bad", "enm": "C22", "et": "Demon C22"}, "be_c23": {"t": "Bad End: Demon C23", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C23"], "en": "bad", "enm": "C23", "et": "Demon C23"}, "be_c24": {"t": "Bad End: Demon C24", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C24"], "en": "bad", "enm": "C24", "et": "Demon C24"}, "be_c25": {"t": "Bad End: Demon C25", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C25"], "en": "bad", "enm": "C25", "et": "Demon C25"}, "be_c26": {"t": "Bad End: Demon C26", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C26"], "en": "bad", "enm": "C26", "et": "Demon C26"}, "be_c27": {"t": "Bad End: Demon C27", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C27"], "en": "bad", "enm": "C27", "et": "Demon C27"}, "be_c28": {"t": "Bad End: Demon C28", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C28"], "en": "bad", "enm": "C28", "et": "Demon C28"}, "be_c29": {"t": "Bad End: Demon C29", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C29"], "en": "bad", "enm": "C29", "et": "Demon C29"}, "be_c30": {"t": "Bad End: Demon C30", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C30"], "en": "bad", "enm": "C30", "et": "Demon C30"}, "be_c31": {"t": "Bad End: Demon C31", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C31"], "en": "bad", "enm": "C31", "et": "Demon C31"}, "be_c32": {"t": "Bad End: Demon C32", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C32"], "en": "bad", "enm": "C32", "et": "Demon C32"}, "be_c33": {"t": "Bad End: Demon C33", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C33"], "en": "bad", "enm": "C33", "et": "Demon C33"}, "be_c34": {"t": "Bad End: Demon C34", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C34"], "en": "bad", "enm": "C34", "et": "Demon C34"}, "be_c35": {"t": "Bad End: Demon C35", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C35"], "en": "bad", "enm": "C35", "et": "Demon C35"}, "be_c36": {"t": "Bad End: Demon C36", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C36"], "en": "bad", "enm": "C36", "et": "Demon C36"}, "be_c37": {"t": "Bad End: Demon C37", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C37"], "en": "bad", "enm": "C37", "et": "Demon C37"}, "be_c38": {"t": "Bad End: Demon C38", "loc": "Demon Zone", "zone": "Demon", "text": ["DEMON Zone的黑暗能量渗入了你的灵魂。你的身体在恶魔魔法中扭曲——你不是被击败了。你是被转化了。你成了城堡或教堂中的永久居民——一个恶魔、一个宠物、或一件玩具。在这里——欲望就是一切。", "Bad End C38"], "en": "bad", "enm": "C38", "et": "Demon C38"}, "be_d1": {"t": "Bad End: Desolate D1", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D1"], "en": "bad", "enm": "D1", "et": "Desolate D1"}, "be_d2": {"t": "Bad End: Desolate D2", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D2"], "en": "bad", "enm": "D2", "et": "Desolate D2"}, "be_d3": {"t": "Bad End: Desolate D3", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D3"], "en": "bad", "enm": "D3", "et": "Desolate D3"}, "be_d4": {"t": "Bad End: Desolate D4", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D4"], "en": "bad", "enm": "D4", "et": "Desolate D4"}, "be_d5": {"t": "Bad End: Desolate D5", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D5"], "en": "bad", "enm": "D5", "et": "Desolate D5"}, "be_d6": {"t": "Bad End: Desolate D6", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D6"], "en": "bad", "enm": "D6", "et": "Desolate D6"}, "be_d7": {"t": "Bad End: Desolate D7", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D7"], "en": "bad", "enm": "D7", "et": "Desolate D7"}, "be_d8": {"t": "Bad End: Desolate D8", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D8"], "en": "bad", "enm": "D8", "et": "Desolate D8"}, "be_d9": {"t": "Bad End: Desolate D9", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D9"], "en": "bad", "enm": "D9", "et": "Desolate D9"}, "be_d10": {"t": "Bad End: Desolate D10", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D10"], "en": "bad", "enm": "D10", "et": "Desolate D10"}, "be_d11": {"t": "Bad End: Desolate D11", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D11"], "en": "bad", "enm": "D11", "et": "Desolate D11"}, "be_d12": {"t": "Bad End: Desolate D12", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D12"], "en": "bad", "enm": "D12", "et": "Desolate D12"}, "be_d13": {"t": "Bad End: Desolate D13", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D13"], "en": "bad", "enm": "D13", "et": "Desolate D13"}, "be_d14": {"t": "Bad End: Desolate D14", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D14"], "en": "bad", "enm": "D14", "et": "Desolate D14"}, "be_d15": {"t": "Bad End: Desolate D15", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D15"], "en": "bad", "enm": "D15", "et": "Desolate D15"}, "be_d16": {"t": "Bad End: Desolate D16", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D16"], "en": "bad", "enm": "D16", "et": "Desolate D16"}, "be_d17": {"t": "Bad End: Desolate D17", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D17"], "en": "bad", "enm": "D17", "et": "Desolate D17"}, "be_d18": {"t": "Bad End: Desolate D18", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D18"], "en": "bad", "enm": "D18", "et": "Desolate D18"}, "be_d19": {"t": "Bad End: Desolate D19", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D19"], "en": "bad", "enm": "D19", "et": "Desolate D19"}, "be_d20": {"t": "Bad End: Desolate D20", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D20"], "en": "bad", "enm": "D20", "et": "Desolate D20"}, "be_d21": {"t": "Bad End: Desolate D21", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D21"], "en": "bad", "enm": "D21", "et": "Desolate D21"}, "be_d22": {"t": "Bad End: Desolate D22", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D22"], "en": "bad", "enm": "D22", "et": "Desolate D22"}, "be_d23": {"t": "Bad End: Desolate D23", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D23"], "en": "bad", "enm": "D23", "et": "Desolate D23"}, "be_d24": {"t": "Bad End: Desolate D24", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D24"], "en": "bad", "enm": "D24", "et": "Desolate D24"}, "be_d25": {"t": "Bad End: Desolate D25", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D25"], "en": "bad", "enm": "D25", "et": "Desolate D25"}, "be_d26": {"t": "Bad End: Desolate D26", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D26"], "en": "bad", "enm": "D26", "et": "Desolate D26"}, "be_d27": {"t": "Bad End: Desolate D27", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D27"], "en": "bad", "enm": "D27", "et": "Desolate D27"}, "be_d28": {"t": "Bad End: Desolate D28", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D28"], "en": "bad", "enm": "D28", "et": "Desolate D28"}, "be_d29": {"t": "Bad End: Desolate D29", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D29"], "en": "bad", "enm": "D29", "et": "Desolate D29"}, "be_d30": {"t": "Bad End: Desolate D30", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D30"], "en": "bad", "enm": "D30", "et": "Desolate D30"}, "be_d31": {"t": "Bad End: Desolate D31", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D31"], "en": "bad", "enm": "D31", "et": "Desolate D31"}, "be_d32": {"t": "Bad End: Desolate D32", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D32"], "en": "bad", "enm": "D32", "et": "Desolate D32"}, "be_d33": {"t": "Bad End: Desolate D33", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D33"], "en": "bad", "enm": "D33", "et": "Desolate D33"}, "be_d34": {"t": "Bad End: Desolate D34", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D34"], "en": "bad", "enm": "D34", "et": "Desolate D34"}, "be_d35": {"t": "Bad End: Desolate D35", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D35"], "en": "bad", "enm": "D35", "et": "Desolate D35"}, "be_d36": {"t": "Bad End: Desolate D36", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D36"], "en": "bad", "enm": "D36", "et": "Desolate D36"}, "be_d37": {"t": "Bad End: Desolate D37", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D37"], "en": "bad", "enm": "D37", "et": "Desolate D37"}, "be_d38": {"t": "Bad End: Desolate D38", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D38"], "en": "bad", "enm": "D38", "et": "Desolate D38"}, "be_d39": {"t": "Bad End: Desolate D39", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D39"], "en": "bad", "enm": "D39", "et": "Desolate D39"}, "be_d40": {"t": "Bad End: Desolate D40", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D40"], "en": "bad", "enm": "D40", "et": "Desolate D40"}, "be_d41": {"t": "Bad End: Desolate D41", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D41"], "en": "bad", "enm": "D41", "et": "Desolate D41"}, "be_d42": {"t": "Bad End: Desolate D42", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D42"], "en": "bad", "enm": "D42", "et": "Desolate D42"}, "be_d43": {"t": "Bad End: Desolate D43", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D43"], "en": "bad", "enm": "D43", "et": "Desolate D43"}, "be_d44": {"t": "Bad End: Desolate D44", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D44"], "en": "bad", "enm": "D44", "et": "Desolate D44"}, "be_d45": {"t": "Bad End: Desolate D45", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D45"], "en": "bad", "enm": "D45", "et": "Desolate D45"}, "be_d46": {"t": "Bad End: Desolate D46", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D46"], "en": "bad", "enm": "D46", "et": "Desolate D46"}, "be_d47": {"t": "Bad End: Desolate D47", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D47"], "en": "bad", "enm": "D47", "et": "Desolate D47"}, "be_d48": {"t": "Bad End: Desolate D48", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D48"], "en": "bad", "enm": "D48", "et": "Desolate D48"}, "be_d49": {"t": "Bad End: Desolate D49", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D49"], "en": "bad", "enm": "D49", "et": "Desolate D49"}, "be_d50": {"t": "Bad End: Desolate D50", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D50"], "en": "bad", "enm": "D50", "et": "Desolate D50"}, "be_d51": {"t": "Bad End: Desolate D51", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D51"], "en": "bad", "enm": "D51", "et": "Desolate D51"}, "be_d52": {"t": "Bad End: Desolate D52", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D52"], "en": "bad", "enm": "D52", "et": "Desolate D52"}, "be_d53": {"t": "Bad End: Desolate D53", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D53"], "en": "bad", "enm": "D53", "et": "Desolate D53"}, "be_d54": {"t": "Bad End: Desolate D54", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D54"], "en": "bad", "enm": "D54", "et": "Desolate D54"}, "be_d55": {"t": "Bad End: Desolate D55", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D55"], "en": "bad", "enm": "D55", "et": "Desolate D55"}, "be_d56": {"t": "Bad End: Desolate D56", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D56"], "en": "bad", "enm": "D56", "et": "Desolate D56"}, "be_d57": {"t": "Bad End: Desolate D57", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D57"], "en": "bad", "enm": "D57", "et": "Desolate D57"}, "be_d58": {"t": "Bad End: Desolate D58", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D58"], "en": "bad", "enm": "D58", "et": "Desolate D58"}, "be_d59": {"t": "Bad End: Desolate D59", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D59"], "en": "bad", "enm": "D59", "et": "Desolate D59"}, "be_d60": {"t": "Bad End: Desolate D60", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D60"], "en": "bad", "enm": "D60", "et": "Desolate D60"}, "be_d61": {"t": "Bad End: Desolate D61", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D61"], "en": "bad", "enm": "D61", "et": "Desolate D61"}, "be_d62": {"t": "Bad End: Desolate D62", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D62"], "en": "bad", "enm": "D62", "et": "Desolate D62"}, "be_d63": {"t": "Bad End: Desolate D63", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D63"], "en": "bad", "enm": "D63", "et": "Desolate D63"}, "be_d64": {"t": "Bad End: Desolate D64", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D64"], "en": "bad", "enm": "D64", "et": "Desolate D64"}, "be_d65": {"t": "Bad End: Desolate D65", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D65"], "en": "bad", "enm": "D65", "et": "Desolate D65"}, "be_d66": {"t": "Bad End: Desolate D66", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D66"], "en": "bad", "enm": "D66", "et": "Desolate D66"}, "be_d67": {"t": "Bad End: Desolate D67", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D67"], "en": "bad", "enm": "D67", "et": "Desolate D67"}, "be_d68": {"t": "Bad End: Desolate D68", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D68"], "en": "bad", "enm": "D68", "et": "Desolate D68"}, "be_d69": {"t": "Bad End: Desolate D69", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D69"], "en": "bad", "enm": "D69", "et": "Desolate D69"}, "be_d70": {"t": "Bad End: Desolate D70", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D70"], "en": "bad", "enm": "D70", "et": "Desolate D70"}, "be_d71": {"t": "Bad End: Desolate D71", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D71"], "en": "bad", "enm": "D71", "et": "Desolate D71"}, "be_d72": {"t": "Bad End: Desolate D72", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D72"], "en": "bad", "enm": "D72", "et": "Desolate D72"}, "be_d73": {"t": "Bad End: Desolate D73", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D73"], "en": "bad", "enm": "D73", "et": "Desolate D73"}, "be_d74": {"t": "Bad End: Desolate D74", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D74"], "en": "bad", "enm": "D74", "et": "Desolate D74"}, "be_d75": {"t": "Bad End: Desolate D75", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D75"], "en": "bad", "enm": "D75", "et": "Desolate D75"}, "be_d76": {"t": "Bad End: Desolate D76", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D76"], "en": "bad", "enm": "D76", "et": "Desolate D76"}, "be_d77": {"t": "Bad End: Desolate D77", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D77"], "en": "bad", "enm": "D77", "et": "Desolate D77"}, "be_d78": {"t": "Bad End: Desolate D78", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D78"], "en": "bad", "enm": "D78", "et": "Desolate D78"}, "be_d79": {"t": "Bad End: Desolate D79", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D79"], "en": "bad", "enm": "D79", "et": "Desolate D79"}, "be_d80": {"t": "Bad End: Desolate D80", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D80"], "en": "bad", "enm": "D80", "et": "Desolate D80"}, "be_d81": {"t": "Bad End: Desolate D81", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D81"], "en": "bad", "enm": "D81", "et": "Desolate D81"}, "be_d82": {"t": "Bad End: Desolate D82", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D82"], "en": "bad", "enm": "D82", "et": "Desolate D82"}, "be_d83": {"t": "Bad End: Desolate D83", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D83"], "en": "bad", "enm": "D83", "et": "Desolate D83"}, "be_d84": {"t": "Bad End: Desolate D84", "loc": "Desolate Zone", "zone": "Desolate", "text": ["Desolate Zone的僵尸病毒或黑暗魔法吞噬了你。你在废墟中醒来——变了。不再是人类了。你在这座死城的街道上漫步——寻找着和你一样迷失的灵魂。", "Bad End D84"], "en": "bad", "enm": "D84", "et": "Desolate D84"}, "be_e1": {"t": "Bad End: Riddle Me This", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Riddle Me This"], "en": "bad", "enm": "E1", "et": "Riddle Me This"}, "be_e2": {"t": "Bad End: Twice as Bright", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Twice as Bright"], "en": "bad", "enm": "E2", "et": "Twice as Bright"}, "be_e3": {"t": "Bad End: The First of Nine", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: The First of Nine"], "en": "bad", "enm": "E3", "et": "The First of Nine"}, "be_e4": {"t": "Bad End: What Name", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: What Name"], "en": "bad", "enm": "E4", "et": "What Name"}, "be_e5": {"t": "Bad End: A Riddle Wrapped", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: A Riddle Wrapped"], "en": "bad", "enm": "E5", "et": "A Riddle Wrapped"}, "be_e6": {"t": "Bad End: The Mummy Boy", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: The Mummy Boy"], "en": "bad", "enm": "E6", "et": "The Mummy Boy"}, "be_e7": {"t": "Bad End: Are You My Mummy", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Are You My Mummy"], "en": "bad", "enm": "E7", "et": "Are You My Mummy"}, "be_e8": {"t": "Bad End: Singleminded", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Singleminded"], "en": "bad", "enm": "E8", "et": "Singleminded"}, "be_e9": {"t": "Bad End: A Sellers Market", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: A Sellers Market"], "en": "bad", "enm": "E9", "et": "A Sellers Market"}, "be_e10": {"t": "Bad End: Anubintervention", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Anubintervention"], "en": "bad", "enm": "E10", "et": "Anubintervention"}, "be_e11": {"t": "Bad End: Pick Your Poison", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Pick Your Poison"], "en": "bad", "enm": "E11", "et": "Pick Your Poison"}, "be_e12": {"t": "Bad End: Cexigua", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Cexigua"], "en": "bad", "enm": "E12", "et": "Cexigua"}, "be_e13": {"t": "Bad End: Surrogacy", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Surrogacy"], "en": "bad", "enm": "E13", "et": "Surrogacy"}, "be_e14": {"t": "Bad End: Least Expecting", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Least Expecting"], "en": "bad", "enm": "E14", "et": "Least Expecting"}, "be_e15": {"t": "Bad End: Cock Roach", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Cock Roach"], "en": "bad", "enm": "E15", "et": "Cock Roach"}, "be_e16": {"t": "Bad End: PermanAnt", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: PermanAnt"], "en": "bad", "enm": "E16", "et": "PermanAnt"}, "be_e17": {"t": "Bad End: A Web of Lies", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: A Web of Lies"], "en": "bad", "enm": "E17", "et": "A Web of Lies"}, "be_e18": {"t": "Bad End: Only Natural", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Only Natural"], "en": "bad", "enm": "E18", "et": "Only Natural"}, "be_e19": {"t": "Bad End: Go Down Prehistory", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Go Down Prehistory"], "en": "bad", "enm": "E19", "et": "Go Down Prehistory"}, "be_e20": {"t": "Bad End: Outbreak", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Outbreak"], "en": "bad", "enm": "E20", "et": "Outbreak"}, "be_e21": {"t": "Bad End: Pricked", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Pricked"], "en": "bad", "enm": "E21", "et": "Pricked"}, "be_e22": {"t": "Bad End: Ye Mighty", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Ye Mighty"], "en": "bad", "enm": "E22", "et": "Ye Mighty"}, "be_e23": {"t": "Bad End: One Man Meat", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: One Man Meat"], "en": "bad", "enm": "E23", "et": "One Man Meat"}, "be_e24": {"t": "Bad End: Sting Operation", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Sting Operation"], "en": "bad", "enm": "E24", "et": "Sting Operation"}, "be_e25": {"t": "Bad End: Golden Girls", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Golden Girls"], "en": "bad", "enm": "E25", "et": "Golden Girls"}, "be_e26": {"t": "Bad End: Back to Reality", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Back to Reality"], "en": "bad", "enm": "E26", "et": "Back to Reality"}, "be_e27": {"t": "Bad End: Wish Granted", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Wish Granted"], "en": "bad", "enm": "E27", "et": "Wish Granted"}, "be_e28": {"t": "Bad End: Fallen Warrior", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Fallen Warrior"], "en": "bad", "enm": "E28", "et": "Fallen Warrior"}, "be_e29": {"t": "Bad End: Hot Unbothered", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Hot Unbothered"], "en": "bad", "enm": "E29", "et": "Hot Unbothered"}, "be_e30": {"t": "Bad End: Friends Forever", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Friends Forever"], "en": "bad", "enm": "E30", "et": "Friends Forever"}, "be_e31": {"t": "Bad End: Heart of Cards", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Heart of Cards"], "en": "bad", "enm": "E31", "et": "Heart of Cards"}, "be_e32": {"t": "Bad End: Fatal Fate", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Fatal Fate"], "en": "bad", "enm": "E32", "et": "Fatal Fate"}, "be_e33": {"t": "Bad End: Boy Toyed With", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Boy Toyed With"], "en": "bad", "enm": "E33", "et": "Boy Toyed With"}, "be_e34": {"t": "Bad End: Stuck Sexpot", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Stuck Sexpot"], "en": "bad", "enm": "E34", "et": "Stuck Sexpot"}, "be_e35": {"t": "Bad End: Walls Have Eyes", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Walls Have Eyes"], "en": "bad", "enm": "E35", "et": "Walls Have Eyes"}, "be_e36": {"t": "Bad End: Judge Not", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Judge Not"], "en": "bad", "enm": "E36", "et": "Judge Not"}, "be_e37": {"t": "Bad End: Living Vicarious", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Living Vicarious"], "en": "bad", "enm": "E37", "et": "Living Vicarious"}, "be_e38": {"t": "Bad End: In the Lap of Gods", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: In the Lap of Gods"], "en": "bad", "enm": "E38", "et": "In the Lap of Gods"}, "be_e39": {"t": "Bad End: In the Grace of Gods", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: In the Grace of Gods"], "en": "bad", "enm": "E39", "et": "In the Grace of Gods"}, "be_e40": {"t": "Bad End: Melt in Your Mouth", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Melt in Your Mouth"], "en": "bad", "enm": "E40", "et": "Melt in Your Mouth"}, "be_e41": {"t": "Bad End: Cooked to Perfection", "loc": "Desert Zone", "zone": "Desert", "text": ["Desert Zone的烈日和古老魔法把你变成了永恒沙漠的一部分。你在金字塔中游荡——一具不朽的躯体。你的思维被简化了——只剩下对下一个来访者的期待。", "Bad End: Cooked to Perfection"], "en": "bad", "enm": "E41", "et": "Cooked to Perfection"}, "be_f1": {"t": "Bad End: True", "loc": "Mythic Zone", "zone": "Mythic", "text": ["你在Mythic Zone走到了终点——但你没有胜利。Robin的力量吞噬了你。你成了这个世界永恒的一部分——一个在神社中游荡的灵魂。永远。", "Bad End: True"], "en": "bad", "enm": "F1", "et": "True"}, "be_f2": {"t": "Bad End: Shrine Maiden", "loc": "Mythic Zone", "zone": "Mythic", "text": ["你在Mythic Zone走到了终点——但你没有胜利。Robin的力量吞噬了你。你成了这个世界永恒的一部分——一个在神社中游荡的灵魂。永远。", "Bad End: Shrine Maiden"], "en": "bad", "enm": "F2", "et": "Shrine Maiden"}, "be_f3": {"t": "Bad End: Oni Bride", "loc": "Mythic Zone", "zone": "Mythic", "text": ["你在Mythic Zone走到了终点——但你没有胜利。Robin的力量吞噬了你。你成了这个世界永恒的一部分——一个在神社中游荡的灵魂。永远。", "Bad End: Oni Bride"], "en": "bad", "enm": "F3", "et": "Oni Bride"}, "be_f4": {"t": "Bad End: Kitsune Toy", "loc": "Mythic Zone", "zone": "Mythic", "text": ["你在Mythic Zone走到了终点——但你没有胜利。Robin的力量吞噬了你。你成了这个世界永恒的一部分——一个在神社中游荡的灵魂。永远。", "Bad End: Kitsune Toy"], "en": "bad", "enm": "F4", "et": "Kitsune Toy"}, "be_f5": {"t": "Bad End: Kunoichi Servant", "loc": "Mythic Zone", "zone": "Mythic", "text": ["你在Mythic Zone走到了终点——但你没有胜利。Robin的力量吞噬了你。你成了这个世界永恒的一部分——一个在神社中游荡的灵魂。永远。", "Bad End: Kunoichi Servant"], "en": "bad", "enm": "F5", "et": "Kunoichi Servant"}, "be_f6": {"t": "Bad End: Fairy Guest", "loc": "Mythic Zone", "zone": "Mythic", "text": ["你在Mythic Zone走到了终点——但你没有胜利。Robin的力量吞噬了你。你成了这个世界永恒的一部分——一个在神社中游荡的灵魂。永远。", "Bad End: Fairy Guest"], "en": "bad", "enm": "F6", "et": "Fairy Guest"}, "be_f7": {"t": "Bad End: Centaur Stable", "loc": "Mythic Zone", "zone": "Mythic", "text": ["你在Mythic Zone走到了终点——但你没有胜利。Robin的力量吞噬了你。你成了这个世界永恒的一部分——一个在神社中游荡的灵魂。永远。", "Bad End: Centaur Stable"], "en": "bad", "enm": "F7", "et": "Centaur Stable"}, "be_f8": {"t": "Bad End: Goblin Slave", "loc": "Mythic Zone", "zone": "Mythic", "text": ["你在Mythic Zone走到了终点——但你没有胜利。Robin的力量吞噬了你。你成了这个世界永恒的一部分——一个在神社中游荡的灵魂。永远。", "Bad End: Goblin Slave"], "en": "bad", "enm": "F8", "et": "Goblin Slave"}, "desert_quest_nereid": {"t": "Nereid Quest", "loc": "Coastal Zone - Budan", "zone": "Coastal", "text": ["你来到Budan时，一个半透明的女性身影在海面上游动。她是Nereid——海仙女。她看到你后游了过来——在海面上露出上半身。", "“旅行者。你是来取Orb的吗？但你看起来……有别的目的。”", "你问她是否知道更多关于Robin的事情。她沉默了。“Robin……”她的声音带着悲伤。“他曾经是个人类。一个创造了虚拟世界来逃避现实的年轻人。但这个世界——它活了过来。它开始按照自己的意志运行——而Robin被困在了自己的创作中。”", "“他被困在这里？”", "“不——他选择了留下。因为离开意味着……”她顿了顿。“意味着他必须面对现实世界——那个让他选择逃避的地方。”"], "chs": [{"t": "前往Demon Zone", "n": "demon_entry"}], "pt": ["Nereid", "kim"]}, "desert_oasis": {"t": "绿洲幻影", "loc": "Desert Zone - 绿洲", "zone": "Desert", "text": ["你们在炎热的沙漠中发现了一片绿洲——棕榈树、清澈的水池。但你感到了一股奇怪的魔力波动。这绿洲不是真实的——它是一个幻影。", "你走近了水池——水面反射出的不是你的倒影。倒影中站着的是一个穿着白色连帽斗篷的身影——Robin。", "“你收集了几颗Orb了？”倒影中的Robin开口了。“已经不少了。但你有没有想过——当你集齐全部六颗的时候——你会不会改变主意？”", "“什么意思？”", "“意思是——离开Monline，意味着离开所有你在这里遇到的人。Mark、Kim、Aralu……他们都在这里。你确定他们都想回去吗？”", "水池中的影像消失了。你站在原地，心中多了一颗怀疑的种子。"], "chs": [{"t": "离开绿洲", "n": "pyramid_quest"}], "eff": {"san": -5}, "pt": ["Kim", "kim"]}, "desert_dominic_betrayal": {"t": "背叛", "loc": "Desert Zone - 金字塔入口", "zone": "Desert", "text": ["你们召集了人手，开始围攻金字塔。Dominic站在队伍前——指挥着每一个人。他的计划很周密——通道分配、时间控制、撤退路线。他看起来像个可靠的领袖。", "但Kim靠了过来。“我觉得不对。”她低声说。“Dominic太着急了。他好像……知道一些他不该知道的事情。”", "你的直觉也告诉你有问题。但在你做出反应之前——Dominic按下了金字塔入口处的一块砖石。地面塌陷了。你和Kim掉进了陷阱。", "从陷阱上方传来Dominic的声音：“抱歉。但我需要金字塔中的力量——为了我自己。不是为了让你们回家。”", "他的脚步声远去了。你们被困在了黑暗的井底。"], "chs": [{"t": "想办法爬出去", "n": "pyramid_quest_solo", "eff": {"hp": -10}}, {"t": "寻找其他出口", "n": "desert_explore"}], "eff": {"san": -15}, "pt": ["Kim", "kim"]}, "pyramid_quest_solo": {"t": "独自进入金字塔", "loc": "Desert Zone - 金字塔", "zone": "Desert", "text": ["你和Kim花了几个小时才从陷阱中爬出来。Dominic已经不见了踪影。你们咬牙进入了金字塔——没有他的帮助，但你们有彼此。", "在金字塔的深处，你们听到了战斗的声音——是Dominic。他正在和Sphinx激战。他不是一个简单的背叛者——他确实有实力。Sphinx的爪子划过了他的胸口——但他避开了致命一击。", "最后——Dominic击败了Sphinx。但他没有杀她。他拿走了她身后的Orb——然后他看到了你。“……你们还活着。”他的声音中带着一丝惊讶——和一丝歉意。", "他把Orb扔给了你。“拿着。我不该背叛你们的。”他转身走出了金字塔。", "你握着那颗温热的Orb。那是Orb of the Sun。"], "chs": [{"t": "获得Orb of the Sun", "n": "sphinx_after"}], "items": ["Orb of the Sun"], "eff": {"hp": -5, "san": 10}, "pt": ["Kim", "kim"]}, "mythic_fairy": {"t": "Fairy Quest", "loc": "Mythic Zone - 妖精之森", "zone": "Mythic", "text": ["竹林的深处有一片闪着微光的空地——一只拳头大小的妖精坐在蘑菇上。她有着蝴蝶翅膀和透明的皮肤。她看到你时高兴地飞了起来。", "“人类！你是来帮我做任务的吗？”", "她需要你帮她收集三种花——月光花、泪珠花和永恒蔷薇。分别生长在Mythic Zone的三个不同方向。“如果你帮我——我告诉你一个关于Robin的秘密。”"], "chs": [{"t": "帮她收集花朵", "n": "mythic_fairy_help"}, {"t": "没时间——去神社", "n": "final_robin"}], "pt": ["妖精", "kim"]}, "mythic_fairy_help": {"t": "妖精的秘密", "loc": "Mythic Zone - 妖精之森", "zone": "Mythic", "text": ["你帮妖精收集了三种花。她高兴地在你头顶飞了三圈。“谢谢！作为回报——我告诉你一个秘密。”", "她压低声音——虽然周围没有别人。“Robin的项圈——那颗红色宝石——它里面封印着一个人。一个他最爱的人。那个人教会了他如何创造世界——但也背叛了他。”", "“所以他把那个人封印在了宝石里？”", "妖精点了点头。“如果你打破宝石——那个人会解脱。但Robin也会失去一切。你想清楚了再做决定。”"], "chs": [{"t": "前往神社", "n": "final_robin"}], "pt": ["妖精", "kim"]}, "rand_forest_encounter": {"t": "森林遭遇", "loc": "Forest Zone", "zone": "Forest", "text": ["你在森林中穿行时——草丛中传来了窸窣声。你握紧了武器——但出现的不是怪物。是一个穿着残破冒险者服装的女性。她的手臂上长满了绿色的鳞片——她在转化中。", "“求求你……”她的声音沙哑。“帮帮我。我不想变成怪物。我……我有家人。他们在等我回去。”", "你蹲在她身边。她的鳞片在蔓延——从手臂到肩膀，到脖子。她的瞳孔在变竖。", "“告诉我——”她抓住了你的手。“我的名字。告诉我我的名字——我怕我快要忘记了。”", "你说出了她的名字——她从你之前的对话中告诉过你。她闭上眼睛——深呼吸。鳞片停止了蔓延。", "“……谢谢。”她松开手。“你让我多记住了一会儿。但下次——我可能就不记得了。”她转身消失在了森林中。"], "chs": [{"t": "继续前进", "n": "caste_city"}], "eff": {"san": 5}}, "rand_coastal_shipwreck": {"t": "沉船", "loc": "Coastal Zone", "zone": "Coastal", "text": ["海上漂着一块破碎的船板。船板上趴着一个人——一个穿着水手服的女性。她已经失去了意识。Mark把船靠了过去——你们把她拉上了船。", "她醒来后——惊恐地摸着自己的腿。它们还在。她没有变成Mermaid。“谢谢……”她喘着气，“我被Siren的歌声引诱了。我的船员都跳海了。我……”她哭了起来。", "你们把她送到了Budan港。她会在那里安全——至少现在还是安全的。"], "chs": [{"t": "继续航行", "n": "sea_temple"}], "eff": {"san": 5}, "pt": ["Mark", "mark"]}, "rand_demon_torture": {"t": "城堡地下", "loc": "Demon Zone", "zone": "Demon", "text": ["你在地下室发现了一个被铁链锁住的玩家。他的身体已经半转化了——一条手臂是恶魔的爪子，一只眼睛闪烁着红光。但另一半还是人类。", "他艰难地抬起头。“杀了我。”他说。“我不想完全变成她们的一员。求求你。”", "Aralu拔出了剑。她看着你。“我来。”", "她干净利落地结束了那人的痛苦。你转过头，没有说话。Demon Zone——不是每个人都能完整地走出去。"], "chs": [{"t": "继续前进", "n": "demon_castle_hall"}], "eff": {"san": -10}, "pt": ["Aralu", "aralu"]}, "rand_desolate_survivor": {"t": "幸存者", "loc": "Desolate Zone", "zone": "Desolate", "text": ["你们在一座被封锁的建筑物中找到了一个幸存者——一个把自己关在地下室的中年男性。他抱着一个收音机——一直重复播报着同一段录音。", "“这里是Desolate Zone。还有幸存者。我在……我在……”录音中断了。他听着这段录音——那是他自己录制的。“我已经忘记我在哪里了。”他苦笑着说。"], "chs": [{"t": "带他一起走", "n": "desolate_exit"}, {"t": "让他留在这里——可能更安全", "n": "desolate_mansion"}], "eff": {"san": 5}, "pt": ["Kim", "kim"]}
->
+</html>
