@@ -61,7 +61,8 @@ canvas#pt{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 <div class="story" id="st"></div>
 <div class="cx" id="cx"></div>
 </div>
-<div id="es" class="en hd"><h2 id="et"></h2><div class="ed" id="ed"></div><button class="btn" onclick="tt()">返回</button></div>
+<div id="es" class="en hd"><h2 id="et"></h2><div class="ed" id="ed"></div><button class="btn" id="no" onclick="st()" style="display:none">📖 阅读完整变身小说</button>
+<button class="btn" onclick="tt()">返回</button></div>
 </div>
 <script>
 
@@ -85,6 +86,7 @@ function gf(k){return gs.fl[k]||false}
 function ch(d){if(d){if(d.hp)gs.hp=C(gs.hp+(d.hp||0));if(d.san)gs.san=C(gs.san+(d.san||0));if(d.cor&&gs.cor<100)gs.cor=Math.min(100,gs.cor+(d.cor||0));var cc=gs.cor;if(!gs.fl.c25&&cc>=25){gs.fl.c25=true;gs.bk=gs.ch;gs._ms="cor_25"}if(!gs.fl.c50&&cc>=50){gs.fl.c50=true;gs.bk=gs.ch;gs._ms="cor_50"}if(!gs.fl.c75&&cc>=75){gs.fl.c75=true;gs.bk=gs.ch;gs._ms="cor_75"}}up()}
 function tt(){var ti=document.getElementById("ti");var gs_el=document.getElementById("gs");var es=document.getElementById("es");if(ti)ti.className="ti";if(gs_el)gs_el.className="hd";if(es)es.className="en hd";document.getElementById("ptbox").className="portrait"}
 function pt(name,img){var b=document.getElementById("ptbox");if(b&&PO[img]){b.innerHTML='<img src="'+PO[img]+'"><div class="label">'+name+'</div>';b.className="portrait show"}}
+function st(){var t=window._be_txt;var ti=window._be_title;if(!t)return;var h="<h3 style=\"font-family:\"Ma Shan Zheng\",cursive;color:var(--gold);margin-bottom:1rem\">完整变身小说: "+ti+"</h3>";h+=t.map(function(p,i){return"<p style=\"margin-bottom:.8rem;text-indent:2em;line-height:2.1\">"+p+"</p>"}).join("");var es=document.getElementById("es");es.className="en";document.getElementById("et").textContent="";document.getElementById("ed").innerHTML=h;var ns=document.getElementById("no");if(ns)ns.className="btn hd";var rt=document.createElement("button");rt.className="btn";rt.textContent="← 返回结局";rt.onclick=function(){var cd=chs[gs.ch];if(cd){document.getElementById("et").textContent=cd.enm||cd.et||"";document.getElementById("ed").innerHTML=(typeof cd.text==="string"?cd.text:Array.isArray(cd.text)?cd.text.join("<br><br>"):"").replace(/\\n/g,"<br>");var ns=document.getElementById("no");if(ns&&window._be_txt)ns.className="btn"}else{location.reload()}};es.appendChild(rt)}
 function D(text){return"<div class='dialog'><span class='name'>❯❯ </span>"+text+"</div>"}
 function ng(){if(confirm("开始新的冒险？当前进度将会丢失。")){gs={ch:"start",hp:100,san:100,cor:0,inv:[],fl:{},gen:"m",hist:[],end:{},zone:""};sh("start")}}
 var _kh=null;
@@ -94,8 +96,9 @@ if(cd.en){document.getElementById("ti").className="hd";document.getElementById("
 var es=document.getElementById("es");es.className="en "+(cd.en==="good"?"g":cd.en==="bad"?"b":"n");
 document.getElementById("et").textContent=cd.enm||cd.et||"结局";
 document.getElementById("ed").innerHTML=(typeof cd.text==="string"?cd.text:Array.isArray(cd.text)?cd.text.join("<br><br>"):"").replace(/\\n/g,"<br>");
+if(cd.long_text&&Array.isArray(cd.long_text)){window._be_txt=cd.long_text;window._be_title=cd.t||"结局"}else{window._be_txt=null}
 if(cd.enm&&!gs.end[cd.enm]){gs.end[cd.enm]=true}
-sv();if(cd.scene){var sc=document.getElementById("sc");if(sc){sc.style.backgroundImage='url('+cd.scene+')';sc.style.display="block"}}es.classList.remove("hd");return}
+sv();if(cd.scene){var sc=document.getElementById("sc");if(sc){sc.style.backgroundImage='url('+cd.scene+')';sc.style.display="block"}}es.classList.remove("hd");var ns=document.getElementById("no");if(ns){if(window._be_txt){ns.style.display="";ns.className="btn";ns.textContent="📖 阅读完整变身小说"}else{ns.className="btn hd"}}return}
 document.getElementById("ti").className="hd";document.getElementById("es").className="hd";
 document.getElementById("gs").className="";document.getElementById("ct").textContent=cd.t||"?";
 document.getElementById("cl").textContent=cd.loc||"?";
@@ -112,7 +115,7 @@ var nums=["❶","❷","❸","❹","❺"];
 var icons={go:"➜",fight:"⚔",talk:"💬",explore:"🧭",danger:"⚠"};
 var tags={go:"继续",fight:"战斗",talk:"对话",explore:"探索",danger:"危险"};
 b.innerHTML='<span class="cb_idx">'+(nums[i]||"➜")+'</span><span class="cb_icon">'+(icons[t]||"➜")+'</span><span class="cb_text">'+c.t+'</span><span class="cb_tag '+t+'">'+(tags[t]||"选择")+'</span>'+(c.tf?'<span class="dng">⚡ 转化风险</span>':'');
-b.onclick=function(){if(c.cbk){sh(gs.bk||"start");return}if(c.eff)ch(c.eff);var ms=gs._ms;gs._ms=null;if(ms){sh(ms);return}if(c.n)sh(c.n)};bx.appendChild(b);ks.push(c)});
+b.onclick=function(){if(c.cbk){sh(gs.bk||"start");return}if(c.tf){var z=gs.zone||"Forest";var be=[];for(var k in chs){if(chs[k].en==="bad"&&chs[k].long_text&&(!chs[k].zone||chs[k].zone===z))be.push(k)}if(be.length>0){var r=be[Math.floor(Math.random()*be.length)];sh(r);return}}if(c.eff)ch(c.eff);var ms=gs._ms;gs._ms=null;if(ms){sh(ms);return}if(c.n)sh(c.n)};bx.appendChild(b);ks.push(c)});
 _kh=function kh(e){var n=parseInt(e.key);if(n>=1&&n<=ks.length){document.removeEventListener("keydown",kh);_kh=null;var h=ks[n-1];if(h.eff)ch(h.eff);if(h.n)sh(h.n)}};
 document.addEventListener("keydown",_kh)}else{var nb=document.createElement("button");nb.className="cb";
 nb.innerHTML='<span class="cb_idx">➜</span><span class="cb_icon">➜</span><span class="cb_text">继续前进</span><span class="cb_tag go">继续</span>';
@@ -142,7 +145,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "caste_city": {
     "t": "Caste City",
@@ -163,7 +167,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "caste_encounter": {
     "t": "访客",
@@ -187,7 +192,8 @@ var chs={
     "pt": [
       "Percy",
       "percy"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "forest_hive": {
     "t": "蜂巢",
@@ -215,7 +221,8 @@ var chs={
     "pt": [
       "蜜蜂娘",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "honey_eat": {
     "t": "蜂蜜的诱惑",
@@ -246,7 +253,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "bee_queen": {
     "t": "Queen Bee",
@@ -265,7 +273,8 @@ var chs={
     "pt": [
       "Queen Bee",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "hornet_cave": {
     "t": "Hornet洞穴",
@@ -286,7 +295,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "forest_explore_alone": {
     "t": "独自探索",
@@ -308,7 +318,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "forest_ranch": {
     "t": "Minoh Ranch",
@@ -331,7 +342,8 @@ var chs={
     "pt": [
       "Minoh",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "ranch_milk": {
     "t": "牛奶的代价",
@@ -352,7 +364,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "ranch_info": {
     "t": "情报",
@@ -370,7 +383,8 @@ var chs={
     "pt": [
       "Minoh",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "coastal_entry": {
     "t": "海岸",
@@ -393,7 +407,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_coastal.jpg"
   },
   "eurum_city": {
     "t": "Eurum City",
@@ -420,7 +435,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_coastal.jpg"
   },
   "coastal_port": {
     "t": "港口",
@@ -441,7 +457,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_coastal.jpg"
   },
   "sea_temple": {
     "t": "海神神殿",
@@ -468,7 +485,8 @@ var chs={
     "pt": [
       "海神祭司",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_coastal.jpg"
   },
   "ritual_human": {
     "t": "人类的仪式",
@@ -493,7 +511,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_coastal.jpg"
   },
   "ritual_mermaid": {
     "t": "拥抱海洋",
@@ -517,7 +536,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_coastal.jpg"
   },
   "after_orb": {
     "t": "分头行动",
@@ -540,7 +560,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_coastal.jpg"
   },
   "demon_entry": {
     "t": "恶魔之门",
@@ -563,7 +584,8 @@ var chs={
     "pt": [
       "Aralu",
       "aralu"
-    ]
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "demon_castle": {
     "t": "城堡",
@@ -586,7 +608,8 @@ var chs={
     "pt": [
       "Aralu",
       "aralu"
-    ]
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "demon_castle_hall": {
     "t": "城堡大厅",
@@ -613,7 +636,8 @@ var chs={
     "pt": [
       "Aralu",
       "aralu"
-    ]
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "demon_fight": {
     "t": "战斗",
@@ -637,7 +661,8 @@ var chs={
     "pt": [
       "Aralu",
       "aralu"
-    ]
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "demon_talk": {
     "t": "说服",
@@ -658,7 +683,8 @@ var chs={
     "pt": [
       "Aralu",
       "aralu"
-    ]
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "demon_after": {
     "t": "分别",
@@ -682,7 +708,8 @@ var chs={
     "pt": [
       "Aralu",
       "aralu"
-    ]
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "demon_church": {
     "t": "教堂",
@@ -704,7 +731,8 @@ var chs={
     "pt": [
       "Aralu",
       "aralu"
-    ]
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "desolate_entry": {
     "t": "废都",
@@ -727,7 +755,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desolate.jpg"
   },
   "desolate_mansion": {
     "t": "宅邸",
@@ -756,7 +785,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desolate.jpg"
   },
   "desolate_fight": {
     "t": "战斗",
@@ -777,7 +807,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desolate.jpg"
   },
   "desolate_mara_talk": {
     "t": "对话",
@@ -798,7 +829,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desolate.jpg"
   },
   "desolate_exit": {
     "t": "离开",
@@ -816,7 +848,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desolate.jpg"
   },
   "desert_entry": {
     "t": "沙漠",
@@ -839,7 +872,8 @@ var chs={
     "pt": [
       "Dominic",
       "dominic"
-    ]
+    ],
+    "scene": "assets/scene_desert.jpg"
   },
   "pyramid_quest": {
     "t": "金字塔",
@@ -867,7 +901,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desert.jpg"
   },
   "sphinx_ok": {
     "t": "Sphinx的考验",
@@ -891,7 +926,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desert.jpg"
   },
   "sphinx_after": {
     "t": "离开沙漠",
@@ -909,7 +945,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desert.jpg"
   },
   "desert_explore": {
     "t": "独自探索",
@@ -930,7 +967,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desert.jpg"
   },
   "mythic_entry": {
     "t": "神话之地",
@@ -953,7 +991,8 @@ var chs={
     "pt": [
       "Robin",
       "robin"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "mythic_side": {
     "t": "探索",
@@ -979,7 +1018,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "mythic_fox": {
     "t": "狐仙祠",
@@ -997,7 +1037,8 @@ var chs={
     "pt": [
       "狐仙",
       "robin"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "mythic_ninja": {
     "t": "忍者村",
@@ -1014,7 +1055,8 @@ var chs={
     ],
     "items": [
       "符文手里剑"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "mythic_oni": {
     "t": "鬼之洞窟",
@@ -1036,7 +1078,8 @@ var chs={
     "pt": [
       "Oni",
       "robin"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "mythic_drink": {
     "t": "与鬼共饮",
@@ -1054,7 +1097,8 @@ var chs={
     "pt": [
       "Oni",
       "robin"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "final_robin": {
     "t": "最终对峙",
@@ -1077,7 +1121,8 @@ var chs={
     "pt": [
       "Robin",
       "robin"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "final_battle": {
     "t": "最终之战",
@@ -1104,7 +1149,8 @@ var chs={
     "pt": [
       "Robin",
       "robin"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "final_talk": {
     "t": "理解",
@@ -1127,7 +1173,8 @@ var chs={
     "pt": [
       "Robin",
       "robin"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "final_true": {
     "t": "真正的结局",
@@ -1143,7 +1190,8 @@ var chs={
     ],
     "en": "good",
     "enm": "GOOD",
-    "et": "回家"
+    "et": "回家",
+    "scene": "assets/scene_mythic.jpg"
   },
   "be_a1": {
     "t": "Bad End: Liar Liar",
@@ -1155,9 +1203,23 @@ var chs={
       "Bad End: Liar Liar — 你成了牧场最听话的奶牛。"
     ],
     "en": "bad",
-    "scene": "assets/scene_forest.jpg",
+    "scene": "assets/end_a1.jpg",
     "enm": "A1",
-    "et": "Liar Liar"
+    "et": "Liar Liar",
+    "long_text": [
+      "你站在Minoh Ranch的木屋前。空气中弥漫着干草和牛奶的气味——甜腻的、令人不安的香气。农场主——一个胖胖的中年女人——透过门缝打量着你和你的同伴。",
+      "「你认识Caste City的那头奶牛吗？」她问。你的脑海中浮现出了在Caste City遇到的那头Holstaurus。你犹豫了。你不想承认你见过她——那会让你卷入什么麻烦。所以你说了谎。「不，我没见过。」",
+      "农场主的眼睛眯了起来。「哦？是吗。」她的声音很平静——太平静了。她转身走进了屋内。「进来喝杯牛奶吧——刚挤的，很新鲜。」",
+      "你跟着她走进了屋子。Mark想拦住你——但你摆了摆手。一杯牛奶而已——能有什么问题？",
+      "牛奶是温的。带着一股天然的甜味。你喝了一口——然后你的世界开始失去焦点。你的身体越来越轻。你的视线模糊了。你听到农场主的笑声从很远的地方传来。「又一个说谎的小鬼。」",
+      "当你醒来时——你不在床上了。你站在畜棚里。你低下头——你的手不是手了。是蹄子。黑色的、分叉的、覆盖着厚厚角质的牛蹄。冷汗——如果牛也会流汗的话——从你的额头上滚落。你抬起手——但你抬起的是两只覆盖着黑白斑点皮毛的前腿。",
+      "你的身体彻底变了。你的躯干变得庞大而丰满——乳房沉重地晃荡着，像两个装满了温热液体的皮袋。你的脊椎向外拱起，你的脖子变粗了。你的头发——如果你现在还有头发的话——变成了稀疏的、粗糙的鬃毛。你的耳朵竖立在头顶两侧，可以灵活地转动。",
+      "恐惧像冰水一样从你的头顶浇下来。你想尖叫——但从你喉咙里发出的是一声低沉的、拉长的「哞——」。农场主推开了畜棚的门。她拍了拍你的屁股，像在检查一块待售的肉。「好姑娘。你会给我们产很多奶的。」",
+      "她牵来了一头Minotaur——粗壮、毛茸茸、喘着粗气。你后退了一步，你的蹄子在干草上打滑。Minotaur的呼吸喷在你的脸上。",
+      "那是你作为人类最后的清醒时刻。在那之后——你学会了产奶。你学会了在Minotaur的触碰下屈服。你甚至学会了享受它。你不再记得自己的名字了。你只记得农场主叫你的时候会吹一声口哨——然后你就会哞哞叫着跑过去。",
+      "有时候，在挤奶的间隙，你会透过畜棚的缝隙看到外面的世界——天空、树木、远方Caste City的尖顶。你的眼中会闪过一瞬间的清明。然后Minotaur的低吼声传来，那种清明就消散了。",
+      "你低下头，继续吃你的干草。奶牛的脑袋不该想那么多。"
+    ]
   },
   "be_a2": {
     "t": "Bad End: Addiction",
@@ -1169,7 +1231,7 @@ var chs={
       "Bad End: Addiction — 奶牛的生活比你想象中要甜美得多。"
     ],
     "en": "bad",
-    "scene": "assets/scene_forest.jpg",
+    "scene": "assets/end_a2.jpg",
     "enm": "A2",
     "et": "Addiction"
   },
@@ -1183,9 +1245,21 @@ var chs={
       "Bad End: Honey Trap — 蜂巢需要更多的工人。"
     ],
     "en": "bad",
-    "scene": "assets/scene_forest.jpg",
+    "scene": "assets/end_a3.jpg",
     "enm": "A3",
-    "et": "Honey Trap"
+    "et": "Honey Trap",
+    "long_text": [
+      "蜜蜂娘在空中盘旋。她的翅膀发出的嗡嗡声是你在这个世界听到的最后的人类语言之外的声音。她的复眼中倒映着你的身影——渺小的、惊恐的、注定要变成同类的猎物。",
+      "她的螫针刺入了你的脖颈。不是致命的刺——是转化刺。毒液像蜂蜜一样浓稠，缓慢地推入你的血管。你的视野开始变形——颜色变得更加鲜艳，光线变得更加明亮。你能看到紫外线了。你能闻到每一朵花的香气——隔着几百米。",
+      "你的身体在改变。你的皮肤上长出了柔软的、黄色的绒毛，覆盖着黑色的条纹。你的背部裂开了——不是撕裂，是一种温和的、灼热的裂开——两对透明的翅膀从中伸展出来。它们在阳光下反射出彩虹般的光泽。",
+      "你的手臂变细了，关节变得灵活。你的手指变成了适合采集花蜜的形状。你的眼睛变大了——变成了巨大的、复眼般的结构，由数千个小平面组成。你能同时看到几乎所有方向。",
+      "蜜蜂娘们围着你飞舞，用触角触碰你的新身体——检查你、欢迎你、确认你已经是她们中的一员。她们的触碰在你的新皮肤上留下微弱的电流感。你听到她们的思想——不是语言，是气味和振动构成的交流。",
+      "你被带到了蜂巢深处。温暖的、六边形的蜂蜡墙壁包围着你。工蜂们带来了蜂蜜——金黄色的、半透明的、散发着花香。你喝了。那是你尝过的最甜的东西。你的新身体需要它。你喝了更多。",
+      "你的记忆开始模糊。你曾是一个来自地球的玩家——你曾想过回家。但现在蜂巢就是你的家。你是Bee Girl。你是采集者、酿造者、蜂巢的守护者。",
+      "当新鲜的面孔出现在蜂巢入口时——你和其他蜜蜂娘一起飞了过去。不是攻击。是欢迎。是引诱。你的舞蹈在阳光下闪闪发光。你的信息素在空气中飘散。",
+      "又一个猎物上钩了。又一个旅行者将会变成你的姐妹。",
+      "蜂巢永远需要更多的工人。"
+    ]
   },
   "be_a5": {
     "t": "Bad End: Absolute Power",
@@ -1197,9 +1271,20 @@ var chs={
       "Bad End: Absolute Power — 你得到了你想要的力量。代价是什么？你已经不记得了。"
     ],
     "en": "bad",
-    "scene": "assets/scene_forest.jpg",
+    "scene": "assets/end_a5.jpg",
     "enm": "A5",
-    "et": "Absolute Power"
+    "et": "Absolute Power",
+    "long_text": [
+      "Arachne的巢穴四周悬挂着雪白的蛛网。那些蛛网上粘着各种生物的干壳——昆虫、鸟类、还有更大一些的东西。八条毛茸茸的长腿从黑暗中伸出来——然后Arachne的美丽上身出现在你的面前。她的皮肤是深紫色的，她的六只眼睛闪闪发光。",
+      "「你走得很远。」她的声音低沉而悦耳。她从上到下打量着你——不是在看一个人，是在看一件原材料。「你值得一个奖励。」",
+      "她的螫针刺入了你的肩膀。毒液不是麻痹你——它在改变你。你感到了灼热，从你的脊椎底部升起。你的双腿在剧痛中并拢——不是并拢，是融合。你的骨骼在重塑，你的肌肉在撕裂后重组。你的皮肤从后腰处裂开——不是伤口，是新的肢体的诞生。",
+      "你尖叫了——但你的声音变成了某种高频嘶鸣。八条新的腿从你的身体两侧伸出——黑色的、覆盖着刚毛的、强壮的蜘蛛腿。你的身体的一部分——你的下半身——变成了一个巨大的、黑色的、椭圆形的蜘蛛腹部。你低头看着它们——你应该感到恐惧的。但你的新身体感觉……太对了。",
+      "你的脸也在变化。你的眼睛裂成了两半——不，是复眼从你的眼眶中生长出来。你的嘴中长出了螫肢。你的视野分裂成了数千个独立的画面——你能同时看到蜘蛛网上的每一个振动。",
+      "Arachne绕着走了一圈，欣赏着她的作品。她伸出修长的手指抚摸你新的甲壳——冰冷而光滑。「完美。你是我最好的作品。」",
+      "她离开了。她厌倦了这片森林。但你不需要她。你现在是这片森林的女王了。你的蜘蛛子民们从暗处爬出——大大小小的蜘蛛聚集在你的脚下。你感受到了它们的忠诚——它们的思想简单而纯粹：服务你。",
+      "你爬上了你自己的网——悬挂在森林的树冠之间，俯视着你新的领地。月光透过树叶洒在你的背上。你不再是一个旅行者了。你是捕食者。",
+      "当黎明到来时——你在你的网上等着。总会有新的猎物闯入你的森林的。"
+    ]
   },
   "be_c5": {
     "t": "Bad End: What a Tool",
@@ -1211,7 +1296,7 @@ var chs={
       "Bad End: What a Tool — 每一个恶魔都需要一个开始。"
     ],
     "en": "bad",
-    "scene": "assets/scene_demon.jpg",
+    "scene": "assets/end_c5.jpg",
     "enm": "C5",
     "et": "What a Tool"
   },
@@ -1225,9 +1310,24 @@ var chs={
       "Bad End: Riddle Me This — 你成了永恒的谜题守护者。"
     ],
     "en": "bad",
-    "scene": "assets/scene_desert.jpg",
+    "scene": "assets/end_e1.jpg",
     "enm": "E1",
-    "et": "Riddle Me This"
+    "et": "Riddle Me This",
+    "long_text": [
+      "Sphinx的爪子按在你的胸口。她有着狮子的身体、女性的上身、巨大的翅膀收拢在背后。她的眼睛——金色的、带着竖瞳的、像猫一样——盯着你。她出了三道谜语。你答错了一道。",
+      "但你没有被杀死。Sphinx歪着头看着你——那是一种评估的目光。然后她笑了。那是一个危险的、迷人的微笑。「你很有趣。我不想就这么吃掉你。」",
+      "她用爪子拎起了你——像拎一只幼猫一样——她的翅膀展开，带着你飞向金字塔的深处。你们穿过黑暗的甬道，穿过雕刻着古老神祇的石门，最终落在了一间充满金色光芒的房间里。那是她的卧室。",
+      "「你无法离开。」她把你放在床上——丝绸的床单，金色的枕头。「但现在——你还有两个谜语要回答。」她靠近了你，她的呼吸带着沙漠的干燥和香料的气息。",
+      "她出了两个谜语。你的意识告诉她答案——但你的嘴巴发不出声音。你的舌头在变厚、变硬。你的牙齿在脱落——新的、更锋利的牙齿正在生长出来。你的脊椎发出咔嚓声——你的身体在伸展、在变形。",
+      "你的腿——你的双腿正在融合。皮肤在撕裂后愈合，变成了覆盖着金色毛发的狮腿。你的脚变成了巨大的爪子，指甲变得锋利。你的尾椎向外延伸——一根结实的长尾巴从你的身后长出，末端是一簇金色的毛。",
+      "你的手臂上长出了羽毛——不是全部的羽毛，而是从肩膀到手腕的、宽阔的翼羽。你的身体在增长——你变得更高大、更有力量。你的五官在变化——变得更加精致、更像猫科动物——竖起的瞳孔覆盖了你的眼睛。",
+      "Sphinx满意地看着你。「我现在有了一个妹妹。」她伸出爪子梳理着你新生的羽毛。「从今天起——你和我一起守卫这座金字塔。我出谜语——你「惩罚」那些答错的人。」",
+      "你张开嘴想说话。但从你喉咙里发出的是一声低沉的低吼。你的声音变了——更低沉、更嘶哑、带着某种可怕的魅力。",
+      "你走到镜子前。镜子里——一个金色的、美丽的、威严的狮身人面像看着你。你的翅膀收拢在背后，你的眼睛在黑暗中发光。你是Sphinx了。",
+      "从那天起，你坐在金字塔的大厅中。当冒险者走进来时——你看到了他们眼中的恐惧。然后你出了第一个谜语。",
+      "他们大部分都答错了。而你在他们答错之后——履行着你的职责。",
+      "你不再记得自己曾经也是一个冒险者了。"
+    ]
   },
   "be_a4": {
     "t": "Bad End: A True Honor",
@@ -1239,7 +1339,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "A4",
-    "et": "A True Honor"
+    "et": "A True Honor",
+    "scene": "assets/scene_forest.jpg"
   },
   "be_a6": {
     "t": "Bad End: Slice of Life",
@@ -1251,7 +1352,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "A6",
-    "et": "Slice of Life"
+    "et": "Slice of Life",
+    "scene": "assets/scene_forest.jpg"
   },
   "be_a7": {
     "t": "Bad End: Fluid Hunt",
@@ -1263,7 +1365,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "A7",
-    "et": "Fluid Hunt"
+    "et": "Fluid Hunt",
+    "scene": "assets/scene_forest.jpg"
   },
   "be_a8": {
     "t": "Bad End: Stay Awhile and Listen",
@@ -1275,7 +1378,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "A8",
-    "et": "Stay Awhile and Listen"
+    "et": "Stay Awhile and Listen",
+    "scene": "assets/scene_forest.jpg"
   },
   "be_c1": {
     "t": "Bad End: Impressive",
@@ -1288,7 +1392,21 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "long_text": [
+      "Imp尖叫着扑向你。你试图用剑格挡——但她太小了、太灵活了。她钻过你的防御，一口咬在你的手背上——不是咬伤，是注射。她的唾液中含有某种魔力——你的手背开始发光，暗红色的符文像藤蔓一样沿着你的血管蔓延。",
+      "你低头看着自己的手。人类的手。正在变成暗红色的、长着尖指甲的、Imp的手。你的指甲在变长、变黑、变硬。你的皮肤在变厚——从粉红色变为深红色，像煮熟的龙虾。你的身高在缩水。你的衣服变得松松垮垮。",
+      "你的头上很痒——你伸手去摸。两个小小的凸起正在你的额头上方生长——那是角。弯曲的、像山羊一样的角。你的背上很热——你的肩胛骨在移动、在折叠。然后——撕裂。小小的、蝙蝠般的翅膀从你的背部展开。它们很小——飞不起来，但至少能滑翔。",
+      "你的身后传来一种拉伸感——你的尾椎在延伸。一条细长的、尖端呈箭头形状的尾巴从你的尾骨处穿出。它有自己的意识——在你反应过来之前，它已经卷住了你自己的大腿。",
+      "Imp——你的新姐妹——围着你转了一圈，咯咯地笑。「你变成我们了！」她拍了拍你的屁股——那动作像老朋友一样自然。你低头看着自己。你不再是人类了。你是Imp。红色的、小小的、吵闹的Imp。",
+      "你在城堡的走廊中奔跑。你的新翅膀在你奔跑时会自动展开——不是为了飞，是为了平衡。你的尾巴在你身后甩动。你和你的Imp姐妹们在走廊上尖叫着、大笑着、打翻烛台、扯下挂毯。守卫追来了——但你们在转角处散开，从不同的方向逃跑。",
+      "午夜，你和她们一起坐在城堡最高的塔楼边缘上。你的短腿悬在空中晃荡。月光照亮了你的红色皮肤。你的肩膀上搭着一条Imp的胳膊。你发出了一阵尖锐的、属于Imp的笑声。你不记得上一次这么开心是什么时候了。",
+      "你是恶魔了。你是快乐的了。你是自由的了。",
+      "你不再想变成人类了。人类的腿太长，翅膀太小——而且他们不会飞。",
+      "虽然你也不会飞——但你总有一天会的。",
+      "你的新姐姐说只要你多吃恶魔果实就能长大。你相信了她。毕竟——她是你的姐姐。"
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c2": {
     "t": "Bad End: Imprisoned",
@@ -1301,7 +1419,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c3": {
     "t": "Bad End: Good Impression",
@@ -1315,7 +1434,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c4": {
     "t": "Bad End: Predator's Prey",
@@ -1328,7 +1448,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C4",
-    "et": "Predator's Prey"
+    "et": "Predator's Prey",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c6": {
     "t": "Bad End: Every Suck You Take",
@@ -1341,7 +1462,23 @@ var chs={
     ],
     "en": "bad",
     "enm": "C6",
-    "et": "Every Suck You Take"
+    "et": "Every Suck You Take",
+    "long_text": [
+      "双马尾魅魔咯咯地笑着凑近了你。她看起来像个调皮的邻家女孩——如果邻家女孩长了尖耳朵和紫色的皮肤，而且瞳孔是竖着的。她捧住你的脸，在你的脖子上留下了一个吻。",
+      "不是吻。是咬。",
+      "两个小小的孔洞出现在你的脖颈侧面。你甚至没有感到疼痛——只有一种温暖的、扩散性的麻木感。她的嘴唇贴在你的脖子上。她在吸。你的血液正在从你的体内流出。",
+      "你不觉得恐惧。你感到的是——晕眩。像喝了太多酒。沉重而甜蜜。你的视线开始模糊。你不能反抗——你不想反抗。太舒服了。她把一种化学物质注入了你的血管——使你上瘾、使你依赖、使你想要更多。",
+      "她吸了很久。你的体重在下降。你的皮肤变得越来越苍白。你的眼圈发黑。你的嘴唇失去了血色。她的手指在你的头发中滑动——温柔得像在抚摸一个爱人。",
+      "当你几乎失去意识时，她停了下来。她舔了舔嘴角的血迹——你的血。然后她把你抱了起来——对于一个魅魔来说，你的重量不算什么——把你放进了地下室的一个棺材里。",
+      "棺材盖关上了。黑暗包围了你。你听到她的脚步声在楼梯上远去。铁门关上的声音。锁链的声响。",
+      "你是她的血奴了。她的私人血源。每天晚上——她都会来。她会拉开棺材盖，坐在你的上方，像喝一杯温热的红酒一样品尝你的血液。",
+      "你在这口棺材中生活着。你的生命力和她绑定在了一起——她死你也死，但反过来不成立。你是她的附属品。",
+      "白天（如果你还能分得清白天和黑夜的话）你从棺材中爬出来，在她的房间里做一些仆人的工作。你整理她的床铺、擦拭她的镜子、为她准备洗澡水。你的身体瘦弱而苍白——像一株在黑暗中生长的植物。",
+      "有一天晚上她喝完后没有立刻离开。她坐在棺材边上，低头看着你。她的指尖拂过你的脸颊。「我挺喜欢你的。」她说。然后她关上了棺材盖。",
+      "你在黑暗中微笑。这是你被关在这里后第一次微笑。你喜欢她。即使她把你变成了这样。即使你是她的食物。",
+      "在黑暗的地下——在棺材中的寂静里——吸血鬼新娘的爱情故事听起来就是这样。"
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c7": {
     "t": "Bad End: Self Made King",
@@ -1354,7 +1491,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C7",
-    "et": "Self Made King"
+    "et": "Self Made King",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c8": {
     "t": "Bad End: Pipe Dreams of Wet Dreams",
@@ -1368,7 +1506,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C8",
-    "et": "Pipe Dreams of Wet Dreams"
+    "et": "Pipe Dreams of Wet Dreams",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_d1": {
     "t": "Bad End: The Zombie Whored",
@@ -1381,7 +1520,25 @@ var chs={
     ],
     "en": "bad",
     "enm": "D1",
-    "et": "The Zombie Whored"
+    "et": "The Zombie Whored",
+    "long_text": [
+      "你没能逃过它们。Desolate Zone的街道上密密麻麻地挤满了僵尸——你和Kim被冲散了。你跑进了一条死胡同。你转过身——它们已经堵住了你的退路。",
+      "没有撕咬。没有剧痛。它们只是抓住了你。冰冷的手指在你的皮肤上留下了灰色的污迹。你的身体感觉到了那种缓慢的、温和的腐烂——从你的指尖开始。你的心跳在减慢。一下。两下。你数到了第三十七下。然后它停了。",
+      "你倒在地上。你死了。",
+      "然后你站起来了。",
+      "你的动作变得迟缓——不是疼痛，是一种奇异的沉重。你的大脑中充满了低沉的白噪音——那是死亡的声音。你的视野变成了灰白色，像一层薄纱覆盖在你的眼睛上。你能看到——但你看不到颜色了。",
+      "你的皮肤变成了灰绿色，你的嘴唇失去了血色。你的衣服破烂不堪。但你的眼睛——你的眼睛还保留着一丝光芒。那是你作为人类的最后一点残渣。",
+      "你加入了街道上的队伍。僵尸们在废弃的建筑之间漫无目的地行走，空洞的眼睛盯着前方。你走在它们中间。你的脚在碎石上拖行。你不知道你要去哪里——你只知道你要走。永恒地走。",
+      "你记得你曾经活着。你记得你曾经有名字、有梦想、有恐惧。但那些记忆正在像沙子一样从你的指缝中流走。每一天——你都会忘掉一件重要的事。",
+      "到了第三天——你忘了自己的名字。",
+      "到了第七天——你忘了你从哪里来。",
+      "到了第三十天——你已经不再试图记住了。",
+      "你在街道上走着。和其他僵尸一起。你看到了一辆废弃的汽车——你记得你曾经开过这种车。但你不记得怎么开了。你继续走。",
+      "当新鲜的活着的人类出现在街道尽头时——你和其他的僵尸一起转向了他们。你的手伸向了他们。你想要的不是他们的血肉。你想要的只是——让他们也停下来。",
+      "让他们也加入这支永恒的行军。",
+      "在这座没有出口的城市中——死亡不是结束。死亡只是加入了队伍。"
+    ],
+    "scene": "assets/end_d1.jpg"
   },
   "be_d2": {
     "t": "Bad End: From My Cold Dead Hands",
@@ -1394,7 +1551,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D2",
-    "et": "From My Cold Dead Hands"
+    "et": "From My Cold Dead Hands",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d3": {
     "t": "Bad End: Let Me Patch You Up",
@@ -1407,7 +1565,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D3",
-    "et": "Let Me Patch You Up"
+    "et": "Let Me Patch You Up",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d4": {
     "t": "Bad End: Quest for the Cure",
@@ -1420,7 +1579,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D4",
-    "et": "Quest for the Cure"
+    "et": "Quest for the Cure",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d5": {
     "t": "Bad End: Drop Dead Gorgeous",
@@ -1433,7 +1593,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D5",
-    "et": "Drop Dead Gorgeous"
+    "et": "Drop Dead Gorgeous",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d6": {
     "t": "Bad End: Till Death Do Us Part",
@@ -1445,7 +1606,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D6",
-    "et": "Till Death Do Us Part"
+    "et": "Till Death Do Us Part",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d7": {
     "t": "Bad End: Burger Baroness",
@@ -1457,7 +1619,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D7",
-    "et": "Burger Baroness"
+    "et": "Burger Baroness",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d8": {
     "t": "Bad End: All Better Now",
@@ -1469,7 +1632,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D8",
-    "et": "All Better Now?"
+    "et": "All Better Now?",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d9": {
     "t": "Bad End: Bisexual Healing",
@@ -1481,7 +1645,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D9",
-    "et": "Bisexual Healing"
+    "et": "Bisexual Healing",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d10": {
     "t": "Bad End: Squeaky Wheel Needs Grease",
@@ -1493,7 +1658,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D10",
-    "et": "Squeaky Wheel Needs Grease"
+    "et": "Squeaky Wheel Needs Grease",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d11": {
     "t": "Bad End: A Rock and a Hard Place",
@@ -1505,7 +1671,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D11",
-    "et": "A Rock and a Hard Place"
+    "et": "A Rock and a Hard Place",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_c10": {
     "t": "Bad End: Demon C10",
@@ -1517,7 +1684,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c11": {
     "t": "Bad End: Demon C11",
@@ -1529,7 +1697,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c12": {
     "t": "Bad End: Demon C12",
@@ -1541,7 +1710,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c13": {
     "t": "Bad End: Demon C13",
@@ -1553,7 +1723,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c14": {
     "t": "Bad End: Demon C14",
@@ -1565,7 +1736,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c15": {
     "t": "Bad End: Demon C15",
@@ -1577,7 +1749,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c16": {
     "t": "Bad End: Demon C16",
@@ -1589,7 +1762,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c17": {
     "t": "Bad End: Demon C17",
@@ -1601,7 +1775,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c18": {
     "t": "Bad End: Demon C18",
@@ -1613,7 +1788,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c19": {
     "t": "Bad End: Demon C19",
@@ -1625,7 +1801,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C1",
-    "et": "Impressive"
+    "et": "Impressive",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c20": {
     "t": "Bad End: Demon C20",
@@ -1637,7 +1814,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c21": {
     "t": "Bad End: Demon C21",
@@ -1649,7 +1827,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c22": {
     "t": "Bad End: Demon C22",
@@ -1661,7 +1840,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c23": {
     "t": "Bad End: Demon C23",
@@ -1673,7 +1853,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c24": {
     "t": "Bad End: Demon C24",
@@ -1685,7 +1866,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c25": {
     "t": "Bad End: Demon C25",
@@ -1697,7 +1879,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c26": {
     "t": "Bad End: Demon C26",
@@ -1709,7 +1892,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c27": {
     "t": "Bad End: Demon C27",
@@ -1721,7 +1905,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c28": {
     "t": "Bad End: Demon C28",
@@ -1733,7 +1918,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c29": {
     "t": "Bad End: Demon C29",
@@ -1745,7 +1931,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C2",
-    "et": "Imprisoned"
+    "et": "Imprisoned",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c30": {
     "t": "Bad End: Demon C30",
@@ -1757,7 +1944,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c31": {
     "t": "Bad End: Demon C31",
@@ -1769,7 +1957,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c32": {
     "t": "Bad End: Demon C32",
@@ -1781,7 +1970,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c33": {
     "t": "Bad End: Demon C33",
@@ -1793,7 +1983,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c34": {
     "t": "Bad End: Demon C34",
@@ -1805,7 +1996,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c35": {
     "t": "Bad End: Demon C35",
@@ -1817,7 +2009,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c36": {
     "t": "Bad End: Demon C36",
@@ -1829,7 +2022,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c37": {
     "t": "Bad End: Demon C37",
@@ -1841,7 +2035,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_c38": {
     "t": "Bad End: Demon C38",
@@ -1853,7 +2048,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "C3",
-    "et": "Good Impression"
+    "et": "Good Impression",
+    "scene": "assets/scene_demon.jpg"
   },
   "be_d12": {
     "t": "Bad End: Desolate D12",
@@ -1865,7 +2061,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D12",
-    "et": "Boys Will Be Boys"
+    "et": "Boys Will Be Boys",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d13": {
     "t": "Bad End: Desolate D13",
@@ -1877,7 +2074,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D13",
-    "et": "Stuck In Another World²"
+    "et": "Stuck In Another World²",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d14": {
     "t": "Bad End: Desolate D14",
@@ -1889,7 +2087,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D14",
-    "et": "Pressed Wallflower"
+    "et": "Pressed Wallflower",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d15": {
     "t": "Bad End: Desolate D15",
@@ -1901,7 +2100,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D15",
-    "et": "Nice or Naughty?"
+    "et": "Nice or Naughty?",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d16": {
     "t": "Bad End: Desolate D16",
@@ -1913,7 +2113,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D16",
-    "et": "Naughty or Nice?"
+    "et": "Naughty or Nice?",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d17": {
     "t": "Bad End: Desolate D17",
@@ -1925,7 +2126,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D17",
-    "et": "Reindeer Games"
+    "et": "Reindeer Games",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d18": {
     "t": "Bad End: Desolate D18",
@@ -1937,7 +2139,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D18",
-    "et": "By the Reins"
+    "et": "By the Reins",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d19": {
     "t": "Bad End: Desolate D19",
@@ -1949,7 +2152,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D19",
-    "et": "Spineless"
+    "et": "Spineless",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d20": {
     "t": "Bad End: Desolate D20",
@@ -1961,7 +2165,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D20",
-    "et": "A Bloody Mess"
+    "et": "A Bloody Mess",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d21": {
     "t": "Bad End: Desolate D21",
@@ -1973,7 +2178,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D21",
-    "et": "Queen Bitch"
+    "et": "Queen Bitch",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d22": {
     "t": "Bad End: Desolate D22",
@@ -1985,7 +2191,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D22",
-    "et": "A Heated Affair"
+    "et": "A Heated Affair",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d23": {
     "t": "Bad End: Desolate D23",
@@ -1997,7 +2204,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D23",
-    "et": "Dancing to a Different Tune"
+    "et": "Dancing to a Different Tune",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d24": {
     "t": "Bad End: Desolate D24",
@@ -2009,7 +2217,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D24",
-    "et": "Bouncing Busts of Blonde Bimbo Bunnies"
+    "et": "Bouncing Busts of Blonde Bimbo Bunnies",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d25": {
     "t": "Bad End: Desolate D25",
@@ -2021,7 +2230,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D25",
-    "et": "Cottontail"
+    "et": "Cottontail",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d26": {
     "t": "Bad End: Desolate D26",
@@ -2033,7 +2243,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D26",
-    "et": "How I learned to stop worrying and love the slime"
+    "et": "How I learned to stop worrying and love the slime",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d27": {
     "t": "Bad End: Desolate D27",
@@ -2045,7 +2256,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D27",
-    "et": "Slimed and Mind"
+    "et": "Slimed and Mind",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d28": {
     "t": "Bad End: Desolate D28",
@@ -2057,7 +2269,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D28",
-    "et": "Trapped!"
+    "et": "Trapped!",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d29": {
     "t": "Bad End: Desolate D29",
@@ -2069,7 +2282,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D29",
-    "et": "Corrupted"
+    "et": "Corrupted",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d30": {
     "t": "Bad End: Desolate D30",
@@ -2081,7 +2295,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D30",
-    "et": "A Lust for Gold"
+    "et": "A Lust for Gold",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d31": {
     "t": "Bad End: Desolate D31",
@@ -2093,7 +2308,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D31",
-    "et": "It's a trap!"
+    "et": "It's a trap!",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d32": {
     "t": "Bad End: Desolate D32",
@@ -2105,7 +2321,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D32",
-    "et": "No Strings Attached"
+    "et": "No Strings Attached",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d33": {
     "t": "Bad End: Desolate D33",
@@ -2117,7 +2334,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D33",
-    "et": "Bustin' makes me feel good!"
+    "et": "Bustin' makes me feel good!",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d34": {
     "t": "Bad End: Desolate D34",
@@ -2129,7 +2347,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D34",
-    "et": "Dolls Aren't Just for Little Girls!"
+    "et": "Dolls Aren't Just for Little Girls!",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d35": {
     "t": "Bad End: Desolate D35",
@@ -2141,7 +2360,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D35",
-    "et": "A Match Forced in Heaven"
+    "et": "A Match Forced in Heaven",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d36": {
     "t": "Bad End: Desolate D36",
@@ -2153,7 +2373,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D36",
-    "et": "Unholy Matrimony"
+    "et": "Unholy Matrimony",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d37": {
     "t": "Bad End: Desolate D37",
@@ -2165,7 +2386,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D37",
-    "et": "Linked by Love"
+    "et": "Linked by Love",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d38": {
     "t": "Bad End: Desolate D38",
@@ -2177,7 +2399,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D38",
-    "et": "I am the Law!"
+    "et": "I am the Law!",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d39": {
     "t": "Bad End: Desolate D39",
@@ -2189,7 +2412,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D39",
-    "et": "Default Setting"
+    "et": "Default Setting",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d40": {
     "t": "Bad End: Desolate D40",
@@ -2201,7 +2425,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D40",
-    "et": "Quarantined"
+    "et": "Quarantined",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d41": {
     "t": "Bad End: Desolate D41",
@@ -2213,7 +2438,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D41",
-    "et": "Self-Made Girl"
+    "et": "Self-Made Girl",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d42": {
     "t": "Bad End: Desolate D42",
@@ -2225,7 +2451,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D42",
-    "et": "Conversion Therapy"
+    "et": "Conversion Therapy",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d43": {
     "t": "Bad End: Desolate D43",
@@ -2237,7 +2464,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D43",
-    "et": "Future Shock"
+    "et": "Future Shock",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d44": {
     "t": "Bad End: Desolate D44",
@@ -2249,7 +2477,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D44",
-    "et": "Danse Mechabre"
+    "et": "Danse Mechabre",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d45": {
     "t": "Bad End: Desolate D45",
@@ -2261,7 +2490,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D45",
-    "et": "A Step Forward"
+    "et": "A Step Forward",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d46": {
     "t": "Bad End: Desolate D46",
@@ -2273,7 +2503,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D46",
-    "et": "B1MB-0"
+    "et": "B1MB-0",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d47": {
     "t": "Bad End: Desolate D47",
@@ -2285,7 +2516,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D47",
-    "et": "Cherry Fairy"
+    "et": "Cherry Fairy",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d48": {
     "t": "Bad End: Desolate D48",
@@ -2297,7 +2529,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D48",
-    "et": "Ganguro Goddess"
+    "et": "Ganguro Goddess",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d49": {
     "t": "Bad End: Desolate D49",
@@ -2309,7 +2542,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D49",
-    "et": "Don't Lose Your Head!"
+    "et": "Don't Lose Your Head!",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d50": {
     "t": "Bad End: Desolate D50",
@@ -2321,7 +2555,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D50",
-    "et": "Lab Rat"
+    "et": "Lab Rat",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d51": {
     "t": "Bad End: Desolate D51",
@@ -2333,7 +2568,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D51",
-    "et": "Out of Touch"
+    "et": "Out of Touch",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d52": {
     "t": "Bad End: Desolate D52",
@@ -2345,7 +2581,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D52",
-    "et": "Know Your Own Mind"
+    "et": "Know Your Own Mind",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d53": {
     "t": "Bad End: Desolate D53",
@@ -2357,7 +2594,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D53",
-    "et": "Respawned"
+    "et": "Respawned",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d54": {
     "t": "Bad End: Desolate D54",
@@ -2369,7 +2607,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D54",
-    "et": "I Know This Pretty Rave Girl"
+    "et": "I Know This Pretty Rave Girl",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d55": {
     "t": "Bad End: Desolate D55",
@@ -2381,7 +2620,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D55",
-    "et": "Wet Nurse"
+    "et": "Wet Nurse",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d56": {
     "t": "Bad End: Desolate D56",
@@ -2393,7 +2633,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D56",
-    "et": "What The Doctor Ordered"
+    "et": "What The Doctor Ordered",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d57": {
     "t": "Bad End: Desolate D57",
@@ -2405,7 +2646,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D57",
-    "et": "Moonlit Dreams"
+    "et": "Moonlit Dreams",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d58": {
     "t": "Bad End: Desolate D58",
@@ -2417,7 +2659,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D58",
-    "et": "Homegrown Hunter"
+    "et": "Homegrown Hunter",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d59": {
     "t": "Bad End: Desolate D59",
@@ -2429,7 +2672,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D59",
-    "et": "The Implication"
+    "et": "The Implication",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d60": {
     "t": "Bad End: Desolate D60",
@@ -2441,7 +2685,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D60",
-    "et": "Fucking Evil But Still Tight"
+    "et": "Fucking Evil But Still Tight",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d61": {
     "t": "Bad End: Desolate D61",
@@ -2453,7 +2698,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D61",
-    "et": "Always Fighting For What's Right"
+    "et": "Always Fighting For What's Right",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d62": {
     "t": "Bad End: Desolate D62",
@@ -2465,7 +2711,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D62",
-    "et": "Clad In Latex And Midnight"
+    "et": "Clad In Latex And Midnight",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d63": {
     "t": "Bad End: Desolate D63",
@@ -2477,7 +2724,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D63",
-    "et": "Joystuck"
+    "et": "Joystuck",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d64": {
     "t": "Bad End: Desolate D64",
@@ -2489,7 +2737,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D64",
-    "et": "Beware the Dog"
+    "et": "Beware the Dog",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d65": {
     "t": "Bad End: Desolate D65",
@@ -2501,7 +2750,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D65",
-    "et": "Nippon Daisuki"
+    "et": "Nippon Daisuki",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d66": {
     "t": "Bad End: Desolate D66",
@@ -2513,7 +2763,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D66",
-    "et": "Milk of Human Kindness"
+    "et": "Milk of Human Kindness",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d67": {
     "t": "Bad End: Desolate D67",
@@ -2525,7 +2776,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D67",
-    "et": "Pavlov's Puppy"
+    "et": "Pavlov's Puppy",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d68": {
     "t": "Bad End: Desolate D68",
@@ -2537,7 +2789,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D68",
-    "et": "New Girls Sweep Clean"
+    "et": "New Girls Sweep Clean",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d69": {
     "t": "Bad End: Desolate D69",
@@ -2549,7 +2802,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D69",
-    "et": "Smothered"
+    "et": "Smothered",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d70": {
     "t": "Bad End: Desolate D70",
@@ -2561,7 +2815,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D70",
-    "et": "Running Red Lights"
+    "et": "Running Red Lights",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d71": {
     "t": "Bad End: Desolate D71",
@@ -2573,7 +2828,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D71",
-    "et": "The dIzzy-ing Heights of Love"
+    "et": "The dIzzy-ing Heights of Love",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d72": {
     "t": "Bad End: Desolate D72",
@@ -2585,7 +2841,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D72",
-    "et": "Live like a Human, Die like a Dog"
+    "et": "Live like a Human, Die like a Dog",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d73": {
     "t": "Bad End: Desolate D73",
@@ -2597,7 +2854,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D73",
-    "et": "This Town's Going to the Dogs"
+    "et": "This Town's Going to the Dogs",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d74": {
     "t": "Bad End: Desolate D74",
@@ -2609,7 +2867,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D74",
-    "et": "Best in Show"
+    "et": "Best in Show",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d75": {
     "t": "Bad End: Desolate D75",
@@ -2621,7 +2880,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D75",
-    "et": "Bitch and Moan"
+    "et": "Bitch and Moan",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d76": {
     "t": "Bad End: Desolate D76",
@@ -2633,7 +2893,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D76",
-    "et": "Like they do on the Discovery Channel"
+    "et": "Like they do on the Discovery Channel",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d77": {
     "t": "Bad End: Desolate D77",
@@ -2645,7 +2906,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D77",
-    "et": "Directive: Good Dog"
+    "et": "Directive: Good Dog",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d78": {
     "t": "Bad End: Desolate D78",
@@ -2657,7 +2919,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D78",
-    "et": "Star Crossed Lovers"
+    "et": "Star Crossed Lovers",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d79": {
     "t": "Bad End: Desolate D79",
@@ -2669,7 +2932,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D79",
-    "et": "Empty Vessels Make the Most Sound"
+    "et": "Empty Vessels Make the Most Sound",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d80": {
     "t": "Bad End: Desolate D80",
@@ -2681,7 +2945,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D80",
-    "et": "Bimbo Backfire"
+    "et": "Bimbo Backfire",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d81": {
     "t": "Bad End: Desolate D81",
@@ -2693,7 +2958,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D81",
-    "et": "Power Overwhelming"
+    "et": "Power Overwhelming",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d82": {
     "t": "Bad End: Desolate D82",
@@ -2705,7 +2971,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D82",
-    "et": "Ride or Die"
+    "et": "Ride or Die",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d83": {
     "t": "Bad End: Desolate D83",
@@ -2717,7 +2984,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D83",
-    "et": "Anthro Anthropology"
+    "et": "Anthro Anthropology",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_d84": {
     "t": "Bad End: Desolate D84",
@@ -2729,7 +2997,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "D84",
-    "et": "Wearing a Plastic Smile"
+    "et": "Wearing a Plastic Smile",
+    "scene": "assets/scene_desolate.jpg"
   },
   "be_e2": {
     "t": "Bad End: Desert E2",
@@ -2741,7 +3010,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E2",
-    "et": "Twice as Bright, Half as Long"
+    "et": "Twice as Bright, Half as Long",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e3": {
     "t": "Bad End: Desert E3",
@@ -2753,7 +3023,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E3",
-    "et": "The First of Nine"
+    "et": "The First of Nine",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e4": {
     "t": "Bad End: Desert E4",
@@ -2765,7 +3036,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E4",
-    "et": "What's in a Name?"
+    "et": "What's in a Name?",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e5": {
     "t": "Bad End: Desert E5",
@@ -2777,7 +3049,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E5",
-    "et": "A Riddle Wrapped in, Like, an Enigma"
+    "et": "A Riddle Wrapped in, Like, an Enigma",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e6": {
     "t": "Bad End: Desert E6",
@@ -2789,7 +3062,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E6",
-    "et": "The Mummy's Boy"
+    "et": "The Mummy's Boy",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e7": {
     "t": "Bad End: Desert E7",
@@ -2801,7 +3075,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E7",
-    "et": "Are You My Mummy?"
+    "et": "Are You My Mummy?",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e8": {
     "t": "Bad End: Desert E8",
@@ -2813,7 +3088,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E8",
-    "et": "Singleminded"
+    "et": "Singleminded",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e9": {
     "t": "Bad End: Desert E9",
@@ -2825,7 +3101,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E9",
-    "et": "A Sellers Market"
+    "et": "A Sellers Market",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e10": {
     "t": "Bad End: Desert E10",
@@ -2837,7 +3114,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E10",
-    "et": "Anubintervention"
+    "et": "Anubintervention",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e11": {
     "t": "Bad End: Desert E11",
@@ -2849,7 +3127,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E11",
-    "et": "Pick Your Poison"
+    "et": "Pick Your Poison",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e12": {
     "t": "Bad End: Desert E12",
@@ -2861,7 +3140,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E12",
-    "et": "Cexigua"
+    "et": "Cexigua",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e13": {
     "t": "Bad End: Desert E13",
@@ -2873,7 +3153,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E13",
-    "et": "Surrogacy"
+    "et": "Surrogacy",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e14": {
     "t": "Bad End: Desert E14",
@@ -2885,7 +3166,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E14",
-    "et": "When You're Least Expecting"
+    "et": "When You're Least Expecting",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e15": {
     "t": "Bad End: Desert E15",
@@ -2897,7 +3179,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E15",
-    "et": "Cock Roach"
+    "et": "Cock Roach",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e16": {
     "t": "Bad End: Desert E16",
@@ -2909,7 +3192,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E16",
-    "et": "PermanAnt Residence"
+    "et": "PermanAnt Residence",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e17": {
     "t": "Bad End: Desert E17",
@@ -2921,7 +3205,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E17",
-    "et": "A Web of Lies"
+    "et": "A Web of Lies",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e18": {
     "t": "Bad End: Desert E18",
@@ -2933,7 +3218,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E18",
-    "et": "It's only Natural"
+    "et": "It's only Natural",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e19": {
     "t": "Bad End: Desert E19",
@@ -2945,7 +3231,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E19",
-    "et": "Go Down in Prehistory"
+    "et": "Go Down in Prehistory",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e20": {
     "t": "Bad End: Desert E20",
@@ -2957,7 +3244,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E20",
-    "et": "Outbreak"
+    "et": "Outbreak",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e21": {
     "t": "Bad End: Desert E21",
@@ -2969,7 +3257,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E21",
-    "et": "Pricked"
+    "et": "Pricked",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e22": {
     "t": "Bad End: Desert E22",
@@ -2981,7 +3270,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E22",
-    "et": "Ye Mighty, And Despair!"
+    "et": "Ye Mighty, And Despair!",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e23": {
     "t": "Bad End: Desert E23",
@@ -2993,7 +3283,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E23",
-    "et": "One Man's Meat is One Girl's Poison"
+    "et": "One Man's Meat is One Girl's Poison",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e24": {
     "t": "Bad End: Desert E24",
@@ -3005,7 +3296,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E24",
-    "et": "Sting Operation"
+    "et": "Sting Operation",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e25": {
     "t": "Bad End: Desert E25",
@@ -3017,7 +3309,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E25",
-    "et": "Golden Girls"
+    "et": "Golden Girls",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e26": {
     "t": "Bad End: Desert E26",
@@ -3029,7 +3322,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E26",
-    "et": "Back to Reality"
+    "et": "Back to Reality",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e27": {
     "t": "Bad End: Desert E27",
@@ -3041,7 +3335,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E27",
-    "et": "Wish Granted"
+    "et": "Wish Granted",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e28": {
     "t": "Bad End: Desert E28",
@@ -3053,7 +3348,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E28",
-    "et": "Fallen Warrior"
+    "et": "Fallen Warrior",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e29": {
     "t": "Bad End: Desert E29",
@@ -3065,7 +3361,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E29",
-    "et": "Hot and Unbothered"
+    "et": "Hot and Unbothered",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e30": {
     "t": "Bad End: Desert E30",
@@ -3077,7 +3374,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E30",
-    "et": "Friends Forever, Stick Together"
+    "et": "Friends Forever, Stick Together",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_e31": {
     "t": "Bad End: Desert E31",
@@ -3089,7 +3387,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "E31",
-    "et": "Heart of the Cards"
+    "et": "Heart of the Cards",
+    "scene": "assets/scene_desert.jpg"
   },
   "be_b1": {
     "t": "Bad End: Coastal B1",
@@ -3102,7 +3401,25 @@ var chs={
     ],
     "en": "bad",
     "enm": "B1",
-    "et": "The Littlest Mermaid"
+    "et": "The Littlest Mermaid",
+    "long_text": [
+      "Mermaid的歌声像丝带一样缠绕着你。你的抵抗是徒劳的——她的声音穿透了你的耳朵，直接进入了你的大脑皮层，在你的意志上打了一个蝴蝶结。你跟着她走进了海水。",
+      "海水淹没了你的脚踝。膝盖。腰部。你没有挣扎。你感到了一种奇异的平静——就像回到了某个你从未到过的家。Mermaid的手拉着你，带你游向深海。阳光在水面上越来越远。",
+      "你的肺部开始灼烧。你需要空气。你开始挣扎——但太晚了。Mermaid把你拉向她，在她的嘴唇贴上你的嘴唇的同时——你感到了撕心裂肺的变化。",
+      "你的双腿在灼热的剧痛中并拢、融合、缩短。骨头在融化——你的膝盖和脚踝消失了，你的双腿变成了一条单一的、柔软的、覆盖着银蓝色鳞片的鱼尾。你的脚趾变成了尾鳍——宽阔的、透明的、像薄纱一样的尾鳍。",
+      "你在水下呼吸了。你的脖颈两侧裂开了三道缝隙——那是鳃。水不是从你的鼻子进入——它从你的鳃流过，直接进入了你的血液。你不是在呼吸水——你的身体已经学会了从水中提取氧气。",
+      "你的耳朵变成了鳍状的突起。你的眼睛变得更大——以适应黑暗的深海。你的手指之间长出了薄薄的蹼。",
+      "你不再需要空气了。你不再需要陆地了。",
+      "你是一个Mermaid。",
+      "Mermaid——你的姐姐现在——拉着你在珊瑚礁之间游动。她带你看了海中的宫殿——残破的、被海藻覆盖的、曾经属于海神的白色大理石宫殿。海龟从你们身边游过，鱼群在你们周围旋转。",
+      "你在海面上探出头。透过波浪的间隙——你看到了远处的海岸线。那是你曾经站立的地方。那座沙滩。那座森林。那个世界。",
+      "你的手指——覆盖着鳞片的手指——触摸着海面。水珠从你的指尖滑落。你想回去了。你不可能回去了。",
+      "你潜回了深海。你的新家很美丽。你的新家是一个由蓝色和银色构成的水晶牢笼。",
+      "你在海底坐着，仰望海面上摇曳的光影。你的鱼尾在白色的沙地上轻轻拍打。你等着——等着某一天，有一个人会从海面上跳下来，游向你。",
+      "但不是今天。",
+      "今天你只是在海底等待。美丽地、永恒地、孤独地等待。"
+    ],
+    "scene": "assets/end_b1.jpg"
   },
   "be_b2": {
     "t": "Bad End: Coastal B2",
@@ -3114,7 +3431,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B2",
-    "et": "Beneath the Light"
+    "et": "Beneath the Light",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b3": {
     "t": "Bad End: Coastal B3",
@@ -3126,7 +3444,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B3",
-    "et": "'Under da Sea'"
+    "et": "'Under da Sea'",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b4": {
     "t": "Bad End: Coastal B4",
@@ -3138,7 +3457,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B4",
-    "et": "Plenty of Fish in the Sea"
+    "et": "Plenty of Fish in the Sea",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b5": {
     "t": "Bad End: Coastal B5",
@@ -3150,7 +3470,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B5",
-    "et": "The Catch of a Lifetime"
+    "et": "The Catch of a Lifetime",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b6": {
     "t": "Bad End: Coastal B6",
@@ -3162,7 +3483,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B6",
-    "et": "Charybdis Chow"
+    "et": "Charybdis Chow",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b7": {
     "t": "Bad End: Coastal B7",
@@ -3174,7 +3496,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B7",
-    "et": "Boredom"
+    "et": "Boredom",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b8": {
     "t": "Bad End: Coastal B8",
@@ -3186,7 +3509,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B8",
-    "et": "Outlet of Love"
+    "et": "Outlet of Love",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b9": {
     "t": "Bad End: Coastal B9",
@@ -3198,7 +3522,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B9",
-    "et": "Deep Dark Depths"
+    "et": "Deep Dark Depths",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b10": {
     "t": "Bad End: Coastal B10",
@@ -3210,7 +3535,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B10",
-    "et": "Die with Dignity?"
+    "et": "Die with Dignity?",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b11": {
     "t": "Bad End: Coastal B11",
@@ -3222,7 +3548,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B11",
-    "et": "The Saviour"
+    "et": "The Saviour",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_b12": {
     "t": "Bad End: Coastal B12",
@@ -3234,7 +3561,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "B12",
-    "et": "Magic Cucumber"
+    "et": "Magic Cucumber",
+    "scene": "assets/scene_coastal.jpg"
   },
   "be_f1": {
     "t": "Bad End: Mythic F1",
@@ -3246,7 +3574,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "F1",
-    "et": "Bottom's Up!"
+    "et": "Bottom's Up!",
+    "scene": "assets/scene_mythic.jpg"
   },
   "be_f2": {
     "t": "Bad End: Mythic F2",
@@ -3258,7 +3587,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "F2",
-    "et": "Can't Make This Stuff Up"
+    "et": "Can't Make This Stuff Up",
+    "scene": "assets/scene_mythic.jpg"
   },
   "be_f3": {
     "t": "Bad End: Mythic F3",
@@ -3270,7 +3600,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "F3",
-    "et": "Pretty as a Princess"
+    "et": "Pretty as a Princess",
+    "scene": "assets/scene_mythic.jpg"
   },
   "be_f4": {
     "t": "Bad End: Mythic F4",
@@ -3282,7 +3613,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "F4",
-    "et": "Hardon My French"
+    "et": "Hardon My French",
+    "scene": "assets/scene_mythic.jpg"
   },
   "be_f5": {
     "t": "Bad End: Mythic F5",
@@ -3294,7 +3626,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "F5",
-    "et": "If I were a Boi"
+    "et": "If I were a Boi",
+    "scene": "assets/scene_mythic.jpg"
   },
   "be_f6": {
     "t": "Bad End: Mythic F6",
@@ -3306,7 +3639,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "F6",
-    "et": "Cat Needs the Cradle"
+    "et": "Cat Needs the Cradle",
+    "scene": "assets/scene_mythic.jpg"
   },
   "be_f7": {
     "t": "Bad End: Mythic F7",
@@ -3318,7 +3652,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "F7",
-    "et": "Know Your Place, Elfin Race"
+    "et": "Know Your Place, Elfin Race",
+    "scene": "assets/scene_mythic.jpg"
   },
   "be_f8": {
     "t": "Bad End: Mythic F8",
@@ -3330,7 +3665,8 @@ var chs={
     ],
     "en": "bad",
     "enm": "F8",
-    "et": "Trading Lives"
+    "et": "Trading Lives",
+    "scene": "assets/scene_mythic.jpg"
   },
   "caste_observe": {
     "t": "暗中观察",
@@ -3353,7 +3689,8 @@ var chs={
     "pt": [
       "Percy",
       "percy"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "forest_spider": {
     "t": "蜘蛛巢穴",
@@ -3381,7 +3718,8 @@ var chs={
     "pt": [
       "Arachne",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_forest.jpg"
   },
   "eurum_search": {
     "t": "搜寻城市",
@@ -3408,7 +3746,8 @@ var chs={
     "pt": [
       "Mark",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_coastal.jpg"
   },
   "sea_siren_info": {
     "t": "Siren的秘密",
@@ -3432,7 +3771,8 @@ var chs={
     "pt": [
       "海神祭司",
       "mark"
-    ]
+    ],
+    "scene": "assets/scene_coastal.jpg"
   },
   "demon_church_talk": {
     "t": "修女的秘密",
@@ -3460,7 +3800,8 @@ var chs={
     "pt": [
       "Aralu",
       "aralu"
-    ]
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "demon_observe": {
     "t": "寻找弱点",
@@ -3487,7 +3828,8 @@ var chs={
     "pt": [
       "Aralu",
       "aralu"
-    ]
+    ],
+    "scene": "assets/scene_demon.jpg"
   },
   "desolate_smoke": {
     "t": "烟雾中的陷阱",
@@ -3510,7 +3852,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desolate.jpg"
   },
   "pyramid_study": {
     "t": "壁画启示",
@@ -3534,7 +3877,8 @@ var chs={
     "pt": [
       "Kim",
       "kim"
-    ]
+    ],
+    "scene": "assets/scene_desert.jpg"
   },
   "final_shuriken": {
     "t": "符文之力",
@@ -3559,7 +3903,8 @@ var chs={
     "pt": [
       "Robin",
       "robin"
-    ]
+    ],
+    "scene": "assets/scene_mythic.jpg"
   },
   "be_cor_100": {
     "t": "Bad End: 完全腐化",
@@ -3638,7 +3983,8 @@ var chs={
     ],
     "eff": {
       "cor": 0
-    }
+    },
+    "scene": "assets/scene_forest.jpg"
   },
   "cor_50": {
     "t": "蜕变之痛",
@@ -3659,7 +4005,8 @@ var chs={
     ],
     "eff": {
       "cor": 0
-    }
+    },
+    "scene": "assets/scene_demon.jpg"
   },
   "cor_75": {
     "t": "最后的抵抗",
@@ -3681,7 +4028,8 @@ var chs={
     ],
     "eff": {
       "cor": 0
-    }
+    },
+    "scene": "assets/scene_desert.jpg"
   }};
 
 </script>
