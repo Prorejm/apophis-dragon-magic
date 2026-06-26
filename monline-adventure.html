@@ -95,7 +95,7 @@ function gls(imgs){_gi=0;_gs=imgs;if(imgs&&imgs.length>0){document.getElementByI
 function glp(d){if(_gs.length<2)return;_gi=(_gi+d+_gs.length)%_gs.length;document.getElementById('gl_img').style.backgroundImage='url('+_gs[_gi]+')';document.getElementById('gl_c').textContent=(_gi+1)+' / '+_gs.length;}
 function glc(){document.getElementById('gl').className='hd';}
 
-function ng(){if(confirm("开始新的冒险？当前进度将会丢失。")){gs={ch:"start",hp:100,san:100,cor:0,inv:[],fl:{},gen:"m",hist:[],end:{},zone:""};sh("start")}}
+function ng(){if(confirm("开始新的冒险？当前进度将会丢失。")){gs={ch:"start",hp:100,san:100,cor:0,inv:[],fl:{},gen:"m",hist:[],end:{},zone:"",path:{}};sh("start")}}
 var _kh=null;
 function sh(id){gs.ch=id;gs.hist.push(id);if(gs.hist.length>80)gs.hist.shift();
 var cd=chs[id];if(!cd){alert("章节不存在: "+id);return}
@@ -105,7 +105,8 @@ document.getElementById("et").textContent=cd.enm||cd.et||"结局";
 document.getElementById("ed").innerHTML=(typeof cd.text==="string"?cd.text:Array.isArray(cd.text)?cd.text.join("<br><br>"):"").replace(/\\n/g,"<br>");
 if(cd.long_text&&Array.isArray(cd.long_text)){window._be_txt=cd.long_text;window._be_title=cd.t||"结局"}else{window._be_txt=null}
 if(cd.enm&&!gs.end[cd.enm]){gs.end[cd.enm]=true}
-sv();if(cd.scene){var sc=document.getElementById("sc");if(sc){sc.style.backgroundImage='url('+cd.scene+')';sc.style.display="block"}}es.classList.remove("hd");var ns=document.getElementById("no");if(ns){if(window._be_txt){ns.style.display="";ns.className="btn";ns.textContent="📖 阅读完整变身小说"}else{ns.className="btn hd"}}var gb=document.getElementById("gb");if(gb&&cd.gallery){gb.style.display="";gb.className="btn r";gb.textContent="🖼️ 查看变化序列"}else if(gb){gb.className="btn hd"}return}
+if(cd.gallery){window._be_gl=cd.gallery}else{window._be_gl=null}
+sv();if(cd.scene){var sc=document.getElementById("sc");if(sc){sc.style.backgroundImage='url('+cd.scene+')';sc.style.display="block"}}es.classList.remove("hd");if(cd.enm==="GOOD"){var ed=document.getElementById("ed");var st=ed.innerHTML;var ct2=[];for(var kk in gs.fl){if(kk.indexOf("tk_")===0)ct2.push(kk.replace("tk_",""))}var co2=gs.cor;var be2=Object.keys(gs.end).length;var stats="<div style=\"margin-top:1.5rem;padding:1rem;background:rgba(212,168,67,.08);border-radius:8px;font-size:.8rem;text-align:left\"><b style=\"color:var(--gold)\">旅程统计</b><br>腐化程度: "+co2+"%<br>遭遇结局: "+be2+" 次<br>关键选择: "+(ct2.length>0?ct2.join(", "):"无")+"<br></div>";ed.innerHTML=st+stats}var ns=document.getElementById("no");if(ns){if(window._be_txt){ns.style.display="";ns.className="btn";ns.textContent="📖 阅读完整变身小说"}else{ns.className="btn hd"}}var gb=document.getElementById("gb");if(gb&&cd.gallery){gb.style.display="";gb.className="btn r";gb.textContent="🖼️ 查看变化序列"}else if(gb){gb.className="btn hd"}return}
 document.getElementById("ti").className="hd";document.getElementById("es").className="hd";
 document.getElementById("gs").className="";document.getElementById("ct").textContent=cd.t||"?";
 document.getElementById("cl").textContent=cd.loc||"?";
@@ -121,8 +122,8 @@ var b=document.createElement("button");b.className="cb";
 var nums=["❶","❷","❸","❹","❺"];
 var icons={go:"➜",fight:"⚔",talk:"💬",explore:"🧭",danger:"⚠"};
 var tags={go:"继续",fight:"战斗",talk:"对话",explore:"探索",danger:"危险"};
-b.innerHTML='<span class="cb_idx">'+(nums[i]||"➜")+'</span><span class="cb_icon">'+(icons[t]||"➜")+'</span><span class="cb_text">'+c.t+'</span><span class="cb_tag '+t+'">'+(tags[t]||"选择")+'</span>'+(c.tf?'<span class="dng">⚡ 转化风险</span>':'');
-b.onclick=function(){if(c.cbk){sh(gs.bk||"start");return}if(c.tf){var z=gs.zone||"Forest";var be=[];for(var k in chs){if(chs[k].en==="bad"&&chs[k].long_text&&(!chs[k].zone||chs[k].zone===z))be.push(k)}if(be.length>0){var r=be[Math.floor(Math.random()*be.length)];sh(r);return}}if(c.eff)ch(c.eff);var ms=gs._ms;gs._ms=null;if(ms){sh(ms);return}if(c.n)sh(c.n)};bx.appendChild(b);ks.push(c)});
+b.innerHTML='<span class="cb_idx">'+(nums[i]||"➜")+'</span><span class="cb_icon">'+(icons[t]||"➜")+'</span><span class="cb_text">'+c.t+'</span><span class="cb_tag '+t+'">'+(tags[t]||"选择")+'</span>'+(c.fg?'<span class="dng" style="color:#ff6b6b">⚠️ 最终确认</span>':'')+(c.tf?'<span class="dng">⚡ 转化风险</span>':'')+(c.tk?'<span class="dng" style="color:#60a5fa;font-size:.65rem">🔑 关键决定</span>':'');
+b.onclick=function(){if(c.cbk){sh(gs.bk||"start");return}if(c.fg){if(!gs.fl['fg_'+c.fg]){gs.fl['fg_'+c.fg]=true;gs.bk=gs.ch;sh(c.fg);return}}if(c.tf){var z=gs.zone||"Forest";var be=[];for(var k in chs){if(chs[k].en==="bad"&&chs[k].long_text&&(!chs[k].zone||chs[k].zone===z))be.push(k)}if(be.length>0){if(c.ct){var ct=c.ct;gs.fl['ct_'+ct]=(gs.fl['ct_'+ct]||0)+1}var r=be[Math.floor(Math.random()*be.length)];sh(r);return}}if(c.eff)ch(c.eff);var ms=gs._ms;gs._ms=null;if(ms){sh(ms);return}if(c.tk){gs.fl['tk_'+c.tk]=true}if(c.n)sh(c.n)};bx.appendChild(b);ks.push(c)});
 _kh=function kh(e){var n=parseInt(e.key);if(n>=1&&n<=ks.length){document.removeEventListener("keydown",kh);_kh=null;var h=ks[n-1];if(h.eff)ch(h.eff);if(h.n)sh(h.n)}};
 document.addEventListener("keydown",_kh)}else{var nb=document.createElement("button");nb.className="cb";
 nb.innerHTML='<span class="cb_idx">➜</span><span class="cb_icon">➜</span><span class="cb_text">继续前进</span><span class="cb_tag go">继续</span>';
@@ -134,23 +135,29 @@ var chs={
     "loc": "Forest Zone - 森林入口",
     "zone": "Forest",
     "text": [
-      "你醒来了。头顶是暗红色的天空——那不是地球的颜色。空气中弥漫着甜腻的花香，混合着某种古老的魔力气息。高大的树木环绕着你，树干上闪烁着幽蓝色的磷光。",
-      "一个穿着铠甲的年轻人从树后探出头来。他有着灰白色的头发和鲜明的翠绿色眼睛，头上扎着一条醒目的红色头巾。「你醒了？太好了——我以为你撑不过去了。」",
-      "他把你拉起来。你看到远方有一座城墙——有着哥特式拱门和巴洛克式喷泉的破败城市。「那是Caste City。我醒来的时候就在那里——遇到了一些其他被困的人。但他们已经不记得自己是谁了。这个世界会吞噬你的记忆。」",
-      "「我叫Mark。」他伸出手。你握住了。他的手掌温暖而有力。「我们一起走。两个人比一个人安全。」远处传来了歌声——甜美的、令人骨头酥麻的。Mark一把抓住你的手腕：「不要听。那是Siren的歌声。绝对不能听。」"
+      "你从一片暗红色的天空下醒来。这不是你熟悉的世界。空气中弥漫着甜腻的花香和某种古老的魔力气息。",
+      "一个穿着铠甲的年轻人正俯视着你。他有着灰白色的头发和翠绿色的眼睛，头上的红色头巾在微风中飘动。",
+      "「你醒了？太好了——我以为你撑不过去了。我叫Mark。」他把你拉起来，指向远方的城市轮廓。「那是Caste City。我醒来后就在那里——但那里还有一些其他人。」",
+      "远处传来了甜美的歌声。Mark一把抓住你的手腕：「绝对不能听。那是Siren的歌声——会让你忘记一切。」",
+      "你站在森林中。风吹过树梢。前方的城市在等着你。",
+      "这是你进入Monline的第一天。你做的每一个选择都会改变你。"
     ],
     "chs": [
       {
-        "t": "跟着Mark去Caste City",
+        "t": "信任Mark，跟他去Caste City",
         "n": "caste_city",
-        "pt": [
-          "Mark",
-          "mark"
-        ]
+        "tk": "trust_mark",
+        "eff": {
+          "san": 5
+        }
       },
       {
-        "t": "独自探索森林",
-        "n": "forest_explore_alone"
+        "t": "婉拒Mark，独自探索森林",
+        "n": "forest_explore_alone",
+        "tk": "solo_start",
+        "eff": {
+          "cor": 5
+        }
       }
     ],
     "pt": [
@@ -164,20 +171,24 @@ var chs={
     "loc": "Forest Zone - Caste City",
     "zone": "Forest",
     "text": [
-      "Caste City曾经是一座美丽的城镇。现在紫色的藤蔓爬满了石墙，街道上散落着被遗弃的背包、空罐头、手机和其他现代文明的碎片。",
-      "Mark带你走进了一栋保存还算完好的房屋——他的据点。屋内堆满了补给品——罐头食品、瓶装水、生锈的武器。「坐。我需要告诉你一些事情。」",
-      "他在桌子对面坐下，摊开一张手绘地图。「首先——这个世界叫Monline。是一个叫Robin的人创建的虚拟世界。他把我们困在了这里。」",
-      "「要离开这里——我们需要收集圣球。Orbs。一共有六颗——分布在六个区域中。但Forest Zone没有Orb。我们需要穿过森林，前往Coastal Zone。」",
-      "「但还有一件事——」Mark的表情变得严肃。「有一个叫PXE的向导——她是一个可以附身的数字灵魂。她可能知道更多。我们在城里找找她。」"
+      "Caste City是一座哥特式的废墟城镇。紫色的魔力藤蔓爬满了石墙，街道上散落着人类的遗物——背包、手机、被撕碎的照片。这里曾经是一个旅游胜地——现在是Monline最大的牢笼。",
+      "Mark带你来到他的据点。屋内堆满了补给品。他在桌子前坐下，摊开一张手绘地图。",
+      "「Monline分为六个区域。我们需要收集六颗Orb。Forest Zone没有Orb——我们需要穿过森林去Coastal Zone。但这里还有一些值得探索的地方。」",
+      "靠近Caste City的大门时，你听到了外面的声音——有人在靠近。",
+      "你的选择将决定你如何开始这段旅程。"
     ],
     "chs": [
       {
-        "t": "出去查看外面的声音",
-        "n": "caste_encounter"
+        "t": "回应外面的声音——可能是同伴",
+        "n": "caste_encounter",
+        "tk": "meet_pxe"
       },
       {
-        "t": "在城中搜寻补给和线索",
-        "n": "caste_explore"
+        "t": "在城中仔细搜刮补给",
+        "n": "caste_explore",
+        "eff": {
+          "san": 5
+        }
       }
     ],
     "pt": [
@@ -191,20 +202,27 @@ var chs={
     "loc": "Forest Zone - Caste City",
     "zone": "Forest",
     "text": [
-      "你推开门。外面站着一个穿着斗篷的身影——非常娇小。兜帽下面是一张看上去不超过十二岁的女孩的脸——但她的眼睛中闪烁着你无法理解的光芒。",
-      "「你好，玩家。」她的声音带着数字化的回声。「我叫PXE。我是Monline的向导——我被设计来帮助你们。」",
-      "Mark站在你身后，双手抱胸。「她能附身——就像灵魂附体一样。而且她知道很多关于这个世界的秘密。」",
-      "PXE点了点头。「我已经扫描了你们的数据。你们需要去Coastal Zone——那里的海神神殿中藏有Orb of the Waves。但森林中还有别的东西值得探索——比如蜜蜂的巢穴和奶牛牧场。」",
-      "「顺便说一句——」PXE歪了歪头。「Robin在看着你们。他一直都在看着。你们越有趣——他越不会对你们下杀手。」"
+      "你推开门。外面站着一个穿着斗篷的娇小身影。兜帽下是一张女孩的脸——但她的眼睛闪烁着不属于人类的数字光芒。",
+      "「你好，玩家。我叫PXE——Monline的向导程序。我可以附身到你身上，帮助你——如果你愿意的话。」",
+      "Mark从屋内走出，皱眉看着她。「她能读取世界的数据——知道Orb的位置。」",
+      "PXE歪了歪头：「Forest Zone是新手区。这里的怪物不会立刻杀死你——它们更倾向于……转化你。蜜蜂会把你也变成蜜蜂。蜘蛛会让你也长出八条腿。奶牛场会让你变成一头奶牛。」她停顿了一下。「要走哪条路？」"
     ],
     "chs": [
       {
-        "t": "去Hive找Queen Bee",
-        "n": "forest_hive"
+        "t": "接受PXE附身——获得数字向导",
+        "n": "forest_hive",
+        "tk": "accept_pxe",
+        "eff": {
+          "san": -5
+        }
       },
       {
-        "t": "先从窗户观察再决定",
-        "n": "caste_observe"
+        "t": "拒绝PXE——靠自己走下去",
+        "n": "caste_observe",
+        "tk": "reject_pxe",
+        "eff": {
+          "cor": 5
+        }
       }
     ],
     "pt": [
@@ -218,27 +236,32 @@ var chs={
     "loc": "Forest Zone - Hive",
     "zone": "Forest",
     "text": [
-      "你跟着蜜蜂娘的指引来到了Hive——一个悬挂在古树上的巨大蜂巢。六边形的蜂蜡墙壁散发着温暖的金色光芒。空气中弥漫着蜂蜜的甜香——浓烈到几乎让人睁不开眼。",
-      "Queen Bee坐在蜂巢的最上层。她的身体比工蜂大得多——上半身是美丽的女性，下半身是巨大的、带着金色条纹的蜂腹。她的复眼倒映着你的身影。",
-      "「又一个冒险者。」她的声音低沉而共鸣。「人类的身体在森林中太脆弱了。但你们可以作为蜜蜂留下来——我们的蜂巢需要新的血液。」",
-      "她的目光落在了你的身上。「要不要考虑一下？蜂蜜的味道——比我猜你想象的要甜美得多。」一只工蜂端来了一个陶碗，里面盛着金黄色的、散发着光芒的蜂蜜。",
-      "你看着那碗蜂蜜。你的身体——你的新身体——被它的香气深深吸引了。你咽了咽口水。"
+      "你离开了Caste City，沿着一条被踩出来的小路走向森林深处。这里的树木越来越密集，树冠遮住了天空。空气中甜腻的香气越来越浓——那是蜂蜜的香味。",
+      "你来到了一棵巨大的古树前——树冠上悬挂着一个巨大的蜂巢。六边形的蜂蜡墙壁散发着温暖的金色光芒。蜜蜂娘们在巢口飞舞——她们的上半身是人类女性，下半身是黄黑相间的蜂腹。",
+      "其中一个蜜蜂娘看到了你。她飞到你面前，复眼中倒映着你的身影——「又一个旅行者。我们的蜂蜜能让你看到世界的真实面貌。要来一口吗？」",
+      "她手中端着一个陶碗——里面盛着金黄色的、发着微光的蜂蜜。你的身体在渴望它。但同时——你的理智在警告你。",
+      "「接下蜂蜜」——这可能让你变成她们的一员。但也许……你只是喝了一口蜂蜜而已。",
+      "你需要在贪婪和理智之间做出选择。"
     ],
     "chs": [
       {
-        "t": "接下蜂蜜（危险！）",
-        "n": "honey_eat",
+        "t": "喝下蜂蜜——感受真正的甜蜜",
+        "fg": "honey_confirm",
         "tf": true,
         "eff": {
           "cor": 20
+        },
+        "ct": "honey_addict"
+      },
+      {
+        "t": "拒绝蜂蜜——保持警惕",
+        "n": "bee_queen",
+        "eff": {
+          "san": 5
         }
       },
       {
-        "t": "谢绝蜂蜜，要求见Queen Bee",
-        "n": "bee_queen"
-      },
-      {
-        "t": "警惕后退，离开蜂巢",
+        "t": "保持礼貌，问关于Orb的情报",
         "n": "forest_ranch"
       }
     ],
@@ -436,21 +459,30 @@ var chs={
     "loc": "Coastal Zone - 沙滩",
     "zone": "Coastal",
     "text": [
-      "森林的边界到了。树木变得稀疏，取而代之的是沙滩和咸腥的海风。你在沙丘上停下脚步——眼前的景象让你屏住了呼吸。",
-      "翡翠色的海洋在阳光下闪闪发光。远处——一座白色的城市矗立在海边的悬崖上，它的建筑风格融合了古希腊和地中海风情。那是Eurum City——Coastal Zone的中心。",
-      "PXE的声音在你脑海中响起——她已经附身到你的意识中了。「Coastal Zone有两件重要的事：第一——海神神殿中有Orb of the Waves。第二——不要相信Siren的歌声。绝对不要。」",
-      "海面上传来一阵歌声——远远的、柔和的、像母亲哼唱的摇篮曲。你的身体紧绷了。那是Siren。",
-      "Mark站在你身边，望着那座白色的城市。「我们得找一条船。海神神殿在Eurum City以东的海上。」",
-      "你走下沙滩。海水漫过了你的脚踝。Coastal Zone——你的第一个Orb在等着你。"
+      "你穿透了森林的边界。树木在你身后退去——取而代之的是开阔的沙滩和无边的翡翠色海洋。海风带着咸味拂过你的脸。在前方悬崖上——一座白色的城市在阳光下闪闪发光。",
+      "Mark——或者你的同伴——站在你身边，也被这景色震撼了。「那就是Eurum City。据PXE说——海神神殿就在东边不远的地方。」",
+      "但你注意到海面上有一些异常——银色的身影在波浪中若隐若现。Siren。",
+      "你站在海岸的十字路口上——左边是通往Eurum City的大道，右边是一条沿着海岸线蜿蜒的小路。而海面上——Siren的歌声正在召唤你。"
     ],
     "chs": [
       {
-        "t": "前往Eurum City",
-        "n": "eurum_city"
+        "t": "走大路——直接去Eurum City",
+        "n": "eurum_city",
+        "tk": "coastal_city"
       },
       {
-        "t": "去港口",
-        "n": "coastal_port"
+        "t": "走海岸小路——探索沿途的秘密",
+        "n": "coastal_port",
+        "tk": "coastal_shore",
+        "eff": {
+          "cor": 5
+        }
+      },
+      {
+        "t": "回应Siren的歌声——冒险",
+        "fg": "siren_confirm",
+        "tf": true,
+        "ct": "siren_call"
       }
     ],
     "pt": [
@@ -661,21 +693,32 @@ var chs={
     "loc": "Demon Zone - 城堡",
     "zone": "Demon",
     "text": [
-      "城堡大厅中悬挂着扭曲的画作——每一幅都在盯着你。一个Succubus从走廊尽头出现——美得令人窒息。她看着你，舔了舔嘴唇。“又有新玩具了。”你的身体不受控制地向她迈出一步。Aralu抓住你的手臂。“别看她！”"
+      "Aralu带着你穿过城堡的吊桥。大门在你面前缓缓打开——内部的景象让你倒吸一口冷气。大厅中到处都是魅魔——她们靠在柱子上，坐在台阶上，悬浮在空气中。她们的目光齐刷刷地转向了你。",
+      "Aralu握紧了大剑。「不要看她们的眼睛。不要回应她们的搭话。直接跟我走。」",
+      "但一只紫色皮肤的魅魔已经挡在了你的面前。她的翅膀半张，尾巴在你脚踝边游走——「新来的？我喜欢新来的。你看起来……很美味。」",
+      "你有三条路可以走——跟着Aralu战斗到底，和魅魔对话周旋，或者观察环境寻找弱点。这是一个关于你如何面对诱惑的考验。"
     ],
     "chs": [
       {
-        "t": "抵抗诱惑",
-        "n": "demon_castle_hall"
+        "t": "跟着Aralu——战斗到底",
+        "n": "demon_castle_hall",
+        "tk": "demon_fight",
+        "eff": {
+          "cor": 5
+        }
       },
       {
-        "t": "向她走去（危险！）",
-        "n": "be_c5",
-        "tf": true
+        "t": "和魅魔对话——你对她很好奇",
+        "fg": "demon_talk_confirm",
+        "tf": true,
+        "ct": "demon_curious"
       },
       {
-        "t": "跟随Arch Imp进入暗处",
-        "tf": true
+        "t": "观察四周——寻找潜行路线",
+        "n": "demon_observe",
+        "eff": {
+          "san": 5
+        }
       }
     ],
     "pt": [
@@ -827,24 +870,33 @@ var chs={
     "loc": "Desolate Zone - 入口",
     "zone": "Desolate",
     "text": [
-      "穿过Demon Zone的边界——你被一股刺鼻的气味击中了。燃烧的橡胶、腐烂的有机物和铁锈的混合气味。你曾经在电影中闻到过这种味道——战争的废墟。",
-      "但这不是战争。这是一座废弃的城市。摩天大楼的玻璃幕墙碎裂了，街道上横七竖八地停着被遗弃的车辆。自动贩卖机倒在地上，里面的商品早已被洗劫一空。",
-      "然后你听到了声音。不是风声——是呻吟。低沉的、从喉咙深处发出的、绝望的呻吟。",
-      "僵尸。成群的僵尸。它们在街道上蹒跚而行——数量多到你无法统计。它们曾经是人类。现在它们只是——空洞的容器。",
-      "PXE的声音在你的脑海中响起——带着一种前所未有的紧张。「警告。Desolate Zone爆发了僵尸感染。我的数据显示——这是一种魔法病毒。被感染的人类会变成僵尸。你的身体——」她停顿了一下。「你也已经暴露了。」",
-      "你低头看着自己的手臂。一道细小的划痕——你甚至没有注意到什么时候受的伤。但伤口周围——一圈灰绿色的纹路正在你的皮肤上扩散。",
-      "你被感染了。你必须在完全转化之前找到解药。",
-      "Mark握紧了剑。「医院。城市里一定还有医院——那里可能有解药。」",
-      "你捂住手臂上的伤口。你还有时间。但剩下的时间不多了。"
+      "你踏入Desolate Zone的那一刻，一股刺鼻的气味击中了你的嗅觉——燃烧的橡胶、腐烂的有机物和铁锈。这座城市曾经是一座繁华的都市——现在是死者的领地。",
+      "街道上挤满了僵尸。它们在废弃的汽车之间蹒跚行走，空洞的眼睛望着虚无。",
+      "PXE的声音在你的脑海中响起——带着紧迫感：「警告。你已经被感染了。魔法病毒正在你的血液中扩散。你有有限的时间找到解药——否则你会加入它们。」",
+      "你低头看着自己的手臂——一道细小的划痕。伤口周围的皮肤已经变成了灰绿色。",
+      "你必须在完全转化之前找到解药。但这座城市是巨大的——你该从哪里开始？"
     ],
     "chs": [
       {
-        "t": "前往医院寻找解药",
-        "n": "desolate_mansion"
+        "t": "立刻前往医院——可能有解药",
+        "n": "desolate_hospital",
+        "tk": "desolate_fast",
+        "eff": {
+          "san": -5
+        }
       },
       {
-        "t": "先探索街道搜集补给",
-        "n": "desolate_exit"
+        "t": "搜索街道废弃的药店——碰碰运气",
+        "fg": "desolate_search_confirm",
+        "tf": true,
+        "ct": "desolate_slow"
+      },
+      {
+        "t": "寻找其他幸存者——一起想办法",
+        "n": "desolate_exit",
+        "eff": {
+          "san": 5
+        }
       }
     ],
     "pt": [
@@ -958,22 +1010,35 @@ var chs={
     "loc": "Desert Zone - 入口",
     "zone": "Desert",
     "text": [
-      "沙漠的热浪在你穿过边界的那一刻击中了你。Coastal的潮湿和Demon的阴冷都消失了——取而代之的是干热的风、看不到边际的沙丘和刺眼的金色阳光。",
-      "你遮住眼睛。远处——一座巨大的金字塔矗立在沙漠中心。它的表面覆盖着金色的石板，在烈日下反射出灼热的光芒。",
-      "一个声音从沙丘的另一边传来——「嘿！嘿——这边！」",
-      "一个男人从沙丘上滑了下来。他穿着一身棕色的探险者服装，戴着宽檐帽。他的头发是棕色的，眼睛是蓝色的——像沙漠中的一小片天空。「我是Dominic。你是——」他注意到了你手臂上尚未完全褪去的僵尸感染痕迹。「哦。你是从Desolate过来的。那么你也需要解药。」",
-      "「金字塔里有一种古老的解药——Pharaoh Farinet的宝藏。但我不打算自己去送死。要不要组队？」他向你伸出手。笑容灿烂而危险。",
-      "你握住了他的手。你知道他在隐瞒什么。但现在——你需要盟友。",
-      "Desert Zone的黑色金字塔在远方闪烁。Dominic的眼中——有一种你暂时读不懂的光芒。"
+      "沙漠的热浪在你通过边界时击中了你的脸。Coastal的湿润和Demon的阴冷都消失了——取而代之的是干热的焚风和刺眼的金色阳光。",
+      "远处——一座巨大的黑色金字塔矗立在沙漠中心。它在烈日下散发出一种古老而邪恶的气息。",
+      "一个男人从沙丘上滑了下来——他穿着探险者服装，戴着宽檐帽。棕色的头发在风中飘动，蓝色的眼睛像沙漠中的一小片天空。",
+      "「嘿！你是从Desolate来的？那么你也被感染者——你需要金字塔里的解药。」他向伸出手，笑容灿烂而危险。",
+      "你的本能告诉你：这个男人在隐瞒什么。但同时——他在微笑。而你已经独自走了这么远。你有时很孤独。",
+      "信任他——还是靠自己？这是你要做的选择。"
     ],
     "chs": [
       {
-        "t": "相信Dominic前往金字塔",
-        "n": "pyramid_quest"
+        "t": "信任Dominic——和他组队",
+        "n": "pyramid_quest",
+        "tk": "trust_dominic",
+        "eff": {
+          "san": 5
+        }
       },
       {
-        "t": "在沙漠中独自探索",
-        "n": "desert_explore"
+        "t": "保持距离——独自探索沙漠",
+        "n": "desert_explore",
+        "tk": "desert_alone",
+        "eff": {
+          "cor": 5
+        }
+      },
+      {
+        "t": "先观察他——找到他的破绽",
+        "fg": "dominic_watch_confirm",
+        "tf": true,
+        "ct": "watch_dominic"
       }
     ],
     "pt": [
@@ -1216,17 +1281,34 @@ var chs={
     "loc": "Mythic Zone - 神社",
     "zone": "Mythic",
     "text": [
-      "你站在Robin面前。他掀起了兜帽——他看起来像是一个极其孤独的年轻人。",
-      "“我知道你想离开。但如果你离开了——我就又变成一个人了。”他的手中出现了Orb of the Sun。“来拿吧——如果你能做到的话。”"
+      "你来到了Mythic Zone的深处——一片被樱花和月亮笼罩的神秘土地。在道路的尽头——Robin在等着你。",
+      "他穿着一件白色的斗篷，脸上是你的眼睛无法聚焦的模糊——不是因为他戴了面具，而是因为Monline拒绝让你看清他的脸。他的项圈上嵌着一颗红色的宝石。",
+      "「你来了。」他的声音很年轻——比你想象的要年轻。「你收集了五颗Orb。你穿越了六个区域。你遇到了很多人——有些人你信任了，有些人你失去了。」",
+      "「而你现在站在这里——」他转向你，他的声音中带着一种奇异的悲伤。「——来结束这一切。」",
+      "你的旅程即将到达终点。你的选择、你的腐败、你的信任——一切都会在这里得出结果。"
     ],
     "chs": [
       {
-        "t": "战斗",
-        "n": "final_battle"
+        "t": "尝试理解Robin——他为什么要做这一切",
+        "n": "final_talk",
+        "tk": "understand_robin",
+        "eff": {
+          "san": 10
+        }
       },
       {
-        "t": "尝试理解他",
-        "n": "final_talk"
+        "t": "攻击Robin——收集最后一颗Orb",
+        "n": "final_battle",
+        "tk": "fight_robin",
+        "eff": {
+          "cor": 10
+        }
+      },
+      {
+        "t": "接受他——永远留在这个世界",
+        "fg": "final_accept_confirm",
+        "tf": true,
+        "ct": "stay_in_monline"
       }
     ],
     "pt": [
@@ -1240,21 +1322,31 @@ var chs={
     "loc": "Mythic Zone - 神社",
     "zone": "Mythic",
     "text": [
-      "你冲向Robin。你击中了他的项圈——红色宝石裂开了。但Robin没有倒下。“你知道你做了什么吗？那些被转化的人——如果你打破项圈——她们会消失。被Monline吞噬。”",
-      "你的武器悬在半空。你的Orb在警告你——他说的是真的。"
+      "你举起了武器。Robin的眼神从惊讶变成了悲伤。",
+      "「所以——你选择了这条路。」他没有还击——他闭上了眼睛。Monline的地面在你脚下震动——整个世界正在响应他的情绪。",
+      "你有能力击败他。但在最后一刻——你感到了一丝犹豫。你真的要这么做吗？用暴力的方式结束这一切？",
+      "你的Orbs在震动。Robin的项圈上的红宝石在发光。一切都在这里终结——不管是好是坏。"
     ],
     "chs": [
       {
-        "t": "停手——另一种方式",
-        "n": "final_talk"
+        "t": "下手——取走Orb",
+        "n": "final_true",
+        "tk": "win_battle",
+        "eff": {
+          "cor": 10
+        }
       },
       {
-        "t": "结束这一切",
-        "n": "final_true"
+        "t": "收手——你不能这样做",
+        "n": "final_talk",
+        "eff": {
+          "san": 10
+        }
       },
       {
         "t": "使用符文手里剑攻击项圈",
-        "n": "final_shuriken"
+        "n": "final_shuriken",
+        "tk": "clever_win"
       }
     ],
     "pt": [
@@ -1268,17 +1360,30 @@ var chs={
     "loc": "Mythic Zone - 神社",
     "zone": "Mythic",
     "text": [
-      "你没有拔出武器。“我来这里不是为了毁灭你的世界。我来——是为了理解它。”Robin愣住了。“……什么？”",
-      "“你建造了这个世界——因为你在现实世界找不到归属。但把别人也困在这里——不是解决办法。”Robin低着头。“……那我应该怎么办？放你们走——然后继续一个人？”"
+      "你放下了武器。Robin愣了一下。",
+      "「你——你不打算杀我？」他的声音变了——不再是那个全能的造物主，是一个十七岁、被困在自己的创造物中的男孩。",
+      "「Monline是我的逃生舱。」他低声说。「现实世界中——我病了。非常病。Monline是我创造的——一个我可以控制一切的世界。但这个世界的居民……他们有了自己的意识。怪物娘们。被困的玩家们。他们开始有了自己的想法。」",
+      "「我想离开——但我不知道怎么离开。」他的声音在颤抖。「我没有关闭按钮。没有管理密码。我把自己锁在了自己造的监狱里。」",
+      "你看着他。他不是邪恶的。他只是……迷路了。",
+      "Orbs在你腰间闪烁。你也许有办法——但你需要他的配合。",
+      "终点在你面前。你的最后一颗Orb——Orb of the Sun——只差一步之遥。"
     ],
     "chs": [
       {
-        "t": "“如果你愿意——我可以做你的朋友。在现实世界。",
-        "n": "final_true"
+        "t": "告诉他你想帮他——一起离开这里",
+        "n": "final_true",
+        "tk": "save_robin",
+        "eff": {
+          "san": 15
+        }
       },
       {
-        "t": "我不知道……",
-        "n": "final_battle"
+        "t": "你无法信任他——夺取Orb离开",
+        "n": "final_battle",
+        "tk": "betray_robin",
+        "eff": {
+          "cor": 15
+        }
       }
     ],
     "pt": [
@@ -1292,16 +1397,17 @@ var chs={
     "loc": "Mythic Zone - 神社",
     "zone": "Mythic",
     "text": [
-      "Robin沉默了。然后他伸出手——掌心中是Orb of the Sun。光芒温暖而柔和。",
-      "“……拿去吧。关闭这扇门。让我也离开这里。”",
-      "你接过了最后一颗Orb。六颗Orb在你体内合为一体——金色的光芒吞没了整个世界。当光芒消散时——你站在现实世界中。天空是正常的蓝色。",
-      "身边——Mark、Kim、Aralu——他们都在。还有Robin——不再是Monline的统治者了。只是一个普通的年轻人。",
-      "他看了你一眼——露出了一丝没有伪装的、真正的微笑。",
-      "也许这就是真正的结局——不是逃离一个世界，而是拯救一个灵魂。"
+      "你选择了理解Robin。他的面具碎裂了——在面具后面是一个和你一样被困在Monline中的灵魂。他把Orb of the Sun交给你。",
+      "光芒从你的手中升起。窗帘——窗帘正在撕裂。天空像一张破布一样被撕开。你看到了外面的世界——白色墙壁的房间、闪烁的屏幕、被遗忘在电脑前的一杯早已冷掉的咖啡。",
+      "Monline正在关闭。Robin站在原地，向挥手告别。有风吹过——他的身形像像素一样消散了。",
+      "你闭上了眼睛。",
+      "当你再次睁开时——你回到了你的房间。你的电脑屏幕上是Monline的登陆界面。你看了看时间——你在里面待了六个月。外面只过了六个小时。",
+      "你回家了。但你的一部分——你已经不再确定——到底有没有回来。",
+      "你的旅程结束了。你自由了。"
     ],
     "en": "good",
     "enm": "GOOD",
-    "et": "回家",
+    "et": "逃脱",
     "scene": "assets/scene_mythic.jpg"
   },
   "be_a1": {
@@ -6136,14 +6242,180 @@ var chs={
     "loc": "Desolate Zone - 中心医院",
     "zone": "Desolate",
     "text": [
-      "你推开了医院的大门。大厅中弥漫着消毒水和腐败物的混合气味。自动售货机倒在地上，候诊室的椅子东倒西歪。但——还有灯光。不是发电机——是一种微弱的、紫色的荧光从走廊深处透出。你小心地向光源走去。"
+      "你推开了医院摇摇欲坠的大门。大厅内部一片狼藉——候诊椅东倒西歪，挂号台的玻璃碎裂了，地面上散落着发黄的病历纸。空气中弥漫着消毒水和腐烂的气味。",
+      "但你看到了灯光——不是发电机，而是一种微弱的紫色荧光从走廊深处透出。你向光源走去。",
+      "走廊尽头是一间实验室。门上的铭牌写着：「Dr. Olsen —— 传染病学」。",
+      "你推开门。一个穿着白大褂的女人背对着你，正在操作一台发光的设备。她听到了你的脚步声——但没有回头。",
+      "你可以选择直接求助——或者先观察一下这个女人是否值得信任。在Desolate Zone——信任是最昂贵的奢侈品。"
     ],
     "chs": [
       {
-        "t": "深入医院",
-        "n": "desolate_mansion"
+        "t": "直接向她求助——时间不多了",
+        "n": "desolate_mansion",
+        "tk": "trust_doctor",
+        "eff": {
+          "san": -5
+        }
+      },
+      {
+        "t": "先观察她——确认她的意图",
+        "fg": "watch_doctor_confirm",
+        "tf": true,
+        "ct": "distrust_doctor"
       }
-    ]
+    ],
+    "scene": "assets/scene_desolate.jpg"
+  },
+  "honey_confirm": {
+    "t": "你要喝下蜂蜜吗？",
+    "loc": "Forest Zone - 蜂巢",
+    "zone": "Forest",
+    "text": [
+      "你端起了陶碗。金色的蜂蜜在碗中散发出温暖的光芒——它的香气让你的唾液腺疯狂分泌。你的身体在颤抖——不是恐惧，是渴望。",
+      "蜜蜂娘悬停在你面前，她的复眼中没有任何恶意——只有等待。",
+      "你的手在发抖。你知道这很危险。你知道这可能是你作为人类的最后一刻。",
+      "但你的身体——你的新的、已经被这个世界标记的身体——在渴望它。",
+      "你最后的决定——"
+    ],
+    "chs": [
+      {
+        "t": "⚠️ 确定喝下——不管了！",
+        "fg": "honey_confirm2",
+        "tf": true,
+        "eff": {
+          "cor": 25
+        },
+        "ct": "honey_done"
+      },
+      {
+        "t": "放下碗——我不能这样做",
+        "n": "bee_queen",
+        "eff": {
+          "san": 10
+        }
+      }
+    ],
+    "scene": "assets/scene_forest.jpg"
+  },
+  "honey_confirm2": {
+    "t": "最后一次机会——",
+    "loc": "Forest Zone - 蜂巢",
+    "zone": "Forest",
+    "text": [
+      "蜂蜜已经碰到了你的嘴唇。温热的、流动的、像是活物一样在杯沿上蠕动的金色液体。",
+      "蜜蜂娘们围了过来。她们的翅膀振动声像一首催眠曲。",
+      "你的舌头伸了出来——",
+      "这是你最后的人类决定。"
+    ],
+    "chs": [
+      {
+        "t": "🔥 喝下去——让转变开始",
+        "tf": true,
+        "eff": {
+          "cor": 30
+        },
+        "ct": "honey_final"
+      },
+      {
+        "t": "👊 打翻碗——不！",
+        "n": "bee_queen",
+        "eff": {
+          "cor": -5,
+          "san": 10
+        }
+      }
+    ],
+    "scene": "assets/scene_forest.jpg"
+  },
+  "siren_confirm": {
+    "t": "Siren的歌声在召唤你——",
+    "loc": "Coastal Zone - 海岸",
+    "zone": "Coastal",
+    "text": [
+      "Siren的歌声像一只手探入了你的胸腔，握住了你的心脏。每一个音符都在你的血管中引起共振。你的脚不受控制地走向海水。",
+      "Mark抓住了你的手臂：「你疯了？！她会把你变成一条鱼！」",
+      "你挣脱了他的手。那歌声太美了。你必须在靠近一些——只需要再靠近一点点——",
+      "海水淹没了你的脚踝。你的膝盖。Siren从波浪中浮出——银色的长发、黑色的眼眸、致命的微笑。",
+      "你最后的清醒时刻在问你——你真的确定吗？"
+    ],
+    "chs": [
+      {
+        "t": "🔥 确定——我需要知道真相",
+        "fg": "siren_final",
+        "tf": true,
+        "ct": "siren_yes"
+      },
+      {
+        "t": "退后——Mark是对的",
+        "n": "coastal_entry",
+        "eff": {
+          "san": 10
+        }
+      }
+    ],
+    "scene": "assets/scene_coastal.jpg"
+  },
+  "siren_final": {
+    "t": "Siren张开了双臂——",
+    "loc": "Coastal Zone - 浅海",
+    "zone": "Coastal",
+    "text": [
+      "你走入了海中。Siren环绕了你。她的嘴唇贴上了你的。冰冷而柔软。你在她的吻中感到——你的双腿正在融合。鳞片从你的皮肤下钻出。你的肺在尖叫——然后你的鳃张开了。",
+      "你变成了一个Mermaid。",
+      "这就是你的结局——一个美丽的、永恒的海中囚徒。"
+    ],
+    "chs": [
+      {
+        "t": "就这样结束吧",
+        "tf": true,
+        "ct": "siren_done"
+      }
+    ],
+    "scene": "assets/scene_coastal.jpg"
+  },
+  "demon_talk_confirm": {
+    "t": "你真的想和她聊聊？",
+    "loc": "Demon Zone - 城堡大厅",
+    "zone": "Demon",
+    "text": [
+      "魅魔的笑容加深了。她向你迈出一步——她的信息素像温暖的水波一样从她的皮肤上散发出来，包裹了你。你觉得自己的意志在软化。",
+      "Aralu在远处喊你——但她的声音听起来很远。像隔着一层水。",
+      "你的膝盖有点发软。你知道——如果你和她说话，你可能会走不了。",
+      "但你的好奇心——或者说你隐秘的欲望——占了上风。"
+    ],
+    "chs": [
+      {
+        "t": "🔥 和她说话——就走近一点点",
+        "fg": "demon_talk_final",
+        "tf": true,
+        "ct": "demon_talk_yes"
+      },
+      {
+        "t": "推开她——跟上Aralu",
+        "n": "demon_castle_hall",
+        "eff": {
+          "san": 5
+        }
+      }
+    ],
+    "scene": "assets/scene_demon.jpg"
+  },
+  "demon_talk_final": {
+    "t": "你向她走了一步——",
+    "loc": "Demon Zone - 城堡大厅",
+    "zone": "Demon",
+    "text": [
+      "你的脚迈出了一步。那一步就够了。魅魔的手指触碰了你的下巴——她的信息素在你的肺部中爆发。你的身体在她面前屈服了。",
+      "你在城堡中醒来时——你已经不再是原来的你了。你的皮肤上印着紫色的符文。你的瞳孔变成了竖瞳。你是她的了。"
+    ],
+    "chs": [
+      {
+        "t": "接受命运",
+        "tf": true,
+        "ct": "demon_taken"
+      }
+    ],
+    "scene": "assets/scene_demon.jpg"
   }};
 
 </script>
