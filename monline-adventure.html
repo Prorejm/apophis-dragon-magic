@@ -57,6 +57,7 @@ canvas#pt{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-e
 <div class="sts" id="sp"><div class="s" style="color:var(--red)">生命<div class="b"><div class="f h" id="hB"></div></div><span id="hV"></span></div><div class="s" style="color:var(--blu)">理智<div class="b"><div class="f s" id="sB"></div></div><span id="sV"></span></div><div class="s" style="color:var(--purp)">腐化<div class="b"><div class="f c" id="cB"></div></div><span id="cV"></span></div><div class="s" style="color:var(--gold);grid-column:1/-1">物品<div class="b" style="flex:3;overflow:hidden;white-space:nowrap"><span id="iv" style="font-size:.65rem;color:var(--txt2);padding-left:4px">无</span></div></div></div>
 <div class="portrait" id="ptbox"></div>
 <div class="ch"><h2 id="ct"></h2><div class="lo" id="cl"></div></div>
+<div id="sc" style="width:100%;height:200px;border-radius:8px;margin-bottom:.7rem;background-size:cover;background-position:center;display:none;border:1px solid var(--brd)"></div>
 <div class="story" id="st"></div>
 <div class="cx" id="cx"></div>
 </div>
@@ -81,7 +82,7 @@ function ad(i){if(gs.inv.indexOf(i)<0)gs.inv.push(i)}
 function ha(i){return gs.inv.indexOf(i)>=0}
 function sf(k,v){gs.fl[k]=v}
 function gf(k){return gs.fl[k]||false}
-function ch(d){if(d){if(d.hp)gs.hp=C(gs.hp+(d.hp||0));if(d.san)gs.san=C(gs.san+(d.san||0));if(d.cor&&gs.cor<100)gs.cor=Math.min(100,gs.cor+(d.cor||0));var cc=gs.cor;if(!gs.fl.c25&&cc>=25){gs.fl.c25=true;sh("cor_25");return}if(!gs.fl.c50&&cc>=50){gs.fl.c50=true;sh("cor_50");return}if(!gs.fl.c75&&cc>=75){gs.fl.c75=true;sh("cor_75");return}}up()}
+function ch(d){if(d){if(d.hp)gs.hp=C(gs.hp+(d.hp||0));if(d.san)gs.san=C(gs.san+(d.san||0));if(d.cor&&gs.cor<100)gs.cor=Math.min(100,gs.cor+(d.cor||0));var cc=gs.cor;if(!gs.fl.c25&&cc>=25){gs.fl.c25=true;gs.bk=gs.ch;sh("cor_25");return}if(!gs.fl.c50&&cc>=50){gs.fl.c50=true;gs.bk=gs.ch;sh("cor_50");return}if(!gs.fl.c75&&cc>=75){gs.fl.c75=true;gs.bk=gs.ch;sh("cor_75");return}}up()}
 function tt(){var ti=document.getElementById("ti");var gs_el=document.getElementById("gs");var es=document.getElementById("es");if(ti)ti.className="ti";if(gs_el)gs_el.className="hd";if(es)es.className="en hd";document.getElementById("ptbox").className="portrait"}
 function pt(name,img){var b=document.getElementById("ptbox");if(b&&PO[img]){b.innerHTML='<img src="'+PO[img]+'"><div class="label">'+name+'</div>';b.className="portrait show"}}
 function D(text){return"<div class='dialog'><span class='name'>❯❯ </span>"+text+"</div>"}
@@ -94,7 +95,7 @@ var es=document.getElementById("es");es.className="en "+(cd.en==="good"?"g":cd.e
 document.getElementById("et").textContent=cd.enm||cd.et||"结局";
 document.getElementById("ed").innerHTML=(typeof cd.text==="string"?cd.text:Array.isArray(cd.text)?cd.text.join("<br><br>"):"").replace(/\\n/g,"<br>");
 if(cd.enm&&!gs.end[cd.enm]){gs.end[cd.enm]=true}
-sv();es.classList.remove("hd");return}
+sv();if(cd.scene){var sc=document.getElementById("sc");if(sc){sc.style.backgroundImage='url('+cd.scene+')';sc.style.display="block"}}es.classList.remove("hd");return}
 document.getElementById("ti").className="hd";document.getElementById("es").className="hd";
 document.getElementById("gs").className="";document.getElementById("ct").textContent=cd.t||"?";
 document.getElementById("cl").textContent=cd.loc||"?";
@@ -111,12 +112,13 @@ var nums=["❶","❷","❸","❹","❺"];
 var icons={go:"➜",fight:"⚔",talk:"💬",explore:"🧭",danger:"⚠"};
 var tags={go:"继续",fight:"战斗",talk:"对话",explore:"探索",danger:"危险"};
 b.innerHTML='<span class="cb_idx">'+(nums[i]||"➜")+'</span><span class="cb_icon">'+(icons[t]||"➜")+'</span><span class="cb_text">'+c.t+'</span><span class="cb_tag '+t+'">'+(tags[t]||"选择")+'</span>'+(c.tf?'<span class="dng">⚡ 转化风险</span>':'');
-b.onclick=function(){if(c.eff)ch(c.eff);if(c.n)sh(c.n)};bx.appendChild(b);ks.push(c)});
+b.onclick=function(){if(c.cbk){sh(gs.bk||"start");return}if(c.eff)ch(c.eff);if(c.n)sh(c.n)};bx.appendChild(b);ks.push(c)});
 _kh=function kh(e){var n=parseInt(e.key);if(n>=1&&n<=ks.length){document.removeEventListener("keydown",kh);_kh=null;var h=ks[n-1];if(h.eff)ch(h.eff);if(h.n)sh(h.n)}};
 document.addEventListener("keydown",_kh)}else{var nb=document.createElement("button");nb.className="cb";
-nb.innerHTML='<span class="cb_idx">\u279c</span><span class="cb_icon">\u279c</span><span class="cb_text">继续前进</span><span class="cb_tag go">继续</span>';
+nb.innerHTML='<span class="cb_idx">➜</span><span class="cb_icon">➜</span><span class="cb_text">继续前进</span><span class="cb_tag go">继续</span>';
 nb.onclick=function(){sv();window.scrollTo(0,0)};bx.appendChild(nb)}
-up();sv();window.scrollTo(0,0)}var chs={
+up();sv();window.scrollTo(0,0)}
+var chs={
   "start": {
     "t": "觉醒",
     "loc": "Forest Zone - 森林入口",
@@ -1152,7 +1154,7 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Bad End: Liar Liar"
     ],
     "en": "bad",
-    "enm": "A1",
+    "scene": "assets/scene_forest.jpg","enm": "A1",
     "et": "Liar Liar"
   },
   "be_a2": {
@@ -1164,7 +1166,7 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Bad End: Addiction"
     ],
     "en": "bad",
-    "enm": "A2",
+    "scene": "assets/scene_forest.jpg","enm": "A2",
     "et": "Addiction"
   },
   "be_a3": {
@@ -1176,7 +1178,7 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Bad End: Honey Trap"
     ],
     "en": "bad",
-    "enm": "A3",
+    "scene": "assets/scene_forest.jpg","enm": "A3",
     "et": "Honey Trap"
   },
   "be_a5": {
@@ -1188,7 +1190,7 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Bad End: Absolute Power"
     ],
     "en": "bad",
-    "enm": "A5",
+    "scene": "assets/scene_forest.jpg","enm": "A5",
     "et": "Absolute Power"
   },
   "be_c5": {
@@ -1200,7 +1202,7 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Bad End: What a Tool"
     ],
     "en": "bad",
-    "enm": "C5",
+    "scene": "assets/scene_demon.jpg","enm": "C5",
     "et": "What a Tool"
   },
   "be_e1": {
@@ -1212,7 +1214,7 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Bad End: Riddle Me This"
     ],
     "en": "bad",
-    "enm": "E1",
+    "scene": "assets/scene_desert.jpg","enm": "E1",
     "et": "Riddle Me This"
   },
   "be_a4": {
@@ -3561,7 +3563,7 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Bad End: 完全腐化"
     ],
     "en": "bad",
-    "enm": "COR",
+    "scene": "assets/scene_corruption.jpg","enm": "COR",
     "et": "完全腐化"
   },
   "be_hp_0": {
@@ -3580,7 +3582,7 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Bad End: 生命凋零"
     ],
     "en": "bad",
-    "enm": "HP0",
+    "scene": "assets/scene_death.jpg","enm": "HP0",
     "et": "生命凋零"
   },
   "be_san_0": {
@@ -3598,7 +3600,7 @@ up();sv();window.scrollTo(0,0)}var chs={
       "Bad End: 理智崩坏"
     ],
     "en": "bad",
-    "enm": "SAN0",
+    "scene": "assets/scene_insanity.jpg","enm": "SAN0",
     "et": "理智崩坏"
   },
   "cor_25": {
