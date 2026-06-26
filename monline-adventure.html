@@ -82,7 +82,7 @@ function ad(i){if(gs.inv.indexOf(i)<0)gs.inv.push(i)}
 function ha(i){return gs.inv.indexOf(i)>=0}
 function sf(k,v){gs.fl[k]=v}
 function gf(k){return gs.fl[k]||false}
-function ch(d){if(d){if(d.hp)gs.hp=C(gs.hp+(d.hp||0));if(d.san)gs.san=C(gs.san+(d.san||0));if(d.cor&&gs.cor<100)gs.cor=Math.min(100,gs.cor+(d.cor||0));var cc=gs.cor;if(!gs.fl.c25&&cc>=25){gs.fl.c25=true;gs.bk=gs.ch;sh("cor_25");return}if(!gs.fl.c50&&cc>=50){gs.fl.c50=true;gs.bk=gs.ch;sh("cor_50");return}if(!gs.fl.c75&&cc>=75){gs.fl.c75=true;gs.bk=gs.ch;sh("cor_75");return}}up()}
+function ch(d){if(d){if(d.hp)gs.hp=C(gs.hp+(d.hp||0));if(d.san)gs.san=C(gs.san+(d.san||0));if(d.cor&&gs.cor<100)gs.cor=Math.min(100,gs.cor+(d.cor||0));var cc=gs.cor;if(!gs.fl.c25&&cc>=25){gs.fl.c25=true;gs.bk=gs.ch;gs._ms="cor_25"}if(!gs.fl.c50&&cc>=50){gs.fl.c50=true;gs.bk=gs.ch;gs._ms="cor_50"}if(!gs.fl.c75&&cc>=75){gs.fl.c75=true;gs.bk=gs.ch;gs._ms="cor_75"}}up()}
 function tt(){var ti=document.getElementById("ti");var gs_el=document.getElementById("gs");var es=document.getElementById("es");if(ti)ti.className="ti";if(gs_el)gs_el.className="hd";if(es)es.className="en hd";document.getElementById("ptbox").className="portrait"}
 function pt(name,img){var b=document.getElementById("ptbox");if(b&&PO[img]){b.innerHTML='<img src="'+PO[img]+'"><div class="label">'+name+'</div>';b.className="portrait show"}}
 function D(text){return"<div class='dialog'><span class='name'>❯❯ </span>"+text+"</div>"}
@@ -112,7 +112,7 @@ var nums=["❶","❷","❸","❹","❺"];
 var icons={go:"➜",fight:"⚔",talk:"💬",explore:"🧭",danger:"⚠"};
 var tags={go:"继续",fight:"战斗",talk:"对话",explore:"探索",danger:"危险"};
 b.innerHTML='<span class="cb_idx">'+(nums[i]||"➜")+'</span><span class="cb_icon">'+(icons[t]||"➜")+'</span><span class="cb_text">'+c.t+'</span><span class="cb_tag '+t+'">'+(tags[t]||"选择")+'</span>'+(c.tf?'<span class="dng">⚡ 转化风险</span>':'');
-b.onclick=function(){if(c.cbk){sh(gs.bk||"start");return}if(c.eff)ch(c.eff);if(c.n)sh(c.n)};bx.appendChild(b);ks.push(c)});
+b.onclick=function(){if(c.cbk){sh(gs.bk||"start");return}if(c.eff)ch(c.eff);var ms=gs._ms;gs._ms=null;if(ms){sh(ms);return}if(c.n)sh(c.n)};bx.appendChild(b);ks.push(c)});
 _kh=function kh(e){var n=parseInt(e.key);if(n>=1&&n<=ks.length){document.removeEventListener("keydown",kh);_kh=null;var h=ks[n-1];if(h.eff)ch(h.eff);if(h.n)sh(h.n)}};
 document.addEventListener("keydown",_kh)}else{var nb=document.createElement("button");nb.className="cb";
 nb.innerHTML='<span class="cb_idx">➜</span><span class="cb_icon">➜</span><span class="cb_text">继续前进</span><span class="cb_tag go">继续</span>';
@@ -1150,11 +1150,13 @@ var chs={
     "loc": "Forest Zone",
     "zone": "Forest",
     "text": [
-      "你对宅邸主人说了谎。蘑菇孢子从地毯中升起钻入你的衣服。你的身体在麻痹中变得柔软——皮肤光滑如瓷，头发褪色成金色波浪。你的大脑中所有复杂思维被一种桃色的泡沫取代。你不再记得什么是谎言——因为你已经没有脑子去编造谎言了。你在客厅里穿着过短的连衣裙，嘴角挂着永不消退的笑容。宅邸主人拍了拍你的头。“真是个好女孩。”你甜甜地笑了。你的名字？不重要了。你漂亮、听话、而且永远不再说谎。",
-      "Bad End: Liar Liar"
+      "你被Minoh Ranch的主人下了药，醒来时发现自己变成了一头Holstaurus——作为说谎的惩罚。你的男性身体已经消失，取而代之的是一具丰满的、覆盖着斑点的奶牛身体。你的乳房沉重而饱满，充满了温热的牛奶。",
+      "你被拴在畜棚里，每天被农场主的Minotaur使用，并被迫产出牛奶。你的思维逐渐模糊——你不再记得自己曾经是一个冒险者。你只知道两件事：产奶和被使用。",
+      "Bad End: Liar Liar — 你成了牧场最听话的奶牛。"
     ],
     "en": "bad",
-    "scene": "assets/scene_forest.jpg","enm": "A1",
+    "scene": "assets/scene_forest.jpg",
+    "enm": "A1",
     "et": "Liar Liar"
   },
   "be_a2": {
@@ -1162,11 +1164,13 @@ var chs={
     "loc": "Forest Zone",
     "zone": "Forest",
     "text": [
-      "Minoh的牛奶甜美得像液态的吻。你喝了一杯又一杯。那天晚上你的皮肤开始发痒——早晨你看到了头顶的小角。你的瞳孔变成了矩形。你和Holstaurus们一起四足着地吃着草。反刍时你偶尔会想——我过去是什么来着？",
-      "Bad End: Addiction"
+      "Holstaurus击败了你。你醒来时发现自己也变成了一头Cow-girl——丰满的胸部、奶牛耳朵、头顶的角。你的身体不再是男性，而是一具散发着甜腻牛奶香气的雌性身体。",
+      "如果你有同伴——Mark会变成名叫Marley的渴望口交的奶牛娘，Aralu会变成名叫Anna的渴望配种的奶牛娘。你们都成了Holstaurus的新宠物。你很快就对Minotaur上了瘾。",
+      "Bad End: Addiction — 奶牛的生活比你想象中要甜美得多。"
     ],
     "en": "bad",
-    "scene": "assets/scene_forest.jpg","enm": "A2",
+    "scene": "assets/scene_forest.jpg",
+    "enm": "A2",
     "et": "Addiction"
   },
   "be_a3": {
@@ -1174,11 +1178,13 @@ var chs={
     "loc": "Forest Zone",
     "zone": "Forest",
     "text": [
-      "蜜蜂娘的刺刺入你的脖子。灼热如阳光注入血管——你的背部撕裂开来，两片透明翅膀展开。你飞起来了。你在蜂巢前盘旋——嘴里分泌着花蜜。你降落在六角形入口。你的新工作是酿蜜——为下一个误入此地的旅行者准备一份同样甜美的欢迎。",
-      "Bad End: Honey Trap"
+      "蜜蜂娘把你拖进了蜂巢深处。她们强行给你灌下了蜂蜜——温热、甜腻、带着魔力的蜂蜜。你的身体在灼热中变化——你的四肢变细，皮肤浮现出黄色和黑色的条纹，背上长出了透明的翅膀。",
+      "你变成了Bee Girl。你的其他同伴被带到了别处——Mark成了侍女，Aralu成了战斗无人机。你的新工作是酿蜜——以及吸引下一个误入蜂巢的旅行者。",
+      "Bad End: Honey Trap — 蜂巢需要更多的工人。"
     ],
     "en": "bad",
-    "scene": "assets/scene_forest.jpg","enm": "A3",
+    "scene": "assets/scene_forest.jpg",
+    "enm": "A3",
     "et": "Honey Trap"
   },
   "be_a5": {
@@ -1186,11 +1192,13 @@ var chs={
     "loc": "Forest Zone",
     "zone": "Forest",
     "text": [
-      "Arachne的毒牙刺入你肩膀。你的双腿融合成八条黑色节肢——复眼从面部裂开。你在黑暗中吐出了第一缕银白色的蛛丝。Arachne轻抚你的头。“真漂亮。”你在蛛网上等待下一个猎物。",
-      "Bad End: Absolute Power"
+      "Arachne决定给你一个「奖励」——让你成为她完美的、顺从的蜂后。她的毒牙刺入你的肩膀，你的双腿在剧痛中融合，变成了八条黑色的、覆盖着刚毛的节肢。你的腹部膨胀，复眼从你的面部裂开。",
+      "你成了巨大的Arachne——下半身是蜘蛛，上半身是你曾经的模样，但现在覆盖着黑色的甲壳。Arachne对森林感到厌倦后离开了，你接管了这片森林。你的无人机大军在森林中巡逻——你会找到更多的猎物。",
+      "Bad End: Absolute Power — 你得到了你想要的力量。代价是什么？你已经不记得了。"
     ],
     "en": "bad",
-    "scene": "assets/scene_forest.jpg","enm": "A5",
+    "scene": "assets/scene_forest.jpg",
+    "enm": "A5",
     "et": "Absolute Power"
   },
   "be_c5": {
@@ -1198,11 +1206,13 @@ var chs={
     "loc": "Demon Zone",
     "zone": "Demon",
     "text": [
-      "Lesser Succubus的吻落在你的唇上。你的意识像蜡烛一样融化——身体被重塑成更柔软、更美丽的形态。你的背后展开了暗紫色的蛾翼。你的瞳孔变成了心形。她抚摸着你的头发。“欢迎加入姐妹会。”你渴望她的下一个指令。",
-      "Bad End: What a Tool"
+      "Lesser Succubus把你按在地上，骑在你身上直到你失去意识。当你醒来时——你的身体已经变了。你的皮肤变得光滑苍白，你的胸部变得饱满，你的身后拖着一条细长的、末端呈爱心形状的尾巴。",
+      "你变成了Succubus。你的新工作是帮助其他转化中的女性变成恶魔——用你的身体作为工具。你的记忆在每一次交配中流失——你开始享受这份工作。",
+      "Bad End: What a Tool — 每一个恶魔都需要一个开始。"
     ],
     "en": "bad",
-    "scene": "assets/scene_demon.jpg","enm": "C5",
+    "scene": "assets/scene_demon.jpg",
+    "enm": "C5",
     "et": "What a Tool"
   },
   "be_e1": {
@@ -1210,11 +1220,13 @@ var chs={
     "loc": "Desert Zone",
     "zone": "Desert",
     "text": [
-      "Sphinx失望地看着你。她的尾巴刺入你的胸口——你的灵魂被拆解重组。当你重新睁开眼时——你蹲在她身边，覆盖着金色鳞片，长着狮子的下半身和宽阔的翅膀。你成了新的Sphinx。你将在这里用谜语考验下一个闯入者——直到有人给出正确答案。那一天可能永远不会到来。",
-      "Bad End: Riddle Me This"
+      "Sphinx饶了你一命——她把你带到了她的卧室。你无法离开。她给了你一次「邀请」，然后出了两个谜语：「在这里，有一个姐妹生下了她自己的姐妹。谁是第一个姐妹，谁是那个被她生下的姐妹？」答案是你和我。",
+      "Sphinx把你变成了一个新的Sphinx——你拥有了狮子的身体、宽阔的翅膀和女性的上身。你们俩轮流守卫金字塔——你用你的新身体「惩罚」那些答不出谜语的冒险者。",
+      "Bad End: Riddle Me This — 你成了永恒的谜题守护者。"
     ],
     "en": "bad",
-    "scene": "assets/scene_desert.jpg","enm": "E1",
+    "scene": "assets/scene_desert.jpg",
+    "enm": "E1",
     "et": "Riddle Me This"
   },
   "be_a4": {
@@ -1270,9 +1282,9 @@ var chs={
     "loc": "Demon Zone",
     "zone": "Demon",
     "text": [
-      "Imp们没有杀你——它们觉得你太有趣了。红色的小爪子触碰了你的身体，你的皮肤从苍白变成了暗红色。你的背上长出了小小的、蝙蝠般的翅膀——飞不起来，但至少能滑翔。",
-      "你的头上冒出了两根弯曲的小角。你的身后拖出了一条尖端呈箭头形状的尾巴。你和Imp们在城堡的走廊中尖叫着奔跑，打翻烛台，扯下挂毯，在守卫的头顶上飞来飞去。",
-      "你发出了一阵尖锐的、不属于人类的笑声。Imp们围着你转，拍打着你的背——她们把你当成了姐妹。你在混乱中感到了一种奇异的快乐——你不再想离开了。为什么要离开？这里每天都像狂欢节。"
+      "Imp扑在你身上，用她小小的红色身体压住你。她本想把你留在身边——但她的上级命令她把你也变成一个Imp。你的身体在缩小，皮肤变成了暗红色，头上长出了小小的角，背后展开了蝙蝠般的翅膀。",
+      "你变成了Imp。你的记忆在褪色——你开始在城堡的走廊中尖叫着奔跑，打翻烛台，和你的Imp姐妹们一起恶作剧。你很快乐。",
+      "Bad End: Impressive — 做一个Imp其实挺有趣的。"
     ],
     "en": "bad",
     "enm": "C1",
@@ -1363,9 +1375,9 @@ var chs={
     "loc": "Desolate Zone",
     "zone": "Desolate",
     "text": [
-      "你试图逃离街道上的僵尸群——但你跑错了方向。一只腐烂的手抓住了你的脚踝。你摔倒了——更多的僵尸围了上来。",
-      "他们的手指在你的身上留下了污迹。那不是咬伤——是一种缓慢的、温和的腐烂。你的皮肤从指尖开始变灰、失去弹性。你的心跳在减慢。到第三十七下的时候，它停止了。",
-      "你站了起来。你的动作变得迟缓。你的大脑中充斥着一种低沉的白噪音——那是死亡的声音。你和其他僵尸一起在街道上漫步，无目的地、永恒地行走。你记得自己曾经活着——但那记忆正在像旧照片一样褪色。"
+      "你没能逃出僵尸群。你被按倒在地上——不是被咬死，而是被一种冰冷的、缓慢的腐烂所吞噬。你的心跳越来越慢。到第三十七下的时候——它停了。",
+      "你站起来。你已经不是人类了。你的皮肤是灰白色的，你的眼睛是混浊的。你的大脑中充斥着低沉的白噪音——那是死亡的声音。你加入了僵尸的行列，在废弃的街道上永恒地漫步。",
+      "Bad End: The Zombie Whored — 死亡只是另一种存在的方式。"
     ],
     "en": "bad",
     "enm": "D1",
@@ -1415,9 +1427,9 @@ var chs={
     "loc": "Desolate Zone",
     "zone": "Desolate",
     "text": [
-      "商场的僵尸——她比其他僵尸都美丽。即使在腐烂的状态下，她仍然保持着某种精致的美感——深红色的长发，完好的五官，一件碎花连衣裙（虽然沾满了暗色的污渍）。她向你走来时，你被她的美丽迷惑了——然后她咬了你。",
-      "那不是狂乱的撕咬——是一种优雅的、几乎温柔的吻。但她的牙齿刺破了你的嘴唇。毒素顺着你的血管流淌——你的心跳没有停止，但你开始变得不同。你的皮肤变成了淡淡的青灰色，你的嘴唇变成了暗紫色。你的头发变得更浓密、更有光泽——死者的光泽。",
-      "她拉着你的手，走过商场的自动扶梯——那些电梯早就停了，你们踩着金属台阶上楼。在二楼的服装店里，她开始为你挑选衣服。「你穿这身很好看。」你在镜子里看到了自己——美得惊心动魄。美得像一具尸体。"
+      "商场的僵尸比其他僵尸都美丽——即使在腐烂的状态下，她仍然保持着某种精致的美感。她吻了你——不是狂乱的撕咬，而是一种优雅的、几乎温柔的吻。她的毒素流入了你的血管。",
+      "你的心跳没有停止——但你开始变得不同。你的皮肤变成了淡淡的青灰色，你的嘴唇变成了暗紫色。你的头发变得更浓密、更有光泽——死者的光泽。你在商场的镜子中看着自己——美得令人窒息。美得像一具尸体。",
+      "Bad End: Drop Dead Gorgeous — 你成了这座商场最美丽的装饰品。"
     ],
     "en": "bad",
     "enm": "D5",
@@ -1457,7 +1469,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D8",
-    "et": "All Better Now"
+    "et": "All Better Now?"
   },
   "be_d9": {
     "t": "Bad End: Bisexual Healing",
@@ -1504,8 +1516,8 @@ var chs={
       "Bad End C10"
     ],
     "en": "bad",
-    "enm": "C10",
-    "et": "C10: Doll"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c11": {
     "t": "Bad End: Demon C11",
@@ -1516,8 +1528,8 @@ var chs={
       "Bad End C11"
     ],
     "en": "bad",
-    "enm": "C11",
-    "et": "C11: Nun"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c12": {
     "t": "Bad End: Demon C12",
@@ -1528,8 +1540,8 @@ var chs={
       "Bad End C12"
     ],
     "en": "bad",
-    "enm": "C12",
-    "et": "C12: Priest"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c13": {
     "t": "Bad End: Demon C13",
@@ -1540,8 +1552,8 @@ var chs={
       "Bad End C13"
     ],
     "en": "bad",
-    "enm": "C13",
-    "et": "C13: Flower"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c14": {
     "t": "Bad End: Demon C14",
@@ -1552,8 +1564,8 @@ var chs={
       "Bad End C14"
     ],
     "en": "bad",
-    "enm": "C14",
-    "et": "C14: Chastity"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c15": {
     "t": "Bad End: Demon C15",
@@ -1564,8 +1576,8 @@ var chs={
       "Bad End C15"
     ],
     "en": "bad",
-    "enm": "C15",
-    "et": "C15: Fallen"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c16": {
     "t": "Bad End: Demon C16",
@@ -1576,8 +1588,8 @@ var chs={
       "Bad End C16"
     ],
     "en": "bad",
-    "enm": "C16",
-    "et": "C16: Mirror"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c17": {
     "t": "Bad End: Demon C17",
@@ -1588,8 +1600,8 @@ var chs={
       "Bad End C17"
     ],
     "en": "bad",
-    "enm": "C17",
-    "et": "C17: Troll"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c18": {
     "t": "Bad End: Demon C18",
@@ -1600,8 +1612,8 @@ var chs={
       "Bad End C18"
     ],
     "en": "bad",
-    "enm": "C18",
-    "et": "C18: Paladin"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c19": {
     "t": "Bad End: Demon C19",
@@ -1612,8 +1624,8 @@ var chs={
       "Bad End C19"
     ],
     "en": "bad",
-    "enm": "C19",
-    "et": "C19: Painting"
+    "enm": "C1",
+    "et": "Impressive"
   },
   "be_c20": {
     "t": "Bad End: Demon C20",
@@ -1624,8 +1636,8 @@ var chs={
       "Bad End C20"
     ],
     "en": "bad",
-    "enm": "C20",
-    "et": "C20: Poster"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c21": {
     "t": "Bad End: Demon C21",
@@ -1636,8 +1648,8 @@ var chs={
       "Bad End C21"
     ],
     "en": "bad",
-    "enm": "C21",
-    "et": "C21: Witch"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c22": {
     "t": "Bad End: Demon C22",
@@ -1648,8 +1660,8 @@ var chs={
       "Bad End C22"
     ],
     "en": "bad",
-    "enm": "C22",
-    "et": "C22: Dildo"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c23": {
     "t": "Bad End: Demon C23",
@@ -1660,8 +1672,8 @@ var chs={
       "Bad End C23"
     ],
     "en": "bad",
-    "enm": "C23",
-    "et": "C23: Flip"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c24": {
     "t": "Bad End: Demon C24",
@@ -1672,8 +1684,8 @@ var chs={
       "Bad End C24"
     ],
     "en": "bad",
-    "enm": "C24",
-    "et": "C24: Boytoy"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c25": {
     "t": "Bad End: Demon C25",
@@ -1684,8 +1696,8 @@ var chs={
       "Bad End C25"
     ],
     "en": "bad",
-    "enm": "C25",
-    "et": "C25: Driver"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c26": {
     "t": "Bad End: Demon C26",
@@ -1696,8 +1708,8 @@ var chs={
       "Bad End C26"
     ],
     "en": "bad",
-    "enm": "C26",
-    "et": "C26: Backseat"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c27": {
     "t": "Bad End: Demon C27",
@@ -1708,8 +1720,8 @@ var chs={
       "Bad End C27"
     ],
     "en": "bad",
-    "enm": "C27",
-    "et": "C27: Bat"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c28": {
     "t": "Bad End: Demon C28",
@@ -1720,8 +1732,8 @@ var chs={
       "Bad End C28"
     ],
     "en": "bad",
-    "enm": "C28",
-    "et": "C28: Gator"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c29": {
     "t": "Bad End: Demon C29",
@@ -1732,8 +1744,8 @@ var chs={
       "Bad End C29"
     ],
     "en": "bad",
-    "enm": "C29",
-    "et": "C29: Stranger"
+    "enm": "C2",
+    "et": "Imprisoned"
   },
   "be_c30": {
     "t": "Bad End: Demon C30",
@@ -1744,8 +1756,8 @@ var chs={
       "Bad End C30"
     ],
     "en": "bad",
-    "enm": "C30",
-    "et": "C30: Dhampir"
+    "enm": "C3",
+    "et": "Good Impression"
   },
   "be_c31": {
     "t": "Bad End: Demon C31",
@@ -1756,8 +1768,8 @@ var chs={
       "Bad End C31"
     ],
     "en": "bad",
-    "enm": "C31",
-    "et": "C31: Pale"
+    "enm": "C3",
+    "et": "Good Impression"
   },
   "be_c32": {
     "t": "Bad End: Demon C32",
@@ -1768,8 +1780,8 @@ var chs={
       "Bad End C32"
     ],
     "en": "bad",
-    "enm": "C32",
-    "et": "C32: Drowned"
+    "enm": "C3",
+    "et": "Good Impression"
   },
   "be_c33": {
     "t": "Bad End: Demon C33",
@@ -1780,8 +1792,8 @@ var chs={
       "Bad End C33"
     ],
     "en": "bad",
-    "enm": "C33",
-    "et": "C33: Legacy"
+    "enm": "C3",
+    "et": "Good Impression"
   },
   "be_c34": {
     "t": "Bad End: Demon C34",
@@ -1792,8 +1804,8 @@ var chs={
       "Bad End C34"
     ],
     "en": "bad",
-    "enm": "C34",
-    "et": "C34: Blue"
+    "enm": "C3",
+    "et": "Good Impression"
   },
   "be_c35": {
     "t": "Bad End: Demon C35",
@@ -1804,8 +1816,8 @@ var chs={
       "Bad End C35"
     ],
     "en": "bad",
-    "enm": "C35",
-    "et": "C35: Slime"
+    "enm": "C3",
+    "et": "Good Impression"
   },
   "be_c36": {
     "t": "Bad End: Demon C36",
@@ -1816,8 +1828,8 @@ var chs={
       "Bad End C36"
     ],
     "en": "bad",
-    "enm": "C36",
-    "et": "C36: Books"
+    "enm": "C3",
+    "et": "Good Impression"
   },
   "be_c37": {
     "t": "Bad End: Demon C37",
@@ -1828,8 +1840,8 @@ var chs={
       "Bad End C37"
     ],
     "en": "bad",
-    "enm": "C37",
-    "et": "C37: Mosquito"
+    "enm": "C3",
+    "et": "Good Impression"
   },
   "be_c38": {
     "t": "Bad End: Demon C38",
@@ -1840,8 +1852,8 @@ var chs={
       "Bad End C38"
     ],
     "en": "bad",
-    "enm": "C38",
-    "et": "C38: Unknown"
+    "enm": "C3",
+    "et": "Good Impression"
   },
   "be_d12": {
     "t": "Bad End: Desolate D12",
@@ -1853,7 +1865,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D12",
-    "et": "Desolate D12"
+    "et": "Boys Will Be Boys"
   },
   "be_d13": {
     "t": "Bad End: Desolate D13",
@@ -1865,7 +1877,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D13",
-    "et": "Desolate D13"
+    "et": "Stuck In Another World²"
   },
   "be_d14": {
     "t": "Bad End: Desolate D14",
@@ -1877,7 +1889,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D14",
-    "et": "Desolate D14"
+    "et": "Pressed Wallflower"
   },
   "be_d15": {
     "t": "Bad End: Desolate D15",
@@ -1889,7 +1901,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D15",
-    "et": "Desolate D15"
+    "et": "Nice or Naughty?"
   },
   "be_d16": {
     "t": "Bad End: Desolate D16",
@@ -1901,7 +1913,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D16",
-    "et": "Desolate D16"
+    "et": "Naughty or Nice?"
   },
   "be_d17": {
     "t": "Bad End: Desolate D17",
@@ -1913,7 +1925,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D17",
-    "et": "Desolate D17"
+    "et": "Reindeer Games"
   },
   "be_d18": {
     "t": "Bad End: Desolate D18",
@@ -1925,7 +1937,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D18",
-    "et": "Desolate D18"
+    "et": "By the Reins"
   },
   "be_d19": {
     "t": "Bad End: Desolate D19",
@@ -1937,7 +1949,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D19",
-    "et": "Desolate D19"
+    "et": "Spineless"
   },
   "be_d20": {
     "t": "Bad End: Desolate D20",
@@ -1949,7 +1961,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D20",
-    "et": "Desolate D20"
+    "et": "A Bloody Mess"
   },
   "be_d21": {
     "t": "Bad End: Desolate D21",
@@ -1961,7 +1973,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D21",
-    "et": "Desolate D21"
+    "et": "Queen Bitch"
   },
   "be_d22": {
     "t": "Bad End: Desolate D22",
@@ -1973,7 +1985,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D22",
-    "et": "Desolate D22"
+    "et": "A Heated Affair"
   },
   "be_d23": {
     "t": "Bad End: Desolate D23",
@@ -1985,7 +1997,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D23",
-    "et": "Desolate D23"
+    "et": "Dancing to a Different Tune"
   },
   "be_d24": {
     "t": "Bad End: Desolate D24",
@@ -1997,7 +2009,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D24",
-    "et": "Desolate D24"
+    "et": "Bouncing Busts of Blonde Bimbo Bunnies"
   },
   "be_d25": {
     "t": "Bad End: Desolate D25",
@@ -2009,7 +2021,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D25",
-    "et": "Desolate D25"
+    "et": "Cottontail"
   },
   "be_d26": {
     "t": "Bad End: Desolate D26",
@@ -2021,7 +2033,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D26",
-    "et": "Desolate D26"
+    "et": "How I learned to stop worrying and love the slime"
   },
   "be_d27": {
     "t": "Bad End: Desolate D27",
@@ -2033,7 +2045,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D27",
-    "et": "Desolate D27"
+    "et": "Slimed and Mind"
   },
   "be_d28": {
     "t": "Bad End: Desolate D28",
@@ -2045,7 +2057,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D28",
-    "et": "Desolate D28"
+    "et": "Trapped!"
   },
   "be_d29": {
     "t": "Bad End: Desolate D29",
@@ -2057,7 +2069,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D29",
-    "et": "Desolate D29"
+    "et": "Corrupted"
   },
   "be_d30": {
     "t": "Bad End: Desolate D30",
@@ -2069,7 +2081,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D30",
-    "et": "Desolate D30"
+    "et": "A Lust for Gold"
   },
   "be_d31": {
     "t": "Bad End: Desolate D31",
@@ -2081,7 +2093,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D31",
-    "et": "Desolate D31"
+    "et": "It's a trap!"
   },
   "be_d32": {
     "t": "Bad End: Desolate D32",
@@ -2093,7 +2105,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D32",
-    "et": "Desolate D32"
+    "et": "No Strings Attached"
   },
   "be_d33": {
     "t": "Bad End: Desolate D33",
@@ -2105,7 +2117,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D33",
-    "et": "Desolate D33"
+    "et": "Bustin' makes me feel good!"
   },
   "be_d34": {
     "t": "Bad End: Desolate D34",
@@ -2117,7 +2129,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D34",
-    "et": "Desolate D34"
+    "et": "Dolls Aren't Just for Little Girls!"
   },
   "be_d35": {
     "t": "Bad End: Desolate D35",
@@ -2129,7 +2141,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D35",
-    "et": "Desolate D35"
+    "et": "A Match Forced in Heaven"
   },
   "be_d36": {
     "t": "Bad End: Desolate D36",
@@ -2141,7 +2153,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D36",
-    "et": "Desolate D36"
+    "et": "Unholy Matrimony"
   },
   "be_d37": {
     "t": "Bad End: Desolate D37",
@@ -2153,7 +2165,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D37",
-    "et": "Desolate D37"
+    "et": "Linked by Love"
   },
   "be_d38": {
     "t": "Bad End: Desolate D38",
@@ -2165,7 +2177,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D38",
-    "et": "Desolate D38"
+    "et": "I am the Law!"
   },
   "be_d39": {
     "t": "Bad End: Desolate D39",
@@ -2177,7 +2189,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D39",
-    "et": "Desolate D39"
+    "et": "Default Setting"
   },
   "be_d40": {
     "t": "Bad End: Desolate D40",
@@ -2189,7 +2201,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D40",
-    "et": "Desolate D40"
+    "et": "Quarantined"
   },
   "be_d41": {
     "t": "Bad End: Desolate D41",
@@ -2201,7 +2213,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D41",
-    "et": "Desolate D41"
+    "et": "Self-Made Girl"
   },
   "be_d42": {
     "t": "Bad End: Desolate D42",
@@ -2213,7 +2225,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D42",
-    "et": "Desolate D42"
+    "et": "Conversion Therapy"
   },
   "be_d43": {
     "t": "Bad End: Desolate D43",
@@ -2225,7 +2237,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D43",
-    "et": "Desolate D43"
+    "et": "Future Shock"
   },
   "be_d44": {
     "t": "Bad End: Desolate D44",
@@ -2237,7 +2249,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D44",
-    "et": "Desolate D44"
+    "et": "Danse Mechabre"
   },
   "be_d45": {
     "t": "Bad End: Desolate D45",
@@ -2249,7 +2261,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D45",
-    "et": "Desolate D45"
+    "et": "A Step Forward"
   },
   "be_d46": {
     "t": "Bad End: Desolate D46",
@@ -2261,7 +2273,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D46",
-    "et": "Desolate D46"
+    "et": "B1MB-0"
   },
   "be_d47": {
     "t": "Bad End: Desolate D47",
@@ -2273,7 +2285,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D47",
-    "et": "Desolate D47"
+    "et": "Cherry Fairy"
   },
   "be_d48": {
     "t": "Bad End: Desolate D48",
@@ -2285,7 +2297,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D48",
-    "et": "Desolate D48"
+    "et": "Ganguro Goddess"
   },
   "be_d49": {
     "t": "Bad End: Desolate D49",
@@ -2297,7 +2309,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D49",
-    "et": "Desolate D49"
+    "et": "Don't Lose Your Head!"
   },
   "be_d50": {
     "t": "Bad End: Desolate D50",
@@ -2309,7 +2321,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D50",
-    "et": "Desolate D50"
+    "et": "Lab Rat"
   },
   "be_d51": {
     "t": "Bad End: Desolate D51",
@@ -2321,7 +2333,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D51",
-    "et": "Desolate D51"
+    "et": "Out of Touch"
   },
   "be_d52": {
     "t": "Bad End: Desolate D52",
@@ -2333,7 +2345,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D52",
-    "et": "Desolate D52"
+    "et": "Know Your Own Mind"
   },
   "be_d53": {
     "t": "Bad End: Desolate D53",
@@ -2345,7 +2357,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D53",
-    "et": "Desolate D53"
+    "et": "Respawned"
   },
   "be_d54": {
     "t": "Bad End: Desolate D54",
@@ -2357,7 +2369,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D54",
-    "et": "Desolate D54"
+    "et": "I Know This Pretty Rave Girl"
   },
   "be_d55": {
     "t": "Bad End: Desolate D55",
@@ -2369,7 +2381,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D55",
-    "et": "Desolate D55"
+    "et": "Wet Nurse"
   },
   "be_d56": {
     "t": "Bad End: Desolate D56",
@@ -2381,7 +2393,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D56",
-    "et": "Desolate D56"
+    "et": "What The Doctor Ordered"
   },
   "be_d57": {
     "t": "Bad End: Desolate D57",
@@ -2393,7 +2405,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D57",
-    "et": "Desolate D57"
+    "et": "Moonlit Dreams"
   },
   "be_d58": {
     "t": "Bad End: Desolate D58",
@@ -2405,7 +2417,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D58",
-    "et": "Desolate D58"
+    "et": "Homegrown Hunter"
   },
   "be_d59": {
     "t": "Bad End: Desolate D59",
@@ -2417,7 +2429,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D59",
-    "et": "Desolate D59"
+    "et": "The Implication"
   },
   "be_d60": {
     "t": "Bad End: Desolate D60",
@@ -2429,7 +2441,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D60",
-    "et": "Desolate D60"
+    "et": "Fucking Evil But Still Tight"
   },
   "be_d61": {
     "t": "Bad End: Desolate D61",
@@ -2441,7 +2453,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D61",
-    "et": "Desolate D61"
+    "et": "Always Fighting For What's Right"
   },
   "be_d62": {
     "t": "Bad End: Desolate D62",
@@ -2453,7 +2465,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D62",
-    "et": "Desolate D62"
+    "et": "Clad In Latex And Midnight"
   },
   "be_d63": {
     "t": "Bad End: Desolate D63",
@@ -2465,7 +2477,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D63",
-    "et": "Desolate D63"
+    "et": "Joystuck"
   },
   "be_d64": {
     "t": "Bad End: Desolate D64",
@@ -2477,7 +2489,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D64",
-    "et": "Desolate D64"
+    "et": "Beware the Dog"
   },
   "be_d65": {
     "t": "Bad End: Desolate D65",
@@ -2489,7 +2501,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D65",
-    "et": "Desolate D65"
+    "et": "Nippon Daisuki"
   },
   "be_d66": {
     "t": "Bad End: Desolate D66",
@@ -2501,7 +2513,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D66",
-    "et": "Desolate D66"
+    "et": "Milk of Human Kindness"
   },
   "be_d67": {
     "t": "Bad End: Desolate D67",
@@ -2513,7 +2525,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D67",
-    "et": "Desolate D67"
+    "et": "Pavlov's Puppy"
   },
   "be_d68": {
     "t": "Bad End: Desolate D68",
@@ -2525,7 +2537,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D68",
-    "et": "Desolate D68"
+    "et": "New Girls Sweep Clean"
   },
   "be_d69": {
     "t": "Bad End: Desolate D69",
@@ -2537,7 +2549,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D69",
-    "et": "Desolate D69"
+    "et": "Smothered"
   },
   "be_d70": {
     "t": "Bad End: Desolate D70",
@@ -2549,7 +2561,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D70",
-    "et": "Desolate D70"
+    "et": "Running Red Lights"
   },
   "be_d71": {
     "t": "Bad End: Desolate D71",
@@ -2561,7 +2573,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D71",
-    "et": "Desolate D71"
+    "et": "The dIzzy-ing Heights of Love"
   },
   "be_d72": {
     "t": "Bad End: Desolate D72",
@@ -2573,7 +2585,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D72",
-    "et": "Desolate D72"
+    "et": "Live like a Human, Die like a Dog"
   },
   "be_d73": {
     "t": "Bad End: Desolate D73",
@@ -2585,7 +2597,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D73",
-    "et": "Desolate D73"
+    "et": "This Town's Going to the Dogs"
   },
   "be_d74": {
     "t": "Bad End: Desolate D74",
@@ -2597,7 +2609,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D74",
-    "et": "Desolate D74"
+    "et": "Best in Show"
   },
   "be_d75": {
     "t": "Bad End: Desolate D75",
@@ -2609,7 +2621,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D75",
-    "et": "Desolate D75"
+    "et": "Bitch and Moan"
   },
   "be_d76": {
     "t": "Bad End: Desolate D76",
@@ -2621,7 +2633,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D76",
-    "et": "Desolate D76"
+    "et": "Like they do on the Discovery Channel"
   },
   "be_d77": {
     "t": "Bad End: Desolate D77",
@@ -2633,7 +2645,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D77",
-    "et": "Desolate D77"
+    "et": "Directive: Good Dog"
   },
   "be_d78": {
     "t": "Bad End: Desolate D78",
@@ -2645,7 +2657,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D78",
-    "et": "Desolate D78"
+    "et": "Star Crossed Lovers"
   },
   "be_d79": {
     "t": "Bad End: Desolate D79",
@@ -2657,7 +2669,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D79",
-    "et": "Desolate D79"
+    "et": "Empty Vessels Make the Most Sound"
   },
   "be_d80": {
     "t": "Bad End: Desolate D80",
@@ -2669,7 +2681,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D80",
-    "et": "Desolate D80"
+    "et": "Bimbo Backfire"
   },
   "be_d81": {
     "t": "Bad End: Desolate D81",
@@ -2681,7 +2693,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D81",
-    "et": "Desolate D81"
+    "et": "Power Overwhelming"
   },
   "be_d82": {
     "t": "Bad End: Desolate D82",
@@ -2693,7 +2705,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D82",
-    "et": "Desolate D82"
+    "et": "Ride or Die"
   },
   "be_d83": {
     "t": "Bad End: Desolate D83",
@@ -2705,7 +2717,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D83",
-    "et": "Desolate D83"
+    "et": "Anthro Anthropology"
   },
   "be_d84": {
     "t": "Bad End: Desolate D84",
@@ -2717,7 +2729,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "D84",
-    "et": "Desolate D84"
+    "et": "Wearing a Plastic Smile"
   },
   "be_e2": {
     "t": "Bad End: Desert E2",
@@ -2729,7 +2741,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E2",
-    "et": "Desert E2"
+    "et": "Twice as Bright, Half as Long"
   },
   "be_e3": {
     "t": "Bad End: Desert E3",
@@ -2741,7 +2753,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E3",
-    "et": "Desert E3"
+    "et": "The First of Nine"
   },
   "be_e4": {
     "t": "Bad End: Desert E4",
@@ -2753,7 +2765,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E4",
-    "et": "Desert E4"
+    "et": "What's in a Name?"
   },
   "be_e5": {
     "t": "Bad End: Desert E5",
@@ -2765,7 +2777,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E5",
-    "et": "Desert E5"
+    "et": "A Riddle Wrapped in, Like, an Enigma"
   },
   "be_e6": {
     "t": "Bad End: Desert E6",
@@ -2777,7 +2789,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E6",
-    "et": "Desert E6"
+    "et": "The Mummy's Boy"
   },
   "be_e7": {
     "t": "Bad End: Desert E7",
@@ -2789,7 +2801,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E7",
-    "et": "Desert E7"
+    "et": "Are You My Mummy?"
   },
   "be_e8": {
     "t": "Bad End: Desert E8",
@@ -2801,7 +2813,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E8",
-    "et": "Desert E8"
+    "et": "Singleminded"
   },
   "be_e9": {
     "t": "Bad End: Desert E9",
@@ -2813,7 +2825,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E9",
-    "et": "Desert E9"
+    "et": "A Sellers Market"
   },
   "be_e10": {
     "t": "Bad End: Desert E10",
@@ -2825,7 +2837,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E10",
-    "et": "Desert E10"
+    "et": "Anubintervention"
   },
   "be_e11": {
     "t": "Bad End: Desert E11",
@@ -2837,7 +2849,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E11",
-    "et": "Desert E11"
+    "et": "Pick Your Poison"
   },
   "be_e12": {
     "t": "Bad End: Desert E12",
@@ -2849,7 +2861,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E12",
-    "et": "Desert E12"
+    "et": "Cexigua"
   },
   "be_e13": {
     "t": "Bad End: Desert E13",
@@ -2861,7 +2873,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E13",
-    "et": "Desert E13"
+    "et": "Surrogacy"
   },
   "be_e14": {
     "t": "Bad End: Desert E14",
@@ -2873,7 +2885,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E14",
-    "et": "Desert E14"
+    "et": "When You're Least Expecting"
   },
   "be_e15": {
     "t": "Bad End: Desert E15",
@@ -2885,7 +2897,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E15",
-    "et": "Desert E15"
+    "et": "Cock Roach"
   },
   "be_e16": {
     "t": "Bad End: Desert E16",
@@ -2897,7 +2909,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E16",
-    "et": "Desert E16"
+    "et": "PermanAnt Residence"
   },
   "be_e17": {
     "t": "Bad End: Desert E17",
@@ -2909,7 +2921,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E17",
-    "et": "Desert E17"
+    "et": "A Web of Lies"
   },
   "be_e18": {
     "t": "Bad End: Desert E18",
@@ -2921,7 +2933,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E18",
-    "et": "Desert E18"
+    "et": "It's only Natural"
   },
   "be_e19": {
     "t": "Bad End: Desert E19",
@@ -2933,7 +2945,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E19",
-    "et": "Desert E19"
+    "et": "Go Down in Prehistory"
   },
   "be_e20": {
     "t": "Bad End: Desert E20",
@@ -2945,7 +2957,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E20",
-    "et": "Desert E20"
+    "et": "Outbreak"
   },
   "be_e21": {
     "t": "Bad End: Desert E21",
@@ -2957,7 +2969,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E21",
-    "et": "Desert E21"
+    "et": "Pricked"
   },
   "be_e22": {
     "t": "Bad End: Desert E22",
@@ -2969,7 +2981,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E22",
-    "et": "Desert E22"
+    "et": "Ye Mighty, And Despair!"
   },
   "be_e23": {
     "t": "Bad End: Desert E23",
@@ -2981,7 +2993,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E23",
-    "et": "Desert E23"
+    "et": "One Man's Meat is One Girl's Poison"
   },
   "be_e24": {
     "t": "Bad End: Desert E24",
@@ -2993,7 +3005,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E24",
-    "et": "Desert E24"
+    "et": "Sting Operation"
   },
   "be_e25": {
     "t": "Bad End: Desert E25",
@@ -3005,7 +3017,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E25",
-    "et": "Desert E25"
+    "et": "Golden Girls"
   },
   "be_e26": {
     "t": "Bad End: Desert E26",
@@ -3017,7 +3029,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E26",
-    "et": "Desert E26"
+    "et": "Back to Reality"
   },
   "be_e27": {
     "t": "Bad End: Desert E27",
@@ -3029,7 +3041,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E27",
-    "et": "Desert E27"
+    "et": "Wish Granted"
   },
   "be_e28": {
     "t": "Bad End: Desert E28",
@@ -3041,7 +3053,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E28",
-    "et": "Desert E28"
+    "et": "Fallen Warrior"
   },
   "be_e29": {
     "t": "Bad End: Desert E29",
@@ -3053,7 +3065,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E29",
-    "et": "Desert E29"
+    "et": "Hot and Unbothered"
   },
   "be_e30": {
     "t": "Bad End: Desert E30",
@@ -3065,7 +3077,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "E30",
-    "et": "Desert E30"
+    "et": "Friends Forever, Stick Together"
   },
   "be_e31": {
     "t": "Bad End: Desert E31",
@@ -3077,19 +3089,20 @@ var chs={
     ],
     "en": "bad",
     "enm": "E31",
-    "et": "Desert E31"
+    "et": "Heart of the Cards"
   },
   "be_b1": {
     "t": "Bad End: Coastal B1",
     "loc": "Coastal Zone",
     "zone": "Coastal",
     "text": [
-      "你在Coastal Zone遭遇了致命的失败。海浪和歌声吞噬了你的意志。当转变停止时——你已经是这片海岸的永久居民了。你的记忆在消散——你是谁？你曾经想要什么？那些都不再重要了。在这里——海洋会记住你。",
-      "Bad End B1"
+      "Mermaid把你拖入了深海。你的肺部在灼烧——然后你感到了一种奇异的变化。你的双腿融合在一起，变成了银蓝色的鱼尾。你的脖颈两侧长出了鳃裂——你可以在水下呼吸了。你变成了Mermaid。",
+      "你在这片海域中游荡，抬头仰望海面上的光影——那是你曾经生活的世界。你永远无法回到陆地了。你只能在深海中度过余生。",
+      "Bad End: The Littlest Mermaid — 海洋的美丽也是一种囚笼。"
     ],
     "en": "bad",
     "enm": "B1",
-    "et": "Coastal B1"
+    "et": "The Littlest Mermaid"
   },
   "be_b2": {
     "t": "Bad End: Coastal B2",
@@ -3101,7 +3114,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B2",
-    "et": "Coastal B2"
+    "et": "Beneath the Light"
   },
   "be_b3": {
     "t": "Bad End: Coastal B3",
@@ -3113,7 +3126,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B3",
-    "et": "Coastal B3"
+    "et": "'Under da Sea'"
   },
   "be_b4": {
     "t": "Bad End: Coastal B4",
@@ -3125,7 +3138,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B4",
-    "et": "Coastal B4"
+    "et": "Plenty of Fish in the Sea"
   },
   "be_b5": {
     "t": "Bad End: Coastal B5",
@@ -3137,7 +3150,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B5",
-    "et": "Coastal B5"
+    "et": "The Catch of a Lifetime"
   },
   "be_b6": {
     "t": "Bad End: Coastal B6",
@@ -3149,7 +3162,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B6",
-    "et": "Coastal B6"
+    "et": "Charybdis Chow"
   },
   "be_b7": {
     "t": "Bad End: Coastal B7",
@@ -3161,7 +3174,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B7",
-    "et": "Coastal B7"
+    "et": "Boredom"
   },
   "be_b8": {
     "t": "Bad End: Coastal B8",
@@ -3173,7 +3186,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B8",
-    "et": "Coastal B8"
+    "et": "Outlet of Love"
   },
   "be_b9": {
     "t": "Bad End: Coastal B9",
@@ -3185,7 +3198,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B9",
-    "et": "Coastal B9"
+    "et": "Deep Dark Depths"
   },
   "be_b10": {
     "t": "Bad End: Coastal B10",
@@ -3197,7 +3210,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B10",
-    "et": "Coastal B10"
+    "et": "Die with Dignity?"
   },
   "be_b11": {
     "t": "Bad End: Coastal B11",
@@ -3209,7 +3222,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B11",
-    "et": "Coastal B11"
+    "et": "The Saviour"
   },
   "be_b12": {
     "t": "Bad End: Coastal B12",
@@ -3221,7 +3234,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "B12",
-    "et": "Coastal B12"
+    "et": "Magic Cucumber"
   },
   "be_f1": {
     "t": "Bad End: Mythic F1",
@@ -3233,7 +3246,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "F1",
-    "et": "Mythic F1"
+    "et": "Bottom's Up!"
   },
   "be_f2": {
     "t": "Bad End: Mythic F2",
@@ -3245,7 +3258,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "F2",
-    "et": "Mythic F2"
+    "et": "Can't Make This Stuff Up"
   },
   "be_f3": {
     "t": "Bad End: Mythic F3",
@@ -3257,7 +3270,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "F3",
-    "et": "Mythic F3"
+    "et": "Pretty as a Princess"
   },
   "be_f4": {
     "t": "Bad End: Mythic F4",
@@ -3269,7 +3282,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "F4",
-    "et": "Mythic F4"
+    "et": "Hardon My French"
   },
   "be_f5": {
     "t": "Bad End: Mythic F5",
@@ -3281,7 +3294,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "F5",
-    "et": "Mythic F5"
+    "et": "If I were a Boi"
   },
   "be_f6": {
     "t": "Bad End: Mythic F6",
@@ -3293,7 +3306,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "F6",
-    "et": "Mythic F6"
+    "et": "Cat Needs the Cradle"
   },
   "be_f7": {
     "t": "Bad End: Mythic F7",
@@ -3305,7 +3318,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "F7",
-    "et": "Mythic F7"
+    "et": "Know Your Place, Elfin Race"
   },
   "be_f8": {
     "t": "Bad End: Mythic F8",
@@ -3317,7 +3330,7 @@ var chs={
     ],
     "en": "bad",
     "enm": "F8",
-    "et": "Mythic F8"
+    "et": "Trading Lives"
   },
   "caste_observe": {
     "t": "暗中观察",
@@ -3563,7 +3576,8 @@ var chs={
       "Bad End: 完全腐化"
     ],
     "en": "bad",
-    "scene": "assets/scene_corruption.jpg","enm": "COR",
+    "scene": "assets/scene_corruption.jpg",
+    "enm": "COR",
     "et": "完全腐化"
   },
   "be_hp_0": {
@@ -3582,7 +3596,8 @@ var chs={
       "Bad End: 生命凋零"
     ],
     "en": "bad",
-    "scene": "assets/scene_death.jpg","enm": "HP0",
+    "scene": "assets/scene_death.jpg",
+    "enm": "HP0",
     "et": "生命凋零"
   },
   "be_san_0": {
@@ -3600,7 +3615,8 @@ var chs={
       "Bad End: 理智崩坏"
     ],
     "en": "bad",
-    "scene": "assets/scene_insanity.jpg","enm": "SAN0",
+    "scene": "assets/scene_insanity.jpg",
+    "enm": "SAN0",
     "et": "理智崩坏"
   },
   "cor_25": {
